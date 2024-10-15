@@ -30,7 +30,7 @@ import static org.lwjgl.opengl.GL11C.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11C.GL_CULL_FACE;
 import static org.lwjgl.opengl.GL11C.GL_DEPTH_TEST;
 import static org.lwjgl.opengl.GL11C.GL_NEAREST;
-import static org.lwjgl.opengl.GL11C.GL_RED;
+import static org.lwjgl.opengl.GL11C.GL_RGBA;
 import static org.lwjgl.opengl.GL11C.GL_TRIANGLE_STRIP;
 import static org.lwjgl.opengl.GL11C.glClear;
 import static org.lwjgl.opengl.GL11C.glClearColor;
@@ -133,26 +133,84 @@ public class Gpu {
   private static final int H_DOT_NANOS = V_LINE_NANOS / H_DOTS;
   private static final int H_DRAW_NANOS = H_DOT_NANOS * H_DRAW_DOTS;
 
-  private static final int VBLANK_FLAG_MASK = 0b1;
-  private static final int VBLANK_FLAG_SHIFT = 0;
-  private static final int HBLANK_FLAG_MASK = 0b10;
-  private static final int HBLANK_FLAG_SHIFT = 1;
-  private static final int VCOUNT_FLAG_MASK = 0b100;
-  private static final int VCOUNT_FLAG_SHIFT = 2;
-  private static final int VBLANK_IRQ_ENABLE_MASK = 0b1000;
-  private static final int VBLANK_IRQ_ENABLE_SHIFT = 3;
-  private static final int HBLANK_IRQ_ENABLE_MASK = 0b1_0000;
-  private static final int HBLANK_IRQ_ENABLE_SHIFT = 4;
-  private static final int VCOUNT_IRQ_ENABLE_MASK = 0b10_0000;
-  private static final int VCOUNT_IRQ_ENABLE_SHIFT = 5;
-  private static final int VCOUNT_SETTING_MASK = 0b1111_1111_0000_0000;
-  private static final int VCOUNT_SETTING_SHIFT = 8;
+  private static final int STAT_VBLANK_FLAG_MASK = 0b1;
+  private static final int STAT_VBLANK_FLAG_SHIFT = 0;
+  private static final int STAT_HBLANK_FLAG_MASK = 0b10;
+  private static final int STAT_HBLANK_FLAG_SHIFT = 1;
+  private static final int STAT_VCOUNT_FLAG_MASK = 0b100;
+  private static final int STAT_VCOUNT_FLAG_SHIFT = 2;
+  private static final int STAT_VBLANK_IRQ_ENABLE_MASK = 0b1000;
+  private static final int STAT_VBLANK_IRQ_ENABLE_SHIFT = 3;
+  private static final int STAT_HBLANK_IRQ_ENABLE_MASK = 0b1_0000;
+  private static final int STAT_HBLANK_IRQ_ENABLE_SHIFT = 4;
+  private static final int STAT_VCOUNT_IRQ_ENABLE_MASK = 0b10_0000;
+  private static final int STAT_VCOUNT_IRQ_ENABLE_SHIFT = 5;
+  private static final int STAT_VCOUNT_SETTING_MASK = 0b1111_1111_0000_0000;
+  private static final int STAT_VCOUNT_SETTING_SHIFT = 8;
+
+  private static final int CNT_BG_MODE_MASK = 0b111;
+  private static final int CNT_BG_MODE_SHIFT = 0;
+  private static final int CNT_CGB_MODE_MASK = 0b1000;
+  private static final int CNT_CGB_MODE_SHIFT = 3;
+  private static final int CNT_DISPLAY_FRAME_SELECT_MASK = 0b1_0000;
+  private static final int CNT_DISPLAY_FRAME_SELECT_SHIFT = 4;
+  private static final int CNT_HBLANK_INTERVAL_FREE_MASK = 0b10_0000;
+  private static final int CNT_HBLANK_INTERVAL_FREE_SHIFT = 5;
+  private static final int CNT_OBJ_CHARACTER_VRAM_MAPPING_MASK = 0b1000_0000;
+  private static final int CNT_OBJ_CHARACTER_VRAM_MAPPING_SHIFT = 7;
+  private static final int CNT_FORCED_BLANK_MASK = 0b1000_0000;
+  private static final int CNT_FORCED_BLANK_SHIFT = 7;
+  private static final int CNT_DISPLAY_BG0_MASK = 0b1_0000_0000;
+  private static final int CNT_DISPLAY_BG0_SHIFT = 8;
+  private static final int CNT_DISPLAY_BG1_MASK = 0b10_0000_0000;
+  private static final int CNT_DISPLAY_BG1_SHIFT = 9;
+  private static final int CNT_DISPLAY_BG2_MASK = 0b100_0000_0000;
+  private static final int CNT_DISPLAY_BG2_SHIFT = 10;
+  private static final int CNT_DISPLAY_BG3_MASK = 0b1000_0000_0000;
+  private static final int CNT_DISPLAY_BG3_SHIFT = 11;
+  private static final int CNT_DISPLAY_OBJ_MASK = 0b1_0000_0000_0000;
+  private static final int CNT_DISPLAY_OBJ_SHIFT = 12;
+  private static final int CNT_WINDOW_0_DISPLAY_MASK = 0b10_0000_0000_0000;
+  private static final int CNT_WINDOW_0_DISPLAY_SHIFT = 13;
+  private static final int CNT_WINDOW_1_DISPLAY_MASK = 0b100_0000_0000_0000;
+  private static final int CNT_WINDOW_1_DISPLAY_SHIFT = 14;
+  private static final int CNT_OBJ_WINDOW_DISPLAY_MASK = 0b1000_0000_0000_0000;
+  private static final int CNT_OBJ_WINDOW_DISPLAY_SHIFT = 15;
+
+  private static final int BGCNT_PRIORITY_MASK = 0b11;
+  private static final int BGCNT_PRIORITY_SHIFT = 0;
+  private static final int BGCNT_CHARACTER_BASE_BLOCK_MASK = 0b1100;
+  private static final int BGCNT_CHARACTER_BASE_BLOCK_SHIFT = 2;
+  private static final int BGCNT_MOSAIC_MASK = 0b100_0000;
+  private static final int BGCNT_MOSAIC_SHIFT = 6;
+  private static final int BGCNT_PALETTES_MASK = 0b1000_0000;
+  private static final int BGCNT_PALETTES_SHIFT = 7;
+  private static final int BGCNT_SCREEN_BASE_BLOCK_MASK = 0b1_1111_0000_0000;
+  private static final int BGCNT_SCREEN_BASE_BLOCK_SHIFT = 8;
+  private static final int BGCNT_SCREEN_SIZE_X_MASK = 0b100_0000_0000_0000;
+  private static final int BGCNT_SCREEN_SIZE_X_SHIFT = 14;
+  private static final int BGCNT_SCREEN_SIZE_Y_MASK = 0b1000_0000_0000_0000;
+  private static final int BGCNT_SCREEN_SIZE_Y_SHIFT = 15;
+
+  private static final int MOSAIC_BG_X_SIZE_MASK = 0b1111;
+  private static final int MOSAIC_BG_X_SIZE_SHIFT = 0;
+  private static final int MOSAIC_BG_Y_SIZE_MASK = 0b1111_0000;
+  private static final int MOSAIC_BG_Y_SIZE_SHIFT = 4;
+  private static final int MOSAIC_OBJ_X_SIZE_MASK = 0b1111_0000_0000;
+  private static final int MOSAIC_OBJ_X_SIZE_SHIFT = 8;
+  private static final int MOSAIC_OBJ_Y_SIZE_MASK = 0b1111_0000_0000_0000;
+  private static final int MOSAIC_OBJ_Y_SIZE_SHIFT = 12;
 
   private int dispCnt;
   private int dispStat;
   private int vcount;
-  private int bg0cnt;
+  private final int[] bgcnt = new int[4];
+  private final int[] bghofs = new int[4];
+  private final int[] bgvofs = new int[4];
 
+  private int mosaic;
+
+  private final Memory memory;
   private final DmaController dma;
   private final InterruptController interrupts;
 
@@ -169,6 +227,8 @@ public class Gpu {
   private final Shader vramShader;
   private final Texture vramTexture;
   private final Mesh vramMesh;
+
+  private final int[] pixels = new int[H_DRAW_DOTS * V_DRAW_LINES];
 
   public Gpu(final Memory memory, final DmaController dma, final InterruptController interrupts) {
     this.DISPCNT = memory.ref(2, 0x400_0000);
@@ -209,6 +269,7 @@ public class Gpu {
     this.BLDALPHA = memory.ref(2, 0x400_0052);
     this.BLDY = memory.ref(2, 0x400_0054);
 
+    this.memory = memory;
     this.dma = dma;
     this.interrupts = interrupts;
 
@@ -216,7 +277,7 @@ public class Gpu {
     memory.addSegment(new RamSegment(0x500_0000, 0x400)); //TODO BG/OBJ palette RAM
     memory.addSegment(new RamSegment(0x600_0000, 0x1_8000)); //TODO VRAM
 
-    this.window = new Window("Diiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiig", 640, 640);
+    this.window = new Window("Golden Sun", H_DRAW_DOTS * 3, V_DRAW_LINES * 3);
     this.window.events.onResize(this::onResize);
     this.window.show();
 
@@ -224,9 +285,9 @@ public class Gpu {
 
     this.vramShader = this.loadShader(Paths.get("gfx", "shaders", "vram.vsh"), Paths.get("gfx", "shaders", "vram.fsh"));
     this.vramTexture = Texture.create(builder -> {
-      builder.size(32, 32);
-      builder.internalFormat(GL_RED);
-      builder.dataFormat(GL_RED);
+      builder.size(H_DRAW_DOTS, V_DRAW_LINES);
+      builder.internalFormat(GL_RGBA);
+      builder.dataFormat(GL_RGBA);
       builder.minFilter(GL_NEAREST);
       builder.magFilter(GL_NEAREST);
     });
@@ -293,7 +354,7 @@ public class Gpu {
         DebugHelper.sleep(0);
       }
 
-      this.drawLine();
+      this.drawLine(this.vcount);
       this.startHblank();
 
       while(System.nanoTime() < hblankEnd) {
@@ -311,6 +372,8 @@ public class Gpu {
       }
     }
 
+    this.vramTexture.data(0, 0, H_DRAW_DOTS, V_DRAW_LINES, this.pixels);
+
     this.vramShader.use();
     this.vramTexture.use();
     this.vramMesh.draw();
@@ -322,40 +385,308 @@ public class Gpu {
     }
   }
 
-  private void drawLine() {
-    //TODO implement
+  private void drawLine(final int line) {
+    if(line < V_DRAW_LINES) {
+      switch((this.dispCnt & CNT_BG_MODE_MASK) >> CNT_BG_MODE_SHIFT) {
+        case 0 -> this.drawMode0Line(line);
+        case 1 -> this.drawMode1Line(line);
+        case 2 -> this.drawMode2Line(line);
+        case 3 -> this.drawMode3Line(line);
+        case 4 -> this.drawMode4Line(line);
+        case 5 -> this.drawMode5Line(line);
+      }
+    }
+  }
+
+  private void drawMode0Line(final int line) {
+    final boolean bg0Enabled = (this.dispCnt & CNT_DISPLAY_BG0_MASK) != 0;
+    final boolean bg1Enabled = (this.dispCnt & CNT_DISPLAY_BG1_MASK) != 0;
+    final boolean bg2Enabled = (this.dispCnt & CNT_DISPLAY_BG2_MASK) != 0;
+    final boolean bg3Enabled = (this.dispCnt & CNT_DISPLAY_BG3_MASK) != 0;
+    final boolean objEnabled = (this.dispCnt & CNT_DISPLAY_OBJ_MASK) != 0;
+
+    final int bg0Priority = (this.bgcnt[0] & BGCNT_PRIORITY_MASK) >> BGCNT_PRIORITY_SHIFT;
+    final int bg1Priority = (this.bgcnt[1] & BGCNT_PRIORITY_MASK) >> BGCNT_PRIORITY_SHIFT;
+    final int bg2Priority = (this.bgcnt[2] & BGCNT_PRIORITY_MASK) >> BGCNT_PRIORITY_SHIFT;
+    final int bg3Priority = (this.bgcnt[3] & BGCNT_PRIORITY_MASK) >> BGCNT_PRIORITY_SHIFT;
+
+    this.drawBgLine(line);
+
+    for(int priority = 3; priority >= 0; priority--) {
+      if(bg3Enabled && bg3Priority == priority) {
+        this.drawBgTextModeLine(line, 3);
+      }
+
+      if(bg2Enabled && bg2Priority == priority) {
+        this.drawBgTextModeLine(line, 2);
+      }
+
+      if(bg1Enabled && bg1Priority == priority) {
+        this.drawBgTextModeLine(line, 1);
+      }
+
+      if(bg0Enabled && bg0Priority == priority) {
+        this.drawBgTextModeLine(line, 0);
+      }
+
+      if(objEnabled) {
+        this.drawObjLine(line, priority);
+      }
+    }
+  }
+
+  private void drawMode1Line(final int line) {
+    //TODO
+  }
+
+  private void drawMode2Line(final int line) {
+    //TODO
+  }
+
+  private void drawMode3Line(final int line) {
+    //TODO
+  }
+
+  private void drawMode4Line(final int line) {
+    //TODO
+  }
+
+  private void drawMode5Line(final int line) {
+    //TODO
+  }
+
+  private void drawBgLine(final int line) {
+    final int bgColor = toRgba(this.memory.get(0x500_0000, 2));
+
+    final int begPixel = line * H_DRAW_DOTS;
+    final int endPixel = (line + 1) * H_DRAW_DOTS;
+
+    for(int x = begPixel; x < endPixel; x++) {
+      this.pixels[x] = bgColor;
+    }
+  }
+
+  private void drawBgTextModeLine(final int line, final int bgIndex) {
+    final int characterBase = (this.bgcnt[bgIndex] & BGCNT_CHARACTER_BASE_BLOCK_MASK) >>> BGCNT_CHARACTER_BASE_BLOCK_SHIFT;
+    final int screenBase = (this.bgcnt[bgIndex] & BGCNT_SCREEN_BASE_BLOCK_MASK) >>> BGCNT_SCREEN_BASE_BLOCK_SHIFT;
+
+    final int xSize = (this.bgcnt[bgIndex] & BGCNT_SCREEN_SIZE_X_MASK) != 0 ? 512 : 256;
+    final int ySize = (this.bgcnt[bgIndex] & BGCNT_SCREEN_SIZE_Y_MASK) != 0 ? 512 : 256;
+    final int xMask = xSize - 1;
+    final int yMask = ySize - 1;
+
+    final int xOffset = this.bghofs[bgIndex];
+    final int yOffset = this.bgvofs[bgIndex];
+
+    final boolean isTileDataUpsideDown = xSize != 256;
+    final boolean is256ColorPalette = (this.bgcnt[bgIndex] & BGCNT_PALETTES_MASK) != 0;
+    final boolean isMosaicEnabled = (this.bgcnt[bgIndex] & BGCNT_MOSAIC_MASK) != 0;
+    final int xMosaic = ((this.mosaic & MOSAIC_BG_X_SIZE_MASK) >>> MOSAIC_BG_X_SIZE_SHIFT) + 1;
+    final int yMosaic = ((this.mosaic & MOSAIC_BG_Y_SIZE_MASK) >>> MOSAIC_BG_Y_SIZE_SHIFT) + 1;
+
+    int y = isMosaicEnabled ? line - line % yMosaic : line;
+    y = y + yOffset & yMask;
+
+    int yOffsetToAdd = 0;
+    if(isTileDataUpsideDown) {
+      if(y >= 256) {
+        yOffsetToAdd = 0x800 * 2;
+      }
+      y &= 0xff;
+    }
+
+    final int yTileDataOffset = (y >>> 3) * 32;
+
+    int tileY = y & 0x7;
+
+    for(int xScreen = 0; xScreen < H_DRAW_DOTS; xScreen++) {
+      int x = isMosaicEnabled ? xScreen - xScreen % xMosaic : xScreen;
+      x = x + xOffset & xMask;
+
+      int xOffsetToAdd = 0;
+      if(isTileDataUpsideDown) {
+        if(x >= 256) {
+          xOffsetToAdd = 0x800;
+        }
+        x &= 0xff;
+      }
+
+      final int xTileDataOffset = x >>> 3;
+
+      int tileX = x & 0x7;
+
+      final int tileDataOffset = (yTileDataOffset + xTileDataOffset) * 2 + yOffsetToAdd + xOffsetToAdd;
+      final int tileData = this.memory.get(0x6000000 + screenBase + tileDataOffset, 2);
+      final int tileNumber = tileData & 0x3ff;
+
+      if((tileData & 0x400) != 0) {
+        tileX = 7 - tileX; // H-Flip
+      }
+
+      if((tileData & 0x800) != 0) {
+        tileY = 7 - tileY; // V-Flip
+      }
+
+      if(is256ColorPalette) {
+        final int colorIndex = this.memory.get(0x6000000 + characterBase + tileNumber * 8 * 8 + tileY * 8 + tileX, 1);
+
+        if(colorIndex != 0) { // Not a transparent color
+          final int rgb15 = this.memory.get(0x5000000 + colorIndex * 2, 2);
+          this.pixels[line * H_DRAW_DOTS + xScreen] = toRgba(rgb15);
+        }
+      } else {
+        int colorIndex = this.memory.get(0x6000000 + characterBase + tileNumber * 8 * 4 + tileY * 4 + tileX / 2, 1);
+
+        if((tileX & 0x1) != 0) {
+          colorIndex >>>= 4;
+        } else {
+          colorIndex &= 0xf;
+        }
+
+        if(colorIndex != 0) {
+          final int paletteNumber = tileData >>> 12 & 0xf;
+          final int rgb15 = this.memory.get(0x5000000 + (paletteNumber * 16 + colorIndex) * 2, 2);
+          this.pixels[line * H_DRAW_DOTS + xScreen] = toRgba(rgb15);
+        }
+      }
+    }
+  }
+
+  private void drawObjLine(final int line, final int priority) {
+    final int vidBase = 0x1_0000;
+    final int palBase = 0x200;
+
+/*
+    final boolean is1DMapping = iorMem.isOBJ1DMapping();
+
+    final int xMosaic = iorMem.getOBJMosaicXSize();
+    final int yMosaic = iorMem.getOBJMosaicYSize();
+
+    for(int objNumber = 127; objNumber >= 0; objNumber--) {
+      final int objPriority = objMem.getPriority(objNumber);
+
+      if(objPriority == priority) {
+        final boolean isRotScaleEnabled = objMem.isRotScalEnabled(objNumber);
+
+        final int xSize = objMem.getXSize(objNumber);
+        final int ySize = objMem.getYSize(objNumber);
+
+        final int xTiles = xSize >>> 3;
+        final int yTiles = ySize >>> 3;
+
+        final int xCoordinate = objMem.getXCoordinate(objNumber);
+        int yCoordinate = objMem.getYCoordinate(objNumber);
+
+        final boolean is256ColorPalette = objMem.is256ColorPalette(objNumber);
+        final int paletteNumber = objMem.getPaletteNumber(objNumber);
+
+        int firstTileNumber = objMem.getTileNumber(objNumber);
+        final int tileNumberIncrement;
+        if(is1DMapping) {
+          tileNumberIncrement = is256ColorPalette ? xTiles * 2 : xTiles;
+        } else {
+          tileNumberIncrement = 32;
+          if(is256ColorPalette) firstTileNumber &= 0xfffe;
+        }
+
+        final boolean isMosaicEnabled = objMem.isMosaicEnabled(objNumber);
+
+        if(!isRotScaleEnabled) {
+          final boolean isDisplayable = objMem.isDisplayable(objNumber);
+
+          if(isDisplayable) {
+            final boolean isHFlip = objMem.isHFlipEnabled(objNumber);
+            final boolean isVFlip = objMem.isVFlipEnabled(objNumber);
+
+            if(yCoordinate >= V_DRAW_LINES) yCoordinate -= 256;
+
+            if(line >= yCoordinate && line < yCoordinate + ySize) {
+              final int ySprite = line - yCoordinate;
+
+              for(int xSprite = 0; xSprite < xSize; xSprite++) {
+                final int xScreen = xCoordinate + xSprite;
+
+                if(xScreen >= 0 && xScreen < H_DRAW_DOTS) {
+                  final int x = isHFlip ? xSize - 1 - xSprite : xSprite;
+                  final int y = isVFlip ? ySize - 1 - ySprite : ySprite;
+
+                  final int xTile = x >>> 3;
+                  final int yTile = y >>> 3;
+
+                  final int tileX = x & 0x7;
+                  final int tileY = y & 0x7;
+
+                  if(is256ColorPalette) {
+                    final int tileNumber = firstTileNumber + yTile * tileNumberIncrement + xTile * 2;
+
+                    final int colorIndex = vidMem.getByte(vidBase + tileNumber * 32 + tileY * 8 + tileX) & 0xff;
+
+                    if(colorIndex != 0) {
+                      final short rgb15 = palMem.getHalfWord(palBase + colorIndex * 2);
+                      this.pixels[line * H_DRAW_DOTS + xScreen] = toRgba(rgb15);
+                    }
+                  } else {
+                    final int tileNumber = firstTileNumber + yTile * tileNumberIncrement + xTile;
+
+                    int colorIndex = vidMem.getByte(vidBase + tileNumber * 32 + tileY * 4 + tileX / 2) & 0xff;
+
+                    if((tileX & 0x1) != 0) colorIndex >>>= 4;
+                    else colorIndex &= 0xf;
+
+                    if(colorIndex != 0) {
+                      final short rgb15 = palMem.getHalfWord(palBase + (paletteNumber * 16 + colorIndex) * 2);
+                      this.pixels[line * H_DRAW_DOTS + xScreen] = toRgba(rgb15);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+*/
+  }
+
+  private static int toRgba(final int rgb15) {
+    final int red   = (rgb15 & 0x001f) << 19; // >> 0  << 3 << 16
+    final int green = (rgb15 & 0x03e0) <<  6; // >> 5  << 3 << 8
+    final int blue  = (rgb15 & 0x7c00) >>> 7; // >> 10 << 3 << 0
+    final int alpha = 0xff000000;
+
+    return red | green | blue | alpha;
   }
 
   private void startHblank() {
     this.dma.triggerHblank();
 
-    if((this.dispStat & HBLANK_IRQ_ENABLE_MASK) != 0) {
+    if((this.dispStat & STAT_HBLANK_IRQ_ENABLE_MASK) != 0) {
       this.interrupts.set(InterruptType.LCD_HBLANK);
     }
 
-    this.dispStat |= HBLANK_FLAG_MASK;
+    this.dispStat |= STAT_HBLANK_FLAG_MASK;
 
-    if((this.dispStat & VCOUNT_FLAG_MASK) != 0 && this.vcount == ((this.dispStat & VCOUNT_SETTING_MASK) >>> VCOUNT_SETTING_SHIFT)) {
+    if((this.dispStat & STAT_VCOUNT_FLAG_MASK) != 0 && this.vcount == (this.dispStat & STAT_VCOUNT_SETTING_MASK) >>> STAT_VCOUNT_SETTING_SHIFT) {
       this.interrupts.set(InterruptType.LCD_VCOUNT_MATCH);
     }
   }
 
   private void endHblank() {
-    this.dispStat &= ~HBLANK_FLAG_MASK;
+    this.dispStat &= ~STAT_HBLANK_FLAG_MASK;
   }
 
   private void startVblank() {
     this.dma.triggerVblank();
 
-    if((this.dispStat & VBLANK_IRQ_ENABLE_MASK) != 0) {
+    if((this.dispStat & STAT_VBLANK_IRQ_ENABLE_MASK) != 0) {
       this.interrupts.set(InterruptType.LCD_VBLANK);
     }
 
-    this.dispStat |= VBLANK_FLAG_MASK;
+    this.dispStat |= STAT_VBLANK_FLAG_MASK;
   }
 
   private void endVblank() {
-    this.dispStat &= ~VBLANK_FLAG_MASK;
+    this.dispStat &= ~STAT_VBLANK_FLAG_MASK;
   }
 
   private Shader loadShader(final Path vsh, final Path fsh) {
@@ -384,15 +715,15 @@ public class Gpu {
   }
 
   private void onDispStatWrite(final int val) {
-    if((val & VBLANK_FLAG_MASK) != 0 && (this.dispStat & VBLANK_FLAG_MASK) != 0) {
+    if((val & STAT_VBLANK_FLAG_MASK) != 0 && (this.dispStat & STAT_VBLANK_FLAG_MASK) != 0) {
       throw new RuntimeException("Cannot set VBLANK flag");
     }
 
-    if((val & HBLANK_FLAG_MASK) != 0 && (this.dispStat & HBLANK_FLAG_MASK) != 0) {
+    if((val & STAT_HBLANK_FLAG_MASK) != 0 && (this.dispStat & STAT_HBLANK_FLAG_MASK) != 0) {
       throw new RuntimeException("Cannot set HBLANK flag");
     }
 
-    if((val & VCOUNT_FLAG_MASK) != 0 && (this.dispStat & VCOUNT_FLAG_MASK) != 0) {
+    if((val & STAT_VCOUNT_FLAG_MASK) != 0 && (this.dispStat & STAT_VCOUNT_FLAG_MASK) != 0) {
       throw new RuntimeException("Cannot set VCOUNT flag");
     }
 
@@ -403,12 +734,36 @@ public class Gpu {
     return this.vcount;
   }
 
-  private int onBg0cntRead() {
-    return this.bg0cnt;
+  private int onBgCntRead(final int index) {
+    return this.bgcnt[index];
   }
 
-  private void onBg0cntWrite(final int val) {
-    this.bg0cnt = val;
+  private void onBgCntWrite(final int index, final int val) {
+    this.bgcnt[index] = val;
+  }
+
+  private int onBgHofsRead(final int index) {
+    return this.bghofs[index];
+  }
+
+  private void onBgHofsWrite(final int index, final int val) {
+    this.bghofs[index] = val;
+  }
+
+  private int onBgVofsRead(final int index) {
+    return this.bgvofs[index];
+  }
+
+  private void onBgVofsWrite(final int index, final int val) {
+    this.bgvofs[index] = val;
+  }
+
+  private int onMosaicRead() {
+    return this.mosaic;
+  }
+
+  private void onMosaicWrite(final int val) {
+    this.mosaic = val;
   }
 
   public class GpuSegment extends Segment {
@@ -418,15 +773,21 @@ public class Gpu {
 
     @Override
     public int get(final int offset, final int size) {
-      final int shift = (offset & 0x1) * 8;
+      final int shift = (offset & 0x3) * 8;
       final int mask = (int)((1L << size * 8) - 1 << shift);
 
-      return switch(offset & 0x7e) {
+      return switch(offset & 0x7c) {
         case 0x0 -> (Gpu.this.onDispCntRead() & mask) >> shift;
 
-        case 0x4 -> (Gpu.this.onDispStatRead() & mask) >> shift;
-        case 0x6 -> (Gpu.this.onVcountRead() & mask) >> shift;
-        case 0x8 -> (Gpu.this.onBg0cntRead() & mask) >> shift;
+        case 0x4 -> ((Gpu.this.onVcountRead() << 16 | Gpu.this.onDispStatRead()) & mask) >> shift;
+        case 0x8 -> ((Gpu.this.onBgCntRead(1) << 16 | Gpu.this.onBgCntRead(0)) & mask) >> shift;
+        case 0xc -> ((Gpu.this.onBgCntRead(3) << 16 | Gpu.this.onBgCntRead(2)) & mask) >> shift;
+        case 0x10 -> ((Gpu.this.onBgVofsRead(0) << 16 | Gpu.this.onBgHofsRead(0)) & mask) >> shift;
+        case 0x14 -> ((Gpu.this.onBgVofsRead(1) << 16 | Gpu.this.onBgHofsRead(1)) & mask) >> shift;
+        case 0x18 -> ((Gpu.this.onBgVofsRead(2) << 16 | Gpu.this.onBgHofsRead(2)) & mask) >> shift;
+        case 0x1c -> ((Gpu.this.onBgVofsRead(3) << 16 | Gpu.this.onBgHofsRead(3)) & mask) >> shift;
+
+        case 0x4c -> (Gpu.this.onMosaicRead() & mask) >> shift;
 
         default -> throw new IllegalAddressException("There is no GPU port at " + Integer.toHexString(this.getAddress() + offset));
       };
@@ -434,15 +795,57 @@ public class Gpu {
 
     @Override
     public void set(final int offset, final int size, final int value) {
-      final int shift = (offset & 0x1) * 8;
+      final int shift = (offset & 0x3) * 8;
       final int mask = (int)((1L << size * 8) - 1 << shift);
 
-      switch(offset & 0x7e) {
-        case 0x0 -> Gpu.this.onDispCntWrite(value << shift & mask);
+      switch(offset & 0x7c) {
+        case 0x0 -> Gpu.this.onDispCntWrite(Gpu.this.onDispCntRead() & ~mask | value << shift & mask);
 
-        case 0x4 -> Gpu.this.onDispStatWrite(value << shift & mask);
+        case 0x4 -> Gpu.this.onDispStatWrite(Gpu.this.onDispStatRead() & ~mask | value << shift & mask);
 
-        case 0x8 -> Gpu.this.onBg0cntWrite(value << shift & mask);
+        case 0x8 -> {
+          final int current = Gpu.this.onBgCntRead(1) << 16 | Gpu.this.onBgCntRead(0);
+          final int newValue = current & ~mask | value << shift & mask;
+          Gpu.this.onBgCntWrite(0, newValue & 0xffff);
+          Gpu.this.onBgCntWrite(1, newValue >>> 16);
+        }
+
+        case 0xc -> {
+          final int current = Gpu.this.onBgCntRead(3) << 16 | Gpu.this.onBgCntRead(2);
+          final int newValue = current & ~mask | value << shift & mask;
+          Gpu.this.onBgCntWrite(2, newValue & 0xffff);
+          Gpu.this.onBgCntWrite(3, newValue >>> 16);
+        }
+
+        case 0x10 -> {
+          final int current = Gpu.this.onBgVofsRead(0) << 16 | Gpu.this.onBgHofsRead(0);
+          final int newValue = current & ~mask | value << shift & mask;
+          Gpu.this.onBgHofsWrite(0, newValue & 0xffff);
+          Gpu.this.onBgVofsWrite(0, newValue >>> 16);
+        }
+
+        case 0x14 -> {
+          final int current = Gpu.this.onBgVofsRead(1) << 16 | Gpu.this.onBgHofsRead(1);
+          final int newValue = current & ~mask | value << shift & mask;
+          Gpu.this.onBgHofsWrite(1, newValue & 0xffff);
+          Gpu.this.onBgVofsWrite(1, newValue >>> 16);
+        }
+
+        case 0x18 -> {
+          final int current = Gpu.this.onBgVofsRead(2) << 16 | Gpu.this.onBgHofsRead(2);
+          final int newValue = current & ~mask | value << shift & mask;
+          Gpu.this.onBgHofsWrite(2, newValue & 0xffff);
+          Gpu.this.onBgVofsWrite(2, newValue >>> 16);
+        }
+
+        case 0x1c -> {
+          final int current = Gpu.this.onBgVofsRead(3) << 16 | Gpu.this.onBgHofsRead(3);
+          final int newValue = current & ~mask | value << shift & mask;
+          Gpu.this.onBgHofsWrite(3, newValue & 0xffff);
+          Gpu.this.onBgVofsWrite(3, newValue >>> 16);
+        }
+
+        case 0x4c -> Gpu.this.onMosaicWrite(Gpu.this.onMosaicRead() & ~mask | value << shift & mask);
 
         default -> throw new IllegalAddressException("There is no GPU port at " + Integer.toHexString(this.getAddress() + offset));
       }

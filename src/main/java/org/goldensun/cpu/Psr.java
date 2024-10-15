@@ -86,7 +86,7 @@ public class Psr implements Register {
 
   @Override
   public int get() {
-    return this.mode.ordinal() |
+    return this.mode.bits |
       this.state.ordinal() << 5 |
       (this.disableFiq ? 0x40 : 0) |
       (this.disableIrq ? 0x80 : 0) |

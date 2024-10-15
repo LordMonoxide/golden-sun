@@ -64,7 +64,7 @@ public class InterruptController {
 
   }
 
-  private int onIntMasterEnable() {
+  private int onIntMasterEnableRead() {
     return this.masterEnable ? 1 : 0;
   }
 
@@ -79,14 +79,13 @@ public class InterruptController {
 
     @Override
     public int get(final int offset, final int size) {
-      final int shift = (offset & 0x1) * 8;
+      final int shift = (offset & 0x3) * 8;
       final int mask = (int)((1L << size * 8) - 1 << shift);
 
-      return switch(offset & 0xe) {
-        case 0x0 -> (InterruptController.this.onIntEnableRead() & mask) >> shift;
-        case 0x2 -> (InterruptController.this.onIntFlagsRead() & mask) >> shift;
+      return switch(offset & 0xc) {
+        case 0x0 -> ((InterruptController.this.onIntFlagsRead() << 16 | InterruptController.this.onIntEnableRead()) & mask) >> shift;
         case 0x4 -> (InterruptController.this.onWaitCntRead() & mask) >> shift;
-        case 0x8 -> (InterruptController.this.onIntMasterEnable() & mask) >> shift;
+        case 0x8 -> (InterruptController.this.onIntMasterEnableRead() & mask) >> shift;
 
         default -> throw new IllegalAddressException("There is no interrupt port at " + Integer.toHexString(this.getAddress() + offset));
       };
@@ -94,12 +93,16 @@ public class InterruptController {
 
     @Override
     public void set(final int offset, final int size, final int value) {
-      final int shift = (offset & 0x1) * 8;
+      final int shift = (offset & 0x3) * 8;
       final int mask = (int)((1L << size * 8) - 1 << shift);
 
-      switch(offset & 0xe) {
-        case 0x0 -> InterruptController.this.onIntEnableWrite(value << shift & mask);
-        case 0x2 -> InterruptController.this.onIntFlagsWrite(value << shift & mask);
+      switch(offset & 0xc) {
+        case 0x0 -> {
+          final int current = InterruptController.this.onIntFlagsRead() << 16 | InterruptController.this.onIntEnableRead();
+          final int newValue = current & ~mask | value << shift & mask;
+          InterruptController.this.onIntEnableWrite(newValue & 0xffff);
+          InterruptController.this.onIntFlagsWrite(newValue >>> 16);
+        }
         case 0x4 -> InterruptController.this.onWaitCntWrite(value << shift & mask);
         case 0x8 -> InterruptController.this.onIntMasterEnableWrite(value << shift & mask);
 

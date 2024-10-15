@@ -21,6 +21,8 @@ public class Cpu implements Runnable {
 
   /** 4000300 */
   public static final Value POST_FLAG = MEMORY.ref(1, 0x400_0300);
+  /** 4000301 */
+  public static final Value HALTCNT = MEMORY.ref(1, 0x400_0301);
 
   private final Memory memory;
 
@@ -463,18 +465,23 @@ public class Cpu implements Runnable {
     this.postFlag = val;
   }
 
+  private void onHaltCntWrite(final int val) {
+    throw new RuntimeException("HALTCNT not implemented");
+  }
+
   public class CpuSegment extends Segment {
     public CpuSegment() {
-      super(0x400_0300, 0x1);
+      super(0x400_0300, 0x2);
     }
 
     @Override
     public int get(final int offset, final int size) {
-      final int shift = (offset & 0x1) * 8;
-      final int mask = (int)((1L << size * 8) - 1 << shift);
+      if(size != 1) {
+        throw new IllegalAddressException("Reads must be 1 byte");
+      }
 
-      return switch(offset & 0x1) {
-        case 0x0 -> (Cpu.this.onPostFlagRead() & mask) >> shift;
+      return switch(offset) {
+        case 0x0 -> Cpu.this.onPostFlagRead();
 
         default -> throw new IllegalAddressException("There is no CPU port at " + Integer.toHexString(this.getAddress() + offset));
       };
@@ -482,11 +489,13 @@ public class Cpu implements Runnable {
 
     @Override
     public void set(final int offset, final int size, final int value) {
-      final int shift = (offset & 0x1) * 8;
-      final int mask = (int)((1L << size * 8) - 1 << shift);
+      if(size != 1) {
+        throw new IllegalAddressException("Writes must be 1 byte");
+      }
 
-      switch(offset & 0x1) {
-        case 0x0 -> Cpu.this.onPostFlagWrite(Cpu.this.onPostFlagRead() & ~mask | value << shift & mask);
+      switch(offset) {
+        case 0x0 -> Cpu.this.onPostFlagWrite(value);
+        case 0x1 -> Cpu.this.onHaltCntWrite(value);
 
         default -> throw new IllegalAddressException("There is no CPU port at " + Integer.toHexString(this.getAddress() + offset));
       }

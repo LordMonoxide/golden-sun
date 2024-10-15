@@ -120,12 +120,11 @@ public class Timer {
 
     @Override
     public int get(final int offset, final int size) {
-      final int shift = (offset & 0x1) * 8;
+      final int shift = (offset & 0x3) * 8;
       final int mask = (int)((1L << size * 8) - 1 << shift);
 
-      return switch(offset & 0x2) {
-        case 0x0 -> (Timer.this.onCounterRead() & mask) >> shift;
-        case 0x2 -> (Timer.this.onControlRead() & mask) >> shift;
+      return switch(offset & 0x4) {
+        case 0x0 -> ((Timer.this.onControlRead() << 16 | Timer.this.onCounterRead()) & mask) >> shift;
 
         default -> throw new IllegalAddressException("There is no timer port at " + Integer.toHexString(this.getAddress() + offset));
       };
@@ -133,12 +132,16 @@ public class Timer {
 
     @Override
     public void set(final int offset, final int size, final int value) {
-      final int shift = (offset & 0x1) * 8;
+      final int shift = (offset & 0x3) * 8;
       final int mask = (int)((1L << size * 8) - 1 << shift);
 
-      switch(offset & 0x2) {
-        case 0x0 -> Timer.this.onReloadWrite(Timer.this.onCounterRead() & ~mask | value << shift & mask);
-        case 0x2 -> Timer.this.onControlWrite(Timer.this.onControlRead() & ~mask | value << shift & mask);
+      switch(offset & 0x4) {
+        case 0x0 -> {
+          final int current = Timer.this.onControlRead() << 16 | Timer.this.reload;
+          final int newValue = current & ~mask | value << shift & mask;
+          Timer.this.onReloadWrite(newValue & 0xffff);
+          Timer.this.onControlWrite(newValue >>> 16);
+        }
 
         default -> throw new IllegalAddressException("There is no timer port at " + Integer.toHexString(this.getAddress() + offset));
       }

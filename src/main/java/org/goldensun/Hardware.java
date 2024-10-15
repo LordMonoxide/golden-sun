@@ -29,7 +29,7 @@ public final class Hardware {
   public static final Input INPUT = new Input(MEMORY, GPU.window.events);
   public static final TimerController TIMERS = new TimerController(MEMORY, INTERRUPTS);
 
-  public static final Thread CODE = new Thread(Hardware::run, "BIOS");
+  public static final Thread CODE = new Thread(Hardware::run, "Game");
   private static final Thread cpuThread = new Thread(CPU, "CPU");
   private static final Thread timerThread = new Thread(TIMERS, "Timers");
 

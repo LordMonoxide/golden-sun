@@ -144,7 +144,7 @@ public class Spu {
       final int shift = (offset & 0x3) * 8;
       final int mask = (int)((1L << size * 8) - 1 << shift);
 
-      return switch(offset & 0x7e) {
+      return switch(offset & 0x7c) {
         case 0x0 -> ((Spu.this.onSound1CntHRead() << 16 | Spu.this.onSound1CntLRead()) & mask) >> shift;
         case 0x4 -> (Spu.this.onSound1CntXRead() & mask) >> shift;
 
@@ -172,7 +172,7 @@ public class Spu {
       final int shift = (offset & 0x3) * 8;
       final int mask = (int)((1L << size * 8) - 1 << shift);
 
-      switch(offset & 0x7e) {
+      switch(offset & 0x7c) {
         case 0x0 -> {
           final int current = Spu.this.onSound1CntHRead() << 16 | Spu.this.onSound1CntLRead();
           final int newValue = current & ~mask | value << shift & mask;

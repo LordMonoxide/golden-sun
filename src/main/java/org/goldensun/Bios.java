@@ -5,6 +5,7 @@ import org.goldensun.memory.Method;
 
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.MEMORY;
+import static org.goldensun.cpu.Cpu.HALTCNT;
 
 public final class Bios {
   private Bios() { }
@@ -16,7 +17,9 @@ public final class Bios {
 
   @Method(0x0000008)
   public static void SupervisorCall() {
-    throw new RuntimeException("Run supervisor calls directly");
+    final int swiIndex = MEMORY.ref(1, CPU.lr().value - 0x2).getUnsigned();
+    final int destAddr = MEMORY.ref(4, 0x1c8 + swiIndex * 0x4).getUnsigned();
+    throw new RuntimeException("Run supervisor calls directly (SWI: " + swiIndex + ", addr: 0x" + Integer.toHexString(destAddr) + ')');
   }
 
   @Method(0x0000018)
@@ -179,6 +182,11 @@ public final class Bios {
     CPU.lr().value = MEMORY.ref(4, address138).getUnsigned();
     address138 += 0x4;
     CPU.sp().value = address138;
+  }
+
+  @Method(0x00001a0)
+  public static void SvcHalt() {
+    HALTCNT.setu(0);
   }
 
   @Method(0x0000284)

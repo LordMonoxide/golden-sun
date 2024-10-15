@@ -104,12 +104,11 @@ public class Input {
 
     @Override
     public int get(final int offset, final int size) {
-      final int shift = (offset & 0x1) * 8;
+      final int shift = (offset & 0x3) * 8;
       final int mask = (int)((1L << size * 8) - 1 << shift);
 
-      return switch(offset & 0x2) {
-        case 0x0 -> (Input.this.onInputRead() & mask) >> shift;
-        case 0x2 -> (Input.this.onControlRead() & mask) >> shift;
+      return switch(offset & 0x4) {
+        case 0x0 -> ((Input.this.onControlRead() << 16 | Input.this.onInputRead()) & mask) >> shift;
 
         default -> throw new IllegalAddressException("There is no input port at " + Integer.toHexString(this.getAddress() + offset));
       };
@@ -117,11 +116,11 @@ public class Input {
 
     @Override
     public void set(final int offset, final int size, final int value) {
-      final int shift = (offset & 0x1) * 8;
+      final int shift = (offset & 0x3) * 8;
       final int mask = (int)((1L << size * 8) - 1 << shift);
 
-      switch(offset & 0x2) {
-        case 0x2 -> Input.this.onControlWrite(value << shift & mask);
+      switch(offset & 0x4) {
+        case 0x0 -> Input.this.onControlWrite((value << shift & mask) >>> 16);
 
         default -> throw new IllegalAddressException("There is no input port at " + Integer.toHexString(this.getAddress() + offset));
       }
