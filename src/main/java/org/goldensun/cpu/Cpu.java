@@ -108,7 +108,7 @@ public class Cpu implements Runnable {
       }
     }
 
-    while(INTERRUPTS.irqPending() && !this.cpsr.irqDisabled()) {
+    if(INTERRUPTS.irqPending() && !this.cpsr.irqDisabled()) {
       this.memory.waitForLock(CODE::suspend);
 
       this.cpsr.set(CpuMode.IRQ.bits | 0b1100_0000); // ARM state, interrupts disabled
