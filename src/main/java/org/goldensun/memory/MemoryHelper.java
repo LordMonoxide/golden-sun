@@ -1,12 +1,14 @@
 package org.goldensun.memory;
 
-import org.goldensun.Hardware;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.MemoryRef;
 import org.goldensun.memory.types.Pointer;
+import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.memory.types.UnboundedArrayRef;
 
 import java.lang.reflect.Field;
+
+import static org.goldensun.Hardware.MEMORY;
 
 public final class MemoryHelper {
   private MemoryHelper() { }
@@ -17,6 +19,10 @@ public final class MemoryHelper {
     } catch(final NoSuchMethodException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public static RunnableRef getRunnable(final Class<?> cls, final String method) {
+    return MEMORY.ref(2, getMethodAddress(cls, method), RunnableRef::new);
   }
 
   public static <T extends MemoryRef> void copyPointerTypes(final T dest, final T src) {
@@ -33,7 +39,7 @@ public final class MemoryHelper {
               continue;
             }
 
-            destPtr.set(srcPtr.deref().getClass().getConstructor(Value.class).newInstance(Hardware.MEMORY.ref(4, destPtr.getPointer())));
+            destPtr.set(srcPtr.deref().getClass().getConstructor(Value.class).newInstance(MEMORY.ref(4, destPtr.getPointer())));
 
             copyPointerTypes(destPtr.deref(), srcPtr.deref());
           }

@@ -1,149 +1,72 @@
 package org.goldensun;
 
 import org.goldensun.memory.Method;
+import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.IntRef;
+import org.goldensun.memory.types.Pointer;
+import org.goldensun.memory.types.RunnableRef;
 
 import static org.goldensun.Hardware.CPU;
+import static org.goldensun.Hardware.INTERRUPTS;
 import static org.goldensun.Hardware.MEMORY;
 
 /** Copied by {@link GoldenSun#FUN_800300c} from 8000770 */
 public final class CopiedSegment3000000 {
   private CopiedSegment3000000() { }
 
+  public static final ArrayRef<Pointer<RunnableRef>> intHandlers_30000e0 = MEMORY.ref(4, 0x30000e0, ArrayRef.of(Pointer.classFor(RunnableRef.class), 14, 0x4, Pointer.deferred(4, RunnableRef::new)));
+
   @Method(0x3000000)
   public static void FUN_3000000() {
-    int r0;
-    int r1;
-    int r2;
-    int r3;
-    final int r5;
+    final int intEnable = INTERRUPTS.INT_ENABLE.getUnsigned();
+    final int intFlags = INTERRUPTS.INT_FLAGS.getUnsigned();
+    final int oldSpsr = CPU.spsr().get();
+    final int oldMasterEnable = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
 
-    r3 = 0x4000000;
-    final int address3000004 = r3 + 0x200;
-    r2 = MEMORY.ref(4, address3000004).getUnsigned();
-    r3 = address3000004;
-    final int address3000008 = r3 + 0x8;
-    r1 = MEMORY.ref(2, address3000008).getUnsigned();
-    r0 = CPU.spsr().get();
-    int address3000010 = CPU.sp().value - 0x1c;
-    CPU.sp().value = address3000010;
-    MEMORY.ref(4, address3000010).setu(r0);
-    address3000010 += 0x4;
-    MEMORY.ref(4, address3000010).setu(r1);
-    address3000010 += 0x4;
-    MEMORY.ref(4, address3000010).setu(r2);
-    address3000010 += 0x4;
-    MEMORY.ref(4, address3000010).setu(r3);
-    address3000010 += 0x4;
-    address3000010 += 0x4;
-    address3000010 += 0x4;
-    MEMORY.ref(4, address3000010).setu(CPU.lr().value);
-    address3000010 += 0x4;
-    r0 = 0x1;
-    final int address3000018 = r3 + 0x8;
-    MEMORY.ref(2, address3000018).setu(r0);
-    r1 = r2 & ((r2 >>> 16));
-    r0 = CPU.andA(r1, 0x2);
-    if(!CPU.cpsr().getZero()) { // !=
-      final int address3000024 = 0x300002c + 0xb8;
-      CPU.r12().value = MEMORY.ref(4, address3000024).getUnsigned();
-    }
-    if(CPU.cpsr().getZero()) { // ==
-      r0 = CPU.andA(r1, 0x1);
-      if(!CPU.cpsr().getZero()) { // !=
-        final int address3000030 = 0x3000038 + 0xa8;
-        CPU.r12().value = MEMORY.ref(4, address3000030).getUnsigned();
-      }
-      if(CPU.cpsr().getZero()) { // ==
-        r0 = CPU.andA(r1, 0x4);
-        if(!CPU.cpsr().getZero()) { // !=
-          final int address300003c = 0x3000044 + 0xa4;
-          CPU.r12().value = MEMORY.ref(4, address300003c).getUnsigned();
-        }
-        if(CPU.cpsr().getZero()) { // ==
-          r0 = CPU.andA(r1, 0x40);
-          if(!CPU.cpsr().getZero()) { // !=
-            final int address3000048 = 0x3000050 + 0xa8;
-            CPU.r12().value = MEMORY.ref(4, address3000048).getUnsigned();
-          }
-          if(CPU.cpsr().getZero()) { // ==
-            r0 = CPU.andA(r1, 0x80);
-            if(!CPU.cpsr().getZero()) { // !=
-              final int address3000054 = 0x300005c + 0xa0;
-              CPU.r12().value = MEMORY.ref(4, address3000054).getUnsigned();
-            }
-            if(CPU.cpsr().getZero()) { // ==
-              r0 = CPU.andA(r1, 0x10);
-              if(!CPU.cpsr().getZero()) { // !=
-                final int address3000060 = 0x3000068 + 0x88;
-                CPU.r12().value = MEMORY.ref(4, address3000060).getUnsigned();
-              }
-              if(CPU.cpsr().getZero()) { // ==
-                r0 = CPU.andA(r1, 0x20);
-                if(!CPU.cpsr().getZero()) { // !=
-                  final int address300006c = 0x3000074 + 0x80;
-                  CPU.r12().value = MEMORY.ref(4, address300006c).getUnsigned();
-                }
-                if(CPU.cpsr().getZero()) { // ==
-                  r0 = CPU.andA(r1, 0x1000);
-                  CPU.setCFlag(false);
-                  if(!CPU.cpsr().getZero()) { // !=
-                    final int address3000078 = 0x3000080 + 0x90;
-                    CPU.r12().value = MEMORY.ref(4, address3000078).getUnsigned();
-                  }
-                  if(CPU.cpsr().getZero()) { // ==
-                    r0 = CPU.andA(r1, 0x2000);
-                    CPU.setCFlag(false);
-                    final int address3000084 = 0x300008c + 0x88;
-                    CPU.r12().value = MEMORY.ref(4, address3000084).getUnsigned();
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+    INTERRUPTS.INT_MASTER_ENABLE.setu(0x1);
+
+    final RunnableRef handler;
+    final int currentInterrupts = intFlags & intEnable;
+    final int handledInterrupt;
+    if((currentInterrupts & 0x2) != 0) { // LCD HBLANK
+      handledInterrupt = 0x2;
+      handler = intHandlers_30000e0.get(1).deref();
+    } else if((currentInterrupts & 0x1) != 0) { // LCD VBLANK
+      handledInterrupt = 0x1;
+      handler = intHandlers_30000e0.get(0).deref();
+    } else if((currentInterrupts & 0x4) != 0) { // LCD VCOUNT
+      handledInterrupt = 0x4;
+      handler = intHandlers_30000e0.get(2).deref();
+    } else if((currentInterrupts & 0x40) != 0) { // Timer 3 overflow
+      handledInterrupt = 0x40;
+      handler = intHandlers_30000e0.get(6).deref();
+    } else if((currentInterrupts & 0x80) != 0) { // Serial comm
+      handledInterrupt = 0x80;
+      handler = intHandlers_30000e0.get(7).deref();
+    } else if((currentInterrupts & 0x10) != 0) { // Timer 1 overflow
+      handledInterrupt = 0x10;
+      handler = intHandlers_30000e0.get(4).deref();
+    } else if((currentInterrupts & 0x20) != 0) { // Timer 2 overflow
+      handledInterrupt = 0x20;
+      handler = intHandlers_30000e0.get(5).deref();
+    } else if((currentInterrupts & 0x1000) != 0) { // Keypad
+      handledInterrupt = 0x1000;
+      handler = intHandlers_30000e0.get(12).deref();
+    } else {
+      handledInterrupt = currentInterrupts & 0x2000; // Gamepak
+      handler = intHandlers_30000e0.get(13).deref();
     }
 
     //LAB_3000088
-    final int address3000088 = r3 + 0x2;
-    MEMORY.ref(2, address3000088).setu(r0);
-    r1 = 0x20c0;
-    r2 = r2 & (~r0);
-    r1 = r1 & (r2);
-    final int address3000098 = r3;
-    MEMORY.ref(2, address3000098).setu(r1);
-    r3 = CPU.cpsr().get();
-    r3 = r3 & ~0xdf;
-    r3 = r3 | 0x1f;
-    CPU.cpsr().msr(r3, true, false, false, true);
-    r5 = CPU.lr().value;
-    CPU.lr().value = 0x30000b8;
-    MEMORY.call(CPU.r12().value);
-    CPU.lr().value = r5;
-    r3 = CPU.cpsr().get();
-    r3 = r3 & ~0xdf;
-    r3 = r3 | 0x92;
-    CPU.cpsr().msr(r3, true, false, false, true);
-    int address30000cc = CPU.sp().value;
-    r0 = MEMORY.ref(4, address30000cc).getUnsigned();
-    address30000cc += 0x4;
-    r1 = MEMORY.ref(4, address30000cc).getUnsigned();
-    address30000cc += 0x4;
-    r2 = MEMORY.ref(4, address30000cc).getUnsigned();
-    address30000cc += 0x4;
-    r3 = MEMORY.ref(4, address30000cc).getUnsigned();
-    address30000cc += 0x4;
-    address30000cc += 0x4;
-    address30000cc += 0x4;
-    CPU.lr().value = MEMORY.ref(4, address30000cc).getUnsigned();
-    address30000cc += 0x4;
-    CPU.sp().value = address30000cc;
-    final int address30000d0 = r3;
-    MEMORY.ref(2, address30000d0).setu(r2);
-    final int address30000d4 = r3 + 0x8;
-    MEMORY.ref(2, address30000d4).setu(r1);
-    CPU.spsr().msr(r0, true, false, false, true);
+    INTERRUPTS.INT_FLAGS.setu(handledInterrupt);
+    INTERRUPTS.INT_ENABLE.setu(intEnable & ~handledInterrupt & 0x20c0);
+    CPU.cpsr().msr(CPU.cpsr().get() & ~0xdf | 0x1f, true, false, false, true);
+    handler.run();
+    CPU.cpsr().msr(CPU.cpsr().get() & ~0xdf | 0x92, true, false, false, true);
+
+    INTERRUPTS.INT_ENABLE.setu(intEnable);
+    INTERRUPTS.INT_MASTER_ENABLE.setu(oldMasterEnable);
+    CPU.spsr().msr(oldSpsr, true, false, false, true);
   }
 
   @Method(0x3000168)
@@ -456,5 +379,242 @@ public final class CopiedSegment3000000 {
 
     r0_0.set(r0);
     r1_0.set(r1);
+  }
+
+  /** This code is absolutely fucked, probably handwritten, has a large chunk of what looks like ARM in the middle of the thumb but is broken. I'm just gonna delete most of it and hope we don't need it. */
+  @Method(0x3000658)
+  public static void FUN_3000658(int r0, final int r1unused, final int r2unused, final int r3unused, int r4) {
+    int r3;
+    final int r5;
+    int r6;
+
+    //LAB_3000658
+    do {
+      MEMORY.ref(4, CPU.sp().value + 0x4).setu(r0);
+      r3 = MEMORY.ref(4, r4 + 0x24).get();
+      r6 = MEMORY.ref(1, r4).getUnsigned();
+      r0 = CPU.movT(0, 0xc7);
+      r0 = CPU.tstT(r0, r6);
+      if(!CPU.cpsr().getZero()) { // !=
+        throw new RuntimeException("?????????????????????????????????");
+      }
+
+      //LAB_3000adc
+      r0 = MEMORY.ref(4, CPU.sp().value + 0x4).get();
+      r0 = CPU.subT(r0, 0x1);
+      if(CPU.cpsr().getZero() || CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <=
+        break;
+      }
+      r4 = CPU.addT(r4, 0x40);
+    } while(true);
+
+    //LAB_3000ae6
+    r5 = MEMORY.ref(4, CPU.sp().value + 0x8).get();
+    r0 = 0x3000b60;
+    MEMORY.call(r0, 0, 0, 0, 0, 0, r5);
+  }
+
+  @Method(0x3000aec)
+  public static void FUN_3000aec(final IntRef r6) {
+    int r7;
+    r7 = Integer.rotateRight(r6.get(), 16);
+    r7 = CPU.addA(r7, r7);
+    if(CPU.cpsr().getOverflow()) { // signed overflow
+      r6.or(0x4000);
+      r6.and(~0x3fc0);
+      if(CPU.cpsr().getNegative()) { // negative
+        r6.sub(0x40);
+      }
+    }
+
+    //LAB_3000b04
+    r7 = CPU.addA(r6.get(), r6.get());
+    if(CPU.cpsr().getOverflow()) { // signed overflow
+      r6.or(0x40000000);
+      r6.and(~0x3fc00000);
+      if(CPU.cpsr().getNegative()) { // negative
+        r6.sub(0x400000);
+      }
+    }
+  }
+
+  @Method(0x3000b60)
+  public static void FUN_3000b60(final int r0unused, final int r1unused, final int r2unused, final int r3unused, final int r4unused, int r5) {
+    int r0;
+    int r1;
+    int r2;
+    int r3;
+    int r4;
+    int r6;
+    int r7;
+
+    r0 = 0x3000b68 + 0x290;
+    CPU.r9().value = 0x160;
+    CPU.r8().value = 0xff000000;
+    CPU.r8().value = CPU.r8().value | CPU.r8().value >>> 16;
+    CPU.r10().value = 0x80000000;
+    CPU.lr().value = CPU.r10().value | CPU.r10().value >>> 16;
+
+    //LAB_3000b78
+    do {
+      int address3000b78 = r0;
+      r1 = MEMORY.ref(4, address3000b78).getUnsigned();
+      address3000b78 += 0x4;
+      r2 = MEMORY.ref(4, address3000b78).getUnsigned();
+      address3000b78 += 0x4;
+      r3 = MEMORY.ref(4, address3000b78).getUnsigned();
+      address3000b78 += 0x4;
+      r4 = MEMORY.ref(4, address3000b78).getUnsigned();
+      address3000b78 += 0x4;
+      r0 = address3000b78;
+      r6 = r1 ^ r1 << 1;
+
+      r6 = CPU.andA(r6, CPU.lr().value);
+      if(CPU.cpsr().getZero()) { // ==
+        r6 = r2 ^ r2 << 1;
+        r6 = CPU.andA(r6, CPU.lr().value);
+      }
+      if(CPU.cpsr().getZero()) { // ==
+        r6 = r3 ^ r3 << 1;
+        r6 = CPU.andA(r6, CPU.lr().value);
+      }
+      if(CPU.cpsr().getZero()) { // ==
+        r6 = r4 ^ r4 << 1;
+        r6 = CPU.andA(r6, CPU.lr().value);
+      }
+      if(!CPU.cpsr().getZero()) { // !=
+        final IntRef r6ref = new IntRef();
+        r6ref.set(r1);
+        FUN_3000aec(r6ref);
+        r1 = r6ref.get();
+        r6ref.set(r2);
+        FUN_3000aec(r6ref);
+        r2 = r6ref.get();
+        r6ref.set(r3);
+        FUN_3000aec(r6ref);
+        r3 = r6ref.get();
+        r6ref.set(r4);
+        FUN_3000aec(r6ref);
+        r4 = r6ref.get();
+        CPU.lr().value = 0x80000000;
+        CPU.lr().value = CPU.lr().value | ((CPU.lr().value >>> 16));
+        final int address3000b54 = 0x3000b5c + 0x0;
+        MEMORY.ref(4, address3000b54).setu(CPU.lr().value);
+      }
+      r6 = CPU.r8().value & Integer.rotateRight(r1, 15);
+      r7 = CPU.r8().value & Integer.rotateRight(r2, 15);
+      r6 = r7 | r6 >>> 8;
+      CPU.r11().value = CPU.r8().value & Integer.rotateRight(r3, 15);
+      r7 = CPU.r8().value & Integer.rotateRight(r4, 15);
+      r7 = r7 | CPU.r11().value >>> 8;
+      CPU.r11().value = r6 & ~(CPU.r10().value >> 15);
+      CPU.r11().value = CPU.r11().value | r7 << 16;
+      r7 = r7 & CPU.r10().value >> 15;
+      r7 = r7 | r6 >>> 16;
+      final int address3000bc8 = r5 + 0x630;
+      CPU.r12().value = MEMORY.ref(4, address3000bc8).getUnsigned();
+      final int address3000bcc = r5 + 0x630;
+      MEMORY.ref(4, address3000bcc).setu(CPU.r11().value);
+      final int address3000bd0 = r5 + 0x0;
+      CPU.r11().value = MEMORY.ref(4, address3000bd0).getUnsigned();
+      final int address3000bd4 = r5;
+      MEMORY.ref(4, address3000bd4).setu(r7);
+      r5 = r5 + 0x4;
+      CPU.setCFlag((r4 & 0x1 << 17) != 0);
+      r6 = CPU.movA(r0, r4 >> 18);
+      r6 = CPU.addA(r6, CPU.r11().value >> 19);
+      if(CPU.cpsr().getNegative()) { // negative
+        r6 = r6 + 0x28;
+      }
+      r4 = Integer.rotateRight(r4, 16);
+      CPU.setCFlag((r4 & 0x1 << 17) != 0);
+      r7 = CPU.movA(r0, r4 >> 18);
+      r7 = CPU.addA(r7, CPU.r12().value >> 19);
+      if(CPU.cpsr().getNegative()) { // negative
+        r7 = r7 + 0x28;
+      }
+      r4 = CPU.addA(r7, r6 << 16);
+      CPU.r11().value = Integer.rotateRight(CPU.r11().value, 16);
+      CPU.r12().value = Integer.rotateRight(CPU.r12().value, 16);
+      CPU.setCFlag((r2 & 0x1 << 17) != 0);
+      r6 = CPU.movA(r0, r2 >> 18);
+      r6 = CPU.addA(r6, CPU.r11().value >> 19);
+      if(CPU.cpsr().getNegative()) { // negative
+        r6 = r6 + 0x28;
+      }
+      r2 = Integer.rotateRight(r2, 16);
+      CPU.setCFlag((r2 & 0x1 << 17) != 0);
+      r7 = CPU.movA(r0, r2 >> 18);
+      r7 = CPU.addA(r7, CPU.r12().value >> 19);
+      if(CPU.cpsr().getNegative()) { // negative
+        r7 = r7 + 0x28;
+      }
+      r2 = CPU.addA(r7, r6 << 16);
+      CPU.r11().value = Integer.rotateRight(CPU.r11().value, 8);
+      CPU.r12().value = Integer.rotateRight(CPU.r12().value, 8);
+      CPU.setCFlag((r3 & 0x1 << 17) != 0);
+      r6 = CPU.movA(r0, r3 >> 18);
+      r6 = CPU.addA(r6, CPU.r11().value >> 19);
+      if(CPU.cpsr().getNegative()) { // negative
+        r6 = r6 + 0x28;
+      }
+      r3 = Integer.rotateRight(r3, 16);
+      CPU.setCFlag((r3 & 0x1 << 17) != 0);
+      r7 = CPU.movA(r0, r3 >> 18);
+      r7 = CPU.addA(r7, CPU.r12().value >> 19);
+      if(CPU.cpsr().getNegative()) { // negative
+        r7 = r7 + 0x28;
+      }
+      r3 = CPU.addA(r7, r6 << 16);
+      CPU.r11().value = Integer.rotateRight(CPU.r11().value, 16);
+      CPU.r12().value = Integer.rotateRight(CPU.r12().value, 16);
+      CPU.setCFlag((r1 & 0x1 << 17) != 0);
+      r6 = CPU.movA(r0, r1 >> 18);
+      r6 = CPU.addA(r6, CPU.r11().value >> 19);
+      if(CPU.cpsr().getNegative()) { // negative
+        r6 = r6 + 0x28;
+      }
+      r1 = Integer.rotateRight(r1, 16);
+      CPU.setCFlag((r1 & 0x1 << 17) != 0);
+      r7 = CPU.movA(r0, r1 >> 18);
+      r7 = CPU.addA(r7, CPU.r12().value >> 19);
+      if(CPU.cpsr().getNegative()) { // negative
+        r7 = r7 + 0x28;
+      }
+      r1 = CPU.addA(r7, r6 << 16);
+      int address3000c70 = r0;
+      MEMORY.ref(4, address3000c70).setu(r1);
+      address3000c70 += 0x4;
+      MEMORY.ref(4, address3000c70).setu(r2);
+      address3000c70 += 0x4;
+      MEMORY.ref(4, address3000c70).setu(r3);
+      address3000c70 += 0x4;
+      MEMORY.ref(4, address3000c70).setu(r4);
+      address3000c70 += 0x4;
+      r0 = address3000c70;
+      CPU.r9().value = CPU.subA(CPU.r9().value, 0x4);
+    } while(!CPU.cpsr().getZero() && CPU.cpsr().getOverflow()); // >
+
+    CPU.sp().value = CPU.sp().value + 0x1c;
+    int address3000c80 = CPU.sp().value;
+    CPU.r8().value = MEMORY.ref(4, address3000c80).getUnsigned();
+    address3000c80 += 0x4;
+    CPU.r9().value = MEMORY.ref(4, address3000c80).getUnsigned();
+    address3000c80 += 0x4;
+    CPU.r10().value = MEMORY.ref(4, address3000c80).getUnsigned();
+    address3000c80 += 0x4;
+    CPU.r11().value = MEMORY.ref(4, address3000c80).getUnsigned();
+    address3000c80 += 0x4;
+    CPU.sp().value = address3000c80;
+    int address3000c84 = CPU.sp().value;
+    r5 = MEMORY.ref(4, address3000c84).getUnsigned();
+    address3000c84 += 0x4;
+    r6 = MEMORY.ref(4, address3000c84).getUnsigned();
+    address3000c84 += 0x4;
+    r7 = MEMORY.ref(4, address3000c84).getUnsigned();
+    address3000c84 += 0x4;
+    CPU.lr().value = MEMORY.ref(4, address3000c84).getUnsigned();
+    address3000c84 += 0x4;
+    CPU.sp().value = address3000c84;
   }
 }

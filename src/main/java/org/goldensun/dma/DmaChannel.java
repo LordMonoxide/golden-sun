@@ -130,6 +130,8 @@ public class DmaChannel {
         final int destControl = (this.control & DEST_ADDRESS_MASK) >>> DEST_ADDRESS_SHIFT;
         final int sourceControl = (this.control & SOURCE_ADDRESS_MASK) >>> SOURCE_ADDRESS_SHIFT;
 
+        LOGGER.info("DMA %d transferring 0x%x bytes from 0x%x to 0x%x", this.index, this.wordCountCopy * wordSize, this.sourceAddressCopy, this.destAddressCopy);
+
         for(int i = 0; i < this.wordCountCopy; i++) {
           this.memory.set(this.destAddressCopy, wordSize, this.memory.get(this.sourceAddressCopy, wordSize));
 
@@ -154,7 +156,7 @@ public class DmaChannel {
 
       case START_TIMING_SPECIAL -> {
         if(this.index == 1 || this.index == 2) {
-          LOGGER.warn("Audio FIFO DMA not implemented");
+          //TODO LOGGER.warn("Audio FIFO DMA not implemented");
           return;
         }
 

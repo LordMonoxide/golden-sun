@@ -122,7 +122,7 @@ public class Psr implements Register {
       value &= ~0xff;
     }
 
-    LOGGER.info("PSR set to 0x%x", value);
+//    LOGGER.info("PSR set to 0x%x", value);
     this.setAll(value);
   }
 

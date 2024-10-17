@@ -36,7 +36,7 @@ public final class Hardware {
   static {
     MEMORY.addSegment(RomSegment.fromFile(0x000_0000, 0x4000, Path.of("bios.rom")));
     MEMORY.addSegment(new RamSegment(0x200_0000, 0x4_0000)); // On-board work RAM
-    MEMORY.addSegment(new RamSegment(0x300_0000, 0x8000, 0x300_7fff)); // On-chip work RAM
+    MEMORY.addSegment(new RamSegment(0x300_0000, 0x8000, 0xf00_7fff)); // On-chip work RAM
     MEMORY.addSegment(RomSegment.fromFile(0x800_0000, 0x80_0000, Path.of("game.rom")));
 
     MEMORY.addFunctions(Bios.class);

@@ -98,8 +98,17 @@ public class Cpu implements Runnable {
     }
   }
 
+  private boolean awaitingInterrupt;
+
   public void dispatchIrq() {
-    while(INTERRUPTS.irqPending() && !this.cpsr.irqDisabled() && INTERRUPTS.INT_FLAGS.get() != 0) {
+    synchronized(this) {
+      if(this.awaitingInterrupt && INTERRUPTS.irqPending()) {
+        this.awaitingInterrupt = false;
+        this.notify();
+      }
+    }
+
+    while(INTERRUPTS.irqPending() && !this.cpsr.irqDisabled()) {
       this.memory.waitForLock(CODE::suspend);
 
       this.cpsr.set(CpuMode.IRQ.bits | 0b1100_0000); // ARM state, interrupts disabled
@@ -111,6 +120,22 @@ public class Cpu implements Runnable {
     }
   }
 
+  public void halt() {
+    if(Thread.currentThread() != CODE) {
+      throw new RuntimeException("Can only halt from code thread");
+    }
+
+    synchronized(this) {
+      this.awaitingInterrupt = true;
+
+      while(this.awaitingInterrupt) {
+        try {
+          this.wait();
+        } catch(final InterruptedException ignored) { }
+      }
+    }
+  }
+
   public void SWI(final InstructionSet callingInstructionSet) {
     this.cpsr.setInstructionSet(callingInstructionSet);
     this.cpsr.set(CpuMode.SUPERVISOR.bits | 0b1100_0000); // ARM state, interrupts disabled
@@ -118,7 +143,7 @@ public class Cpu implements Runnable {
   }
 
   private void changeMode(final CpuMode mode) {
-    LOGGER.info("Entering %s mode", mode);
+//    LOGGER.info("Entering %s mode", mode);
     final CpuState newState = this.states.get(mode);
     newState.lr.value = this.state().pc.value;
 
@@ -466,7 +491,7 @@ public class Cpu implements Runnable {
   }
 
   private void onHaltCntWrite(final int val) {
-    throw new RuntimeException("HALTCNT not implemented");
+    throw new RuntimeException("Call halt");
   }
 
   public class CpuSegment extends Segment {

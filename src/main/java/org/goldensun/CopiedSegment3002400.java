@@ -25,11 +25,10 @@ public final class CopiedSegment3002400 {
     MEMORY.ref(4, address3002400).setu(CPU.r9().value);
     address3002400 += 0x4;
     MEMORY.ref(4, address3002400).setu(CPU.lr().value);
-    address3002400 += 0x4;
-    final int address3002404 = 0x300240c + 0xc4;
-    r2 = MEMORY.ref(4, address3002404).getUnsigned();
+
+    r2 = MEMORY.ref(4, 0x30024d0).getUnsigned();
     CPU.r12().value = 0x40;
-    CPU.r9().value = r0;
+    CPU.r9().value = r0; // Used by downstream methods
 
     //LAB_3002414
     do {
@@ -42,7 +41,6 @@ public final class CopiedSegment3002400 {
       r5 = MEMORY.ref(4, address3002414).getUnsigned();
       address3002414 += 0x4;
       r6 = MEMORY.ref(4, address3002414).getUnsigned();
-      address3002414 += 0x4;
 
       r6 = CPU.movA(0, r6);
       if(!CPU.cpsr().getZero()) { // !=
@@ -137,12 +135,9 @@ public final class CopiedSegment3002400 {
     int r3;
     int r4;
     r0 = CPU.r9().value + 0x6;
-    final int address3002490 = 0x3002498 + 0x40;
-    r2 = MEMORY.ref(4, address3002490).getUnsigned();
-    final int address3002494 = r2;
+    final int address3002494 = MEMORY.ref(4, 0x30024d8).getUnsigned();
     r4 = MEMORY.ref(1, address3002494).getUnsigned();
-    final int address3002498 = 0x30024a0 + 0x3c;
-    r1 = MEMORY.ref(4, address3002498).getUnsigned();
+    r1 = MEMORY.ref(4, 0x30024dc).getUnsigned();
     CPU.cmpA(r4, 0x0);
     if(!CPU.cpsr().getZero()) { // !=
       //LAB_30024a4

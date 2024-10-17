@@ -123,19 +123,11 @@ public class Value {
     return this;
   }
 
-  public Value set(final Value value) {
-    return this.set(value.get());
-  }
-
   public Value setu(final int value) {
     final long valueLong = value & (0b1L << this.size * 8) - 1;
     this.validateUnsigned(valueLong);
     this.value = (int)valueLong;
     return this;
-  }
-
-  public Value setu(final Value value) {
-    return this.setu(value.getUnsigned());
   }
 
   public Value set(final String string) {
