@@ -251,26 +251,26 @@ public class Memory {
   public void addFunctions(final Class<?> cls) {
     LOGGER.info("Adding function references from %s", cls);
 
-    final Int2ObjectMap<MethodInfo> methods = new Int2ObjectOpenHashMap<>();
-
-    for(final java.lang.reflect.Method method : cls.getMethods()) {
-      if(method.isAnnotationPresent(Method.class)) {
-        final Method address = method.getAnnotation(Method.class);
-        final int addr = address.value();
-
-        if(methods.containsKey(addr)) {
-          throw new RuntimeException(cls + " contains two methods at address " + Integer.toHexString(addr));
-        }
-
-        methods.put(addr, new MethodInfo(method, address.ignoreExtraParams()));
-      }
-    }
-
-    if(methods.isEmpty()) {
-      throw new RuntimeException(cls + " contained no methods with Method annotations");
-    }
-
     synchronized(this.lock) {
+      final Int2ObjectMap<MethodInfo> methods = new Int2ObjectOpenHashMap<>();
+
+      for(final java.lang.reflect.Method method : cls.getMethods()) {
+        if(method.isAnnotationPresent(Method.class)) {
+          final Method address = method.getAnnotation(Method.class);
+          final int addr = address.value();
+
+          if(methods.containsKey(addr)) {
+            throw new RuntimeException(cls + " contains two methods at address " + Integer.toHexString(addr));
+          }
+
+          methods.put(addr, new MethodInfo(method, address.ignoreExtraParams()));
+        }
+      }
+
+      if(methods.isEmpty()) {
+        throw new RuntimeException(cls + " contained no methods with Method annotations");
+      }
+
       for(final Int2ObjectMap.Entry<MethodInfo> entry : methods.int2ObjectEntrySet()) {
         this.setFunction(entry.getIntKey(), entry.getValue().method, null, entry.getValue().ignoreExtraParams);
       }
