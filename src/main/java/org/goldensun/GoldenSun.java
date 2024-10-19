@@ -3,6 +3,7 @@ package org.goldensun;
 import org.goldensun.cpu.InstructionSet;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.RunnableRef;
+import org.goldensun.types.PointerTableType296;
 import org.goldensun.types.Struct0c;
 
 import javax.annotation.Nullable;
@@ -1981,60 +1982,58 @@ public final class GoldenSun {
 
     CPU.r8().value = FUN_80048f4(0x8, 0x194);
     MEMORY.call(0x3000164, CPU.r8().value, 0x194);
-    final int r5 = getPointerTableEntry(296 + sp0x08._00.get());
-    FUN_800f9f4(FUN_8005340(r5 + MEMORY.ref(4, r5 + 0x24).get(), 0x2010001));
-    FUN_8005340(r5 + MEMORY.ref(4, r5 + 0x28).get(), 0x202c000);
-    FUN_8005340(r5 + MEMORY.ref(4, r5 + 0x2c).get(), 0x2010000);
+
+    final PointerTableType296 r5 = MEMORY.ref(4, getPointerTableEntry(296 + sp0x08._00.get()), PointerTableType296::new);
+    FUN_800f9f4(FUN_8005340(r5.getAddress() + r5._24.get(), 0x2010001));
+    FUN_8005340(r5.getAddress() + r5._28.get(), 0x202c000);
+    FUN_8005340(r5.getAddress() + r5._2c.get(), 0x2010000);
     FUN_800fac8();
 
-    r0 = MEMORY.ref(4, r5 + 0x30).get();
+    r0 = r5._30.get();
     if(r0 != 0) {
-      FUN_8005340(r5 + r0, 0x202d000);
+      FUN_8005340(r5.getAddress() + r0, 0x202d000);
       FUN_80118d8(0x202d000);
     }
 
     //LAB_800fbc8
-    r0 = MEMORY.ref(4, r5 + 0x34).get();
+    r0 = r5._34.get();
     if(r0 != 0) {
-      FUN_8005340(r5 + r0, 0x202de00);
+      FUN_8005340(r5.getAddress() + r0, 0x202de00);
       FUN_8011a84(0x202de00);
     }
 
     //LAB_800fbde
-    MEMORY.ref(4, CPU.r8().value + 0x10).setu(r5 + MEMORY.ref(4, r5 + 0x38).get());
-    MEMORY.ref(4, CPU.r8().value + 0xec).setu(MEMORY.ref(1, r5).getUnsigned() << 19);
-    MEMORY.ref(4, CPU.r8().value + 0xf0).setu(MEMORY.ref(1, r5 + 0x1).getUnsigned() << 19);
-    MEMORY.ref(4, CPU.r8().value + 0xf4).setu(MEMORY.ref(1, r5 + 0x2).getUnsigned() << 19);
-    MEMORY.ref(4, CPU.r8().value + 0xf8).setu(MEMORY.ref(1, r5 + 0x3).getUnsigned() << 19);
+    MEMORY.ref(4, CPU.r8().value + 0x10).setu(r5.getAddress() + r5._38.get());
+    MEMORY.ref(4, CPU.r8().value + 0xec).setu(r5._00.get() << 19);
+    MEMORY.ref(4, CPU.r8().value + 0xf0).setu(r5._01.get() << 19);
+    MEMORY.ref(4, CPU.r8().value + 0xf4).setu(r5._02.get() << 19);
+    MEMORY.ref(4, CPU.r8().value + 0xf8).setu(r5._03.get() << 19);
     MEMORY.ref(4, CPU.sp().value + 0x4).setu(CPU.r8().value + 0xe4);
     MEMORY.ref(4, CPU.sp().value + 0x4).deref(4).setu(0);
     MEMORY.ref(4, CPU.sp().value).setu(CPU.r8().value + 0xe8);
     MEMORY.ref(4, CPU.r8().value + 0xe8).setu(0);
-    MEMORY.ref(1, CPU.r8().value + 0x100).setu(MEMORY.ref(1, r5 + 0x4).getUnsigned());
-    MEMORY.ref(1, CPU.r8().value + 0x101).setu(MEMORY.ref(1, r5 + 0x5).getUnsigned());
-    MEMORY.ref(1, CPU.r8().value + 0x102).setu(MEMORY.ref(1, r5 + 0x6).getUnsigned());
+    MEMORY.ref(1, CPU.r8().value + 0x100).setu(r5._04.get());
+    MEMORY.ref(1, CPU.r8().value + 0x101).setu(r5._05.get());
+    MEMORY.ref(1, CPU.r8().value + 0x102).setu(r5._06.get());
 
     //LAB_800fc48
     for(int i = 0; i < 3; i++) {
-      final int r6 = r5 + 0xc + i * 0x8;
+      final PointerTableType296.Sub08 r6 = r5._0c.get(i);
       r7 = CPU.r8().value + 0x104 + i * 0x30;
-      r0 = MEMORY.ref(1, r6).getUnsigned();
-      r2 = MEMORY.ref(1, r6 + 0x1).getUnsigned();
-      CPU.lr().value = r0 << 19;
-      CPU.r10().value = r2 << 19;
+      CPU.lr().value = r6._00.get() << 19;
+      CPU.r10().value = r6._01.get() << 19;
       MEMORY.ref(4, r7 + 0x8).setu(CPU.lr().value);
       MEMORY.ref(4, r7 + 0xc).setu(CPU.r10().value);
-      MEMORY.ref(4, r7 + 0x18).setu(MEMORY.ref(1, r6 + 0x4).get() << 12);
-      MEMORY.ref(4, r7 + 0x1c).setu(MEMORY.ref(1, r6 + 0x5).get() << 12);
-      MEMORY.ref(2, r7 + 0x28).setu(MEMORY.ref(1, r6 + 0x6).getUnsigned());
-      MEMORY.ref(2, r7 + 0x2a).setu(MEMORY.ref(1, r6 + 0x7).getUnsigned());
-      r0 = CPU.lsrT(r0, 1);
-      r2 = CPU.lsrT(r2, 1);
-      r2 = CPU.lslT(r2, 7);
+      MEMORY.ref(4, r7 + 0x18).setu(r6._04.get() << 12);
+      MEMORY.ref(4, r7 + 0x1c).setu(r6._05.get() << 12);
+      MEMORY.ref(2, r7 + 0x28).setu(r6._06.get());
+      MEMORY.ref(2, r7 + 0x2a).setu(r6._07.get());
       MEMORY.ref(4, r7 + 0x20).setu(0);
       MEMORY.ref(4, r7 + 0x24).setu(0);
-      r1 = MEMORY.ref(1, r6 + 0x2).get() << 12;
-      r4 = MEMORY.ref(1, r6 + 0x3).get() << 12;
+      r0 = r6._00.get() >>> 1;
+      r2 = r6._01.get() >>> 1 << 7;
+      r1 = r6._02.get() << 12;
+      r4 = r6._03.get() << 12;
       MEMORY.ref(4, r7 + 0x10).setu(r1);
       MEMORY.ref(4, r7 + 0x14).setu(r4);
       MEMORY.ref(4, r7 + 0x2c).setu(0x2010000 + (r2 + r0) * 0x4);
@@ -2063,9 +2062,9 @@ public final class GoldenSun {
     }
 
     //LAB_800fd0e
-    GPU.BG3CNT.setu(0x500 | MEMORY.ref(1, r1).getUnsigned() | MEMORY.ref(1, r5 + 0x7).getUnsigned() << 2);
-    GPU.BG2CNT.setu(0x600 | MEMORY.ref(1, r0).getUnsigned() | MEMORY.ref(1, r5 + 0x8).getUnsigned() << 2);
-    GPU.BG1CNT.setu(0x700 | MEMORY.ref(1, CPU.r12().value).getUnsigned() | MEMORY.ref(1, r5 + 0x9).getUnsigned() << 2);
+    GPU.BG3CNT.setu(0x500 | MEMORY.ref(1, r1).getUnsigned() | r5._07.get() << 2);
+    GPU.BG2CNT.setu(0x600 | MEMORY.ref(1, r0).getUnsigned() | r5._08.get() << 2);
+    GPU.BG1CNT.setu(0x700 | MEMORY.ref(1, CPU.r12().value).getUnsigned() | r5._09.get() << 2);
 
     if(FUN_80770c0(0x170) != 0) {
       FUN_80770d0(0x170);
