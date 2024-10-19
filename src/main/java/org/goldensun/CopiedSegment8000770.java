@@ -69,18 +69,14 @@ public final class CopiedSegment8000770 {
     CPU.spsr().msr(oldSpsr, true, false, false, true);
   }
 
-  /** Jumps to r12 */
+  /** Multiplies r0 and r1 and returns the middle 16-48 bits (y tho) (jumps back to r12) */
   @Deprecated
   @Method(0x3000118)
-  public static int FUN_3000118(int r0, final int r1) {
+  public static int FUN_3000118(final int r0, final int r1) {
     final long result3000118 = (long)r1 * r0;
-    final int r2 = (int)result3000118;
-    r0 = (int)(result3000118 >>> 32);
-
-    r0 = (r0 << 16);
-    r0 = r0 | ((r2 >>> 16));
-    CPU.r12().value = CPU.r12().value + 0x1;
-    return r0;
+    final int lo = (int)result3000118;
+    final int hi = (int)(result3000118 >>> 32);
+    return hi << 16 | lo >>> 16;
   }
 
   @Method(0x3000164)
