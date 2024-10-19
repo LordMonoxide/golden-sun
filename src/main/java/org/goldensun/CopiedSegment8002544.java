@@ -26,7 +26,7 @@ public final class CopiedSegment8002544 {
     MEMORY.ref(4, address3002000).setu(CPU.r9().value);
     address3002000 += 0x4;
     MEMORY.ref(4, address3002000).setu(CPU.lr().value);
-    address3002000 += 0x4;
+
     final int address3002004 = r0;
     r2 = MEMORY.ref(1, address3002004).getUnsigned();
     r0 = r0 + 0x1;
