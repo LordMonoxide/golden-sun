@@ -5,8 +5,9 @@ import org.goldensun.memory.Method;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.MEMORY;
 
-public final class CopiedSegment3002400 {
-  private CopiedSegment3002400() { }
+/** Copied by {@link GoldenSun#FUN_8003e10} from 8001dc8 */
+public final class CopiedSegment8001dc8 {
+  private CopiedSegment8001dc8() { }
 
   @Method(0x3002400)
   public static void FUN_3002400(final int r0) {

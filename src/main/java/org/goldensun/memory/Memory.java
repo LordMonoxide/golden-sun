@@ -277,7 +277,16 @@ public class Memory {
     }
   }
 
-  private void setFunction(final int address, final java.lang.reflect.Method function, @Nullable final Object instance, final boolean ignoreExtraParams) {
+  public void setFunction(final int address, final Class<?> cls, final String method, final Class<?>... params) {
+    try {
+      final java.lang.reflect.Method m = cls.getMethod(method, params);
+      this.setFunction(address, m, null, false);
+    } catch(final NoSuchMethodException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void setFunction(final int address, final java.lang.reflect.Method function, @Nullable final Object instance, final boolean ignoreExtraParams) {
     this.checkAlignment(address, 2);
 
     final Segment segment = this.getSegment(address);

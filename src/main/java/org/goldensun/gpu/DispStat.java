@@ -37,21 +37,6 @@ public class DispStat {
   }
 
   public void unpack(final int val) {
-    if((val & VBLANK_FLAG_MASK) != 0 && this.vblankFlag) {
-      throw new RuntimeException("Cannot set VBLANK flag");
-    }
-
-    if((val & HBLANK_FLAG_MASK) != 0 && this.hblankFlag) {
-      throw new RuntimeException("Cannot set HBLANK flag");
-    }
-
-    if((val & VCOUNT_FLAG_MASK) != 0 && this.vcountFlag) {
-      throw new RuntimeException("Cannot set VCOUNT flag");
-    }
-
-    this.vblankFlag = (val & VBLANK_FLAG_MASK) != 0;
-    this.hblankFlag = (val & HBLANK_FLAG_MASK) != 0;
-    this.vcountFlag = (val & VCOUNT_FLAG_MASK) != 0;
     this.vblankIrqEnable = (val & VBLANK_IRQ_ENABLE_MASK) != 0;
     this.hblankIrqEnable = (val & HBLANK_IRQ_ENABLE_MASK) != 0;
     this.vcountIrqEnable = (val & VCOUNT_IRQ_ENABLE_MASK) != 0;

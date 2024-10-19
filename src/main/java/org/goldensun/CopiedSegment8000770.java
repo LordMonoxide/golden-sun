@@ -11,8 +11,8 @@ import static org.goldensun.Hardware.INTERRUPTS;
 import static org.goldensun.Hardware.MEMORY;
 
 /** Copied by {@link GoldenSun#FUN_800300c} from 8000770 */
-public final class CopiedSegment3000000 {
-  private CopiedSegment3000000() { }
+public final class CopiedSegment8000770 {
+  private CopiedSegment8000770() { }
 
   public static final ArrayRef<Pointer<RunnableRef>> intHandlers_30000e0 = MEMORY.ref(4, 0x30000e0, ArrayRef.of(Pointer.classFor(RunnableRef.class), 14, 0x4, Pointer.deferred(4, RunnableRef::new)));
 
@@ -69,6 +69,25 @@ public final class CopiedSegment3000000 {
     CPU.spsr().msr(oldSpsr, true, false, false, true);
   }
 
+  /** Jumps to r12 */
+  @Deprecated
+  @Method(0x3000118)
+  public static int FUN_3000118(int r0, final int r1) {
+    final long result3000118 = (long)r1 * r0;
+    final int r2 = (int)result3000118;
+    r0 = (int)(result3000118 >>> 32);
+
+    r0 = (r0 << 16);
+    r0 = r0 | ((r2 >>> 16));
+    CPU.r12().value = CPU.r12().value + 0x1;
+    return r0;
+  }
+
+  @Method(0x3000164)
+  public static void memzero(final int r0, final int r1) {
+    MEMORY.memfill(r0, r1, 0);
+  }
+
   @Method(0x3000168)
   public static void memfill32(final int r0, final int r1, final int r2) {
     for(int i = 0; i < r1; i += 0x4) {
@@ -107,6 +126,51 @@ public final class CopiedSegment3000000 {
     r1 = r1_0.get();
     r0 = -r0;
     return r0;
+  }
+
+  @Method(0x30003ac)
+  public static int FUN_30003ac(int r0, int r1) {
+    int r2;
+
+    final int address30003ac = CPU.sp().value - 0x4;
+    CPU.sp().value = address30003ac;
+    MEMORY.ref(4, address30003ac).setu(CPU.lr().value);
+    CPU.r12().value = r0 ^ (r1);
+
+    r2 = CPU.movA(r0, r1);
+    if(CPU.cpsr().getNegative()) { // negative
+      r2 = -r2;
+    }
+
+    r1 = CPU.movA(r0, r0);
+    if(CPU.cpsr().getNegative()) { // negative
+      r1 = -r1;
+    }
+    r0 = 0x0;
+
+    final IntRef r0ref = new IntRef().set(r0);
+    final IntRef r1ref = new IntRef().set(r1);
+    FUN_30003fc(r0ref, r1ref, r2);
+    r1 = r1ref.get();
+    r0 = r1;
+
+    CPU.r12().value = CPU.movA(r0, CPU.r12().value);
+    if(CPU.cpsr().getNegative()) { // negative
+      r0 = -r0;
+    }
+    int address30003d8 = CPU.sp().value;
+    CPU.lr().value = MEMORY.ref(4, address30003d8).getUnsigned();
+    address30003d8 += 0x4;
+    CPU.sp().value = address30003d8;
+    return r0;
+  }
+
+  @Method(0x30003f0)
+  public static int FUN_30003f0(final int r0, final int r1) {
+    final IntRef r0ref = new IntRef().set(0);
+    final IntRef r1ref = new IntRef().set(r0);
+    FUN_30003fc(r0ref, r1ref, r1);
+    return r0ref.get();
   }
 
   @Method(0x30003fc)
@@ -498,7 +562,7 @@ public final class CopiedSegment3000000 {
         r4 = r6ref.get();
         CPU.lr().value = 0x80000000;
         CPU.lr().value = CPU.lr().value | ((CPU.lr().value >>> 16));
-        final int address3000b54 = 0x3000b5c + 0x0;
+        final int address3000b54 = 0x3000b5c;
         MEMORY.ref(4, address3000b54).setu(CPU.lr().value);
       }
       r6 = CPU.r8().value & Integer.rotateRight(r1, 15);
@@ -515,7 +579,7 @@ public final class CopiedSegment3000000 {
       CPU.r12().value = MEMORY.ref(4, address3000bc8).getUnsigned();
       final int address3000bcc = r5 + 0x630;
       MEMORY.ref(4, address3000bcc).setu(CPU.r11().value);
-      final int address3000bd0 = r5 + 0x0;
+      final int address3000bd0 = r5;
       CPU.r11().value = MEMORY.ref(4, address3000bd0).getUnsigned();
       final int address3000bd4 = r5;
       MEMORY.ref(4, address3000bd4).setu(r7);
