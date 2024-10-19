@@ -703,6 +703,16 @@ public class Gpu {
 
       MathHelper.set(Gpu.this.palette, offset, size, value);
     }
+
+    @Override
+    public void setBytes(final int offset, final byte[] data, final int dataOffset, final int dataLength) {
+      System.arraycopy(data, dataOffset, Gpu.this.palette, offset, dataLength);
+    }
+
+    @Override
+    public void getBytes(final int offset, final byte[] dest, final int dataOffset, final int dataSize) {
+      System.arraycopy(Gpu.this.palette, offset, dest, dataOffset, dataSize);
+    }
   }
 
   public class VramSegment extends Segment {
@@ -728,6 +738,16 @@ public class Gpu {
 
       MathHelper.set(Gpu.this.vram, offset, size, value);
     }
+
+    @Override
+    public void setBytes(final int offset, final byte[] data, final int dataOffset, final int dataLength) {
+      System.arraycopy(data, dataOffset, Gpu.this.vram, offset, dataLength);
+    }
+
+    @Override
+    public void getBytes(final int offset, final byte[] dest, final int dataOffset, final int dataSize) {
+      System.arraycopy(Gpu.this.vram, offset, dest, dataOffset, dataSize);
+    }
   }
 
   public class OamSegment extends Segment {
@@ -752,6 +772,16 @@ public class Gpu {
       }
 
       MathHelper.set(Gpu.this.oam, offset, size, value);
+    }
+
+    @Override
+    public void setBytes(final int offset, final byte[] data, final int dataOffset, final int dataLength) {
+      System.arraycopy(data, dataOffset, Gpu.this.oam, offset, dataLength);
+    }
+
+    @Override
+    public void getBytes(final int offset, final byte[] dest, final int dataOffset, final int dataSize) {
+      System.arraycopy(Gpu.this.oam, offset, dest, dataOffset, dataSize);
     }
   }
 
