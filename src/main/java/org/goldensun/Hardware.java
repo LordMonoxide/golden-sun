@@ -44,6 +44,8 @@ public final class Hardware {
   }
 
   public static void start() {
+    Memory.addWatch(0x2008024);
+
     cpuThread.start();
     timerThread.start();
     CODE.start();

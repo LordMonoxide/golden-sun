@@ -153,6 +153,10 @@ public class Gpu {
 
   private int mosaic;
 
+  private final BldCnt bldCnt = new BldCnt();
+  private int bldAlpha1;
+  private int bldAlpha2;
+
   private final DmaController dma;
   private final InterruptController interrupts;
 
@@ -680,6 +684,28 @@ public class Gpu {
     this.mosaic = val;
   }
 
+  private int onBldCntRead() {
+    return this.bldCnt.pack();
+  }
+
+  private void onBldCntWrite(final int val) {
+    this.bldCnt.unpack(val);
+
+    if(val != 0) {
+      throw new RuntimeException("BLDCNT not implemented");
+    }
+  }
+
+  private int onBldAlphaRead() {
+    return this.bldAlpha2 << 8 | this.bldAlpha1;
+  }
+
+  private void onBldAlphaWrite(final int val) {
+    // Upper 4 bits of each value are ignored
+    this.bldAlpha1 = val & 0xf;
+    this.bldAlpha2 = val & 0xf00;
+  }
+
   public class PaletteSegment extends Segment {
     public PaletteSegment() {
       super(0x500_0000, 0x400);
@@ -807,6 +833,7 @@ public class Gpu {
         case 0x1c -> ((Gpu.this.onBgVofsRead(3) << 16 | Gpu.this.onBgHofsRead(3)) & mask) >> shift;
 
         case 0x4c -> (Gpu.this.onMosaicRead() & mask) >> shift;
+        case 0x50 -> ((Gpu.this.onBldAlphaRead() << 16 | Gpu.this.onBldCntRead()) & mask) >> shift;
 
         default -> throw new IllegalAddressException("There is no GPU port at " + Integer.toHexString(this.getAddress() + offset));
       };
@@ -865,6 +892,13 @@ public class Gpu {
         }
 
         case 0x4c -> Gpu.this.onMosaicWrite(Gpu.this.onMosaicRead() & ~mask | value << shift & mask);
+
+        case 0x50 -> {
+          final int current = Gpu.this.onBldAlphaRead() << 16 | Gpu.this.onBldCntRead();
+          final int newValue = current & ~mask | value << shift & mask;
+          Gpu.this.onBldCntWrite(newValue & 0xffff);
+          Gpu.this.onBldAlphaWrite(newValue >>> 16);
+        }
 
         default -> throw new IllegalAddressException("There is no GPU port at " + Integer.toHexString(this.getAddress() + offset));
       }
