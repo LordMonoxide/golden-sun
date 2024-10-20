@@ -677,4 +677,9 @@ public final class CopiedSegment8000770 {
     address3000c84 += 0x4;
     CPU.sp().value = address3000c84;
   }
+
+  @Method(0x3001388)
+  public static void FUN_3001388(final int src, final int dst, final int length) {
+    MEMORY.memcpy(src, dst, length);
+  }
 }

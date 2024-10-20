@@ -1,5 +1,7 @@
 package org.goldensun;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.goldensun.cpu.InstructionSet;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.RunnableRef;
@@ -72,6 +74,8 @@ import static org.goldensun.memory.MemoryHelper.getRunnable;
 
 public final class GoldenSun {
   private GoldenSun() { }
+
+  private static final Logger LOGGER = LogManager.getFormatterLogger(GoldenSun.class);
 
   @Method(0x80003c0)
   public static void main() {
@@ -262,7 +266,7 @@ public final class GoldenSun {
 
     switch(addr) {
       case 0x3002000 -> MEMORY.addFunctions(CopiedSegment8002d5c.class);
-      default -> throw new RuntimeException("Need to implement overlay");
+      default -> throw new RuntimeException("Need to implement overlay " + Integer.toHexString(addr));
     }
 
     MEMORY.call(addr, r1, r10);
@@ -935,7 +939,7 @@ public final class GoldenSun {
 
     switch(addr) {
       case 0x3002400 -> MEMORY.addFunctions(CopiedSegment8001dc8.class);
-      default -> throw new RuntimeException("Need to implement overlay");
+      default -> throw new RuntimeException("Need to implement overlay " + Integer.toHexString(addr));
     }
 
     FUN_80072fc(r0, 0, 0, 0, 0, 0, addr);
@@ -1646,10 +1650,13 @@ public final class GoldenSun {
     DMA.channels[3].DAD.setu(addr);
     DMA.channels[3].CNT.setu(0x84000000 | size / 4);
 
-    switch(addr) {
-      case 0x3002000 -> MEMORY.addFunctions(CopiedSegment8002544.class);
-      default -> throw new RuntimeException("Need to implement overlay");
-    }
+    LOGGER.info("Copying function 0x8002544 to 0x%x", addr);
+    MEMORY.setFunction(addr, CopiedSegment8002544.class, "FUN_3002000", int.class, int.class);
+
+//    switch(addr) {
+//      case 0x3002000 -> MEMORY.addFunctions(CopiedSegment8002544.class);
+//      default -> throw new RuntimeException("Need to implement overlay " + Integer.toHexString(addr));
+//    }
 
     final int ret = (int)MEMORY.call(addr, r0, r1);
     FUN_8002df0(addr);
@@ -1659,7 +1666,21 @@ public final class GoldenSun {
 
   @Method(0x8005394)
   public static int FUN_8005394(final int r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+    final int size = 0x4ec;
+    final int addr = FUN_8004938(size);
+    DMA.channels[3].SAD.setu(0x8002808);
+    DMA.channels[3].DAD.setu(addr);
+    DMA.channels[3].CNT.setu(0x84000000 | size / 4);
+
+    switch(addr) {
+      case 0x3006000 -> MEMORY.addFunctions(CopiedSegment8002808.class);
+      default -> throw new RuntimeException("Need to implement overlay " + Integer.toHexString(addr));
+    }
+
+    final int ret = (int)MEMORY.call(addr, r0, r1);
+    FUN_8002df0(addr);
+
+    return ret;
   }
 
   @Method(0x8005fcc)
@@ -1916,50 +1937,23 @@ public final class GoldenSun {
 
   @Method(0x800fac8)
   public static void FUN_800fac8() {
-    int r0;
-    int r1;
-    int r2;
-    int r3;
-    int r5;
-    int r6;
+    final int r8 = FUN_8004970(0x8000);
+    MEMORY.call(0x3001388, r8, 0x2010000, 0x8000); // memcpy
 
-    r6 = CPU.r8().value;
-    CPU.push(r6);
+    final int size = 0x9c;
+    final int addr = FUN_8004938(size);
+    DMA.channels[3].SAD.setu(0x800a37c);
+    DMA.channels[3].DAD.setu(addr);
+    DMA.channels[3].CNT.setu(0x84000000 | size / 4);
 
-    r5 = CPU.movT(0, 0x80);
-    r5 = CPU.lslT(r5, 8);
-    r0 = CPU.addT(r5, 0x0);
-    r0 = FUN_8004970(r0);
-    r3 = MEMORY.ref(4, 0x800fb20).get();
-    r1 = MEMORY.ref(4, 0x800fb24).get();
-    r2 = CPU.addT(r5, 0x0);
-    CPU.r8().value = r0;
-    MEMORY.call(r3, r0, r1, r2);
-    r5 = MEMORY.ref(4, 0x800fb28).get();
-    r0 = CPU.addT(r5, 0x0);
-    r0 = FUN_8004938(r0);
-    r2 = CPU.movT(0, 0x84);
-    r6 = CPU.addT(r0, 0x0);
-    r5 = CPU.lsrT(r5, 2);
-    r2 = CPU.lslT(r2, 24);
-    r0 = MEMORY.ref(4, 0x800fb30).get();
-    r1 = CPU.addT(r6, 0x0);
-    r2 = CPU.orrT(r2, r5);
-    DMA.channels[3].SAD.setu(r0);
-    DMA.channels[3].DAD.setu(r1);
-    DMA.channels[3].CNT.setu(r2);
+    switch(addr) {
+      case 0x3002000 -> MEMORY.addFunctions(CopiedSegment800a37c.class);
+      default -> throw new RuntimeException("Need to implement overlay " + Integer.toHexString(addr));
+    }
 
-    r0 = MEMORY.ref(4, 0x800fb34).get();
-    r1 = MEMORY.ref(4, 0x800fb24).get();
-    r2 = CPU.r8().value;
-    MEMORY.call(r6, r0, r1, r2);
-    r0 = CPU.addT(r6, 0x0);
-    FUN_8002df0(r0);
-    r0 = CPU.r8().value;
-    FUN_8002df0(r0);
-    r3 = CPU.pop();
-
-    CPU.r8().value = r3;
+    MEMORY.call(addr, 0x2018000, 0x2010000, r8);
+    FUN_8002df0(addr);
+    FUN_8002df0(r8);
   }
 
   @Method(0x800fb38)
@@ -2077,19 +2071,19 @@ public final class GoldenSun {
         r0 = getPointerTableEntry(296 + sp0x08._02.get());
         FUN_8005340(r0, r7);
         MEMORY.ref(2, r7).setu(CPU.r10().value);
-        MEMORY.call(0x3001388, 0x5000000, r7, 0x1c0);
+        MEMORY.call(0x3001388, 0x5000000, r7, 0x1c0); // memcpy
 
         r0 = getPointerTableEntry(296 + sp0x08._04.get());
         FUN_8005394(r0, r7);
-        MEMORY.call(0x3001388,  0x6004000, r7, 0x4000);
+        MEMORY.call(0x3001388,  0x6004000, r7, 0x4000); // memcpy
 
         r0 = getPointerTableEntry(296 + sp0x08._06.get());
         FUN_8005394(r0, r7);
-        MEMORY.call(0x3001388, 0x6008000, r7, 0x4000);
+        MEMORY.call(0x3001388, 0x6008000, r7, 0x4000); // memcpy
 
         r0 = getPointerTableEntry(296 + sp0x08._08.get());
         FUN_8005394(r0, r7);
-        MEMORY.call(0x3001388, 0x600c000, r7, 0x4000);
+        MEMORY.call(0x3001388, 0x600c000, r7, 0x4000); // memcpy
 
         r0 = getPointerTableEntry(296 + sp0x08._0a.get());
         FUN_8005394(r0, 0x2028000);
@@ -2461,7 +2455,7 @@ public final class GoldenSun {
 
       switch(r1) {
         case 0x3002000 -> MEMORY.addFunctions(CopiedSegment8015430.class);
-        default -> throw new RuntimeException("Need to implement overlay");
+        default -> throw new RuntimeException("Need to implement overlay " + Integer.toHexString(r1));
       }
 
       r3 = MEMORY.ref(4, CPU.r8().value).get();
@@ -2557,7 +2551,7 @@ public final class GoldenSun {
 
     switch(addr) {
       case 0x3002140 -> MEMORY.addFunctions(CopiedSegment8015570.class);
-      default -> throw new RuntimeException("Need to implement overlay");
+      default -> throw new RuntimeException("Need to implement overlay " + Integer.toHexString(addr));
     }
 
     MEMORY.call(addr, CPU.r8().value, CPU.r10().value);
