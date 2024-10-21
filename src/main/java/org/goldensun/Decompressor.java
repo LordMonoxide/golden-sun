@@ -3,12 +3,12 @@ package org.goldensun;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.MEMORY;
 
-/** Copied by {@link GoldenSun#FUN_8005340} from 8002544 */
-public final class CopiedSegment8002544 {
-  private CopiedSegment8002544() { }
+/** Copied by {@link GoldenSun#decompress} from 8002544 */
+public final class Decompressor {
+  private Decompressor() { }
 
-  /** NOTE: not always at this address */
-  public static int FUN_3002000(int r0, int r1) {
+  /** NOTE: not always at this address (seen at 0x3002000, 0x3006000) */
+  public static int decompress(int r0, int r1) {
     int r2;
     int r3;
     int r4;

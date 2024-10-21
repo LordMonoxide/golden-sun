@@ -161,6 +161,14 @@ public final class CopiedSegment8000770 {
     return r0;
   }
 
+  @Method(0x30003e0)
+  public static int FUN_30003e0(final int r0, final int r1) {
+    final IntRef r0ref = new IntRef().set(0);
+    final IntRef r1ref = new IntRef().set(r0);
+    FUN_30003fc(r0ref, r1ref, r1);
+    return r1ref.get();
+  }
+
   @Method(0x30003f0)
   public static int FUN_30003f0(final int r0, final int r1) {
     final IntRef r0ref = new IntRef().set(0);
