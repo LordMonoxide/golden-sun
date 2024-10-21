@@ -9,6 +9,7 @@ import static org.goldensun.Hardware.MEMORY;
 public final class CopiedSegment8002d5c {
   private CopiedSegment8002d5c() { }
 
+  /** This seems to rewrite function pointers in decomperssed THUMB code */
   @Method(0x3002000)
   public static void FUN_3002000(int r0, int r1) {
     final int r2;
@@ -31,9 +32,9 @@ public final class CopiedSegment8002d5c {
         break;
       }
 
-      final int address3002024 = r0 + 0x2;
+      final int address3002024 = r0;
       CPU.r12().value = MEMORY.ref(2, address3002024).getUnsigned();
-      r0 = address3002024;
+      r0 = address3002024 + 0x2;
       CPU.cmpA(r4, CPU.r12().value >>> 11);
       if(CPU.cpsr().getZero()) { // ==
         final int address3002030 = r0 - 0x4;
