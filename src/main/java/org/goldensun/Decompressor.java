@@ -1,11 +1,16 @@
 package org.goldensun;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.MEMORY;
 
 /** Copied by {@link GoldenSun#decompress} from 8002544 */
 public final class Decompressor {
   private Decompressor() { }
+
+  private static final Logger LOGGER = LogManager.getFormatterLogger(Decompressor.class);
 
   /** NOTE: not always at this address (seen at 0x3002000, 0x3006000) */
   public static int decompress(int r0, int r1) {
@@ -15,6 +20,8 @@ public final class Decompressor {
     int r5;
     int r6;
     int r7;
+
+    LOGGER.info("Decompressing 0x%x to 0x%x", r0, r1);
 
     int address3002000 = CPU.sp().value - 0x14;
     CPU.sp().value = address3002000;
