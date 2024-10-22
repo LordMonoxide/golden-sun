@@ -26,6 +26,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 import static org.goldensun.Hardware.CODE;
+import static org.goldensun.MathHelper.colour15To24;
 import static org.lwjgl.opengl.GL11C.GL_BLEND;
 import static org.lwjgl.opengl.GL11C.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11C.GL_CULL_FACE;
@@ -37,6 +38,7 @@ import static org.lwjgl.opengl.GL11C.glClear;
 import static org.lwjgl.opengl.GL11C.glClearColor;
 import static org.lwjgl.opengl.GL11C.glDisable;
 import static org.lwjgl.opengl.GL11C.glViewport;
+import static org.lwjgl.opengl.GL12C.GL_UNSIGNED_INT_8_8_8_8_REV;
 
 public class Gpu {
   private static final Logger LOGGER = LogManager.getFormatterLogger(Gpu.class);
@@ -156,6 +158,7 @@ public class Gpu {
   private final BldCnt bldCnt = new BldCnt();
   private int bldAlpha1;
   private int bldAlpha2;
+  private int bldY;
 
   private final DmaController dma;
   private final InterruptController interrupts;
@@ -239,6 +242,7 @@ public class Gpu {
       builder.size(H_DRAW_DOTS, V_DRAW_LINES);
       builder.internalFormat(GL_RGBA);
       builder.dataFormat(GL_RGBA);
+      builder.dataType(GL_UNSIGNED_INT_8_8_8_8_REV);
       builder.minFilter(GL_NEAREST);
       builder.magFilter(GL_NEAREST);
     });
@@ -458,14 +462,14 @@ public class Gpu {
       }
 
       if(is256ColorPalette) {
-        final int colorIndex = this.vram[characterBase + tileNumber * 8 * 8 + tileY * 8 + tileX];
+        final int colorIndex = this.vram[characterBase + tileNumber * 8 * 8 + tileY * 8 + tileX] & 0xff;
 
         if(colorIndex != 0) { // Not a transparent color
           final int rgb15 = MathHelper.get(this.palette, colorIndex * 2, 2);
-          this.pixels[line * H_DRAW_DOTS + xScreen] = toRgba(rgb15);
+          this.pixels[line * H_DRAW_DOTS + xScreen] = colour15To24(rgb15);
         }
       } else {
-        int colorIndex = this.vram[characterBase + tileNumber * 8 * 4 + tileY * 4 + tileX / 2];
+        int colorIndex = this.vram[characterBase + tileNumber * 8 * 4 + tileY * 4 + tileX / 2] & 0xff;
 
         if((tileX & 0x1) != 0) {
           colorIndex >>>= 4;
@@ -692,7 +696,8 @@ public class Gpu {
     this.bldCnt.unpack(val);
 
     if(val != 0) {
-      throw new RuntimeException("BLDCNT not implemented");
+      //TODO
+      LOGGER.warn("BLDCNT not implemented");
     }
   }
 
@@ -704,6 +709,14 @@ public class Gpu {
     // Upper 4 bits of each value are ignored
     this.bldAlpha1 = val & 0xf;
     this.bldAlpha2 = val & 0xf00;
+  }
+
+  private int onBldYRead() {
+    return this.bldY;
+  }
+
+  private void onBldYWrite(final int val) {
+    this.bldY = Math.min(val & 0x1f, 16);
   }
 
   public class PaletteSegment extends Segment {
@@ -834,6 +847,7 @@ public class Gpu {
 
         case 0x4c -> (Gpu.this.onMosaicRead() & mask) >> shift;
         case 0x50 -> ((Gpu.this.onBldAlphaRead() << 16 | Gpu.this.onBldCntRead()) & mask) >> shift;
+        case 0x54 -> (Gpu.this.onBldYRead() & mask) >> shift;
 
         default -> throw new IllegalAddressException("There is no GPU port at " + Integer.toHexString(this.getAddress() + offset));
       };
@@ -899,6 +913,8 @@ public class Gpu {
           Gpu.this.onBldCntWrite(newValue & 0xffff);
           Gpu.this.onBldAlphaWrite(newValue >>> 16);
         }
+
+        case 0x54 -> Gpu.this.onBldYWrite(Gpu.this.onBldYRead() & ~mask | value << shift & mask);
 
         default -> throw new IllegalAddressException("There is no GPU port at " + Integer.toHexString(this.getAddress() + offset));
       }
