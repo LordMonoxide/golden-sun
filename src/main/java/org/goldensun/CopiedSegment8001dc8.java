@@ -9,6 +9,8 @@ import static org.goldensun.Hardware.MEMORY;
 public final class CopiedSegment8001dc8 {
   private CopiedSegment8001dc8() { }
 
+  //NOTE: this class is not added to the memory map, 0x3002400 is added manually and is not always at that address
+
   @Method(0x3002400)
   public static void FUN_3002400(final int r0) {
     int r2;
@@ -27,7 +29,7 @@ public final class CopiedSegment8001dc8 {
     address3002400 += 0x4;
     MEMORY.ref(4, address3002400).setu(CPU.lr().value);
 
-    r2 = MEMORY.ref(4, 0x30024d0).getUnsigned();
+    r2 = 0x3001800;
     CPU.r12().value = 0x40;
     CPU.r9().value = r0; // Used by downstream methods
 
@@ -130,38 +132,27 @@ public final class CopiedSegment8001dc8 {
 
   @Method(0x300248c)
   public static void FUN_300248c() {
-    int r0;
-    int r1;
-    int r2;
-    int r3;
-    int r4;
-    r0 = CPU.r9().value + 0x6;
-    final int address3002494 = MEMORY.ref(4, 0x30024d8).getUnsigned();
-    r4 = MEMORY.ref(1, address3002494).getUnsigned();
-    r1 = MEMORY.ref(4, 0x30024dc).getUnsigned();
-    CPU.cmpA(r4, 0x0);
-    if(!CPU.cpsr().getZero()) { // !=
-      //LAB_30024a4
-      do {
-        int address30024a4 = r1;
-        r2 = MEMORY.ref(4, address30024a4).getUnsigned();
-        address30024a4 += 0x4;
-        r3 = MEMORY.ref(4, address30024a4).getUnsigned();
-        address30024a4 += 0x4;
-        r1 = address30024a4;
-        final int address30024a8 = r0 + 0x20;
-        MEMORY.ref(2, address30024a8).setu(r2);
-        r0 = address30024a8;
-        r2 = r2 >>> 16;
-        final int address30024b0 = r0 - 0x18;
-        MEMORY.ref(2, address30024b0).setu(r2);
-        final int address30024b4 = r0 - 0x10;
-        MEMORY.ref(2, address30024b4).setu(r3);
-        r3 = r3 >>> 16;
-        final int address30024bc = r0 - 0x8;
-        MEMORY.ref(2, address30024bc).setu(r3);
-        r4 = CPU.subA(r4, 0x1);
-      } while(!CPU.cpsr().getZero()); // !=
+    int r0 = CPU.r9().value + 0x6;
+    int r4 = MEMORY.ref(1, 0x3001d00).getUnsigned();
+    int r1 = 0x3001d40;
+
+    //LAB_30024a4
+    while(r4 != 0) {
+      int address30024a4 = r1;
+      final int r2 = MEMORY.ref(4, address30024a4).getUnsigned();
+      address30024a4 += 0x4;
+      final int r3 = MEMORY.ref(4, address30024a4).getUnsigned();
+      address30024a4 += 0x4;
+      r1 = address30024a4;
+
+      final int address30024a8 = r0;
+      MEMORY.ref(2, address30024a8).setu(r2);
+      MEMORY.ref(2, r0 + 0x8).setu(r2 >>> 16);
+      MEMORY.ref(2, r0 + 0x10).setu(r3);
+      MEMORY.ref(2, r0 + 0x18).setu(r3 >>> 16);
+      r0 = address30024a8 + 0x20;
+
+      r4--;
     }
 
     //LAB_30024c8

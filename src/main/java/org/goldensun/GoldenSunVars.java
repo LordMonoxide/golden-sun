@@ -64,7 +64,7 @@ public final class GoldenSunVars {
 
   public static final UnsignedByteRef _3001cd4 = MEMORY.ref(1, 0x3001cd4, UnsignedByteRef::new);
 
-  public static final UnsignedShortRef _3001cf8 = MEMORY.ref(2, 0x3001cf8, UnsignedShortRef::new);
+  public static final UnsignedShortRef blendConfig_3001cf8 = MEMORY.ref(2, 0x3001cf8, UnsignedShortRef::new);
 
   public static final IntRef _3001cfc = MEMORY.ref(4, 0x3001cfc, IntRef::new);
 
