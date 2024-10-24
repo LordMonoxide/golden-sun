@@ -3,6 +3,7 @@ package org.goldensun.memory;
 import org.goldensun.MathHelper;
 import org.goldensun.memory.types.QuadConsumer;
 import org.goldensun.memory.types.QuintConsumer;
+import org.goldensun.memory.types.TriConsumer;
 import org.goldensun.memory.types.TriFunction;
 
 import java.util.function.BiConsumer;
@@ -152,6 +153,10 @@ public class Value {
   }
 
   public <T, U> Value set(final BiConsumer<T, U> function) {
+    throw new RuntimeException("Can't store functions in registers");
+  }
+
+  public <T, U, V> Value set(final TriConsumer<T, U, V> function) {
     throw new RuntimeException("Can't store functions in registers");
   }
 

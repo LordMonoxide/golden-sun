@@ -11,6 +11,7 @@ import org.goldensun.cpu.InstructionSet;
 import org.goldensun.memory.segments.TempSegment;
 import org.goldensun.memory.types.QuadConsumer;
 import org.goldensun.memory.types.QuintConsumer;
+import org.goldensun.memory.types.TriConsumer;
 import org.goldensun.memory.types.TriFunction;
 
 import javax.annotation.Nullable;
@@ -507,6 +508,16 @@ public class Memory {
     public <T, U> Value set(final BiConsumer<T, U> function) {
       try {
         this.getSegment().setFunction(this.segmentOffset, function.getClass().getMethod("accept", Object.class, Object.class), function, false);
+      } catch(final NoSuchMethodException e) {
+        throw new RuntimeException(e);
+      }
+      return this;
+    }
+
+    @Override
+    public <T, U, V> Value set(final TriConsumer<T, U, V> function) {
+      try {
+        this.getSegment().setFunction(this.segmentOffset, function.getClass().getMethod("accept", Object.class, Object.class, Object.class), function, false);
       } catch(final NoSuchMethodException e) {
         throw new RuntimeException(e);
       }

@@ -12,10 +12,6 @@ public class TriFunctionRef<T, U, V, R> implements MemoryRef {
 
   public TriFunctionRef(final Value ref) {
     this.ref = ref;
-
-    if(ref.getSize() != 4) {
-      throw new IllegalArgumentException("Size of callback refs must be 4");
-    }
   }
 
   public R run(final T t, final U u, final V v) {

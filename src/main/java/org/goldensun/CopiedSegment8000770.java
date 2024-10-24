@@ -5,6 +5,8 @@ import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.RunnableRef;
+import org.goldensun.memory.types.UnboundedArrayRef;
+import org.goldensun.types.SoundStructFb0;
 
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.INTERRUPTS;
@@ -113,14 +115,15 @@ public final class CopiedSegment8000770 {
       FUN_30003fc(r0_0, r1_0, r2);
       r0 = r0_0.get();
       r1 = r1_0.get();
+    } else {
+      final IntRef r0_0 = new IntRef().set(r0);
+      final IntRef r1_0 = new IntRef().set(r1);
+      FUN_30003fc(r0_0, r1_0, r2);
+      r0 = r0_0.get();
+      r1 = r1_0.get();
+      r0 = -r0;
     }
 
-    final IntRef r0_0 = new IntRef().set(r0);
-    final IntRef r1_0 = new IntRef().set(r1);
-    FUN_30003fc(r0_0, r1_0, r2);
-    r0 = r0_0.get();
-    r1 = r1_0.get();
-    r0 = -r0;
     return r0;
   }
 
@@ -451,35 +454,25 @@ public final class CopiedSegment8000770 {
 
   /** This code is absolutely fucked, probably handwritten, has a large chunk of what looks like ARM in the middle of the thumb but is broken. I'm just gonna delete most of it and hope we don't need it. */
   @Method(0x3000658)
-  public static void FUN_3000658(int r0, final int r1unused, final int r2unused, final int r3unused, int r4) {
+  public static void FUN_3000658(final int r0, final int r1unused, final int r2unused, final int r3unused, final UnboundedArrayRef<SoundStructFb0.Sub40> r4) {
     int r3;
     final int r5;
-    int r6;
 
     //LAB_3000658
-    do {
-      MEMORY.ref(4, CPU.sp().value + 0x4).setu(r0);
-      r3 = MEMORY.ref(4, r4 + 0x24).get();
-      r6 = MEMORY.ref(1, r4).getUnsigned();
-      r0 = CPU.movT(0, 0xc7);
-      r0 = CPU.tstT(r0, r6);
-      if(!CPU.cpsr().getZero()) { // !=
+    for(int i = 0; i < r0; i++) {
+      final SoundStructFb0.Sub40 r4_0 = r4.get(i);
+
+      r3 = r4_0._24.get();
+      if((r4_0._00.get() & 0xc7) != 0) {
         throw new RuntimeException("?????????????????????????????????");
       }
 
       //LAB_3000adc
-      r0 = MEMORY.ref(4, CPU.sp().value + 0x4).get();
-      r0 = CPU.subT(r0, 0x1);
-      if(CPU.cpsr().getZero() || CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <=
-        break;
-      }
-      r4 = CPU.addT(r4, 0x40);
-    } while(true);
+    }
 
     //LAB_3000ae6
     r5 = MEMORY.ref(4, CPU.sp().value + 0x8).get();
-    r0 = 0x3000b60;
-    MEMORY.call(r0, 0, 0, 0, 0, 0, r5);
+    MEMORY.call(0x3000b60, 0, 0, 0, 0, 0, r5);
   }
 
   @Method(0x3000aec)
@@ -663,7 +656,7 @@ public final class CopiedSegment8000770 {
       CPU.r9().value = CPU.subA(CPU.r9().value, 0x4);
     } while(!CPU.cpsr().getZero() && CPU.cpsr().getOverflow()); // >
 
-    CPU.sp().value = CPU.sp().value + 0x1c;
+    CPU.sp().value = CPU.sp().value + 0x18;
     int address3000c80 = CPU.sp().value;
     CPU.r8().value = MEMORY.ref(4, address3000c80).getUnsigned();
     address3000c80 += 0x4;

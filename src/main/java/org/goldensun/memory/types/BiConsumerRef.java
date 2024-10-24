@@ -14,10 +14,6 @@ public class BiConsumerRef<T, U> implements MemoryRef {
 
   public BiConsumerRef(final Value ref) {
     this.ref = ref;
-
-    if(ref.getSize() != 4) {
-      throw new IllegalArgumentException("Size of callback refs must be 4");
-    }
   }
 
   public void run(final T t, final U u) {

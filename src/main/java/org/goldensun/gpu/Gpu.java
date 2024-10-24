@@ -26,6 +26,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 import static org.goldensun.Hardware.CODE;
+import static org.goldensun.MathHelper.*;
 import static org.goldensun.MathHelper.colour15To24;
 import static org.lwjgl.opengl.GL11C.GL_BLEND;
 import static org.lwjgl.opengl.GL11C.GL_COLOR_BUFFER_BIT;
@@ -153,7 +154,10 @@ public class Gpu {
   private final int[] bghofs = new int[4];
   private final int[] bgvofs = new int[4];
 
-  private int mosaic;
+  private int bgMosaicW;
+  private int bgMosaicH;
+  private int objMosaicW;
+  private int objMosaicH;
 
   private final BldCnt bldCnt = new BldCnt();
   private int bldAlpha1;
@@ -179,7 +183,7 @@ public class Gpu {
 
   private final byte[] palette = new byte[0x400];
   private final byte[] vram = new byte[0x1_8000];
-  private final byte[] oam = new byte[0x400];
+  private final OamSegment oam = new OamSegment();
   private final int[] pixels = new int[H_DRAW_DOTS * V_DRAW_LINES];
 
   public Gpu(final Memory memory, final DmaController dma, final InterruptController interrupts) {
@@ -229,7 +233,7 @@ public class Gpu {
     memory.addSegment(new GpuSegment());
     memory.addSegment(new PaletteSegment());
     memory.addSegment(new VramSegment());
-    memory.addSegment(new OamSegment());
+    memory.addSegment(this.oam);
 
     this.window = new Window("Golden Sun", H_DRAW_DOTS * 3, V_DRAW_LINES * 3);
     this.window.events.onResize(this::onResize);
@@ -390,7 +394,7 @@ public class Gpu {
   }
 
   private void drawBgLine(final int line) {
-    final int bgColor = toRgba(MathHelper.get(this.vram, 0, 2));
+    final int bgColor = colour15To24(get(this.vram, 0, 2));
 
     final int begPixel = line * H_DRAW_DOTS;
     final int endPixel = (line + 1) * H_DRAW_DOTS;
@@ -415,10 +419,8 @@ public class Gpu {
     final boolean isTileDataUpsideDown = xSize != 256;
     final boolean is256ColorPalette = this.bgcnt[bgIndex].coloursPalettes == BgCnt.ColoursPalettes._256_1;
     final boolean isMosaicEnabled = this.bgcnt[bgIndex].mosaic;
-    final int xMosaic = ((this.mosaic & MOSAIC_BG_X_SIZE_MASK) >>> MOSAIC_BG_X_SIZE_SHIFT) + 1;
-    final int yMosaic = ((this.mosaic & MOSAIC_BG_Y_SIZE_MASK) >>> MOSAIC_BG_Y_SIZE_SHIFT) + 1;
 
-    int y = isMosaicEnabled ? line - line % yMosaic : line;
+    int y = isMosaicEnabled ? line - line % this.bgMosaicH : line;
     y = y + yOffset & yMask;
 
     int yOffsetToAdd = 0;
@@ -434,7 +436,7 @@ public class Gpu {
     int tileY = y & 0x7;
 
     for(int xScreen = 0; xScreen < H_DRAW_DOTS; xScreen++) {
-      int x = isMosaicEnabled ? xScreen - xScreen % xMosaic : xScreen;
+      int x = isMosaicEnabled ? xScreen - xScreen % this.bgMosaicW : xScreen;
       x = x + xOffset & xMask;
 
       int xOffsetToAdd = 0;
@@ -450,7 +452,7 @@ public class Gpu {
       int tileX = x & 0x7;
 
       final int tileDataOffset = (yTileDataOffset + xTileDataOffset) * 2 + yOffsetToAdd + xOffsetToAdd;
-      final int tileData = MathHelper.get(this.vram, screenBase + tileDataOffset, 2);
+      final int tileData = get(this.vram, screenBase + tileDataOffset, 2);
       final int tileNumber = tileData & 0x3ff;
 
       if((tileData & 0x400) != 0) {
@@ -465,7 +467,7 @@ public class Gpu {
         final int colorIndex = this.vram[characterBase + tileNumber * 8 * 8 + tileY * 8 + tileX] & 0xff;
 
         if(colorIndex != 0) { // Not a transparent color
-          final int rgb15 = MathHelper.get(this.palette, colorIndex * 2, 2);
+          final int rgb15 = get(this.palette, colorIndex * 2, 2);
           this.pixels[line * H_DRAW_DOTS + xScreen] = colour15To24(rgb15);
         }
       } else {
@@ -479,8 +481,8 @@ public class Gpu {
 
         if(colorIndex != 0) {
           final int paletteNumber = tileData >>> 12 & 0xf;
-          final int rgb15 = MathHelper.get(this.palette, (paletteNumber * 16 + colorIndex) * 2, 2);
-          this.pixels[line * H_DRAW_DOTS + xScreen] = toRgba(rgb15);
+          final int rgb15 = get(this.palette, (paletteNumber * 16 + colorIndex) * 2, 2);
+          this.pixels[line * H_DRAW_DOTS + xScreen] = colour15To24(rgb15);
         }
       }
     }
@@ -490,31 +492,30 @@ public class Gpu {
     final int vidBase = 0x1_0000;
     final int palBase = 0x200;
 
-/*
-    final boolean is1DMapping = iorMem.isOBJ1DMapping();
+    final boolean is1DMapping = this.dispCnt.objCharacterVramMapping == DispCnt.ObjCharacterVramMapping.ONE_DIMENSIONAL;
 
-    final int xMosaic = iorMem.getOBJMosaicXSize();
-    final int yMosaic = iorMem.getOBJMosaicYSize();
+    final int xMosaic = this.objMosaicW;
+    final int yMosaic = this.objMosaicH;
 
     for(int objNumber = 127; objNumber >= 0; objNumber--) {
-      final int objPriority = objMem.getPriority(objNumber);
+      final int objPriority = this.oam.getPriority(objNumber);
 
       if(objPriority == priority) {
-        final boolean isRotScaleEnabled = objMem.isRotScalEnabled(objNumber);
+        final boolean isRotScaleEnabled = this.oam.isRotScalEnabled(objNumber);
 
-        final int xSize = objMem.getXSize(objNumber);
-        final int ySize = objMem.getYSize(objNumber);
+        final int xSize = this.oam.getXSize(objNumber);
+        final int ySize = this.oam.getYSize(objNumber);
 
         final int xTiles = xSize >>> 3;
         final int yTiles = ySize >>> 3;
 
-        final int xCoordinate = objMem.getXCoordinate(objNumber);
-        int yCoordinate = objMem.getYCoordinate(objNumber);
+        final int xCoordinate = this.oam.getXCoordinate(objNumber);
+        int yCoordinate = this.oam.getYCoordinate(objNumber);
 
-        final boolean is256ColorPalette = objMem.is256ColorPalette(objNumber);
-        final int paletteNumber = objMem.getPaletteNumber(objNumber);
+        final boolean is256ColorPalette = this.oam.is256ColorPalette(objNumber);
+        final int paletteNumber = this.oam.getPaletteNumber(objNumber);
 
-        int firstTileNumber = objMem.getTileNumber(objNumber);
+        int firstTileNumber = this.oam.getTileNumber(objNumber);
         final int tileNumberIncrement;
         if(is1DMapping) {
           tileNumberIncrement = is256ColorPalette ? xTiles * 2 : xTiles;
@@ -523,14 +524,14 @@ public class Gpu {
           if(is256ColorPalette) firstTileNumber &= 0xfffe;
         }
 
-        final boolean isMosaicEnabled = objMem.isMosaicEnabled(objNumber);
+        final boolean isMosaicEnabled = this.oam.isMosaicEnabled(objNumber);
 
         if(!isRotScaleEnabled) {
-          final boolean isDisplayable = objMem.isDisplayable(objNumber);
+          final boolean isDisplayable = this.oam.isDisplayable(objNumber);
 
           if(isDisplayable) {
-            final boolean isHFlip = objMem.isHFlipEnabled(objNumber);
-            final boolean isVFlip = objMem.isVFlipEnabled(objNumber);
+            final boolean isHFlip = this.oam.isHFlipEnabled(objNumber);
+            final boolean isVFlip = this.oam.isVFlipEnabled(objNumber);
 
             if(yCoordinate >= V_DRAW_LINES) yCoordinate -= 256;
 
@@ -553,23 +554,23 @@ public class Gpu {
                   if(is256ColorPalette) {
                     final int tileNumber = firstTileNumber + yTile * tileNumberIncrement + xTile * 2;
 
-                    final int colorIndex = vidMem.getByte(vidBase + tileNumber * 32 + tileY * 8 + tileX) & 0xff;
+                    final int colorIndex = this.vram[vidBase + tileNumber * 32 + tileY * 8 + tileX] & 0xff;
 
                     if(colorIndex != 0) {
-                      final short rgb15 = palMem.getHalfWord(palBase + colorIndex * 2);
-                      this.pixels[line * H_DRAW_DOTS + xScreen] = toRgba(rgb15);
+                      final int rgb15 = get(this.palette, palBase + colorIndex * 2, 2);
+                      this.pixels[line * H_DRAW_DOTS + xScreen] = colour15To24(rgb15);
                     }
                   } else {
                     final int tileNumber = firstTileNumber + yTile * tileNumberIncrement + xTile;
 
-                    int colorIndex = vidMem.getByte(vidBase + tileNumber * 32 + tileY * 4 + tileX / 2) & 0xff;
+                    int colorIndex = this.vram[vidBase + tileNumber * 32 + tileY * 4 + tileX / 2] & 0xff;
 
                     if((tileX & 0x1) != 0) colorIndex >>>= 4;
                     else colorIndex &= 0xf;
 
                     if(colorIndex != 0) {
-                      final short rgb15 = palMem.getHalfWord(palBase + (paletteNumber * 16 + colorIndex) * 2);
-                      this.pixels[line * H_DRAW_DOTS + xScreen] = toRgba(rgb15);
+                      final int rgb15 = get(this.palette, palBase + (paletteNumber * 16 + colorIndex) * 2, 2);
+                      this.pixels[line * H_DRAW_DOTS + xScreen] = colour15To24(rgb15);
                     }
                   }
                 }
@@ -579,16 +580,6 @@ public class Gpu {
         }
       }
     }
-*/
-  }
-
-  private static int toRgba(final int rgb15) {
-    final int red   = (rgb15 & 0x001f) << 19; // >> 0  << 3 << 16
-    final int green = (rgb15 & 0x03e0) <<  6; // >> 5  << 3 << 8
-    final int blue  = (rgb15 & 0x7c00) >>> 7; // >> 10 << 3 << 0
-    final int alpha = 0xff000000;
-
-    return red | green | blue | alpha;
   }
 
   private void startHblank() {
@@ -681,11 +672,19 @@ public class Gpu {
   }
 
   private int onMosaicRead() {
-    return this.mosaic;
+    return
+      this.bgMosaicW - 1 << MOSAIC_BG_X_SIZE_SHIFT |
+      this.bgMosaicH - 1 << MOSAIC_BG_Y_SIZE_SHIFT |
+      this.objMosaicW - 1 << MOSAIC_OBJ_X_SIZE_SHIFT |
+      this.objMosaicH - 1 << MOSAIC_OBJ_Y_SIZE_SHIFT
+    ;
   }
 
   private void onMosaicWrite(final int val) {
-    this.mosaic = val;
+    this.bgMosaicW = ((val & MOSAIC_BG_X_SIZE_MASK) >>> MOSAIC_BG_X_SIZE_SHIFT) + 1;
+    this.bgMosaicH = ((val & MOSAIC_BG_Y_SIZE_MASK) >>> MOSAIC_BG_Y_SIZE_SHIFT) + 1;
+    this.objMosaicW = ((val & MOSAIC_OBJ_X_SIZE_MASK) >>> MOSAIC_OBJ_X_SIZE_SHIFT) + 1;
+    this.objMosaicH = ((val & MOSAIC_OBJ_Y_SIZE_MASK) >>> MOSAIC_OBJ_Y_SIZE_SHIFT) + 1;
   }
 
   private int onBldCntRead() {
@@ -789,7 +788,9 @@ public class Gpu {
     }
   }
 
-  public class OamSegment extends Segment {
+  public static class OamSegment extends Segment {
+    private final byte[] oam = new byte[0x400];
+
     public OamSegment() {
       super(0x700_0000, 0x400);
     }
@@ -797,30 +798,139 @@ public class Gpu {
     @Override
     public int get(final int offset, final int size) {
       if(size == 1) {
-        return Gpu.this.oam[offset];
+        return this.oam[offset];
       }
 
-      return MathHelper.get(Gpu.this.oam, offset, size);
+      return MathHelper.get(this.oam, offset, size);
     }
 
     @Override
     public void set(final int offset, final int size, final int value) {
       if(size == 1) {
-        Gpu.this.oam[offset] = (byte)value;
+        this.oam[offset] = (byte)value;
         return;
       }
 
-      MathHelper.set(Gpu.this.oam, offset, size, value);
+      MathHelper.set(this.oam, offset, size, value);
     }
 
     @Override
     public void setBytes(final int offset, final byte[] data, final int dataOffset, final int dataLength) {
-      System.arraycopy(data, dataOffset, Gpu.this.oam, offset, dataLength);
+      System.arraycopy(data, dataOffset, this.oam, offset, dataLength);
     }
 
     @Override
     public void getBytes(final int offset, final byte[] dest, final int dataOffset, final int dataSize) {
-      System.arraycopy(Gpu.this.oam, offset, dest, dataOffset, dataSize);
+      System.arraycopy(this.oam, offset, dest, dataOffset, dataSize);
+    }
+
+    public int getPriority(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return this.oam[objAttributesAddress + 5] >>> 2 & 0x3;
+    }
+
+    public int getXSize(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return switch((this.oam[objAttributesAddress + 1] & 0xc0) >>> 6 |
+        (this.oam[objAttributesAddress + 3] & 0xc0) >>> 4) {
+        case 0, 2, 6 -> 8;
+        case 1, 4, 10 -> 16;
+        case 5, 8, 9, 14 -> 32;
+        case 12, 13 -> 64;
+        default -> 0;
+      };
+    }
+
+    public int getYSize(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return switch((this.oam[objAttributesAddress + 1] & 0xc0) >>> 6 |
+        (this.oam[objAttributesAddress + 3] & 0xc0) >>> 4) {
+        case 0, 1, 5 -> 8;
+        case 2, 4, 9 -> 16;
+        case 6, 8, 10, 13 -> 32;
+        case 12, 14 -> 64;
+        default -> 0;
+      };
+    }
+
+    public int getXCoordinate(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return this.oam[objAttributesAddress + 2] & 0xff | (this.oam[objAttributesAddress + 3] << 31) >> 23;
+    }
+
+    public int getYCoordinate(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return this.oam[objAttributesAddress] & 0xff;
+    }
+
+    public boolean isMosaicEnabled(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return (this.oam[objAttributesAddress + 1] & 0x10) != 0;
+    }
+
+    public boolean is256ColorPalette(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return (this.oam[objAttributesAddress + 1] & 0x20) != 0;
+    }
+
+    public int getPaletteNumber(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return (this.oam[objAttributesAddress + 5] & 0xf0) >>> 4;
+    }
+
+    public int getTileNumber(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return this.oam[objAttributesAddress + 4] & 0xff | (this.oam[objAttributesAddress + 5] & 0x3) << 8;
+    }
+
+    public boolean isRotScalEnabled(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return (this.oam[objAttributesAddress + 1] & 0x1) != 0;
+    }
+
+    public boolean isDoubleSizeEnabled(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return (this.oam[objAttributesAddress + 1] & 0x2) != 0;
+    }
+
+    public int getRotScalGroupNumber(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return this.oam[objAttributesAddress + 3] >>> 1 & 0x1f;
+    }
+
+    public int getPA(final int groupNumber) {
+      final int address = (groupNumber << 5) + 6;
+      return this.oam[address + 1] << 8 | this.oam[address] & 0xff;
+    }
+
+    public int getPB(final int groupNumber) {
+      final int address = (groupNumber << 5) + 14;
+      return this.oam[address + 1] << 8 | this.oam[address] & 0xff;
+    }
+
+    public int getPC(final int groupNumber) {
+      final int address = (groupNumber << 5) + 22;
+      return this.oam[address + 1] << 8 | this.oam[address] & 0xff;
+    }
+
+    public int getPD(final int groupNumber) {
+      final int address = (groupNumber << 5) + 30;
+      return this.oam[address + 1] << 8 | this.oam[address] & 0xff;
+    }
+
+    public boolean isDisplayable(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return (this.oam[objAttributesAddress + 1] & 0x2) == 0;
+    }
+
+    public boolean isHFlipEnabled(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return (this.oam[objAttributesAddress + 3] & 0x10) != 0;
+    }
+
+    public boolean isVFlipEnabled(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return (this.oam[objAttributesAddress + 3] & 0x20) != 0;
     }
   }
 

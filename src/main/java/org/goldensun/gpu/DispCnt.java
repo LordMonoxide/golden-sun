@@ -9,8 +9,8 @@ public class DispCnt {
   public static final int DISPLAY_FRAME_SELECT_SHIFT = 4;
   public static final int HBLANK_INTERVAL_FREE_MASK = 0b10_0000;
   public static final int HBLANK_INTERVAL_FREE_SHIFT = 5;
-  public static final int OBJ_CHARACTER_VRAM_MAPPING_MASK = 0b1000_0000;
-  public static final int OBJ_CHARACTER_VRAM_MAPPING_SHIFT = 7;
+  public static final int OBJ_CHARACTER_VRAM_MAPPING_MASK = 0b100_0000;
+  public static final int OBJ_CHARACTER_VRAM_MAPPING_SHIFT = 6;
   public static final int FORCED_BLANK_MASK = 0b1000_0000;
   public static final int FORCED_BLANK_SHIFT = 7;
   public static final int DISPLAY_BG0_MASK = 0b1_0000_0000;
@@ -30,13 +30,15 @@ public class DispCnt {
   public static final int OBJ_WINDOW_DISPLAY_MASK = 0b1000_0000_0000_0000;
   public static final int OBJ_WINDOW_DISPLAY_SHIFT = 15;
 
+  /** 0x7 */
   public int bgMode;
-  /** For bgMode 4/5 only */
+  /** 0x10 For bgMode 4/5 only */
   public int displayFrameSelect;
-  /** Allow access to OAM during H-Blank */
+  /** 0x20 Allow access to OAM during H-Blank */
   public boolean hblankIntervalFree;
+  /** 0x40 */
   public ObjCharacterVramMapping objCharacterVramMapping = ObjCharacterVramMapping.TWO_DIMENSIONAL;
-  /** Allow fast access to VRAM/palette/OAM */
+  /** 0x80 Allow fast access to VRAM/palette/OAM */
   public boolean forcedBlank;
   public final boolean[] displayBg = new boolean[4];
   public boolean displayObj;

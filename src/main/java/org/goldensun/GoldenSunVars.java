@@ -7,6 +7,8 @@ import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
+import org.goldensun.types.SoundStruct0c;
+import org.goldensun.types.SoundStructFb0;
 import org.goldensun.types.Struct0c;
 
 import static org.goldensun.Hardware.MEMORY;
@@ -15,6 +17,8 @@ public final class GoldenSunVars {
   private GoldenSunVars() { }
 
   public static final IntRef _2002090 = MEMORY.ref(4, 0x2002090, IntRef::new);
+
+  public static final SoundStructFb0 _2003050 = MEMORY.ref(4, 0x2003050, SoundStructFb0::new);
 
   public static final IntRef _3001800 = MEMORY.ref(4, 0x3001800, IntRef::new);
   public static final IntRef _3001804 = MEMORY.ref(4, 0x3001804, IntRef::new);
@@ -102,12 +106,13 @@ public final class GoldenSunVars {
 
   public static final IntRef _3007810 = MEMORY.ref(4, 0x3007810, IntRef::new);
 
-  /** TODO pointer to struct */
-  public static final Pointer<IntRef> _3007ff0 = MEMORY.ref(4, 0x3007ff0, Pointer.deferred(4, IntRef::new));
+  public static final Pointer<SoundStructFb0> _3007ff0 = MEMORY.ref(4, 0x3007ff0, Pointer.deferred(4, SoundStructFb0::new));
 
   public static final IntRef _3007ffc = MEMORY.ref(4, 0x3007ffc, IntRef::new);
 
   public static final UnboundedArrayRef<Struct0c> _8013784 = MEMORY.ref(4, 0x8013784, UnboundedArrayRef.of(0xc, Struct0c::new));
+
+  public static final ArrayRef<SoundStruct0c> _80fc624 = MEMORY.ref(4, 0x80fc624, ArrayRef.of(SoundStruct0c.class, 8, 0xc, SoundStruct0c::new));
 
   public static final ArrayRef<IntRef> ptrTable_8320000 = MEMORY.ref(4, 0x8320000, ArrayRef.of(IntRef.class, 975, 0x4, IntRef::new));
 }
