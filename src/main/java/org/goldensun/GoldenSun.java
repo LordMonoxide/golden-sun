@@ -93,6 +93,16 @@ public final class GoldenSun {
     MEMORY.call(0x8002f3d, r0);
   }
 
+  @Method(0x80002a8)
+  public static void FUN_80002a8(final int r0) {
+    MEMORY.call(0x8003b71, r0);
+  }
+
+  @Method(0x80002d0)
+  public static void FUN_80002d0() {
+    MEMORY.call(0x8003ce1);
+  }
+
   @Method(0x80003c0)
   public static void main() {
     CPU.cpsr().msr(0x12, true, false, false, true);
@@ -1741,6 +1751,8 @@ public final class GoldenSun {
 
     if(src == 0x8779188 && dst == 0x2008000) {
       MEMORY.addFunctions(Decompressed8779188.class);
+    } else if(src == 0x87795e8 && dst == 0x2008000) {
+      MEMORY.addFunctions(Decompressed87795e8.class);
     }
 
     return decompressedSize;
@@ -8895,9 +8907,110 @@ public final class GoldenSun {
     MEMORY.call(0x808a8e5, r0);
   }
 
+  @Method(0x808a010)
+  public static void FUN_808a010(final int r0) {
+    MEMORY.call(0x809163d, r0);
+  }
+
+  @Method(0x808a238)
+  public static void FUN_808a238(final int r0, final int r1) {
+    MEMORY.call(0x8091e3d, r0, r1);
+  }
+
   @Method(0x808a5f8)
-  public static void FUN_808a5f8(final int r0) {
-    throw new RuntimeException("Not implemented");
+  public static void FUN_808a5f8(int r0) {
+    int r1;
+    int r2;
+    int r3;
+    int r5;
+    int r6;
+    int r7;
+
+    CPU.push(CPU.r10().value);
+    CPU.push(CPU.r9().value);
+    CPU.push(CPU.r8().value);
+
+    CPU.r8().value = r0;
+    r7 = MEMORY.ref(2, 0x2000400).get();
+    r1 = 999;
+    r6 = (int)MEMORY.call(MEMORY.ref(4, 0x2008014).get());
+    CPU.r9().value = 0;
+
+    if(CPU.r8().value != r1) {
+      do {
+        r5 = MEMORY.ref(4, r6).get();
+        r6 += 0x4;
+      } while((r5 & 0xffff_f000) != 0);
+
+      //LAB_808a638
+      while((r5 & 0xfff) != 0x1ff) {
+        if((r5 & 0xfff) == r7) {
+          CPU.r10().value = r6;
+
+          r3 = MEMORY.ref(4, r6).get();
+          r6 += 0x4;
+
+          r7 = (r3 & 0xff000) >>> 12;
+          r5 = r3 & 0xfff;
+          r2 = (r3 & 0xff00000) >>> 20;
+          if((r3 & 0x10000000) != 0) {
+            r0 = MEMORY.ref(4, r6).get();
+            r6 += 0x4;
+          } else {
+            r0 = 0;
+          }
+
+          r1 = MEMORY.ref(4, CPU.r10().value).get() & 0x1ff;
+
+          //LAB_808a640
+          //LAB_808a648
+          while(r2 != 0 && r5 != 0x1ff) {
+            if((r2 == 0xff || r2 == CPU.r8().value) && (r0 == 0 || FUN_80770c0(r0) == 0)) {
+              //LAB_808a654
+              r1 = r5;
+              CPU.r9().value = r7;
+              break;
+            }
+
+            //LAB_808a65a
+            r3 = MEMORY.ref(4, r6).get();
+            r6 += 0x4;
+
+            r7 = (r3 & 0xff000) >>> 12;
+            r5 = r3 & 0xfff;
+            r2 = (r3 & 0xff00000) >>> 20;
+            if((r3 & 0x10000000) != 0) {
+              r0 = MEMORY.ref(4, r6).get();
+              r6 += 0x4;
+            } else {
+              r0 = 0;
+            }
+
+            //LAB_808a67c
+          }
+
+          //LAB_808a686
+          break;
+        }
+
+        //LAB_808a68e
+        do {
+          r5 = MEMORY.ref(4, r6).get();
+          r6 += 0x4;
+        } while((r5 & 0xffff_f000) != 0);
+      }
+
+      //LAB_808a6a2
+      if(r1 != 999) {
+        MEMORY.ref(2, 0x2000400).setu(r1);
+        MEMORY.ref(2, 0x2000402).setu(CPU.r9().value);
+      }
+    }
+
+    //LAB_808a6bc
+    CPU.r8().value = CPU.pop();
+    CPU.r9().value = CPU.pop();
+    CPU.r10().value = CPU.pop();
   }
 
   @Method(0x808a6e4)
@@ -13288,6 +13401,15 @@ public final class GoldenSun {
     throw new RuntimeException("Not implemented");
   }
 
+  @Method(0x809163c)
+  public static void FUN_809163c(final int r0) {
+    if(MEMORY.ref(4, 0x3001ebc).deref(4).offset(0x1cc).get() == 0 && r0 != 0) {
+      FUN_80030f8(r0);
+    }
+
+    //LAB_8091656
+  }
+
   @Method(0x8091660)
   public static void FUN_8091660() {
     throw new RuntimeException("Not implemented");
@@ -13299,8 +13421,16 @@ public final class GoldenSun {
   }
 
   @Method(0x8091a58)
-  public static int FUN_8091a58(final int a0, final int a1) {
+  public static int FUN_8091a58(final int r0, final int r1) {
     throw new RuntimeException("Not implemented");
+  }
+
+  @Method(0x8091e3c)
+  public static void FUN_8091e3c(final int r0, final int r1) {
+    final int r3 = MEMORY.ref(4, 0x3001ebc).get() + 0x170;
+    MEMORY.ref(2, r3).setu(999);
+    MEMORY.ref(2, 0x2000400).setu(r0);
+    MEMORY.ref(2, 0x2000402).setu(r1);
   }
 
   @Method(0x8092054)
@@ -14316,6 +14446,18 @@ public final class GoldenSun {
     //LAB_80f9aac
   }
 
+  @Method(0x80f9afc)
+  public static void FUN_80f9afc(final SoundStruct r0, final SoundStruct50 r1) {
+    int r2 = r1._02.get();
+    if(r2 != 0) {
+      r2 = r2 - 1;
+      r1._02.set(r2);
+      r1._40.set(r1._44.get(r2).get());
+    }
+
+    //LAB_80f9b0e
+  }
+
   @Method(0x80f9b4c)
   public static void FUN_80f9b4c(final SoundStruct r0, final SoundStruct50 r1) {
     final IntRef r3ref = new IntRef();
@@ -14366,6 +14508,57 @@ public final class GoldenSun {
     FUN_80f9ab4(r0, r1, r3ref);
     r1._12.set(r3ref.get());
     r1._00.or(0x3);
+  }
+
+  @Method(0x80f9bb8)
+  public static void FUN_80f9bb8(final SoundStruct r0, final SoundStruct50 r1) {
+    final IntRef r3ref = new IntRef();
+    FUN_80f9ab4(r0, r1, r3ref);
+    r1._14.set(r3ref.get() - 0x40);
+    r1._00.or(0x3);
+  }
+
+  @Method(0x80f9bcc)
+  public static void FUN_80f9bcc(final SoundStruct r0, final SoundStruct50 r1) {
+    final IntRef r3ref = new IntRef();
+    FUN_80f9ab4(r0, r1, r3ref);
+    r1._0e.set(r3ref.get() - 0x40);
+    r1._00.or(0xc);
+  }
+
+  @Method(0x80f9be0)
+  public static void FUN_80f9be0(final SoundStruct r0, final SoundStruct50 r1) {
+    final IntRef r3ref = new IntRef();
+    FUN_80f9ab4(r0, r1, r3ref);
+    r1._0f.set(r3ref.get());
+    r1._00.or(0xc);
+  }
+
+  @Method(0x80f9bf4)
+  public static void FUN_80f9bf4(final SoundStruct r0, final SoundStruct50 r1) {
+    final IntRef r3ref = new IntRef();
+    FUN_80f9ab4(r0, r1, r3ref);
+    r1._1b.set(r3ref.get());
+  }
+
+  @Method(0x80f9c00)
+  public static void FUN_80f9c00(final SoundStruct r0, final SoundStruct50 r1) {
+    final IntRef r3ref = new IntRef();
+    FUN_80f9ab4(r0, r1, r3ref);
+    final int r3 = r3ref.get();
+
+    if(r1._18.get() != r3) {
+      r1._18.set(r3);
+      r1._00.or(0xf);
+    }
+  }
+
+  @Method(0x80f9c18)
+  public static void FUN_80f9c18(final SoundStruct r0, final SoundStruct50 r1) {
+    final IntRef r3ref = new IntRef();
+    FUN_80f9ab4(r0, r1, r3ref);
+    r1._0c.set(r3ref.get() - 0x40);
+    r1._00.or(0xc);
   }
 
   @Method(0x80f9c44)
@@ -14940,7 +15133,7 @@ public final class GoldenSun {
   }
 
   @Method(0x80fa1ac)
-  public static void FUN_80fa1ac(final int r0, final SoundStruct50 r1) {
+  public static void FUN_80fa1ac(final int r0unused, final SoundStruct50 r1) {
     r1._16.set(0);
     r1._1a.set(0);
 
@@ -14954,6 +15147,32 @@ public final class GoldenSun {
 
     //LAB_80fa1be
     r1._00.or(r2);
+  }
+
+  @Method(0x80fa1d4)
+  public static void FUN_80fa1d4(final SoundStruct r0, final SoundStruct50 r1) {
+    final int r3 = MEMORY.ref(1, r1._40.get()).getUnsigned();
+    r1._19.set(r3);
+    r1._40.incr();
+
+    if(r3 == 0) {
+      FUN_80fa1ac(0, r1);
+    }
+
+    //LAB_80fa1e4
+  }
+
+  @Method(0x80fa1e8)
+  public static void FUN_80fa1e8(final SoundStruct r0, final SoundStruct50 r1) {
+    final int r3 = MEMORY.ref(1, r1._40.get()).getUnsigned();
+    r1._17.set(r3);
+    r1._40.incr();
+
+    if(r3 == 0) {
+      FUN_80fa1ac(0, r1);
+    }
+
+    //LAB_80fa1f8
   }
 
   @Method(0x80fa1fc)
@@ -15011,6 +15230,17 @@ public final class GoldenSun {
     return r0;
   }
 
+  @Method(0x80fa280)
+  public static void FUN_80fa280(final int r0, final int r1) {
+    if(MEMORY.ref(4, r0 + 0x34).get() == 0x68736d53) {
+      MEMORY.ref(2, r0 + 0x26).setu(r1 & 0xffff);
+      MEMORY.ref(2, r0 + 0x24).setu(r1 & 0xffff);
+      MEMORY.ref(2, r0 + 0x28).setu(0x100);
+    }
+
+    //LAB_80fa298
+  }
+
   @Method(0x80fa2a0)
   public static void FUN_80fa2a0() {
     CpuSet(MEMORY.ref(4, 0x80fa2f4).get() & ~0x1, 0x3007000, 0x4000100);
@@ -15039,7 +15269,7 @@ public final class GoldenSun {
 
   @Method(0x80fa4bc)
   public static void FUN_80fa4bc(final int r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+    FUN_80fa280(r0, r1 & 0xffff);
   }
 
   @Method(0x80fa55c)

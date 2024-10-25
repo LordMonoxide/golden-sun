@@ -22,7 +22,7 @@ public class ByteRef implements MemoryRef {
     }
   }
 
-  public byte get() {
+  public int get() {
     if(this.ref != null) {
       return (byte)this.ref.getUnsigned();
     }

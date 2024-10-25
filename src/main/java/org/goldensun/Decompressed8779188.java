@@ -15,6 +15,11 @@ public final class Decompressed8779188 {
     return MEMORY.ref(4, 0x2008034).get();
   }
 
+  @Method(0x200803c)
+  public static int FUN_200803c() {
+    return MEMORY.ref(4, 0x2008040).get();
+  }
+
   @Method(0x2008044)
   public static int FUN_2008044() {
     return MEMORY.ref(4, 0x2008048).get();
