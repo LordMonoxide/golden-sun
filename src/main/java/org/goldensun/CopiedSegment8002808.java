@@ -282,7 +282,6 @@ public final class CopiedSegment8002808 {
         //LAB_3006210
         r6 = r1 - CPU.r9().value;
         CPU.cmpA(r6, 0x800);
-        CPU.setCFlag(false);
         if(CPU.cpsr().getCarry()) { // unsigned >=
           r6 = Integer.rotateRight(r2, 12);
           r2 = r2 >>> 12;

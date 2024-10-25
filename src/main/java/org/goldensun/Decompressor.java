@@ -150,115 +150,100 @@ public final class Decompressor {
 
     //LAB_3002048
     while(true) {
-      CPU.setCFlag((r2 & 0x1) != 0);
-      r2 = CPU.movA(r0, r2 >>> 1);
+      boolean flag = (r2 & 0x1) != 0;
+      r2 >>>= 1;
 
       //LAB_3002030
-      while(CPU.cpsr().getCarry()) { // unsigned >=
+      while(flag) {
         final int address3002030 = r1 + 0x1;
         MEMORY.ref(1, address3002030).setu(r2);
         r1 = address3002030;
-        r2 = r2 >>> 8;
-        r4 = CPU.subA(r4, 0x9);
-        if(CPU.cpsr().getNegative()) { // negative
+        r2 >>>= 8;
+        r4 -= 0x9;
+        if(r4 < 0) {
           final int address300203c = r0;
           r3 = MEMORY.ref(2, address300203c).getUnsigned();
           r0 = address300203c + 0x2;
-          r4 = r4 + 0x10;
-          r2 = r2 | r3 << r4;
+          r4 += 0x10;
+          r2 |= r3 << r4;
         }
 
-        CPU.setCFlag((r2 & 0x1) != 0);
-        r2 = CPU.movA(r0, r2 >>> 1);
+        flag = (r2 & 0x1) != 0;
+        r2 >>>= 1;
       }
 
-      CPU.setCFlag((r2 & 0x1) != 0);
-      r2 = CPU.movA(r0, r2 >>> 1);
-      if(!CPU.cpsr().getCarry()) { // unsigned <
+      flag = (r2 & 0x1) != 0;
+      r2 >>>= 1;
+      if(!flag) { // unsigned <
         //LAB_3002104
-        r4 = CPU.subA(r4, 0x2);
+        r4 -= 0x2;
         r5 = 0x2;
       } else {
-        CPU.setCFlag((r2 & 0x1) != 0);
-        r2 = CPU.movA(r0, r2 >>> 1);
-        if(!CPU.cpsr().getCarry()) { // unsigned <
+        flag = (r2 & 0x1) != 0;
+        r2 >>>= 1;
+        if(!flag) {
           //LAB_30020c8
-          r4 = CPU.subA(r4, 0x3);
+          r4 -= 0x3;
           r5 = 0x3;
         } else {
-          CPU.setCFlag((r2 & 0x1) != 0);
-          r2 = CPU.movA(r0, r2 >>> 1);
-          if(!CPU.cpsr().getCarry()) { // unsigned <
+          flag = (r2 & 0x1) != 0;
+          r2 >>>= 1;
+          if(!flag) {
             //LAB_30020d4
-            r4 = CPU.subA(r4, 0x4);
+            r4 -= 0x4;
             r5 = 0x4;
-            if(CPU.cpsr().getNegative()) { // negative
+            if(r4 < 0) {
               final int address3002224 = r0;
               r3 = MEMORY.ref(2, address3002224).getUnsigned();
               r0 = address3002224 + 0x2;
-              r4 = r4 + 0x10;
-              r2 = r2 | r3 << r4;
+              r4 += 0x10;
+              r2 |= r3 << r4;
             }
           } else {
-            CPU.setCFlag((r2 & 0x1) != 0);
-            r2 = CPU.movA(r0, r2 >>> 1);
-            if(!CPU.cpsr().getCarry()) { // unsigned <
+            flag = (r2 & 0x1) != 0;
+            r2 >>>= 1;
+            if(!flag) {
               //LAB_30020e4
-              r4 = CPU.subA(r4, 0x5);
+              r4 -= 0x5;
               r5 = 0x5;
-              if(CPU.cpsr().getNegative()) { // negative
-                final int address3002224 = r0;
-                r3 = MEMORY.ref(2, address3002224).getUnsigned();
-                r0 = address3002224 + 0x2;
-                r4 = r4 + 0x10;
-                r2 = r2 | r3 << r4;
+              if(r4 < 0) {
+                r3 = MEMORY.ref(2, r0).getUnsigned();
+                r0 += 0x2;
+                r4 += 0x10;
+                r2 |= r3 << r4;
               }
             } else {
-              CPU.setCFlag((r2 & 0x1) != 0);
-              r2 = CPU.movA(r0, r2 >>> 1);
-              if(!CPU.cpsr().getCarry()) { // unsigned <
-                CPU.setCFlag((r2 & 0x1) != 0);
-                r2 = CPU.movA(r0, r2 >>> 1);
-                if(!CPU.cpsr().getCarry()) { // unsigned <
+              flag = (r2 & 0x1) != 0;
+              r2 >>>= 1;
+              if(!flag) {
+                flag = (r2 & 0x1) != 0;
+                r2 >>>= 1;
+                if(!flag) {
                   //LAB_30020f4
-                  r4 = CPU.subA(r4, 0x7);
+                  r4 -= 0x7;
                   r5 = 0x6;
-                  if(CPU.cpsr().getNegative()) { // negative
-                    final int address3002224 = r0;
-                    r3 = MEMORY.ref(2, address3002224).getUnsigned();
-                    r0 = address3002224 + 0x2;
-                    r4 = r4 + 0x10;
-                    r2 = r2 | r3 << r4;
-                  }
                 } else {
-                  r4 = CPU.subA(r4, 0x7);
+                  r4 -= 0x7;
                   r5 = 0x7;
-                  if(CPU.cpsr().getNegative()) { // negative
-                    final int address3002224 = r0;
-                    r3 = MEMORY.ref(2, address3002224).getUnsigned();
-                    r0 = address3002224 + 0x2;
-                    r4 = r4 + 0x10;
-                    r2 = r2 | r3 << r4;
-                  }
+                }
+
+                if(r4 < 0) {
+                  r3 = MEMORY.ref(2, r0).getUnsigned();
+                  r0 += 0x2;
+                  r4 += 0x10;
+                  r2 |= r3 << r4;
                 }
               } else {
                 //LAB_3002090
-                r5 = CPU.andA(r2, 0x3);
-                r2 = r2 >>> 2;
-                if(!CPU.cpsr().getZero()) { // !=
-                  r5 = r5 + 0x7;
-                  r4 = CPU.subA(r4, 0x8);
-                  if(CPU.cpsr().getNegative()) { // negative
-                    final int address3002224 = r0;
-                    r3 = MEMORY.ref(2, address3002224).getUnsigned();
-                    r0 = address3002224 + 0x2;
-                    r4 = r4 + 0x10;
-                    r2 = r2 | r3 << r4;
-                  }
+                r5 = r2 & 0x3;
+                r2 >>>= 2;
+                if(r5 != 0) {
+                  r5 += 0x7;
+                  r4 -= 0x8;
                 } else {
                   //LAB_30020ac
-                  r5 = CPU.andA(r2, 0x7f);
-                  if(CPU.cpsr().getZero()) { // ==
+                  r5 = r2 & 0x7f;
+                  if(r5 == 0) {
                     CPU.r9().value = CPU.r9().value - 0x21;
                     r0 = r1 - CPU.r9().value;
                     int address300223c = CPU.sp().value;
@@ -272,16 +257,17 @@ public final class Decompressor {
                     CPU.sp().value = address300223c;
                     return r0;
                   }
-                  r5 = r5 + 0xa;
-                  r2 = r2 >>> 7;
-                  r4 = CPU.subA(r4, 0xf);
-                  if(CPU.cpsr().getNegative()) { // negative
-                    final int address3002224 = r0;
-                    r3 = MEMORY.ref(2, address3002224).getUnsigned();
-                    r0 = address3002224 + 0x2;
-                    r4 = r4 + 0x10;
-                    r2 = r2 | r3 << r4;
-                  }
+
+                  r5 += 0xa;
+                  r2 >>>= 7;
+                  r4 -= 0xf;
+                }
+
+                if(r4 < 0) {
+                  r3 = MEMORY.ref(2, r0).getUnsigned();
+                  r0 += 0x2;
+                  r4 += 0x10;
+                  r2 |= r3 << r4;
                 }
               }
             }
@@ -290,13 +276,12 @@ public final class Decompressor {
       }
 
       //LAB_300210c
-      CPU.setCFlag((r2 & 0x1) != 0);
-      r2 = CPU.movA(0, r2 >>> 1);
-      if(!CPU.cpsr().getCarry()) { // unsigned <
+      flag = (r2 & 0x1) != 0;
+      r2 >>>= 1;
+      if(!flag) { // unsigned <
         //LAB_3002154
         r6 = r1 - CPU.r9().value;
         CPU.cmpA(r6, 0x800);
-        CPU.setCFlag(false);
         if(CPU.cpsr().getCarry()) { // unsigned >=
           r6 = Integer.rotateRight(r2, 12);
           r2 = r2 >>> 12;
@@ -378,18 +363,16 @@ public final class Decompressor {
       }
 
       //LAB_3002120
-      if(CPU.cpsr().getNegative()) { // negative
-        final int address3002120 = r0;
-        r3 = MEMORY.ref(2, address3002120).getUnsigned();
-        r0 = address3002120 + 0x2;
-        r4 = r4 + 0x10;
-        r2 = r2 | r3 << r4;
+      if(r4 < 0) {
+        r3 = MEMORY.ref(2, r0).getUnsigned();
+        r0 += 0x2;
+        r4 += 0x10;
+        r2 |= r3 << r4;
       }
       CPU.setCFlag((r5 & 0x1) != 0);
       r5 = CPU.movA(r0, r5 >>> 1);
       if(CPU.cpsr().getCarry()) { // unsigned >=
-        final int address3002130 = r1 - r6;
-        r7 = MEMORY.ref(1, address3002130).getUnsigned();
+        r7 = MEMORY.ref(1, r1 - r6).getUnsigned();
         final int address3002134 = r1 + 0x1;
         MEMORY.ref(1, address3002134).setu(r7);
         r1 = address3002134;
@@ -397,18 +380,18 @@ public final class Decompressor {
 
       //LAB_3002138
       do {
-        final int address3002138 = r1 - r6;
-        r7 = MEMORY.ref(1, address3002138).getUnsigned();
+        r7 = MEMORY.ref(1, r1 - r6).getUnsigned();
         final int address300213c = r1 + 0x1;
         MEMORY.ref(1, address300213c).setu(r7);
         r1 = address300213c;
-        final int address3002140 = r1 - r6;
-        r7 = MEMORY.ref(1, address3002140).getUnsigned();
+
+        r7 = MEMORY.ref(1, r1 - r6).getUnsigned();
         final int address3002144 = r1 + 0x1;
         MEMORY.ref(1, address3002144).setu(r7);
         r1 = address3002144;
-        r5 = CPU.subA(r5, 0x1);
-      } while(!CPU.cpsr().getZero()); // !=
+
+        r5--;
+      } while(r5 != 0);
     }
   }
 }
