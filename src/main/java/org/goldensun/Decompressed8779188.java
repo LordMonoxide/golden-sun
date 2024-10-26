@@ -6,7 +6,11 @@ import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.DMA;
 import static org.goldensun.Hardware.MEMORY;
 
-/** 0x652 bytes */
+/**
+ * Probably the code for the Game Boy and/or Camelot intro
+ * <p>
+ * 0x652 bytes
+ */
 public final class Decompressed8779188 {
   private Decompressed8779188() { }
 
