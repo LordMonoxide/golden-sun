@@ -81,6 +81,31 @@ public final class CopiedSegment8000770 {
     return hi << 16 | lo >>> 16;
   }
 
+  @Method(0x300013c)
+  public static int FUN_300013c(int r0, int r1) {
+    final int r3;
+    final int r4;
+    int address300013c = CPU.sp().value - 0x4;
+    CPU.sp().value = address300013c;
+    MEMORY.ref(4, address300013c).setu(CPU.lr().value);
+    address300013c += 0x4;
+    r4 = r1;
+    r1 = r0;
+    r0 = 0x40000000;
+    r0 = FUN_3000380(r0, r1);
+    final long result3000150 = (long)r4 * r0;
+    r3 = (int)result3000150;
+    r0 = (int)(result3000150 >>> 32);
+
+    int address3000154 = CPU.sp().value;
+    CPU.lr().value = MEMORY.ref(4, address3000154).getUnsigned();
+    address3000154 += 0x4;
+    CPU.sp().value = address3000154;
+    r0 = r0 << 18;
+    r0 = r0 | r3 >>> 14;
+    return r0;
+  }
+
   @Method(0x3000164)
   public static void memzero(final int r0, final int r1) {
     MEMORY.memfill(r0, r1, 0);
@@ -91,6 +116,41 @@ public final class CopiedSegment8000770 {
     for(int i = 0; i < r1; i += 0x4) {
       MEMORY.set(r0 + i, 0x4, r2);
     }
+  }
+
+  @Method(0x30001d8)
+  public static int FUN_30001d8(int r0) {
+    final int r1;
+    int r2;
+    int r3;
+
+    r1 = CPU.movA(r0, r0);
+    if(CPU.cpsr().getNegative()) { // negative
+      return 0;
+    }
+
+    r2 = 0x8000;
+    r0 = 0x0;
+
+    //LAB_30001e8
+    do {
+      r0 = r0 + r2;
+      r3 = r0 * r0;
+      CPU.cmpA(r3, r1);
+      if(CPU.cpsr().getCarry() && !CPU.cpsr().getZero()) { // unsigned >
+        r0 = r0 - r2;
+      }
+      r0 = r0 + (r2 >>> 1);
+      r3 = r0 * r0;
+      CPU.cmpA(r3, r1);
+      if(CPU.cpsr().getCarry() && !CPU.cpsr().getZero()) { // unsigned >
+        r0 = r0 - (r2 >>> 1);
+      }
+      CPU.setCFlag((r2 & 0x1 << 1) != 0);
+      r2 = CPU.movA(r0, r2 >>> 2);
+    } while(!CPU.cpsr().getZero()); // !=
+
+    return r0;
   }
 
   @Method(0x3000380)
@@ -134,7 +194,7 @@ public final class CopiedSegment8000770 {
     final int address30003ac = CPU.sp().value - 0x4;
     CPU.sp().value = address30003ac;
     MEMORY.ref(4, address30003ac).setu(CPU.lr().value);
-    CPU.r12().value = r0 ^ (r1);
+    CPU.r12().value = r0 ^ r1;
 
     r2 = CPU.movA(r0, r1);
     if(CPU.cpsr().getNegative()) { // negative
@@ -558,7 +618,7 @@ public final class CopiedSegment8000770 {
         FUN_3000aec(r6ref);
         r4 = r6ref.get();
         CPU.lr().value = 0x80000000;
-        CPU.lr().value = CPU.lr().value | ((CPU.lr().value >>> 16));
+        CPU.lr().value = CPU.lr().value | CPU.lr().value >>> 16;
         final int address3000b54 = 0x3000b5c;
         MEMORY.ref(4, address3000b54).setu(CPU.lr().value);
       }
