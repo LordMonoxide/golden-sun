@@ -1293,6 +1293,20 @@ public final class GoldenSun_809 {
     MEMORY.ref(2, r2).setu(r3);
   }
 
+  @Method(0x8091e20)
+  public static void FUN_8091e20() {
+    final int r0;
+    int r2;
+    int r3;
+    r3 = MEMORY.ref(4, 0x8091e38).get();
+    r2 = CPU.movT(0, 0xe4);
+    r3 = MEMORY.ref(4, r3).get();
+    r2 = CPU.lslT(r2, 1);
+    r3 = CPU.addT(r3, r2);
+    r0 = MEMORY.ref(4, r3).get();
+    FUN_80030f8(r0);
+  }
+
   @Method(0x8091e3c)
   public static void FUN_8091e3c(final int r0, final int r1) {
     final int r3 = MEMORY.ref(4, 0x3001ebc).get() + 0x170;

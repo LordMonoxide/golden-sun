@@ -137,6 +137,131 @@ public final class Decompressed87795e8 {
     MEMORY.ref(1, r0).setu(r5);
   }
 
+  @Method(0x20081fc)
+  public static void FUN_20081fc() {
+    int r0;
+    int r1;
+    int r2;
+    int r3;
+    int r4;
+    int r5;
+    int r6;
+    int r7;
+
+    r1 = MEMORY.ref(4, 0x2008260).get();
+    r2 = CPU.movT(0, 0x0);
+    r3 = MEMORY.ref(2, r1 + r2).get();
+    CPU.r12().value = r1;
+    CPU.cmpT(r3, 0x0);
+    if(CPU.cpsr().getZero()) { // ==
+      r5 = MEMORY.ref(4, 0x2008264).get();
+      r3 = CPU.movT(0, 0x0);
+      r4 = MEMORY.ref(2, r5 + r3).get();
+      CPU.cmpT(r4, 0x0);
+      if(!CPU.cpsr().getZero()) { // !=
+        r3 = MEMORY.ref(4, 0x2008268).get();
+        r3 = MEMORY.ref(4, r3).get();
+        CPU.cmpT(r3, 0x0);
+        if(CPU.cpsr().getZero()) { // ==
+          MEMORY.ref(2, r5).setu(r3);
+        }
+      } else {
+        //LAB_2008220
+        r6 = MEMORY.ref(4, 0x2008268).get();
+        r3 = MEMORY.ref(4, r6).get();
+        CPU.cmpT(r3, 0x0);
+        if(!CPU.cpsr().getZero()) { // !=
+          r1 = MEMORY.ref(4, 0x200826c).get();
+          r2 = CPU.movT(0, 0x0);
+          r3 = MEMORY.ref(2, r1 + r2).get();
+          r7 = MEMORY.ref(4, 0x2008270).get();
+          r3 = CPU.lslT(r3, 1);
+          r2 = MEMORY.ref(2, r7 + r3).getUnsigned();
+          r3 = MEMORY.ref(4, r6).get();
+          r0 = MEMORY.ref(2, r1).getUnsigned();
+          r3 = CPU.cmpT(r3, r2);
+          if(CPU.cpsr().getZero()) { // ==
+            r2 = MEMORY.ref(4, 0x200825c).get();
+            r3 = CPU.addT(r0, 0x1);
+            MEMORY.ref(2, r1).setu(r3);
+            MEMORY.ref(2, r5).setu(r2);
+            r3 = CPU.lslT(r3, 16);
+            r3 = CPU.asrT(r3, 15);
+            r3 = MEMORY.ref(2, r7 + r3).getUnsigned();
+            CPU.cmpT(r3, 0x0);
+            if(CPU.cpsr().getZero()) { // ==
+              r3 = CPU.r12().value;
+              MEMORY.ref(2, r3).setu(r2);
+              r0 = CPU.movT(0, 0x6e);
+              FUN_20094cc(r0);
+            }
+          } else {
+            //LAB_2008274
+            MEMORY.ref(2, r1).setu(r4);
+          }
+        }
+      }
+    }
+
+    //LAB_2008276
+    r1 = MEMORY.ref(4, 0x20082d8).get();
+    r2 = CPU.movT(0, 0x0);
+    r3 = MEMORY.ref(2, r1 + r2).get();
+    CPU.r12().value = r1;
+    CPU.cmpT(r3, 0x0);
+    if(CPU.cpsr().getZero()) { // ==
+      r5 = MEMORY.ref(4, 0x20082dc).get();
+      r3 = CPU.movT(0, 0x0);
+      r4 = MEMORY.ref(2, r5 + r3).get();
+      CPU.cmpT(r4, 0x0);
+      if(!CPU.cpsr().getZero()) { // !=
+        r3 = MEMORY.ref(4, 0x20082e0).get();
+        r3 = MEMORY.ref(4, r3).get();
+        CPU.cmpT(r3, 0x0);
+        if(CPU.cpsr().getZero()) { // ==
+          MEMORY.ref(2, r5).setu(r3);
+        }
+      } else {
+        //LAB_2008298
+        r6 = MEMORY.ref(4, 0x20082e0).get();
+        r3 = MEMORY.ref(4, r6).get();
+        CPU.cmpT(r3, 0x0);
+        if(!CPU.cpsr().getZero()) { // !=
+          r1 = MEMORY.ref(4, 0x20082e4).get();
+          r2 = CPU.movT(0, 0x0);
+          r3 = MEMORY.ref(2, r1 + r2).get();
+          r7 = MEMORY.ref(4, 0x20082e8).get();
+          r3 = CPU.lslT(r3, 1);
+          r2 = MEMORY.ref(2, r7 + r3).getUnsigned();
+          r3 = MEMORY.ref(4, r6).get();
+          r0 = MEMORY.ref(2, r1).getUnsigned();
+          r3 = CPU.cmpT(r3, r2);
+          if(CPU.cpsr().getZero()) { // ==
+            r2 = MEMORY.ref(4, 0x20082d4).get();
+            r3 = CPU.addT(r0, 0x1);
+            MEMORY.ref(2, r1).setu(r3);
+            MEMORY.ref(2, r5).setu(r2);
+            r3 = CPU.lslT(r3, 16);
+            r3 = CPU.asrT(r3, 15);
+            r3 = MEMORY.ref(2, r7 + r3).getUnsigned();
+            CPU.cmpT(r3, 0x0);
+            if(CPU.cpsr().getZero()) { // ==
+              r3 = CPU.r12().value;
+              MEMORY.ref(2, r3).setu(r2);
+              r0 = CPU.movT(0, 0x6e);
+              FUN_20094cc(r0);
+            }
+          } else {
+            //LAB_20082ec
+            MEMORY.ref(2, r1).setu(r4);
+          }
+        }
+      }
+    }
+
+    //LAB_20082ee
+  }
+
   @Method(0x20082f4)
   public static void FUN_20082f4(final int r0, final int r1) {
     int r3;
@@ -431,7 +556,6 @@ public final class Decompressed87795e8 {
           r6 = CPU.movT(0, 0x0);
         }
 
-        jmp_2008c96:
         {
           //LAB_2008504
           CPU.cmpT(r6, 0x0);
