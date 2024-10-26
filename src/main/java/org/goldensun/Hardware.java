@@ -42,6 +42,13 @@ public final class Hardware {
 
     MEMORY.addFunctions(Bios.class);
     MEMORY.addFunctions(GoldenSun.class);
+    MEMORY.addFunctions(GoldenSun_80b.class);
+    MEMORY.addFunctions(GoldenSun_80f.class);
+    MEMORY.addFunctions(GoldenSun_801.class);
+    MEMORY.addFunctions(GoldenSun_807.class);
+    MEMORY.addFunctions(GoldenSun_808.class);
+    MEMORY.addFunctions(GoldenSun_809.class);
+    MEMORY.addFunctions(GoldenSun_818.class);
   }
 
   public static void start() {
