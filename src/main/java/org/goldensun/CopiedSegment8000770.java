@@ -153,6 +153,43 @@ public final class CopiedSegment8000770 {
     return r0;
   }
 
+  /** Some kind of bit unpacking? */
+  @Method(0x3000214)
+  public static void FUN_3000214(int r0, int r1, final int r2) {
+    int r3;
+    int r4;
+    CPU.r12().value = r0 + 0x1c;
+
+    //LAB_3000218
+    do {
+      r4 = r1;
+      r3 = MEMORY.ref(2, r0).getUnsigned();
+      r0 = r0 + 0x2;
+      r3 = r3 & ~0x3;
+      CPU.setCFlag((r3 & 0x1 << 15) != 0);
+      r3 = r3 << 17;
+      if(CPU.cpsr().getCarry()) { // unsigned >=
+        //LAB_300022c
+        MEMORY.ref(1, r4).setu(r2);
+      }
+      r4 = r4 + 0x1;
+
+      //LAB_3000230
+      while(r3 != 0) {
+        CPU.setCFlag((r3 & 0x1 << 31) != 0);
+        r3 = r3 << 1;
+        if(CPU.cpsr().getCarry()) { // unsigned >=
+          MEMORY.ref(1, r4).setu(r2);
+        }
+
+        //LAB_3000238
+        r4 = r4 + 0x1;
+      }
+
+      r1 = r1 + 0x10;
+    } while(r0 != CPU.r12().value);
+  }
+
   @Method(0x3000380)
   public static int FUN_3000380(int r0, int r1) {
     int r2;

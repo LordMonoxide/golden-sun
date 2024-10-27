@@ -77,6 +77,7 @@ import static org.goldensun.GoldenSun_80f.FUN_80f9018;
 import static org.goldensun.GoldenSun_818.FUN_8185000;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.DMA;
+import static org.goldensun.Hardware.GATE;
 import static org.goldensun.Hardware.GPU;
 import static org.goldensun.Hardware.INPUT;
 import static org.goldensun.Hardware.INTERRUPTS;
@@ -87,6 +88,11 @@ public final class GoldenSun {
   private GoldenSun() { }
 
   private static final Logger LOGGER = LogManager.getFormatterLogger(GoldenSun.class);
+
+  @Method(0x80000c0)
+  public static void FUN_80000c0(final int r0) {
+    MEMORY.call(0x80030f8, r0);
+  }
 
   @Method(0x80000d0)
   public static void FUN_80000d0(final int r0, final int r1) {
@@ -1834,41 +1840,33 @@ public final class GoldenSun {
 
   @Method(0x8004970)
   public static int FUN_8004970(int r0) {
-    final int r1;
     int r2;
     int r3;
-    int r4;
 
-    r1 = MEMORY.ref(4, 0x80049a0).get();
     r3 = CPU.addT(r0, 0x3);
     r3 = CPU.lsrT(r3, 2);
-    r2 = MEMORY.ref(4, r1).get();
+    r2 = boardWramMallocHead_3001e50.get();
     r0 = CPU.lslT(r3, 2);
-    r4 = CPU.movT(0, 0x81);
     r3 = CPU.addT(r2, r0);
-    r4 = CPU.lslT(r4, 18);
-    r3 = CPU.cmpT(r3, r4);
+    r3 = CPU.cmpT(r3, 0x2040000);
     if(CPU.cpsr().getCarry()) { // unsigned >=
-      r2 = MEMORY.ref(4, r1 + 0x4).get();
-      r3 = MEMORY.ref(4, 0x80049a4).get();
+      r2 = chipWramMallocHead_3001e54.get();
       r0 = CPU.addT(r2, r0);
-      r0 = CPU.cmpT(r0, r3);
+      r0 = CPU.cmpT(r0, 0x30077ff);
       if(CPU.cpsr().getCarry() && !CPU.cpsr().getZero()) { // unsigned >
         return 0;
       }
 
       //LAB_8004994
-      MEMORY.ref(4, r1 + 0x4).setu(r0);
+      chipWramMallocHead_3001e54.setu(r0);
     } else {
       //LAB_8004998
-      MEMORY.ref(4, r1).setu(r3);
+      boardWramMallocHead_3001e50.setu(r3);
     }
 
     //LAB_800499a
-    r0 = CPU.addT(r2, 0x0);
-
     //LAB_800499c
-    return r0;
+    return r2;
   }
 
   @Method(0x8005340)
@@ -2234,7 +2232,9 @@ public final class GoldenSun {
 
   @Method(0x8006864)
   public static void CpuSet(final int src, final int dest, final int lenMode) {
+    GATE.acquire();
     Bios.CpuSet(src, dest, lenMode);
+    GATE.release();
   }
 
   @Method(0x8006868)

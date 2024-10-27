@@ -1,16 +1,13 @@
 package org.goldensun;
 
-import org.goldensun.memory.Method;
-
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.MEMORY;
 
-/** Copied by {@link GoldenSun#FUN_80196c4} from 8015430 */
+/** Copied by {@link GoldenSun_801#FUN_80196c4} from 8015430 */
 public final class CopiedSegment8015430 {
   private CopiedSegment8015430() { }
 
-  @Method(0x3002000)
-  public static int FUN_3002000(final int r0) {
+  public static int FUN_8015430(final int r0) {
     int r1;
     int r2;
     int r3;
@@ -26,66 +23,57 @@ public final class CopiedSegment8015430 {
     address3002004 += 0x4;
     r3 = MEMORY.ref(4, address3002004).getUnsigned();
 
-    final int address3002008 = 0x3002010 + 0x12c;
-    CPU.r12().value = MEMORY.ref(4, address3002008).getUnsigned();
-    r4 = (r1 >>> 8);
-    CPU.r12().value = CPU.r12().value + ((r4 << 3));
-    int address3002014 = CPU.r12().value;
+    r4 = r1 >>> 8;
+
+    int address3002014 = 0x803842c + r4 * 0x8;
     r4 = MEMORY.ref(4, address3002014).getUnsigned();
     address3002014 += 0x4;
     r5 = MEMORY.ref(4, address3002014).getUnsigned();
-    address3002014 += 0x4;
-    CPU.r12().value = address3002014;
-    CPU.r12().value = r1 & 0xff;
-    CPU.r12().value = CPU.r12().value + (CPU.r12().value);
-    final int address3002020 = r5 + CPU.r12().value;
-    r5 = MEMORY.ref(2, address3002020).getUnsigned();
-    r4 = r4 + (r5);
+
+    r5 = MEMORY.ref(2, r5 + (r1 & 0xff) * 0x2).getUnsigned();
+    r4 = r4 + r5;
     r5 = r4;
     CPU.r12().value = 0x1;
     r6 = CPU.andA(r4, 0x3);
     if(!CPU.cpsr().getZero()) { // !=
-      r6 = CPU.rsbA(CPU.r12().value, (r6 << 3));
+      r6 = CPU.rsbA(CPU.r12().value, r6 << 3);
       r4 = r4 & ~0x3;
-      final int address3002040 = r4;
-      CPU.r12().value = MEMORY.ref(4, address3002040).getUnsigned();
+      CPU.r12().value = MEMORY.ref(4, r4).getUnsigned();
       r4 = r4 + 0x4;
-      CPU.r12().value = ((CPU.cpsr().getCarry() ? 0x8000_0000 : 0) | CPU.r12().value >>> 1);
-      CPU.r12().value = (CPU.r12().value >>> r6);
+      CPU.r12().value = (CPU.cpsr().getCarry() ? 0x8000_0000 : 0) | CPU.r12().value >>> 1;
+      CPU.r12().value = CPU.r12().value >>> r6;
       r6 = 0x0;
     }
 
     //LAB_3002050
     do {
       CPU.setCFlag((CPU.r12().value & 0x1) != 0);
-      CPU.r12().value = CPU.movA(0, (CPU.r12().value >>> 1));
+      CPU.r12().value = CPU.movA(0, CPU.r12().value >>> 1);
       if(CPU.cpsr().getZero()) { // ==
-        final int address3002054 = r4;
-        CPU.r12().value = MEMORY.ref(4, address3002054).getUnsigned();
+        CPU.r12().value = MEMORY.ref(4, r4).getUnsigned();
         r4 = r4 + 0x4;
       }
       if(CPU.cpsr().getZero()) { // ==
         final boolean oldCarry3002058 = CPU.cpsr().getCarry();
         CPU.setCFlag((CPU.r12().value & 0x1) != 0);
-        CPU.r12().value = CPU.movA(0, ((oldCarry3002058 ? 0x8000_0000 : 0) | CPU.r12().value >>> 1));
+        CPU.r12().value = CPU.movA(0, (oldCarry3002058 ? 0x8000_0000 : 0) | CPU.r12().value >>> 1);
       }
       if(CPU.cpsr().getCarry()) { // unsigned >=
         break;
       }
       CPU.setCFlag((r3 & 0x1) != 0);
-      r3 = CPU.movA(0, (r3 >>> 1));
+      r3 = CPU.movA(0, r3 >>> 1);
       if(!CPU.cpsr().getCarry()) { // unsigned <
         continue;
       }
       if(CPU.cpsr().getZero()) { // ==
-        final int address3002068 = r2;
-        r3 = MEMORY.ref(4, address3002068).getUnsigned();
+        r3 = MEMORY.ref(4, r2).getUnsigned();
         r2 = r2 + 0x4;
       }
       if(CPU.cpsr().getZero()) { // ==
         final boolean oldCarry300206c = CPU.cpsr().getCarry();
         CPU.setCFlag((r3 & 0x1) != 0);
-        r3 = CPU.movA(0, ((oldCarry300206c ? 0x8000_0000 : 0) | r3 >>> 1));
+        r3 = CPU.movA(0, (oldCarry300206c ? 0x8000_0000 : 0) | r3 >>> 1);
       }
       if(!CPU.cpsr().getCarry()) { // unsigned <
         continue;
@@ -101,24 +89,24 @@ public final class CopiedSegment8015430 {
             do {
               do {
                 CPU.setCFlag((CPU.r12().value & 0x1) != 0);
-                CPU.r12().value = CPU.movA(0, (CPU.r12().value >>> 1));
+                CPU.r12().value = CPU.movA(0, CPU.r12().value >>> 1);
                 if(CPU.cpsr().getCarry()) { // unsigned >=
                   break jmp_30020e0;
                 }
                 CPU.setCFlag((CPU.r12().value & 0x1) != 0);
-                CPU.r12().value = CPU.movA(0, (CPU.r12().value >>> 1));
+                CPU.r12().value = CPU.movA(0, CPU.r12().value >>> 1);
                 if(CPU.cpsr().getCarry()) { // unsigned >=
                   break;
                 }
                 CPU.setCFlag((CPU.r12().value & 0x1) != 0);
-                CPU.r12().value = CPU.movA(0, (CPU.r12().value >>> 1));
+                CPU.r12().value = CPU.movA(0, CPU.r12().value >>> 1);
                 if(CPU.cpsr().getCarry()) { // unsigned >=
                   //LAB_30020a0
                   r1 = r1 + 0x1;
                   break;
                 }
                 CPU.setCFlag((CPU.r12().value & 0x1) != 0);
-                CPU.r12().value = CPU.movA(0, (CPU.r12().value >>> 1));
+                CPU.r12().value = CPU.movA(0, CPU.r12().value >>> 1);
                 if(CPU.cpsr().getCarry()) { // unsigned >=
                   break jmp_30020c0;
                 }
@@ -130,12 +118,11 @@ public final class CopiedSegment8015430 {
                 r6 = r6 + 0x1;
               }
               if(CPU.cpsr().getZero()) { // ==
-                final int address30020ac = r4;
-                CPU.r12().value = MEMORY.ref(4, address30020ac).getUnsigned();
+                CPU.r12().value = MEMORY.ref(4, r4).getUnsigned();
                 r4 = r4 + 0x4;
                 final boolean oldCarry30020b0 = CPU.cpsr().getCarry();
                 CPU.setCFlag((CPU.r12().value & 0x1) != 0);
-                CPU.r12().value = CPU.movA(0, ((oldCarry30020b0 ? 0x8000_0000 : 0) | CPU.r12().value >>> 1));
+                CPU.r12().value = CPU.movA(0, (oldCarry30020b0 ? 0x8000_0000 : 0) | CPU.r12().value >>> 1);
                 if(!CPU.cpsr().getCarry()) { // unsigned <
                   r1 = r1 + 0x2;
                 }
@@ -151,12 +138,11 @@ public final class CopiedSegment8015430 {
               r6 = r6 + 0x1;
             }
             if(CPU.cpsr().getZero()) { // ==
-              final int address30020cc = r4;
-              CPU.r12().value = MEMORY.ref(4, address30020cc).getUnsigned();
+              CPU.r12().value = MEMORY.ref(4, r4).getUnsigned();
               r4 = r4 + 0x4;
               final boolean oldCarry30020d0 = CPU.cpsr().getCarry();
               CPU.setCFlag((CPU.r12().value & 0x1) != 0);
-              CPU.r12().value = CPU.movA(0, ((oldCarry30020d0 ? 0x8000_0000 : 0) | CPU.r12().value >>> 1));
+              CPU.r12().value = CPU.movA(0, (oldCarry30020d0 ? 0x8000_0000 : 0) | CPU.r12().value >>> 1);
               if(!CPU.cpsr().getCarry()) { // unsigned <
                 r1 = r1 + 0x2;
               }
@@ -172,12 +158,11 @@ public final class CopiedSegment8015430 {
           }
 
           //LAB_30020f4
-          final int address30020f4 = r4;
-          CPU.r12().value = MEMORY.ref(4, address30020f4).getUnsigned();
+          CPU.r12().value = MEMORY.ref(4, r4).getUnsigned();
           r4 = r4 + 0x4;
           final boolean oldCarry30020f8 = CPU.cpsr().getCarry();
           CPU.setCFlag((CPU.r12().value & 0x1) != 0);
-          CPU.r12().value = CPU.movA(0, ((oldCarry30020f8 ? 0x8000_0000 : 0) | CPU.r12().value >>> 1));
+          CPU.r12().value = CPU.movA(0, (oldCarry30020f8 ? 0x8000_0000 : 0) | CPU.r12().value >>> 1);
           if(CPU.cpsr().getCarry()) { // unsigned >=
             break;
           }
@@ -192,9 +177,9 @@ public final class CopiedSegment8015430 {
 
     //LAB_3002108
     CPU.setCFlag((r6 & 0x1) != 0);
-    r1 = CPU.movA(0, (r6 >>> 1));
-    r6 = r6 + (r1);
-    r6 = r5 - (r6);
+    r1 = CPU.movA(0, r6 >>> 1);
+    r6 = r6 + r1;
+    r6 = r5 - r6;
     final int address3002114 = r6 - 0x1;
     r5 = MEMORY.ref(1, address3002114).getUnsigned();
     final int address3002118 = r6 - 0x2;
@@ -203,13 +188,13 @@ public final class CopiedSegment8015430 {
       r1 = r5 & 0xf;
     }
     if(CPU.cpsr().getCarry()) { // unsigned >=
-      r1 = r6 | ((r1 << 8));
+      r1 = r6 | r1 << 8;
     }
     if(!CPU.cpsr().getCarry()) { // unsigned <
-      r1 = (r5 << 4);
+      r1 = r5 << 4;
     }
     if(!CPU.cpsr().getCarry()) { // unsigned <
-      r1 = r1 | ((r6 >>> 4));
+      r1 = r1 | r6 >>> 4;
     }
     int address300212c = r0;
     MEMORY.ref(4, address300212c).setu(r1);

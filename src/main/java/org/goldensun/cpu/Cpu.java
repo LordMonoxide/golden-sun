@@ -12,6 +12,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import static org.goldensun.Hardware.CODE;
+import static org.goldensun.Hardware.GATE;
 import static org.goldensun.Hardware.INTERRUPTS;
 import static org.goldensun.Hardware.MEMORY;
 
@@ -112,7 +113,10 @@ public class Cpu implements Runnable {
       this.memory.waitForLock(CODE::suspend);
 
       this.cpsr.set(CpuMode.IRQ.bits | 0b1100_0000); // ARM state, interrupts disabled
+
+      GATE.acquire();
       this.memory.call(0x18); // IRQ handler
+      GATE.release();
 
       CODE.resume();
 

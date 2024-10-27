@@ -18,7 +18,7 @@ public final class GoldenSun_807 {
 
   @Method(0x8077008)
   public static int FUN_8077008(final int r0) {
-    throw new RuntimeException("Not implemented");
+    return (int)MEMORY.call(0x8077394, r0);
   }
 
   @Method(0x8077098)
