@@ -48,21 +48,25 @@ public final class CopiedSegment8001dc8 {
       r6 = CPU.movA(0, r6);
       if(!CPU.cpsr().getZero()) { // !=
         FUN_3002458(r0, 0x80, r2, r3, r4, r5, r6);
+        return;
       }
 
       r6 = CPU.movA(0, r5);
       if(!CPU.cpsr().getZero()) { // !=
         FUN_3002458(r0, 0x80, r2, r3, r4, r5, r6);
+        return;
       }
 
       r6 = CPU.movA(0, r4);
       if(!CPU.cpsr().getZero()) { // !=
         FUN_3002458(r0, 0x80, r2, r3, r4, r5, r6);
+        return;
       }
 
       r6 = CPU.movA(0, r3);
       if(!CPU.cpsr().getZero()) { // !=
         FUN_3002458(r0, 0x80, r2, r3, r4, r5, r6);
+        return;
       }
 
       CPU.r12().value = CPU.subA(CPU.r12().value, 0x1);
