@@ -5,9 +5,9 @@ import org.goldensun.memory.Method;
 import static org.goldensun.GoldenSun.FUN_80022ec;
 import static org.goldensun.GoldenSun.FUN_80022f4;
 import static org.goldensun.GoldenSun.FUN_80022fc;
-import static org.goldensun.GoldenSun.FUN_8002df0;
-import static org.goldensun.GoldenSun.FUN_8004458;
-import static org.goldensun.GoldenSun.FUN_8004970;
+import static org.goldensun.GoldenSun.setMallocSlot;
+import static org.goldensun.GoldenSun.rand;
+import static org.goldensun.GoldenSun.mallocBoard;
 import static org.goldensun.GoldenSun.getPointerTableEntry;
 import static org.goldensun.GoldenSun_801.FUN_8015020;
 import static org.goldensun.Hardware.CPU;
@@ -122,9 +122,8 @@ public final class GoldenSun_807 {
     CPU.push(r6);
 
     r5 = CPU.addT(r0, 0x0);
-    r0 = CPU.movT(0, 0x60);
     CPU.sp().value -= 0x4;
-    r0 = FUN_8004970(r0);
+    r0 = mallocBoard(0x60);
     r6 = CPU.addT(r0, 0x0);
     r0 = CPU.addT(r5, 0x0);
     r0 = FUN_8077394(r0);
@@ -1233,7 +1232,7 @@ public final class GoldenSun_807 {
 
     //LAB_8077be2
     r0 = CPU.addT(r6, 0x0);
-    FUN_8002df0(r0);
+    setMallocSlot(r0);
     CPU.sp().value += 0x4;
     r3 = CPU.pop();
     r5 = CPU.pop();
@@ -2560,8 +2559,7 @@ public final class GoldenSun_807 {
     CPU.r11().value = r0;
     r0 = FUN_8077394(r0);
     CPU.r10().value = r0;
-    r0 = CPU.movT(0, 0x2c);
-    r0 = FUN_8004970(r0);
+    r0 = mallocBoard(0x2c);
     r3 = MEMORY.ref(4, 0x80792bc).get();
     r3 += CPU.r10().value;
     r3 = MEMORY.ref(1, r3).getUnsigned();
@@ -2684,7 +2682,7 @@ public final class GoldenSun_807 {
       r3 = CPU.subT(r3, 0x2);
       r3 = MEMORY.ref(2, r1 + r3).get();
       r7 = CPU.subT(r2, r3);
-      r0 = FUN_8004458();
+      r0 = rand();
       r3 = CPU.addT(r0, 0x0);
       r0 = CPU.lslT(r3, 2);
       r0 = CPU.addT(r0, r3);
@@ -2704,7 +2702,7 @@ public final class GoldenSun_807 {
       r3 = CPU.subT(r3, 0x2);
       r3 = MEMORY.ref(2, r2 + r3).get();
       r7 = CPU.subT(r1, r3);
-      r0 = FUN_8004458();
+      r0 = rand();
       r3 = CPU.addT(r0, 0x0);
       r0 = CPU.lslT(r3, 2);
       r0 = CPU.addT(r0, r3);
@@ -2724,7 +2722,7 @@ public final class GoldenSun_807 {
       r3 = CPU.subT(r3, 0x2);
       r3 = MEMORY.ref(2, r2 + r3).getUnsigned();
       r7 = CPU.subT(r1, r3);
-      r0 = FUN_8004458();
+      r0 = rand();
       r3 = CPU.addT(r0, 0x0);
       r0 = CPU.lslT(r3, 2);
       r0 = CPU.addT(r0, r3);
@@ -2744,7 +2742,7 @@ public final class GoldenSun_807 {
       r3 = CPU.subT(r3, 0x2);
       r3 = MEMORY.ref(2, r2 + r3).getUnsigned();
       r7 = CPU.subT(r1, r3);
-      r0 = FUN_8004458();
+      r0 = rand();
       r3 = CPU.addT(r0, 0x0);
       r0 = CPU.lslT(r3, 2);
       r0 = CPU.addT(r0, r3);
@@ -2764,7 +2762,7 @@ public final class GoldenSun_807 {
       r3 = CPU.subT(r3, 0x2);
       r3 = MEMORY.ref(2, r2 + r3).getUnsigned();
       r7 = CPU.subT(r1, r3);
-      r0 = FUN_8004458();
+      r0 = rand();
       r3 = CPU.addT(r0, 0x0);
       r0 = CPU.lslT(r3, 2);
       r0 = CPU.addT(r0, r3);
@@ -2784,7 +2782,7 @@ public final class GoldenSun_807 {
       r3 = CPU.subT(r3, 0x1);
       r3 = MEMORY.ref(1, r2 + r3).getUnsigned();
       r7 = CPU.subT(r1, r3);
-      r0 = FUN_8004458();
+      r0 = rand();
       r3 = CPU.addT(r0, 0x0);
       r0 = CPU.lslT(r3, 2);
       r0 = CPU.addT(r0, r3);
@@ -2839,7 +2837,7 @@ public final class GoldenSun_807 {
 
     //LAB_80792a4
     r0 = CPU.r9().value;
-    FUN_8002df0(r0);
+    setMallocSlot(r0);
     r0 = CPU.addT(r6, 0x0);
     r3 = CPU.pop();
     r5 = CPU.pop();

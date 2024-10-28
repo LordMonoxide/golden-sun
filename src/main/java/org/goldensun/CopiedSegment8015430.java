@@ -186,14 +186,9 @@ public final class CopiedSegment8015430 {
     r6 = MEMORY.ref(1, address3002118).getUnsigned();
     if(CPU.cpsr().getCarry()) { // unsigned >=
       r1 = r5 & 0xf;
-    }
-    if(CPU.cpsr().getCarry()) { // unsigned >=
       r1 = r6 | r1 << 8;
-    }
-    if(!CPU.cpsr().getCarry()) { // unsigned <
+    } else {
       r1 = r5 << 4;
-    }
-    if(!CPU.cpsr().getCarry()) { // unsigned <
       r1 = r1 | r6 >>> 4;
     }
     int address300212c = r0;

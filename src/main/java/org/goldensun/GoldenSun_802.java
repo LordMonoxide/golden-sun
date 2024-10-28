@@ -2,13 +2,14 @@ package org.goldensun;
 
 import org.goldensun.memory.Method;
 
-import static org.goldensun.GoldenSun.FUN_8002df0;
+import static org.goldensun.GoldenSun.setMallocSlot;
 import static org.goldensun.GoldenSun.FUN_80030f8;
 import static org.goldensun.GoldenSun.FUN_8003fa4;
 import static org.goldensun.GoldenSun.FUN_8004080;
-import static org.goldensun.GoldenSun.FUN_8004970;
+import static org.goldensun.GoldenSun.mallocBoard;
 import static org.goldensun.GoldenSun.decompress;
 import static org.goldensun.GoldenSun.loadUiTextures;
+import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSun_801.FUN_80162d4;
 import static org.goldensun.GoldenSun_801.FUN_8016418;
 import static org.goldensun.GoldenSun_801.FUN_8016478;
@@ -34,13 +35,13 @@ public final class GoldenSun_802 {
   /** Maybe decompressing a graphic and uploading to VRAM */
   @Method(0x80209d0)
   public static void FUN_80209d0(final int r0_0, final int r1) {
-    final int r10 = FUN_8004970(0x300);
+    final int r10 = mallocBoard(0x300);
     decompress(r1, r10);
     int r3 = MEMORY.ref(2, r0_0 + 0xc).getUnsigned() + MEMORY.ref(2, r0_0 + 0xe).getUnsigned() * 0x20;
     final int r4 = MEMORY.ref(2, r0_0 + 0xa).getUnsigned(); // maybe height
     int r7 = r10;
     int r0 = 0x6002000 + r3 * 0x2;
-    int r6 = MEMORY.ref(4, 0x3001e8c).get() + r3 * 0x2;
+    int r6 = boardWramMallocHead_3001e50.offset(15 * 0x4).get() + r3 * 0x2;
     final int r2 = MEMORY.ref(2, r0_0 + 0x8).getUnsigned(); // maybe width
 
     //LAB_8020a14
@@ -62,7 +63,7 @@ public final class GoldenSun_802 {
     }
 
     //LAB_8020a44
-    FUN_8002df0(r10);
+    setMallocSlot(r10);
   }
 
   @Method(0x8020a60)
@@ -329,23 +330,14 @@ public final class GoldenSun_802 {
     MEMORY.ref(4, CPU.sp().value + 0x28).setu(r0);
     r0 = MEMORY.ref(4, CPU.sp().value + 0x2c).get();
     r0 = FUN_8019d2c(r0);
-    r2 = CPU.movT(0, 0x3);
-    r3 = CPU.movT(0, 0x1);
-    r1 = CPU.movT(0, 0x0);
-    r0 = FUN_8019da8(r0, r1, r2, r3);
-    r1 = MEMORY.ref(4, 0x8020d58).get();
-    r0 = CPU.r8().value;
-    FUN_80209d0(r0, r1);
+    r0 = FUN_8019da8(r0, 0, 3, 1);
+    FUN_80209d0(CPU.r8().value, 0x8073864);
     r3 = CPU.movT(0, 0x7);
     MEMORY.ref(4, CPU.sp().value).setu(r3);
     FUN_801e41c(CPU.r8().value, 0x12, 0, 0x12, r3);
-    r2 = MEMORY.ref(4, 0x8020d5c).get();
-    r1 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
-    r3 = CPU.addT(r1, r2);
-    r1 = CPU.sp().value + 0xc;
-    r2 = CPU.sp().value + 0x24;
-    r1 = MEMORY.ref(1, r1).getUnsigned();
-    r2 = MEMORY.ref(1, r2).getUnsigned();
+    r3 = MEMORY.ref(4, CPU.sp().value + 0x10).get() + 0xea3;
+    r1 = MEMORY.ref(1, CPU.sp().value + 0xc).getUnsigned();
+    r2 = MEMORY.ref(1, CPU.sp().value + 0x24).getUnsigned();
     MEMORY.ref(1, r3).setu(r1);
     MEMORY.ref(1, r6).setu(r2);
     r0 = CPU.sp().value;

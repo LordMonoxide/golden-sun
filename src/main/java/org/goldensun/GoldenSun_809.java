@@ -6,7 +6,7 @@ import static org.goldensun.GoldenSun.FUN_80022ec;
 import static org.goldensun.GoldenSun.FUN_80022fc;
 import static org.goldensun.GoldenSun.FUN_80030f8;
 import static org.goldensun.GoldenSun.FUN_80041d8;
-import static org.goldensun.GoldenSun.FUN_80048f4;
+import static org.goldensun.GoldenSun.mallocSlotBoard;
 import static org.goldensun.GoldenSun.FUN_8009098;
 import static org.goldensun.GoldenSun_807.FUN_80770c0;
 import static org.goldensun.GoldenSun_807.FUN_80770c8;
@@ -1178,25 +1178,25 @@ public final class GoldenSun_809 {
 
   @Method(0x8091174)
   public static void FUN_8091174() {
-    final int r4 = FUN_80048f4(0x20, 0x2a04);
+    final int addr = mallocSlotBoard(32, 0x2a04);
 
     CPU.sp().value -= 0x4;
     final int r0 = CPU.sp().value;
     MEMORY.ref(4, r0).setu(0);
     DMA.channels[3].SAD.setu(r0);
-    DMA.channels[3].DAD.setu(r4);
+    DMA.channels[3].DAD.setu(addr);
     DMA.channels[3].CNT.setu(0x85000a81);
     CPU.sp().value += 0x4;
 
     DMA.channels[3].SAD.setu(0x5000000);
-    DMA.channels[3].DAD.setu(r4);
+    DMA.channels[3].DAD.setu(addr);
     DMA.channels[3].CNT.setu(0x84000070);
 
     DMA.channels[3].SAD.setu(0x5000200);
-    DMA.channels[3].DAD.setu(r4 + 0x1c0);
+    DMA.channels[3].DAD.setu(addr + 0x1c0);
     DMA.channels[3].CNT.setu(0x84000070);
 
-    FUN_8090a5c(0x10000, r4, r4 + 0xe00, 0);
+    FUN_8090a5c(0x10000, addr, addr + 0xe00, 0);
     FUN_80041d8(0x80908e1, 0xc8f);
   }
 

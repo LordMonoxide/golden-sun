@@ -1036,7 +1036,7 @@ public final class GoldenSun_80f {
         if(r4._00.get() != 0) {
           final int r0 = r4._01.get() & 0x7;
           if(r0 != 0) {
-            _3007ff0.deref()._2c.deref().run(r0, r1_0);
+            _3007ff0.deref()._2c.deref().run(r0);
           }
 
           //LAB_80f9f24
@@ -1049,7 +1049,7 @@ public final class GoldenSun_80f {
       }
 
       //LAB_80f9f2e
-      r1._20.set(r4);
+      r1._20.setNullable(r4);
     }
 
     //LAB_80f9f30

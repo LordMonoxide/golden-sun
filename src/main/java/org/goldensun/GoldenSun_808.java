@@ -4,8 +4,8 @@ import org.goldensun.memory.Method;
 
 import static org.goldensun.GoldenSun.FUN_80022ec;
 import static org.goldensun.GoldenSun.FUN_8002304;
-import static org.goldensun.GoldenSun.FUN_8002dd8;
-import static org.goldensun.GoldenSun.FUN_8002df0;
+import static org.goldensun.GoldenSun.freeSlot;
+import static org.goldensun.GoldenSun.setMallocSlot;
 import static org.goldensun.GoldenSun.FUN_8002fb0;
 import static org.goldensun.GoldenSun.FUN_80030f8;
 import static org.goldensun.GoldenSun.FUN_8003b70;
@@ -14,10 +14,10 @@ import static org.goldensun.GoldenSun.FUN_8003f3c;
 import static org.goldensun.GoldenSun.FUN_800403c;
 import static org.goldensun.GoldenSun.FUN_80040e8;
 import static org.goldensun.GoldenSun.FUN_80041d8;
-import static org.goldensun.GoldenSun.FUN_8004458;
+import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.FUN_8004760;
-import static org.goldensun.GoldenSun.FUN_80048f4;
-import static org.goldensun.GoldenSun.FUN_8004938;
+import static org.goldensun.GoldenSun.mallocSlotBoard;
+import static org.goldensun.GoldenSun.mallocChip;
 import static org.goldensun.GoldenSun.FUN_8009048;
 import static org.goldensun.GoldenSun.FUN_8009078;
 import static org.goldensun.GoldenSun.FUN_8009080;
@@ -386,7 +386,7 @@ public final class GoldenSun_808 {
         r3 = CPU.cmpT(r3, r2);
         if(CPU.cpsr().getZero()) { // ==
           //LAB_808aa6e
-          r5 = FUN_8004938(0x40);
+          r5 = mallocChip(0x40);
           DMA.channels[3].SAD.setu(CPU.r9().value);
           DMA.channels[3].DAD.setu(r5);
           DMA.channels[3].CNT.setu(0x84000010);
@@ -394,7 +394,7 @@ public final class GoldenSun_808 {
           DMA.channels[3].SAD.setu(r5);
           DMA.channels[3].DAD.setu(CPU.r9().value);
           DMA.channels[3].CNT.setu(0x84000010);
-          FUN_8002df0(r5);
+          setMallocSlot(r5);
         } else {
           r3 = CPU.cmpT(r3, r2);
           if(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >
@@ -412,7 +412,7 @@ public final class GoldenSun_808 {
               }
             } else {
               //LAB_808aa52
-              r5 = FUN_8004938(0x40);
+              r5 = mallocChip(0x40);
               DMA.channels[3].SAD.setu(CPU.r9().value);
               DMA.channels[3].DAD.setu(r5);
               DMA.channels[3].CNT.setu(0x84000010);
@@ -420,7 +420,7 @@ public final class GoldenSun_808 {
               DMA.channels[3].SAD.setu(r5);
               DMA.channels[3].DAD.setu(CPU.r9().value);
               DMA.channels[3].CNT.setu(0x84000010);
-              FUN_8002df0(r5);
+              setMallocSlot(r5);
             }
           } else {
             r2 = CPU.subT(r2, 0x1);
@@ -1279,7 +1279,7 @@ public final class GoldenSun_808 {
               CPU.r8().value = r2;
               CPU.cmpT(r2, 0x0);
               if(!CPU.cpsr().getZero()) { // !=
-                r0 = FUN_8004458();
+                r0 = rand();
                 r1 = CPU.movT(0, 0x1e);
                 r0 = FUN_8002304(r0, r1);
                 r3 = CPU.r8().value;
@@ -1815,17 +1815,12 @@ public final class GoldenSun_808 {
     r7 = CPU.r8().value;
     CPU.push(r7);
 
-    r1 = MEMORY.ref(4, 0x808c7f0).get();
-    r0 = CPU.movT(0, 0x1b);
     CPU.sp().value -= 0x10;
-    r0 = FUN_80048f4(r0, r1);
-    r7 = CPU.movT(0, 0x0);
-    CPU.r8().value = r0;
+    CPU.r8().value = mallocSlotBoard(27, 0xccc);
     r0 = CPU.sp().value + 0xc;
-    MEMORY.ref(4, r0).setu(r7);
-    r1 = CPU.r8().value;
+    MEMORY.ref(4, r0).setu(0);
     DMA.channels[3].SAD.setu(r0);
-    DMA.channels[3].DAD.setu(r1);
+    DMA.channels[3].DAD.setu(CPU.r8().value);
     DMA.channels[3].CNT.setu(0x85000333);
 
     r0 = MEMORY.ref(4, 0x808c7fc).get();
@@ -2905,8 +2900,7 @@ public final class GoldenSun_808 {
     }
 
     //LAB_808ce46
-    r0 = CPU.movT(0, 0x1b);
-    FUN_8002dd8(r0);
+    freeSlot(0x1b);
     r0 = CPU.addT(r7, 0x0);
     CPU.sp().value += 0x10;
     r3 = CPU.pop();

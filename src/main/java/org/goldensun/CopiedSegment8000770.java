@@ -777,7 +777,7 @@ public final class CopiedSegment8000770 {
   }
 
   @Method(0x3001388)
-  public static void FUN_3001388(final int src, final int dst, final int length) {
-    MEMORY.memcpy(src, dst, length);
+  public static void FUN_3001388(final int dst, final int src, final int length) {
+    MEMORY.memcpy(dst, src, length);
   }
 }

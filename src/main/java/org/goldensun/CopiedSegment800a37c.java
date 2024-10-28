@@ -31,9 +31,9 @@ public final class CopiedSegment800a37c {
 
     //LAB_3002018
     do {
-      final int address3002018 = r0 + 0x2;
+      final int address3002018 = r0;
       CPU.r12().value = MEMORY.ref(2, address3002018).getUnsigned();
-      r0 = address3002018;
+      r0 = address3002018 + 0x2;
       CPU.cmpA(r5, CPU.r12().value << 20);
       if(CPU.cpsr().getZero()) { // ==
         CPU.r12().value = CPU.r12().value + r4;
@@ -44,9 +44,9 @@ public final class CopiedSegment800a37c {
       }
 
       //LAB_3002030
-      final int address3002030 = r1 + 0x4;
+      final int address3002030 = r1;
       MEMORY.ref(2, address3002030).setu(CPU.r12().value);
-      r1 = address3002030;
+      r1 = address3002030 + 0x4;
       r6 = CPU.subA(r6, 0x1);
     } while(!CPU.cpsr().getZero()); // !=
 
@@ -71,20 +71,20 @@ public final class CopiedSegment800a37c {
       r7 = r4 & r5 << 8;
       r6 = CPU.r12().value & r5 << 8;
       r7 = r6 | r7 >>> 8;
-      final int address3002074 = r1 + 0x4;
+      final int address3002074 = r1;
       MEMORY.ref(2, address3002074).setu(r3);
-      r1 = address3002074;
-      final int address3002078 = r1 + 0x4;
+      r1 = address3002074 + 0x4;
+      final int address3002078 = r1;
       MEMORY.ref(2, address3002078).setu(r7);
-      r1 = address3002078;
+      r1 = address3002078 + 0x4;
       r3 = Integer.rotateRight(r3, 16);
       r7 = Integer.rotateRight(r7, 16);
-      final int address3002084 = r1 + 0x4;
+      final int address3002084 = r1;
       MEMORY.ref(2, address3002084).setu(r3);
-      r1 = address3002084;
-      final int address3002088 = r1 + 0x4;
+      r1 = address3002084 + 0x4;
+      final int address3002088 = r1;
       MEMORY.ref(2, address3002088).setu(r7);
-      r1 = address3002088;
+      r1 = address3002088 + 0x4;
       CPU.r8().value = CPU.subA(CPU.r8().value, 0x1);
     } while(!CPU.cpsr().getZero()); // !=
 

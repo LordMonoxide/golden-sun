@@ -35,7 +35,7 @@ public class SoundStructFb0 implements MemoryRef {
   public final Pointer<ConsumerRef<SoundStruct>> _20;
   public final Pointer<SoundStruct> _24;
   public final Pointer<ConsumerRef<SoundStructFb0>> _28;
-  public final Pointer<BiConsumerRef<Integer, Integer>> _2c;
+  public final Pointer<ConsumerRef<Integer>> _2c;
   public final Pointer<TriFunctionRef<Integer, Integer, Integer, Integer>> _30;
   public final Pointer<UnboundedArrayRef<Pointer<BiConsumerRef<SoundStruct, SoundStruct50>>>> _34;
   public final Pointer<TriConsumerRef<Integer, SoundStruct, SoundStruct50>> _38;
@@ -66,7 +66,7 @@ public class SoundStructFb0 implements MemoryRef {
     this._20 = ref.offset(4, 0x20).cast(Pointer.deferred(4, ConsumerRef::new));
     this._24 = ref.offset(4, 0x24).cast(Pointer.deferred(4, SoundStruct::new));
     this._28 = ref.offset(4, 0x28).cast(Pointer.deferred(4, ConsumerRef::new));
-    this._2c = ref.offset(4, 0x2c).cast(Pointer.deferred(4, BiConsumerRef::new));
+    this._2c = ref.offset(4, 0x2c).cast(Pointer.deferred(4, ConsumerRef::new));
     this._30 = ref.offset(4, 0x30).cast(Pointer.deferred(4, TriFunctionRef::new));
     this._34 = ref.offset(4, 0x34).cast(Pointer.deferred(4, UnboundedArrayRef.of(0x4, Pointer.deferred(4, BiConsumerRef::new))));
     this._38 = ref.offset(4, 0x38).cast(Pointer.deferred(4, TriConsumerRef::new));
