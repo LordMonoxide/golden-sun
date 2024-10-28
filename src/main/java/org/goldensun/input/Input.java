@@ -86,7 +86,7 @@ public class Input {
   }
 
   private int onInputRead() {
-    return this.input;
+    return this.input ^ 0x3ff; // Register is inverted
   }
 
   private int onControlRead() {
