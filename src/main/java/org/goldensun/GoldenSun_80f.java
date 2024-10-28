@@ -610,6 +610,12 @@ public final class GoldenSun_80f {
     //LAB_80f9aac
   }
 
+  @Method(0x80f9ac0)
+  public static void FUN_80f9ac0(final SoundStruct r0, final SoundStruct50 r1) {
+    final int r2 = r1._40.get();
+    r1._40.set(MEMORY.ref(1, r2 + 0x3).getUnsigned() << 24 | MEMORY.ref(1, r2 + 0x2).getUnsigned() << 16 | MEMORY.ref(1, r2 + 0x1).getUnsigned() << 8 | MEMORY.ref(1, r2).getUnsigned());
+  }
+
   @Method(0x80f9ae0)
   public static void FUN_80f9ae0(final SoundStruct r0, final SoundStruct50 r1) {
     int r2;
@@ -1321,6 +1327,34 @@ public final class GoldenSun_80f {
     CPU.r9().value = CPU.pop();
     CPU.r10().value = CPU.pop();
     CPU.r11().value = CPU.pop();
+  }
+
+  @Method(0x80fa16c)
+  public static void FUN_80fa16c(final SoundStruct r0, final SoundStruct50 r1) {
+    int r3 = MEMORY.ref(1, r1._40.get()).getUnsigned();
+    if(r3 < 0x80) {
+      r1._05.set(r3);
+      r1._40.incr();
+    } else {
+      //LAB_80fa17e
+      r3 = r1._05.get();
+    }
+
+    //LAB_80fa180
+    SoundStructFb0.Sub40 r1_0 = r1._20.derefNullable();
+
+    //LAB_80fa18a
+    while(r1_0 != null) {
+      if((r1_0._00.get() & 0x83) != 0 && (r1_0._00.get() & 0x40) == 0 && r1_0._11.get() == r3) {
+        r1_0._00.or(0x40);
+        break;
+      }
+
+      //LAB_80fa1a2
+      r1_0 = r1_0._34.derefNullable();
+    }
+
+    //LAB_80fa1a8
   }
 
   @Method(0x80fa1ac)
