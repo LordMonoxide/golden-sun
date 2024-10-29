@@ -596,6 +596,9 @@ public final class CopiedSegment8000770 {
     }
   }
 
+  /** {@link GoldenSun#FUN_80037d4} swaps out part of this method */
+  public static int FUN_3000b60_MODE = 2;
+
   @Method(0x3000b60)
   public static void FUN_3000b60(final int r0unused, final int r1unused, final int r2unused, final int r3unused, final int r4unused, int r5) {
     int r0;
@@ -678,68 +681,263 @@ public final class CopiedSegment8000770 {
       final int address3000bd4 = r5;
       MEMORY.ref(4, address3000bd4).setu(r7);
       r5 = r5 + 0x4;
-      CPU.setCFlag((r4 & 0x1 << 17) != 0);
-      r6 = CPU.movA(r0, r4 >> 18);
-      r6 = CPU.addA(r6, CPU.r11().value >> 19);
-      if(CPU.cpsr().getNegative()) { // negative
-        r6 = r6 + 0x28;
+
+      //LAB_3000bd8
+      switch(FUN_3000b60_MODE) {
+        case 0 -> {
+          CPU.setCFlag((CPU.r11().value & 0x1 << 19) != 0);
+          r1 = CPU.movA(r0, CPU.r11().value >> 20);
+          if(!CPU.cpsr().getNegative()) { // positive or 0
+            r1 = r1 & ~0x1f;
+          }
+          r1 = CPU.addA(r1, CPU.r12().value >> 20);
+          if(CPU.cpsr().getNegative()) { // negative
+            r1 = r1 + 0x20;
+          }
+          r1 = r1 + (r1 >> 1);
+          r4 = r1 + (r1 << 16);
+          CPU.r11().value = Integer.rotateRight(CPU.r11().value, 16);
+          CPU.r12().value = Integer.rotateRight(CPU.r12().value, 16);
+          CPU.setCFlag((CPU.r11().value & 0x1 << 19) != 0);
+          r1 = CPU.movA(r0, CPU.r11().value >> 20);
+          if(!CPU.cpsr().getNegative()) { // positive or 0
+            r1 = r1 & ~0x1f;
+          }
+          r1 = CPU.addA(r1, CPU.r12().value >> 20);
+          if(CPU.cpsr().getNegative()) { // negative
+            r1 = r1 + 0x20;
+          }
+          r1 = r1 + (r1 >> 1);
+          r2 = r1 + (r1 << 16);
+          CPU.r11().value = Integer.rotateRight(CPU.r11().value, 8);
+          CPU.r12().value = Integer.rotateRight(CPU.r12().value, 8);
+          CPU.setCFlag((CPU.r11().value & 0x1 << 19) != 0);
+          r1 = CPU.movA(r0, CPU.r11().value >> 20);
+          if(!CPU.cpsr().getNegative()) { // positive or 0
+            r1 = r1 & ~0x1f;
+          }
+          r1 = CPU.addA(r1, CPU.r12().value >> 20);
+          if(CPU.cpsr().getNegative()) { // negative
+            r1 = r1 + 0x20;
+          }
+          r1 = r1 + (r1 >> 1);
+          r3 = r1 + (r1 << 16);
+          CPU.r11().value = Integer.rotateRight(CPU.r11().value, 16);
+          CPU.r12().value = Integer.rotateRight(CPU.r12().value, 16);
+          CPU.setCFlag((CPU.r11().value & 0x1 << 19) != 0);
+          r1 = CPU.movA(r0, CPU.r11().value >> 20);
+          if(!CPU.cpsr().getNegative()) { // positive or 0
+            r1 = r1 & ~0x1f;
+          }
+          r1 = CPU.addA(r1, CPU.r12().value >> 20);
+          if(CPU.cpsr().getNegative()) { // negative
+            r1 = r1 + 0x20;
+          }
+          r1 = r1 + (r1 >> 1);
+          r1 = r1 + (r1 << 16);
+        }
+
+        case 1 -> {
+          CPU.setCFlag((CPU.r11().value & 0x1 << 18) != 0);
+          r7 = CPU.movA(r0, CPU.r11().value >> 19);
+          r7 = CPU.addA(r7, CPU.r12().value >> 20);
+          if(CPU.cpsr().getNegative()) { // negative
+            r7 = r7 + 0x30;
+          }
+          CPU.setCFlag((CPU.r12().value & 0x1 << 18) != 0);
+          r6 = CPU.movA(r0, CPU.r12().value >> 19);
+          r6 = CPU.addA(r6, CPU.r11().value >> 20);
+          if(CPU.cpsr().getNegative()) { // negative
+            r6 = r6 + 0x30;
+          }
+          r4 = CPU.addA(r7, r6 << 16);
+          CPU.r11().value = Integer.rotateRight(CPU.r11().value, 16);
+          CPU.r12().value = Integer.rotateRight(CPU.r12().value, 16);
+          CPU.setCFlag((CPU.r11().value & 0x1 << 18) != 0);
+          r7 = CPU.movA(r0, CPU.r11().value >> 19);
+          r7 = CPU.addA(r7, CPU.r12().value >> 20);
+          if(CPU.cpsr().getNegative()) { // negative
+            r7 = r7 + 0x30;
+          }
+          CPU.setCFlag((CPU.r12().value & 0x1 << 18) != 0);
+          r6 = CPU.movA(r0, CPU.r12().value >> 19);
+          r6 = CPU.addA(r6, CPU.r11().value >> 20);
+          if(CPU.cpsr().getNegative()) { // negative
+            r6 = r6 + 0x30;
+          }
+          r2 = CPU.addA(r7, r6 << 16);
+          CPU.r11().value = Integer.rotateRight(CPU.r11().value, 8);
+          CPU.r12().value = Integer.rotateRight(CPU.r12().value, 8);
+          CPU.setCFlag((CPU.r11().value & 0x1 << 18) != 0);
+          r7 = CPU.movA(r0, CPU.r11().value >> 19);
+          r7 = CPU.addA(r7, CPU.r12().value >> 20);
+          if(CPU.cpsr().getNegative()) { // negative
+            r7 = r7 + 0x30;
+          }
+          CPU.setCFlag((CPU.r12().value & 0x1 << 18) != 0);
+          r6 = CPU.movA(r0, CPU.r12().value >> 19);
+          r6 = CPU.addA(r6, CPU.r11().value >> 20);
+          if(CPU.cpsr().getNegative()) { // negative
+            r6 = r6 + 0x30;
+          }
+          r3 = CPU.addA(r7, r6 << 16);
+          CPU.r11().value = Integer.rotateRight(CPU.r11().value, 16);
+          CPU.r12().value = Integer.rotateRight(CPU.r12().value, 16);
+          CPU.setCFlag((CPU.r11().value & 0x1 << 18) != 0);
+          r7 = CPU.movA(r0, CPU.r11().value >> 19);
+          r7 = CPU.addA(r7, CPU.r12().value >> 20);
+          if(CPU.cpsr().getNegative()) { // negative
+            r7 = r7 + 0x30;
+          }
+          CPU.setCFlag((CPU.r12().value & 0x1 << 18) != 0);
+          r6 = CPU.movA(r0, CPU.r12().value >> 19);
+          r6 = CPU.addA(r6, CPU.r11().value >> 20);
+          if(CPU.cpsr().getNegative()) { // negative
+            r6 = r6 + 0x30;
+          }
+          r1 = CPU.addA(r7, r6 << 16);
+        }
+
+        case 2 -> {
+          CPU.setCFlag((r4 & 0x1 << 17) != 0);
+          r6 = CPU.movA(r0, r4 >> 18);
+          r6 = CPU.addA(r6, CPU.r11().value >> 19);
+          if(CPU.cpsr().getNegative()) { // negative
+            r6 = r6 + 0x28;
+          }
+          r4 = Integer.rotateRight(r4, 16);
+          CPU.setCFlag((r4 & 0x1 << 17) != 0);
+          r7 = CPU.movA(r0, r4 >> 18);
+          r7 = CPU.addA(r7, CPU.r12().value >> 19);
+          if(CPU.cpsr().getNegative()) { // negative
+            r7 = r7 + 0x28;
+          }
+          r4 = CPU.addA(r7, r6 << 16);
+          CPU.r11().value = Integer.rotateRight(CPU.r11().value, 16);
+          CPU.r12().value = Integer.rotateRight(CPU.r12().value, 16);
+          CPU.setCFlag((r2 & 0x1 << 17) != 0);
+          r6 = CPU.movA(r0, r2 >> 18);
+          r6 = CPU.addA(r6, CPU.r11().value >> 19);
+          if(CPU.cpsr().getNegative()) { // negative
+            r6 = r6 + 0x28;
+          }
+          r2 = Integer.rotateRight(r2, 16);
+          CPU.setCFlag((r2 & 0x1 << 17) != 0);
+          r7 = CPU.movA(r0, r2 >> 18);
+          r7 = CPU.addA(r7, CPU.r12().value >> 19);
+          if(CPU.cpsr().getNegative()) { // negative
+            r7 = r7 + 0x28;
+          }
+          r2 = CPU.addA(r7, r6 << 16);
+          CPU.r11().value = Integer.rotateRight(CPU.r11().value, 8);
+          CPU.r12().value = Integer.rotateRight(CPU.r12().value, 8);
+          CPU.setCFlag((r3 & 0x1 << 17) != 0);
+          r6 = CPU.movA(r0, r3 >> 18);
+          r6 = CPU.addA(r6, CPU.r11().value >> 19);
+          if(CPU.cpsr().getNegative()) { // negative
+            r6 = r6 + 0x28;
+          }
+          r3 = Integer.rotateRight(r3, 16);
+          CPU.setCFlag((r3 & 0x1 << 17) != 0);
+          r7 = CPU.movA(r0, r3 >> 18);
+          r7 = CPU.addA(r7, CPU.r12().value >> 19);
+          if(CPU.cpsr().getNegative()) { // negative
+            r7 = r7 + 0x28;
+          }
+          r3 = CPU.addA(r7, r6 << 16);
+          CPU.r11().value = Integer.rotateRight(CPU.r11().value, 16);
+          CPU.r12().value = Integer.rotateRight(CPU.r12().value, 16);
+          CPU.setCFlag((r1 & 0x1 << 17) != 0);
+          r6 = CPU.movA(r0, r1 >> 18);
+          r6 = CPU.addA(r6, CPU.r11().value >> 19);
+          if(CPU.cpsr().getNegative()) { // negative
+            r6 = r6 + 0x28;
+          }
+          r1 = Integer.rotateRight(r1, 16);
+          CPU.setCFlag((r1 & 0x1 << 17) != 0);
+          r7 = CPU.movA(r0, r1 >> 18);
+          r7 = CPU.addA(r7, CPU.r12().value >> 19);
+          if(CPU.cpsr().getNegative()) { // negative
+            r7 = r7 + 0x28;
+          }
+          r1 = CPU.addA(r7, r6 << 16);
+        }
+
+        case 3 -> {
+          CPU.setCFlag((r4 & 0x1 << 18) != 0);
+          r6 = CPU.movA(r0, r4 >> 19);
+          r6 = CPU.addA(r6, CPU.r11().value >> 18);
+          if(CPU.cpsr().getNegative()) { // negative
+            r6 = r6 + 0x48;
+          }
+          r4 = Integer.rotateRight(r4, 16);
+          CPU.setCFlag((r4 & 0x1 << 18) != 0);
+          r7 = CPU.movA(r0, r4 >> 19);
+          r7 = CPU.addA(r7, CPU.r12().value >> 18);
+          if(CPU.cpsr().getNegative()) { // negative
+            r7 = r7 + 0x48;
+          }
+          r4 = CPU.addA(r7, r6 << 16);
+          CPU.r11().value = Integer.rotateRight(CPU.r11().value, 16);
+          CPU.r12().value = Integer.rotateRight(CPU.r12().value, 16);
+          CPU.setCFlag((r2 & 0x1 << 18) != 0);
+          r6 = CPU.movA(r0, r2 >> 19);
+          r6 = CPU.addA(r6, CPU.r11().value >> 18);
+          if(CPU.cpsr().getNegative()) { // negative
+            r6 = r6 + 0x48;
+          }
+          r2 = Integer.rotateRight(r2, 16);
+          CPU.setCFlag((r2 & 0x1 << 18) != 0);
+          r7 = CPU.movA(r0, r2 >> 19);
+          r7 = CPU.addA(r7, CPU.r12().value >> 18);
+          if(CPU.cpsr().getNegative()) { // negative
+            r7 = r7 + 0x48;
+          }
+          r2 = CPU.addA(r7, r6 << 16);
+          CPU.r11().value = Integer.rotateRight(CPU.r11().value, 8);
+          CPU.r12().value = Integer.rotateRight(CPU.r12().value, 8);
+          CPU.setCFlag((r3 & 0x1 << 18) != 0);
+          r6 = CPU.movA(r0, r3 >> 19);
+          r6 = CPU.addA(r6, CPU.r11().value >> 18);
+          if(CPU.cpsr().getNegative()) { // negative
+            r6 = r6 + 0x48;
+          }
+          r3 = Integer.rotateRight(r3, 16);
+          CPU.setCFlag((r3 & 0x1 << 18) != 0);
+          r7 = CPU.movA(r0, r3 >> 19);
+          r7 = CPU.addA(r7, CPU.r12().value >> 18);
+          if(CPU.cpsr().getNegative()) { // negative
+            r7 = r7 + 0x48;
+          }
+          r3 = CPU.addA(r7, r6 << 16);
+          CPU.r11().value = Integer.rotateRight(CPU.r11().value, 16);
+          CPU.r12().value = Integer.rotateRight(CPU.r12().value, 16);
+          CPU.setCFlag((r1 & 0x1 << 18) != 0);
+          r6 = CPU.movA(r0, r1 >> 19);
+          r6 = CPU.addA(r6, CPU.r11().value >> 18);
+          if(CPU.cpsr().getNegative()) { // negative
+            r6 = r6 + 0x48;
+          }
+          r1 = Integer.rotateRight(r1, 16);
+          CPU.setCFlag((r1 & 0x1 << 18) != 0);
+          r7 = CPU.movA(r0, r1 >> 19);
+          r7 = CPU.addA(r7, CPU.r12().value >> 18);
+          if(CPU.cpsr().getNegative()) { // negative
+            r7 = r7 + 0x48;
+          }
+          r1 = CPU.addA(r7, r6 << 16);
+        }
+
+        case 4 -> {
+          r1 = 0x0;
+          r2 = 0x0;
+          r3 = 0x0;
+          r4 = 0x0;
+        }
+
+        default -> throw new RuntimeException("Invalid mode");
       }
-      r4 = Integer.rotateRight(r4, 16);
-      CPU.setCFlag((r4 & 0x1 << 17) != 0);
-      r7 = CPU.movA(r0, r4 >> 18);
-      r7 = CPU.addA(r7, CPU.r12().value >> 19);
-      if(CPU.cpsr().getNegative()) { // negative
-        r7 = r7 + 0x28;
-      }
-      r4 = CPU.addA(r7, r6 << 16);
-      CPU.r11().value = Integer.rotateRight(CPU.r11().value, 16);
-      CPU.r12().value = Integer.rotateRight(CPU.r12().value, 16);
-      CPU.setCFlag((r2 & 0x1 << 17) != 0);
-      r6 = CPU.movA(r0, r2 >> 18);
-      r6 = CPU.addA(r6, CPU.r11().value >> 19);
-      if(CPU.cpsr().getNegative()) { // negative
-        r6 = r6 + 0x28;
-      }
-      r2 = Integer.rotateRight(r2, 16);
-      CPU.setCFlag((r2 & 0x1 << 17) != 0);
-      r7 = CPU.movA(r0, r2 >> 18);
-      r7 = CPU.addA(r7, CPU.r12().value >> 19);
-      if(CPU.cpsr().getNegative()) { // negative
-        r7 = r7 + 0x28;
-      }
-      r2 = CPU.addA(r7, r6 << 16);
-      CPU.r11().value = Integer.rotateRight(CPU.r11().value, 8);
-      CPU.r12().value = Integer.rotateRight(CPU.r12().value, 8);
-      CPU.setCFlag((r3 & 0x1 << 17) != 0);
-      r6 = CPU.movA(r0, r3 >> 18);
-      r6 = CPU.addA(r6, CPU.r11().value >> 19);
-      if(CPU.cpsr().getNegative()) { // negative
-        r6 = r6 + 0x28;
-      }
-      r3 = Integer.rotateRight(r3, 16);
-      CPU.setCFlag((r3 & 0x1 << 17) != 0);
-      r7 = CPU.movA(r0, r3 >> 18);
-      r7 = CPU.addA(r7, CPU.r12().value >> 19);
-      if(CPU.cpsr().getNegative()) { // negative
-        r7 = r7 + 0x28;
-      }
-      r3 = CPU.addA(r7, r6 << 16);
-      CPU.r11().value = Integer.rotateRight(CPU.r11().value, 16);
-      CPU.r12().value = Integer.rotateRight(CPU.r12().value, 16);
-      CPU.setCFlag((r1 & 0x1 << 17) != 0);
-      r6 = CPU.movA(r0, r1 >> 18);
-      r6 = CPU.addA(r6, CPU.r11().value >> 19);
-      if(CPU.cpsr().getNegative()) { // negative
-        r6 = r6 + 0x28;
-      }
-      r1 = Integer.rotateRight(r1, 16);
-      CPU.setCFlag((r1 & 0x1 << 17) != 0);
-      r7 = CPU.movA(r0, r1 >> 18);
-      r7 = CPU.addA(r7, CPU.r12().value >> 19);
-      if(CPU.cpsr().getNegative()) { // negative
-        r7 = r7 + 0x28;
-      }
-      r1 = CPU.addA(r7, r6 << 16);
+
       int address3000c70 = r0;
       MEMORY.ref(4, address3000c70).setu(r1);
       address3000c70 += 0x4;

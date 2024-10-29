@@ -1,6 +1,7 @@
 package org.goldensun;
 
 import static org.goldensun.Hardware.CPU;
+import static org.goldensun.Hardware.DMA;
 import static org.goldensun.Hardware.MEMORY;
 
 public final class StackFunction8002cf4 {
@@ -29,14 +30,9 @@ public final class StackFunction8002cf4 {
       CPU.setCFlag(false);
       if(CPU.cpsr().getZero()) { // ==
         //LAB_8002d4c
-        CPU.r12().value = 0x4000000;
-        CPU.r12().value = CPU.r12().value + 0xd4;
-        int address8002d54 = CPU.r12().value;
-        MEMORY.ref(4, address8002d54).setu(r2);
-        address8002d54 += 0x4;
-        MEMORY.ref(4, address8002d54).setu(r3);
-        address8002d54 += 0x4;
-        MEMORY.ref(4, address8002d54).setu(r4);
+        DMA.channels[3].SAD.setu(r2);
+        DMA.channels[3].DAD.setu(r3);
+        DMA.channels[3].CNT.setu(r4);
       } else {
         CPU.tstA(r4, 0xc0000);
         CPU.setCFlag(false);

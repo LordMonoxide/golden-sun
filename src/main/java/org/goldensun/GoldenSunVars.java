@@ -9,6 +9,8 @@ import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 import org.goldensun.types.SoundStruct0c;
 import org.goldensun.types.SoundStructFb0;
+import org.goldensun.types.Struct04;
+import org.goldensun.types.Struct08;
 import org.goldensun.types.Struct0c;
 
 import static org.goldensun.Hardware.MEMORY;
@@ -23,12 +25,10 @@ public final class GoldenSunVars {
   public static final IntRef _3001800 = MEMORY.ref(4, 0x3001800, IntRef::new);
   public static final IntRef _3001804 = MEMORY.ref(4, 0x3001804, IntRef::new);
 
+  public static final ArrayRef<UnsignedByteRef> _3001810 = MEMORY.ref(1, 0x3001810, ArrayRef.of(UnsignedByteRef.class, 0x200, 1, UnsignedByteRef::new));
   public static final Value _3001a10 = MEMORY.ref(1, 0x3001a10);
 
-  /** Array of 20 0x8-byte structs */
-  @Deprecated
-  public static final Value _3001a20 = MEMORY.ref(1, 0x3001a20);
-
+  public static final ArrayRef<Struct08> _3001a20 = MEMORY.ref(4, 0x3001a20, ArrayRef.of(Struct08.class, 20, 0x8, Struct08::new));
   public static final UnsignedByteRef _3001ac0 = MEMORY.ref(1, 0x3001ac0, UnsignedByteRef::new);
 
   public static final Value _3001ac4 = MEMORY.ref(1, 0x3001ac4);
@@ -40,9 +40,12 @@ public final class GoldenSunVars {
 
   /** Unknown use, buttons pressed this frame are or'd with the current value */
   public static final IntRef accumulatedButtons_3001af8 = MEMORY.ref(4, 0x3001af8, IntRef::new);
-
+  public static final IntRef _3001afc = MEMORY.ref(4, 0x3001afc, IntRef::new);
   public static final IntRef _3001b00 = MEMORY.ref(4, 0x3001b00, IntRef::new);
   public static final IntRef _3001b04 = MEMORY.ref(4, 0x3001b04, IntRef::new);
+
+  public static final ArrayRef<Struct04> _3001b10 = MEMORY.ref(4, 0x3001b10, ArrayRef.of(Struct04.class, 0x60, 0x4, Struct04::new));
+  // Ends at 1c90
 
   /** Buttons that were pressed this frame */
   public static final IntRef pressedButtons_3001c94 = MEMORY.ref(4, 0x3001c94, IntRef::new);
@@ -60,6 +63,7 @@ public final class GoldenSunVars {
   public static final UnsignedByteRef _3001cb8 = MEMORY.ref(1, 0x3001cb8, UnsignedByteRef::new);
 
   public static final Value _3001cbc = MEMORY.ref(4, 0x3001cbc);
+  public static final IntRef _3001cc0 = MEMORY.ref(4, 0x3001cc0, IntRef::new);
 
   public static final UnsignedByteRef _3001cc8 = MEMORY.ref(1, 0x3001cc8, UnsignedByteRef::new);
 
@@ -69,10 +73,13 @@ public final class GoldenSunVars {
 
   public static final UnsignedByteRef _3001cd4 = MEMORY.ref(1, 0x3001cd4, UnsignedByteRef::new);
 
+  public static final IntRef _3001cf4 = MEMORY.ref(4, 0x3001cf4, IntRef::new);
   public static final UnsignedShortRef blendConfig_3001cf8 = MEMORY.ref(2, 0x3001cf8, UnsignedShortRef::new);
 
   public static final IntRef _3001cfc = MEMORY.ref(4, 0x3001cfc, IntRef::new);
+  public static final UnsignedByteRef _3001d00 = MEMORY.ref(1, 0x3001d00, UnsignedByteRef::new);
 
+  public static final IntRef _3001d04 = MEMORY.ref(4, 0x3001d04, IntRef::new);
   public static final UnsignedByteRef _3001d08 = MEMORY.ref(1, 0x3001d08, UnsignedByteRef::new);
 
   /** Buttons that are currently pressed (this frame, or held from a previous frame) */
@@ -80,6 +87,7 @@ public final class GoldenSunVars {
 
   public static final UnsignedByteRef _3001d18 = MEMORY.ref(1, 0x3001d18, UnsignedByteRef::new);
 
+  public static final IntRef _3001d1c = MEMORY.ref(4, 0x3001d1c, IntRef::new);
   public static final UnsignedByteRef _3001d20 = MEMORY.ref(1, 0x3001d20, UnsignedByteRef::new);
 
   public static final UnsignedShortRef _3001d28 = MEMORY.ref(2, 0x3001d28, UnsignedShortRef::new);
@@ -92,6 +100,8 @@ public final class GoldenSunVars {
   public static final Value boardWramMallocHead_3001e50 = MEMORY.ref(4, 0x3001e50);
   public static final Value chipWramMallocHead_3001e54 = MEMORY.ref(4, 0x3001e54);
 
+  /** TODO ptr */
+  public static final IntRef _3001f1c = MEMORY.ref(4, 0x3001f1c, IntRef::new);
   public static final IntRef _3001f20 = MEMORY.ref(4, 0x3001f20, IntRef::new);
 
   public static final UnsignedByteRef _3001f54 = MEMORY.ref(1, 0x3001f54, UnsignedByteRef::new);
