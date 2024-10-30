@@ -649,11 +649,7 @@ public final class GoldenSun_802 {
         }
 
         //LAB_8020f4a
-        r2 = pressedButtons_3001c94.get();
-        r3 = CPU.movT(0, 0x8);
-        r2 = CPU.andT(r2, r3);
-        CPU.cmpT(r2, 0x0);
-        if(!CPU.cpsr().getZero()) { // !=
+        if((pressedButtons_3001c94.get() & 0x8) != 0) { // Start
           r0 = CPU.movT(0, 0x6f);
           FUN_80f9010(r0);
           r2 = CPU.movT(0, 0x1);

@@ -4629,12 +4629,7 @@ public final class GoldenSun_801 {
         CPU.cmpT(r0, 0x0);
       } while(CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()); // >=
 
-      r2 = CPU.movT(0, 0x90);
-      r3 = heldButtonsLastFrame_3001ae8.get();
-      r2 = CPU.lslT(r2, 1);
-      r3 = CPU.andT(r3, r2);
-      r3 = CPU.cmpT(r3, r2);
-      if(!CPU.cpsr().getZero()) { // !=
+      if((heldButtonsLastFrame_3001ae8.get() & 0x120) != 0x120) { // Left/R
         MEMORY.ref(2, 0x2002010).setu(0);
       }
     }
