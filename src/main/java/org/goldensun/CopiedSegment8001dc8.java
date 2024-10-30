@@ -12,7 +12,7 @@ public final class CopiedSegment8001dc8 {
   //NOTE: this class is not added to the memory map, 0x3002400 is added manually and is not always at that address
 
   @Method(0x3002400)
-  public static void FUN_3002400(final int r0) {
+  public static void FUN_3002400(int r0) {
     int r2;
     int r3;
     int r4;
@@ -47,26 +47,34 @@ public final class CopiedSegment8001dc8 {
 
       r6 = CPU.movA(0, r6);
       if(!CPU.cpsr().getZero()) { // !=
-        FUN_3002458(r0, 0x80, r2, r3, r4, r5, r6);
-        return;
+        r0 = FUN_3002458(r0, 0x80, r2, r3, r4, r5, r6);
+        if(r0 == 0) {
+          return;
+        }
       }
 
       r6 = CPU.movA(0, r5);
       if(!CPU.cpsr().getZero()) { // !=
-        FUN_3002458(r0, 0x80, r2, r3, r4, r5, r6);
-        return;
+        r0 = FUN_3002458(r0, 0x80, r2, r3, r4, r5, r6);
+        if(r0 == 0) {
+          return;
+        }
       }
 
       r6 = CPU.movA(0, r4);
       if(!CPU.cpsr().getZero()) { // !=
-        FUN_3002458(r0, 0x80, r2, r3, r4, r5, r6);
-        return;
+        r0 = FUN_3002458(r0, 0x80, r2, r3, r4, r5, r6);
+        if(r0 == 0) {
+          return;
+        }
       }
 
       r6 = CPU.movA(0, r3);
       if(!CPU.cpsr().getZero()) { // !=
-        FUN_3002458(r0, 0x80, r2, r3, r4, r5, r6);
-        return;
+        r0 = FUN_3002458(r0, 0x80, r2, r3, r4, r5, r6);
+        if(r0 == 0) {
+          return;
+        }
       }
 
       CPU.r12().value = CPU.subA(CPU.r12().value, 0x1);
@@ -79,8 +87,9 @@ public final class CopiedSegment8001dc8 {
     FUN_300248c();
   }
 
+  /** This method modifies r0 and exits entirely if it calls {@link #FUN_300248c}. I made it return the new r0 value, and 0 if the calling method should exit. */
   @Method(0x3002458)
-  public static void FUN_3002458(int r0, int r1, final int r2, final int r3, final int r4, final int r5, int r6) {
+  public static int FUN_3002458(int r0, int r1, final int r2, final int r3, final int r4, final int r5, int r6) {
     int r7;
 
     //LAB_3002458
@@ -91,8 +100,6 @@ public final class CopiedSegment8001dc8 {
       r7 = MEMORY.ref(4, address3002458).getUnsigned();
       address3002458 += 0x4;
       CPU.r8().value = MEMORY.ref(4, address3002458).getUnsigned();
-      address3002458 += 0x4;
-      r6 = address3002458;
       int address300245c = r0;
       MEMORY.ref(4, address300245c).setu(r7);
       address300245c += 0x4;
@@ -102,11 +109,11 @@ public final class CopiedSegment8001dc8 {
       r1 = CPU.subA(r1, 0x1);
       if(CPU.cpsr().getZero()) { // ==
         FUN_300248c();
-        return;
+        return 0;
       }
       CPU.cmpA(r6, 0x0);
       if(CPU.cpsr().getZero()) { // ==
-        return;
+        return r0;
       }
       int address3002470 = r6;
       r6 = MEMORY.ref(4, address3002470).getUnsigned();
@@ -114,8 +121,6 @@ public final class CopiedSegment8001dc8 {
       r7 = MEMORY.ref(4, address3002470).getUnsigned();
       address3002470 += 0x4;
       CPU.r8().value = MEMORY.ref(4, address3002470).getUnsigned();
-      address3002470 += 0x4;
-      r6 = address3002470;
       int address3002474 = r0;
       MEMORY.ref(4, address3002474).setu(r7);
       address3002474 += 0x4;
@@ -125,11 +130,11 @@ public final class CopiedSegment8001dc8 {
       r1 = CPU.subA(r1, 0x1);
       if(CPU.cpsr().getZero()) { // ==
         FUN_300248c();
-        return;
+        return 0;
       }
       CPU.cmpA(r6, 0x0);
       if(CPU.cpsr().getZero()) { // ==
-        return;
+        return r0;
       }
     } while(true);
   }
