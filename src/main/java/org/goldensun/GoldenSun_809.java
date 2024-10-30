@@ -8,6 +8,7 @@ import static org.goldensun.GoldenSun.FUN_80030f8;
 import static org.goldensun.GoldenSun.FUN_80041d8;
 import static org.goldensun.GoldenSun.mallocSlotBoard;
 import static org.goldensun.GoldenSun.FUN_8009098;
+import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSun_807.FUN_80770c0;
 import static org.goldensun.GoldenSun_807.FUN_80770c8;
 import static org.goldensun.GoldenSun_808.FUN_808ba1c;
@@ -1247,7 +1248,7 @@ public final class GoldenSun_809 {
 
   @Method(0x809163c)
   public static void FUN_809163c(final int r0) {
-    if(MEMORY.ref(4, 0x3001ebc).deref(4).offset(0x1cc).get() == 0 && r0 != 0) {
+    if(boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).offset(0x1cc).get() == 0 && r0 != 0) {
       FUN_80030f8(r0);
     }
 
@@ -1309,7 +1310,7 @@ public final class GoldenSun_809 {
 
   @Method(0x8091e3c)
   public static void FUN_8091e3c(final int r0, final int r1) {
-    final int r3 = MEMORY.ref(4, 0x3001ebc).get() + 0x170;
+    final int r3 = boardWramMallocHead_3001e50.offset(27 * 0x4).get() + 0x170;
     MEMORY.ref(2, r3).setu(999);
     MEMORY.ref(2, 0x2000400).setu(r0);
     MEMORY.ref(2, 0x2000402).setu(r1);

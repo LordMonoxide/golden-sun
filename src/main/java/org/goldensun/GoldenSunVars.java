@@ -90,6 +90,8 @@ public final class GoldenSunVars {
   public static final IntRef _3001d1c = MEMORY.ref(4, 0x3001d1c, IntRef::new);
   public static final UnsignedByteRef _3001d20 = MEMORY.ref(1, 0x3001d20, UnsignedByteRef::new);
 
+  public static final UnsignedShortRef _3001d24 = MEMORY.ref(2, 0x3001d24, UnsignedShortRef::new);
+
   public static final UnsignedShortRef _3001d28 = MEMORY.ref(2, 0x3001d28, UnsignedShortRef::new);
 
   public static final UnsignedByteRef _3001d34 = MEMORY.ref(1, 0x3001d34, UnsignedByteRef::new);
@@ -99,10 +101,6 @@ public final class GoldenSunVars {
 
   public static final Value boardWramMallocHead_3001e50 = MEMORY.ref(4, 0x3001e50);
   public static final Value chipWramMallocHead_3001e54 = MEMORY.ref(4, 0x3001e54);
-
-  /** TODO ptr */
-  public static final IntRef _3001f1c = MEMORY.ref(4, 0x3001f1c, IntRef::new);
-  public static final IntRef _3001f20 = MEMORY.ref(4, 0x3001f20, IntRef::new);
 
   public static final UnsignedByteRef _3001f54 = MEMORY.ref(1, 0x3001f54, UnsignedByteRef::new);
 
