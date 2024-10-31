@@ -1,12 +1,18 @@
 package org.goldensun;
 
 import org.goldensun.memory.Method;
+import org.goldensun.memory.types.RunnableRef;
 
-import static org.goldensun.GoldenSunVars.*;
+import javax.annotation.Nullable;
+
+import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
+import static org.goldensun.GoldenSunVars.heldButtonsLastFrame_3001ae8;
+import static org.goldensun.GoldenSunVars.pressedButtons_3001c94;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.DMA;
 import static org.goldensun.Hardware.GPU;
 import static org.goldensun.Hardware.MEMORY;
+import static org.goldensun.memory.MemoryHelper.getRunnable;
 
 /**
  * Menu overlay?
@@ -17,6 +23,11 @@ public final class Decompressed87795e8 {
   @Method(0x2008030)
   public static int FUN_2008030() {
     return 0x2009658;
+  }
+
+  @Method(0x200803c)
+  public static int FUN_200803c() {
+    return 0x2009688;
   }
 
   @Method(0x2008044)
@@ -211,8 +222,8 @@ public final class Decompressed87795e8 {
     CPU.sp().value -= 0x224;
     MEMORY.ref(4, CPU.sp().value + 0x14).setu(0);
     FUN_2008054();
-    FUN_200932c(0x20081fd, 0xc80);
-    r3 = MEMORY.ref(4, 0x3001ebc).get() + 0x1c0;
+    FUN_200932c(getRunnable(Decompressed87795e8.class, "FUN_20081fc"), 0xc80);
+    r3 = boardWramMallocHead_3001e50.offset(27 * 0x4).get() + 0x1c0;
     MEMORY.ref(4, r3).setu(MEMORY.ref(4, CPU.sp().value + 0x14).get());
     FUN_20094ac();
     FUN_20094bc();
@@ -256,7 +267,7 @@ public final class Decompressed87795e8 {
         if(r6 == 0) {
           if(MEMORY.ref(4, CPU.sp().value + 0x14).get() == 0) {
             FUN_2009324(0x1e);
-            FUN_200932c(0x2008155, 0xc80);
+            FUN_200932c(getRunnable(Decompressed87795e8.class, "FUN_2008154"), 0xc80);
             FUN_2009324(0x1);
             MEMORY.ref(4, CPU.sp().value + 0x14).setu(0x1);
           }
@@ -741,7 +752,7 @@ public final class Decompressed87795e8 {
       }
 
       //LAB_2008c96
-      MEMORY.ref(2, MEMORY.ref(4, 0x3001ebc).get() + 0x170).setu(999);
+      MEMORY.ref(2, boardWramMallocHead_3001e50.offset(27 * 0x4).get() + 0x170).setu(999);
       FUN_2009494(0x1e);
       FUN_20094cc(0x11);
       FUN_20094b4();
@@ -1176,7 +1187,7 @@ public final class Decompressed87795e8 {
   }
 
   @Method(0x200932c)
-  public static void FUN_200932c(final int r0, final int r1) {
+  public static void FUN_200932c(@Nullable final RunnableRef r0, final int r1) {
     MEMORY.call(0x80000d0, r0, r1);
   }
 
@@ -1370,6 +1381,7 @@ public final class Decompressed87795e8 {
     return (int)MEMORY.call(0x8077168, r0);
   }
 
+  /** Called after confirming character names */
   @Method(0x200947c)
   public static void FUN_200947c() {
     MEMORY.call(0x8077270);
@@ -1405,6 +1417,7 @@ public final class Decompressed87795e8 {
     MEMORY.call(0x808a360);
   }
 
+  /** Called after confirming character names */
   @Method(0x20094b4)
   public static void FUN_20094b4() {
     MEMORY.call(0x808a368);

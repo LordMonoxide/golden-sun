@@ -27,6 +27,11 @@ public final class GoldenSun_807 {
     return (int)MEMORY.call(0x8077394, r0);
   }
 
+  @Method(0x8077080)
+  public static int FUN_8077080(final int r0) {
+    return (int)MEMORY.call(0x8078b9c, r0);
+  }
+
   @Method(0x8077098)
   public static void FUN_8077098() {
     FUN_8077d38();
@@ -45,6 +50,11 @@ public final class GoldenSun_807 {
   @Method(0x80770d0)
   public static void FUN_80770d0(final int r0) {
     MEMORY.call(0x8079375, r0);
+  }
+
+  @Method(0x8077270)
+  public static void FUN_8077270() {
+    MEMORY.call(0x8077f40);
   }
 
   @Method(0x80772f0)
@@ -1740,6 +1750,26 @@ public final class GoldenSun_807 {
     return r0;
   }
 
+  @Method(0x8078b9c)
+  public static int FUN_8078b9c(int r0) {
+    int r3;
+
+    r3 = MEMORY.ref(4, 0x8078bb8).get();
+    r0 = CPU.andT(r0, r3);
+    r3 = CPU.movT(0, 0x82);
+    r3 = CPU.lslT(r3, 2);
+    r0 = CPU.cmpT(r0, r3);
+    if(CPU.cpsr().getCarry()) { // unsigned >=
+      r0 = CPU.movT(0, 0x0);
+    }
+
+    //LAB_8078bac
+    r3 = MEMORY.ref(4, 0x8078bbc).get();
+    r0 = CPU.lslT(r0, 4);
+    r0 = CPU.addT(r0, r3);
+    return r0;
+  }
+
   @Method(0x8078bf0)
   public static int FUN_8078bf0(int r0) {
     int r1;
@@ -2265,8 +2295,20 @@ public final class GoldenSun_807 {
     CPU.r10().value = CPU.pop();
   }
 
+  /** Called after confirming character names */
+  @Method(0x8077f40)
+  public static void FUN_8077f40() {
+    FUN_8079358(0x20);
+    FUN_8079ae8(0);
+    FUN_8079ae8(1);
+    FUN_8079ae8(5);
+    FUN_8077428(0);
+    FUN_8077428(1);
+    FUN_8077428(5);
+  }
+
   @Method(0x8079008)
-  public static int FUN_8079008(int r0, int r1) {
+  public static int FUN_8079008(int r0, final int r1) {
     int r2;
     int r3;
     final int r5;
@@ -3188,31 +3230,11 @@ public final class GoldenSun_807 {
 
 
   @Method(0x8079ae8)
-  public static void FUN_8079ae8(int r0) {
-    int r1;
-    int r2;
-    int r3;
-    final int r5;
-    final int r6;
-
-    r5 = CPU.addT(r0, 0x0);
-    r0 = FUN_8077394(r0);
-    r2 = CPU.movT(0, 0x94);
-    r6 = CPU.addT(r0, 0x0);
-    r2 = CPU.lslT(r2, 1);
-    r3 = CPU.addT(r6, r2);
-    r1 = CPU.addT(r6, 0x0);
-    r1 = CPU.addT(r1, 0xf8);
-    r0 = MEMORY.ref(1, r3).getUnsigned();
-    r0 = FUN_80799b0(r0, r1);
-    r3 = CPU.addT(r6, 0x129);
-    MEMORY.ref(1, r3).setu(r0);
-    r0 = CPU.addT(r5, 0x0);
+  public static void FUN_8079ae8(final int r0) {
+    final int r6 = FUN_8077394(r0);
+    MEMORY.ref(1, r6 + 0x129).setu(FUN_80799b0(MEMORY.ref(1, r6 + 0x128).getUnsigned(), r6 + 0xf8));
     FUN_8078bf0(r0);
-    r1 = CPU.addT(r6, 0x0);
-    r1 = CPU.addT(r1, 0x24);
-    r0 = CPU.addT(r5, 0x0);
-    FUN_80798e0(r0, r1);
+    FUN_80798e0(r0, r6 + 0x24);
   }
 
   @Method(0x8079ad8)

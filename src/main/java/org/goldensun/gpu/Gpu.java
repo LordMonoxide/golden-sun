@@ -26,8 +26,8 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 import static org.goldensun.Hardware.CODE;
-import static org.goldensun.MathHelper.*;
 import static org.goldensun.MathHelper.colour15To24;
+import static org.goldensun.MathHelper.get;
 import static org.lwjgl.opengl.GL11C.GL_BLEND;
 import static org.lwjgl.opengl.GL11C.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11C.GL_CULL_FACE;

@@ -99,9 +99,124 @@ public final class GoldenSun_808 {
     MEMORY.call(0x809163d, r0);
   }
 
+  @Method(0x808a018)
+  public static void FUN_808a018() {
+    MEMORY.call(0x80916b0);
+  }
+
+  @Method(0x808a03c)
+  public static void FUN_808a03c(final int r0) {
+    MEMORY.call(0x808b868, r0);
+  }
+
+  @Method(0x808a070)
+  public static int FUN_808a070(final int r0, final int r1) {
+    return (int)MEMORY.call(0x8091c7c, r0, r1);
+  }
+
   @Method(0x808a080)
   public static int FUN_808a080(final int r0) {
     return (int)MEMORY.call(0x8092054, r0);
+  }
+
+  @Method(0x808a090)
+  public static void FUN_808a090(final int r0, final int r1, final int r2) {
+    MEMORY.call(0x8092064, r0, r1, r2);
+  }
+
+  @Method(0x808a098)
+  public static void FUN_808a098(final int r0, final int r1) {
+    MEMORY.call(0x809207c, r0, r1);
+  }
+
+  @Method(0x808a0a0)
+  public static void FUN_808a0a0(final int r0) {
+    MEMORY.call(0x80920e8, r0);
+  }
+
+  @Method(0x808a0c0)
+  public static void FUN_808a0c0(final int r0, final int r1, final int r2) {
+    MEMORY.call(0x8092158, r0, r1, r2);
+  }
+
+  @Method(0x808a0d0)
+  public static void FUN_808a0d0(final int r0, final int r1, final int r2) {
+    MEMORY.call(0x80921c4, r0, r1, r2);
+  }
+
+  @Method(0x808a0f0)
+  public static void FUN_808a0f0(final int r0, final int r1, final int r2) {
+    MEMORY.call(0x80923e4, r0, r1, r2);
+  }
+
+  @Method(0x808a100)
+  public static void FUN_808a100(final int r0, final int r1) {
+    MEMORY.call(0x80924d4, r0, r1);
+  }
+
+  @Method(0x808a110)
+  public static void FUN_808a110(final int r0, final int r1) {
+    MEMORY.call(0x8092548, r0, r1);
+  }
+
+  @Method(0x808a128)
+  public static void FUN_808a128(final int r0, final int r1, final int r2) {
+    MEMORY.call(0x8092560, r0, r1, r2);
+  }
+
+  @Method(0x808a130)
+  public static void FUN_808a130(final int r0, final int r1) {
+    MEMORY.call(0x809259c, r0, r1);
+  }
+
+  @Method(0x808a138)
+  public static void FUN_808a138(final int r0, final int r1) {
+    MEMORY.call(0x80925cc, r0, r1);
+  }
+
+  @Method(0x808a158)
+  public static void FUN_808a158(final int r0, final int r1) {
+    MEMORY.call(0x8092950, r0, r1);
+  }
+
+  @Method(0x808a170)
+  public static void FUN_808a170(final int r0) {
+    MEMORY.call(0x8092b94, r0);
+  }
+
+  @Method(0x808a178)
+  public static void FUN_808a178(final int r0, final int r1) {
+    MEMORY.call(0x8092c40, r0, r1);
+  }
+
+  @Method(0x808a180)
+  public static void FUN_808a180(final int r0, final int r1) {
+    MEMORY.call(0x8092f84, r0, r1);
+  }
+
+  @Method(0x808a188)
+  public static void FUN_808a188(final int r0, final int r1, final int r2) {
+    MEMORY.call(0x8093040, r0, r1, r2);
+  }
+
+  @Method(0x808a1b8)
+  public static void FUN_808a1b8(final int r0, final int r1, final int r2) {
+    MEMORY.call(0x8092adc, r0, r1, r2);
+  }
+
+  @Method(0x808a1d8)
+  public static void FUN_808a1d8(final int r0) {
+    MEMORY.call(0x8093304, r0);
+  }
+
+  @Method(0x808a1e0)
+  public static void FUN_808a1e0(final int r0, final int r1) {
+    MEMORY.call(0x8092b08, r0, r1);
+  }
+
+  @Method(0x808a200)
+  public static void FUN_808a200(final int r0, final int r1) {
+    MEMORY.call(0x809335c, r0, r1);
   }
 
   @Method(0x808a238)
@@ -109,14 +224,70 @@ public final class GoldenSun_808 {
     MEMORY.call(0x8091e3d, r0, r1);
   }
 
+  @Method(0x808a248)
+  public static void FUN_808a248(final int r0) {
+    MEMORY.call(0x8091e9c, r0);
+  }
+
+  @Method(0x808a330)
+  public static void FUN_808a330(final int r0, final int r1) {
+    MEMORY.call(0x8091200, r0, r1);
+  }
+
+  @Method(0x808a348)
+  public static void FUN_808a348(final int r0) {
+    MEMORY.call(0x8091254, r0);
+  }
+
   @Method(0x808a360)
   public static void FUN_808a360() {
     MEMORY.call(0x8091dc8);
   }
 
+  /** Called after confirming character names */
+  @Method(0x808a368)
+  public static void FUN_808a368() {
+    MEMORY.call(0x8091df4);
+  }
+
   @Method(0x808a370)
   public static void FUN_808a370() {
     MEMORY.call(0x8091e20);
+  }
+
+  @Method(0x808a420)
+  public static void FUN_808a420(final int r0) {
+    MEMORY.call(0x80967e4, r0);
+  }
+
+  @Method(0x808a428)
+  public static void FUN_808a428(final int r0, final int r1) {
+    MEMORY.call(0x8096fb0, r0, r1);
+  }
+
+  @Method(0x808a430)
+  public static void FUN_808a430(final int r0, final int r1) {
+    MEMORY.call(0x80970f8, r0, r1);
+  }
+
+  @Method(0x808a438)
+  public static void FUN_808a438() {
+    MEMORY.call(0x8097174);
+  }
+
+  @Method(0x808a440)
+  public static void FUN_808a440() {
+    MEMORY.call(0x8097194);
+  }
+
+  @Method(0x808a448)
+  public static void FUN_808a448() {
+    MEMORY.call(0x809728c);
+  }
+
+  @Method(0x808a5d0)
+  public static int FUN_808a5d0(final int r0, final int r1) {
+    return (int)MEMORY.call(0x808b158, r0, r1);
   }
 
   @Method(0x808a5f8)
@@ -985,7 +1156,7 @@ public final class GoldenSun_808 {
     CPU.push(CPU.r8().value);
 
     CPU.r10().value = r0;
-    CPU.r8().value = MEMORY.ref(4, 0x3001ebc).get();
+    CPU.r8().value = boardWramMallocHead_3001e50.offset(27 * 0x4).get();
     r7 = MEMORY.ref(4, 0x2000434).get();
     r5 = CPU.r8().value + 0x200;
     r2 = r5;
@@ -1077,6 +1248,34 @@ public final class GoldenSun_808 {
 
     CPU.r8().value = CPU.pop();
     CPU.r10().value = CPU.pop();
+  }
+
+  @Method(0x808b868)
+  public static void FUN_808b868(final int r0) {
+    final int r6 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
+    FUN_80770d0(0x164);
+    FUN_80770c8(0x165);
+
+    //LAB_808b894
+    int r5 = r0;
+    while(MEMORY.ref(2, r5).get() != -1) {
+      if(MEMORY.ref(2, r5 + 0x2).get() == 0) {
+        final int r2 = MEMORY.ref(4, r5 + 0x8).get();
+        final int r1 = MEMORY.ref(4, r5 + 0x10).get();
+
+        if(r2 >= MEMORY.ref(4, r6 + 0xec).get() && r2 <= MEMORY.ref(4, r6 + 0xf4).get() && r1 >= MEMORY.ref(4, r6 + 0xf0).get() && r1 <= MEMORY.ref(4, r6 + 0xf8).get()) {
+          MEMORY.ref(2, r5 + 0x2).setu(0x164);
+        } else {
+          //LAB_808b8cc
+          MEMORY.ref(2, r5 + 0x2).setu(0x165);
+        }
+      }
+
+      //LAB_808b8ce
+      r5 += 0x18;
+    }
+
+    //LAB_808b8d8
   }
 
   @Method(0x808b9f8)
@@ -2928,12 +3127,10 @@ public final class GoldenSun_808 {
         r1 = CPU.movT(0, 0xc8);
         MEMORY.ref(2, r2).setu(r3);
         r1 = CPU.lslT(r1, 4);
-        r0 = MEMORY.ref(4, 0x8090110).get();
-        FUN_80041d8(r0, r1);
+        FUN_80041d8(getRunnable(GoldenSun_808.class, "FUN_808f52c"), r1);
         r1 = CPU.movT(0, 0x90);
         r1 = CPU.lslT(r1, 3);
-        r0 = MEMORY.ref(4, 0x8090114).get();
-        FUN_80041d8(r0, r1);
+        FUN_80041d8(getRunnable(GoldenSun_808.class, "FUN_808f498"), r1);
         r0 = CPU.movT(0, 0x1);
         FUN_80030f8(r0);
         r1 = MEMORY.ref(4, 0x8090104).get();
@@ -3004,8 +3201,7 @@ public final class GoldenSun_808 {
         FUN_80030f8(r0);
         r1 = CPU.movT(0, 0xc8);
         r1 = CPU.lslT(r1, 4);
-        r0 = MEMORY.ref(4, 0x8090128).get();
-        FUN_80041d8(r0, r1);
+        FUN_80041d8(getRunnable(GoldenSun_809.class, "FUN_8090658"), r1);
         r1 = MEMORY.ref(4, 0x8090104).get();
         r4 = MEMORY.ref(4, 0x8090108).get();
         r3 = MEMORY.ref(2, r4).getUnsigned();
@@ -3077,16 +3273,16 @@ public final class GoldenSun_808 {
         if(CPU.cpsr().getZero()) { // ==
           r1 = CPU.movT(0, 0xc8);
           r1 = CPU.lslT(r1, 4);
-          r0 = MEMORY.ref(4, 0x8090130).get();
+          r0 = 0x80903bc;
         } else {
           //LAB_8090134
           r1 = CPU.movT(0, 0xc8);
           r1 = CPU.lslT(r1, 4);
-          r0 = MEMORY.ref(4, 0x80901ac).get();
+          r0 = 0x8090488;
         }
 
         //LAB_809013a
-        FUN_80041d8(r0, r1);
+        FUN_80041d8(getRunnable(GoldenSun_809.class, "FUN_%x".formatted(r0)), r1);
         r1 = CPU.movT(0, 0x0);
         r0 = CPU.movT(0, 0x1);
         setInterruptHandler(r0, r1, getRunnable(GoldenSun_809.class, "FUN_8090584"));
