@@ -286,6 +286,11 @@ public final class GoldenSun_80f {
     FUN_80f91e8();
   }
 
+  @Method(0x80f9048)
+  public static int FUN_80f9048() {
+    return (int)MEMORY.call(0x80f954c);
+  }
+
   @Method(0x80f9070)
   public static int FUN_80f9070() {
     throw new RuntimeException("Not implenented");
@@ -493,6 +498,11 @@ public final class GoldenSun_80f {
     for(int i = 0; i < 8; i++) {
       MEMORY.ref(2, 0x2003020 + i * 0x2).setu(0);
     }
+  }
+
+  @Method(0x80f954c)
+  public static int FUN_80f954c() {
+    return MEMORY.ref(1, 0x2003000).getUnsigned();
   }
 
   @Method(0x80f95e0)

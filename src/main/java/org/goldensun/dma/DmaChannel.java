@@ -2,6 +2,7 @@ package org.goldensun.dma;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.goldensun.DebugHelper;
 import org.goldensun.memory.IllegalAddressException;
 import org.goldensun.memory.Memory;
 import org.goldensun.memory.Segment;
@@ -130,7 +131,8 @@ public class DmaChannel {
         final int destControl = (this.control & DEST_ADDRESS_MASK) >>> DEST_ADDRESS_SHIFT;
         final int sourceControl = (this.control & SOURCE_ADDRESS_MASK) >>> SOURCE_ADDRESS_SHIFT;
 
-        LOGGER.info("DMA %d transferring 0x%x bytes from 0x%x to 0x%x", this.index, this.wordCountCopy * wordSize, this.sourceAddressCopy, this.destAddressCopy);
+        final StackWalker.StackFrame frame = DebugHelper.getStackFrame(5);
+        LOGGER.info("DMA %d transferring 0x%x bytes from 0x%x to 0x%x by %s.%s(%s:%d)", this.index, this.wordCountCopy * wordSize, this.sourceAddressCopy, this.destAddressCopy, frame.getClassName(), frame.getMethodName(), frame.getFileName(), frame.getLineNumber());
 
         for(int i = 0; i < this.wordCountCopy; i++) {
           this.memory.set(this.destAddressCopy, wordSize, this.memory.get(this.sourceAddressCopy, wordSize));
