@@ -7,6 +7,7 @@ import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
+import org.goldensun.types.RenderPacket0c;
 import org.goldensun.types.SoundStruct0c;
 import org.goldensun.types.SoundStructFb0;
 import org.goldensun.types.Struct04;
@@ -22,7 +23,8 @@ public final class GoldenSunVars {
 
   public static final SoundStructFb0 _2003050 = MEMORY.ref(4, 0x2003050, SoundStructFb0::new);
 
-  public static final IntRef _3001800 = MEMORY.ref(4, 0x3001800, IntRef::new);
+  public static final ArrayRef<Pointer<RenderPacket0c>> packets_3001400 = MEMORY.ref(4, 0x3001400, ArrayRef.of(Pointer.classFor(RenderPacket0c.class), 0x100, 0x4, Pointer.deferred(4, RenderPacket0c::new)));
+  public static final IntRef ticks_3001800 = MEMORY.ref(4, 0x3001800, IntRef::new);
   public static final IntRef _3001804 = MEMORY.ref(4, 0x3001804, IntRef::new);
 
   public static final ArrayRef<UnsignedByteRef> _3001810 = MEMORY.ref(1, 0x3001810, ArrayRef.of(UnsignedByteRef.class, 0x200, 1, UnsignedByteRef::new));
@@ -77,7 +79,7 @@ public final class GoldenSunVars {
   public static final UnsignedShortRef blendConfig_3001cf8 = MEMORY.ref(2, 0x3001cf8, UnsignedShortRef::new);
 
   public static final IntRef _3001cfc = MEMORY.ref(4, 0x3001cfc, IntRef::new);
-  public static final UnsignedByteRef _3001d00 = MEMORY.ref(1, 0x3001d00, UnsignedByteRef::new);
+  public static final UnsignedByteRef rotationScalingCount_3001d00 = MEMORY.ref(1, 0x3001d00, UnsignedByteRef::new);
 
   public static final IntRef _3001d04 = MEMORY.ref(4, 0x3001d04, IntRef::new);
   public static final UnsignedByteRef _3001d08 = MEMORY.ref(1, 0x3001d08, UnsignedByteRef::new);
@@ -96,6 +98,7 @@ public final class GoldenSunVars {
 
   public static final UnsignedByteRef _3001d34 = MEMORY.ref(1, 0x3001d34, UnsignedByteRef::new);
 
+  public static final ArrayRef<UnsignedShortRef> rotationScaling_3001d40 = MEMORY.ref(2, 0x3001d40, ArrayRef.of(UnsignedShortRef.class, 0x80, 0x2, UnsignedShortRef::new));
   public static final IntRef _3001e40 = MEMORY.ref(4, 0x3001e40, IntRef::new);
   public static final UnsignedByteRef _3001e44 = MEMORY.ref(1, 0x3001e44, UnsignedByteRef::new);
 

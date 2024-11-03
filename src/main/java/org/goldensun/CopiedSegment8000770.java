@@ -287,29 +287,21 @@ public final class CopiedSegment8000770 {
       CPU.rsbA(r2, r1 >>> 31);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x80000000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 31);
       }
       CPU.rsbA(r2, r1 >>> 30);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x40000000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 30);
       }
       CPU.rsbA(r2, r1 >>> 29);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x20000000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 29);
       }
       CPU.rsbA(r2, r1 >>> 28);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x10000000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 28);
       }
     }
@@ -320,29 +312,21 @@ public final class CopiedSegment8000770 {
       CPU.rsbA(r2, r1 >>> 27);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x8000000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 27);
       }
       CPU.rsbA(r2, r1 >>> 26);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x4000000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 26);
       }
       CPU.rsbA(r2, r1 >>> 25);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x2000000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 25);
       }
       CPU.rsbA(r2, r1 >>> 24);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x1000000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 24);
       }
     }
@@ -353,29 +337,21 @@ public final class CopiedSegment8000770 {
       CPU.rsbA(r2, r1 >>> 23);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x800000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 23);
       }
       CPU.rsbA(r2, r1 >>> 22);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x400000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 22);
       }
       CPU.rsbA(r2, r1 >>> 21);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x200000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 21);
       }
       CPU.rsbA(r2, r1 >>> 20);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x100000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 20);
       }
     }
@@ -386,29 +362,21 @@ public final class CopiedSegment8000770 {
       CPU.rsbA(r2, r1 >>> 19);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x80000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 19);
       }
       CPU.rsbA(r2, r1 >>> 18);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x40000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 18);
       }
       CPU.rsbA(r2, r1 >>> 17);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x20000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 17);
       }
       CPU.rsbA(r2, r1 >>> 16);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x10000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 16);
       }
     }
@@ -419,29 +387,21 @@ public final class CopiedSegment8000770 {
       CPU.rsbA(r2, r1 >>> 15);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x8000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 15);
       }
       CPU.rsbA(r2, r1 >>> 14);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x4000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 14);
       }
       CPU.rsbA(r2, r1 >>> 13);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x2000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 13);
       }
       CPU.rsbA(r2, r1 >>> 12);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x1000;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 12);
       }
     }
@@ -452,29 +412,21 @@ public final class CopiedSegment8000770 {
       CPU.rsbA(r2, r1 >>> 11);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x800;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 11);
       }
       CPU.rsbA(r2, r1 >>> 10);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x400;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 10);
       }
       CPU.rsbA(r2, r1 >>> 9);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x200;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 9);
       }
       CPU.rsbA(r2, r1 >>> 8);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x100;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 8);
       }
     }
@@ -485,29 +437,21 @@ public final class CopiedSegment8000770 {
       CPU.rsbA(r2, r1 >>> 7);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x80;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 7);
       }
       CPU.rsbA(r2, r1 >>> 6);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x40;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 6);
       }
       CPU.rsbA(r2, r1 >>> 5);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x20;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 5);
       }
       CPU.rsbA(r2, r1 >>> 4);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x10;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 4);
       }
     }
@@ -518,29 +462,21 @@ public final class CopiedSegment8000770 {
       CPU.rsbA(r2, r1 >>> 3);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x8;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 3);
       }
       CPU.rsbA(r2, r1 >>> 2);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x4;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 2);
       }
       CPU.rsbA(r2, r1 >>> 1);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x2;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - (r2 << 1);
       }
       CPU.rsbA(r2, r1);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r0 = r0 | 0x1;
-      }
-      if(CPU.cpsr().getCarry()) { // unsigned >=
         r1 = r1 - r2;
       }
     }

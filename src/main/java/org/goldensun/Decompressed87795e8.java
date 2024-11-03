@@ -576,7 +576,7 @@ public final class Decompressed87795e8 {
                                 //LAB_2008bb4
                                 FUN_20093e4(CPU.r10().value, 0xf128, 0x11 - CPU.r8().value, -1, 0);
                                 FUN_20093e4(CPU.r10().value, 0xf129, 0x12, -1, 0);
-                                r1 = MEMORY.ref(4, 0x3001e8c).get() + 0xea3;
+                                r1 = boardWramMallocHead_3001e50.offset(15 * 0x4).get() + 0xea3;
                                 r3 = MEMORY.ref(2, CPU.r10().value + 0xe).getUnsigned() >>> 2;
                                 MEMORY.ref(1, r1).oru(0x2 << r3);
                               }
