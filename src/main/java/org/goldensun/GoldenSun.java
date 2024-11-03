@@ -1523,7 +1523,7 @@ public final class GoldenSun {
   public static int mallocSlotBoard(final int slot, int size) {
     final int alreadyAllocated = boardWramMallocHead_3001e50.offset(slot * 0x4).get();
     if(alreadyAllocated != 0) {
-      return 0;
+      return alreadyAllocated;
     }
 
     size = size + 0x3 & ~0x3;
