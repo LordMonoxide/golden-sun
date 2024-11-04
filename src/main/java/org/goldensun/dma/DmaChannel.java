@@ -110,85 +110,59 @@ public class DmaChannel {
     }
 
     if((this.control & ENABLE_MASK) != 0) {
-      this.startTransfer();
+      this.sourceAddressCopy = this.sourceAddress;
+      this.destAddressCopy = this.destAddress;
+      this.wordCountCopy = this.wordCount;
+
+      if((this.control & START_TIMING_MASK) >>> START_TIMING_SHIFT == START_TIMING_IMMEDIATELY) {
+        this.startTransfer();
+      }
     }
   }
 
   private void startTransfer() {
-    this.sourceAddressCopy = this.sourceAddress;
-    this.destAddressCopy = this.destAddress;
+    final int wordSize = 2 << ((this.control & TRANSFER_TYPE_MASK) >>> TRANSFER_TYPE_SHIFT);
+    final int destControl = (this.control & DEST_ADDRESS_MASK) >>> DEST_ADDRESS_SHIFT;
+    final int sourceControl = (this.control & SOURCE_ADDRESS_MASK) >>> SOURCE_ADDRESS_SHIFT;
+
+    final StackWalker.StackFrame frame = DebugHelper.getStackFrame(5);
+    LOGGER.info("DMA %d transferring 0x%x bytes from 0x%x to 0x%x by %s.%s(%s:%d)", this.index, this.wordCountCopy * wordSize, this.sourceAddressCopy, this.destAddressCopy, frame.getClassName(), frame.getMethodName(), frame.getFileName(), frame.getLineNumber());
+
+    for(int i = 0; i < this.wordCountCopy; i++) {
+      this.memory.set(this.destAddressCopy, wordSize, this.memory.get(this.sourceAddressCopy, wordSize));
+
+      switch(destControl) {
+        case DEST_ADDRESS_DECREMENT -> this.destAddressCopy -= wordSize;
+        case DEST_ADDRESS_INCREMENT, DEST_ADDRESS_INCREMENT_RELOAD -> this.destAddressCopy += wordSize;
+      }
+
+      switch(sourceControl) {
+        case SOURCE_ADDRESS_DECREMENT -> this.sourceAddressCopy -= wordSize;
+        case SOURCE_ADDRESS_INCREMENT -> this.sourceAddressCopy += wordSize;
+      }
+    }
+
+    if(destControl == DEST_ADDRESS_INCREMENT_RELOAD) {
+      this.destAddressCopy = this.destAddress;
+    }
+
     this.wordCountCopy = this.wordCount;
 
-    switch((this.control & START_TIMING_MASK) >>> START_TIMING_SHIFT) {
-      case START_TIMING_HBLANK, START_TIMING_VBLANK -> throw new RuntimeException("HBLANK/VBLANK timing not implemented");
-
-      case START_TIMING_IMMEDIATELY -> {
-        if((this.control & REPEAT_MASK) != 0) {
-          throw new RuntimeException("Can't repeat immediate transfer (probably)");
-        }
-
-        final int wordSize = 2 << ((this.control & TRANSFER_TYPE_MASK) >>> TRANSFER_TYPE_SHIFT);
-        final int destControl = (this.control & DEST_ADDRESS_MASK) >>> DEST_ADDRESS_SHIFT;
-        final int sourceControl = (this.control & SOURCE_ADDRESS_MASK) >>> SOURCE_ADDRESS_SHIFT;
-
-        final StackWalker.StackFrame frame = DebugHelper.getStackFrame(5);
-        LOGGER.info("DMA %d transferring 0x%x bytes from 0x%x to 0x%x by %s.%s(%s:%d)", this.index, this.wordCountCopy * wordSize, this.sourceAddressCopy, this.destAddressCopy, frame.getClassName(), frame.getMethodName(), frame.getFileName(), frame.getLineNumber());
-
-        for(int i = 0; i < this.wordCountCopy; i++) {
-          this.memory.set(this.destAddressCopy, wordSize, this.memory.get(this.sourceAddressCopy, wordSize));
-
-          switch(destControl) {
-            case DEST_ADDRESS_DECREMENT -> this.destAddressCopy -= wordSize;
-            case DEST_ADDRESS_INCREMENT, DEST_ADDRESS_INCREMENT_RELOAD -> this.destAddressCopy += wordSize;
-          }
-
-          switch(sourceControl) {
-            case SOURCE_ADDRESS_DECREMENT -> this.sourceAddressCopy -= wordSize;
-            case SOURCE_ADDRESS_INCREMENT -> this.sourceAddressCopy += wordSize;
-          }
-        }
-
-        if(destControl == DEST_ADDRESS_INCREMENT_RELOAD) {
-          this.destAddressCopy = this.destAddress;
-        }
-
-        this.wordCountCopy = this.wordCount;
-        this.control &= ~ENABLE_MASK;
-      }
-
-      case START_TIMING_SPECIAL -> {
-        if(this.index == 1 || this.index == 2) {
-          //TODO LOGGER.warn("Audio FIFO DMA not implemented");
-          return;
-        }
-
-        throw new RuntimeException("DMA channel " + this.index + " special not implemented");
-      }
+    if((this.control & REPEAT_MASK) == 0) {
+      this.control &= ~ENABLE_MASK;
     }
   }
 
   public void triggerHblank() {
-    if((this.control & START_TIMING_MASK) >>> START_TIMING_SHIFT != START_TIMING_HBLANK) {
-      return;
+    if((this.control & START_TIMING_MASK) >>> START_TIMING_SHIFT == START_TIMING_HBLANK) {
+      this.startTransfer();
     }
-
-    if((this.control & REPEAT_MASK) != 0) {
-      throw new RuntimeException("DMA repeat not implemented");
-    }
-
-    throw new RuntimeException("Not implemented");
   }
 
   public void triggerVblank() {
-    if((this.control & START_TIMING_MASK) >>> START_TIMING_SHIFT != START_TIMING_VBLANK) {
-      return;
+    if((this.control & START_TIMING_MASK) >>> START_TIMING_SHIFT == START_TIMING_VBLANK) {
+      this.startTransfer();
     }
-
-    if((this.control & REPEAT_MASK) != 0) {
-      throw new RuntimeException("DMA repeat not implemented");
-    }
-
-    throw new RuntimeException("Not implemented");
   }
 
   public class DmaChannelSegment extends Segment {

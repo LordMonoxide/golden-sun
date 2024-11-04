@@ -17,7 +17,6 @@ import static org.goldensun.GoldenSun.FUN_800231c;
 import static org.goldensun.GoldenSun.FUN_8002322;
 import static org.goldensun.GoldenSun.FUN_80030f8;
 import static org.goldensun.GoldenSun.FUN_8003d28;
-import static org.goldensun.GoldenSun.insertIntoRenderQueue;
 import static org.goldensun.GoldenSun.FUN_8003f3c;
 import static org.goldensun.GoldenSun.FUN_8003fa4;
 import static org.goldensun.GoldenSun.FUN_8004080;
@@ -30,19 +29,20 @@ import static org.goldensun.GoldenSun.FUN_800fec8;
 import static org.goldensun.GoldenSun.FUN_800ff54;
 import static org.goldensun.GoldenSun.freeSlot;
 import static org.goldensun.GoldenSun.getPointerTableEntry;
+import static org.goldensun.GoldenSun.insertIntoRenderQueue;
 import static org.goldensun.GoldenSun.mallocBoard;
 import static org.goldensun.GoldenSun.mallocChip;
 import static org.goldensun.GoldenSun.mallocSlotBoard;
 import static org.goldensun.GoldenSun.mallocSlotChip;
 import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.setMallocSlot;
+import static org.goldensun.GoldenSunVars._3001b10;
 import static org.goldensun.GoldenSunVars._3001cd0;
 import static org.goldensun.GoldenSunVars.accumulatedButtons_3001af8;
-import static org.goldensun.GoldenSunVars.pressedButtons_3001c94;
-import static org.goldensun.GoldenSunVars.ticks_3001800;
-import static org.goldensun.GoldenSunVars._3001b10;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.heldButtonsLastFrame_3001ae8;
+import static org.goldensun.GoldenSunVars.pressedButtons_3001c94;
+import static org.goldensun.GoldenSunVars.ticks_3001800;
 import static org.goldensun.GoldenSun_807.FUN_8077008;
 import static org.goldensun.GoldenSun_807.FUN_80770c0;
 import static org.goldensun.GoldenSun_808.FUN_808a5d0;
@@ -1195,6 +1195,11 @@ public final class GoldenSun_801 {
   @Method(0x8015210)
   public static void FUN_8015210(final int r0, final int r1, final int r2) {
     MEMORY.call(0x8019aa0, r0, r1, r2);
+  }
+
+  @Method(0x8015268)
+  public static void FUN_8015268(final int r0) {
+    MEMORY.call(0x801edec, r0);
   }
 
   @Method(0x8015288)
@@ -5813,6 +5818,33 @@ public final class GoldenSun_801 {
 
     //LAB_801ed1c
     CPU.sp().value += 0x10;
+  }
+
+  @Method(0x801edec)
+  public static void FUN_801edec(final int r0) {
+    final int r7 = boardWramMallocHead_3001e50.offset(15 * 0x4).get();
+    if(r7 == 0) {
+      CPU.sp().value -= 0x4;
+      MEMORY.ref(2, CPU.sp().value + 0x2).setu(0xe0e0);
+      DMA.channels[3].SAD.setu(CPU.sp().value + 0x2);
+      DMA.channels[3].DAD.setu(r0);
+      DMA.channels[3].CNT.setu(0x810000a0);
+      CPU.sp().value += 0x4;
+    } else {
+      //LAB_801ee24
+      final int size = 0x214;
+      final int addr = mallocChip(size);
+      DMA.channels[3].SAD.setu(0x80158e8);
+      DMA.channels[3].DAD.setu(addr);
+      DMA.channels[3].CNT.setu(0x84000000 | size / 4);
+
+      MEMORY.setFunction(addr, CopiedSegment80158e8.class, "FUN_80158e8", int.class, int.class);
+      MEMORY.call(addr, r0, r7);
+
+      setMallocSlot(addr);
+    }
+
+    //LAB_801ee4e
   }
 
   @Method(0x801f77c)

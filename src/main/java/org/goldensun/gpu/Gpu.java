@@ -154,11 +154,21 @@ public class Gpu {
   private final int[] bghofs = new int[4];
   private final int[] bgvofs = new int[4];
 
+  //TODO implement windowing
+  private int win0h;
+  private int win1h;
+  private int win0v;
+  private int win1v;
+  private int winin;
+  private int winout;
+
+  //TODO implement mosaic
   private int bgMosaicW;
   private int bgMosaicH;
   private int objMosaicW;
   private int objMosaicH;
 
+  //TODO implement blending
   private final BldCnt bldCnt = new BldCnt();
   private int bldAlpha1;
   private int bldAlpha2;
@@ -672,6 +682,54 @@ public class Gpu {
     this.bgvofs[index] = val;
   }
 
+  private int onWin0hRead() {
+    return this.win0h;
+  }
+
+  private void onWin0hWrite(final int val) {
+    this.win0h = val;
+  }
+
+  private int onWin1hRead() {
+    return this.win1h;
+  }
+
+  private void onWin1hWrite(final int val) {
+    this.win1h = val;
+  }
+
+  private int onWin0vRead() {
+    return this.win0v;
+  }
+
+  private void onWin0vWrite(final int val) {
+    this.win0v = val;
+  }
+
+  private int onWin1vRead() {
+    return this.win1v;
+  }
+
+  private void onWin1vWrite(final int val) {
+    this.win1v = val;
+  }
+
+  private int onWinoutRead() {
+    return this.winout;
+  }
+
+  private void onWinoutWrite(final int val) {
+    this.winout = val;
+  }
+
+  private int onWininRead() {
+    return this.winin;
+  }
+
+  private void onWininWrite(final int val) {
+    this.winin = val;
+  }
+
   private int onMosaicRead() {
     return
       this.bgMosaicW - 1 << MOSAIC_BG_X_SIZE_SHIFT |
@@ -956,6 +1014,9 @@ public class Gpu {
         case 0x18 -> ((Gpu.this.onBgVofsRead(2) << 16 | Gpu.this.onBgHofsRead(2)) & mask) >> shift;
         case 0x1c -> ((Gpu.this.onBgVofsRead(3) << 16 | Gpu.this.onBgHofsRead(3)) & mask) >> shift;
 
+        case 0x40 -> ((Gpu.this.onWin1hRead() << 16 | Gpu.this.onWin0hRead()) & mask) >> shift;
+        case 0x44 -> ((Gpu.this.onWin1vRead() << 16 | Gpu.this.onWin0vRead()) & mask) >> shift;
+        case 0x48 -> ((Gpu.this.onWinoutRead() << 16 | Gpu.this.onWininRead()) & mask) >> shift;
         case 0x4c -> (Gpu.this.onMosaicRead() & mask) >> shift;
         case 0x50 -> ((Gpu.this.onBldAlphaRead() << 16 | Gpu.this.onBldCntRead()) & mask) >> shift;
         case 0x54 -> (Gpu.this.onBldYRead() & mask) >> shift;
@@ -1014,6 +1075,27 @@ public class Gpu {
           final int newValue = current & ~mask | value << shift & mask;
           Gpu.this.onBgHofsWrite(3, newValue & 0xffff);
           Gpu.this.onBgVofsWrite(3, newValue >>> 16);
+        }
+
+        case 0x40 -> {
+          final int current = Gpu.this.onWin1hRead() << 16 | Gpu.this.onWin0hRead();
+          final int newValue = current & ~mask | value << shift & mask;
+          Gpu.this.onWin0hWrite(newValue & 0xffff);
+          Gpu.this.onWin1hWrite(newValue >>> 16);
+        }
+
+        case 0x44 -> {
+          final int current = Gpu.this.onWin1vRead() << 16 | Gpu.this.onWin0vRead();
+          final int newValue = current & ~mask | value << shift & mask;
+          Gpu.this.onWin0vWrite(newValue & 0xffff);
+          Gpu.this.onWin1vWrite(newValue >>> 16);
+        }
+
+        case 0x48 -> {
+          final int current = Gpu.this.onWinoutRead() << 16 | Gpu.this.onWininRead();
+          final int newValue = current & ~mask | value << shift & mask;
+          Gpu.this.onWininWrite(newValue & 0xffff);
+          Gpu.this.onWinoutWrite(newValue >>> 16);
         }
 
         case 0x4c -> Gpu.this.onMosaicWrite(Gpu.this.onMosaicRead() & ~mask | value << shift & mask);

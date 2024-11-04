@@ -24,6 +24,7 @@ import static org.goldensun.GoldenSun.FUN_8009240;
 import static org.goldensun.GoldenSun.mallocSlotBoard;
 import static org.goldensun.GoldenSun.FUN_8009098;
 import static org.goldensun.GoldenSun.mallocSlotChip;
+import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.setInterruptHandler;
 import static org.goldensun.GoldenSunVars._3001810;
 import static org.goldensun.GoldenSunVars._3001f54;
@@ -1369,7 +1370,7 @@ public final class GoldenSun_809 {
 
   @Method(0x8091294)
   public static int FUN_8091294(final int r0) {
-    throw new RuntimeException("Not implemented");
+    return MathHelper.clamp(r0, 0, 0x1f);
   }
 
   @Method(0x80912a8)
@@ -2332,6 +2333,87 @@ public final class GoldenSun_809 {
   @Method(0x8094428)
   public static int FUN_8094428() {
     throw new RuntimeException("Not implemented");
+  }
+
+  @Method(0x80949a8)
+  public static void FUN_80949a8() {
+    final int r6 = boardWramMallocHead_3001e50.offset(30 * 0x4).get();
+    final int r7 = boardWramMallocHead_3001e50.offset(32 * 0x4).get();
+
+    if(MEMORY.ref(2, r6 + 0x1f80).get() >= 0) {
+      if(FUN_80770c0(0x166) != 0) {
+        MEMORY.ref(2, r6 + 0x1f80).setu(0x80);
+      }
+
+      //LAB_80949ce
+      final int r3 = (short)MEMORY.ref(2, r6 + 0x1f80).getUnsigned();
+      MEMORY.ref(2, r6 + 0x1f80).decr();
+
+      switch(r3) {
+        case 0:
+          if(MEMORY.ref(2, r6 + 0x1f82).get() != 0) {
+            MEMORY.ref(2, r6 + 0x1f80).setu((rand() * 400 >>> 16) - (rand() * 100 >>> 16) + 150);
+            if(MEMORY.ref(2, r6 + 0x1f84).get() != 0) {
+              FUN_80f9010(0xac);
+            } else {
+              //LAB_8094a5c
+              FUN_80f9010(0xab);
+            }
+          }
+
+        case 5:
+        case 10:
+          //LAB_8094a62
+          FUN_8091200(r6, 0x1);
+          DMA.channels[3].SAD.setu(r6 + 0x1500);
+          DMA.channels[3].DAD.setu(r7 + 0x1880);
+          DMA.channels[3].CNT.setu(0x840002a0);
+
+          MEMORY.ref(1, r7 + 0x2a01).setu(0xc);
+          MEMORY.ref(1, r7 + 0x2a02).setu(0);
+          break;
+
+        case 1:
+        case 6:
+        case 11:
+          FUN_8091200(r6 + 0xa80, 0x1);
+          MEMORY.ref(1, r7 + 0x2a01).setu(0x1);
+          MEMORY.ref(1, r7 + 0x2a02).setu(0);
+          break;
+      }
+    }
+
+    //LAB_8094aa2
+  }
+
+  @Method(0x8095160)
+  public static void FUN_8095160() {
+    final int r5 = mallocSlotBoard(0x1e, 0x1f88);
+    final int r3 = boardWramMallocHead_3001e50.offset(32 * 0x4).get();
+
+    CPU.sp().value -= 0x4;
+    MEMORY.ref(4, CPU.sp().value).setu(0);
+    DMA.channels[3].SAD.setu(CPU.sp().value);
+    DMA.channels[3].DAD.setu(r5);
+    DMA.channels[3].CNT.setu(0x850007e2);
+    CPU.sp().value += 0x4;
+
+    FUN_8090a5c(0x10003, r3, r5, 0x1);
+    FUN_8090a5c(0x10005, r3, r5 + 0xa80, 0x1);
+    FUN_809088c(r5 + 0xa80, r5, r5 + 0x1500, 0xc);
+    FUN_8090a5c(r5, 0, r3 + 0xe00, 0x1);
+
+    MEMORY.ref(2, r5 + 0x1f80).setu(0x258);
+    MEMORY.ref(2, r5).setu(0x1);
+
+    FUN_80041d8(getRunnable(GoldenSun_809.class, "FUN_80949a8"), 0xc80);
+  }
+
+  @Method(0x8095240)
+  public static void FUN_8095240() {
+    final int r0 = mallocSlotBoard(30, 0x1f88);
+    MEMORY.ref(2, r0 + 0x1f80).setu(0xc);
+    MEMORY.ref(2, r0 + 0x1f82).setu(0);
   }
 
   @Method(0x80955b0)
