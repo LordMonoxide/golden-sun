@@ -1584,6 +1584,80 @@ public final class GoldenSun {
     return 0;
   }
 
+  @Method(0x8005268)
+  public static int FUN_8005268(int r0, int r1) {
+    int r2;
+    int r3;
+    final int r4;
+    final int r5;
+    final int r7;
+
+    r5 = CPU.addT(r1, 0x0);
+    MEMORY.call(0x3000250, r0, r1);
+    r3 = MEMORY.ref(4, r5 + 0x8).get();
+    r7 = MEMORY.ref(4, 0x80052e0).get();
+    r1 = CPU.negT(r1, r3);
+    r3 = MEMORY.ref(4, r7 + 0x4).get();
+    r0 = CPU.movT(0, 0x0);
+    r1 = CPU.cmpT(r1, r3);
+    if(CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >=
+      r3 = MEMORY.ref(4, r7 + 0x8).get();
+      r1 = CPU.cmpT(r1, r3);
+      if(CPU.cpsr().getZero() || CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <=
+        r3 = CPU.asrT(r1, 16);
+        MEMORY.ref(4, r5 + 0x8).setu(r3);
+        r0 = MEMORY.ref(4, r7).get();
+        CPU.cmpT(r0, 0x0);
+        if(!CPU.cpsr().getZero()) { // !=
+          r1 = CPU.lsrT(r1, 11);
+          r0 = CPU.lslT(r0, 5);
+          MEMORY.call(0x30003f0, r0, r1);
+          r4 = CPU.addT(r0, 0x0);
+        } else {
+          //LAB_800529e
+          r4 = MEMORY.ref(4, 0x80052e8).get();
+        }
+
+        //LAB_80052a0
+        r0 = MEMORY.ref(4, r5).get();
+        r1 = CPU.addT(r4, 0x0);
+        r0 = CPU.lslT(r0, 0);
+        CPU.r12().value = 0x80052ac;
+        r0 = (int)MEMORY.call(0x3000118, r0, r1);
+        CPU.cmpT(r0, 0x0);
+        if(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <
+          r3 = MEMORY.ref(4, 0x80052f0).get();
+          r0 = CPU.addT(r0, r3);
+        }
+
+        //LAB_80052b4
+        r3 = MEMORY.ref(4, r7 + 0xc).get();
+        r2 = CPU.asrT(r0, 16);
+        r3 = CPU.addT(r3, r2);
+        MEMORY.ref(4, r5).setu(r3);
+        r0 = MEMORY.ref(4, r5 + 0x4).get();
+        r1 = CPU.addT(r4, 0x0);
+        CPU.r12().value = 0x80052c4;
+        r0 = (int)MEMORY.call(0x3000118, r0, r1);
+        CPU.cmpT(r0, 0x0);
+        if(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <
+          r3 = MEMORY.ref(4, 0x80052f0).get();
+          r0 = CPU.addT(r0, r3);
+        }
+
+        //LAB_80052cc
+        r3 = MEMORY.ref(4, r7 + 0x10).get();
+        r2 = CPU.asrT(r0, 16);
+        r3 = CPU.subT(r3, r2);
+        MEMORY.ref(4, r5 + 0x4).setu(r3);
+        r0 = CPU.addT(r4, 0x0);
+      }
+    }
+
+    //LAB_80052d6
+    return r0;
+  }
+
   @Method(0x8005340)
   public static int decompress(final int src, final int dst) {
     // Copy decompression routine into system memory
