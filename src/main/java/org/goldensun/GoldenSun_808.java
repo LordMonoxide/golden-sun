@@ -243,6 +243,11 @@ public final class GoldenSun_808 {
     MEMORY.call(0x8095240);
   }
 
+  @Method(0x808a2e0)
+  public static void FUN_808a2e0() {
+    MEMORY.call(0x8095268);
+  }
+
   @Method(0x808a330)
   public static void FUN_808a330(final int r0, final int r1) {
     MEMORY.call(0x8091200, r0, r1);

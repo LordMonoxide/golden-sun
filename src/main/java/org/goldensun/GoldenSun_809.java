@@ -1821,8 +1821,9 @@ public final class GoldenSun_809 {
 
   @Method(0x80924d4)
   public static void FUN_80924d4(final int r0, final int r1) {
-    if(FUN_808ba1c(r0) != 0) {
-      FUN_8009080(r0, r1);
+    final int r0_0 = FUN_808ba1c(r0);
+    if(r0_0 != 0) {
+      FUN_8009080(r0_0, r1);
     }
 
     //LAB_80924e6
@@ -2414,6 +2415,13 @@ public final class GoldenSun_809 {
     final int r0 = mallocSlotBoard(30, 0x1f88);
     MEMORY.ref(2, r0 + 0x1f80).setu(0xc);
     MEMORY.ref(2, r0 + 0x1f82).setu(0);
+  }
+
+  @Method(0x8095268)
+  public static void FUN_8095268() {
+    final int r0 = mallocSlotBoard(30, 0x1f88);
+    MEMORY.ref(2, r0 + 0x1f80).setu(0x80);
+    MEMORY.ref(2, r0 + 0x1f82).setu(0x1);
   }
 
   @Method(0x80955b0)
