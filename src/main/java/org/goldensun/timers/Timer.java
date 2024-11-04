@@ -38,8 +38,9 @@ public class Timer {
 
   private int counter;
 
-  private int nsPerTick;
   private long lastTick;
+  private float nsPerTick;
+  private float partial;
 
   public Timer(final int index, final Memory memory, final InterruptController interrupts) {
     this.index = index;
@@ -75,7 +76,7 @@ public class Timer {
       default -> throw new RuntimeException("Impossible state");
     };
 
-    this.nsPerTick = (int)(1_000_000_000.0f / CPU_SPEED * prescaler);
+    this.nsPerTick = 1_000_000_000.0f / CPU_SPEED * prescaler;
 
     if((val & CONTROL_COUNT_UP_TIMING_MASK) != 0) {
       throw new RuntimeException("Timer count up not supported");
@@ -94,22 +95,22 @@ public class Timer {
         this.lastTick = current;
       }
 
-      long delta = current - this.lastTick;
+      final long delta = current - this.lastTick;
 
-      while(delta >= this.nsPerTick) {
-        delta -= this.nsPerTick;
-        this.counter++;
+      final float ticksPassed = delta / this.nsPerTick + this.partial;
+      final int wholeTicks = (int)ticksPassed;
+      this.counter += wholeTicks;
+      this.partial = ticksPassed - wholeTicks;
 
-        if(this.counter > 0xffff) {
-          this.counter = this.reload;
+      while(this.counter > 0xffff) {
+        this.counter -= 0xffff - this.reload;
 
-          if((this.control & CONTROL_IRQ_ENABLE_MASK) != 0) {
-            this.interrupts.set(this.interruptType);
-          }
+        if((this.control & CONTROL_IRQ_ENABLE_MASK) != 0) {
+          this.interrupts.set(this.interruptType);
         }
-
-        this.lastTick = current;
       }
+
+      this.lastTick = current;
     }
   }
 

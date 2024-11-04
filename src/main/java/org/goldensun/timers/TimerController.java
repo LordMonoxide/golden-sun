@@ -1,6 +1,5 @@
 package org.goldensun.timers;
 
-import org.goldensun.DebugHelper;
 import org.goldensun.cpu.InterruptController;
 import org.goldensun.memory.Memory;
 
@@ -28,7 +27,7 @@ public class TimerController implements Runnable {
         timer.tick();
       }
 
-      DebugHelper.sleep(0);
+//      DebugHelper.sleep(0);
     }
   }
 }

@@ -133,7 +133,7 @@ public class Gpu {
   private static final int CYCLES_PER_LINE = H_DOTS * CYCLES_PER_DOT;
   private static final int FRAMES_PER_SECOND = 60;
   /** Nanoseconds per line */
-  private static final int V_LINE_NANOS = 1_000_000_000 / 60 / V_LINES;
+  private static final int V_LINE_NANOS = 1_000_000_000 / FRAMES_PER_SECOND / V_LINES;
   /** Nanoseconds per dot */
   private static final int H_DOT_NANOS = V_LINE_NANOS / H_DOTS;
   private static final int H_DRAW_NANOS = H_DOT_NANOS * H_DRAW_DOTS;
