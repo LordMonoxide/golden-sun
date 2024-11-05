@@ -233,6 +233,11 @@ public final class GoldenSun_808 {
     MEMORY.call(0x8091e9c, r0);
   }
 
+  @Method(0x808a278)
+  public static void FUN_808a278(final int r0, final int r1) {
+    MEMORY.call(0x8094154, r0, r1);
+  }
+
   @Method(0x808a2c8)
   public static void FUN_808a2c8() {
     MEMORY.call(0x8095160);
@@ -2881,7 +2886,7 @@ public final class GoldenSun_808 {
                       r0 = FUN_80770c0(r0);
                       if(r0 != 0) {
                         if((MEMORY.ref(4, r6 + 0x8).get() & 0xfff00000) == 0x500000) {
-                          r0 = FUN_80090d0(r5, r1, r2);
+                          FUN_80090d0(r5);
                           break jmp_808ebb8;
                         }
 

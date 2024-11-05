@@ -110,8 +110,11 @@ public class DmaChannel {
     }
 
     if((this.control & ENABLE_MASK) != 0) {
-      this.sourceAddressCopy = this.sourceAddress;
-      this.destAddressCopy = this.destAddress;
+      final int wordSize = 2 << ((this.control & TRANSFER_TYPE_MASK) >>> TRANSFER_TYPE_SHIFT);
+
+      // Couldn't find this in the no$ docs but no$ word aligns transfers
+      this.sourceAddressCopy = this.sourceAddress & -wordSize;
+      this.destAddressCopy = this.destAddress & -wordSize;
       this.wordCountCopy = this.wordCount;
 
       if((this.control & START_TIMING_MASK) >>> START_TIMING_SHIFT == START_TIMING_IMMEDIATELY) {
@@ -143,7 +146,8 @@ public class DmaChannel {
     }
 
     if(destControl == DEST_ADDRESS_INCREMENT_RELOAD) {
-      this.destAddressCopy = this.destAddress;
+      // Couldn't find this in the no$ docs but no$ word aligns transfers
+      this.destAddressCopy = this.destAddress & -wordSize;
     }
 
     this.wordCountCopy = this.wordCount;

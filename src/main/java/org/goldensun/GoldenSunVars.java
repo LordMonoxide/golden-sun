@@ -2,8 +2,10 @@ package org.goldensun;
 
 import org.goldensun.memory.Value;
 import org.goldensun.memory.types.ArrayRef;
+import org.goldensun.memory.types.FunctionRef;
 import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.Pointer;
+import org.goldensun.memory.types.TriConsumerRef;
 import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
@@ -121,6 +123,105 @@ public final class GoldenSunVars {
   public static final Pointer<SoundStructFb0> _3007ff0 = MEMORY.ref(4, 0x3007ff0, Pointer.deferred(4, SoundStructFb0::new));
 
   public static final IntRef _3007ffc = MEMORY.ref(4, 0x3007ffc, IntRef::new);
+
+  /**
+   * <ul>
+   *   <li>{@link GoldenSun#FUN_800d654}</li>
+   *   <li>{@link GoldenSun#FUN_800d674}</li>
+   *   <li>{@link GoldenSun#FUN_800d9f0}</li>
+   *   <li>{@link GoldenSun#FUN_800da18}</li>
+   *   <li>{@link GoldenSun#FUN_800da40}</li>
+   *   <li>{@link GoldenSun#FUN_800da78}</li>
+   *   <li>{@link GoldenSun#FUN_800daa0}</li>
+   *   <li>{@link GoldenSun#FUN_800dac0}</li>
+   *   <li>{@link GoldenSun#FUN_800dd70}</li>
+   *   <li>{@link GoldenSun#FUN_800df04}</li>
+   *   <li>{@link GoldenSun#FUN_800dcdc}</li>
+   *   <li>{@link GoldenSun#FUN_800daf0}</li>
+   *   <li>{@link GoldenSun#FUN_800d710}</li>
+   *   <li>{@link GoldenSun#FUN_800d760}</li>
+   *   <li>{@link GoldenSun#FUN_800d780}</li>
+   *   <li>{@link GoldenSun#FUN_800d7b4}</li>
+   *   <li>{@link GoldenSun#FUN_800d7e8}</li>
+   *   <li>{@link GoldenSun#FUN_800d7f8}</li>
+   *   <li>{@link GoldenSun#FUN_800d820}</li>
+   *   <li>{@link GoldenSun#FUN_800d850}</li>
+   *   <li>{@link GoldenSun#FUN_800d880}</li>
+   *   <li>{@link GoldenSun#FUN_800e9a0}</li>
+   *   <li>{@link GoldenSun#FUN_800e9dc}</li>
+   *   <li>{@link GoldenSun#FUN_800ea18}</li>
+   *   <li>{@link GoldenSun#FUN_800ebec}</li>
+   *   <li>{@link GoldenSun#FUN_800f7f4}</li>
+   *   <li>{@link GoldenSun#FUN_800f2f8}</li>
+   *   <li>{@link GoldenSun#FUN_800d8e8}</li>
+   *   <li>{@link GoldenSun#FUN_800d8c4}</li>
+   *   <li>{@link GoldenSun#FUN_800d8f4}</li>
+   *   <li>{@link GoldenSun#FUN_800d900}</li>
+   *   <li>{@link GoldenSun#FUN_800ca2c}</li>
+   *   <li>{@link GoldenSun#FUN_800ca44}</li>
+   *   <li>{@link GoldenSun#FUN_800ca58}</li>
+   *   <li>{@link GoldenSun#FUN_800d6a4}</li>
+   *   <li>{@link GoldenSun#FUN_800f7dc}</li>
+   *   <li>{@link GoldenSun#FUN_800d7e8}</li>
+   *   <li>{@link GoldenSun#FUN_800d7e8}</li>
+   *   <li>{@link GoldenSun#FUN_800d7e8}</li>
+   *   <li>{@link GoldenSun#FUN_800d7e8}</li>
+   *   <li>{@link GoldenSun#FUN_800d7e8}</li>
+   *   <li>{@link GoldenSun#FUN_800d7e8}</li>
+   *   <li>{@link GoldenSun#FUN_800d7e8}</li>
+   *   <li>{@link GoldenSun#FUN_800d7e8}</li>
+   *   <li>{@link GoldenSun#FUN_800d7e8}</li>
+   *   <li>{@link GoldenSun#FUN_800d7e8}</li>
+   *   <li>{@link GoldenSun#FUN_800d7e8}</li>
+   * </ul>
+   */
+  public static final ArrayRef<Pointer<FunctionRef<Integer, Integer>>> _8013624 = MEMORY.ref(4, 0x8013624, ArrayRef.of(Pointer.classFor(FunctionRef.classFor(Integer.class, Integer.class)), 47, 0x4, Pointer.deferred(4, FunctionRef::new)));
+  /**
+   * <ul>
+   *   <li>{@link GoldenSun#FUN_800e220}</li>
+   *   <li>{@link GoldenSun#FUN_800e24c}</li>
+   *   <li>{@link GoldenSun#FUN_800e280}</li>
+   *   <li>{@link GoldenSun#FUN_800e280}</li>
+   *   <li>{@link GoldenSun#FUN_800e280}</li>
+   *   <li>{@link GoldenSun#FUN_800e2b0}</li>
+   *   <li>{@link GoldenSun#FUN_800e2dc}</li>
+   *   <li>{@link GoldenSun#FUN_800e308}</li>
+   *   <li>{@link GoldenSun#FUN_800e334}</li>
+   *   <li>{@link GoldenSun#FUN_800e364}</li>
+   *   <li>{@link GoldenSun#FUN_800e390}</li>
+   *   <li>{@link GoldenSun#FUN_800e390}</li>
+   *   <li>{@link GoldenSun#FUN_800e3bc}</li>
+   *   <li>{@link GoldenSun#FUN_800e3e8}</li>
+   *   <li>{@link GoldenSun#FUN_800e414}</li>
+   *   <li>{@link GoldenSun#FUN_800e440}</li>
+   *   <li>{@link GoldenSun#FUN_800e46c}</li>
+   *   <li>{@link GoldenSun#FUN_800e498}</li>
+   *   <li>{@link GoldenSun#FUN_800e4c4}</li>
+   *   <li>{@link GoldenSun#FUN_800e4f0}</li>
+   *   <li>{@link GoldenSun#FUN_800e51c}</li>
+   *   <li>{@link GoldenSun#FUN_800e548}</li>
+   *   <li>{@link GoldenSun#FUN_800e574}</li>
+   *   <li>{@link GoldenSun#FUN_800e5a0}</li>
+   *   <li>{@link GoldenSun#FUN_800e5cc}</li>
+   *   <li>{@link GoldenSun#FUN_800e5f8}</li>
+   *   <li>{@link GoldenSun#FUN_800e634}</li>
+   *   <li>{@link GoldenSun#FUN_800e670}</li>
+   *   <li>{@link GoldenSun#FUN_800e6ac}</li>
+   *   <li>{@link GoldenSun#FUN_800e6e4}</li>
+   *   <li>{@link GoldenSun#FUN_800e720}</li>
+   *   <li>{@link GoldenSun#FUN_800e75c}</li>
+   *   <li>{@link GoldenSun#FUN_800e798}</li>
+   *   <li>{@link GoldenSun#FUN_800e7d4}</li>
+   *   <li>{@link GoldenSun#FUN_800e810}</li>
+   *   <li>{@link GoldenSun#FUN_800e850}</li>
+   *   <li>{@link GoldenSun#FUN_800e890}</li>
+   *   <li>{@link GoldenSun#FUN_800e8d0}</li>
+   *   <li>{@link GoldenSun#FUN_800e8fc}</li>
+   *   <li>{@link GoldenSun#FUN_800e928}</li>
+   *   <li>{@link GoldenSun#FUN_800e964}</li>
+   * </ul>
+   */
+  public static final ArrayRef<Pointer<TriConsumerRef<Integer, Integer, Integer>>> _80136e0 = MEMORY.ref(4, 0x80136e0, ArrayRef.of(Pointer.classFor(TriConsumerRef.classFor(Integer.class, Integer.class, Integer.class)), 41, 0x4, Pointer.deferred(4, TriConsumerRef::new)));
 
   public static final UnboundedArrayRef<Struct0c> _8013784 = MEMORY.ref(4, 0x8013784, UnboundedArrayRef.of(0xc, Struct0c::new));
 
