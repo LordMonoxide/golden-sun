@@ -3,8 +3,8 @@ package org.goldensun.types;
 import org.goldensun.memory.Value;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.ByteRef;
-import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.MemoryRef;
+import org.goldensun.memory.types.RelativePointer;
 import org.goldensun.memory.types.UnsignedByteRef;
 
 public class PointerTableType296 implements MemoryRef {
@@ -22,18 +22,18 @@ public class PointerTableType296 implements MemoryRef {
   public final UnsignedByteRef _09;
 
   public final ArrayRef<Sub08> _0c;
+  /** Relative pointer from 0, compressed data */
+  public final RelativePointer<UnsignedByteRef> _24;
+  /** Relative pointer from 0, compressed data */
+  public final RelativePointer<UnsignedByteRef> _28;
+  /** Relative pointer from 0, compressed data */
+  public final RelativePointer<UnsignedByteRef> _2c;
+  /** Relative pointer from 0, compressed data */
+  public final RelativePointer<UnsignedByteRef> _30;
+  /** Relative pointer from 0, compressed data */
+  public final RelativePointer<UnsignedByteRef> _34;
   /** Relative pointer from 0 */
-  public final IntRef _24;
-  /** Relative pointer from 0 */
-  public final IntRef _28;
-  /** Relative pointer from 0 */
-  public final IntRef _2c;
-  /** Relative pointer from 0 */
-  public final IntRef _30;
-  /** Relative pointer from 0 */
-  public final IntRef _34;
-  /** Relative pointer from 0 */
-  public final IntRef _38;
+  public final RelativePointer<UnsignedByteRef> _38;
 
   public PointerTableType296(final Value ref) {
     this.ref = ref;
@@ -50,12 +50,12 @@ public class PointerTableType296 implements MemoryRef {
     this._09 = ref.offset(1, 0x09).cast(UnsignedByteRef::new);
 
     this._0c = ref.offset(4, 0x0c).cast(ArrayRef.of(Sub08.class, 3, 0xc, Sub08::new));
-    this._24 = ref.offset(4, 0x24).cast(IntRef::new);
-    this._28 = ref.offset(4, 0x28).cast(IntRef::new);
-    this._2c = ref.offset(4, 0x2c).cast(IntRef::new);
-    this._30 = ref.offset(4, 0x30).cast(IntRef::new);
-    this._34 = ref.offset(4, 0x34).cast(IntRef::new);
-    this._38 = ref.offset(4, 0x38).cast(IntRef::new);
+    this._24 = ref.offset(4, 0x24).cast(RelativePointer.deferred(1, ref.getAddress(), UnsignedByteRef::new));
+    this._28 = ref.offset(4, 0x28).cast(RelativePointer.deferred(1, ref.getAddress(), UnsignedByteRef::new));
+    this._2c = ref.offset(4, 0x2c).cast(RelativePointer.deferred(1, ref.getAddress(), UnsignedByteRef::new));
+    this._30 = ref.offset(4, 0x30).cast(RelativePointer.deferred(1, ref.getAddress(), UnsignedByteRef::new));
+    this._34 = ref.offset(4, 0x34).cast(RelativePointer.deferred(1, ref.getAddress(), UnsignedByteRef::new));
+    this._38 = ref.offset(4, 0x38).cast(RelativePointer.deferred(1, ref.getAddress(), UnsignedByteRef::new));
   }
 
   @Override

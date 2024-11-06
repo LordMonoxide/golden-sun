@@ -9,7 +9,7 @@ public class Struct0c implements MemoryRef {
   private final Value ref;
 
   public final UnsignedShortRef _00;
-  public final UnsignedShortRef _02;
+  public final UnsignedShortRef compressedPalette_02;
   public final UnsignedShortRef _04;
   public final UnsignedShortRef _06;
   public final UnsignedShortRef _08;
@@ -19,7 +19,7 @@ public class Struct0c implements MemoryRef {
     this.ref = ref;
 
     this._00 = ref.offset(2, 0x00).cast(UnsignedShortRef::new);
-    this._02 = ref.offset(2, 0x02).cast(UnsignedShortRef::new);
+    this.compressedPalette_02 = ref.offset(2, 0x02).cast(UnsignedShortRef::new);
     this._04 = ref.offset(2, 0x04).cast(UnsignedShortRef::new);
     this._06 = ref.offset(2, 0x06).cast(UnsignedShortRef::new);
     this._08 = ref.offset(2, 0x08).cast(UnsignedShortRef::new);

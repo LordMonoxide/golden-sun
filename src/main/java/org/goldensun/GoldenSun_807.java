@@ -39,7 +39,7 @@ public final class GoldenSun_807 {
 
   @Method(0x80770c0)
   public static int FUN_80770c0(final int r0) {
-    return (int)MEMORY.call(0x8079339, r0);
+    return (int)MEMORY.call(0x8079338, r0);
   }
 
   @Method(0x80770c8)
@@ -2362,7 +2362,7 @@ public final class GoldenSun_807 {
     int r2;
     int r3;
     int r5;
-    int r6;
+    final int r6;
     int r7;
 
     CPU.push(CPU.r11().value);
@@ -2697,21 +2697,9 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x8079338)
-  public static int FUN_8079338(int r0) {
-    int r2;
-    int r3;
-    r3 = CPU.movT(0, 0x7);
-    r3 = CPU.andT(r3, r0);
-    r2 = CPU.movT(0, 0x1);
-    r2 = CPU.lslT(r2, r3);
-    r3 = CPU.lslT(r0, 20);
-    r0 = CPU.lsrT(r3, 23);
-    r3 = MEMORY.ref(1, 0x2000040 + r0).getUnsigned(); //TODO
-    r3 = CPU.andT(r3, r2);
-    r0 = CPU.negT(r0, r3);
-    r0 = CPU.orrT(r0, r3);
-    r0 = CPU.lsrT(r0, 31);
-    return r0;
+  public static int FUN_8079338(final int r0) {
+    final int r3 = MEMORY.ref(1, 0x2000040 + (r0 << 20 >>> 23)).getUnsigned() & 0x1 << (r0 & 0x7); //TODO
+    return (-r3 | r3) >>> 31;
   }
 
   @Method(0x8079358)

@@ -1,6 +1,7 @@
 package org.goldensun;
 
 import org.goldensun.memory.Method;
+import org.goldensun.types.Struct194;
 
 import static org.goldensun.GoldenSun.FUN_80022ec;
 import static org.goldensun.GoldenSun.FUN_8002304;
@@ -1266,8 +1267,7 @@ public final class GoldenSun_808 {
     }
 
     //LAB_808b7fc
-    r2 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
-    MEMORY.ref(4, r2).setu(r6 + 0x8);
+    boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new)._00.set(r6 + 0x8);
     MEMORY.ref(4, CPU.r8().value + 0x1e0).setu(r6);
 
     CPU.r8().value = CPU.pop();
@@ -1276,7 +1276,7 @@ public final class GoldenSun_808 {
 
   @Method(0x808b868)
   public static void FUN_808b868(final int r0) {
-    final int r6 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
+    final Struct194 r6 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new);
     FUN_80770d0(0x164);
     FUN_80770c8(0x165);
 
@@ -1287,7 +1287,7 @@ public final class GoldenSun_808 {
         final int r2 = MEMORY.ref(4, r5 + 0x8).get();
         final int r1 = MEMORY.ref(4, r5 + 0x10).get();
 
-        if(r2 >= MEMORY.ref(4, r6 + 0xec).get() && r2 <= MEMORY.ref(4, r6 + 0xf4).get() && r1 >= MEMORY.ref(4, r6 + 0xf0).get() && r1 <= MEMORY.ref(4, r6 + 0xf8).get()) {
+        if(r2 >= r6._ec.get() && r2 <= r6._f4.get() && r1 >= r6._f0.get() && r1 <= r6._f8.get()) {
           MEMORY.ref(2, r5 + 0x2).setu(0x164);
         } else {
           //LAB_808b8cc

@@ -1,6 +1,7 @@
 package org.goldensun;
 
 import org.goldensun.memory.Method;
+import org.goldensun.types.Struct194;
 
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.Hardware.CPU;
@@ -150,7 +151,7 @@ public final class Decompressed8787e04 {
   @Method(0x2008578)
   public static void FUN_2008578() {
     final int r3 = boardWramMallocHead_3001e50.offset(27 * 0x4).get();
-    final int r7 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
+    final Struct194 r7 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new);
     final int r6 = MEMORY.ref(4, r3 + 0x1e0).get();
     final int r8 = MEMORY.ref(4, FUN_200992c(0x11) + 0x50).get();
     FUN_200990c();
@@ -177,10 +178,10 @@ public final class Decompressed8787e04 {
     FUN_20098dc(0xe53, 0x1, 0);
     FUN_20098bc();
     FUN_2009904(0x28);
-    MEMORY.ref(4, r7 + 0xec).setu(0x1480000);
-    MEMORY.ref(4, r7 + 0xf0).setu(0x2580000);
-    MEMORY.ref(4, r7 + 0xf4).setu(0x2700000);
-    MEMORY.ref(4, r7 + 0xf8).setu(0x3300000);
+    r7._ec.set(0x1480000);
+    r7._f0.set(0x2580000);
+    r7._f4.set(0x2700000);
+    r7._f8.set(0x3300000);
     MEMORY.ref(4, r6 + 0x8).setu(0x2340000);
     MEMORY.ref(4, r6 + 0xc).setu(0);
     MEMORY.ref(4, r6 + 0x10).setu(0x2b30000);

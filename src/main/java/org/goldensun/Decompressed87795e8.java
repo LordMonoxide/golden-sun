@@ -2,6 +2,7 @@ package org.goldensun;
 
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.RunnableRef;
+import org.goldensun.types.Struct194;
 
 import javax.annotation.Nullable;
 
@@ -91,7 +92,7 @@ public final class Decompressed87795e8 {
     DMA.channels[3].DAD.setu(GPU.BG0HOFS.getAddress());
     DMA.channels[3].CNT.setu(0x84000004);
 
-    boardWramMallocHead_3001e50.offset(8 * 0x4).deref(2).offset(0x14).setu(0x1400);
+    boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new)._14.set(0x1400);
     MEMORY.ref(1, FUN_200949c(MEMORY.ref(4, 0x2000434).get()) + 0x55).setu(0);
   }
 
