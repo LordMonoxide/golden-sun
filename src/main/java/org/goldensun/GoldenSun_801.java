@@ -5103,7 +5103,7 @@ public final class GoldenSun_801 {
       final GraphicsStruct24 r0 = MEMORY.ref(4, addr, GraphicsStruct24::new);
       if(r0._16.get() != 0) {
         FUN_8016418(r0, 0x2);
-        FUN_8004278(0x801c3e9); //TODO function
+        FUN_8004278(getRunnable(GoldenSun_801.class, "FUN_801c3e8"));
       }
     }
 

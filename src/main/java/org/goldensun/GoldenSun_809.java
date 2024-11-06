@@ -1,6 +1,7 @@
 package org.goldensun;
 
 import org.goldensun.memory.Method;
+import org.goldensun.types.GraphicsStruct0c;
 import org.goldensun.types.GraphicsStruct24;
 import org.goldensun.types.Struct194;
 
@@ -25,6 +26,7 @@ import static org.goldensun.GoldenSun.FUN_8009020;
 import static org.goldensun.GoldenSun.FUN_8009038;
 import static org.goldensun.GoldenSun.FUN_8009080;
 import static org.goldensun.GoldenSun.FUN_8009088;
+import static org.goldensun.GoldenSun.FUN_8009098;
 import static org.goldensun.GoldenSun.FUN_80090c8;
 import static org.goldensun.GoldenSun.FUN_80090d0;
 import static org.goldensun.GoldenSun.FUN_80090e0;
@@ -39,10 +41,11 @@ import static org.goldensun.GoldenSun.FUN_80091e0;
 import static org.goldensun.GoldenSun.FUN_8009240;
 import static org.goldensun.GoldenSun.freeSlot;
 import static org.goldensun.GoldenSun.mallocSlotBoard;
-import static org.goldensun.GoldenSun.FUN_8009098;
 import static org.goldensun.GoldenSun.mallocSlotChip;
 import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.setInterruptHandler;
+import static org.goldensun.GoldenSunVars._2002090;
+import static org.goldensun.GoldenSunVars._2002094;
 import static org.goldensun.GoldenSunVars._3001810;
 import static org.goldensun.GoldenSunVars._3001e40;
 import static org.goldensun.GoldenSunVars._3001f54;
@@ -157,19 +160,12 @@ public final class GoldenSun_809 {
 
   @Method(0x80908e0)
   public static void FUN_80908e0() {
-    int r0;
-    int r1;
-    int r2;
-    int r3;
-    int r4;
-    int r6;
-
     if(FUN_80770c0(0x152) != 0) {
       return;
     }
 
     //LAB_80908fa
-    r6 = boardWramMallocHead_3001e50.offset(32 * 0x4).get();
+    final int r6 = boardWramMallocHead_3001e50.offset(32 * 0x4).get();
     if(MEMORY.ref(1, r6 + 0x2a01).get() == 0) {
       return;
     }
@@ -179,41 +175,36 @@ public final class GoldenSun_809 {
 
     if(MEMORY.ref(1, r6 + 0x2a02).get() < MEMORY.ref(1, r6 + 0x2a01).get()) {
       //LAB_8090928
-      for(r0 = 0; r0 < 0x540; r0++) {
+      for(int r0 = 0; r0 < 0x540; r0++) {
         MEMORY.ref(2, r6 + 0x380 + r0 * 0x2).and(MEMORY.ref(2, r6 + 0x1880 + r0 * 0x2).getUnsigned());
       }
     } else {
       //LAB_8090948
-      MEMORY.call(0x3001388, r6 + 0x380, r6 + 0xe00, 0xa80);
+      MEMORY.call(0x3001388, r6 + 0x380, r6 + 0xe00, 0xa80); // memcpy
       MEMORY.ref(1, r6 + 0x2a01).setu(0);
     }
 
     //LAB_8090966
-    r4 = r6 + 0x2300 + (MEMORY.ref(1, r6 + 0x2a00).getUnsigned() ^ 0x1) * 0x380;
-    r1 = r6 + 0x380;
+    final int r4 = r6 + 0x2300 + (MEMORY.ref(1, r6 + 0x2a00).getUnsigned() ^ 0x1) * 0x380;
 
     //LAB_80909a8
-    for(r0 = 0; r0 < 0x1c0; r0++) {
-      MEMORY.ref(2, r4).setu(MEMORY.ref(2, r1).getUnsigned() & 0x7c00 | (MEMORY.ref(2, r1 + 0x2).get() >> 5) & 0x3e0 | (MEMORY.ref(2, r1 + 0x4).get() >> 10) & 0x1f);
-      r1 += 0x6;
-      r4 += 0x2;
+    for(int r0 = 0; r0 < 0x1c0; r0++) {
+      final int r1 = r6 + 0x380 + r0 * 0x6;
+      MEMORY.ref(2, r4 + r0 * 0x2).setu(MEMORY.ref(2, r1).getUnsigned() & 0x7c00 | (MEMORY.ref(2, r1 + 0x2).get() >> 5) & 0x3e0 | (MEMORY.ref(2, r1 + 0x4).get() >> 10) & 0x1f);
     }
 
     MEMORY.ref(1, r6 + 0x2a00).xoru(0x1);
-    r2 = MEMORY.ref(1, r6 + 0x2a00).getUnsigned();
-    r0 = r6 + r2 * 0x380;
-    r6 = r6 + 0x2300 + r2 * 0x380;
+    final int r2 = MEMORY.ref(1, r6 + 0x2a00).getUnsigned();
 
     final int oldInterrupts1 = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
     INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-    r2 = MEMORY.ref(2, 0x2002090).getUnsigned();
-    if(r2 < 0x20) {
-      r3 = 0x2002090 + r2 * 0xc + 0x4;
-      MEMORY.ref(4, r3).setu(r6);
-      MEMORY.ref(4, r3 + 0x4).setu(0x5000000);
-      MEMORY.ref(4, r3 + 0x8).setu(0x84000070);
-      MEMORY.ref(2, 0x2002090).incr();
+    if(_2002090.get() < 0x20) {
+      final GraphicsStruct0c r3 = _2002094.get(_2002090.get());
+      r3._00.set(r6 + 0x2300 + r2 * 0x380);
+      r3._04.set(0x5000000);
+      r3._08.set(0x84000070);
+      _2002090.incr();
     }
 
     //LAB_8090a16
@@ -222,13 +213,12 @@ public final class GoldenSun_809 {
     final int oldInterrupts2 = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
     INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-    r2 = MEMORY.ref(2, 0x2002090).getUnsigned();
-    if(r2 < 0x20) {
-      r3 = 0x2002094 + r2 * 0xc;
-      MEMORY.ref(4, r3).setu(r0 + 0x24c0);
-      MEMORY.ref(4, r3 + 0x4).setu(0x5000200);
-      MEMORY.ref(4, r3 + 0x8).setu(0x84000070);
-      MEMORY.ref(2, 0x2002090).incr();
+    if(_2002090.get() < 0x20) {
+      final GraphicsStruct0c r3 = _2002094.get(_2002090.get());
+      r3._00.set(r6 + 0x24c0 + r2 * 0x380);
+      r3._04.set(0x5000200);
+      r3._08.set(0x84000070);
+      _2002090.incr();
     }
 
     //LAB_8090a42
@@ -420,8 +410,7 @@ public final class GoldenSun_809 {
               r0 = CPU.addT(r0, r2);
               r0 = CPU.addT(r0, r3);
               r1 = CPU.movT(0, 0x60);
-              r3 = MEMORY.ref(4, 0x80910dc).get();
-              r0 = (int)MEMORY.call(r3, r0, r1);
+              r0 = (int)MEMORY.call(0x3000380, r0, r1);
               r1 = MEMORY.ref(4, CPU.sp().value + 0x20).get();
               r4 = CPU.addT(r0, 0x0);
               r7 = CPU.addT(r1, 0x0);
@@ -1219,19 +1208,11 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8091200)
-  public static void FUN_8091200(final int r0, int r1) {
-    final int r2;
-    int r3;
-    final int r4;
-    r4 = CPU.addT(r1, 0x0);
-    r1 = boardWramMallocHead_3001e50.offset(32 * 0x4).get();
-    CPU.cmpT(r1, 0x0);
-    if(!CPU.cpsr().getZero()) { // !=
-      r3 = CPU.movT(0, 0xe0);
-      r3 = CPU.lslT(r3, 4);
-      r2 = CPU.addT(r1, r3);
-      r3 = CPU.addT(r4, 0x0);
-      FUN_8090a5c(r0, r1, r2, r3);
+  public static void FUN_8091200(final int r0, final int r1) {
+    final int r1_0 = boardWramMallocHead_3001e50.offset(32 * 0x4).get();
+
+    if(r1_0 != 0) {
+      FUN_8090a5c(r0, r1_0, r1_0 + 0xe00, r1);
     }
 
     //LAB_8091218
@@ -3521,8 +3502,7 @@ public final class GoldenSun_809 {
       r3 = CPU.movT(0, 0x0);
       r2 += CPU.r11().value;
       MEMORY.ref(1, r2).setu(r3);
-      r0 = MEMORY.ref(4, 0x8097288).get();
-      r0 = FUN_8004278(r0);
+      FUN_8004278(getRunnable(GoldenSun_809.class, "FUN_8096f8c"));
       r3 = CPU.r8().value;
       r3 = CPU.addT(r3, 0x46);
       r1 = CPU.movT(0, 0x0);

@@ -22,6 +22,7 @@ import static org.goldensun.Bios.SvcHalt;
 import static org.goldensun.CopiedSegment8000770.intHandlers_30000e0;
 import static org.goldensun.CopiedSegment8000770.memzero;
 import static org.goldensun.GoldenSunVars._2002090;
+import static org.goldensun.GoldenSunVars._2002092;
 import static org.goldensun.GoldenSunVars._3001804;
 import static org.goldensun.GoldenSunVars._3001810;
 import static org.goldensun.GoldenSunVars._3001a10;
@@ -318,6 +319,7 @@ public final class GoldenSun {
     initMemoryAllocator();
     FUN_800300c();
     _2002090.set(0);
+    _2002092.set(0);
     _3001ac4.setu(0);
     _3001f54.set(0);
     _3001f58.set(0);
@@ -1257,39 +1259,25 @@ public final class GoldenSun {
   }
 
   @Method(0x8004278)
-  public static int FUN_8004278(final int r0) {
-    final int r2 = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
+  public static int FUN_8004278(final RunnableRef r0) {
+    final int oldInterrupts = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
     INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-    int r1 = 0;
-    int r4 = 0x3001a20;
-    final int r3 = MEMORY.ref(4, r4).get();
+    int ret = -1;
+    for(int i = 0; i < 20; i++) {
+      final Struct08 r4 = _3001a20.get(i);
 
-    final int r5;
-    jmp_80042b0:
-    if(r3 == r0) {
-      MEMORY.ref(4, r4).setu(0);
-      MEMORY.ref(2, r4 + 0x4).setu(0x7fff);
-      r5 = 0;
-    } else {
-      //LAB_8004298
-      do {
-        r1++;
-        r4 += 0x8;
-        if(r1 > 0x13) {
-          r5 = -1;
-          break jmp_80042b0;
-        }
-      } while(MEMORY.ref(4, r4).get() != r0);
-
-      MEMORY.ref(4, r4).setu(0);
-      MEMORY.ref(2, r4 + 0x4).setu(0x7fff);
-      r5 = r1;
+      if(r4._00.getPointer() == r0.getAddress()) {
+        r4._00.clear();
+        r4._04.set(0x7fff);
+        ret = i;
+        break;
+      }
     }
 
     //LAB_80042b0
-    INTERRUPTS.INT_MASTER_ENABLE.setu(r2);
-    return r5;
+    INTERRUPTS.INT_MASTER_ENABLE.setu(oldInterrupts);
+    return ret;
   }
 
   @Method(0x80042c8)
