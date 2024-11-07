@@ -63,9 +63,9 @@ public final class CopiedSegment8002808 {
     }
     r4 = CPU.subA(r4, 0x10);
     if(CPU.cpsr().getNegative()) { // negative
-      final int address30062e0 = r0 + 0x2;
+      final int address30062e0 = r0;
       final int r3 = MEMORY.ref(2, address30062e0).getUnsigned();
-      r0 = address30062e0;
+      r0 = address30062e0 + 0x2;
       r4 = r4 + 0x10;
       r2 = r2 | r3 << r4;
     }
@@ -130,9 +130,9 @@ public final class CopiedSegment8002808 {
           r4 -= 0x6;
         }
         if(r4 < 0) {
-          final int address30062e0 = r0 + 0x2;
+          final int address30062e0 = r0;
           final int r3 = MEMORY.ref(2, address30062e0).getUnsigned();
-          r0 = address30062e0;
+          r0 = address30062e0 + 0x2;
           r4 = r4 + 0x10;
           r2 = r2 | r3 << r4;
         }
@@ -142,6 +142,7 @@ public final class CopiedSegment8002808 {
         MEMORY.ref(1, address3006100).setu(r5);
         r1 = address3006100;
         int address3006104 = CPU.sp().value;
+        r5 = MEMORY.ref(4, address3006104).getUnsigned();
         address3006104 += 0x4;
         CPU.r9().value = MEMORY.ref(4, address3006104).getUnsigned();
         address3006104 += 0x4;
@@ -168,9 +169,9 @@ public final class CopiedSegment8002808 {
             r4 = CPU.subA(r4, 0x4);
             r5 = 0x3;
             if(CPU.cpsr().getNegative()) { // negative
-              final int address30062e0 = r0 + 0x2;
+              final int address30062e0 = r0;
               final int r3 = MEMORY.ref(2, address30062e0).getUnsigned();
-              r0 = address30062e0;
+              r0 = address30062e0 + 0x2;
               r4 = r4 + 0x10;
               r2 = r2 | r3 << r4;
             }
@@ -182,9 +183,9 @@ public final class CopiedSegment8002808 {
               r4 = CPU.subA(r4, 0x5);
               r5 = 0x4;
               if(CPU.cpsr().getNegative()) { // negative
-                final int address30062e0 = r0 + 0x2;
+                final int address30062e0 = r0;
                 final int r3 = MEMORY.ref(2, address30062e0).getUnsigned();
-                r0 = address30062e0;
+                r0 = address30062e0 + 0x2;
                 r4 = r4 + 0x10;
                 r2 = r2 | r3 << r4;
               }
@@ -222,9 +223,9 @@ public final class CopiedSegment8002808 {
                   r2 = r2 >>> 7;
                   r4 = CPU.subA(r4, 0xf);
                   if(CPU.cpsr().getNegative()) { // negative
-                    final int address30062e0 = r0 + 0x2;
+                    final int address30062e0 = r0;
                     final int r3 = MEMORY.ref(2, address30062e0).getUnsigned();
-                    r0 = address30062e0;
+                    r0 = address30062e0 + 0x2;
                     r4 = r4 + 0x10;
                     r2 = r2 | r3 << r4;
                   }
@@ -232,9 +233,9 @@ public final class CopiedSegment8002808 {
                   r5 = r5 + 0x6;
                   r4 = CPU.subA(r4, 0x8);
                   if(CPU.cpsr().getNegative()) { // negative
-                    final int address30062e0 = r0 + 0x2;
+                    final int address30062e0 = r0;
                     final int r3 = MEMORY.ref(2, address30062e0).getUnsigned();
-                    r0 = address30062e0;
+                    r0 = address30062e0 + 0x2;
                     r4 = r4 + 0x10;
                     r2 = r2 | r3 << r4;
                   }
@@ -248,9 +249,9 @@ public final class CopiedSegment8002808 {
                   r5 = 0x5;
                   if(CPU.cpsr().getNegative()) { // negative
                     if(CPU.cpsr().getNegative()) { // negative
-                      final int address30062e0 = r0 + 0x2;
+                      final int address30062e0 = r0;
                       final int r3 = MEMORY.ref(2, address30062e0).getUnsigned();
-                      r0 = address30062e0;
+                      r0 = address30062e0 + 0x2;
                       r4 = r4 + 0x10;
                       r2 = r2 | r3 << r4;
                     } else {
@@ -262,9 +263,9 @@ public final class CopiedSegment8002808 {
                   r4 = CPU.subA(r4, 0x7);
                   r5 = 0x6;
                   if(CPU.cpsr().getNegative()) { // negative
-                    final int address30062e0 = r0 + 0x2;
+                    final int address30062e0 = r0;
                     final int r3 = MEMORY.ref(2, address30062e0).getUnsigned();
-                    r0 = address30062e0;
+                    r0 = address30062e0 + 0x2;
                     r4 = r4 + 0x10;
                     r2 = r2 | r3 << r4;
                   }
@@ -364,9 +365,9 @@ public final class CopiedSegment8002808 {
 
       //LAB_30061e0
       if(CPU.cpsr().getNegative()) { // negative
-        final int address30062e0 = r0 + 0x2;
+        final int address30062e0 = r0;
         final int r3 = MEMORY.ref(2, address30062e0).getUnsigned();
-        r0 = address30062e0;
+        r0 = address30062e0 + 0x2;
         r4 = r4 + 0x10;
         r2 = r2 | r3 << r4;
       }
