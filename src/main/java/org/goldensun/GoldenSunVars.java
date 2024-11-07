@@ -5,6 +5,9 @@ import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.FunctionRef;
 import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.Pointer;
+import org.goldensun.memory.types.RunnableRef;
+import org.goldensun.memory.types.ShortRef;
+import org.goldensun.memory.types.SupplierRef;
 import org.goldensun.memory.types.TriConsumerRef;
 import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.memory.types.UnsignedByteRef;
@@ -22,9 +25,66 @@ import static org.goldensun.Hardware.MEMORY;
 public final class GoldenSunVars {
   private GoldenSunVars() { }
 
+  public static final ShortRef _2000400 = MEMORY.ref(2, 0x2000400, ShortRef::new);
+  public static final ShortRef _2000402 = MEMORY.ref(2, 0x2000402, ShortRef::new);
+  public static final ShortRef _2000404 = MEMORY.ref(2, 0x2000404, ShortRef::new);
+  public static final ShortRef _2000406 = MEMORY.ref(2, 0x2000406, ShortRef::new);
+  public static final UnsignedShortRef _2000408 = MEMORY.ref(2, 0x2000408, UnsignedShortRef::new);
+  public static final UnsignedShortRef _200040a = MEMORY.ref(2, 0x200040a, UnsignedShortRef::new);
+  public static final ShortRef _200040c = MEMORY.ref(2, 0x200040c, ShortRef::new);
+  public static final ShortRef _200040e = MEMORY.ref(2, 0x200040e, ShortRef::new);
+  public static final ShortRef _2000410 = MEMORY.ref(2, 0x2000410, ShortRef::new);
+  public static final ShortRef _2000412 = MEMORY.ref(2, 0x2000412, ShortRef::new);
+  public static final ShortRef _2000414 = MEMORY.ref(2, 0x2000414, ShortRef::new);
+  public static final ShortRef _2000416 = MEMORY.ref(2, 0x2000416, ShortRef::new);
+
+  /** This is an index into a table which affects which map background is loaded? */
+  public static final ShortRef _200041a = MEMORY.ref(2, 0x200041a, ShortRef::new);
+  public static final IntRef _200041c = MEMORY.ref(4, 0x200041c, IntRef::new);
+  public static final IntRef _2000420 = MEMORY.ref(4, 0x2000420, IntRef::new);
+  public static final IntRef _2000424 = MEMORY.ref(4, 0x2000424, IntRef::new);
+  public static final IntRef _2000428 = MEMORY.ref(4, 0x2000428, IntRef::new);
+  public static final UnsignedShortRef _200042c = MEMORY.ref(2, 0x200042c, UnsignedShortRef::new);
+
+  public static final ShortRef _2000430 = MEMORY.ref(2, 0x2000430, ShortRef::new);
+  public static final UnsignedByteRef _2000432 = MEMORY.ref(1, 0x2000432, UnsignedByteRef::new);
+
+  public static final IntRef _2000434 = MEMORY.ref(4, 0x2000434, IntRef::new);
+
+  public static final UnsignedByteRef _2000445 = MEMORY.ref(1, 0x2000445, UnsignedByteRef::new);
+  public static final UnsignedByteRef _2000446 = MEMORY.ref(1, 0x2000446, UnsignedByteRef::new);
+
+  public static final ShortRef _200045e = MEMORY.ref(2, 0x200045e, ShortRef::new);
+
+  public static final UnsignedByteRef _2000464 = MEMORY.ref(1, 0x2000464, UnsignedByteRef::new);
+
+  public static final ShortRef _200046c = MEMORY.ref(2, 0x200046c, ShortRef::new);
+  public static final ShortRef _200046e = MEMORY.ref(2, 0x200046e, ShortRef::new);
+  public static final ShortRef _2000470 = MEMORY.ref(2, 0x2000470, ShortRef::new);
+  public static final ShortRef _2000472 = MEMORY.ref(2, 0x2000472, ShortRef::new);
+  public static final ShortRef _2000474 = MEMORY.ref(2, 0x2000474, ShortRef::new);
+
+  public static final IntRef _2000478 = MEMORY.ref(4, 0x2000478, IntRef::new);
+  public static final UnsignedShortRef _200047c = MEMORY.ref(2, 0x200047c, UnsignedShortRef::new);
+  public static final ShortRef _200047e = MEMORY.ref(2, 0x200047e, ShortRef::new);
+
+  public static final ShortRef _2000480 = MEMORY.ref(2, 0x2000480, ShortRef::new);
+  public static final ShortRef _2000482 = MEMORY.ref(2, 0x2000482, ShortRef::new);
+
+  public static final ShortRef _200048a = MEMORY.ref(2, 0x200048a, ShortRef::new);
+  public static final ShortRef _200048c = MEMORY.ref(2, 0x200048c, ShortRef::new);
+
   public static final GraphicsStruct184 _2002090 = MEMORY.ref(4, 0x2002090, GraphicsStruct184::new);
 
   public static final SoundStructFb0 _2003050 = MEMORY.ref(4, 0x2003050, SoundStructFb0::new);
+
+  public static final Pointer<RunnableRef> _2008004 = MEMORY.ref(4, 0x2008004, Pointer.deferred(4, RunnableRef::new));
+
+  public static final Pointer<SupplierRef<Integer>> _200800c = MEMORY.ref(4, 0x200800c, Pointer.deferred(4, SupplierRef::new));
+
+  public static final Pointer<SupplierRef<Integer>> _200801c = MEMORY.ref(4, 0x200801c, Pointer.deferred(4, SupplierRef::new));
+
+  public static final Pointer<SupplierRef<Integer>> _2008024 = MEMORY.ref(4, 0x2008024, Pointer.deferred(4, SupplierRef::new));
 
   public static final ArrayRef<Pointer<RenderPacket0c>> packets_3001400 = MEMORY.ref(4, 0x3001400, ArrayRef.of(Pointer.classFor(RenderPacket0c.class), 0x100, 0x4, Pointer.deferred(4, RenderPacket0c::new)));
   public static final IntRef ticks_3001800 = MEMORY.ref(4, 0x3001800, IntRef::new);

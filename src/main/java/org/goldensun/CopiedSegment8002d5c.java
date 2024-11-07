@@ -2,7 +2,7 @@ package org.goldensun;
 
 import static org.goldensun.Hardware.MEMORY;
 
-/** Copied by {@link GoldenSun#FUN_8002fb0} from 8002d5c */
+/** Copied by {@link GoldenSun#decompressPointerTableEntry} from 8002d5c */
 public final class CopiedSegment8002d5c {
   private CopiedSegment8002d5c() { }
 

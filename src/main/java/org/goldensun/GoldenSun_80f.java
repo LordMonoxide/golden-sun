@@ -278,7 +278,7 @@ public final class GoldenSun_80f {
 
   @Method(0x80f9010)
   public static void FUN_80f9010(final int r0) {
-    MEMORY.call(0x80f9081, r0);
+    MEMORY.call(0x80f9080, r0);
   }
 
   @Method(0x80f9018)

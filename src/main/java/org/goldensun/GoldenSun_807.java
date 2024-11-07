@@ -44,12 +44,12 @@ public final class GoldenSun_807 {
 
   @Method(0x80770c8)
   public static void FUN_80770c8(final int r0) {
-    MEMORY.call(0x8079359, r0);
+    MEMORY.call(0x8079358, r0);
   }
 
   @Method(0x80770d0)
   public static void FUN_80770d0(final int r0) {
-    MEMORY.call(0x8079375, r0);
+    MEMORY.call(0x8079374, r0);
   }
 
   @Method(0x8077270)
@@ -59,7 +59,7 @@ public final class GoldenSun_807 {
 
   @Method(0x80772f0)
   public static void FUN_80772f0() {
-    MEMORY.call(0x8077c11);
+    MEMORY.call(0x8077c10);
   }
 
   @Method(0x8077394)
@@ -1249,21 +1249,13 @@ public final class GoldenSun_807 {
     CPU.push(CPU.r9().value);
     CPU.push(CPU.r8().value);
 
-    CPU.sp().value -= 0x8;
     FUN_8079374(0x167);
-    r0 = FUN_80795fc();
-    CPU.r10().value = r0;
-    r0 = CPU.movT(0, 0x0);
-    CPU.r8().value = r0;
+    CPU.r10().value = FUN_80795fc();
+    CPU.r8().value = 0;
     CPU.cmpT(CPU.r8().value, CPU.r10().value);
     if(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <
-      r2 = CPU.movT(0, 0xfc);
-      r2 = CPU.lslT(r2, 1);
-      r2 = CPU.addT(r2, 0x2000240);
-      r3 = CPU.movT(0, 0x80);
-      r3 = CPU.lslT(r3, 2);
-      CPU.r9().value = r2;
-      CPU.r11().value = r3;
+      CPU.r9().value = 0x2000438;
+      CPU.r11().value = 0x200;
 
       //LAB_8077c44
       do {
@@ -1281,13 +1273,8 @@ public final class GoldenSun_807 {
           r3 = CPU.andT(r3, r0);
           CPU.cmpT(r3, 0x0);
           if(!CPU.cpsr().getZero()) { // !=
-            r0 = MEMORY.ref(2, r2 + r7).getUnsigned();
-            MEMORY.ref(4, CPU.sp().value + 0x4).setu(r1);
-            MEMORY.ref(4, CPU.sp().value).setu(r2);
-            r0 = FUN_8078414(r0);
+            r0 = FUN_8078414(MEMORY.ref(2, r2 + r7).getUnsigned());
             r5 = CPU.addT(r0, 0x0);
-            r2 = MEMORY.ref(4, CPU.sp().value).get();
-            r1 = MEMORY.ref(4, CPU.sp().value + 0x4).get();
             r5 = CPU.addT(r5, 0x18);
             r6 = CPU.movT(0, 0x3);
 
@@ -1297,11 +1284,7 @@ public final class GoldenSun_807 {
               r5 = CPU.addT(r5, 0x4);
               CPU.cmpT(r3, 0x1b);
               if(CPU.cpsr().getZero()) { // ==
-                MEMORY.ref(4, CPU.sp().value + 0x4).setu(r1);
-                MEMORY.ref(4, CPU.sp().value).setu(r2);
                 FUN_8079358(0x167);
-                r2 = MEMORY.ref(4, CPU.sp().value).get();
-                r1 = MEMORY.ref(4, CPU.sp().value + 0x4).get();
               }
 
               //LAB_8077c86
@@ -1316,16 +1299,13 @@ public final class GoldenSun_807 {
           CPU.cmpT(r1, 0x0);
         } while(CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()); // >=
 
-        r2 = CPU.movT(0, 0x1);
-        CPU.r8().value += r2;
-        CPU.r9().value += r2;
+        CPU.r8().value++;
+        CPU.r9().value++;
         CPU.cmpT(CPU.r8().value, CPU.r10().value);
       } while(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()); // <
     }
 
     //LAB_8077c9e
-    CPU.sp().value += 0x8;
-
     CPU.r8().value = CPU.pop();
     CPU.r9().value = CPU.pop();
     CPU.r10().value = CPU.pop();
@@ -2703,31 +2683,13 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x8079358)
-  public static void FUN_8079358(int r0) {
-    int r3 = CPU.movT(0, 0x7);
-    r3 = CPU.andT(r3, r0);
-    int r2 = CPU.movT(0, 0x1);
-    r2 = CPU.lslT(r2, r3);
-    r3 = CPU.lslT(r0, 20);
-    r0 = CPU.lsrT(r3, 23);
-    r3 = MEMORY.ref(1, 0x2000040 + r0).getUnsigned();
-    r2 = CPU.orrT(r2, r3);
-    MEMORY.ref(1, 0x2000040 + r0).setu(r2); //TODO
+  public static void FUN_8079358(final int r0) {
+    MEMORY.ref(1, 0x2000040 + (r0 << 20 >>> 23)).oru(0x1 << (r0 & 0x7)); //TODO
   }
 
   @Method(0x8079374)
-  public static void FUN_8079374(int r0) {
-    int r2;
-    int r3;
-    r3 = CPU.movT(0, 0x7);
-    r3 = CPU.andT(r3, r0);
-    r2 = CPU.movT(0, 0x1);
-    r2 = CPU.lslT(r2, r3);
-    r3 = CPU.lslT(r0, 20);
-    r0 = CPU.lsrT(r3, 23);
-    r3 = MEMORY.ref(1, 0x2000040 + r0).getUnsigned();
-    r3 = CPU.bicT(r3, r2);
-    MEMORY.ref(1, 0x2000040 + r0).setu(r3); //TODO
+  public static void FUN_8079374(final int r0) {
+    MEMORY.ref(1, 0x2000040 + (r0 << 20 >>> 23)).and(~(0x1 << (r0 & 0x7))); //TODO
   }
 
   @Method(0x80795fc)

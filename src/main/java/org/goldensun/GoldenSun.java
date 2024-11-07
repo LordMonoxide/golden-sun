@@ -361,7 +361,7 @@ public final class GoldenSun {
   }
 
   @Method(0x8002fb0)
-  public static void FUN_8002fb0(final int pointerTableEntry, final int dst) {
+  public static void decompressPointerTableEntry(final int pointerTableEntry, final int dst) {
     final int decompressedSize = decompress(getPointerTableEntry(pointerTableEntry), dst);
 
     final int size = 0x7c;
@@ -2294,9 +2294,10 @@ public final class GoldenSun {
     MEMORY.call(0x800d130, r0, r1, r2, r3);
   }
 
+  /** {@link GoldenSun#FUN_800fb38} */
   @Method(0x8009110)
-  public static int FUN_8009110(final int r0) {
-    return (int)MEMORY.call(0x800fb39, r0);
+  public static int FUN_8009110(final int index) {
+    return (int)MEMORY.call(0x800fb38, index);
   }
 
   @Method(0x8009118)
@@ -2356,7 +2357,7 @@ public final class GoldenSun {
 
   @Method(0x80091a8)
   public static int FUN_80091a8(final int r0, final int r1, final int r2) {
-    return (int)MEMORY.call(0x8011f55, r0, r1, r2);
+    return (int)MEMORY.call(0x8011f54, r0, r1, r2);
   }
 
   @Method(0x80091c0)
@@ -3326,7 +3327,7 @@ public final class GoldenSun {
 
   @Method(0x800c4ac)
   public static void FUN_800c4ac(final int r0) {
-    FUN_800c2d8(r0, MEMORY.ref(4, 0x800c4b8).get());
+    FUN_800c2d8(r0, 0x8013620);
   }
 
   @Method(0x800c4bc)
@@ -5213,93 +5214,33 @@ public final class GoldenSun {
   }
 
   @Method(0x800f9f4)
-  public static void FUN_800f9f4(int r0) {
-    int r1;
-    int r2;
-    int r3;
-    final int r4;
-    int r5;
-    int r6;
-    int r7;
-
-    r3 = CPU.subT(r0, 0x1);
-    r2 = CPU.lsrT(r3, 31);
-    r3 = CPU.addT(r3, r2);
-    r4 = CPU.asrT(r3, 1);
-    r3 = CPU.movT(0, 0x1);
-    r3 = CPU.andT(r3, r0);
-    r6 = 0x2010002;
-    r5 = 0x2020000;
-    CPU.cmpT(r3, 0x0);
-    if(!CPU.cpsr().getZero()) { // !=
-      r3 = MEMORY.ref(1, 0x2010001).getUnsigned();
-      CPU.cmpT(r3, 0x1);
-      if(CPU.cpsr().getZero()) { // ==
-        //LAB_800fa38
-        r1 = CPU.movT(0, 0x0);
-        r7 = CPU.movT(0, 0x0);
-        r0 = CPU.addT(r4, r6);
-        r1 = CPU.cmpT(r1, r4);
-        if(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <
-          //LAB_800fa44
-          do {
-            r3 = MEMORY.ref(1, r6).getUnsigned();
-            r2 = MEMORY.ref(1, r0).getUnsigned();
-            r3 = CPU.lslT(r3, 8);
-            r3 = CPU.orrT(r3, r2);
-            r3 = CPU.eorT(r3, r7);
-            r1 = CPU.addT(r1, 0x1);
-            MEMORY.ref(2, r5).setu(r3);
-            r0 = CPU.addT(r0, 0x1);
-            r6 = CPU.addT(r6, 0x1);
-            r5 = CPU.addT(r5, 0x2);
-            r7 = CPU.addT(r3, 0x0);
-            r1 = CPU.cmpT(r1, r4);
-          } while(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()); // <
+  public static void FUN_800f9f4(final int size) {
+    final int count = (size - 1) / 2;
+    if((size & 0x1) != 0) {
+      final int r3 = MEMORY.ref(1, 0x2010001).getUnsigned();
+      if(r3 == 0) {
+        //LAB_800fa22
+        //LAB_800fa28
+        for(int i = 0; i < count; i++) {
+          MEMORY.ref(2, 0x2020000 + i * 0x2).setu(MEMORY.ref(2, 0x2010002 + i * 0x2).getUnsigned());
         }
-      } else {
-        CPU.cmpT(r3, 0x1);
-        if(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >
-          //LAB_800fa1c
-          CPU.cmpT(r3, 0x2);
-          if(CPU.cpsr().getZero()) { // ==
-            //LAB_800fa60
-            r2 = CPU.movT(0, 0x0);
-            CPU.cmpT(r4, 0x0);
-            if(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >
-              r1 = CPU.addT(r4, 0x0);
+      } else if(r3 == 1) {
+        //LAB_800fa38
+        int r7 = 0;
+        //LAB_800fa44
+        for(int i = 0; i < count; i++) {
+          r7 = (MEMORY.ref(1, 0x2010002 + i).getUnsigned() << 8 | MEMORY.ref(1, 0x2010002 + count + i).getUnsigned()) ^ r7;
+          MEMORY.ref(2, 0x2020000 + i * 0x2).setu(r7);
+        }
+        //LAB_800fa1c
+      } else if(r3 == 2) {
+        //LAB_800fa60
+        int r2 = 0;
 
-              //LAB_800fa68
-              do {
-                r3 = MEMORY.ref(2, r6).getUnsigned();
-                r1 = CPU.subT(r1, 0x1);
-                r3 = CPU.eorT(r3, r2);
-                MEMORY.ref(2, r5).setu(r3);
-                r6 = CPU.addT(r6, 0x2);
-                r5 = CPU.addT(r5, 0x2);
-                r2 = CPU.addT(r3, 0x0);
-                CPU.cmpT(r1, 0x0);
-              } while(!CPU.cpsr().getZero()); // !=
-            }
-          }
-        } else {
-          CPU.cmpT(r3, 0x0);
-          if(CPU.cpsr().getZero()) { // ==
-            //LAB_800fa22
-            r1 = CPU.movT(0, 0x0);
-            r1 = CPU.cmpT(r1, r4);
-            if(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <
-              //LAB_800fa28
-              do {
-                r3 = MEMORY.ref(2, r6).getUnsigned();
-                r1 = CPU.addT(r1, 0x1);
-                MEMORY.ref(2, r5).setu(r3);
-                r6 = CPU.addT(r6, 0x2);
-                r5 = CPU.addT(r5, 0x2);
-                r1 = CPU.cmpT(r1, r4);
-              } while(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()); // <
-            }
-          }
+        //LAB_800fa68
+        for(int i = 0; i < count; i++) {
+          r2 = MEMORY.ref(2, 0x2010002 + i * 0x2).getUnsigned() ^ r2;
+          MEMORY.ref(2, 0x2020000 + i * 0x2).setu(r2);
         }
       }
     }
@@ -5340,9 +5281,9 @@ public final class GoldenSun {
     MEMORY.call(0x3000164, struct.getAddress(), 0x194); // memzero
 
     final PointerTableType296 r5 = MEMORY.ref(4, getPointerTableEntry(296 + sp0x08._00.get()), PointerTableType296::new);
-    FUN_800f9f4(decompress(r5._24.deref().getAddress(), 0x2010001));
-    decompress(r5._28.deref().getAddress(), 0x202c000);
-    decompress(r5._2c.deref().getAddress(), 0x2010000);
+    FUN_800f9f4(decompress(r5._24.deref().getAddress(), 0x2010001)); // without this, the background doesn't load
+    decompress(r5._28.deref().getAddress(), 0x202c000); // without this, the background doesn't load
+    decompress(r5._2c.deref().getAddress(), 0x2010000); // without this, the background doesn't load
     FUN_800fac8();
 
     if(!r5._30.isNull()) {
@@ -5351,7 +5292,7 @@ public final class GoldenSun {
     }
 
     //LAB_800fbc8
-    if(!r5._34.isNull()) {
+    if(!r5._34.isNull()) { // Without this, it looks like the alpha channel doesn't work. Light ways from the windows are opaque, etc.
       decompress(r5._34.deref().getAddress(), 0x202de00);
       FUN_8011a84(0x202de00);
     }
@@ -5423,17 +5364,17 @@ public final class GoldenSun {
       if(r7 != 0) {
         final int backgroundColour = MEMORY.ref(2, 0x5000000).get();
 
-        decompress(getPointerTableEntry(296 + sp0x08.compressedPalette_02.get()), r7);
+        decompress(getPointerTableEntry(296 + sp0x08.compressedPalette_02.get()), r7); // Confirmed to be palette
         MEMORY.ref(2, r7).setu(backgroundColour);
         MEMORY.call(0x3001388, 0x5000000, r7, 0x1c0); // memcpy
 
-        FUN_8005394(getPointerTableEntry(296 + sp0x08._04.get()), r7);
+        FUN_8005394(getPointerTableEntry(296 + sp0x08._04.get()), r7); // Tiles1 in no$, main background
         MEMORY.call(0x3001388,  0x6004000, r7, 0x4000); // memcpy
 
-        FUN_8005394(getPointerTableEntry(296 + sp0x08._06.get()), r7);
+        FUN_8005394(getPointerTableEntry(296 + sp0x08._06.get()), r7); // Overlays like rugs, windows, etc.
         MEMORY.call(0x3001388, 0x6008000, r7, 0x4000); // memcpy
 
-        FUN_8005394(getPointerTableEntry(296 + sp0x08._08.get()), r7);
+        FUN_8005394(getPointerTableEntry(296 + sp0x08._08.get()), r7); // Bottom half of tiles2 in no$, also background, but with this it still renders, just glitched
         MEMORY.call(0x3001388, 0x600c000, r7, 0x4000); // memcpy
 
         FUN_8005394(getPointerTableEntry(296 + sp0x08._0a.get()), 0x2028000);
@@ -5452,7 +5393,7 @@ public final class GoldenSun {
 
   @Method(0x800fe9c)
   public static void FUN_800fe9c() {
-    final int r3 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).get();
+    final int r3 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
     final int r0;
     final int r2;
     final int r1;
