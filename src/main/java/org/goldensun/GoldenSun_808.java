@@ -6,9 +6,6 @@ import org.goldensun.types.Struct194;
 
 import static org.goldensun.GoldenSun.FUN_80022ec;
 import static org.goldensun.GoldenSun.FUN_8002304;
-import static org.goldensun.GoldenSun.FUN_8004278;
-import static org.goldensun.GoldenSun.freeSlot;
-import static org.goldensun.GoldenSun.setMallocSlot;
 import static org.goldensun.GoldenSun.FUN_8002fb0;
 import static org.goldensun.GoldenSun.FUN_80030f8;
 import static org.goldensun.GoldenSun.FUN_8003b70;
@@ -17,10 +14,8 @@ import static org.goldensun.GoldenSun.FUN_8003f3c;
 import static org.goldensun.GoldenSun.FUN_800403c;
 import static org.goldensun.GoldenSun.FUN_80040e8;
 import static org.goldensun.GoldenSun.FUN_80041d8;
-import static org.goldensun.GoldenSun.rand;
+import static org.goldensun.GoldenSun.FUN_8004278;
 import static org.goldensun.GoldenSun.FUN_8004760;
-import static org.goldensun.GoldenSun.mallocSlotBoard;
-import static org.goldensun.GoldenSun.mallocChip;
 import static org.goldensun.GoldenSun.FUN_8009048;
 import static org.goldensun.GoldenSun.FUN_8009078;
 import static org.goldensun.GoldenSun.FUN_8009080;
@@ -41,10 +36,14 @@ import static org.goldensun.GoldenSun.FUN_8009140;
 import static org.goldensun.GoldenSun.FUN_80091a8;
 import static org.goldensun.GoldenSun.FUN_80091e0;
 import static org.goldensun.GoldenSun.FUN_8009228;
+import static org.goldensun.GoldenSun.freeSlot;
 import static org.goldensun.GoldenSun.initMemoryAllocator;
+import static org.goldensun.GoldenSun.mallocChip;
+import static org.goldensun.GoldenSun.mallocSlotBoard;
+import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.setInterruptHandler;
+import static org.goldensun.GoldenSun.setMallocSlot;
 import static org.goldensun.GoldenSunVars._2002090;
-import static org.goldensun.GoldenSunVars._2002094;
 import static org.goldensun.GoldenSunVars._3001f54;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSun_801.FUN_8015000;
@@ -3270,12 +3269,12 @@ public final class GoldenSun_808 {
         final int oldInterrupts = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
         INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-        if(_2002090.get() < 0x20) {
-          final GraphicsStruct0c r2_0 = _2002094.get(_2002090.get());
+        if(_2002090.count_00.get() < 0x20) {
+          final GraphicsStruct0c r2_0 = _2002090._04.get(_2002090.count_00.get());
           r2_0._00.set(r7._14.get() | GPU.DISPCNT.getUnsigned());
           r2_0._04.set(GPU.DISPCNT.getAddress());
           r2_0._08.set(0x20000);
-          _2002090.incr();
+          _2002090.count_00.incr();
         }
 
         //LAB_809019a
@@ -3291,12 +3290,12 @@ public final class GoldenSun_808 {
         final int oldInterrupts = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
         INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-        if(_2002090.get() < 0x20) {
-          final GraphicsStruct0c r2_0 = _2002094.get(_2002090.get());
+        if(_2002090.count_00.get() < 0x20) {
+          final GraphicsStruct0c r2_0 = _2002090._04.get(_2002090.count_00.get());
           r2_0._00.set(r7._14.get() | GPU.DISPCNT.getUnsigned());
           r2_0._04.set(GPU.DISPCNT.getAddress());
           r2_0._08.set(0x20000);
-          _2002090.incr();
+          _2002090.count_00.incr();
         }
 
         //LAB_808ff98
@@ -3318,12 +3317,12 @@ public final class GoldenSun_808 {
         final int oldInterrupts = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
         INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-        if(_2002090.get() < 0x20) {
-          final GraphicsStruct0c r2_0 = _2002094.get(_2002090.get());
+        if(_2002090.count_00.get() < 0x20) {
+          final GraphicsStruct0c r2_0 = _2002090._04.get(_2002090.count_00.get());
           r2_0._00.set(r7._14.get() | GPU.DISPCNT.getUnsigned());
           r2_0._04.set(GPU.DISPCNT.getAddress());
           r2_0._08.set(0x20000);
-          _2002090.incr();
+          _2002090.count_00.incr();
         }
 
         //LAB_8090018
@@ -3347,12 +3346,12 @@ public final class GoldenSun_808 {
         final int oldInterrupts = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
         INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-        if(_2002090.get() < 0x20) {
-          final GraphicsStruct0c r2_0 = _2002094.get(_2002090.get());
+        if(_2002090.count_00.get() < 0x20) {
+          final GraphicsStruct0c r2_0 = _2002090._04.get(_2002090.count_00.get());
           r2_0._00.set(r7._14.get() | GPU.DISPCNT.getUnsigned());
           r2_0._04.set(GPU.DISPCNT.getAddress());
           r2_0._08.set(0x20000);
-          _2002090.incr();
+          _2002090.count_00.incr();
         }
 
         //LAB_809009e
@@ -3385,12 +3384,12 @@ public final class GoldenSun_808 {
         final int oldInterrupts = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
         INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-        if(_2002090.get() < 0x20) {
-          final GraphicsStruct0c r2_0 = _2002094.get(_2002090.get());
+        if(_2002090.count_00.get() < 0x20) {
+          final GraphicsStruct0c r2_0 = _2002090._04.get(_2002090.count_00.get());
           r2_0._00.set(r7._14.get() | GPU.DISPCNT.getUnsigned());
           r2_0._04.set(GPU.DISPCNT.getAddress());
           r2_0._08.set(0x20000);
-          _2002090.incr();
+          _2002090.count_00.incr();
         }
 
         //LAB_809019a

@@ -1,79 +1,57 @@
 package org.goldensun;
 
-import static org.goldensun.Hardware.CPU;
+import org.goldensun.types.GraphicsStruct0c;
+import org.goldensun.types.GraphicsStruct184;
+
 import static org.goldensun.Hardware.DMA;
 import static org.goldensun.Hardware.MEMORY;
 
 public final class StackFunction8002cf4 {
   private StackFunction8002cf4() { }
 
-  public static void FUN_8002cf4(int r0, int r1) {
-    int r2;
-    int r3;
-    int r4;
-    int r5;
-
-    CPU.sp().value = CPU.sp().value - 0x4;
-    r0 = r0 + 0x4;
-
+  public static void FUN_8002cf4(final GraphicsStruct184 r0, final int count) {
     //LAB_8002cfc
-    do {
-      int address8002cfc = r0;
-      r2 = MEMORY.ref(4, address8002cfc).getUnsigned();
-      address8002cfc += 0x4;
-      r3 = MEMORY.ref(4, address8002cfc).getUnsigned();
-      address8002cfc += 0x4;
-      r4 = MEMORY.ref(4, address8002cfc).getUnsigned();
-      address8002cfc += 0x4;
-      r0 = address8002cfc;
-      CPU.r12().value = CPU.andA(r4, 0x30000);
-      CPU.setCFlag(false);
-      if(CPU.cpsr().getZero()) { // ==
+    for(int i = 0; i < count; i++) {
+      final GraphicsStruct0c r0_0 = r0._04.get(i);
+      int r2 = r0_0._00.get();
+      final int r3 = r0_0._04.get();
+      final int r4 = r0_0._08.get();
+
+      final int r12 = r4 & 0x30000;
+      if(r12 == 0) {
         //LAB_8002d4c
         DMA.channels[3].SAD.setu(r2);
         DMA.channels[3].DAD.setu(r3);
         DMA.channels[3].CNT.setu(r4);
       } else {
-        CPU.tstA(r4, 0xc0000);
-        CPU.setCFlag(false);
-        if(!CPU.cpsr().getZero()) { // !=
-          CPU.cmpA(CPU.r12().value, 0x20000);
-          if(CPU.r12().value < 0x20000) {
+        if((r4 & 0xc0000) != 0) {
+          final int r5;
+          if(r12 < 0x20000) {
             r5 = MEMORY.ref(1, r3).getUnsigned();
-          } else if(CPU.r12().value == 0x20000) {
+          } else if(r12 == 0x20000) {
             r5 = MEMORY.ref(2, r3).getUnsigned();
           } else {
             r5 = MEMORY.ref(4, r3).getUnsigned();
           }
-          CPU.tstA(r4, 0x40000);
-          CPU.setCFlag(false);
-          if(!CPU.cpsr().getZero()) { // !=
-            r2 = r5 | (r2);
-          }
-          if(CPU.cpsr().getZero()) { // ==
-            r2 = r5 & (~r2);
+
+          if((r4 & 0x40000) != 0) {
+            r2 = r5 | r2;
+          } else {
+            r2 = r5 & ~r2;
           }
         }
 
         //LAB_8002d2c
-        CPU.cmpA(CPU.r12().value, 0x20000);
-        if(!CPU.cpsr().getCarry()) { // unsigned <
+        if(r12 < 0x20000) {
           MEMORY.ref(1, r3).setu(r2);
-        }
-        if(CPU.cpsr().getZero()) { // ==
+        } else if(r12 == 0x20000) {
           MEMORY.ref(2, r3).setu(r2);
-        }
-        if(!CPU.cpsr().getZero() && CPU.cpsr().getOverflow()) { // >
+        } else {
           MEMORY.ref(4, r3).setu(r2);
         }
       }
 
       //LAB_8002d3c
-      r1 = CPU.subA(r1, 0x1);
-    } while(!CPU.cpsr().getZero() && CPU.cpsr().getOverflow()); // >
-
-    int address8002d44 = CPU.sp().value;
-    address8002d44 += 0x4;
-    CPU.sp().value = address8002d44;
+    }
   }
 }

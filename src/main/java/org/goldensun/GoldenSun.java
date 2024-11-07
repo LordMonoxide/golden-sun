@@ -7,6 +7,7 @@ import org.goldensun.memory.Method;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.RunnableRef;
+import org.goldensun.types.GraphicsStruct184;
 import org.goldensun.types.ObjAttributes08;
 import org.goldensun.types.PointerTableType296;
 import org.goldensun.types.RenderPacket0c;
@@ -22,7 +23,6 @@ import static org.goldensun.Bios.SvcHalt;
 import static org.goldensun.CopiedSegment8000770.intHandlers_30000e0;
 import static org.goldensun.CopiedSegment8000770.memzero;
 import static org.goldensun.GoldenSunVars._2002090;
-import static org.goldensun.GoldenSunVars._2002092;
 import static org.goldensun.GoldenSunVars._3001804;
 import static org.goldensun.GoldenSunVars._3001810;
 import static org.goldensun.GoldenSunVars._3001a10;
@@ -50,9 +50,6 @@ import static org.goldensun.GoldenSunVars._3001cd0;
 import static org.goldensun.GoldenSunVars._3001cd4;
 import static org.goldensun.GoldenSunVars._3001cf4;
 import static org.goldensun.GoldenSunVars._3001cfc;
-import static org.goldensun.GoldenSunVars._8013624;
-import static org.goldensun.GoldenSunVars._80136e0;
-import static org.goldensun.GoldenSunVars.rotationScalingCount_3001d00;
 import static org.goldensun.GoldenSunVars._3001d04;
 import static org.goldensun.GoldenSunVars._3001d08;
 import static org.goldensun.GoldenSunVars._3001d18;
@@ -71,6 +68,8 @@ import static org.goldensun.GoldenSunVars._3007804;
 import static org.goldensun.GoldenSunVars._3007810;
 import static org.goldensun.GoldenSunVars._3007ff0;
 import static org.goldensun.GoldenSunVars._3007ffc;
+import static org.goldensun.GoldenSunVars._8013624;
+import static org.goldensun.GoldenSunVars._80136e0;
 import static org.goldensun.GoldenSunVars._8013784;
 import static org.goldensun.GoldenSunVars.accumulatedButtons_3001af8;
 import static org.goldensun.GoldenSunVars.blendConfig_3001cf8;
@@ -82,6 +81,7 @@ import static org.goldensun.GoldenSunVars.heldLAndRTicks_3001f5c;
 import static org.goldensun.GoldenSunVars.packets_3001400;
 import static org.goldensun.GoldenSunVars.pressedButtons_3001c94;
 import static org.goldensun.GoldenSunVars.ptrTable_8320000;
+import static org.goldensun.GoldenSunVars.rotationScalingCount_3001d00;
 import static org.goldensun.GoldenSunVars.seed_3001cb4;
 import static org.goldensun.GoldenSunVars.ticks_3001800;
 import static org.goldensun.GoldenSun_801.FUN_8010000;
@@ -318,8 +318,8 @@ public final class GoldenSun {
 
     initMemoryAllocator();
     FUN_800300c();
-    _2002090.set(0);
-    _2002092.set(0);
+    _2002090.count_00.set(0);
+    _2002090._02.set(0);
     _3001ac4.setu(0);
     _3001f54.set(0);
     _3001f58.set(0);
@@ -862,31 +862,26 @@ public final class GoldenSun {
 
   @Method(0x8003a7c)
   public static void FUN_8003a7c() {
-    CPU.push(CPU.r10().value);
-    CPU.push(CPU.r8().value);
-    final int r7 = CPU.sp().value;
-    final int r5 = MEMORY.ref(2, 0x2002090).getUnsigned();
-    if(r5 != 0) {
+    final int oldSp = CPU.sp().value;
+
+    final int count = _2002090.count_00.get();
+    if(count != 0) {
       final int size = 0x68;
-      CPU.r10().value = 0;
-      CPU.r8().value = CPU.sp().value;
       CPU.sp().value -= size;
+
       // So we're just gonna copy an entire function to the stack and pretend that's normal?
       DMA.channels[3].SAD.setu(0x8002cf4);
       DMA.channels[3].DAD.setu(CPU.sp().value);
       DMA.channels[3].CNT.setu(0x84000000 | size / 4);
 
-      MEMORY.setFunction(CPU.sp().value, StackFunction8002cf4.class, "FUN_8002cf4", int.class, int.class);
-      callStackFunction(0x2002090, r5);
+      MEMORY.setFunction(CPU.sp().value, StackFunction8002cf4.class, "FUN_8002cf4", GraphicsStruct184.class, int.class);
+      MEMORY.call(CPU.sp().value, _2002090, count);
 
-      MEMORY.ref(2, 0x2002090).setu(CPU.r10().value);
-      CPU.sp().value = CPU.r8().value;
+      _2002090.count_00.set(0);
     }
 
     //LAB_8003abc
-    CPU.sp().value = r7;
-    CPU.r8().value = CPU.pop();
-    CPU.r10().value = CPU.pop();
+    CPU.sp().value = oldSp;
   }
 
   @Method(0x8003adc)

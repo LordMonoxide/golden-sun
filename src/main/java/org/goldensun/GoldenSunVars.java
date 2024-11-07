@@ -9,7 +9,7 @@ import org.goldensun.memory.types.TriConsumerRef;
 import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
-import org.goldensun.types.GraphicsStruct0c;
+import org.goldensun.types.GraphicsStruct184;
 import org.goldensun.types.RenderPacket0c;
 import org.goldensun.types.SoundStruct0c;
 import org.goldensun.types.SoundStructFb0;
@@ -22,9 +22,7 @@ import static org.goldensun.Hardware.MEMORY;
 public final class GoldenSunVars {
   private GoldenSunVars() { }
 
-  public static final UnsignedShortRef _2002090 = MEMORY.ref(2, 0x2002090, UnsignedShortRef::new);
-  public static final UnsignedShortRef _2002092 = MEMORY.ref(2, 0x2002092, UnsignedShortRef::new);
-  public static final ArrayRef<GraphicsStruct0c> _2002094 = MEMORY.ref(4, 0x2002094, ArrayRef.of(GraphicsStruct0c.class, 32, 0xc, GraphicsStruct0c::new));
+  public static final GraphicsStruct184 _2002090 = MEMORY.ref(4, 0x2002090, GraphicsStruct184::new);
 
   public static final SoundStructFb0 _2003050 = MEMORY.ref(4, 0x2003050, SoundStructFb0::new);
 
