@@ -5,7 +5,7 @@ import org.goldensun.memory.Method;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.MEMORY;
 
-/** Copied by {@link GoldenSun#FUN_8005394} from 8002808 */
+/** Copied by {@link GoldenSun#decompressImage} from 8002808 */
 public final class CopiedSegment8002808 {
   private CopiedSegment8002808() { }
 

@@ -2,8 +2,8 @@ package org.goldensun;
 
 import org.goldensun.memory.Method;
 import org.goldensun.types.GraphicsStruct24;
-import org.goldensun.types.Struct194;
-import org.goldensun.types.Struct38;
+import org.goldensun.types.Map194;
+import org.goldensun.types.Sprite38;
 import org.goldensun.types.Struct70;
 
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
@@ -154,9 +154,9 @@ public final class Decompressed8787e04 {
   @Method(0x2008578)
   public static void FUN_2008578() {
     final int r3 = boardWramMallocHead_3001e50.offset(27 * 0x4).get();
-    final Struct194 r7 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new);
+    final Map194 r7 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
     final int r6 = MEMORY.ref(4, r3 + 0x1e0).get();
-    final Struct38 r8 = FUN_200992c(0x11)._50.deref();
+    final Sprite38 r8 = FUN_200992c(0x11).sprite_50.deref();
     FUN_200990c();
     FUN_2009974(0xb, 0, 0);
     FUN_2009974(0xc, 0, 0);
@@ -166,7 +166,7 @@ public final class Decompressed8787e04 {
     FUN_2009974(0x10, 0, 0);
     FUN_20098a4(FUN_200992c(0), 0);
     FUN_200997c(0, 0x12);
-    r8._1e.set(0x555);
+    r8.rotation_1e.set(0x555);
     FUN_200992c(0x11)._55.set(0);
     FUN_20098a4(FUN_200992c(0x11), 0);
     FUN_2009974(0x11, 0x2400000, 0x28a0000);

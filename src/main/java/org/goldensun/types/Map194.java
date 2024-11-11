@@ -7,7 +7,7 @@ import org.goldensun.memory.types.MemoryRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 
-public class Struct194 implements MemoryRef {
+public class Map194 implements MemoryRef {
   private final Value ref;
 
   /** TODO pointer */
@@ -34,7 +34,7 @@ public class Struct194 implements MemoryRef {
   public final UnsignedByteRef _103;
   public final ArrayRef<Sub30> _104;
 
-  public Struct194(final Value ref) {
+  public Map194(final Value ref) {
     this.ref = ref;
 
     this._00 = ref.offset(4, 0x00).cast(IntRef::new);

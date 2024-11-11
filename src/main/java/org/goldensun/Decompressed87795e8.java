@@ -2,7 +2,7 @@ package org.goldensun;
 
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.RunnableRef;
-import org.goldensun.types.Struct194;
+import org.goldensun.types.Map194;
 import org.goldensun.types.Struct70;
 
 import javax.annotation.Nullable;
@@ -93,7 +93,7 @@ public final class Decompressed87795e8 {
     DMA.channels[3].DAD.setu(GPU.BG0HOFS.getAddress());
     DMA.channels[3].CNT.setu(0x84000004);
 
-    boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new)._14.set(0x1400);
+    boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new)._14.set(0x1400);
     FUN_200949c(MEMORY.ref(4, 0x2000434).get())._55.set(0);
   }
 
@@ -224,7 +224,7 @@ public final class Decompressed87795e8 {
     CPU.sp().value -= 0x224;
     MEMORY.ref(4, CPU.sp().value + 0x14).setu(0);
     FUN_2008054();
-    FUN_200932c(getRunnable(Decompressed87795e8.class, "FUN_20081fc"), 0xc80);
+    setTickCallback(getRunnable(Decompressed87795e8.class, "FUN_20081fc"), 0xc80);
     r3 = boardWramMallocHead_3001e50.offset(27 * 0x4).get() + 0x1c0;
     MEMORY.ref(4, r3).setu(MEMORY.ref(4, CPU.sp().value + 0x14).get());
     FUN_20094ac();
@@ -269,7 +269,7 @@ public final class Decompressed87795e8 {
         if(r6 == 0) {
           if(MEMORY.ref(4, CPU.sp().value + 0x14).get() == 0) {
             FUN_2009324(0x1e);
-            FUN_200932c(getRunnable(Decompressed87795e8.class, "FUN_2008154"), 0xc80);
+            setTickCallback(getRunnable(Decompressed87795e8.class, "FUN_2008154"), 0xc80);
             FUN_2009324(0x1);
             MEMORY.ref(4, CPU.sp().value + 0x14).setu(0x1);
           }
@@ -1188,14 +1188,16 @@ public final class Decompressed87795e8 {
     MEMORY.call(0x80000c0, r0);
   }
 
+  /** {@link GoldenSun#setTickCallback_} */
   @Method(0x200932c)
-  public static void FUN_200932c(@Nullable final RunnableRef r0, final int r1) {
+  public static void setTickCallback(@Nullable final RunnableRef r0, final int r1) {
     MEMORY.call(0x80000d0, r0, r1);
   }
 
+  /** {@link GoldenSun#decompress_} */
   @Method(0x200934c)
-  public static int decompress(final int r0, final int r1) {
-    return (int)MEMORY.call(0x80001a8, r0, r1);
+  public static int decompress(final int src, final int dest) {
+    return (int)MEMORY.call(0x80001a8, src, dest);
   }
 
   @Method(0x2009354)
@@ -1203,9 +1205,10 @@ public final class Decompressed87795e8 {
     MEMORY.call(0x80001f0);
   }
 
+  /** {@link GoldenSun#getPointerTableEntry_} */
   @Method(0x200935c)
-  public static int getPointerTableEntry(final int r0) {
-    return (int)MEMORY.call(0x8000290, r0);
+  public static int getPointerTableEntry(final int index) {
+    return (int)MEMORY.call(0x8000290, index);
   }
 
   @Method(0x2009364)

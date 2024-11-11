@@ -15,7 +15,7 @@ import static org.goldensun.GoldenSun.FUN_80037d4;
 import static org.goldensun.GoldenSun.fadeOutBrightness;
 import static org.goldensun.GoldenSun.fadeInBrightness;
 import static org.goldensun.GoldenSun.fadeInAlpha;
-import static org.goldensun.GoldenSun.FUN_8003ce0;
+import static org.goldensun.GoldenSun.waitForFade;
 import static org.goldensun.GoldenSun.clearTickCallbacks;
 import static org.goldensun.GoldenSun.FUN_8004760;
 import static org.goldensun.GoldenSun.decompress;
@@ -112,7 +112,7 @@ public final class GoldenSun_80f {
 
     if(r0 == 0) {
       fadeInBrightness(1);
-      FUN_8003ce0();
+      waitForFade();
       r5 = 0;
 
       //LAB_80f2ca4
@@ -151,7 +151,7 @@ public final class GoldenSun_80f {
       }
 
       //LAB_80f2cfc
-      FUN_8003ce0();
+      waitForFade();
 
       if(r6 != 0) {
         fadeOutBrightness(8);
@@ -181,7 +181,7 @@ public final class GoldenSun_80f {
       }
 
       //LAB_80f2d3e
-      FUN_8003ce0();
+      waitForFade();
     }
 
     //LAB_80f2d42
@@ -237,7 +237,7 @@ public final class GoldenSun_80f {
     loadUiTextures();
     FUN_8004760();
     fadeInAlpha(1);
-    FUN_8003ce0();
+    waitForFade();
     GPU.DISPCNT.setu(0x1540);
     DMA.channels[3].SAD.setu(r6 + (_3001e40.get() >>> 3 & 0x3) * 0x400);
     DMA.channels[3].DAD.setu(0x6004100);

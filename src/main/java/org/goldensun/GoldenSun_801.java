@@ -7,7 +7,7 @@ import org.goldensun.types.GraphicsStruct;
 import org.goldensun.types.GraphicsStruct24;
 import org.goldensun.types.GraphicsStruct28;
 import org.goldensun.types.RenderPacket0c;
-import org.goldensun.types.Struct194;
+import org.goldensun.types.Map194;
 
 import javax.annotation.Nullable;
 
@@ -23,9 +23,9 @@ import static org.goldensun.GoldenSun.FUN_8003fa4;
 import static org.goldensun.GoldenSun.FUN_8004080;
 import static org.goldensun.GoldenSun.setTickCallback;
 import static org.goldensun.GoldenSun.clearTickCallback;
-import static org.goldensun.GoldenSun.FUN_80056cc;
-import static org.goldensun.GoldenSun.FUN_8005c68;
-import static org.goldensun.GoldenSun.FUN_8005cf8;
+import static org.goldensun.GoldenSun.loadSaveList;
+import static org.goldensun.GoldenSun.loadSavePreview;
+import static org.goldensun.GoldenSun.unloadSaveList;
 import static org.goldensun.GoldenSun.FUN_800fec8;
 import static org.goldensun.GoldenSun.FUN_800ff54;
 import static org.goldensun.GoldenSun.freeSlot;
@@ -62,7 +62,7 @@ public final class GoldenSun_801 {
   /** Causes the first map to shake */
   @Method(0x8010000)
   public static void FUN_8010000() {
-    final Struct194 r8 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new);
+    final Map194 r8 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
     final int r1_0 = r8._00.get();
     if(r1_0 != 0) {
       //LAB_8010024
@@ -122,7 +122,7 @@ public final class GoldenSun_801 {
 
       //LAB_8010112
       for(int r10 = 0; r10 < 3; r10++) {
-        final Struct194.Sub30 r4 = r8._104.get(r10);
+        final Map194.Sub30 r4 = r8._104.get(r10);
         r7 = (int)MEMORY.call(0x3000118, r8._e4.get(), r4._10.get());
         r6 = (int)MEMORY.call(0x3000118, r8._e8.get(), r4._14.get());
 
@@ -177,7 +177,7 @@ public final class GoldenSun_801 {
     int r11;
 
     r7 = r0;
-    final Struct194 sp14 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new);
+    final Map194 sp14 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
     r0 = r1 - 0x600000;
     r3 = sp14._ec.get();
     r7 = r7 - 0x780000;
@@ -211,7 +211,7 @@ public final class GoldenSun_801 {
 
     //LAB_80102a6
     for(int sp1c = 0; sp1c < 3; sp1c++) {
-      final Struct194.Sub30 lr = sp14._104.get(sp1c);
+      final Map194.Sub30 lr = sp14._104.get(sp1c);
       if(sp14._100.get(sp1c).get() == 0) {
         break;
       }
@@ -273,7 +273,7 @@ public final class GoldenSun_801 {
   public static void FUN_8010424(final int r0, final int r1, final int r2, final int r3, final int a4, final int a5) {
     int sp04 = 0x2010000 + (r3 * 0x80 + r2) * 0x4;
     int sp08 = 0x2010000 + (r1 * 0x80 + r0) * 0x4;
-    final Struct194 r2_0 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new);
+    final Map194 r2_0 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
     final int[] r9 = new int[6];
 
     //LAB_801045e
@@ -400,11 +400,11 @@ public final class GoldenSun_801 {
     int r2;
     int r4;
 
-    final Struct194 r8 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new);
+    final Map194 r8 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
 
     //LAB_80117c0
     for(int i = 0; i < 0x10; i++) {
-      final Struct194.Sub0c r5 = r8._18.get(i);
+      final Map194.Sub0c r5 = r8._18.get(i);
 
       if(r5._00.get() != 0 && r5._0a.get() == 0) {
         //LAB_80117cc
@@ -475,17 +475,17 @@ public final class GoldenSun_801 {
 
   @Method(0x80118a8)
   public static void FUN_80118a8(final int r0) {
-    boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new)._18.get(r0)._0a.set(0);
+    boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new)._18.get(r0)._0a.set(0);
   }
 
   @Method(0x80118c0)
   public static void FUN_80118c0(final int r0) {
-    boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new)._18.get(r0)._0a.set(0x1);
+    boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new)._18.get(r0)._0a.set(0x1);
   }
 
   @Method(0x80118d8)
   public static void FUN_80118d8(final int r0) {
-    final Struct194 r5 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new);
+    final Map194 r5 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
     CPU.sp().value -= 0x4;
     MEMORY.ref(4, CPU.sp().value).setu(0);
     DMA.channels[3].SAD.setu(CPU.sp().value);
@@ -509,7 +509,7 @@ public final class GoldenSun_801 {
         }
 
         //LAB_8011936
-        final Struct194.Sub0c r3 = r5._18.get(r1 & 0xf);
+        final Map194.Sub0c r3 = r5._18.get(r1 & 0xf);
         r3._00.set(r4);
         r3._04.set(r4);
         r3._08.set(0);
@@ -533,8 +533,8 @@ public final class GoldenSun_801 {
 
   @Method(0x80119cc)
   public static void FUN_80119cc() {
-    final Struct194 r3 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new);
-    final Struct194.Sub0c r4 = r3._d8;
+    final Map194 r3 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
+    final Map194.Sub0c r4 = r3._d8;
 
     if(r4._00.get() != 0 && r4._0a.get() == 0) {
       //LAB_80119e4
@@ -585,8 +585,8 @@ public final class GoldenSun_801 {
 
   @Method(0x8011a84)
   public static void FUN_8011a84(final int r0) {
-    final Struct194 r3 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new);
-    final Struct194.Sub0c r4 = r3._d8;
+    final Map194 r3 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
+    final Map194.Sub0c r4 = r3._d8;
 
     CPU.sp().value -= 0x4;
     MEMORY.ref(4, CPU.sp().value).setu(0);
@@ -620,7 +620,7 @@ public final class GoldenSun_801 {
     final int r1_0 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
     final int r2_0;
     if(r1_0 != 0) {
-      r2_0 = MEMORY.ref(4, r1_0, Struct194::new)._104.get(r0 & 0x3)._2c.get();
+      r2_0 = MEMORY.ref(4, r1_0, Map194::new)._104.get(r0 & 0x3)._2c.get();
     } else {
       r2_0 = 0x2010000;
     }
@@ -636,7 +636,7 @@ public final class GoldenSun_801 {
 
   @Method(0x8012330)
   public static void FUN_8012330(final int r0, final int r1, final int r2) {
-    final Struct194 r3 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new);
+    final Map194 r3 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
 
     if(r0 >= 0) {
       r3._04.set(r0);
@@ -5782,7 +5782,7 @@ public final class GoldenSun_801 {
     r5.packet_10.attribs_04.attrib0_00.set(r2_0);
     r5.packet_10.attribs_04.attrib1_02.set(r1_0);
     MEMORY.ref(4, r5.packet_10.attribs_04.attrib0_00.getAddress()).oru(r1); //TODO
-    r5.packet_10.attribs_04.attrib2_04.set(_3001b10.get(r0)._02.get() >>> 5);
+    r5.packet_10.attribs_04.attrib2_04.set(_3001b10.get(r0).vramAddr_02.get() >>> 5);
     r5.packet_10.attribs_04.rotationScaling_06.set(0);
     r5._0f.set(0xff);
     r5._06.set(r1_0);
@@ -5884,13 +5884,13 @@ public final class GoldenSun_801 {
     int r5;
     int r6;
 
-    r0 = FUN_80056cc();
+    r0 = loadSaveList();
     r6 = CPU.movT(0, 0x9);
     r5 = CPU.movT(0, 0x0);
     r6 = CPU.negT(r6, r6);
     CPU.cmpT(r0, 0x0);
     if(CPU.cpsr().getZero()) { // ==
-      r0 = FUN_8005c68();
+      r0 = loadSavePreview();
       r1 = boardWramMallocHead_3001e50.offset(51 * 0x4).get();
       MEMORY.ref(2, 0x2002010).setu(r5);
       MEMORY.ref(2, 0x200200c).setu(r5);
@@ -5928,7 +5928,7 @@ public final class GoldenSun_801 {
     }
 
     //LAB_801f7f6
-    FUN_8005cf8();
+    unloadSaveList();
 
     if(r6 != 0 && r5 == r6) {
       return r6 + 100;

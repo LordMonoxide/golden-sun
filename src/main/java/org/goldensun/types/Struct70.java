@@ -39,7 +39,7 @@ public class Struct70 implements MemoryRef {
   public final IntRef _48;
   public final IntRef _4c;
   /** Sometimes a pointer to 4 pointers to the struct? */
-  public final Pointer<Struct38> _50;
+  public final Pointer<Sprite38> sprite_50;
   public final UnsignedByteRef _54;
   public final UnsignedByteRef _55;
   public final UnsignedByteRef _56;
@@ -86,7 +86,7 @@ public class Struct70 implements MemoryRef {
     this._44 = ref.offset(4, 0x44).cast(IntRef::new);
     this._48 = ref.offset(4, 0x48).cast(IntRef::new);
     this._4c = ref.offset(4, 0x4c).cast(IntRef::new);
-    this._50 = ref.offset(4, 0x50).cast(Pointer.deferred(4, Struct38::new));
+    this.sprite_50 = ref.offset(4, 0x50).cast(Pointer.deferred(4, Sprite38::new));
     this._54 = ref.offset(1, 0x54).cast(UnsignedByteRef::new);
     this._55 = ref.offset(1, 0x55).cast(UnsignedByteRef::new);
     this._56 = ref.offset(1, 0x56).cast(UnsignedByteRef::new);

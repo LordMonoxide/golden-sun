@@ -6,7 +6,7 @@ import org.goldensun.memory.types.MemoryRef;
 import org.goldensun.memory.types.ShortRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 
-public class Struct18 implements MemoryRef {
+public class SpriteLayer18 implements MemoryRef {
   private final Value ref;
 
   public final ShortRef _00;
@@ -24,7 +24,7 @@ public class Struct18 implements MemoryRef {
   public final UnsignedByteRef _16;
   public final UnsignedByteRef _17;
 
-  public Struct18(final Value ref) {
+  public SpriteLayer18(final Value ref) {
     this.ref = ref;
 
     this._00 = ref.offset(2, 0x00).cast(ShortRef::new);

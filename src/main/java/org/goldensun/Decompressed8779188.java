@@ -102,8 +102,8 @@ public final class Decompressed8779188 {
         r0 = CPU.movT(0, 0x11);
         FUN_20085f0(r0);
         r0 = CPU.movT(0, 0x3c);
-        FUN_2008588(r0);
-        FUN_2008590();
+        fadeOutBrightness(r0);
+        waitForFade();
         r0 = CPU.movT(0, 0xf0);
         FUN_20085a8(r0);
         r0 = CPU.movT(0, 0x13);
@@ -143,8 +143,8 @@ public final class Decompressed8779188 {
             r0 = CPU.movT(0, 0x11);
             FUN_20085f0(r0);
             r0 = CPU.movT(0, 0x1e);
-            FUN_2008588(r0);
-            FUN_2008590();
+            fadeOutBrightness(r0);
+            waitForFade();
             r2 = MEMORY.ref(4, 0x20081b8).get();
             r3 = MEMORY.ref(4, r2).get();
             r5 = CPU.movT(0, 0x0);
@@ -189,8 +189,8 @@ public final class Decompressed8779188 {
         r0 = CPU.movT(0, 0x11);
         FUN_20085f0(r0);
         r0 = CPU.movT(0, 0x1e);
-        FUN_2008588(r0);
-        FUN_2008590();
+        fadeOutBrightness(r0);
+        waitForFade();
         r0 = CPU.movT(0, 0x3c);
         FUN_20085a8(r0);
         r0 = CPU.movT(0, 0x13);
@@ -460,7 +460,7 @@ public final class Decompressed8779188 {
 
     r0 = CPU.movT(0, 0x0);
     r5 = MEMORY.ref(4, 0x200849c).get();
-    FUN_2008588(r0);
+    fadeOutBrightness(r0);
     r2 = MEMORY.ref(4, 0x20084a0).get();
     r3 = MEMORY.ref(4, 0x2008498).get();
     MEMORY.ref(2, r2).setu(r3);
@@ -589,19 +589,22 @@ public final class Decompressed8779188 {
     return (int)MEMORY.call(0x8000291, r0);
   }
 
+  /** {@link GoldenSun#FUN_8000298} */
   @Method(0x2008580)
   public static void FUN_2008580(final int r0) {
-    MEMORY.call(0x8000299, r0);
+    MEMORY.call(0x8000298, r0);
   }
 
+  /** {@link GoldenSun#fadeOutBrightness_} */
   @Method(0x2008588)
-  public static void FUN_2008588(final int r0) {
-    MEMORY.call(0x80002a9, r0);
+  public static void fadeOutBrightness(final int frames) {
+    MEMORY.call(0x80002a8, frames);
   }
 
+  /** {@link GoldenSun#waitForFade_} */
   @Method(0x2008590)
-  public static void FUN_2008590() {
-    MEMORY.call(0x80002d1);
+  public static void waitForFade() {
+    MEMORY.call(0x80002d0);
   }
 
   @Method(0x2008598)
