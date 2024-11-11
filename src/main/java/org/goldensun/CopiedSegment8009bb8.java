@@ -153,10 +153,6 @@ public final class CopiedSegment8009bb8 {
             break;
           }
           if(r3 != 0) {
-            if(r1 >= 0x3007ffc && r1 < 0x4000000) {
-              System.out.println("DID THE THING");
-              new Throwable().printStackTrace();
-            }
             MEMORY.ref(1, r1).setu(_8009d9c[r3] & 0xff);
             r1 = r1 + 0x1;
           }
