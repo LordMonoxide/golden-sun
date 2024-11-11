@@ -9,7 +9,7 @@ public final class GoldenSun_818 {
 
   @Method(0x8185000)
   public static int FUN_8185000(final int r0) {
-    return (int)MEMORY.call(0x8185009, r0);
+    return (int)MEMORY.call(0x8185008, r0);
   }
 
   @Method(0x8185008)

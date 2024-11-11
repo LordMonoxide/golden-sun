@@ -103,7 +103,7 @@ public class Cpu implements Runnable {
 
   public void dispatchIrq() {
     synchronized(this) {
-      if(this.awaitingInterrupt && INTERRUPTS.irqPending()) {
+      if(this.awaitingInterrupt && INTERRUPTS.irqPendingForHalt()) {
         this.awaitingInterrupt = false;
         this.notify();
       }

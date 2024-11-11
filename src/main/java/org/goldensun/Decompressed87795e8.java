@@ -3,6 +3,7 @@ package org.goldensun;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.types.Struct194;
+import org.goldensun.types.Struct70;
 
 import javax.annotation.Nullable;
 
@@ -93,7 +94,7 @@ public final class Decompressed87795e8 {
     DMA.channels[3].CNT.setu(0x84000004);
 
     boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new)._14.set(0x1400);
-    MEMORY.ref(1, FUN_200949c(MEMORY.ref(4, 0x2000434).get()) + 0x55).setu(0);
+    FUN_200949c(MEMORY.ref(4, 0x2000434).get())._55.set(0);
   }
 
   @Method(0x20081fc)
@@ -1404,8 +1405,8 @@ public final class Decompressed87795e8 {
   }
 
   @Method(0x200949c)
-  public static int FUN_200949c(final int r0) {
-    return (int)MEMORY.call(0x808a080, r0);
+  public static Struct70 FUN_200949c(final int r0) {
+    return (Struct70)MEMORY.call(0x808a080, r0);
   }
 
   @Method(0x20094a4)

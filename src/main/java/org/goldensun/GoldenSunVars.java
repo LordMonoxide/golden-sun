@@ -14,10 +14,12 @@ import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 import org.goldensun.types.GraphicsStruct184;
 import org.goldensun.types.RenderPacket0c;
+import org.goldensun.types.RotationScaling08;
 import org.goldensun.types.SoundStruct0c;
 import org.goldensun.types.SoundStructFb0;
 import org.goldensun.types.Struct04;
-import org.goldensun.types.Struct08;
+import org.goldensun.types.Struct70;
+import org.goldensun.types.TickCallback08;
 import org.goldensun.types.Struct0c;
 
 import static org.goldensun.Hardware.MEMORY;
@@ -93,7 +95,7 @@ public final class GoldenSunVars {
   public static final ArrayRef<UnsignedByteRef> _3001810 = MEMORY.ref(1, 0x3001810, ArrayRef.of(UnsignedByteRef.class, 0x200, 1, UnsignedByteRef::new));
   public static final Value _3001a10 = MEMORY.ref(1, 0x3001a10);
 
-  public static final ArrayRef<Struct08> _3001a20 = MEMORY.ref(4, 0x3001a20, ArrayRef.of(Struct08.class, 20, 0x8, Struct08::new));
+  public static final ArrayRef<TickCallback08> tickCallbacks_3001a20 = MEMORY.ref(4, 0x3001a20, ArrayRef.of(TickCallback08.class, 20, 0x8, TickCallback08::new));
   public static final UnsignedByteRef _3001ac0 = MEMORY.ref(1, 0x3001ac0, UnsignedByteRef::new);
 
   public static final Value _3001ac4 = MEMORY.ref(1, 0x3001ac4);
@@ -159,9 +161,9 @@ public final class GoldenSunVars {
 
   public static final UnsignedShortRef _3001d28 = MEMORY.ref(2, 0x3001d28, UnsignedShortRef::new);
 
-  public static final UnsignedByteRef _3001d34 = MEMORY.ref(1, 0x3001d34, UnsignedByteRef::new);
+  public static final UnsignedByteRef tickCallbacksInitialized_3001d34 = MEMORY.ref(1, 0x3001d34, UnsignedByteRef::new);
 
-  public static final ArrayRef<UnsignedShortRef> rotationScaling_3001d40 = MEMORY.ref(2, 0x3001d40, ArrayRef.of(UnsignedShortRef.class, 0x80, 0x2, UnsignedShortRef::new));
+  public static final ArrayRef<RotationScaling08> rotationScaling_3001d40 = MEMORY.ref(2, 0x3001d40, ArrayRef.of(RotationScaling08.class, 0x20, 0x8, RotationScaling08::new));
   public static final IntRef _3001e40 = MEMORY.ref(4, 0x3001e40, IntRef::new);
   public static final UnsignedByteRef _3001e44 = MEMORY.ref(1, 0x3001e44, UnsignedByteRef::new);
 
@@ -236,7 +238,7 @@ public final class GoldenSunVars {
    *   <li>{@link GoldenSun#FUN_800d7e8}</li>
    * </ul>
    */
-  public static final ArrayRef<Pointer<FunctionRef<Integer, Integer>>> _8013624 = MEMORY.ref(4, 0x8013624, ArrayRef.of(Pointer.classFor(FunctionRef.classFor(Integer.class, Integer.class)), 47, 0x4, Pointer.deferred(4, FunctionRef::new)));
+  public static final ArrayRef<Pointer<FunctionRef<Struct70, Integer>>> _8013624 = MEMORY.ref(4, 0x8013624, ArrayRef.of(Pointer.classFor(FunctionRef.classFor(Struct70.class, Integer.class)), 47, 0x4, Pointer.deferred(4, FunctionRef::new)));
   /**
    * <ul>
    *   <li>{@link GoldenSun#FUN_800e220}</li>
@@ -282,7 +284,7 @@ public final class GoldenSunVars {
    *   <li>{@link GoldenSun#FUN_800e964}</li>
    * </ul>
    */
-  public static final ArrayRef<Pointer<TriConsumerRef<Integer, Integer, Integer>>> _80136e0 = MEMORY.ref(4, 0x80136e0, ArrayRef.of(Pointer.classFor(TriConsumerRef.classFor(Integer.class, Integer.class, Integer.class)), 41, 0x4, Pointer.deferred(4, TriConsumerRef::new)));
+  public static final ArrayRef<Pointer<TriConsumerRef<Struct70, Integer, Integer>>> _80136e0 = MEMORY.ref(4, 0x80136e0, ArrayRef.of(Pointer.classFor(TriConsumerRef.classFor(Struct70.class, Integer.class, Integer.class)), 41, 0x4, Pointer.deferred(4, TriConsumerRef::new)));
 
   public static final UnboundedArrayRef<Struct0c> _8013784 = MEMORY.ref(4, 0x8013784, UnboundedArrayRef.of(0xc, Struct0c::new));
 

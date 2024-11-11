@@ -50,6 +50,20 @@ public class Memory {
     watches.remove(address);
   }
 
+  public void dump(final int address, final int size) {
+    for(int i = 0; i < size; i++) {
+      if(i % 0x10 == 0) {
+        if(i != 0) {
+          System.out.println();
+        }
+
+        System.out.printf("%07x  ", address + i);
+      }
+
+      System.out.printf("%02x ", this.get(address + i, 1) & 0xff);
+    }
+  }
+
   public void waitForLock(final Runnable callback) {
     synchronized(this.lock) {
       callback.run();
@@ -185,7 +199,7 @@ public class Memory {
 
       for(final int watch : watches) {
         if(watch >= dest && watch < dest + length) {
-          LOGGER.error("%08x set to %x", watch, this.get(watch, 4));
+          LOGGER.error("%08x set to %x", watch, this.get(watch, (watch & 0x3) == 0 ? 4 : (watch & 0x1) == 0 ? 2 : 1));
           LOGGER.error("", new Throwable());
         }
       }

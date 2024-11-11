@@ -71,7 +71,11 @@ public final class CopiedSegment8000770 {
     CPU.spsr().msr(oldSpsr, true, false, false, true);
   }
 
-  /** Multiplies r0 and r1 and returns the middle 16-48 bits (y tho) (jumps back to r12) */
+  /**
+   * Multiplies r0 and r1 and returns the middle 16-48 bits (y tho) (jumps back to r12)
+   *
+   * Probably multiplying .8 numbers
+   */
   @Deprecated
   @Method(0x3000118)
   public static int FUN_3000118(final int r0, final int r1) {
@@ -483,6 +487,98 @@ public final class CopiedSegment8000770 {
 
     r0_0.set(r0);
     r1_0.set(r1);
+  }
+
+  @Method(0x30005c0)
+  public static int FUN_30005c0(int r0, int r1) {
+    int r2;
+    int r3;
+    int r4;
+    int r5;
+    final int r6;
+    int r7;
+
+    r2 = MEMORY.ref(1, r0).getUnsigned();
+    r0 = r0 + 0x1;
+    r3 = MEMORY.ref(1, r0).getUnsigned();
+    r0 = r0 + 0x1;
+    CPU.setCFlag((r3 & 0x1 << 24) != 0);
+    r2 = CPU.orrA(r2, r3 << 8);
+    if(CPU.cpsr().getZero()) { // ==
+      return r0;
+    }
+    CPU.sp().value = CPU.sp().value - 0xc;
+    r6 = r0;
+    r2 = r2 + r0;
+    r2 = r2 - 0x2;
+
+    //LAB_30005e0
+    r3 = MEMORY.ref(1, r2).getUnsigned();
+    r2 = r2 + 0x1;
+    r3 = r3 | 0x100;
+
+    //LAB_30005e8
+    do {
+      CPU.setCFlag((r3 & 0x1) != 0);
+      r3 = CPU.movA(r0, r3 >>> 1);
+      if(!CPU.cpsr().getCarry()) { // unsigned <
+        //LAB_3000608
+        r4 = MEMORY.ref(1, r2).getUnsigned();
+        r2 = r2 + 0x1;
+        CPU.r12().value = MEMORY.ref(1, r2).getUnsigned();
+        r2 = r2 + 0x1;
+        CPU.setCFlag((r4 & 0x1 << 24) != 0);
+        r4 = CPU.orrA(CPU.r12().value, r4 << 8);
+        if(CPU.cpsr().getZero()) { // ==
+          //LAB_300064c
+          int address300064c = CPU.sp().value;
+          address300064c += 0x4;
+          address300064c += 0x4;
+          address300064c += 0x4;
+          CPU.sp().value = address300064c;
+          r0 = 0x0;
+          return r0;
+        }
+        CPU.r12().value = r4 & ~0xf000;
+        CPU.r12().value = r6 - CPU.r12().value;
+        CPU.setCFlag((r4 & 0x1 << 11) != 0);
+        r4 = CPU.movA(r0, r4 >>> 12);
+        if(CPU.cpsr().getZero()) { // ==
+          r4 = MEMORY.ref(1, r2).getUnsigned();
+          r2 = r2 + 0x1;
+          r4 = r4 + 0x10;
+        }
+        r4 = r4 + 0x1;
+
+        //LAB_3000630
+        do {
+          r5 = MEMORY.ref(1, CPU.r12().value).getUnsigned();
+          CPU.r12().value = CPU.r12().value + 0x1;
+          r7 = CPU.subA(r5, 0xdf);
+          if(CPU.cpsr().getCarry() && !CPU.cpsr().getZero()) { // unsigned >
+            r1 = r1 + r7;
+          } else {
+            MEMORY.ref(1, r1).setu(r5);
+            r1 = r1 + 0x1;
+          }
+          r4 = CPU.subA(r4, 0x1);
+        } while(!CPU.cpsr().getNegative()); // positive or 0
+      } else if(CPU.cpsr().getZero()) { // ==
+        r3 = MEMORY.ref(1, r2).getUnsigned();
+        r2 = r2 + 0x1;
+        r3 = r3 | 0x100;
+      } else {
+        r4 = MEMORY.ref(1, r0).getUnsigned();
+        r0 = r0 + 0x1;
+        r5 = CPU.subA(r4, 0xdf);
+        if(CPU.cpsr().getCarry() && !CPU.cpsr().getZero()) { // unsigned >
+          r1 = r1 + r5;
+        } else {
+          MEMORY.ref(1, r1).setu(r4);
+          r1 = r1 + 0x1;
+        }
+      }
+    } while(true);
   }
 
   /** This code is absolutely fucked, probably handwritten, has a large chunk of what looks like ARM in the middle of the thumb but is broken. I'm just gonna delete most of it and hope we don't need it. */

@@ -2,6 +2,7 @@ package org.goldensun.types;
 
 import org.goldensun.memory.Value;
 import org.goldensun.memory.types.MemoryRef;
+import org.goldensun.memory.types.ShortRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 
@@ -13,7 +14,8 @@ public class ObjAttributes08 implements MemoryRef {
   public final UnsignedByteRef flags_01; // Overlap
   public final UnsignedShortRef attrib1_02;
   public final UnsignedShortRef attrib2_04;
-  public final UnsignedShortRef rotationScaling_06;
+  /** Signed .8 */
+  public final ShortRef rotationScaling_06;
 
   public ObjAttributes08(final Value ref) {
     this.ref = ref;
@@ -23,7 +25,7 @@ public class ObjAttributes08 implements MemoryRef {
     this.flags_01 = ref.offset(1, 0x01).cast(UnsignedByteRef::new);
     this.attrib1_02 = ref.offset(2, 0x02).cast(UnsignedShortRef::new);
     this.attrib2_04 = ref.offset(2, 0x04).cast(UnsignedShortRef::new);
-    this.rotationScaling_06 = ref.offset(2, 0x06).cast(UnsignedShortRef::new);
+    this.rotationScaling_06 = ref.offset(2, 0x06).cast(ShortRef::new);
   }
 
   public int getPaletteNumber() {

@@ -57,8 +57,6 @@ public final class Hardware {
   }
 
   public static void start() {
-//    Memory.addWatch(0x30017f8);
-
     cpuThread.start();
     timerThread.start();
     CODE.start();

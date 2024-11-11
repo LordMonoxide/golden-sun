@@ -2,7 +2,7 @@ package org.goldensun;
 
 import org.goldensun.memory.Method;
 
-import static org.goldensun.GoldenSun.FUN_80022ec;
+import static org.goldensun.GoldenSun.divideS;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.MEMORY;
 
@@ -68,7 +68,7 @@ public final class GoldenSun_80b {
         r0 = CPU.addT(r6, 0x0);
         r0 = CPU.mulT(r0, r3);
         r1 = CPU.r10().value;
-        r0 = FUN_80022ec(r0, r1);
+        r0 = divideS(r0, r1);
         r5 = MEMORY.ref(2, r7 + 0x4).getUnsigned();
         r3 = CPU.r8().value;
         r5 = CPU.addT(r5, r0);
@@ -92,7 +92,7 @@ public final class GoldenSun_80b {
         r0 = CPU.addT(r6, 0x0);
         r0 = CPU.mulT(r0, r3);
         r1 = CPU.r10().value;
-        r0 = FUN_80022ec(r0, r1);
+        r0 = divideS(r0, r1);
         r5 = MEMORY.ref(2, r7 + 0x6).getUnsigned();
         r2 = CPU.r8().value;
         r5 = CPU.addT(r5, r0);

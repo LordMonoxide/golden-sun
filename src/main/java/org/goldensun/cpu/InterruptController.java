@@ -40,6 +40,10 @@ public class InterruptController {
     return this.masterEnable && (this.interrupts & this.interruptMask) != 0;
   }
 
+  public boolean irqPendingForHalt() {
+    return (this.interrupts & this.interruptMask) != 0;
+  }
+
   public int getInterrupts() {
     return this.interrupts;
   }

@@ -1,7 +1,10 @@
 package org.goldensun;
 
 import org.goldensun.memory.Method;
+import org.goldensun.types.GraphicsStruct24;
 import org.goldensun.types.Struct194;
+import org.goldensun.types.Struct38;
+import org.goldensun.types.Struct70;
 
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.Hardware.CPU;
@@ -153,7 +156,7 @@ public final class Decompressed8787e04 {
     final int r3 = boardWramMallocHead_3001e50.offset(27 * 0x4).get();
     final Struct194 r7 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Struct194::new);
     final int r6 = MEMORY.ref(4, r3 + 0x1e0).get();
-    final int r8 = MEMORY.ref(4, FUN_200992c(0x11) + 0x50).get();
+    final Struct38 r8 = FUN_200992c(0x11)._50.deref();
     FUN_200990c();
     FUN_2009974(0xb, 0, 0);
     FUN_2009974(0xc, 0, 0);
@@ -163,8 +166,8 @@ public final class Decompressed8787e04 {
     FUN_2009974(0x10, 0, 0);
     FUN_20098a4(FUN_200992c(0), 0);
     FUN_200997c(0, 0x12);
-    MEMORY.ref(2, r8 + 0x1e).setu(0x555);
-    MEMORY.ref(1, FUN_200992c(0x11) + 0x55).setu(0);
+    r8._1e.set(0x555);
+    FUN_200992c(0x11)._55.set(0);
     FUN_20098a4(FUN_200992c(0x11), 0);
     FUN_2009974(0x11, 0x2400000, 0x28a0000);
     FUN_2009884(0x7);
@@ -228,10 +231,10 @@ public final class Decompressed8787e04 {
     FUN_20097e4();
     FUN_2009994(0x8, 0x2);
     FUN_20099dc(0x9008, 0, 0x14);
-    MEMORY.ref(1, FUN_200992c(0x8) + 0x5a).and(0xfe);
+    FUN_200992c(0x8)._5a.and(0xfe);
     FUN_200996c(0x8, 0x21e, 0x2a8);
     FUN_2009904(0x1);
-    MEMORY.ref(1, FUN_200992c(0x8) + 0x5a).oru(0x1);
+    FUN_200992c(0x8)._5a.or(0x1);
     FUN_2009904(0xa);
     FUN_200999c(0x8, 0x2);
     FUN_20098c4(FUN_200992c(0), 0xe2);
@@ -241,15 +244,15 @@ public final class Decompressed8787e04 {
     FUN_2009904(0xa);
     FUN_20099b4(0, 0);
     FUN_2009904(0x14);
-    MEMORY.ref(1, FUN_200992c(0x8) + 0x5a).addu(0xfe);
+    FUN_200992c(0x8)._5a.add(0xfe);
     FUN_200996c(0x8, 0x216, 0x2b0);
     FUN_2009904(0x1);
-    MEMORY.ref(1, FUN_200992c(0x8) + 0x5a).oru(0x1);
+    FUN_200992c(0x8)._5a.or(0x1);
     FUN_2009904(0x14);
     FUN_2009934(0x8, 0x18000, 0xc000);
     FUN_2009934(0, 0x18000, 0xc000);
     FUN_2009a14(0x8, 0x1);
-    MEMORY.ref(1, FUN_200992c(0) + 0x23).oru(0x1);
+    FUN_200992c(0)._23.or(0x1);
     FUN_200993c(0x8, 0x2009ab4);
     FUN_2009904(0x14);
     FUN_200993c(0, 0x2009ab4);
@@ -259,7 +262,7 @@ public final class Decompressed8787e04 {
     FUN_200997c(0x8, 0x1);
     FUN_200997c(0, 0x1);
     FUN_20099ec(0x8, 0x4000, 0xa);
-    FUN_20099cc(0x8008, 0);
+    FUN_20099cc(0x8008);
 
     if(FUN_2009924(0, 0) == 0) {
       boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).offset(2, 0x1d8).incr();
@@ -334,7 +337,7 @@ public final class Decompressed8787e04 {
   }
 
   @Method(0x20098a4)
-  public static void FUN_20098a4(final int r0, final int r1) {
+  public static void FUN_20098a4(final Struct70 r0, final int r1) {
     MEMORY.call(0x80091e0, r0, r1);
   }
 
@@ -359,7 +362,7 @@ public final class Decompressed8787e04 {
   }
 
   @Method(0x20098c4)
-  public static void FUN_20098c4(final int r0, final int r1) {
+  public static void FUN_20098c4(final Struct70 r0, final int r1) {
     MEMORY.call(0x8009228, r0, r1);
   }
 
@@ -404,8 +407,8 @@ public final class Decompressed8787e04 {
   }
 
   @Method(0x200992c)
-  public static int FUN_200992c(final int r0) {
-    return (int)MEMORY.call(0x808a080, r0);
+  public static Struct70 FUN_200992c(final int r0) {
+    return (Struct70)MEMORY.call(0x808a080, r0);
   }
 
   @Method(0x2009934)
@@ -474,8 +477,8 @@ public final class Decompressed8787e04 {
   }
 
   @Method(0x20099cc)
-  public static void FUN_20099cc(final int r0, final int r1) {
-    MEMORY.call(0x808a178, r0, r1);
+  public static GraphicsStruct24 FUN_20099cc(final int r0) {
+    return (GraphicsStruct24)MEMORY.call(0x808a178, r0);
   }
 
   @Method(0x20099d4)

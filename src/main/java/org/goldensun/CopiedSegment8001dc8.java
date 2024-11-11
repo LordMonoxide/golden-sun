@@ -4,10 +4,11 @@ import org.goldensun.memory.Method;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.types.ObjAttributes08;
 import org.goldensun.types.RenderPacket0c;
+import org.goldensun.types.RotationScaling08;
 
-import static org.goldensun.GoldenSunVars.rotationScaling_3001d40;
 import static org.goldensun.GoldenSunVars.packets_3001400;
 import static org.goldensun.GoldenSunVars.rotationScalingCount_3001d00;
+import static org.goldensun.GoldenSunVars.rotationScaling_3001d40;
 import static org.goldensun.Hardware.MEMORY;
 
 /** Copied by {@link GoldenSun#processRenderQueue} from 8001dc8 */
@@ -64,7 +65,11 @@ public final class CopiedSegment8001dc8 {
   public static void copyRotationScaling(final ArrayRef<ObjAttributes08> attribs) {
     //LAB_30024a4
     for(int i = 0; i < rotationScalingCount_3001d00.get(); i++) {
-      attribs.get(i).rotationScaling_06.set(rotationScaling_3001d40.get(i).get());
+      final RotationScaling08 r1 = rotationScaling_3001d40.get(i);
+      attribs.get(i * 4).rotationScaling_06.set(r1.pa_00.get());
+      attribs.get(i * 4 + 1).rotationScaling_06.set(r1.pb_02.get());
+      attribs.get(i * 4 + 2).rotationScaling_06.set(r1.pc_04.get());
+      attribs.get(i * 4 + 3).rotationScaling_06.set(r1.pd_06.get());
     }
 
     //LAB_30024c8

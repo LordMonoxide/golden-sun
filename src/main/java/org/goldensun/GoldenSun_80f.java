@@ -9,14 +9,14 @@ import org.goldensun.types.SoundStruct50;
 import org.goldensun.types.SoundStructFb0;
 
 import static org.goldensun.GoldenSun.CpuSet;
-import static org.goldensun.GoldenSun.FUN_80022ec;
+import static org.goldensun.GoldenSun.divideS;
 import static org.goldensun.GoldenSun.FUN_80030f8;
 import static org.goldensun.GoldenSun.FUN_80037d4;
-import static org.goldensun.GoldenSun.FUN_8003b70;
-import static org.goldensun.GoldenSun.FUN_8003bb4;
-import static org.goldensun.GoldenSun.FUN_8003c3c;
+import static org.goldensun.GoldenSun.fadeOutBrightness;
+import static org.goldensun.GoldenSun.fadeInBrightness;
+import static org.goldensun.GoldenSun.fadeInAlpha;
 import static org.goldensun.GoldenSun.FUN_8003ce0;
-import static org.goldensun.GoldenSun.FUN_80040e8;
+import static org.goldensun.GoldenSun.clearTickCallbacks;
 import static org.goldensun.GoldenSun.FUN_8004760;
 import static org.goldensun.GoldenSun.decompress;
 import static org.goldensun.GoldenSun.getPointerTableEntry;
@@ -59,8 +59,8 @@ public final class GoldenSun_80f {
 
     FUN_80f9010(0x6e);
     _3001d18.set(0x1);
-    FUN_80040e8();
-    FUN_8003b70(1);
+    clearTickCallbacks();
+    fadeOutBrightness(1);
     FUN_8004760();
     FUN_80030f8(1);
     GPU.BG2CNT.setu(0x681);
@@ -111,7 +111,7 @@ public final class GoldenSun_80f {
     GPU.DISPCNT.setu(0x1540);
 
     if(r0 == 0) {
-      FUN_8003bb4(1);
+      fadeInBrightness(1);
       FUN_8003ce0();
       r5 = 0;
 
@@ -144,17 +144,17 @@ public final class GoldenSun_80f {
 
       //LAB_80f2cea
       if(r6 != 0) {
-        FUN_8003bb4(8);
+        fadeInBrightness(8);
       } else {
         //LAB_80f2cf6
-        FUN_8003bb4(60);
+        fadeInBrightness(60);
       }
 
       //LAB_80f2cfc
       FUN_8003ce0();
 
       if(r6 != 0) {
-        FUN_8003b70(8);
+        fadeOutBrightness(8);
       } else {
         r5 = 0;
 
@@ -173,10 +173,10 @@ public final class GoldenSun_80f {
         //LAB_80f2d2c
         if(r6 != 0) {
           //LAB_80f2d30
-          FUN_8003b70(8);
+          fadeOutBrightness(8);
         } else {
           //LAB_80f2d38
-          FUN_8003b70(60);
+          fadeOutBrightness(60);
         }
       }
 
@@ -196,8 +196,8 @@ public final class GoldenSun_80f {
     int r6;
 
     MEMORY.ref(1, 0x3001d18).setu(1);
-    FUN_80040e8();
-    FUN_8003b70(1);
+    clearTickCallbacks();
+    fadeOutBrightness(1);
     FUN_8004760();
     FUN_80030f8(1);
     GPU.BG2CNT.setu(0x685);
@@ -236,7 +236,7 @@ public final class GoldenSun_80f {
 
     loadUiTextures();
     FUN_8004760();
-    FUN_8003c3c(1);
+    fadeInAlpha(1);
     FUN_8003ce0();
     GPU.DISPCNT.setu(0x1540);
     DMA.channels[3].SAD.setu(r6 + (_3001e40.get() >>> 3 & 0x3) * 0x400);
@@ -1685,12 +1685,12 @@ public final class GoldenSun_80f {
     r4._08.set(r2);
     r5 = MEMORY.ref(2, 0x80fb914 + (r2 - 1) * 0x2).getUnsigned();
     r4._10.set(r5);
-    r4._0b.set(FUN_80022ec(0x630, r5));
-    r1 = FUN_80022ec(0x91d1b * r5 + 0x1388, 0x2710);
+    r4._0b.set(divideS(0x630, r5));
+    r1 = divideS(0x91d1b * r5 + 0x1388, 0x2710);
     r4._14.set(r1);
-    r4._18.set(FUN_80022ec(0x1000000, r1) + 1 >> 1);
+    r4._18.set(divideS(0x1000000, r1) + 1 >> 1);
     TIMERS.timers[0].CNT_H.setu(0);
-    TIMERS.timers[0].CNT_L.setu(-FUN_80022ec(0x44940, r5));
+    TIMERS.timers[0].CNT_L.setu(-divideS(0x44940, r5));
     FUN_80fa9a4();
 
     //LAB_80fa7fc
