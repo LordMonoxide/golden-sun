@@ -7,7 +7,7 @@ import org.goldensun.types.RenderPacket0c;
 
 import static org.goldensun.GoldenSun.divideS;
 import static org.goldensun.GoldenSun.FUN_8003d28;
-import static org.goldensun.GoldenSun.FUN_8003f3c;
+import static org.goldensun.GoldenSun.clearVramSlot;
 import static org.goldensun.GoldenSun.setTickCallback;
 import static org.goldensun.GoldenSun.clearTickCallback;
 import static org.goldensun.GoldenSun.FUN_80053e8;
@@ -17,9 +17,9 @@ import static org.goldensun.GoldenSun.insertIntoRenderQueue;
 import static org.goldensun.GoldenSun.mallocChip;
 import static org.goldensun.GoldenSun.mallocSlotBoard;
 import static org.goldensun.GoldenSun.setMallocSlot;
-import static org.goldensun.GoldenSun.FUN_80030f8;
+import static org.goldensun.GoldenSun.sleep;
 import static org.goldensun.GoldenSun.FUN_8003fa4;
-import static org.goldensun.GoldenSun.FUN_8004080;
+import static org.goldensun.GoldenSun.getFreeVramSlot;
 import static org.goldensun.GoldenSun.mallocBoard;
 import static org.goldensun.GoldenSun.decompress;
 import static org.goldensun.GoldenSun.loadUiTextures;
@@ -253,7 +253,7 @@ public final class GoldenSun_802 {
     FUN_8020b64(sp28, sp14);
     r6 = 0x12;
     r7 = 0x5;
-    r5 = FUN_8004080();
+    r5 = getFreeVramSlot();
     if(r5 < 0x60) {
       FUN_8003fa4(r5, 0x80, 0x80310a4); //TODO
       final GraphicsStruct struct = FUN_801eadc(r5, 0x4000_0000, r8, 0, 0);
@@ -263,7 +263,7 @@ public final class GoldenSun_802 {
 
     //LAB_8020ce2
     //LAB_8020ce6
-    r5 = FUN_8004080();
+    r5 = getFreeVramSlot();
     if(r5 < 0x60) {
       FUN_8003fa4(r5, 0x80, 0x80317e4); //TODO
       final GraphicsStruct struct = FUN_801eadc(r5, 0x4000_0000, r8, 0, 0);
@@ -294,7 +294,7 @@ public final class GoldenSun_802 {
 
         //LAB_8020db0
         FUN_8020a60(r8, r6, r7, r5, 0x1, 0xe);
-        FUN_80030f8(0x1);
+        sleep(0x1);
         FUN_8020a60(r8, r6, r7, r5, 0x1, 0xf);
         if(r9 != 0) {
           r9 = 0;
@@ -436,7 +436,7 @@ public final class GoldenSun_802 {
                 MEMORY.ref(1, r2 + 0x5).setu(0xd);
                 FUN_8016478(sp28);
                 FUN_8020b64(sp28, sp14);
-                FUN_80030f8(0xa);
+                sleep(0xa);
               } else {
                 //LAB_8020fc8
                 //LAB_8020fce
@@ -479,7 +479,7 @@ public final class GoldenSun_802 {
     FUN_8016418(r8, 0x2);
     FUN_8016418(sp28, 0x2);
     FUN_8019e48(sp2c);
-    FUN_80030f8(0x1);
+    sleep(0x1);
     CPU.sp().value += 0x60;
 
     return sp24;
@@ -997,12 +997,12 @@ public final class GoldenSun_802 {
     //LAB_8028534
     //LAB_8028546
     for(int r6 = 0; r6 < MEMORY.ref(2, r5 + 0x8e).get(); r6++) {
-      FUN_8003f3c(MEMORY.ref(2, r5 + 0x12 + r6 * 0x14).getUnsigned());
+      clearVramSlot(MEMORY.ref(2, r5 + 0x12 + r6 * 0x14).getUnsigned());
     }
 
     //LAB_8028558
     freeSlot(58);
-    FUN_80030f8(0x1);
+    sleep(0x1);
   }
 
   @Method(0x8028574)
@@ -1071,7 +1071,7 @@ public final class GoldenSun_802 {
       //LAB_80285e6
       do {
         r0 = CPU.movT(0, 0x1);
-        FUN_80030f8(r0);
+        sleep(r0);
         r2 = MEMORY.ref(4, r7).get();
         r3 = CPU.movT(0, 0x1);
         r2 = CPU.andT(r2, r3);
@@ -1163,65 +1163,30 @@ public final class GoldenSun_802 {
   }
 
   @Method(0x802875c)
-  public static void FUN_802875c(final int r0, final int r1) {
+  public static void FUN_802875c(final int slot, final int r1) {
     final int r6 = mallocChip(0x400);
     final int r0_0 = getPointerTableEntry(241);
     FUN_80053e8(r0_0 + MEMORY.ref(2, r0_0 + r1 * 0x2).getUnsigned(), r6);
-    FUN_8003fa4(r0, 0x400, r6);
+    FUN_8003fa4(slot, 0x400, r6);
     setMallocSlot(r6);
   }
 
   @Method(0x80287a8)
-  public static void FUN_80287a8(int r0) {
-    int r1;
-    int r2;
-    int r3;
-    int r5;
-    final int r6;
-    final int r7;
-
-    CPU.push(CPU.r10().value);
-    CPU.push(CPU.r8().value);
-
-    r3 = MEMORY.ref(4, 0x8028804).get();
-    r3 = MEMORY.ref(4, r3).get();
-    CPU.r8().value = r3;
-    r2 = CPU.r8().value;
-    r2 = CPU.addT(r2, 0x8e);
-    r1 = CPU.movT(0, 0x0);
-    r7 = MEMORY.ref(2, r2 + r1).get();
-    CPU.r10().value = r0;
-    r3 = MEMORY.ref(2, r2).getUnsigned();
-    CPU.cmpT(r7, 0x5);
-    if(CPU.cpsr().getZero() || CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <=
-      r3 = CPU.addT(r3, 0x1);
-      MEMORY.ref(2, r2).setu(r3);
-      r0 = FUN_8004080();
-      r1 = CPU.r10().value;
-      r6 = CPU.addT(r0, 0x0);
-      r5 = CPU.lslT(r7, 2);
-      FUN_802875c(r0, r1);
-      r3 = CPU.lslT(r7, 1);
-      r5 = CPU.addT(r5, r7);
-      r3 = CPU.addT(r3, r7);
-      r5 = CPU.lslT(r5, 2);
-      r3 = CPU.lslT(r3, 3);
-      r5 += CPU.r8().value;
-      r3 = CPU.addT(r3, 0x20);
-      MEMORY.ref(2, r5 + 0xc).setu(r3);
-      r3 = CPU.movT(0, 0x88);
-      MEMORY.ref(2, r5 + 0xe).setu(r3);
-      r3 = CPU.addT(r7, 0x0);
-      r3 = CPU.addT(r3, 0x84);
-      r1 = CPU.r10().value;
-      r2 = CPU.r8().value;
-      MEMORY.ref(2, r5 + 0x12).setu(r6);
-      MEMORY.ref(1, r2 + r3).setu(r1);
+  public static void FUN_80287a8(final int r0) {
+    final int r8 = boardWramMallocHead_3001e50.offset(58 * 0x4).get();
+    final int r7 = MEMORY.ref(2, r8 + 0x8e).get();
+    if(r7 <= 5) {
+      MEMORY.ref(2, r8 + 0x8e).incr();
+      final int slot = getFreeVramSlot();
+      FUN_802875c(slot, r0);
+      final int r5 = r8 + r7 * 0x14;
+      MEMORY.ref(2, r5 + 0xc).setu(r7 * 0x18 + 0x20);
+      MEMORY.ref(2, r5 + 0xe).setu(0x88);
+      MEMORY.ref(2, r5 + 0x12).setu(slot);
+      MEMORY.ref(1, r8 + 0x84 + r7).setu(r0);
     }
 
     //LAB_80287f8
-    CPU.r8().value = CPU.pop();
-    CPU.r10().value = CPU.pop();
   }
 
   @Method(0x8028808)

@@ -18,7 +18,7 @@ import org.goldensun.types.RenderPacket0c;
 import org.goldensun.types.RotationScaling08;
 import org.goldensun.types.SoundStruct0c;
 import org.goldensun.types.SoundStructFb0;
-import org.goldensun.types.Struct04;
+import org.goldensun.types.VramSlot04;
 import org.goldensun.types.Struct0c;
 import org.goldensun.types.Actor70;
 import org.goldensun.types.TickCallback08;
@@ -91,7 +91,7 @@ public final class GoldenSunVars {
 
   public static final ArrayRef<Pointer<RenderPacket0c>> packets_3001400 = MEMORY.ref(4, 0x3001400, ArrayRef.of(Pointer.classFor(RenderPacket0c.class), 0x100, 0x4, Pointer.deferred(4, RenderPacket0c::new)));
   public static final IntRef ticks_3001800 = MEMORY.ref(4, 0x3001800, IntRef::new);
-  public static final IntRef _3001804 = MEMORY.ref(4, 0x3001804, IntRef::new);
+  public static final IntRef oldSp_3001804 = MEMORY.ref(4, 0x3001804, IntRef::new);
 
   public static final ArrayRef<UnsignedByteRef> _3001810 = MEMORY.ref(1, 0x3001810, ArrayRef.of(UnsignedByteRef.class, 0x200, 1, UnsignedByteRef::new));
   public static final Value _3001a10 = MEMORY.ref(1, 0x3001a10);
@@ -112,7 +112,7 @@ public final class GoldenSunVars {
   public static final IntRef _3001b00 = MEMORY.ref(4, 0x3001b00, IntRef::new);
   public static final IntRef _3001b04 = MEMORY.ref(4, 0x3001b04, IntRef::new);
 
-  public static final ArrayRef<Struct04> _3001b10 = MEMORY.ref(4, 0x3001b10, ArrayRef.of(Struct04.class, 0x60, 0x4, Struct04::new));
+  public static final ArrayRef<VramSlot04> vramSlots_3001b10 = MEMORY.ref(4, 0x3001b10, ArrayRef.of(VramSlot04.class, 0x60, 0x4, VramSlot04::new));
   // Ends at 1c90
 
   /** Buttons that were pressed this frame */
@@ -133,7 +133,7 @@ public final class GoldenSunVars {
   public static final Value _3001cbc = MEMORY.ref(4, 0x3001cbc);
   public static final IntRef _3001cc0 = MEMORY.ref(4, 0x3001cc0, IntRef::new);
 
-  public static final UnsignedByteRef _3001cc8 = MEMORY.ref(1, 0x3001cc8, UnsignedByteRef::new);
+  public static final UnsignedByteRef sleeping_3001cc8 = MEMORY.ref(1, 0x3001cc8, UnsignedByteRef::new);
 
   public static final UnsignedShortRef _3001ccc = MEMORY.ref(2, 0x3001ccc, UnsignedShortRef::new);
 
@@ -158,9 +158,9 @@ public final class GoldenSunVars {
   public static final IntRef _3001d1c = MEMORY.ref(4, 0x3001d1c, IntRef::new);
   public static final UnsignedByteRef _3001d20 = MEMORY.ref(1, 0x3001d20, UnsignedByteRef::new);
 
-  public static final UnsignedShortRef _3001d24 = MEMORY.ref(2, 0x3001d24, UnsignedShortRef::new);
+  public static final UnsignedShortRef framesSinceInput_3001d24 = MEMORY.ref(2, 0x3001d24, UnsignedShortRef::new);
 
-  public static final UnsignedShortRef _3001d28 = MEMORY.ref(2, 0x3001d28, UnsignedShortRef::new);
+  public static final UnsignedShortRef vblankOccurred_3001d28 = MEMORY.ref(2, 0x3001d28, UnsignedShortRef::new);
 
   public static final UnsignedByteRef tickCallbacksInitialized_3001d34 = MEMORY.ref(1, 0x3001d34, UnsignedByteRef::new);
 
@@ -174,8 +174,6 @@ public final class GoldenSunVars {
   public static final UnsignedByteRef _3001f54 = MEMORY.ref(1, 0x3001f54, UnsignedByteRef::new);
 
   public static final UnsignedByteRef _3001f58 = MEMORY.ref(1, 0x3001f58, UnsignedByteRef::new);
-
-  public static final UnsignedShortRef heldLAndRTicks_3001f5c = MEMORY.ref(2, 0x3001f5c, UnsignedShortRef::new);
 
   public static final Value _3001f64 = MEMORY.ref(2, 0x3001f64);
 

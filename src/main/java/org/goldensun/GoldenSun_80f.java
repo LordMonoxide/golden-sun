@@ -10,7 +10,7 @@ import org.goldensun.types.SoundStructFb0;
 
 import static org.goldensun.GoldenSun.CpuSet;
 import static org.goldensun.GoldenSun.divideS;
-import static org.goldensun.GoldenSun.FUN_80030f8;
+import static org.goldensun.GoldenSun.sleep;
 import static org.goldensun.GoldenSun.FUN_80037d4;
 import static org.goldensun.GoldenSun.fadeOutBrightness;
 import static org.goldensun.GoldenSun.fadeInBrightness;
@@ -62,7 +62,7 @@ public final class GoldenSun_80f {
     clearTickCallbacks();
     fadeOutBrightness(1);
     FUN_8004760();
-    FUN_80030f8(1);
+    sleep(1);
     GPU.BG2CNT.setu(0x681);
     GPU.DISPCNT.setu(0x1440);
     MEMORY.ref(2, 0x3001ada).setu(0);
@@ -119,7 +119,7 @@ public final class GoldenSun_80f {
       //LAB_80f2cb8
       r6 = -1;
       while((pressedButtons_3001c94.get() & 0x9) == 0) { // A/Start
-        FUN_80030f8(1);
+        sleep(1);
         r5++;
         if(r5 >= 120) {
           r6 = 0;
@@ -134,7 +134,7 @@ public final class GoldenSun_80f {
       //LAB_80f2ce2
       r6 = -1;
       while((pressedButtons_3001c94.get() & 0x9) == 0) {
-        FUN_80030f8(1);
+        sleep(1);
         r5++;
         if(r5 >= 60) {
           r6 = 0;
@@ -162,7 +162,7 @@ public final class GoldenSun_80f {
         //LAB_80f2d24
         r6 = -1;
         while((pressedButtons_3001c94.get() & 0x9) == 0) {
-          FUN_80030f8(1);
+          sleep(1);
           r5++;
           if(r5 >= 180) {
             r6 = 0;
@@ -199,7 +199,7 @@ public final class GoldenSun_80f {
     clearTickCallbacks();
     fadeOutBrightness(1);
     FUN_8004760();
-    FUN_80030f8(1);
+    sleep(1);
     GPU.BG2CNT.setu(0x685);
     GPU.DISPCNT.setu(0x1440);
     MEMORY.ref(2, 0x3001ada).setu(0);
@@ -246,7 +246,7 @@ public final class GoldenSun_80f {
     //LAB_80f2e68
     r5 = 0;
     while((pressedButtons_3001c94.get() & 0x9) == 0) {
-      FUN_80030f8(1);
+      sleep(1);
       r5++;
       if(r5 >= 120) {
         break;

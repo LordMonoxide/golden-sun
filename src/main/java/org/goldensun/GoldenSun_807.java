@@ -11,7 +11,7 @@ import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.setMallocSlot;
 import static org.goldensun.GoldenSunVars._3001c9c;
 import static org.goldensun.GoldenSunVars._3001d08;
-import static org.goldensun.GoldenSunVars._3001d24;
+import static org.goldensun.GoldenSunVars.framesSinceInput_3001d24;
 import static org.goldensun.GoldenSunVars._3001f54;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSun_801.FUN_8015020;
@@ -63,42 +63,29 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x8077394)
-  public static int FUN_8077394(int r0) {
+  public static int FUN_8077394(final int r0) {
     final int r2;
-    int r3;
+    final int r3;
 
-    CPU.cmpT(r0, 0x7);
-    if(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()) { // unsigned <=
-      r3 = CPU.movT(0, 0xa6);
-      r3 = CPU.lslT(r3, 1);
-      r3 = CPU.mulT(r3, r0);
-      r0 = CPU.addT(r3, 0x2000500);
-      return r0;
+    if(r0 >= 0 && r0 < 8) {
+      return 0x2000500 + 0x14c * r0;
     }
 
     //LAB_80773a8
-    r3 = CPU.addT(r0, 0x0);
-    r3 = CPU.subT(r3, 0x80);
+    r3 = r0 + 0x80;
     CPU.cmpT(r3, 0x5);
     if(CPU.cpsr().getCarry() && !CPU.cpsr().getZero()) { // unsigned >
       return 0;
     }
 
     r2 = boardWramMallocHead_3001e50.offset(54 * 0x4).get();
-    CPU.cmpT(r2, 0x0);
-    if(CPU.cpsr().getZero()) { // ==
+    if(r2 == 0) {
       //LAB_80773c6
       return 0;
     }
 
-    r3 = CPU.movT(0, 0xa6);
-    r3 = CPU.lslT(r3, 1);
-    r3 = CPU.mulT(r3, r0);
-    r3 = CPU.addT(r2, r3);
-    r0 = CPU.addT(r3, 0xffff5a00);
-
     //LAB_80773c8
-    return r0;
+    return r2 + 0x14c * r0 - 0xa600;
   }
 
   @Method(0x80773d8)
@@ -1434,7 +1421,7 @@ public final class GoldenSun_807 {
     _3001d08.set(0);
     MEMORY.ref(4, 0x2000244).setu(r4);
     MEMORY.ref(1, 0x200046a).setu(_3001d08.get());
-    _3001d24.set(r4);
+    framesSinceInput_3001d24.set(r4);
     MEMORY.ref(2, 0x2002004).setu(0xffffffff);
     MEMORY.ref(1, 0x200035d).setu(0x4);
     MEMORY.ref(1, 0x200035e).setu(0x4);
@@ -1759,6 +1746,7 @@ public final class GoldenSun_807 {
     int r5;
     int r6;
     int r7;
+    int lr;
 
     CPU.push(CPU.r11().value);
     CPU.push(CPU.r10().value);
@@ -1863,12 +1851,12 @@ public final class GoldenSun_807 {
       r1 = CPU.movT(0, 0x80);
       r2 = CPU.addT(r2, 0x10);
       r1 = CPU.lslT(r1, 8);
-      CPU.lr().value = r2;
+      lr = r2;
       r3 = CPU.movT(0, 0x10);
       r5 = CPU.movT(0, 0x0);
       CPU.r11().value = r1;
       CPU.r10().value = r3;
-      r7 = CPU.lr().value;
+      r7 = lr;
 
       //LAB_8078cb8
       do {
@@ -1876,7 +1864,7 @@ public final class GoldenSun_807 {
         CPU.cmpT(r3, 0x0);
         if(!CPU.cpsr().getZero()) { // !=
           r0 = CPU.r9().value;
-          r1 = CPU.lr().value;
+          r1 = lr;
           r2 = MEMORY.ref(1, r0 + 0xf).getUnsigned();
           r3 = MEMORY.ref(1, r1 + 0x1).getUnsigned();
           r2 = CPU.cmpT(r2, r3);
@@ -1957,7 +1945,7 @@ public final class GoldenSun_807 {
         //LAB_8078d24
         r2 = CPU.movT(0, 0x4);
         r5 = CPU.addT(r5, 0x1);
-        CPU.lr().value += r2;
+        lr += r2;
         r7 = CPU.addT(r7, 0x4);
         CPU.r10().value += r2;
         CPU.cmpT(r5, 0xf);
@@ -2986,6 +2974,7 @@ public final class GoldenSun_807 {
     int r5;
     int r6;
     int r7;
+    final int lr;
 
     CPU.push(CPU.r11().value);
     CPU.push(CPU.r10().value);
@@ -3090,13 +3079,13 @@ public final class GoldenSun_807 {
           r0 = CPU.addT(r5, 0x0);
           r0 = FUN_80797ec(r0, r1);
           CPU.r10().value = 0x8084b1c; //TODO
-          CPU.lr().value = CPU.r10().value;
+          lr = CPU.r10().value;
           MEMORY.ref(4, CPU.sp().value).setu(r6);
           r5 = 0x4248;
           CPU.r11().value = r0;
           CPU.r9().value = r6;
           r0 = CPU.movT(0, 0xca);
-          r7 = CPU.lr().value + 0x424c;
+          r7 = lr + 0x424c;
 
           //LAB_8079a60
           do {
@@ -3113,7 +3102,7 @@ public final class GoldenSun_807 {
               r4 = CPU.movT(0, 0x0);
               r3 = CPU.cmpT(r3, r2);
               if(CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >=
-                r2 = CPU.lr().value;
+                r2 = lr;
                 r3 = CPU.addT(r5, r2);
                 CPU.r12().value = CPU.r9().value;
                 r1 = CPU.addT(r3, 0x4);

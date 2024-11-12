@@ -11,7 +11,6 @@ public class GraphicsStruct0c implements MemoryRef {
   public final IntRef _00;
   /** TODO pointer */
   public final IntRef _04;
-  /** TODO pointer */
   public final IntRef _08;
 
   public GraphicsStruct0c(final Value ref) {

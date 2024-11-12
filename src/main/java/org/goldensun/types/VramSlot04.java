@@ -4,13 +4,13 @@ import org.goldensun.memory.Value;
 import org.goldensun.memory.types.MemoryRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 
-public class Struct04 implements MemoryRef {
+public class VramSlot04 implements MemoryRef {
   private final Value ref;
 
   public final UnsignedShortRef _00;
   public final UnsignedShortRef vramAddr_02;
 
-  public Struct04(final Value ref) {
+  public VramSlot04(final Value ref) {
     this.ref = ref;
 
     this._00 = ref.offset(2, 0x00).cast(UnsignedShortRef::new);

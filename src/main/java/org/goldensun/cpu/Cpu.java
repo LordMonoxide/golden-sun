@@ -107,20 +107,20 @@ public class Cpu implements Runnable {
         this.awaitingInterrupt = false;
         this.notify();
       }
-    }
 
-    if(INTERRUPTS.irqPending() && !this.cpsr.irqDisabled()) {
-      this.memory.waitForLock(CODE::suspend);
+      if(INTERRUPTS.irqPending() && !this.cpsr.irqDisabled()) {
+        this.memory.waitForLock(CODE::suspend);
 
-      this.cpsr.set(CpuMode.IRQ.bits | 0b1100_0000); // ARM state, interrupts disabled
+        this.cpsr.set(CpuMode.IRQ.bits | 0b1100_0000); // ARM state, interrupts disabled
 
-      GATE.acquire();
-      this.memory.call(0x18); // IRQ handler
-      GATE.release();
+        GATE.acquire();
+        this.memory.call(0x18); // IRQ handler
+        GATE.release();
 
-      CODE.resume();
+        CODE.resume();
 
-      DebugHelper.sleep(0);
+        DebugHelper.sleep(0);
+      }
     }
   }
 
