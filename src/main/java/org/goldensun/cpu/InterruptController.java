@@ -61,7 +61,7 @@ public class InterruptController {
   }
 
   private void onIntFlagsWrite(final int value) {
-    this.interrupts &= value;
+    this.interrupts &= ~value;
   }
 
   private int onWaitCntRead() {
