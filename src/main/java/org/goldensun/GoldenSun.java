@@ -3109,6 +3109,7 @@ public final class GoldenSun {
       final SpriteLayer18 r2 = structs.get(r1);
       if(r2._04.get() == 0) {
         r4 = r2;
+        break;
       }
     }
 
