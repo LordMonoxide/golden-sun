@@ -3,7 +3,7 @@ package org.goldensun;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.types.Map194;
-import org.goldensun.types.Struct70;
+import org.goldensun.types.Actor70;
 
 import javax.annotation.Nullable;
 
@@ -1408,8 +1408,8 @@ public final class Decompressed87795e8 {
   }
 
   @Method(0x200949c)
-  public static Struct70 FUN_200949c(final int r0) {
-    return (Struct70)MEMORY.call(0x808a080, r0);
+  public static Actor70 FUN_200949c(final int r0) {
+    return (Actor70)MEMORY.call(0x808a080, r0);
   }
 
   @Method(0x20094a4)

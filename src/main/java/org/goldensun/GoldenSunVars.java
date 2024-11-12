@@ -20,7 +20,7 @@ import org.goldensun.types.SoundStruct0c;
 import org.goldensun.types.SoundStructFb0;
 import org.goldensun.types.Struct04;
 import org.goldensun.types.Struct0c;
-import org.goldensun.types.Struct70;
+import org.goldensun.types.Actor70;
 import org.goldensun.types.TickCallback08;
 
 import static org.goldensun.Hardware.MEMORY;
@@ -261,7 +261,7 @@ public final class GoldenSunVars {
    *   <li>{@link GoldenSun#FUN_800d7e8}</li>
    * </ul>
    */
-  public static final ArrayRef<Pointer<FunctionRef<Struct70, Integer>>> _8013624 = MEMORY.ref(4, 0x8013624, ArrayRef.of(Pointer.classFor(FunctionRef.classFor(Struct70.class, Integer.class)), 47, 0x4, Pointer.deferred(4, FunctionRef::new)));
+  public static final ArrayRef<Pointer<FunctionRef<Actor70, Integer>>> _8013624 = MEMORY.ref(4, 0x8013624, ArrayRef.of(Pointer.classFor(FunctionRef.classFor(Actor70.class, Integer.class)), 47, 0x4, Pointer.deferred(4, FunctionRef::new)));
   /**
    * <ul>
    *   <li>{@link GoldenSun#FUN_800e220}</li>
@@ -307,7 +307,7 @@ public final class GoldenSunVars {
    *   <li>{@link GoldenSun#FUN_800e964}</li>
    * </ul>
    */
-  public static final ArrayRef<Pointer<TriConsumerRef<Struct70, Integer, Integer>>> _80136e0 = MEMORY.ref(4, 0x80136e0, ArrayRef.of(Pointer.classFor(TriConsumerRef.classFor(Struct70.class, Integer.class, Integer.class)), 41, 0x4, Pointer.deferred(4, TriConsumerRef::new)));
+  public static final ArrayRef<Pointer<TriConsumerRef<Actor70, Integer, Integer>>> _80136e0 = MEMORY.ref(4, 0x80136e0, ArrayRef.of(Pointer.classFor(TriConsumerRef.classFor(Actor70.class, Integer.class, Integer.class)), 41, 0x4, Pointer.deferred(4, TriConsumerRef::new)));
 
   public static final UnboundedArrayRef<Struct0c> _8013784 = MEMORY.ref(4, 0x8013784, UnboundedArrayRef.of(0xc, Struct0c::new));
 

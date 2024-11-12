@@ -4,7 +4,7 @@ import org.goldensun.memory.Method;
 import org.goldensun.types.GraphicsStruct24;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Sprite38;
-import org.goldensun.types.Struct70;
+import org.goldensun.types.Actor70;
 
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.Hardware.CPU;
@@ -260,7 +260,7 @@ public final class Decompressed8787e04 {
     FUN_2009934(0x8, 0x18000, 0xc000);
     FUN_2009934(0, 0x18000, 0xc000);
     FUN_2009a14(0x8, 0x1);
-    FUN_200992c(0)._23.or(0x1);
+    FUN_200992c(0).flags_23.or(0x1);
     FUN_200993c(0x8, 0x2009ab4);
     FUN_2009904(0x14);
     FUN_200993c(0, 0x2009ab4);
@@ -296,7 +296,7 @@ public final class Decompressed8787e04 {
   /** Leaving house in first cutscene */
   @Method(0x2008a0c)
   public static void FUN_2008a0c() {
-    final Struct70 r5 = FUN_200992c(0xa);
+    final Actor70 r5 = FUN_200992c(0xa);
     final Sprite38 r6 = r5.sprite_50.deref();
     FUN_200990c();
     FUN_2009974(0xb, 0x0, 0x0);
@@ -308,7 +308,7 @@ public final class Decompressed8787e04 {
     FUN_2009974(0x8, 0x1af0000, 0x1870000);
     FUN_2009974(0xa, 0x1cf0000, 0x1940000);
     FUN_20098a4(FUN_200992c(0xa), 0);
-    r5._23.and(0xfe);
+    r5.flags_23.and(0xfe);
     r5._55.set(0);
     r6.packet_00.attribs_04.attrib2_04.and(~0xc00).or(0x400);
     FUN_200993c(0xa, 0x2009cec);
@@ -461,7 +461,7 @@ public final class Decompressed8787e04 {
   }
 
   @Method(0x20098a4)
-  public static void FUN_20098a4(final Struct70 r0, final int r1) {
+  public static void FUN_20098a4(final Actor70 r0, final int r1) {
     MEMORY.call(0x80091e0, r0, r1);
   }
 
@@ -486,7 +486,7 @@ public final class Decompressed8787e04 {
   }
 
   @Method(0x20098c4)
-  public static void FUN_20098c4(final Struct70 r0, final int r1) {
+  public static void FUN_20098c4(final Actor70 r0, final int r1) {
     MEMORY.call(0x8009228, r0, r1);
   }
 
@@ -531,8 +531,8 @@ public final class Decompressed8787e04 {
   }
 
   @Method(0x200992c)
-  public static Struct70 FUN_200992c(final int r0) {
-    return (Struct70)MEMORY.call(0x808a080, r0);
+  public static Actor70 FUN_200992c(final int r0) {
+    return (Actor70)MEMORY.call(0x808a080, r0);
   }
 
   @Method(0x2009934)
