@@ -9,6 +9,7 @@ import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.memory.types.ShortRef;
 import org.goldensun.memory.types.SupplierRef;
 import org.goldensun.memory.types.TriConsumerRef;
+import org.goldensun.memory.types.TriFunctionRef;
 import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
@@ -18,9 +19,9 @@ import org.goldensun.types.RotationScaling08;
 import org.goldensun.types.SoundStruct0c;
 import org.goldensun.types.SoundStructFb0;
 import org.goldensun.types.Struct04;
+import org.goldensun.types.Struct0c;
 import org.goldensun.types.Struct70;
 import org.goldensun.types.TickCallback08;
-import org.goldensun.types.Struct0c;
 
 import static org.goldensun.Hardware.MEMORY;
 
@@ -186,6 +187,28 @@ public final class GoldenSunVars {
   public static final Pointer<SoundStructFb0> _3007ff0 = MEMORY.ref(4, 0x3007ff0, Pointer.deferred(4, SoundStructFb0::new));
 
   public static final IntRef _3007ffc = MEMORY.ref(4, 0x3007ffc, IntRef::new);
+
+  /**
+   * <ul>
+   *   <li>{@link GoldenSun_801#FUN_8011ce0}</li>
+   *   <li>{@link GoldenSun_801#FUN_8011cec}</li>
+   *   <li>{@link GoldenSun_801#FUN_8011d10}</li>
+   *   <li>{@link GoldenSun_801#FUN_8011d34}</li>
+   *   <li>{@link GoldenSun_801#FUN_8011d60}</li>
+   *   <li>{@link GoldenSun_801#FUN_8011d94}</li>
+   *   <li>{@link GoldenSun_801#FUN_8011ddc}</li>
+   *   <li>{@link GoldenSun_801#FUN_8011e2c}</li>
+   *   <li>{@link GoldenSun_801#FUN_8011e50}</li>
+   *   <li>{@link GoldenSun_801#FUN_8011e6c}</li>
+   *   <li>{@link GoldenSun_801#FUN_8011e88}</li>
+   *   <li>{@link GoldenSun_801#FUN_8011ed0}</li>
+   *   <li>{@link GoldenSun_801#FUN_8011f14}</li>
+   *   <li>{@link GoldenSun_801#FUN_8011f28}</li>
+   *   <li>{@link GoldenSun_801#FUN_8011f3c}</li>
+   *   <li>{@link GoldenSun_801#FUN_8011f48}</li>
+   * </ul>
+   */
+  public static final ArrayRef<Pointer<TriFunctionRef<Integer, Integer, Integer, Integer>>> _80134fc = MEMORY.ref(4, 0x80134fc, ArrayRef.of(Pointer.classFor(TriFunctionRef.classFor(Integer.class, Integer.class, Integer.class, Integer.class)), 16, 0x4, Pointer.deferred(4, TriFunctionRef::new)));
 
   /**
    * <ul>

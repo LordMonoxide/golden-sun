@@ -131,7 +131,7 @@ public class DmaChannel {
     final StackWalker.StackFrame frame = DebugHelper.getStackFrame(5);
 
     if((this.control & START_TIMING_MASK) >>> START_TIMING_SHIFT == START_TIMING_IMMEDIATELY) {
-      LOGGER.info("DMA %d transferring 0x%x bytes from 0x%x to 0x%x by %s.%s(%s:%d)", this.index, this.wordCountCopy * wordSize, this.sourceAddressCopy, this.destAddressCopy, frame.getClassName(), frame.getMethodName(), frame.getFileName(), frame.getLineNumber());
+//      LOGGER.info("DMA %d transferring 0x%x bytes from 0x%x to 0x%x by %s.%s(%s:%d)", this.index, this.wordCountCopy * wordSize, this.sourceAddressCopy, this.destAddressCopy, frame.getClassName(), frame.getMethodName(), frame.getFileName(), frame.getLineNumber());
     }
 
     for(int i = 0; i < this.wordCountCopy; i++) {

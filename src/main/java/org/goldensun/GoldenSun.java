@@ -369,6 +369,8 @@ public final class GoldenSun {
 
   @Method(0x8002fb0)
   public static void decompressPointerTableEntry(final int pointerTableEntry, final int dst) {
+    LOGGER.info("Decompressing pointer table entry %d to 0x%x", pointerTableEntry, dst);
+
     final int decompressedSize = decompress(getPointerTableEntry(pointerTableEntry), dst);
 
     final int size = 0x7c;
@@ -1737,7 +1739,6 @@ public final class GoldenSun {
     DMA.channels[3].DAD.setu(addr);
     DMA.channels[3].CNT.setu(0x84000000 | size / 4);
 
-    LOGGER.info("Copying function 0x8002544 to 0x%x", addr);
     MEMORY.setFunction(addr, Decompressor.class, "decompress", int.class, int.class);
 
     // Decompress
@@ -2316,6 +2317,12 @@ public final class GoldenSun {
     MEMORY.call(0x80118c0, r0);
   }
 
+  /** {@link GoldenSun_801#FUN_8011ae0} */
+  @Method(0x80091a0)
+  public static void FUN_80091a0() {
+    MEMORY.call(0x8011ae0);
+  }
+
   @Method(0x80091a8)
   public static int FUN_80091a8(final int r0, final int r1, final int r2) {
     return (int)MEMORY.call(0x8011f54, r0, r1, r2);
@@ -2852,7 +2859,7 @@ public final class GoldenSun {
     r5 = r10 >> 16;
     if((r0._26.get() & 0x1) != 0) {
       if(r6 < 0xa0) {
-        r0.shadowPacket_0c.attribs_04.y_00.set(r6);
+        r0.shadowPacket_0c.attribs_04.y_00.set(r6 & 0xff);
         r0.shadowPacket_0c.attribs_04.flags_01.and(~0x3).or(MEMORY.ref(4, CPU.sp().value + 0x8).get());
         r0.shadowPacket_0c.attribs_04.attrib1_02.and(~0x1ff).or(r5 - MEMORY.ref(4, CPU.sp().value + 0x10).get() & 0x1ff);
         r0.shadowPacket_0c.attribs_04.attrib1_02.and(~0x3e00).or((MEMORY.ref(4, CPU.sp().value + 0x20).get() & 0x1f) << 9);
@@ -2870,7 +2877,7 @@ public final class GoldenSun {
     r6 = r1 - r3;
     if(r4 < 0xf0 && r6 < 0xa0) {
       MEMORY.ref(4, CPU.sp().value + 0x20).and(0x1f);
-      r0.packet_00.attribs_04.y_00.set(r6);
+      r0.packet_00.attribs_04.y_00.set(r6 & 0xff);
       r0.packet_00.attribs_04.flags_01.and(~0x3).or(MEMORY.ref(4, CPU.sp().value + 0x8).get());
       r0.packet_00.attribs_04.attrib1_02.and(~0x1ff).or(r4 & 0x1ff);
       r0.packet_00.attribs_04.attrib1_02.and(~0x3e00).or(MEMORY.ref(4, CPU.sp().value + 0x20).get() << 9);
@@ -3827,9 +3834,10 @@ public final class GoldenSun {
                     r6._2c.set(r3);
                     CPU.r9().value = r3;
 
-                    if(sqrt((int)MEMORY.call(0x3000118, CPU.r10().value, CPU.r10().value) + (int)MEMORY.call(0x3000118, r7, r7) + (int)MEMORY.call(0x3000118, CPU.r9().value, CPU.r9().value)) > r6._30.get()) {
+                    final int sqrt = sqrt((int)MEMORY.call(0x3000118, CPU.r10().value, CPU.r10().value) + (int)MEMORY.call(0x3000118, r7, r7) + (int)MEMORY.call(0x3000118, CPU.r9().value, CPU.r9().value));
+                    if(sqrt > r6._30.get()) {
                       //LAB_800cc4e
-                      r5 = (int)MEMORY.call(0x300013c);
+                      r5 = (int)MEMORY.call(0x300013c, sqrt, r6._30.get());
                       r6._24.set((int)MEMORY.call(0x3000118, CPU.r10().value, r5));
                       r6._28.set((int)MEMORY.call(0x3000118, r7, r5));
                       r6._2c.set((int)MEMORY.call(0x3000118, CPU.r9().value, r5));
@@ -4334,6 +4342,15 @@ public final class GoldenSun {
     return 0;
   }
 
+  /** Leaving house in first cutscene */
+  @Method(0x800d9f0)
+  public static int FUN_800d9f0(final Struct70 r0) {
+    final int r3 = r0._00.get() + r0._04.get() * 0x4 + 0x4;
+    FUN_800d130(r0, MEMORY.ref(4, r3).get(), MEMORY.ref(4, r3 + 0x4).get(), MEMORY.ref(4, r3 + 0x8).get());
+    r0._04.add(0x4);
+    return 1;
+  }
+
   /** Early in first cutscene */
   @Method(0x800da18)
   public static int FUN_800da18(final Struct70 r0) {
@@ -4467,6 +4484,31 @@ public final class GoldenSun {
     return 1;
   }
 
+  @Method(0x800dcdc)
+  public static int FUN_800dcdc(final Struct70 r0) {
+    final Struct70 r2 = r0._68.deref();
+    r0._30.set(r2._30.get());
+    r0._34.set(r2._34.get());
+    final int r8 = r2._08.get() - r0._08.get();
+    final int r10 = r2._10.get() - r0._10.get();
+    final int r3_0 = r8 >> 16;
+    final int r2_0 = r10 >> 16;
+    final int r7 = (int)MEMORY.call(0x30001d8, r3_0 * r3_0 + r2_0 * r2_0);
+    if(r7 > 0x10) {
+      final int r5 = r7 - 0x10;
+      final int r1 = r0._08.get() + divideS(r8 * r5, r7);
+      final int r3 = r0._10.get() + divideS(r10 * r5, r7);
+      FUN_800d14c(r0, r1, r0._0c.get(), r3);
+      FUN_800c300(r0, 0x2);
+      r0._04.incr();
+      return 1;
+    }
+
+    //LAB_800dd56
+    FUN_800c300(r0, 0x1);
+    return 0;
+  }
+
   @Method(0x800e364)
   public static void FUN_800e364(final Struct70 r0, final int r1, final int r2) {
     if(r1 == 0) {
@@ -4499,6 +4541,19 @@ public final class GoldenSun {
     }
 
     //LAB_800e3b6
+  }
+
+  @Method(0x800e9a0)
+  public static int FUN_800e9a0(final Struct70 r0) {
+    final int r1 = r0._00.get() + 0x4 + r0._04.get() * 0x4;
+    final int r3 = MEMORY.ref(4, 0x80136e0 + MEMORY.ref(4, r1).get() * 0x4).get();
+    if(r3 != 0) {
+      MEMORY.call(r3, r0, 0, MEMORY.ref(4, r1 + 0x4).get());
+    }
+
+    //LAB_800e9ca
+    r0._04.add(0x3);
+    return 1;
   }
 
   @Method(0x800e9dc)

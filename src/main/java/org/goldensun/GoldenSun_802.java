@@ -676,6 +676,8 @@ public final class GoldenSun_802 {
       } while(!CPU.cpsr().getCarry()); // unsigned <
     }
 
+    final int lr;
+
     //LAB_80282bc
     r3 = CPU.r8().value;
     r3 = CPU.addT(r3, 0x94);
@@ -710,7 +712,7 @@ public final class GoldenSun_802 {
           r3 = CPU.lslT(r2, 2);
           r3 = CPU.addT(r3, r2);
           r3 = CPU.lslT(r3, 2);
-          CPU.lr().value = r1;
+          lr = r1;
           r1 = CPU.addT(r3, 0x0);
           r2 = CPU.r8().value;
           r1 = CPU.addT(r1, 0xc);
@@ -752,7 +754,7 @@ public final class GoldenSun_802 {
           r3 = CPU.subT(r2, r3);
           r2 = CPU.subT(r3, 0x1);
           r3 = CPU.lslT(r2, 2);
-          r3 += CPU.lr().value;
+          r3 += lr;
           r5 = CPU.addT(r2, 0x0);
           r1 = CPU.addT(r3, 0x6);
           CPU.cmpT(r5, 0x87);
@@ -799,7 +801,7 @@ public final class GoldenSun_802 {
           //LAB_802846c
           r1 = MEMORY.ref(4, 0x80284d8).get();
           r0 = CPU.lslT(r0, 8);
-          r1 += CPU.lr().value;
+          r1 += lr;
           r5 = CPU.movT(0, 0x88);
           r4 = CPU.movT(0, 0xff);
 
@@ -841,7 +843,7 @@ public final class GoldenSun_802 {
           r3 += CPU.r8().value;
           r4 = CPU.movT(0, 0x0);
           r2 = MEMORY.ref(2, r3 + r4).get();
-          CPU.lr().value = r3;
+          lr = r3;
           r3 = CPU.lslT(r2, 2);
           r3 = CPU.addT(r3, r2);
           r3 = CPU.lslT(r3, 2);
@@ -911,7 +913,7 @@ public final class GoldenSun_802 {
 
           //LAB_802836a
           r3 = CPU.r8().value;
-          r1 = CPU.lr().value;
+          r1 = lr;
           r2 = CPU.movT(0, 0xc);
           r0 = MEMORY.ref(2, r3 + r2).get();
           r4 = CPU.movT(0, 0x0);

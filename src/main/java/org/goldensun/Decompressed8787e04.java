@@ -8,6 +8,7 @@ import org.goldensun.types.Struct70;
 
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.Hardware.CPU;
+import static org.goldensun.Hardware.GPU;
 import static org.goldensun.Hardware.MEMORY;
 
 /** Maybe the game engine */
@@ -17,6 +18,13 @@ public final class Decompressed8787e04 {
   @Method(0x2008088)
   public static int FUN_2008088() {
     return 0x2009fd0;
+  }
+
+  @Method(0x2008094)
+  public static int FUN_2008094() {
+    //LAB_20080a4
+    //LAB_20080a6
+    return FUN_20098ec(0x834) != 0 ? 0x200a1dc : 0x200a198;
   }
 
   @Method(0x20080b8)
@@ -285,9 +293,119 @@ public final class Decompressed8787e04 {
     FUN_2009a34(0x14);
   }
 
+  /** Leaving house in first cutscene */
   @Method(0x2008a0c)
   public static void FUN_2008a0c() {
-    throw new RuntimeException("Not implemented");
+    final Struct70 r5 = FUN_200992c(0xa);
+    final Sprite38 r6 = r5.sprite_50.deref();
+    FUN_200990c();
+    FUN_2009974(0xb, 0x0, 0x0);
+    FUN_2009974(0xc, 0x0, 0x0);
+    FUN_2009974(0xd, 0x0, 0x0);
+    FUN_2009974(0xe, 0x0, 0x0);
+    FUN_2009974(0xf, 0x0, 0x0);
+    FUN_2009974(0x10, 0x0, 0x0);
+    FUN_2009974(0x8, 0x1af0000, 0x1870000);
+    FUN_2009974(0xa, 0x1cf0000, 0x1940000);
+    FUN_20098a4(FUN_200992c(0xa), 0);
+    r5._23.and(0xfe);
+    r5._55.set(0);
+    r6.packet_00.attribs_04.attrib2_04.and(~0xc00).or(0x400);
+    FUN_200993c(0xa, 0x2009cec);
+    boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).offset(4, 0x1c0).setu(0x201);
+    FUN_200987c(0x53, 0xf, 0x53, 0x13, 0x5, 0x4);
+    FUN_200987c(0x5a, 0x10, 0x5a, 0x14, 0x5, 0x4);
+    FUN_200987c(0x4d, 0x17, 0x52, 0x17, 0x5, 0x7);
+    FUN_200987c(0x53, 0x21, 0x55, 0x21, 0x2, 0x2);
+    FUN_200987c(0x5b, 0x1c, 0x5a, 0x1c, 0x1, 0x1);
+    FUN_200987c(0x5b, 0x1c, 0x58, 0x1e, 0x1, 0x1);
+    FUN_200987c(0x5e, 0x1b, 0x5e, 0x17, 0x6, 0x4);
+    FUN_200987c(0x5c, 0x1c, 0x57, 0x17, 0x4, 0x4);
+    FUN_200987c(0x41, 0x35, 0x58, 0x18, 0x2, 0x2);
+    FUN_2009894();
+    GPU.BLDCNT.setu(0x3f42);
+    GPU.BLDALPHA.setu(0x100c);
+    FUN_2009a3c();
+    boardWramMallocHead_3001e50.offset(30 * 0x4).deref(4).offset(2, 0x1f84).setu(0x1);
+    FUN_2009a4c();
+    FUN_2009814(0x1e);
+    FUN_2009a14(0x8, 0x1);
+    FUN_2009934(0x8, 0x18000, 0xc000);
+    FUN_2009934(0x0, 0x18000, 0xc000);
+    FUN_2009934(0x9, 0x18000, 0xc000);
+    FUN_200993c(0x0, 0x2009bb4);
+    FUN_200993c(0x8, 0x2009b78);
+    FUN_2009a5c();
+    FUN_2009944(0x8);
+    FUN_2009aac(0x9e);
+    FUN_2009a04(0x8, 0x100, 0x0);
+    FUN_200999c(0x8, 0x2);
+    FUN_20099ec(0x8, 0x4000, 0xa);
+    FUN_2009a1c(0x40000, 0x8000);
+    FUN_2009a24(0x19e0000, -1, 0x2120000, 1);
+    FUN_2009974(0x9, 0x19e0000, 0x2120000);
+    FUN_200996c(0x9, 0x1ab, 0x1e3);
+    FUN_2009a2c();
+    FUN_20099c4(0xe5b);
+    FUN_20099dc(0x8009, 0x0, 0xa);
+    FUN_2009a1c(0x18000, 0x3000);
+    FUN_2009a24(0x1e00000, -1, 0x1bc0000, 0x1);
+    FUN_2009a2c();
+    FUN_2009904(0x14);
+    FUN_20099ec(0x8, 0x8000, 0x14);
+    FUN_200997c(0x8, 0x3);
+    FUN_2009984(0x0, 0x3);
+    FUN_2009984(0x9, 0x3);
+    FUN_2009964(0x9, 0x19f, 0x24d);
+    FUN_2009904(0xa);
+    FUN_200993c(0x8, 0x2009c04);
+    FUN_200993c(0x0, 0x2009c54);
+    FUN_2009aac(0xea);
+    FUN_2009904(0x14);
+    FUN_200993c(0xa, 0x2009d38);
+
+    //LAB_2008cc0
+    for(int i = 0; i < 4; i++) {
+      GPU.BLDALPHA.setu(0x100e + i);
+      FUN_2009814(0x1);
+    }
+
+    FUN_2009aac(0xca);
+    FUN_2009814(0xa);
+
+    //LAB_2008ce4
+    for(int i = 0; i < 0x10; i++) {
+      GPU.BLDALPHA.setu(0x100f - i);
+      FUN_2009814(0x1);
+    }
+
+    FUN_2009944(0x0);
+    FUN_200997c(0x8, 0x1);
+    FUN_2009994(0x8, 0x2);
+    FUN_200999c(0x0, 0x2);
+    FUN_2009904(0xa);
+    FUN_20099ec(0x8, 0xc000, 0x0);
+    FUN_20099ec(0x0, 0xc000, 0x14);
+    FUN_2009a0c(0x8, 0x102);
+    FUN_2009a0c(0x0, 0x102);
+    FUN_2009904(0x50);
+    FUN_2009974(0x9, 0x0, 0x0);
+    FUN_20099ac(0x8, 0x0, 0x14);
+    FUN_200997c(0x8, 0x3);
+    FUN_2009984(0x0, 0x3);
+    FUN_2009904(0x28);
+    FUN_2009a1c(0xcccc, 0x1999);
+    FUN_2009a14(0x8, 0x1);
+    FUN_200993c(0x8, 0x2009ca4);
+    FUN_200994c(0x0, 0x2009ca4);
+
+    final int r1 = boardWramMallocHead_3001e50.offset(27 * 0x4).get();
+    MEMORY.ref(4, r1 + 0x1c0).setu(0x100);
+    MEMORY.ref(4, r1 + 0x1c8).setu(0x20);
+
+    FUN_2009a64();
+    FUN_2009a6c();
+    FUN_2009a34(0x15);
   }
 
   @Method(0x20093b4)
@@ -329,6 +447,12 @@ public final class Decompressed8787e04 {
   @Method(0x2009884)
   public static void FUN_2009884(final int r0) {
     MEMORY.call(0x8009188, r0);
+  }
+
+  /** {@link GoldenSun#FUN_80091a0} */
+  @Method(0x2009894)
+  public static void FUN_2009894() {
+    MEMORY.call(0x80091a0);
   }
 
   @Method(0x200989c)
@@ -426,9 +550,21 @@ public final class Decompressed8787e04 {
     MEMORY.call(0x808a0a0, r0);
   }
 
+  /** {@link GoldenSun_808#FUN_808a0b0} */
+  @Method(0x200994c)
+  public static void FUN_200994c(final int r0, final int r1) {
+    MEMORY.call(0x808a0b0, r0, r1);
+  }
+
   @Method(0x200995c)
   public static void FUN_200995c(final int r0, final int r1, final int r2) {
     MEMORY.call(0x808a0c0, r0, r1, r2);
+  }
+
+  /** {@link GoldenSun_808#FUN_808a0c8} */
+  @Method(0x2009964)
+  public static void FUN_2009964(final int r0, final int r1, final int r2) {
+    MEMORY.call(0x808a0c8, r0, r1, r2);
   }
 
   @Method(0x200996c)
@@ -464,6 +600,12 @@ public final class Decompressed8787e04 {
   @Method(0x200999c)
   public static void FUN_200999c(final int r0, final int r1) {
     MEMORY.call(0x808a138, r0, r1);
+  }
+
+  /** {@link GoldenSun_808#FUN_808a150} */
+  @Method(0x20099ac)
+  public static void FUN_20099ac(final int r0, final int r1, final int r2) {
+    MEMORY.call(0x808a150, r0, r1, r2);
   }
 
   @Method(0x20099b4)
@@ -506,9 +648,40 @@ public final class Decompressed8787e04 {
     MEMORY.call(0x808a1e0, r0, r1);
   }
 
+  /** {@link GoldenSun_808#FUN_808a1e8} */
+  @Method(0x2009a04)
+  public static void FUN_2009a04(final int r0, final int r1, final int r2) {
+    MEMORY.call(0x808a1e8, r0, r1, r2);
+  }
+
+  /** {@link GoldenSun_808#FUN_808a1f0} */
+  @Method(0x2009a0c)
+  public static void FUN_2009a0c(final int r0, final int r1) {
+    MEMORY.call(0x808a1f0, r0, r1);
+  }
+
+  /** {@link GoldenSun_808#FUN_808a200} */
   @Method(0x2009a14)
   public static void FUN_2009a14(final int r0, final int r1) {
     MEMORY.call(0x808a200, r0, r1);
+  }
+
+  /** {@link GoldenSun_808#FUN_808a208} */
+  @Method(0x2009a1c)
+  public static void FUN_2009a1c(final int r0, final int r1) {
+    MEMORY.call(0x808a208, r0, r1);
+  }
+
+  /** {@link GoldenSun_808#FUN_808a210} */
+  @Method(0x2009a24)
+  public static void FUN_2009a24(final int r0, final int r1, final int r2, final int r3) {
+    MEMORY.call(0x808a210, r0, r1, r2, r3);
+  }
+
+  /** {@link GoldenSun_808#FUN_808a218} */
+  @Method(0x2009a2c)
+  public static void FUN_2009a2c() {
+    MEMORY.call(0x808a218);
   }
 
   @Method(0x2009a34)
