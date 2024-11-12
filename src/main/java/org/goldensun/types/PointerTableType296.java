@@ -49,7 +49,7 @@ public class PointerTableType296 implements MemoryRef {
     this._08 = ref.offset(1, 0x08).cast(UnsignedByteRef::new);
     this._09 = ref.offset(1, 0x09).cast(UnsignedByteRef::new);
 
-    this._0c = ref.offset(4, 0x0c).cast(ArrayRef.of(Sub08.class, 3, 0xc, Sub08::new));
+    this._0c = ref.offset(4, 0x0c).cast(ArrayRef.of(Sub08.class, 3, 0x8, Sub08::new));
     this._24 = ref.offset(4, 0x24).cast(RelativePointer.deferred(1, ref.getAddress(), UnsignedByteRef::new));
     this._28 = ref.offset(4, 0x28).cast(RelativePointer.deferred(1, ref.getAddress(), UnsignedByteRef::new));
     this._2c = ref.offset(4, 0x2c).cast(RelativePointer.deferred(1, ref.getAddress(), UnsignedByteRef::new));
