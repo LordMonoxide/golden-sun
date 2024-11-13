@@ -30,9 +30,16 @@ public class Actor70 implements MemoryRef {
   public final IntRef _44;
   public final IntRef _48;
   public final IntRef _4c;
-  /** Sometimes a pointer to 4 pointers to the struct? */
+  /** TODO sometimes a pointer to 4 pointers to {@link Sprite38}, see {@link #spriteType_54} */
   public final Pointer<Sprite38> sprite_50;
-  public final UnsignedByteRef _54;
+  /**
+   * <ul>
+   *   <li>0 - none</li>
+   *   <li>1 - regular sprite</li>
+   *   <li>2 - multiple sprites</li>
+   * </ul>
+   */
+  public final UnsignedByteRef spriteType_54;
   public final UnsignedByteRef _55;
   public final UnsignedByteRef _56;
   public final UnsignedByteRef _57;
@@ -73,7 +80,7 @@ public class Actor70 implements MemoryRef {
     this._48 = ref.offset(4, 0x48).cast(IntRef::new);
     this._4c = ref.offset(4, 0x4c).cast(IntRef::new);
     this.sprite_50 = ref.offset(4, 0x50).cast(Pointer.deferred(4, Sprite38::new));
-    this._54 = ref.offset(1, 0x54).cast(UnsignedByteRef::new);
+    this.spriteType_54 = ref.offset(1, 0x54).cast(UnsignedByteRef::new);
     this._55 = ref.offset(1, 0x55).cast(UnsignedByteRef::new);
     this._56 = ref.offset(1, 0x56).cast(UnsignedByteRef::new);
     this._57 = ref.offset(1, 0x57).cast(UnsignedByteRef::new);

@@ -30,7 +30,7 @@ import static org.goldensun.GoldenSun.FUN_8009038;
 import static org.goldensun.GoldenSun.FUN_8009080;
 import static org.goldensun.GoldenSun.FUN_8009088;
 import static org.goldensun.GoldenSun.FUN_8009098;
-import static org.goldensun.GoldenSun.FUN_80090c8;
+import static org.goldensun.GoldenSun.loadActor_;
 import static org.goldensun.GoldenSun.FUN_80090d0;
 import static org.goldensun.GoldenSun.FUN_80090e0;
 import static org.goldensun.GoldenSun.FUN_80090f0;
@@ -75,13 +75,13 @@ import static org.goldensun.GoldenSun_807.FUN_8077080;
 import static org.goldensun.GoldenSun_807.FUN_80770c0;
 import static org.goldensun.GoldenSun_807.FUN_80770c8;
 import static org.goldensun.GoldenSun_807.FUN_80770d0;
-import static org.goldensun.GoldenSun_808.FUN_808ba1c;
+import static org.goldensun.GoldenSun_808.getActor;
 import static org.goldensun.GoldenSun_808.FUN_808d394;
 import static org.goldensun.GoldenSun_808.FUN_808e118;
 import static org.goldensun.GoldenSun_808.FUN_808fecc;
 import static org.goldensun.GoldenSun_808.FUN_808fefc;
 import static org.goldensun.GoldenSun_80f.FUN_80f9010;
-import static org.goldensun.GoldenSun_818.FUN_8185000;
+import static org.goldensun.GoldenSun_818.getSpriteData;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.DMA;
 import static org.goldensun.Hardware.INTERRUPTS;
@@ -750,7 +750,7 @@ public final class GoldenSun_809 {
 
   @Method(0x8091660)
   public static void FUN_8091660() {
-    final Actor70 r0 = FUN_808ba1c(_2000434.get());
+    final Actor70 r0 = getActor(_2000434.get());
     r0.velocity_24.setX(0);
     r0.velocity_24.setZ(0);
     r0._30.set(0x10000);
@@ -849,9 +849,9 @@ public final class GoldenSun_809 {
 
   @Method(0x8091c44)
   public static void FUN_8091c44(final int r0, final int r1) {
-    final Actor70 r0_0 = FUN_808ba1c(r0);
+    final Actor70 r0_0 = getActor(r0);
     if(r0_0 != null) {
-      if(r0_0._54.get() == 1) {
+      if(r0_0.spriteType_54.get() == 1) {
         final Sprite38 r3 = r0_0.sprite_50.deref();
         int r5 = 0;
 
@@ -1058,12 +1058,12 @@ public final class GoldenSun_809 {
 
   @Method(0x8092054)
   public static Actor70 FUN_8092054(final int r0) {
-    return FUN_808ba1c(r0);
+    return getActor(r0);
   }
 
   @Method(0x8092064)
   public static void FUN_8092064(final int r0, final int r1, final int r2) {
-    final Actor70 r0_0 = FUN_808ba1c(r0);
+    final Actor70 r0_0 = getActor(r0);
     if(r0_0 != null) {
       r0_0._34.set(r2);
       r0_0._30.set(r1);
@@ -1074,7 +1074,7 @@ public final class GoldenSun_809 {
 
   @Method(0x809207c)
   public static void FUN_809207c(final int r0, final int r1) {
-    final Actor70 r0_0 = FUN_808ba1c(r0);
+    final Actor70 r0_0 = getActor(r0);
     if(r0_0 != null) {
       r0_0._5a.or(0x1);
       FUN_8093a6c(r0_0, r1);
@@ -1085,7 +1085,7 @@ public final class GoldenSun_809 {
 
   @Method(0x80920e8)
   public static void FUN_80920e8(final int r0) {
-    final Actor70 r0_0 = FUN_808ba1c(r0);
+    final Actor70 r0_0 = getActor(r0);
     if(r0_0 != null) {
       FUN_8009148(r0_0);
     }
@@ -1095,7 +1095,7 @@ public final class GoldenSun_809 {
 
   @Method(0x80920fc)
   public static void FUN_80920fc(final int r0, final int r1) {
-    final Actor70 r5 = FUN_808ba1c(r0);
+    final Actor70 r5 = getActor(r0);
     if(r5 != null) {
       r5._5a.or(0x1);
       FUN_8093a6c(r5, r1);
@@ -1107,7 +1107,7 @@ public final class GoldenSun_809 {
 
   @Method(0x8092158)
   public static void FUN_8092158(final int r0, final int r1, final int r2) {
-    final Actor70 r5 = FUN_808ba1c(r0);
+    final Actor70 r5 = getActor(r0);
     if(r5 != null) {
       r5._5b.set(0);
       FUN_8009140(r5);
@@ -1120,7 +1120,7 @@ public final class GoldenSun_809 {
 
   @Method(0x809218c)
   public static void FUN_809218c(final int r0, final int r1, final int r2) {
-    final Actor70 r5 = FUN_808ba1c(r0);
+    final Actor70 r5 = getActor(r0);
     if(r5 != null) {
       r5._5b.set(0);
       FUN_8009140(r5);
@@ -1133,7 +1133,7 @@ public final class GoldenSun_809 {
 
   @Method(0x80921c4)
   public static void FUN_80921c4(final int r0, final int r1, final int r2) {
-    final Actor70 r5 = FUN_808ba1c(r0);
+    final Actor70 r5 = getActor(r0);
     if(r5 != null) {
       r5._5b.set(0);
       FUN_8009140(r5);
@@ -1148,7 +1148,7 @@ public final class GoldenSun_809 {
 
   @Method(0x80923e4)
   public static void FUN_80923e4(int r0, final int x, final int z) {
-    final Actor70 r5 = FUN_808ba1c(r0);
+    final Actor70 r5 = getActor(r0);
     if(r5 != null) {
       FUN_8009140(r5);
       r5.pos_08.setX(x);
@@ -1169,7 +1169,7 @@ public final class GoldenSun_809 {
 
   @Method(0x80924d4)
   public static void FUN_80924d4(final int r0, final int r1) {
-    final Actor70 r0_0 = FUN_808ba1c(r0);
+    final Actor70 r0_0 = getActor(r0);
     if(r0_0 != null) {
       FUN_8009080(r0_0, r1);
     }
@@ -1179,9 +1179,9 @@ public final class GoldenSun_809 {
 
   @Method(0x8092504)
   public static void FUN_8092504(final int r0) {
-    final Actor70 r0_0 = FUN_808ba1c(r0);
+    final Actor70 r0_0 = getActor(r0);
     if(r0_0 != null) {
-      if(r0_0._54.get() == 1) {
+      if(r0_0.spriteType_54.get() == 1) {
         final Sprite38 r3 = r0_0.sprite_50.deref();
         final int sp00 = r3._24.get();
 
@@ -1212,7 +1212,7 @@ public final class GoldenSun_809 {
 
   @Method(0x8092560)
   public static void FUN_8092560(final int r0, final int r1, final int r2) {
-    final Actor70 r0_0 = FUN_808ba1c(r0);
+    final Actor70 r0_0 = getActor(r0);
     if(r0_0 != null) {
       r0_0._55.or(0x2);
       r0_0.velocity_24.setY(r1 << 16);
@@ -1233,7 +1233,7 @@ public final class GoldenSun_809 {
 
   @Method(0x809259c)
   public static void FUN_809259c(final int r0, final int r1) {
-    final Actor70 r0_0 = FUN_808ba1c(r0);
+    final Actor70 r0_0 = getActor(r0);
     if(r0_0 != null && r1 > 0) {
       //LAB_80925b2
       FUN_8009098(r0_0, 0x809ebfc + (3 - Math.min(r1, 3)) * 0x80);
@@ -1250,8 +1250,8 @@ public final class GoldenSun_809 {
 
   @Method(0x8092848)
   public static void FUN_8092848(final int r0, final int r1, final int r2) {
-    final Actor70 r6 = FUN_808ba1c(r0);
-    final Actor70 r1_0 = FUN_808ba1c(r1);
+    final Actor70 r6 = getActor(r0);
+    final Actor70 r1_0 = getActor(r1);
     if(r6 != null && r1_0 != null) {
       FUN_8092878(r6, r1_0);
       FUN_809163c(r2);
@@ -1304,7 +1304,7 @@ public final class GoldenSun_809 {
 
   @Method(0x8092950)
   public static void FUN_8092950(final int r0, final int r1) {
-    final Actor70 r0_0 = FUN_808ba1c(r0);
+    final Actor70 r0_0 = getActor(r0);
     if(r0_0 != null) {
       if((r1 & 0x100) != 0) {
         r0_0._6c.set(getConsumer(GoldenSun_809.class, "FUN_8092980", Actor70.class));
@@ -1320,14 +1320,14 @@ public final class GoldenSun_809 {
 
   @Method(0x80929d8)
   public static void FUN_80929d8(final Actor70 r0, final int r1) {
-    if((r0._54.get() & 0xf) == 1) {
+    if((r0.spriteType_54.get() & 0xf) == 1) {
       final Sprite38 r12 = r0.sprite_50.deref();
 
       //LAB_80929fc
       for(int i = 0; i < r12.layerCount_27.get(); i++) {
         final SpriteLayer18 r2 = r12.layers_28.get(i).derefNullable();
 
-        if(r2 != null && r2._10.get() != 0) {
+        if(r2 != null && r2.dataPtr_10.get() != 0) {
           r2._05.set(r1);
         }
 
@@ -1371,7 +1371,7 @@ public final class GoldenSun_809 {
 
   @Method(0x8092adc)
   public static void FUN_8092adc(final int r0, final int r1, final int r2) {
-    final Actor70 r0_0 = FUN_808ba1c(r0);
+    final Actor70 r0_0 = getActor(r0);
     if(r0_0 != null) {
       r0_0._64.set(r1);
       FUN_8009098(r0_0, 0x809fc1c);
@@ -1383,9 +1383,9 @@ public final class GoldenSun_809 {
 
   @Method(0x8092b08)
   public static void FUN_8092b08(final int r0, final int r1) {
-    final Actor70 r6 = FUN_808ba1c(r0);
+    final Actor70 r6 = getActor(r0);
     if(r6 != null) {
-      if((r6._54.get() & 0xf) == 1) {
+      if((r6.spriteType_54.get() & 0xf) == 1) {
         final int r5 = r1 & 0x3;
         final Sprite38 r1_0 = r6.sprite_50.deref();
         r1_0.packet_00.attribs_04.attrib2_04.and(~0xc00).or(r5 << 10);
@@ -1441,7 +1441,7 @@ public final class GoldenSun_809 {
     r11 = r6 & 0xf000;
     r6 = r6 & 0xfff;
     r8 = MEMORY.ref(2, sp1c + 0x1d8).get();
-    r0 = FUN_808ba1c(r6).getAddress(); //TODO
+    r0 = getActor(r6).getAddress(); //TODO
     MEMORY.ref(4, sp1c + 0x1f4).setu(r6);
     r5 = 0;
     r7 = 0;
@@ -1467,7 +1467,7 @@ public final class GoldenSun_809 {
         //LAB_8092ce6
       } else if(r6 < 8) {
         sp18 = r6;
-        r0 = FUN_808ba1c(MEMORY.ref(4, 0x2000434).get()).getAddress(); //TODO
+        r0 = getActor(MEMORY.ref(4, 0x2000434).get()).getAddress(); //TODO
         if(MEMORY.ref(2, sp1c + 0x19e).get() == 3) {
           r5 = CPU.sp().value + 0x34;
           FUN_8005268(r0 + 8, r5);
@@ -1725,7 +1725,7 @@ public final class GoldenSun_809 {
 
   @Method(0x809335c)
   public static void FUN_809335c(final int r0, final int r1) {
-    final Actor70 r6 = FUN_808ba1c(r0);
+    final Actor70 r6 = getActor(r0);
     final int r8 = mallocSlotBoard(27, 0xccc);
     final Actor70 r5 = MEMORY.ref(4, r8 + 0x1e0).deref(4).cast(Actor70::new); //TODO
     final Map194 r3 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
@@ -1838,7 +1838,7 @@ public final class GoldenSun_809 {
     if(r6 != null) {
       r0._55.set(0);
       r0.pos_08.setX(r6.pos_08.getX());
-      r0.pos_08.setY(r6.pos_08.getY() + MEMORY.ref(1, FUN_8185000(MEMORY.ref(2, FUN_808d394(r0._66.get())).get()) + 0x8).get() * 0x10000 + 0x80000);
+      r0.pos_08.setY(r6.pos_08.getY() + MEMORY.ref(1, getSpriteData(MEMORY.ref(2, FUN_808d394(r0._66.get())).get()) + 0x8).get() * 0x10000 + 0x80000);
       r0.pos_08.setZ(r6.pos_08.getZ());
       r0._14.set(r6._14.get());
     }
@@ -1854,9 +1854,9 @@ public final class GoldenSun_809 {
     }
 
     //LAB_80937d4
-    final Actor70 r6 = FUN_808ba1c(r0);
+    final Actor70 r6 = getActor(r0);
     if(r6 != null) {
-      final Actor70 r5 = FUN_80090c8(0x15, r6.pos_08.getX(), r6.pos_08.getY(), r6.pos_08.getZ());
+      final Actor70 r5 = loadActor_(21, r6.pos_08.getX(), r6.pos_08.getY(), r6.pos_08.getZ());
       if(r5 != null) {
         FUN_8009098(r5, 0x809fc2c);
         FUN_8009080(r5, r1 & 0xf);
@@ -1886,13 +1886,13 @@ public final class GoldenSun_809 {
 
   @Method(0x8093874)
   public static void FUN_8093874(final int r0, final int r1) {
-    final Actor70 r7 = FUN_808ba1c(r0);
+    final Actor70 r7 = getActor(r0);
     Actor70 r5 = null;
     if(r7 != null) {
       if((r1 & 0x3) != 0) {
         if((r1 & 0x3) == 2 || r7._68.isNull()) {
           //LAB_80938a2
-          r5 = FUN_80090c8(0xd1, r7.pos_08.getX(), r7.pos_08.getY(), r7.pos_08.getZ());
+          r5 = loadActor_(209, r7.pos_08.getX(), r7.pos_08.getY(), r7.pos_08.getZ());
         }
 
         //LAB_80938c2
@@ -1957,13 +1957,13 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8094154)
-  public static int FUN_8094154(int r0, int r1) {
+  public static int FUN_8094154(final int actorIndex, int r1) {
     int r3;
     final int r5;
     final int r6;
 
     r5 = r1;
-    final Actor70 r4 = FUN_808ba1c(r0);
+    final Actor70 r4 = getActor(actorIndex);
     if(r4 == null) {
       return -1;
     }
@@ -1976,9 +1976,9 @@ public final class GoldenSun_809 {
     MEMORY.ref(4, r5).setu(r1 / 0x10000);
     MEMORY.ref(4, r5 + 0x4).setu(r6 / 0x10000);
 
-    if((r4._54.get() & 0xf) == 1) {
-      r0 = FUN_8185000(r4.sprite_50.deref().layers_28.get(0).deref()._00.get());
-      MEMORY.ref(4, r5 + 0x4).subu(MEMORY.ref(1, r0 + 0x8).get());
+    if((r4.spriteType_54.get() & 0xf) == 1) {
+      final int spriteData = getSpriteData(r4.sprite_50.deref().layers_28.get(0).deref().spriteDataIndex_00.get());
+      MEMORY.ref(4, r5 + 0x4).subu(MEMORY.ref(1, spriteData + 0x8).get());
     }
 
     //LAB_80941c6
@@ -2396,19 +2396,18 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8096c80)
-  public static Actor70 FUN_8096c80(final int r0, final int r1, final int r2, int r3) {
+  public static Actor70 FUN_8096c80(final int spriteTypeAndDataIndex, final int x, final int y, final int z) {
     final int r6 = boardWramMallocHead_3001e50.offset(56 * 0x4).get();
-    final Actor70 r5 = FUN_80090c8(r0, r1, r2, r3);
+    final Actor70 r5 = loadActor_(spriteTypeAndDataIndex, x, y, z);
     if(r5 != null) {
-      if(r5._54.get() == 0) {
+      if(r5.spriteType_54.get() == 0) {
         FUN_80090d0(r5);
         return null;
       }
 
       //LAB_8096ca2
-      r3 = MEMORY.ref(4, r6 + 0x10).get();
-      r3 = MEMORY.ref(4, r3 + 0x14).get();
-      r5._14.set(r3);
+      final int r3 = MEMORY.ref(4, r6 + 0x10).get();
+      r5._14.set(MEMORY.ref(4, r3 + 0x14).get());
       r5._55.set(0x4);
       r5.flags_23.set(0x4);
       r5.sprite_50.deref().packet_00.attribs_04.attrib2_04.and(~0xc00);
@@ -2425,7 +2424,7 @@ public final class GoldenSun_809 {
   public static void FUN_8096cdc(final Actor70 r0, final int r1, final int r2) {
     //LAB_8096cf0
     for(int r5 = 0; r5 < 0x43; r5++) {
-      final Actor70 r0_0 = FUN_808ba1c(r5);
+      final Actor70 r0_0 = getActor(r5);
       if(r5 != _200048a.get() && r0_0 != null && r0_0.getAddress() != r0.getAddress()) {
         r0_0._5b.set(r1);
         FUN_8009088(r0_0, r2);
@@ -2485,7 +2484,7 @@ public final class GoldenSun_809 {
 
     //LAB_8096e04
     for(int r7 = 0; r7 < 2; r7++) {
-      final Actor70 r0_0 = FUN_80090c8(0x1a, r0.pos_08.getX(), r0.pos_08.getY(), r0.pos_08.getZ());
+      final Actor70 r0_0 = loadActor_(26, r0.pos_08.getX(), r0.pos_08.getY(), r0.pos_08.getZ());
       sp04[r7] = r0_0;
       if(r0_0 != null) {
         r0_0._14.set(r0._14.get());
@@ -2616,8 +2615,8 @@ public final class GoldenSun_809 {
   @Method(0x80970f8)
   public static void FUN_80970f8(final int r0, final int r1) {
     final int r6 = boardWramMallocHead_3001e50.offset(56 * 0x4).get();
-    final Actor70 r7 = FUN_808ba1c((short)r0);
-    final Actor70 r0_0 = FUN_808ba1c((short)r1);
+    final Actor70 r7 = getActor((short)r0);
+    final Actor70 r0_0 = getActor((short)r1);
     MEMORY.ref(2, r6 + 0x18).setu(r0);
     MEMORY.ref(2, r6 + 0x1a).setu(r1);
     MEMORY.ref(4, r6 + 0x10).setu(r7 == null ? 0 : r7.getAddress());
@@ -3005,7 +3004,7 @@ public final class GoldenSun_809 {
     r3 = MEMORY.ref(4, r5 + 0xc).get();
     MEMORY.ref(4, r0 + 0x8).setu(r3);
 
-    final Actor70 r6 = FUN_8096c80(0xd7, r1, r2, r3);
+    final Actor70 r6 = FUN_8096c80(215, r1, r2, r3);
     if(r6 != null) {
       //LAB_809aefe
       FUN_8097384();

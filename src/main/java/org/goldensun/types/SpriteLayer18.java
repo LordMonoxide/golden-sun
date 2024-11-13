@@ -9,7 +9,7 @@ import org.goldensun.memory.types.UnsignedByteRef;
 public class SpriteLayer18 implements MemoryRef {
   private final Value ref;
 
-  public final ShortRef _00;
+  public final ShortRef spriteDataIndex_00;
   public final ShortRef _02;
   public final UnsignedByteRef _04;
   public final UnsignedByteRef _05;
@@ -18,8 +18,8 @@ public class SpriteLayer18 implements MemoryRef {
   public final IntRef _08;
   /** TODO ptr */
   public final IntRef _0c;
-  public final IntRef _10;
-  public final UnsignedByteRef _14;
+  public final IntRef dataPtr_10;
+  public final UnsignedByteRef dataOffset_14;
   public final UnsignedByteRef _15;
   public final UnsignedByteRef _16;
   public final UnsignedByteRef _17;
@@ -27,7 +27,7 @@ public class SpriteLayer18 implements MemoryRef {
   public SpriteLayer18(final Value ref) {
     this.ref = ref;
 
-    this._00 = ref.offset(2, 0x00).cast(ShortRef::new);
+    this.spriteDataIndex_00 = ref.offset(2, 0x00).cast(ShortRef::new);
     this._02 = ref.offset(2, 0x02).cast(ShortRef::new);
     this._04 = ref.offset(1, 0x04).cast(UnsignedByteRef::new);
     this._05 = ref.offset(1, 0x05).cast(UnsignedByteRef::new);
@@ -35,8 +35,8 @@ public class SpriteLayer18 implements MemoryRef {
     this._07 = ref.offset(1, 0x07).cast(UnsignedByteRef::new);
     this._08 = ref.offset(4, 0x08).cast(IntRef::new);
     this._0c = ref.offset(4, 0x0c).cast(IntRef::new);
-    this._10 = ref.offset(4, 0x10).cast(IntRef::new);
-    this._14 = ref.offset(1, 0x14).cast(UnsignedByteRef::new);
+    this.dataPtr_10 = ref.offset(4, 0x10).cast(IntRef::new);
+    this.dataOffset_14 = ref.offset(1, 0x14).cast(UnsignedByteRef::new);
     this._15 = ref.offset(1, 0x15).cast(UnsignedByteRef::new);
     this._16 = ref.offset(1, 0x16).cast(UnsignedByteRef::new);
     this._17 = ref.offset(1, 0x17).cast(UnsignedByteRef::new);

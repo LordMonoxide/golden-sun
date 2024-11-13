@@ -95,7 +95,7 @@ import static org.goldensun.GoldenSun_808.FUN_808a330;
 import static org.goldensun.GoldenSun_808.FUN_808a348;
 import static org.goldensun.GoldenSun_80f.FUN_80f9008;
 import static org.goldensun.GoldenSun_80f.FUN_80f9018;
-import static org.goldensun.GoldenSun_818.FUN_8185000;
+import static org.goldensun.GoldenSun_818.getSpriteData;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.DMA;
 import static org.goldensun.Hardware.GATE;
@@ -2153,9 +2153,10 @@ public final class GoldenSun {
     throw new RuntimeException("Not implemented");
   }
 
+  /** {@link GoldenSun#loadActor} */
   @Method(0x80090c8)
-  public static Actor70 FUN_80090c8(final int r0, final int r1, final int r2, final int r3) {
-    return (Actor70)MEMORY.call(0x800c150, r0, r1, r2, r3);
+  public static Actor70 loadActor_(final int spriteTypeAndDataIndex, final int x, final int y, final int z) {
+    return (Actor70)MEMORY.call(0x800c150, spriteTypeAndDataIndex, x, y, z);
   }
 
   @Method(0x80090d0)
@@ -2163,6 +2164,7 @@ public final class GoldenSun {
     MEMORY.call(0x800c0f4, r0);
   }
 
+  /** {@link GoldenSun#FUN_800c4bc} */
   @Method(0x80090e0)
   public static void FUN_80090e0(final Actor70 r0, final Actor70 r1) {
     MEMORY.call(0x800c4bc, r0, r1);
@@ -2240,6 +2242,7 @@ public final class GoldenSun {
     MEMORY.call(0x8011ae0);
   }
 
+  /** {@link GoldenSun_801#FUN_8011f54} */
   @Method(0x80091a8)
   public static int FUN_80091a8(final int r0, final int r1, final int r2) {
     return (int)MEMORY.call(0x8011f54, r0, r1, r2);
@@ -2270,12 +2273,16 @@ public final class GoldenSun {
     MEMORY.call(0x800c5fc);
   }
 
-  /** Opening cutscene, mom gives Isaac his cloak */
+  /**
+   * Opening cutscene, mom gives Isaac his cloak
+   * {@link GoldenSun#addLayerToSpriteIfRegularSprite}
+   */
   @Method(0x8009228)
-  public static void FUN_8009228(@Nullable final Actor70 r0, final int r1) {
-    MEMORY.call(0x800c430, r0, r1);
+  public static void addLayerToSpriteIfRegularSprite_(@Nullable final Actor70 actor, final int spriteDataIndex) {
+    MEMORY.call(0x800c430, actor, spriteDataIndex);
   }
 
+  /** {@link GoldenSun#FUN_800c598} */
   @Method(0x8009240)
   public static void FUN_8009240(final Actor70 r0, final int r1) {
     MEMORY.call(0x800c598, r0, r1);
@@ -2402,68 +2409,58 @@ public final class GoldenSun {
 
     //LAB_800aa62
     //LAB_800aa7c
-    int r8;
     int r5;
     int r3;
     int r2;
     int r0;
-    for(r8 = 0; r8 < sp2c.layerCount_27.get(); r8++) {
-      final SpriteLayer18 r6 = sp2c.layers_28.get(r8).derefNullable();
+    for(int layerIndex = 0; layerIndex < sp2c.layerCount_27.get(); layerIndex++) {
+      final SpriteLayer18 layer = sp2c.layers_28.get(layerIndex).derefNullable();
       //LAB_800aa8c
-      if(r6 != null && r6._10.get() != 0) {
+      if(layer != null && layer.dataPtr_10.get() != 0) {
         //LAB_800aa94
         do {
-          if(r6._02.get() > 0) {
+          if(layer._02.get() > 0) {
             //LAB_800ab66
-            r6._02.sub(r6._15.get());
-            r0 = r6._17.get();
+            layer._02.sub(layer._15.get());
+            r0 = layer._17.get();
           } else {
-            r3 = r6._14.get();
-            r2 = CPU.addT(r3, 0x1);
-            r6._14.set(r2);
-            r1 = r6._10.get();
-            r3 = CPU.lslT(r3, 24);
-            r3 = CPU.lsrT(r3, 24);
-            r0 = MEMORY.ref(1, r1 + r3).getUnsigned();
-            r3 = CPU.addT(r2, 0x1);
-            r6._14.set(r3);
-            r2 = CPU.lslT(r2, 24);
-            r3 = CPU.addT(r0, 0x0);
-            r2 = CPU.lsrT(r2, 24);
-            r5 = MEMORY.ref(1, r1 + r2).getUnsigned();
+            r0 = MEMORY.ref(1, layer.dataPtr_10.get() + layer.dataOffset_14.get()).getUnsigned();
+            layer.dataOffset_14.incr();
+            r5 = MEMORY.ref(1, layer.dataPtr_10.get() + layer.dataOffset_14.get()).getUnsigned();
+            layer.dataOffset_14.incr();
 
-            switch(r3) {
-              case 0xfe:
-                FUN_800b9f4(r6, r5);
+            switch(r0) {
+              case 0xfe: // jump to animation N immediately
+                FUN_800b9f4(layer, r5);
                 sp2c._24.set(r5);
                 continue;
 
-              case 0xfd:
-                r6._14.set(r5);
+              case 0xfd: // loop back to frame N (of same animation) immediately
+                layer.dataOffset_14.set(r5);
                 continue;
 
-              case 0xf5:
-                r6._02.add(r5 * 16);
+              case 0xf5: // delay N more frames on the same image
+                layer._02.add(r5 * 16);
                 continue;
 
-              case 0xf1:
-                r6._14.sub(2);
-                r0 = r6._17.get();
+              case 0xf1: // on the next frame, continue from the previous animation frame
+                layer.dataOffset_14.sub(2);
+                r0 = layer._17.get();
                 break;
 
-              case 0xf0:
-                r6._04.set(r5);
+              case 0xf0: // change directional type to N
+                layer._04.set(r5);
                 continue;
 
-              case 0xff:
-                r6._17.set(0xff);
-                r6._02.add(r5 * 16);
+              case 0xff: // disable the sprite for N frames
+                layer._17.set(0xff);
+                layer._02.add(r5 * 16);
                 r0 = 0xff;
                 break;
 
-              case 0xef:
-                r6._17.set(0xff);
-                r6._10.set(0);
+              case 0xef: // unset data and layer?
+                layer._17.set(0xff);
+                layer.dataPtr_10.set(0);
                 sp2c.layerCount_27.decr();
                 r0 = 0xff;
                 break;
@@ -2479,10 +2476,10 @@ public final class GoldenSun {
               case 0xfc:
                 continue;
 
-              default:
+              default: // also 0xfb: interprets 0xfb as sprite id; probably broken
                 //LAB_800ab5a
-                r6._17.set(r0);
-                r6._02.add(r5 * 16);
+                layer._17.set(r0);
+                layer._02.add(r5 * 16);
                 break;
             }
           }
@@ -2492,7 +2489,7 @@ public final class GoldenSun {
 
         //LAB_800ab6e
         //LAB_800ab78
-        r2 = switch(r6._04.get()) {
+        r2 = switch(layer._04.get()) {
           case 1 -> MEMORY.ref(1, 0x801307c + (r7 << 16 >>> 29)).getUnsigned();
           case 2, 0x14 -> MEMORY.ref(1, 0x8013094 + (r7 << 16 >>> 29)).getUnsigned();
           case 0x16 -> MEMORY.ref(1, 0x801308c + (r7 << 16 >>> 29)).getUnsigned();
@@ -2508,13 +2505,13 @@ public final class GoldenSun {
 
         //LAB_800ad6e
         r0 = r0 + (r2 & 0x7);
-        if(r8 == 0 && r2 >>> 7 != 0) {
+        if(layerIndex == 0 && r2 >>> 7 != 0) {
           sp28 = 1;
         }
 
         //LAB_800ad84
-        if(r6._16.get() != r0) {
-          r6._16.set(r0);
+        if(layer._16.get() != r0) {
+          layer._16.set(r0);
           sp2c._25.set(0x1);
         }
       }
@@ -2528,18 +2525,17 @@ public final class GoldenSun {
       final int sp24 = sp2c.height_21.get() * sp2c.width_20.get();
       final int r10 = mallocChip(sp24);
       MEMORY.call(0x3000164, r10, sp24);
-      r8 = sp2c.layerCount_27.get() - 1;
       int lr = 0;
       int r9 = -1;
 
       //LAB_800adf0
       int r4;
-      while(r8 >= 0) {
-        final SpriteLayer18 r6 = sp2c.layers_28.get(r8).derefNullable();
+      for(int layerIndex = sp2c.layerCount_27.get() - 1; layerIndex >= 0; layerIndex--) {
+        final SpriteLayer18 r6 = sp2c.layers_28.get(layerIndex).derefNullable();
         if(r6 != null && r6._08.get() != 0 && r6._16.get() != 0xff) {
           r0 = r6._06.get();
           if(r0 <= 3) {
-            r0 = r0 << 8 | r8;
+            r0 = r0 << 8 | layerIndex;
             int r6_0 = r9;
             if(r6_0 < 0) {
               //LAB_800ae48
@@ -2583,14 +2579,13 @@ public final class GoldenSun {
         }
 
         //LAB_800ae62
-        r8--;
       }
 
       //LAB_800ae6e
       r9++;
 
       //LAB_800ae7a
-      for(r8 = 0; r8 < r9; r8++) {
+      for(int r8 = 0; r8 < r9; r8++) {
         final SpriteLayer18 r6 = sp2c.layers_28.get(MEMORY.ref(1, CPU.sp().value + 0x30 + r8 * 0x2).getUnsigned()).deref();
         r3 = r6._07.get();
         if(r3 == 1) {
@@ -2633,7 +2628,7 @@ public final class GoldenSun {
         lr = r7 - 0x1;
 
         //LAB_800af60
-        for(r8 = 1; r8 < r9; r8++) {
+        for(int r8 = 1; r8 < r9; r8++) {
           r5 = r1 + r7;
           r0 = r1 - r7;
           r2 = r1 - 0x1;
@@ -2659,7 +2654,7 @@ public final class GoldenSun {
 
         //LAB_800afaa
         //LAB_800afb8
-        for(r8 = 0; r8 < sp24; r8++) {
+        for(int r8 = 0; r8 < sp24; r8++) {
           if(MEMORY.ref(1, sp0c + r8).getUnsigned() != 0) {
             MEMORY.ref(1, r10 + r8).setu(sp04);
             //LAB_800afd0
@@ -2845,62 +2840,62 @@ public final class GoldenSun {
   }
 
   @Method(0x800b8ac)
-  public static SpriteLayer18 FUN_800b8ac(final Sprite38 r0, final int r1) {
+  public static SpriteLayer18 addLayerToSprite(final Sprite38 sprite, final int spriteDataIndex) {
     //LAB_800b8c2
-    int r7;
-    for(r7 = 0; r7 < 4 && !r0.layers_28.get(r7).isNull(); r7++) {
+    int layerIndex;
+    for(layerIndex = 0; layerIndex < 4 && !sprite.layers_28.get(layerIndex).isNull(); layerIndex++) {
       // no-op
     }
 
     //LAB_800b8d0
-    if(r7 == 4) {
+    if(layerIndex == 4) {
 //      return -1;
       throw new RuntimeException("No slot available");
     }
 
     //LAB_800b8da
-    final SpriteLayer18 r5 = FUN_800bbc0(r1);
+    final SpriteLayer18 layer = loadSpriteLayer(spriteDataIndex);
 
-    if(r5 == null) {
+    if(layer == null) {
       return null;
     }
 
-    r0.layers_28.get(r7).set(r5);
-    final int r0_0 = FUN_8185000(r1);
+    sprite.layers_28.get(layerIndex).set(layer);
+    final int spriteData = getSpriteData(spriteDataIndex);
 
-    if(r0.layerCount_27.get() == 0) {
-      r0.width_20.set(MEMORY.ref(1, r0_0).getUnsigned());
-      r0.height_21.set(MEMORY.ref(1, r0_0 + 0x1).getUnsigned());
-      r0.scale_18.set(MEMORY.ref(2, r0_0 + 0x2).getUnsigned() << 8);
-      r0.y_23.set(MEMORY.ref(1, r0_0 + 0x7).getUnsigned());
-      r0.x_22.set(MEMORY.ref(1, r0_0 + 0x6).getUnsigned());
+    if(sprite.layerCount_27.get() == 0) {
+      sprite.width_20.set(MEMORY.ref(1, spriteData).getUnsigned());
+      sprite.height_21.set(MEMORY.ref(1, spriteData + 0x1).getUnsigned());
+      sprite.scale_18.set(MEMORY.ref(2, spriteData + 0x2).getUnsigned() << 8);
+      sprite.y_23.set(MEMORY.ref(1, spriteData + 0x7).getUnsigned());
+      sprite.x_22.set(MEMORY.ref(1, spriteData + 0x6).getUnsigned());
     }
 
     //LAB_800b924
-    if(r0.layerCount_27.get() == r7) {
-      r0.layerCount_27.incr();
+    if(sprite.layerCount_27.get() == layerIndex) {
+      sprite.layerCount_27.incr();
     }
 
     //LAB_800b930
-    return r5;
+    return layer;
 
     //LAB_800b932
   }
 
   @Method(0x800b9f4)
-  public static void FUN_800b9f4(final SpriteLayer18 r0, final int r1) {
-    if(r0._0c.get() != 0) {
-      final int r0_0 = FUN_8185000(r0._00.get());
+  public static void FUN_800b9f4(final SpriteLayer18 layer, final int r1) {
+    if(layer._0c.get() != 0) {
+      final int spriteData = getSpriteData(layer.spriteDataIndex_00.get());
 
-      if(r1 < MEMORY.ref(1, r0_0 + 0x5).getUnsigned()) {
-        final int r2 = r0._0c.get();
-        r0._04.set(MEMORY.ref(1, r0_0 + 0x4).getUnsigned());
-        r0._10.set(MEMORY.ref(4, r2 + r1 * 0x4).get());
-        r0._15.set(0x10);
+      if(r1 < MEMORY.ref(1, spriteData + 0x5).getUnsigned()) {
+        final int r2 = layer._0c.get();
+        layer._04.set(MEMORY.ref(1, spriteData + 0x4).getUnsigned());
+        layer.dataPtr_10.set(MEMORY.ref(4, r2 + r1 * 0x4).get());
+        layer._15.set(0x10);
 
         if((r1 & 0x80) == 0) {
-          r0._14.set(0);
-          r0._02.set(0);
+          layer.dataOffset_14.set(0);
+          layer._02.set(0);
         }
       }
     }
@@ -2909,33 +2904,33 @@ public final class GoldenSun {
   }
 
   @Method(0x800ba30)
-  public static int FUN_800ba30(final Sprite38 r0, final int r1) {
+  public static int FUN_800ba30(final Sprite38 sprite, final int r1) {
     final int r4 = r1 & 0x80;
     final int r6 = r1 & 0x7f;
 
-    if(r0._24.get() != r6) {
+    if(sprite._24.get() != r6) {
       //LAB_800ba5c
-      for(int i = 0; i < r0.layerCount_27.get(); i++) {
-        final SpriteLayer18 r5 = r0.layers_28.get(i).derefNullable();
+      for(int i = 0; i < sprite.layerCount_27.get(); i++) {
+        final SpriteLayer18 layer = sprite.layers_28.get(i).derefNullable();
 
-        if(r5 != null) {
-          if(r5._0c.get() != 0) {
-            final int r0_0 = FUN_8185000(r5._00.get());
+        if(layer != null) {
+          if(layer._0c.get() != 0) {
+            final int spriteData = getSpriteData(layer.spriteDataIndex_00.get());
 
-            if(r6 < MEMORY.ref(1, r0_0 + 0x5).getUnsigned()) {
-              r5._04.set(MEMORY.ref(1, r0_0 + 0x4).getUnsigned());
-              r5._10.set(MEMORY.ref(4, r5._0c.get()).offset(r6 * 0x4).get());
-              r5._15.set(0x10);
+            if(r6 < MEMORY.ref(1, spriteData + 0x5).getUnsigned()) {
+              layer._04.set(MEMORY.ref(1, spriteData + 0x4).getUnsigned());
+              layer.dataPtr_10.set(MEMORY.ref(4, layer._0c.get()).offset(r6 * 0x4).get());
+              layer._15.set(0x10);
 
               if(r4 == 0) {
-                r5._14.set(r4);
-                r5._02.set(r4);
+                layer.dataOffset_14.set(r4);
+                layer._02.set(r4);
               }
 
               //LAB_800ba9a
               if(i == 0) {
-                r0.x_22.set(MEMORY.ref(1, r0_0 + 0x6).getUnsigned());
-                r0.y_23.set(MEMORY.ref(1, r0_0 + 0x7).getUnsigned());
+                sprite.x_22.set(MEMORY.ref(1, spriteData + 0x6).getUnsigned());
+                sprite.y_23.set(MEMORY.ref(1, spriteData + 0x7).getUnsigned());
               }
             }
           }
@@ -2945,7 +2940,7 @@ public final class GoldenSun {
         //LAB_800baae
       }
 
-      r0._24.set(r6);
+      sprite._24.set(r6);
     }
 
     //LAB_800baba
@@ -3011,47 +3006,41 @@ public final class GoldenSun {
   }
 
   @Method(0x800bbc0)
-  public static SpriteLayer18 FUN_800bbc0(final int r0) {
-    final int r6 = FUN_8185000(r0);
-    final ArrayRef<SpriteLayer18> structs = boardWramMallocHead_3001e50.offset(3 * 0x4).deref(4).cast(ArrayRef.of(SpriteLayer18.class, 0x40, 0x18, SpriteLayer18::new));
+  public static SpriteLayer18 loadSpriteLayer(final int spriteDataIndex) {
+    final int spriteData = getSpriteData(spriteDataIndex);
 
-    if(MEMORY.ref(1, r6).getUnsigned() == 0) {
+    if(MEMORY.ref(1, spriteData).getUnsigned() == 0) {
       return null;
     }
 
     //LAB_800bbec
     //LAB_800bbf6
-    SpriteLayer18 r4 = null;
-    for(int r1 = 0; r1 < 0x40; r1++) {
-      final SpriteLayer18 r2 = structs.get(r1);
-      if(r2._04.get() == 0) {
-        r4 = r2;
-        break;
+    final ArrayRef<SpriteLayer18> spriteLayers = boardWramMallocHead_3001e50.offset(3 * 0x4).deref(4).cast(ArrayRef.of(SpriteLayer18.class, 0x40, 0x18, SpriteLayer18::new));
+    for(int spriteLayerSlot = 0; spriteLayerSlot < 0x40; spriteLayerSlot++) {
+      final SpriteLayer18 layer = spriteLayers.get(spriteLayerSlot);
+      if(layer._04.get() == 0) {
+        layer.spriteDataIndex_00.set(spriteDataIndex);
+
+        int r0_0 = MEMORY.ref(4, spriteData + 0xc).get();
+        if(r0_0 == 0) {
+          r0_0 = FUN_800b798(spriteDataIndex);
+        }
+
+        //LAB_800bc14
+        layer._04.set(MEMORY.ref(1, spriteData + 0x4).getUnsigned());
+        layer._05.set(0);
+        layer._07.set(MEMORY.ref(1, spriteData + 0xa).getUnsigned());
+        layer._08.set(r0_0);
+        layer._0c.set(MEMORY.ref(4, spriteData + 0x10).get());
+        layer.dataPtr_10.set(MEMORY.ref(4, spriteData + 0x10).deref(4).get());
+        layer.dataOffset_14.set(0);
+        layer._16.set(0xff);
+        return layer;
       }
     }
 
     //LAB_800bbfc
-    if(r4 == null) {
-      return null;
-    }
-
-    r4._00.set(r0);
-
-    int r0_0 = MEMORY.ref(4, r6 + 0xc).get();
-    if(r0_0 == 0) {
-      r0_0 = FUN_800b798(r0);
-    }
-
-    //LAB_800bc14
-    r4._04.set(MEMORY.ref(1, r6 + 0x4).getUnsigned());
-    r4._05.set(0);
-    r4._07.set(MEMORY.ref(1, r6 + 0xa).getUnsigned());
-    r4._08.set(r0_0);
-    r4._0c.set(MEMORY.ref(4, r6 + 0x10).get());
-    r4._10.set(MEMORY.ref(4, r6 + 0x10).deref(4).get());
-    r4._14.set(0);
-    r4._16.set(0xff);
-    return r4;
+    return null;
   }
 
   @Method(0x800bc48)
@@ -3069,12 +3058,12 @@ public final class GoldenSun {
   }
 
   @Method(0x800bc70)
-  public static Sprite38 FUN_800bc70(final int r0) {
-    final int r7 = FUN_8185000(r0);
+  public static Sprite38 loadSprite(final int spriteDataIndex) {
+    final int spriteData = getSpriteData(spriteDataIndex);
     final int slot = getFreeVramSlot();
-    final ArrayRef<Sprite38> structs = boardWramMallocHead_3001e50.offset(4 * 0x4).deref(4).cast(ArrayRef.of(Sprite38.class, 64, 0x38, Sprite38::new));
+    final ArrayRef<Sprite38> sprites = boardWramMallocHead_3001e50.offset(4 * 0x4).deref(4).cast(ArrayRef.of(Sprite38.class, 64, 0x38, Sprite38::new));
 
-    if(MEMORY.ref(1, r7).getUnsigned() == 0) {
+    if(MEMORY.ref(1, spriteData).getUnsigned() == 0) {
       return null;
     }
 
@@ -3083,7 +3072,7 @@ public final class GoldenSun {
     //LAB_800bcb0
     Sprite38 r8 = null;
     for(int r2 = 0; r2 < 64; r2++) {
-      final Sprite38 r5 = structs.get(r2);
+      final Sprite38 r5 = sprites.get(r2);
       if(r5.width_20.get() == 0) {
         r8 = r5;
         break;
@@ -3105,7 +3094,7 @@ public final class GoldenSun {
     r8.rotation_1e.set(0);
     r8._26.set(1);
 
-    final int r0_0 = MEMORY.ref(1, r7).getUnsigned() * 0x100 + MEMORY.ref(1, r7 + 0x1).getUnsigned();
+    final int r0_0 = MEMORY.ref(1, spriteData).getUnsigned() * 0x100 + MEMORY.ref(1, spriteData + 0x1).getUnsigned();
     final int r4;
     if(r0_0 == 0x810) {
       r4 = 0x8000;
@@ -3137,7 +3126,7 @@ public final class GoldenSun {
     r8.shadowPacket_0c.next_00.clear();
     MEMORY.ref(4, r8.shadowPacket_0c.attribs_04.attrib0_00.getAddress()).setu(0x6000);
     MEMORY.ref(4, r8.shadowPacket_0c.attribs_04.attrib2_04.getAddress()).setu(vramSlots_3001b10.get(93).vramAddr_02.get() >>> 5 | 0x800);
-    FUN_800b8ac(r8, r0);
+    addLayerToSprite(r8, spriteDataIndex);
 
     //LAB_800bd9c
     return r8;
@@ -3231,7 +3220,7 @@ public final class GoldenSun {
   @Method(0x800c0f4)
   public static void FUN_800c0f4(final Actor70 r0) {
     if(r0 != null) {
-      final int r2 = r0._54.get() & 0xf;
+      final int r2 = r0.spriteType_54.get() & 0xf;
       if(r2 == 1) {
         //LAB_800c112
         FUN_800bdd4(r0.sprite_50.deref());
@@ -3264,32 +3253,32 @@ public final class GoldenSun {
   }
 
   @Method(0x800c150)
-  public static Actor70 FUN_800c150(final int r0, final int r1, final int r2, final int r3) {
-    final int r5 = r0 / 0x1000;
-    final int r7 = r0 & 0xfff;
-    final Actor70 r6 = FUN_800c0cc();
-    if(r6 != null) {
+  public static Actor70 loadActor(final int spriteTypeAndDataIndex, final int x, final int y, final int z) {
+    final int spriteType = spriteTypeAndDataIndex >>> 12;
+    final int spriteDataIndex = spriteTypeAndDataIndex & 0xfff;
+    final Actor70 actor = FUN_800c0cc();
+    if(actor != null) {
       //LAB_800c188
-      r6.radius_20.set(0x10);
-      if(r5 == 0) {
+      actor.radius_20.set(0x10);
+      if(spriteType == 0) {
         //LAB_800c196
-        final Sprite38 r5_0 = FUN_800bc70(r7);
-        if(r5_0 != null) {
-          r6._54.set(0x1);
-          r6.sprite_50.set(r5_0);
-          r6.radius_20.set(MEMORY.ref(1, FUN_8185000(r7) + 0x9).getUnsigned() >> 1);
+        final Sprite38 sprite = loadSprite(spriteDataIndex);
+        if(sprite != null) {
+          actor.spriteType_54.set(1);
+          actor.sprite_50.set(sprite);
+          actor.radius_20.set(MEMORY.ref(1, getSpriteData(spriteDataIndex) + 0x9).getUnsigned() >> 1);
         } else {
           //LAB_800c1ba
-          r6._54.set(0);
+          actor.spriteType_54.set(0);
         }
-      } else if(r5 == 2) {
+      } else if(spriteType == 2) {
         //LAB_800c1cc
         final int addr = boardWramMallocHead_3001e50.offset(6 * 0x4).get();
         final int r10 = addr + MEMORY.ref(4, addr + 0x18).get() * 0x4;
-        r6._54.set(2);
+        actor.spriteType_54.set(2);
 
         int r8 = r10 + 0x8;
-        r6.sprite_50.setPointer(r8); //TODO
+        actor.sprite_50.setPointer(r8); //TODO
 
         CPU.sp().value -= 0x4;
         MEMORY.ref(4, CPU.sp().value).setu(0);
@@ -3298,15 +3287,15 @@ public final class GoldenSun {
         DMA.channels[3].CNT.setu(0x85000004);
         CPU.sp().value += 0x4;
 
-        Sprite38 r5_0 = FUN_800bc70(r7);
+        Sprite38 r5_0 = loadSprite(spriteDataIndex);
         if(r5_0 != null) {
-          r6.radius_20.set(MEMORY.ref(1, FUN_8185000(r7) + 0x9).getUnsigned() >>> 1);
+          actor.radius_20.set(MEMORY.ref(1, getSpriteData(spriteDataIndex) + 0x9).getUnsigned() >>> 1);
           MEMORY.ref(4, r8).setu(r5_0.getAddress()); //TODO
           r8 = r10 + 0xc;
         }
 
         //LAB_800c220
-        r5_0 = FUN_800bc70(r7 + 0x1);
+        r5_0 = loadSprite(spriteDataIndex + 0x1);
         if(r5_0 != null) {
           MEMORY.ref(4, r8).setu(r5_0.getAddress()); //TODO
         }
@@ -3315,27 +3304,27 @@ public final class GoldenSun {
       }
 
       //LAB_800c230
-      FUN_800d130(r6, r1, r2, r3);
-      r6._00.set(0x801358c); //TODO
-      r6._04.set(0);
-      r6.angle_06.set(0x4000);
-      r6._18.set(0x10000);
-      r6._1c.set(0x10000);
-      r6._30.set(0x20000);
-      r6._34.set(0x10000);
-      r6._44.set(0x4000);
-      r6._48.set(0x10000);
-      r6._4c.set(0);
-      r6._55.set(0x3);
-      r6._59.set(0);
-      r6._5a.set(0x1);
-      r6._64.set(r1 / 0x10000);
-      r6._66.set(r3 / 0x10000);
+      setActorPosition(actor, x, y, z);
+      actor._00.set(0x801358c); //TODO
+      actor._04.set(0);
+      actor.angle_06.set(0x4000);
+      actor._18.set(0x10000);
+      actor._1c.set(0x10000);
+      actor._30.set(0x20000);
+      actor._34.set(0x10000);
+      actor._44.set(0x4000);
+      actor._48.set(0x10000);
+      actor._4c.set(0);
+      actor._55.set(0x3);
+      actor._59.set(0);
+      actor._5a.set(0x1);
+      actor._64.set(x / 0x10000);
+      actor._66.set(z / 0x10000);
     }
 
     //LAB_800c2be
 
-    return r6;
+    return actor;
   }
 
   @Method(0x800c2d8)
@@ -3354,7 +3343,7 @@ public final class GoldenSun {
   @Method(0x800c300)
   public static void FUN_800c300(final Actor70 r0, final int r1) {
     if(r0 != null) {
-      final int r2 = r0._54.get() & 0xf;
+      final int r2 = r0.spriteType_54.get() & 0xf;
 
       if(r2 == 1) {
         //LAB_800c31c
@@ -3382,7 +3371,7 @@ public final class GoldenSun {
   @Method(0x800c344)
   public static void FUN_800c344(final Actor70 r0, final int r1) {
     if(r0 != null) {
-      final int r2 = r0._54.get() & 0xf;
+      final int r2 = r0.spriteType_54.get() & 0xf;
       if(r2 == 1) {
         //LAB_800c360
         FUN_800baf8(r0.sprite_50.deref(), r1);
@@ -3407,9 +3396,9 @@ public final class GoldenSun {
   }
 
   @Method(0x800c430)
-  public static void FUN_800c430(@Nullable final Actor70 r0, final int r1) {
-    if(r0 != null && (r0._54.get() & 0xf) == 1 && r1 >= 0) {
-      FUN_800b8ac(r0.sprite_50.deref(), r1);
+  public static void addLayerToSpriteIfRegularSprite(@Nullable final Actor70 r0, final int spriteDataIndex) {
+    if(r0 != null && (r0.spriteType_54.get() & 0xf) == 1 && spriteDataIndex >= 0) {
+      addLayerToSprite(r0.sprite_50.deref(), spriteDataIndex);
     }
 
     //LAB_800c44e
@@ -3451,7 +3440,7 @@ public final class GoldenSun {
 
   @Method(0x800c528)
   public static void FUN_800c528(final Actor70 r0, final int r1) {
-    if(r0 != null && (r0._54.get() & 0xf) == 1) {
+    if(r0 != null && (r0.spriteType_54.get() & 0xf) == 1) {
       r0.sprite_50.deref()._26.set(r1);
     }
 
@@ -3460,7 +3449,7 @@ public final class GoldenSun {
 
   @Method(0x800c598)
   public static void FUN_800c598(final Actor70 r0, final int r1) {
-    if(r0 != null && r0._54.get() == 1) {
+    if(r0 != null && r0.spriteType_54.get() == 1) {
       FUN_800b684(r0.sprite_50.deref(), r1);
     }
 
@@ -3514,7 +3503,7 @@ public final class GoldenSun {
         //LAB_800c6a0
         int r1 = r10.pos_08.getX();
         int r2;
-        int r6 = r10._54.get() & 0xf;
+        int r6 = r10.spriteType_54.get() & 0xf;
         if(r1 != 0 || r10.pos_08.getZ() != 0) {
           //LAB_800c6ae
           if(r6 == 0) {
@@ -4018,10 +4007,10 @@ public final class GoldenSun {
   }
 
   @Method(0x800d130)
-  public static void FUN_800d130(final Actor70 r0, final int x, final int y, final int z) {
-    r0.pos_08.set(x, y, z);
-    r0.velocity_24.zero();
-    r0.dest_38.set(0x80000000, 0x80000000, 0x80000000);
+  public static void setActorPosition(final Actor70 actor, final int x, final int y, final int z) {
+    actor.pos_08.set(x, y, z);
+    actor.velocity_24.zero();
+    actor.dest_38.set(0x80000000, 0x80000000, 0x80000000);
   }
 
   @Method(0x800d14c)
@@ -4237,7 +4226,7 @@ public final class GoldenSun {
   @Method(0x800d9f0)
   public static int FUN_800d9f0(final Actor70 r0) {
     final int r3 = r0._00.get() + r0._04.get() * 0x4 + 0x4;
-    FUN_800d130(r0, MEMORY.ref(4, r3).get(), MEMORY.ref(4, r3 + 0x4).get(), MEMORY.ref(4, r3 + 0x8).get());
+    setActorPosition(r0, MEMORY.ref(4, r3).get(), MEMORY.ref(4, r3 + 0x4).get(), MEMORY.ref(4, r3 + 0x8).get());
     r0._04.add(0x4);
     return 1;
   }

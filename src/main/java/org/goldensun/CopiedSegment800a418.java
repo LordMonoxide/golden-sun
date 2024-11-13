@@ -3,6 +3,7 @@ package org.goldensun;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.MEMORY;
 
+/** Used to copy sprites to VRAM */
 public final class CopiedSegment800a418 {
   private CopiedSegment800a418() { }
 
@@ -125,7 +126,7 @@ public final class CopiedSegment800a418 {
         r3 = address800a470;
         CPU.r12().value = CPU.subA(CPU.r12().value, 0x8);
         if(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >
-          r0 = r0 - ((r1 << 3));
+          r0 = r0 - (r1 << 3);
         }
       } while(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()); // >
 
