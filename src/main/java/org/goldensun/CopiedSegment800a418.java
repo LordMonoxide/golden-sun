@@ -124,14 +124,14 @@ public final class CopiedSegment800a418 {
         address800a470 += 0x4;
         r3 = address800a470;
         CPU.r12().value = CPU.subA(CPU.r12().value, 0x8);
-        if(!CPU.cpsr().getZero() && CPU.cpsr().getOverflow()) { // >
-          r0 = r0 - (r1 << 3);
+        if(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >
+          r0 = r0 - ((r1 << 3));
         }
-      } while(!CPU.cpsr().getZero() && CPU.cpsr().getOverflow()); // >
+      } while(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()); // >
 
       r0 = r0 - r1;
       r2 = CPU.subA(r2, 0x8);
-    } while(!CPU.cpsr().getZero() && CPU.cpsr().getOverflow()); // >
+    } while(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()); // >
 
     int address800a48c = CPU.sp().value;
     address800a48c += 0x4;
