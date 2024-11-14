@@ -6,10 +6,10 @@ import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 
-public class GraphicsStruct implements MemoryRef {
+public class GraphicsStruct1c implements MemoryRef {
   private final Value ref;
 
-  public final Pointer<GraphicsStruct> _00;
+  public final Pointer<GraphicsStruct1c> _00;
   public final UnsignedByteRef _04;
   public final UnsignedByteRef _05;
   public final UnsignedShortRef _06;
@@ -28,12 +28,10 @@ public class GraphicsStruct implements MemoryRef {
   public final UnsignedByteRef _17;
   public final UnsignedShortRef _18;
 
-  public final UnsignedShortRef _1c;
-
-  public GraphicsStruct(final Value ref) {
+  public GraphicsStruct1c(final Value ref) {
     this.ref = ref;
 
-    this._00 = ref.offset(4, 0x00).cast(Pointer.deferred(4, GraphicsStruct::new));
+    this._00 = ref.offset(4, 0x00).cast(Pointer.deferred(4, GraphicsStruct1c::new));
     this._04 = ref.offset(1, 0x04).cast(UnsignedByteRef::new);
     this._05 = ref.offset(1, 0x05).cast(UnsignedByteRef::new);
     this._06 = ref.offset(2, 0x06).cast(UnsignedShortRef::new);
@@ -49,8 +47,6 @@ public class GraphicsStruct implements MemoryRef {
     this._16 = ref.offset(2, 0x16).cast(UnsignedShortRef::new);
     this._17 = ref.offset(1, 0x17).cast(UnsignedByteRef::new);
     this._18 = ref.offset(2, 0x18).cast(UnsignedShortRef::new);
-
-    this._1c = ref.offset(2, 0x1c).cast(UnsignedShortRef::new);
   }
 
   @Override

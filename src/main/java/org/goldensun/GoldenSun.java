@@ -17,6 +17,7 @@ import org.goldensun.types.SoundStructFb0;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.SpriteLayer18;
 import org.goldensun.types.Struct0c;
+import org.goldensun.types.Struct5c;
 import org.goldensun.types.TickCallback08;
 import org.goldensun.types.VramSlot04;
 
@@ -2392,7 +2393,7 @@ public final class GoldenSun {
     CPU.sp().value -= 0x38;
     int r7 = (short)r1;
     int sp28 = 0;
-    final int sp20 = boardWramMallocHead_3001e50.offset(6 * 0x4).get();
+    final Struct5c sp20 = boardWramMallocHead_3001e50.offset(6 * 0x4).deref(4).cast(Struct5c::new);
 
     final int functionAlreadyLoaded;
     if(boardWramMallocHead_3001e50.offset(52 * 0x4).get() == 0) {
@@ -2619,8 +2620,8 @@ public final class GoldenSun {
         final int sp0c = mallocChip(sp24);
         r7 = sp2c.width_20.get();
         r5 = sp2c.height_21.get();
-        final int sp08 = MEMORY.ref(1, sp20 + 0x6).getUnsigned();
-        final int sp04 = MEMORY.ref(1, sp20 + 0x7).getUnsigned();
+        final int sp08 = sp20._06.get();
+        final int sp04 = sp20._07.get();
         MEMORY.call(0x3000164, sp0c, sp24); // memzero
         r1 = r10 + r7 + 0x1;
         r4 = sp0c + r7 + 0x1;
@@ -2674,7 +2675,7 @@ public final class GoldenSun {
       MEMORY.call(boardWramMallocHead_3001e50.offset(53 * 0x4).get(), r10, sp2c.width_20.get(), sp2c.height_21.get(), 0x6010000 + tileNum * 0x20);
       sp2c.packet_00.attribs_04.attrib2_04.and(~0x3ff).or(tileNum & 0x3ff);
       sp2c._25.set(0);
-      MEMORY.ref(2, sp20).addu(sp24);
+      sp20._00.add(sp24);
       setMallocSlot(r10);
     }
 
@@ -2823,16 +2824,16 @@ public final class GoldenSun {
 
   @Method(0x800b798)
   public static int FUN_800b798(final int r0) {
-    int r2 = boardWramMallocHead_3001e50.offset(6 * 0x4).get() + 0x1c; //TODO
+    final ArrayRef<Struct5c.Sub08> structs = boardWramMallocHead_3001e50.offset(6 * 0x4).deref(4).cast(Struct5c::new)._1c;
 
     //LAB_800b7a4
     for(int i = 0; i < 8; i++) {
-      if(MEMORY.ref(4, r2).get() == r0) {
-        return MEMORY.ref(4, r2 + 0x4).get();
+      final Struct5c.Sub08 r2 = structs.get(i);
+      if(r2._00.get() == r0) {
+        return r2._04.get();
       }
 
       //LAB_800b7ae
-      r2 += 0x8;
     }
 
     //LAB_800b7b8
@@ -3158,7 +3159,7 @@ public final class GoldenSun {
 
   @Method(0x800c004)
   public static void FUN_800c004(final int r0) {
-    final int r8 = mallocSlotBoard(6, 0x5c);
+    final Struct5c r8 = MEMORY.ref(4, mallocSlotBoard(6, 0x5c), Struct5c::new);
     final int r6 = mallocSlotBoard(5, 0x70 * 64);
     FUN_800bb20(r0);
 
@@ -3172,13 +3173,12 @@ public final class GoldenSun {
 
     MEMORY.ref(4, r4).setu(0);
     DMA.channels[3].SAD.setu(r4);
-    DMA.channels[3].DAD.setu(r8);
+    DMA.channels[3].DAD.setu(r8.getAddress());
     DMA.channels[3].CNT.setu(0x85000017);
 
     CPU.sp().value += 0x4;
 
-    CPU.cmpT(r0, 0x4);
-    if(CPU.cpsr().getZero()) { // ==
+    if(r0 == 4) {
       setTickCallback(getRunnable(GoldenSun.class, "FUN_800d340"), 0xc8a);
     } else {
       //LAB_800c056
@@ -3197,8 +3197,8 @@ public final class GoldenSun {
     }
 
     //LAB_800c084
-    MEMORY.ref(1, r8 + 0x6).setu(0xf);
-    MEMORY.ref(1, r8 + 0x7).setu(0);
+    r8._06.set(0xf);
+    r8._07.set(0);
   }
 
   @Method(0x800c0cc)
@@ -3273,8 +3273,8 @@ public final class GoldenSun {
         }
       } else if(spriteType == 2) {
         //LAB_800c1cc
-        final int addr = boardWramMallocHead_3001e50.offset(6 * 0x4).get();
-        final int r10 = addr + MEMORY.ref(4, addr + 0x18).get() * 0x4;
+        final Struct5c addr = boardWramMallocHead_3001e50.offset(6 * 0x4).deref(4).cast(Struct5c::new);
+        final int r10 = addr.getAddress() + addr._18.get() * 0x4; //TODO
         actor.spriteType_54.set(2);
 
         int r8 = r10 + 0x8;
@@ -3300,7 +3300,7 @@ public final class GoldenSun {
           MEMORY.ref(4, r8).setu(r5_0.getAddress()); //TODO
         }
 
-        MEMORY.ref(4, addr + 0x18).incr();
+        addr._18.incr();
       }
 
       //LAB_800c230
@@ -3479,7 +3479,7 @@ public final class GoldenSun {
     final Map194 sp0c = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
     final int sp08 = sp0c._e4.get() & 0xffff0000;
     final int sp04 = sp0c._e8.get() & 0xffff0000;
-    final int sp00 = boardWramMallocHead_3001e50.offset(6 * 0x4).get();
+    final Struct5c sp00 = boardWramMallocHead_3001e50.offset(6 * 0x4).deref(4).cast(Struct5c::new);
 
     final int size = 0x2c4;
     final int addr = mallocSlotChip(52, size);
@@ -3489,7 +3489,7 @@ public final class GoldenSun {
 
     MEMORY.setFunction(addr, CopiedSegment8009bb8.class, "FUN_8009bb8", int.class, int.class, int.class);
 
-    MEMORY.ref(2, sp00).setu(0);
+    sp00._00.set(0);
 
     //LAB_800c696
     final int r10_0 = boardWramMallocHead_3001e50.offset(5 * 0x4).get();
@@ -3516,7 +3516,7 @@ public final class GoldenSun {
           }
 
           //LAB_800c6c2
-          if(MEMORY.ref(2, sp00 + 0x4).get() != 0 && r10._5c.get() == 0) {
+          if(sp00._04.get() != 0 && r10._5c.get() == 0) {
             FUN_8003f78(r5.slot_1c.get());
             r5._25.set(r6);
             break jmp_800c822;

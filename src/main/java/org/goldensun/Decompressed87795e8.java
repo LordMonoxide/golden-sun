@@ -4,9 +4,11 @@ import org.goldensun.memory.Method;
 import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Actor70;
+import org.goldensun.types.Struct12fc;
 
 import javax.annotation.Nullable;
 
+import static org.goldensun.GoldenSunVars._2000434;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.heldButtonsLastFrame_3001ae8;
 import static org.goldensun.GoldenSunVars.pressedButtons_3001c94;
@@ -94,7 +96,7 @@ public final class Decompressed87795e8 {
     DMA.channels[3].CNT.setu(0x84000004);
 
     boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new)._14.set(0x1400);
-    FUN_200949c(MEMORY.ref(4, 0x2000434).get())._55.set(0);
+    FUN_200949c(_2000434.get())._55.set(0);
   }
 
   @Method(0x20081fc)
@@ -399,7 +401,7 @@ public final class Decompressed87795e8 {
                 }
 
                 //LAB_200872a
-                MEMORY.ref(4, 0x2000434).setu(0);
+                _2000434.set(0);
 
                 if(FUN_2009454(0x952) != 0) {
                   FUN_200948c();
@@ -578,9 +580,8 @@ public final class Decompressed87795e8 {
                                 //LAB_2008bb4
                                 FUN_20093e4(CPU.r10().value, 0xf128, 0x11 - CPU.r8().value, -1, 0);
                                 FUN_20093e4(CPU.r10().value, 0xf129, 0x12, -1, 0);
-                                r1 = boardWramMallocHead_3001e50.offset(15 * 0x4).get() + 0xea3;
                                 r3 = MEMORY.ref(2, CPU.r10().value + 0xe).getUnsigned() >>> 2;
-                                MEMORY.ref(1, r1).oru(0x2 << r3);
+                                boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new)._ea3.or(0x2 << r3);
                               }
 
                               //LAB_2008bf2

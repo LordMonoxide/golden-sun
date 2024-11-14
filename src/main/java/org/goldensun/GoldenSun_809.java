@@ -7,6 +7,7 @@ import org.goldensun.types.SpriteLayer18;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.Actor70;
+import org.goldensun.types.Struct12fc;
 
 import static org.goldensun.GoldenSun.divideS;
 import static org.goldensun.GoldenSun.modS;
@@ -1429,7 +1430,7 @@ public final class GoldenSun_809 {
 
     CPU.sp().value -= 0x40;
 
-    final int sp20 = boardWramMallocHead_3001e50.offset(15 * 0x4).get();
+    final Struct12fc sp20 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
     r6 = r0;
     final int sp1c = boardWramMallocHead_3001e50.offset(27 * 0x4).get();
     GraphicsStruct24 r10 = null;
@@ -1467,7 +1468,7 @@ public final class GoldenSun_809 {
         //LAB_8092ce6
       } else if(r6 < 8) {
         sp18 = r6;
-        r0 = getActor(MEMORY.ref(4, 0x2000434).get()).getAddress(); //TODO
+        r0 = getActor(_2000434.get()).getAddress(); //TODO
         if(MEMORY.ref(2, sp1c + 0x19e).get() == 3) {
           r5 = CPU.sp().value + 0x34;
           FUN_8005268(r0 + 8, r5);
@@ -1517,7 +1518,7 @@ public final class GoldenSun_809 {
       //LAB_8092d94
       MEMORY.ref(4, CPU.sp().value + 0x2c).setu(r3);
 
-      if(MEMORY.ref(1, sp20 + 0xea4).getUnsigned() != 0) {
+      if(sp20._ea4.get() != 0) {
         sp0c = 0x5;
       }
 
@@ -1595,8 +1596,7 @@ public final class GoldenSun_809 {
       }
 
       //LAB_8092eb6
-      r1 = sp20;
-      if(MEMORY.ref(1, r1 + 0xea4).getUnsigned() != 0) {
+      if(sp20._ea4.get() != 0) {
         sleep(0x8);
 
         if(sp14 != 0) {
@@ -1947,7 +1947,7 @@ public final class GoldenSun_809 {
       case 3 -> r1 = 0x809fecc;
       case 4 -> r1 = 0x809ff18;
       case 5 -> {
-        r0._68.set(FUN_8092054(MEMORY.ref(4, 0x2000434).get()));
+        r0._68.set(FUN_8092054(_2000434.get()));
         r1 = 0x809ff2c;
       }
     }
@@ -2597,7 +2597,7 @@ public final class GoldenSun_809 {
       }
 
       //LAB_8097096
-      FUN_80970f8(MEMORY.ref(4, 0x2000434).get(), -1);
+      FUN_80970f8(_2000434.get(), -1);
 
       if(MEMORY.ref(2, r5 + 0x1e).get() != 0x8) {
         MEMORY.ref(2, r2 + 0xcc0).setu(r6);

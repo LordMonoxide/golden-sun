@@ -1,9 +1,10 @@
 package org.goldensun;
 
 import org.goldensun.memory.Method;
-import org.goldensun.types.GraphicsStruct;
+import org.goldensun.types.GraphicsStruct1c;
 import org.goldensun.types.GraphicsStruct24;
 import org.goldensun.types.RenderPacket0c;
+import org.goldensun.types.Struct12fc;
 
 import static org.goldensun.GoldenSun.divideS;
 import static org.goldensun.GoldenSun.FUN_8003d28;
@@ -61,7 +62,7 @@ public final class GoldenSun_802 {
     final int r4 = r0_0._0a.get(); // maybe height
     int r7 = r10;
     int r0 = 0x6002000 + r3 * 0x2;
-    int r6 = boardWramMallocHead_3001e50.offset(15 * 0x4).get() + r3 * 0x2;
+    int r6 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new)._00.getAddress() + r3 * 0x2; //TODO
     final int r2 = r0_0._08.get(); // maybe width
 
     //LAB_8020a14
@@ -88,7 +89,7 @@ public final class GoldenSun_802 {
 
   @Method(0x8020a60)
   public static void FUN_8020a60(final GraphicsStruct24 r0, int r1, int r2, final int r3, final int a4, final int a5) {
-    final int r12 = boardWramMallocHead_3001e50.offset(15 * 0x4).get();
+    final Struct12fc r12 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
     r1 = r1 + r0._0c.get() + 0x1;
     r2 = r2 + r0._0e.get() + 0x1;
 
@@ -124,7 +125,7 @@ public final class GoldenSun_802 {
 
     //LAB_8020aae
     for(int n = 0; n < r5; n++) {
-      int r4 = r12 + r1;
+      int r4 = r12._00.getAddress() + r1; //TODO
 
       //LAB_8020aba
       for(int i = 0; i < r6; i++) {
@@ -136,25 +137,25 @@ public final class GoldenSun_802 {
       r1 += 0x40;
     }
 
-    MEMORY.ref(1, r12 + 0xea3).setu(0x1);
+    r12._ea3.set(0x1);
 
     //LAB_8020ada
   }
 
   @Method(0x8020b14)
   public static int FUN_8020b14(final int r0) {
-    final int r4 = boardWramMallocHead_3001e50.offset(15 * 0x4).get();
+    final Struct12fc r4 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
     CPU.sp().value -= 0x8;
     int r1 = 0;
 
     //LAB_8020b2a
     while(MEMORY.ref(1, r0 + r1).getUnsigned() != 0) {
-      MEMORY.ref(2, r4 + 0xeb0 + r1 * 0x2).setu(MEMORY.ref(1, r0 + r1).getUnsigned());
+      r4.text_eb0.get(r1).set(MEMORY.ref(1, r0 + r1).getUnsigned());
       r1++;
     }
 
     //LAB_8020b3a
-    MEMORY.ref(2, r4 + 0xeb0 + r1 * 0x2).setu(0);
+    r4.text_eb0.get(r1).set(0);
     FUN_8018850(0, CPU.sp().value + 0x4, CPU.sp().value, null);
     final int ret = MEMORY.ref(4, CPU.sp().value + 0x4).get();
     CPU.sp().value += 0x8;
@@ -221,7 +222,7 @@ public final class GoldenSun_802 {
     final int sp18 = CPU.sp().value + 0x51;
     final int sp2c = r0;
     final int sp14 = FUN_8077008(r0);
-    final int sp10 = boardWramMallocHead_3001e50.offset(15 * 0x4).get();
+    final Struct12fc sp10 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
     int sp0c = 0x1;
     r9 = 0x1;
     loadUiTextures();
@@ -230,7 +231,7 @@ public final class GoldenSun_802 {
     FUN_8019da8(FUN_8019d2c(sp2c), 0, 3, 1);
     FUN_80209d0(r8, 0x8073864);
     FUN_801e41c(r8, 0x12, 0, 0x12, 0x7);
-    MEMORY.ref(1, sp10 + 0xea3).setu(sp0c);
+    sp10._ea3.set(sp0c);
     MEMORY.ref(1, CPU.sp().value + 0x50).setu(sp24);
     r1 = sp18;
     r2 = sp14;
@@ -256,7 +257,7 @@ public final class GoldenSun_802 {
     r5 = getFreeVramSlot();
     if(r5 < 0x60) {
       FUN_8003fa4(r5, 0x80, 0x80310a4); //TODO
-      final GraphicsStruct struct = FUN_801eadc(r5, 0x4000_0000, r8, 0, 0);
+      final GraphicsStruct1c struct = FUN_801eadc(r5, 0x4000_0000, r8, 0, 0);
       MEMORY.ref(4, CPU.sp().value + 0x40).setu(struct.getAddress()); //TODO
       FUN_80b0038(CPU.sp().value + 0x40, 0x8c + r8._0c.get() * 0x8, 0x34 + r8._0e.get() * 0x8);
     }
@@ -266,7 +267,7 @@ public final class GoldenSun_802 {
     r5 = getFreeVramSlot();
     if(r5 < 0x60) {
       FUN_8003fa4(r5, 0x80, 0x80317e4); //TODO
-      final GraphicsStruct struct = FUN_801eadc(r5, 0x4000_0000, r8, 0, 0);
+      final GraphicsStruct1c struct = FUN_801eadc(r5, 0x4000_0000, r8, 0, 0);
       MEMORY.ref(4, CPU.sp().value + 0x30).setu(struct.getAddress()); //TODO
       struct._0f.set(0xff);
       struct.packet_10.attribs_04.attrib2_04.and(~0xc00);
@@ -408,7 +409,7 @@ public final class GoldenSun_802 {
             if(r6 != 0x12) {
               //LAB_8020fe6
               r3 = (r8._0e.get() + r7 + 1) * 0x20 + r8._0c.get() + r6 + 1;
-              r3 = MEMORY.ref(1, sp10 + r3 * 0x2).getUnsigned();
+              r3 = MEMORY.ref(1, sp10._00.getAddress() + r3 * 0x2).getUnsigned(); //TODO
               if(sp1c != 0x5) {
                 //LAB_8021006
                 MEMORY.ref(1, sp08).setu(r3);

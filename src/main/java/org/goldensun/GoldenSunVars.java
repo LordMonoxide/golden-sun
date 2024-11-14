@@ -14,10 +14,14 @@ import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 import org.goldensun.types.GraphicsStruct184;
+import org.goldensun.types.Map194;
 import org.goldensun.types.RenderPacket0c;
 import org.goldensun.types.RotationScaling08;
 import org.goldensun.types.SoundStruct0c;
 import org.goldensun.types.SoundStructFb0;
+import org.goldensun.types.Sprite38;
+import org.goldensun.types.Struct12fc;
+import org.goldensun.types.Struct5c;
 import org.goldensun.types.VramSlot04;
 import org.goldensun.types.Struct0c;
 import org.goldensun.types.Actor70;
@@ -57,6 +61,8 @@ public final class GoldenSunVars {
   public static final UnsignedByteRef _2000445 = MEMORY.ref(1, 0x2000445, UnsignedByteRef::new);
   public static final UnsignedByteRef _2000446 = MEMORY.ref(1, 0x2000446, UnsignedByteRef::new);
 
+  public static final UnsignedByteRef _200044c = MEMORY.ref(1, 0x200044c, UnsignedByteRef::new);
+
   public static final ShortRef _200045e = MEMORY.ref(2, 0x200045e, ShortRef::new);
 
   public static final UnsignedByteRef _2000464 = MEMORY.ref(1, 0x2000464, UnsignedByteRef::new);
@@ -91,7 +97,6 @@ public final class GoldenSunVars {
 
   public static final ArrayRef<Pointer<RenderPacket0c>> packets_3001400 = MEMORY.ref(4, 0x3001400, ArrayRef.of(Pointer.classFor(RenderPacket0c.class), 0x100, 0x4, Pointer.deferred(4, RenderPacket0c::new)));
   public static final IntRef ticks_3001800 = MEMORY.ref(4, 0x3001800, IntRef::new);
-  public static final IntRef oldSp_3001804 = MEMORY.ref(4, 0x3001804, IntRef::new);
 
   public static final ArrayRef<UnsignedByteRef> _3001810 = MEMORY.ref(1, 0x3001810, ArrayRef.of(UnsignedByteRef.class, 0x200, 1, UnsignedByteRef::new));
   public static final Value _3001a10 = MEMORY.ref(1, 0x3001a10);
@@ -133,8 +138,6 @@ public final class GoldenSunVars {
   public static final Value _3001cbc = MEMORY.ref(4, 0x3001cbc);
   public static final IntRef _3001cc0 = MEMORY.ref(4, 0x3001cc0, IntRef::new);
 
-  public static final UnsignedByteRef sleeping_3001cc8 = MEMORY.ref(1, 0x3001cc8, UnsignedByteRef::new);
-
   public static final UnsignedShortRef _3001ccc = MEMORY.ref(2, 0x3001ccc, UnsignedShortRef::new);
 
   public static final Value _3001cd0 = MEMORY.ref(2, 0x3001cd0);
@@ -168,6 +171,16 @@ public final class GoldenSunVars {
   public static final IntRef _3001e40 = MEMORY.ref(4, 0x3001e40, IntRef::new);
   public static final UnsignedByteRef _3001e44 = MEMORY.ref(1, 0x3001e44, UnsignedByteRef::new);
 
+  /**
+   * <ul>
+   *   <li>4 - Array of 64 {@link Sprite38}</li>
+   *   <li>5 - Array of 64 {@link Actor70}</li>
+   *   <li>6 - {@link Struct5c}</li>
+   *   <li>7 - </li>
+   *   <li>8 - {@link Map194}</li>
+   *   <li>15 - {@link Struct12fc}</li>
+   * </ul>
+   */
   public static final Value boardWramMallocHead_3001e50 = MEMORY.ref(4, 0x3001e50);
   public static final Value chipWramMallocHead_3001e54 = MEMORY.ref(4, 0x3001e54);
 
