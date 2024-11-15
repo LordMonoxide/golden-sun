@@ -2133,6 +2133,7 @@ public final class GoldenSun {
     MEMORY.call(0x800c344, r0, r1);
   }
 
+  /** {@link GoldenSun#FUN_800c2d8} */
   @Method(0x8009098)
   public static void FUN_8009098(final Actor70 r0, final int r1) {
     MEMORY.call(0x800c2d8, r0, r1);
@@ -3690,7 +3691,7 @@ public final class GoldenSun {
               do {
                 r3 = MEMORY.ref(4, r2 + r6._04.get() * 0x4).get();
                 if(r3 < 0 || r3 > 0x3f) {
-                  r6._04.decr();
+                  r6._04.incr();
                   r2 = r6._00.get();
                   continue;
                 }
