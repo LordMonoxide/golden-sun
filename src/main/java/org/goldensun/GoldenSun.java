@@ -35,7 +35,7 @@ import static org.goldensun.GoldenSunVars._3001aec;
 import static org.goldensun.GoldenSunVars._3001af0;
 import static org.goldensun.GoldenSunVars._3001afc;
 import static org.goldensun.GoldenSunVars._3001b00;
-import static org.goldensun.GoldenSunVars._3001b04;
+import static org.goldensun.GoldenSunVars.pressedButtons_3001b04;
 import static org.goldensun.GoldenSunVars._3001c98;
 import static org.goldensun.GoldenSunVars._3001c9c;
 import static org.goldensun.GoldenSunVars._3001ca0;
@@ -548,7 +548,7 @@ public final class GoldenSun {
           //LAB_80032e2
         }
 
-        if((_3001b04.get() & 0x7) != 0) {
+        if((pressedButtons_3001b04.get() & 0x7) != 0) {
           break jmp_800330a;
         }
 
@@ -556,7 +556,7 @@ public final class GoldenSun {
           break jmp_800330a;
         }
 
-        if((_3001b04.get() & 0x8) == 0) {
+        if((pressedButtons_3001b04.get() & 0x8) == 0) {
           throw new RuntimeException("How do we do this jump?");
           //LAB_8003292;
         }
@@ -626,7 +626,7 @@ public final class GoldenSun {
     final int r0 = _3001b00.get();
     int r5 = 0;
     if(r0 <= 0) {
-      _3001b04.set(heldButtonsLastFrame_3001ae8.get());
+      pressedButtons_3001b04.set(heldButtonsLastFrame_3001ae8.get());
       if(r0 == 0) {
         _3001b00.set(0x6);
       } else {
@@ -635,11 +635,11 @@ public final class GoldenSun {
       }
     } else {
       //LAB_800355e
-      _3001b04.set(r5);
+      pressedButtons_3001b04.set(r5);
     }
 
     //LAB_8003564
-    final int r1 = _3001b04.get();
+    final int r1 = pressedButtons_3001b04.get();
     if(r1 != 0) {
       int r2 = 0;
       if((r1 & 0x40) != 0) {
@@ -753,11 +753,11 @@ public final class GoldenSun {
 
     if(pressedButtons == 0) {
       _3001b00.set(0x13);
-      _3001b04.set(0);
+      pressedButtons_3001b04.set(0);
       //LAB_8003768
     } else if((pressedButtons & (heldButtons_3001d0c.get() ^ 0xffff)) != 0) {
       _3001b00.set(-1);
-      _3001b04.set(pressedButtons);
+      pressedButtons_3001b04.set(pressedButtons);
       //LAB_8003786
     } else if(_3001b00.get() > 0) {
       _3001b00.decr();

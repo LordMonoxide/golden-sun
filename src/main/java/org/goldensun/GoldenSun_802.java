@@ -25,7 +25,7 @@ import static org.goldensun.GoldenSun.mallocBoard;
 import static org.goldensun.GoldenSun.decompress;
 import static org.goldensun.GoldenSun.loadUiTextures;
 import static org.goldensun.GoldenSunVars.ticks_3001800;
-import static org.goldensun.GoldenSunVars._3001b04;
+import static org.goldensun.GoldenSunVars.pressedButtons_3001b04;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.pressedButtons_3001c94;
 import static org.goldensun.GoldenSun_801.FUN_80162d4;
@@ -309,7 +309,7 @@ public final class GoldenSun_802 {
         MEMORY.ref(2, r5 + 0x16).and(~0x1ff).or(MEMORY.ref(2, r5 + 0x6).getUnsigned() + MEMORY.ref(1, 0x80371f6 + (r0& 0x7)).get() & 0x1ff);
         MEMORY.ref(1, r5 + 0x14).setu(MEMORY.ref(1, r5 + 0x8).getUnsigned() + MEMORY.ref(1, 0x80371f6 + (r0 + 0x5 & 0x7)).getUnsigned());
 
-        if((_3001b04.get() & 0x40) != 0) {
+        if((pressedButtons_3001b04.get() & 0x40) != 0) {
           FUN_80f9010(0x6f);
           r9 = 0x1;
           r7--;
@@ -322,7 +322,7 @@ public final class GoldenSun_802 {
         }
 
         //LAB_8020eaa
-        if((_3001b04.get() & 0x80) != 0) {
+        if((pressedButtons_3001b04.get() & 0x80) != 0) {
           FUN_80f9010(0x6f);
           r9 = 0x1;
           r7++;
@@ -335,7 +335,7 @@ public final class GoldenSun_802 {
         }
 
         //LAB_8020ed8
-        if((_3001b04.get() & 0x20) != 0) {
+        if((pressedButtons_3001b04.get() & 0x20) != 0) {
           FUN_80f9010(0x6f);
           r6--;
           r9 = 0x1;
@@ -356,7 +356,7 @@ public final class GoldenSun_802 {
         }
 
         //LAB_8020f12
-        if((_3001b04.get() & 0x10) != 0) {
+        if((pressedButtons_3001b04.get() & 0x10) != 0) {
           FUN_80f9010(0x6f);
           r6++;
           r9 = 0x1;
@@ -389,10 +389,10 @@ public final class GoldenSun_802 {
         jmp_8020f76:
         {
           //LAB_8020f64
-          r5 = _3001b04.get() & 0x2;
+          r5 = pressedButtons_3001b04.get() & 0x2;
           if(r5 == 0) {
             //LAB_8020fa6
-            if((_3001b04.get() & 0x1) == 0) {
+            if((pressedButtons_3001b04.get() & 0x1) == 0) {
               continue;
             }
 
@@ -999,6 +999,7 @@ public final class GoldenSun_802 {
     sleep(0x1);
   }
 
+  /** Handles yes/no dialogue selection */
   @Method(0x8028574)
   public static int FUN_8028574(final int r0) {
     final int r8 = boardWramMallocHead_3001e50.offset(58 * 0x4).get();
@@ -1035,7 +1036,7 @@ public final class GoldenSun_802 {
           return -1;
         }
 
-        if((_3001b04.get() & 0x20) != 0 || (_3001b04.get() & 0x40) != 0) {
+        if((pressedButtons_3001b04.get() & 0x20) != 0 || (pressedButtons_3001b04.get() & 0x40) != 0) {
           //LAB_8028620
           FUN_80f9010(0x6f);
 
@@ -1048,7 +1049,7 @@ public final class GoldenSun_802 {
         }
 
         //LAB_802863e
-        if((_3001b04.get() & 0x10) != 0 || (_3001b04.get() & 0x80) != 0) {
+        if((pressedButtons_3001b04.get() & 0x10) != 0 || (pressedButtons_3001b04.get() & 0x80) != 0) {
           //LAB_8028652
           FUN_80f9010(0x6f);
 

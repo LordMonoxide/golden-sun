@@ -276,6 +276,7 @@ public final class GoldenSun_80f {
     FUN_80f9438();
   }
 
+  /** {@link GoldenSun_80f#FUN_80f9080} */
   @Method(0x80f9010)
   public static void FUN_80f9010(final int r0) {
     MEMORY.call(0x80f9080, r0);

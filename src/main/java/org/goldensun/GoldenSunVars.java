@@ -115,7 +115,8 @@ public final class GoldenSunVars {
   public static final IntRef accumulatedButtons_3001af8 = MEMORY.ref(4, 0x3001af8, IntRef::new);
   public static final IntRef _3001afc = MEMORY.ref(4, 0x3001afc, IntRef::new);
   public static final IntRef _3001b00 = MEMORY.ref(4, 0x3001b00, IntRef::new);
-  public static final IntRef _3001b04 = MEMORY.ref(4, 0x3001b04, IntRef::new);
+  /** Maybe held buttons */
+  public static final IntRef pressedButtons_3001b04 = MEMORY.ref(4, 0x3001b04, IntRef::new);
 
   public static final ArrayRef<VramSlot04> vramSlots_3001b10 = MEMORY.ref(4, 0x3001b10, ArrayRef.of(VramSlot04.class, 0x60, 0x4, VramSlot04::new));
   // Ends at 1c90
