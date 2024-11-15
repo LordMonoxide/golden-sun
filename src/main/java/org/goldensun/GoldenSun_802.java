@@ -17,7 +17,7 @@ import static org.goldensun.GoldenSun.getPointerTableEntry;
 import static org.goldensun.GoldenSun.insertIntoRenderQueue;
 import static org.goldensun.GoldenSun.mallocChip;
 import static org.goldensun.GoldenSun.mallocSlotBoard;
-import static org.goldensun.GoldenSun.setMallocSlot;
+import static org.goldensun.GoldenSun.setMallocAddress;
 import static org.goldensun.GoldenSun.sleep;
 import static org.goldensun.GoldenSun.FUN_8003fa4;
 import static org.goldensun.GoldenSun.getFreeVramSlot;
@@ -53,7 +53,7 @@ import static org.goldensun.memory.MemoryHelper.getRunnable;
 public final class GoldenSun_802 {
   private GoldenSun_802() { }
 
-  /** Maybe decompressing a graphic and uploading to VRAM */
+  /** Maybe decompressing a graphic and uploading to VRAM (uploads name entry keyboard to GPU) */
   @Method(0x80209d0)
   public static void FUN_80209d0(final GraphicsStruct24 r0_0, final int r1) {
     final int r10 = mallocBoard(0x300);
@@ -84,7 +84,7 @@ public final class GoldenSun_802 {
     }
 
     //LAB_8020a44
-    setMallocSlot(r10);
+    setMallocAddress(r10);
   }
 
   @Method(0x8020a60)
@@ -165,30 +165,25 @@ public final class GoldenSun_802 {
   @Method(0x8020b64)
   public static void FUN_8020b64(final GraphicsStruct24 r0, int r1) {
     CPU.sp().value -= 0x14;
-    int r2 = MEMORY.ref(1, r1).getUnsigned();
+    int r2;
     int r4 = 0;
 
     //LAB_8020b78
-    while(r2 != 0) {
-      MEMORY.ref(1, CPU.sp().value + r4).setu(r2);
-      r1++;
-      r2 = MEMORY.ref(1, r1).getUnsigned();
-      r4++;
+    while((r2 = MEMORY.ref(1, r1++).getUnsigned()) != 0) {
+      MEMORY.ref(1, CPU.sp().value + r4++).setu(r2);
     }
 
     //LAB_8020b8e
-    MEMORY.ref(1, CPU.sp().value + r4).setu(0x8);
-    r4++;
-    MEMORY.ref(1, CPU.sp().value + r4).setu(0x2);
-    r4++;
+    MEMORY.ref(1, CPU.sp().value + r4++).setu(0x8);
+    MEMORY.ref(1, CPU.sp().value + r4++).setu(0x2);
+
     if(r4 < 7) {
-      r2 = r4 + CPU.sp().value;
+      r2 = CPU.sp().value + r4;
       r4 = 7 - r4;
 
       //LAB_8020ba6
       while(r4 != 0) {
-        MEMORY.ref(1, r2).setu(0x5f);
-        r2++;
+        MEMORY.ref(1, r2++).setu(0x5f);
         r4--;
       }
 
@@ -196,10 +191,8 @@ public final class GoldenSun_802 {
     }
 
     //LAB_8020bb2
-    MEMORY.ref(1, CPU.sp().value + r4).setu(0x8);
-    r4++;
-    MEMORY.ref(1, CPU.sp().value + r4).setu(0xf);
-    r4++;
+    MEMORY.ref(1, CPU.sp().value + r4++).setu(0x8);
+    MEMORY.ref(1, CPU.sp().value + r4++).setu(0xf);
     MEMORY.ref(1, CPU.sp().value + r4).setu(0);
     FUN_801e858(CPU.sp().value, r0, 0, -2);
     CPU.sp().value += 0x14;
@@ -229,8 +222,8 @@ public final class GoldenSun_802 {
     final GraphicsStruct24 r8 = FUN_80162d4(0x3, 0x6, 0x18, 0x9, 0x2);
     final GraphicsStruct24 sp28 = FUN_80162d4(0x8, 0x3, 0x8, 0x3, 0x2);
     FUN_8019da8(FUN_8019d2c(sp2c), 0, 3, 1);
-    FUN_80209d0(r8, 0x8073864);
-    FUN_801e41c(r8, 0x12, 0, 0x12, 0x7);
+    FUN_80209d0(r8, 0x8073864); // Upload name entry keyboard to GPU
+    FUN_801e41c(r8, 0x12, 0, 0x12, 0x7); // I think this adds the inside borders to the name entry box
     sp10._ea3.set(sp0c);
     MEMORY.ref(1, CPU.sp().value + 0x50).setu(sp24);
     r1 = sp18;
@@ -1169,7 +1162,7 @@ public final class GoldenSun_802 {
     final int r0_0 = getPointerTableEntry(241);
     FUN_80053e8(r0_0 + MEMORY.ref(2, r0_0 + r1 * 0x2).getUnsigned(), r6);
     FUN_8003fa4(slot, 0x400, r6);
-    setMallocSlot(r6);
+    setMallocAddress(r6);
   }
 
   @Method(0x80287a8)
@@ -1210,59 +1203,34 @@ public final class GoldenSun_802 {
   }
 
   @Method(0x8028df4)
-  public static int FUN_8028df4(int r0, int r1, int r2, int r3) {
-    int r5;
-    int r6;
-    final int r7;
+  public static int FUN_8028df4(final int r0, final int r1, final int r2, final int r3) {
+    int r5 = r2;
+    int r6 = r3;
+    int r8 = 0;
 
-    CPU.push(CPU.r10().value);
-    CPU.push(CPU.r8().value);
+    FUN_80284dc();
 
-    r5 = CPU.addT(r2, 0x0);
-    r6 = CPU.addT(r3, 0x0);
-    r3 = CPU.movT(0, 0x0);
-    r7 = CPU.addT(r0, 0x0);
-    CPU.r10().value = r1;
-    CPU.r8().value = r3;
-    r0 = FUN_80284dc();
-    CPU.cmpT(r5, 0x0);
-    if(CPU.cpsr().getZero()) { // ==
-      r5 = CPU.movT(0, 0x3);
+    if(r5 == 0) {
+      r5 = 0x3;
     }
 
     //LAB_8028e12
-    CPU.cmpT(r7, 0x0);
-    if(!CPU.cpsr().getZero()) { // !=
-      r3 = CPU.movT(0, 0x11);
-      CPU.r8().value = r3;
+    if(r0 != 0) {
+      r8 = 0x11;
     }
 
     //LAB_8028e1a
-    r0 = CPU.movT(0, 0x5);
-    FUN_80287a8(r0);
-    r0 = CPU.movT(0, 0x6);
-    FUN_80287a8(r0);
-    r1 = CPU.addT(r5, 0x0);
-    r2 = CPU.r10().value;
-    r0 = CPU.r8().value;
-    FUN_8028808(r0, r1, r2);
-    r0 = CPU.addT(r6, 0x0);
-    r0 = FUN_8028574(r0);
-    r6 = CPU.addT(r0, 0x0);
+    FUN_80287a8(0x5); // Load yes/no face
+    FUN_80287a8(0x6);
+    FUN_8028808(r8, r5, r1);
+    r6 = FUN_8028574(r6);
     FUN_802851c();
-    r3 = CPU.movT(0, 0x1);
-    r3 = CPU.negT(r3, r3);
-    r6 = CPU.cmpT(r6, r3);
-    if(CPU.cpsr().getZero()) { // ==
-      r6 = CPU.movT(0, 0x1);
+
+    if(r6 == -1) {
+      r6 = 1;
     }
 
     //LAB_8028e46
-    r0 = CPU.addT(r6, 0x0);
-
-    CPU.r8().value = CPU.pop();
-    CPU.r10().value = CPU.pop();
-
-    return r0;
+    return r6;
   }
 }

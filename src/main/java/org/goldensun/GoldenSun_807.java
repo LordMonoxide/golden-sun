@@ -8,7 +8,7 @@ import static org.goldensun.GoldenSun.modS;
 import static org.goldensun.GoldenSun.getPointerTableEntry;
 import static org.goldensun.GoldenSun.mallocBoard;
 import static org.goldensun.GoldenSun.rand;
-import static org.goldensun.GoldenSun.setMallocSlot;
+import static org.goldensun.GoldenSun.setMallocAddress;
 import static org.goldensun.GoldenSunVars._2000434;
 import static org.goldensun.GoldenSunVars._200044c;
 import static org.goldensun.GoldenSunVars._3001c9c;
@@ -1216,7 +1216,7 @@ public final class GoldenSun_807 {
     }
 
     //LAB_8077be2
-    setMallocSlot(r6);
+    setMallocAddress(r6);
     CPU.sp().value += 0x4;
 
     CPU.r8().value = CPU.pop();
@@ -2619,7 +2619,7 @@ public final class GoldenSun_807 {
 
     //LAB_80792a4
     r0 = CPU.r9().value;
-    setMallocSlot(r0);
+    setMallocAddress(r0);
     r0 = CPU.addT(r6, 0x0);
 
     CPU.r8().value = CPU.pop();

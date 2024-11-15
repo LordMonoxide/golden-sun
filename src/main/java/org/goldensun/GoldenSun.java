@@ -296,8 +296,12 @@ public final class GoldenSun {
     //LAB_8002dec
   }
 
+  /**
+   * Resets the memory allocator address ot the address that's passed in. Used
+   * to deallocate everything that was allocated after a certain point.
+   */
   @Method(0x8002df0)
-  public static void setMallocSlot(final int addr) {
+  public static void setMallocAddress(final int addr) {
     boardWramMallocHead_3001e50.offset(addr >>> 22 & 0x4).setu(addr);
   }
 
@@ -376,7 +380,7 @@ public final class GoldenSun {
 
     MEMORY.setFunction(addr, CopiedSegment8002d5c.class, "FUN_8002d5c", int.class, int.class);
     MEMORY.call(addr, dst, decompressedSize); // Update function pointers in decompressed THUMB code
-    setMallocSlot(addr);
+    setMallocAddress(addr);
 
     if(pointerTableEntry == 0x377) {
       MEMORY.addFunctions(Decompressed8787e04.class);
@@ -939,7 +943,7 @@ public final class GoldenSun {
     MEMORY.setFunction(addr, CopiedSegment8001dc8.class, "FUN_3002400", ArrayRef.classFor(ObjAttributes08.class));
     MEMORY.call(addr, attribs);
 
-    setMallocSlot(addr);
+    setMallocAddress(addr);
   }
 
   @Method(0x8003e58)
@@ -1662,7 +1666,7 @@ public final class GoldenSun {
     // Decompress
     final int decompressedSize = (int)MEMORY.call(addr, src, dst);
 
-    setMallocSlot(addr);
+    setMallocAddress(addr);
 
     if(src == 0x8779188 && dst == 0x2008000) {
       MEMORY.addFunctions(Decompressed8779188.class);
@@ -1687,7 +1691,7 @@ public final class GoldenSun {
     }
 
     final int ret = (int)MEMORY.call(addr, src, dst);
-    setMallocSlot(addr);
+    setMallocAddress(addr);
 
     return ret;
   }
@@ -1702,7 +1706,7 @@ public final class GoldenSun {
 
     MEMORY.setFunction(addr, CopiedSegment8001b70.class, "FUN_8001b70", int.class, int.class);
     final int ret = (int)MEMORY.call(addr, r0, r1);
-    setMallocSlot(addr);
+    setMallocAddress(addr);
 
     return ret;
   }
@@ -2598,7 +2602,7 @@ public final class GoldenSun {
             r5 = mallocChip(0x400);
             r0 = decompressSprite(MEMORY.ref(4, r6._08.get() + r6._16.get() * 0x4).get(), r5);
             MEMORY.call(boardWramMallocHead_3001e50.offset(52 * 0x4).get(), r0, r10, r6._05.get());
-            setMallocSlot(r5);
+            setMallocAddress(r5);
           } else {
             //LAB_800aed8
             r0 = (int)MEMORY.call(0x30005c0, MEMORY.ref(4, r6._08.get() + r6._16.get() * 0x4).get(), r10);
@@ -2667,7 +2671,7 @@ public final class GoldenSun {
         }
 
         //LAB_800afea
-        setMallocSlot(sp0c);
+        setMallocAddress(sp0c);
       }
 
       //LAB_800aff0
@@ -2676,7 +2680,7 @@ public final class GoldenSun {
       sp2c.packet_00.attribs_04.attrib2_04.and(~0x3ff).or(tileNum & 0x3ff);
       sp2c._25.set(0);
       sp20._00.add(sp24);
-      setMallocSlot(r10);
+      setMallocAddress(r10);
     }
 
     //LAB_800b054
@@ -4552,8 +4556,8 @@ public final class GoldenSun {
     }
 
     MEMORY.call(addr, 0x2018000, 0x2010000, r8);
-    setMallocSlot(addr);
-    setMallocSlot(r8);
+    setMallocAddress(addr);
+    setMallocAddress(r8);
   }
 
   @Method(0x800fb38) // Loads a map
@@ -4665,7 +4669,7 @@ public final class GoldenSun {
         MEMORY.call(0x3001388, 0x600c000, r7, 0x4000); // memcpy
 
         decompressImage(getPointerTableEntry(296 + sp0x08._0a.get()), 0x2028000);
-        setMallocSlot(r7);
+        setMallocAddress(r7);
       }
     }
 

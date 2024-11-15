@@ -45,7 +45,7 @@ import static org.goldensun.GoldenSun.mallocChip;
 import static org.goldensun.GoldenSun.mallocSlotBoard;
 import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.setInterruptHandler;
-import static org.goldensun.GoldenSun.setMallocSlot;
+import static org.goldensun.GoldenSun.setMallocAddress;
 import static org.goldensun.GoldenSunVars._2000400;
 import static org.goldensun.GoldenSunVars._2000402;
 import static org.goldensun.GoldenSunVars._2000404;
@@ -589,7 +589,7 @@ public final class GoldenSun_808 {
           DMA.channels[3].SAD.setu(r5);
           DMA.channels[3].DAD.setu(CPU.r9().value);
           DMA.channels[3].CNT.setu(0x84000010);
-          setMallocSlot(r5);
+          setMallocAddress(r5);
         } else if(r3 == 0x1fd) {
           //LAB_808aa52
           r5 = mallocChip(0x40);
@@ -600,7 +600,7 @@ public final class GoldenSun_808 {
           DMA.channels[3].SAD.setu(r5);
           DMA.channels[3].DAD.setu(CPU.r9().value);
           DMA.channels[3].CNT.setu(0x84000010);
-          setMallocSlot(r5);
+          setMallocAddress(r5);
         } else if(r3 == 0x1fe) {
           r6 = FUN_80b50a0(r6);
         }
