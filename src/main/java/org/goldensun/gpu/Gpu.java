@@ -28,6 +28,8 @@ import java.util.Arrays;
 import static org.goldensun.Hardware.CODE;
 import static org.goldensun.MathHelper.colour15To24;
 import static org.goldensun.MathHelper.get;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_EQUAL;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_MINUS;
 import static org.lwjgl.opengl.GL11C.GL_BLEND;
 import static org.lwjgl.opengl.GL11C.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11C.GL_CULL_FACE;
@@ -196,6 +198,9 @@ public class Gpu {
   private final OamSegment oam = new OamSegment();
   private final int[] pixels = new int[H_DRAW_DOTS * V_DRAW_LINES];
 
+  private int speedMultiplier = 1;
+  private boolean updateVsync;
+
   public Gpu(final Memory memory, final DmaController dma, final InterruptController interrupts) {
     this.DISPCNT = memory.ref(2, 0x400_0000);
     this.DISPSTAT = memory.ref(2, 0x400_0004);
@@ -247,6 +252,15 @@ public class Gpu {
 
     this.window = new Window("Golden Sun", H_DRAW_DOTS * 3, V_DRAW_LINES * 3);
     this.window.events.onResize(this::onResize);
+    this.window.events.onKeyPress((window1, key, scancode, mods) -> {
+      if(key == GLFW_KEY_MINUS) {
+        this.speedMultiplier = Math.max(1, this.speedMultiplier - 1);
+        this.updateVsync = true;
+      } else if(key == GLFW_KEY_EQUAL) {
+        this.speedMultiplier = Math.min(10, this.speedMultiplier + 1);
+        this.updateVsync = true;
+      }
+    });
     this.window.show();
 
     this.transformsUniform = new Shader.UniformBuffer((long)this.transformsBuffer.capacity() * Float.BYTES, Shader.UniformBuffer.TRANSFORM);
@@ -312,12 +326,22 @@ public class Gpu {
   }
 
   private void tick() {
+    if(this.updateVsync) {
+      if(this.speedMultiplier == 1) {
+        this.window.enableVsync();
+      } else {
+        this.window.disableVsync();
+      }
+
+      this.updateVsync = false;
+    }
+
     this.pre();
 
     for(this.vcount = 0; this.vcount < V_LINES; this.vcount++) {
       final long time = System.nanoTime();
-      final long hdrawEnd = time + H_DRAW_NANOS;
-      final long hblankEnd = time + V_LINE_NANOS;
+      final long hdrawEnd = time + H_DRAW_NANOS / this.speedMultiplier;
+      final long hblankEnd = time + V_LINE_NANOS / this.speedMultiplier;
 
       while(System.nanoTime() < hdrawEnd) {
         DebugHelper.sleep(0);

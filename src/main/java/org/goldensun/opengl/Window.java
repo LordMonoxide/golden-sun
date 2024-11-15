@@ -166,6 +166,14 @@ public class Window {
     glfwSwapInterval(1);
   }
 
+  public void disableVsync() {
+    glfwSwapInterval(0);
+  }
+
+  public void enableVsync() {
+    glfwSwapInterval(1);
+  }
+
   public void setEventPoller(final Runnable poller) {
     this.eventPoller = poller;
   }
