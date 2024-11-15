@@ -36,18 +36,37 @@ public class Memory {
 
   private final TempSegment temp = new TempSegment();
 
-  public static final IntSet watches = new IntOpenHashSet();
+  public static final IntSet readWatches = new IntOpenHashSet();
+  public static final IntSet writeWatches = new IntOpenHashSet();
 
   public Memory() {
     this.addSegment(this.temp);
   }
 
   public static void addWatch(final int address) {
-    watches.add(address);
+    readWatches.add(address);
+    writeWatches.add(address);
+  }
+
+  public static void addReadWatch(final int address) {
+    readWatches.add(address);
+  }
+
+  public static void addWriteWatch(final int address) {
+    writeWatches.add(address);
   }
 
   public static void removeWatch(final int address) {
-    watches.remove(address);
+    readWatches.remove(address);
+    writeWatches.remove(address);
+  }
+
+  public static void removeReadWatch(final int address) {
+    readWatches.remove(address);
+  }
+
+  public static void removeWriteWatch(final int address) {
+    writeWatches.remove(address);
   }
 
   public void dump(final int address, final int size) {
@@ -110,7 +129,7 @@ public class Memory {
       final Segment segment = this.getSegment(address);
       final int val = segment.get(address - segment.getAddress(), size);
 
-      if(watches.contains(address)) {
+      if(readWatches.contains(address)) {
         LOGGER.error("%08x read %x", address, val);
         LOGGER.error("", new Throwable());
       }
@@ -128,7 +147,7 @@ public class Memory {
       segment.set(addr, size, data);
     }
 
-    if(watches.contains(address)) {
+    if(writeWatches.contains(address)) {
       LOGGER.error("%08x set to %x", address, data);
       LOGGER.error("", new Throwable());
     }
@@ -142,7 +161,7 @@ public class Memory {
   }
 
   public void getBytes(final int address, final byte[] dest, final int offset, final int size) {
-    if(watches.contains(address)) {
+    if(readWatches.contains(address)) {
       LOGGER.error("%08x read", address);
       LOGGER.error("", new Throwable());
     }
@@ -163,7 +182,7 @@ public class Memory {
       segment.setBytes(address - segment.getAddress(), data, offset, size);
     }
 
-    for(final int watch : watches) {
+    for(final int watch : writeWatches) {
       if(watch >= address && watch < address + size) {
         LOGGER.error("%08x set to %x", watch, this.get(watch, 4));
         LOGGER.error("", new Throwable());
@@ -197,7 +216,7 @@ public class Memory {
         }
       }
 
-      for(final int watch : watches) {
+      for(final int watch : writeWatches) {
         if(watch >= dest && watch < dest + length) {
           LOGGER.error("%08x set to %x", watch, this.get(watch, (watch & 0x3) == 0 ? 4 : (watch & 0x1) == 0 ? 2 : 1));
           LOGGER.error("", new Throwable());
@@ -215,7 +234,7 @@ public class Memory {
       final Segment srcSegment = this.getSegment(addr);
       srcSegment.memfill(addr - srcSegment.getAddress(), length, value);
 
-      for(final int watch : watches) {
+      for(final int watch : writeWatches) {
         if(watch >= addr && watch < addr + length) {
           LOGGER.error("%08x set to %x", watch, value);
           LOGGER.error("", new Throwable());
@@ -422,7 +441,7 @@ public class Memory {
           val = segment.get(this.segmentOffset, this.getSize());
         }
 
-        if(watches.contains(this.address)) {
+        if(readWatches.contains(this.address)) {
           LOGGER.error("%08x read %x", this.address, val);
           LOGGER.error("", new Throwable());
         }
@@ -482,7 +501,7 @@ public class Memory {
         this.getSegment().set(this.segmentOffset, this.getSize(), value);
       }
 
-      if(watches.contains(this.address)) {
+      if(writeWatches.contains(this.address)) {
         LOGGER.error("%08x set to %x", this.address, value);
         LOGGER.error("", new Throwable());
       }
