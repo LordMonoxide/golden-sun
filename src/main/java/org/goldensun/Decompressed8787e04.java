@@ -293,7 +293,7 @@ public final class Decompressed8787e04 {
     FUN_2009a34(0x14);
   }
 
-  /** Leaving house in first cutscene */
+  /** This is the cutscene code for leaving the house in the first cutscene */
   @Method(0x2008a0c)
   public static void FUN_2008a0c() {
     final Actor70 r5 = FUN_200992c(0xa);
