@@ -993,8 +993,8 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x809207c)
-  public static void FUN_809207c(final int r0, final int r1) {
-    final Actor70 r0_0 = getActor(r0);
+  public static void FUN_809207c(final int actorIndex, final int r1) {
+    final Actor70 r0_0 = getActor(actorIndex);
     if(r0_0 != null) {
       r0_0._5a.or(0x1);
       FUN_8093a6c(r0_0, r1);
@@ -1004,8 +1004,8 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x80920e8)
-  public static void FUN_80920e8(final int r0) {
-    final Actor70 r0_0 = getActor(r0);
+  public static void FUN_80920e8(final int actorIndex) {
+    final Actor70 r0_0 = getActor(actorIndex);
     if(r0_0 != null) {
       FUN_8009148(r0_0);
     }
@@ -1014,8 +1014,8 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x80920fc)
-  public static void FUN_80920fc(final int r0, final int r1) {
-    final Actor70 r5 = getActor(r0);
+  public static void FUN_80920fc(final int actorIndex, final int r1) {
+    final Actor70 r5 = getActor(actorIndex);
     if(r5 != null) {
       r5._5a.or(0x1);
       FUN_8093a6c(r5, r1);
@@ -1026,8 +1026,8 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8092158)
-  public static void FUN_8092158(final int r0, final int r1, final int r2) {
-    final Actor70 r5 = getActor(r0);
+  public static void FUN_8092158(final int actorIndex, final int r1, final int r2) {
+    final Actor70 r5 = getActor(actorIndex);
     if(r5 != null) {
       r5._5b.set(0);
       FUN_8009140(r5);
@@ -1039,8 +1039,8 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x809218c)
-  public static void FUN_809218c(final int r0, final int r1, final int r2) {
-    final Actor70 r5 = getActor(r0);
+  public static void FUN_809218c(final int actorIndex, final int r1, final int r2) {
+    final Actor70 r5 = getActor(actorIndex);
     if(r5 != null) {
       r5._5b.set(0);
       FUN_8009140(r5);
@@ -1052,8 +1052,8 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x80921c4)
-  public static void FUN_80921c4(final int r0, final int r1, final int r2) {
-    final Actor70 r5 = getActor(r0);
+  public static void FUN_80921c4(final int actorIndex, final int r1, final int r2) {
+    final Actor70 r5 = getActor(actorIndex);
     if(r5 != null) {
       r5._5b.set(0);
       FUN_8009140(r5);
@@ -1067,8 +1067,8 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x80923e4)
-  public static void FUN_80923e4(int r0, final int x, final int z) {
-    final Actor70 r5 = getActor(r0);
+  public static void FUN_80923e4(final int actorIndex, final int x, final int z) {
+    final Actor70 r5 = getActor(actorIndex);
     if(r5 != null) {
       FUN_8009140(r5);
       r5.pos_08.setX(x);
@@ -1078,7 +1078,7 @@ public final class GoldenSun_809 {
       r5.dest_38.setY(0x80000000);
 
       if((r5._55.get() & 0x1) != 0) {
-        r0 = FUN_80091a8(r5.layer_22.get(), x / 0x10000, z / 0x10000) << 16;
+        final int r0 = FUN_80091a8(r5.layer_22.get(), x / 0x10000, z / 0x10000) << 16;
         r5.pos_08.y_04.sub(r5._14.get()).add(r0);
         r5._14.set(r0);
       }
@@ -1088,8 +1088,8 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x80924d4)
-  public static void FUN_80924d4(final int r0, final int r1) {
-    final Actor70 r0_0 = getActor(r0);
+  public static void FUN_80924d4(final int actorIndex, final int r1) {
+    final Actor70 r0_0 = getActor(actorIndex);
     if(r0_0 != null) {
       FUN_8009080(r0_0, r1);
     }
@@ -1098,8 +1098,8 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8092504)
-  public static void FUN_8092504(final int r0) {
-    final Actor70 r0_0 = getActor(r0);
+  public static void FUN_8092504(final int actorIndex) {
+    final Actor70 r0_0 = getActor(actorIndex);
     if(r0_0 != null) {
       if(r0_0.spriteType_54.get() == 1) {
         final Sprite38 r3 = r0_0.sprite_50.deref();
@@ -1125,14 +1125,14 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8092548)
-  public static void FUN_8092548(final int r0, final int r1) {
-    FUN_80924d4(r0, r1);
-    FUN_8092504(r0);
+  public static void FUN_8092548(final int actorIndex, final int r1) {
+    FUN_80924d4(actorIndex, r1);
+    FUN_8092504(actorIndex);
   }
 
   @Method(0x8092560)
-  public static void FUN_8092560(final int r0, final int r1, final int r2) {
-    final Actor70 r0_0 = getActor(r0);
+  public static void FUN_8092560(final int actorIndex, final int r1, final int r2) {
+    final Actor70 r0_0 = getActor(actorIndex);
     if(r0_0 != null) {
       r0_0._55.or(0x2);
       r0_0.velocity_24.setY(r1 << 16);
@@ -1152,8 +1152,8 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x809259c)
-  public static void FUN_809259c(final int r0, final int r1) {
-    final Actor70 r0_0 = getActor(r0);
+  public static void FUN_809259c(final int actorIndex, final int r1) {
+    final Actor70 r0_0 = getActor(actorIndex);
     if(r0_0 != null && r1 > 0) {
       //LAB_80925b2
       FUN_8009098(r0_0, 0x809ebfc + (3 - Math.min(r1, 3)) * 0x80);
@@ -1163,14 +1163,14 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x80925cc)
-  public static void FUN_80925cc(final int r0, final int r1) {
-    FUN_809259c(r0, r1);
-    FUN_80920e8(r0);
+  public static void FUN_80925cc(final int actorIndex, final int r1) {
+    FUN_809259c(actorIndex, r1);
+    FUN_80920e8(actorIndex);
   }
 
   @Method(0x8092848)
-  public static void FUN_8092848(final int r0, final int r1, final int r2) {
-    final Actor70 r6 = getActor(r0);
+  public static void FUN_8092848(final int actorIndex, final int r1, final int r2) {
+    final Actor70 r6 = getActor(actorIndex);
     final Actor70 r1_0 = getActor(r1);
     if(r6 != null && r1_0 != null) {
       FUN_8092878(r6, r1_0);
@@ -1223,8 +1223,8 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8092950)
-  public static void FUN_8092950(final int r0, final int r1) {
-    final Actor70 r0_0 = getActor(r0);
+  public static void FUN_8092950(final int actorIndex, final int r1) {
+    final Actor70 r0_0 = getActor(actorIndex);
     if(r0_0 != null) {
       if((r1 & 0x100) != 0) {
         r0_0._6c.set(getConsumer(GoldenSun_809.class, "FUN_8092980", Actor70.class));
@@ -1290,8 +1290,8 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8092adc)
-  public static void FUN_8092adc(final int r0, final int r1, final int r2) {
-    final Actor70 r0_0 = getActor(r0);
+  public static void FUN_8092adc(final int actorIndex, final int r1, final int r2) {
+    final Actor70 r0_0 = getActor(actorIndex);
     if(r0_0 != null) {
       r0_0._64.set(r1);
       FUN_8009098(r0_0, 0x809fc1c);
@@ -1302,8 +1302,8 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8092b08)
-  public static void FUN_8092b08(final int r0, final int r1) {
-    final Actor70 r6 = getActor(r0);
+  public static void FUN_8092b08(final int actorIndex, final int r1) {
+    final Actor70 r6 = getActor(actorIndex);
     if(r6 != null) {
       if((r6.spriteType_54.get() & 0xf) == 1) {
         final int r5 = r1 & 0x3;
@@ -1337,7 +1337,6 @@ public final class GoldenSun_809 {
 
   @Method(0x8092c40)
   public static GraphicsStruct24 FUN_8092c40(int r0) {
-    final int r1;
     int r2;
     int r3;
     int r4;

@@ -178,9 +178,10 @@ public final class GoldenSun_808 {
     MEMORY.call(0x8092064, r0, r1, r2);
   }
 
+  /** {@link GoldenSun_809#FUN_809207c} */
   @Method(0x808a098)
-  public static void FUN_808a098(final int r0, final int r1) {
-    MEMORY.call(0x809207c, r0, r1);
+  public static void FUN_808a098(final int actorIndex, final int r1) {
+    MEMORY.call(0x809207c, actorIndex, r1);
   }
 
   @Method(0x808a0a0)
