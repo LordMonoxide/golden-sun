@@ -2315,6 +2315,12 @@ public final class GoldenSun {
     MEMORY.call(0x800c598, r0, r1);
   }
 
+  /** {@link GoldenSun_801#FUN_80122c8} */
+  @Method(0x8009268)
+  public static int FUN_8009268(final int r0, final int r1) {
+    return (int)MEMORY.call(0x80122c8, r0, r1);
+  }
+
   @Method(0x800a97c)
   public static int decompressSprite(int r0, int r1) {
     int r2;
