@@ -19,7 +19,7 @@ public class Map194 implements MemoryRef {
   public final IntRef _10;
   public final UnsignedShortRef _14;
   public final UnsignedByteRef _16;
-
+  public final UnsignedByteRef _17;
   public final ArrayRef<Sub0c> _18;
   /** Kinda weird, but it looks like this isn't part of the previous array... not 100% sure it's the same class but the memory layout matches */
   public final Sub0c _d8;
@@ -44,7 +44,7 @@ public class Map194 implements MemoryRef {
     this._10 = ref.offset(4, 0x10).cast(IntRef::new);
     this._14 = ref.offset(2, 0x14).cast(UnsignedShortRef::new);
     this._16 = ref.offset(1, 0x16).cast(UnsignedByteRef::new);
-
+    this._17 = ref.offset(1, 0x17).cast(UnsignedByteRef::new);
     this._18 = ref.offset(4, 0x18).cast(ArrayRef.of(Sub0c.class, 0x10, 0xc, Sub0c::new));
     this._d8 = ref.offset(4, 0xd8).cast(Sub0c::new);
     this._e4 = ref.offset(4, 0xe4).cast(IntRef::new);

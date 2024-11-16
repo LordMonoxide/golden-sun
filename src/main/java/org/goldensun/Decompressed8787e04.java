@@ -11,7 +11,7 @@ import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.GPU;
 import static org.goldensun.Hardware.MEMORY;
 
-/** Maybe the game engine */
+/** Scripts for first cutscene, in house */
 public final class Decompressed8787e04 {
   private Decompressed8787e04() { }
 

@@ -14,7 +14,7 @@ import static org.goldensun.GoldenSunVars._200044c;
 import static org.goldensun.GoldenSunVars._3001c9c;
 import static org.goldensun.GoldenSunVars._3001d08;
 import static org.goldensun.GoldenSunVars.framesSinceInput_3001d24;
-import static org.goldensun.GoldenSunVars._3001f54;
+import static org.goldensun.GoldenSunVars.debug_3001f54;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSun_801.FUN_8015020;
 import static org.goldensun.Hardware.CPU;
@@ -39,11 +39,13 @@ public final class GoldenSun_807 {
     FUN_8077d38();
   }
 
+  /** {@link GoldenSun_807#FUN_8079338} */
   @Method(0x80770c0)
   public static int FUN_80770c0(final int r0) {
     return (int)MEMORY.call(0x8079338, r0);
   }
 
+  /** {@link GoldenSun_807#FUN_8079358} */
   @Method(0x80770c8)
   public static void FUN_80770c8(final int r0) {
     MEMORY.call(0x8079358, r0);
@@ -59,6 +61,7 @@ public final class GoldenSun_807 {
     MEMORY.call(0x8077f40);
   }
 
+  /** {@link GoldenSun_807#FUN_8077c10} */
   @Method(0x80772f0)
   public static void FUN_80772f0() {
     MEMORY.call(0x8077c10);
@@ -1350,7 +1353,7 @@ public final class GoldenSun_807 {
     r3 = CPU.lslT(r3, 16);
     r2 = CPU.lslT(r2, 21);
     r2 = CPU.orrT(r2, r3);
-    r3 = _3001f54.get();
+    r3 = debug_3001f54.get();
     r0 = CPU.asrT(r2, 16);
     CPU.cmpT(r3, 0x0);
     if(!CPU.cpsr().getZero()) { // !=

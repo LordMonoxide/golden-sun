@@ -87,12 +87,16 @@ public final class GoldenSunVars {
 
   public static final SoundStructFb0 _2003050 = MEMORY.ref(4, 0x2003050, SoundStructFb0::new);
 
+  /** These appear to be pointers into map/cutscene code */
   public static final Pointer<RunnableRef> _2008004 = MEMORY.ref(4, 0x2008004, Pointer.deferred(4, RunnableRef::new));
 
+  /** These appear to be pointers into map/cutscene code */
   public static final Pointer<SupplierRef<Integer>> _200800c = MEMORY.ref(4, 0x200800c, Pointer.deferred(4, SupplierRef::new));
 
+  /** These appear to be pointers into map/cutscene code */
   public static final Pointer<SupplierRef<Integer>> _200801c = MEMORY.ref(4, 0x200801c, Pointer.deferred(4, SupplierRef::new));
 
+  /** These appear to be pointers into map/cutscene code */
   public static final Pointer<SupplierRef<Integer>> _2008024 = MEMORY.ref(4, 0x2008024, Pointer.deferred(4, SupplierRef::new));
 
   public static final ArrayRef<Pointer<RenderPacket0c>> packets_3001400 = MEMORY.ref(4, 0x3001400, ArrayRef.of(Pointer.classFor(RenderPacket0c.class), 0x100, 0x4, Pointer.deferred(4, RenderPacket0c::new)));
@@ -185,7 +189,7 @@ public final class GoldenSunVars {
   public static final Value boardWramMallocHead_3001e50 = MEMORY.ref(4, 0x3001e50);
   public static final Value chipWramMallocHead_3001e54 = MEMORY.ref(4, 0x3001e54);
 
-  public static final UnsignedByteRef _3001f54 = MEMORY.ref(1, 0x3001f54, UnsignedByteRef::new);
+  public static final UnsignedByteRef debug_3001f54 = MEMORY.ref(1, 0x3001f54, UnsignedByteRef::new);
 
   public static final UnsignedByteRef _3001f58 = MEMORY.ref(1, 0x3001f58, UnsignedByteRef::new);
 

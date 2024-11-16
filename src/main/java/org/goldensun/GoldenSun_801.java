@@ -4,6 +4,7 @@ import org.goldensun.memory.Method;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.UnsignedShortRef;
+import org.goldensun.types.Actor70;
 import org.goldensun.types.GraphicsStruct1c;
 import org.goldensun.types.GraphicsStruct24;
 import org.goldensun.types.GraphicsStruct28;
@@ -326,6 +327,21 @@ public final class GoldenSun_801 {
     //LAB_801052c
   }
 
+  @Method(0x8010560)
+  public static void FUN_8010560(final int r0, final int r1, final int r2) {
+    int r7 = r0;
+
+    //LAB_8010580
+    int r12;
+    while((r12 = MEMORY.ref(2, r7).getUnsigned()) != 0xffff) {
+      FUN_8010424(r12, MEMORY.ref(2, r7 + 0x2).get() & 0xffff, r1, r2, MEMORY.ref(2, r7 + 0x4).get() & 0xffff, MEMORY.ref(2, r7 + 0x6).get() & 0xffff);
+      sleep(MEMORY.ref(2, r7 + 0x8).get() & 0xffff);
+      r7 = r7 + 0xa;
+    }
+
+    //LAB_80105be
+  }
+
   @Method(0x8010704)
   public static void FUN_8010704(int r0, int r1, int r2, int r3, final int a4, final int a5) {
     int r4;
@@ -644,6 +660,46 @@ public final class GoldenSun_801 {
     //LAB_8011f7a
     final int r1_1 = MEMORY.ref(1, r2_0 + (r6 / 0x10 * 0x80 + r5 / 0x10) * 0x4 + 0x3).getUnsigned() * 0x4;
     return _80134fc.get(MEMORY.ref(1, 0x202c000 + r1_1).getUnsigned() & 0xf).deref().run(0x202c001 + r1_1, r5 & 0xf, r6 & 0xf);
+  }
+
+  @Method(0x80120dc)
+  public static int FUN_80120dc(final Actor70 r0, final int r1) {
+    final int r6 = MEMORY.ref(2, r1 + 0xa).get();
+    final int r5 = MEMORY.ref(2, r1 + 0x2).get();
+    final int mapAddr = boardWramMallocHead_3001e50.offset(8 * 0x4).get(); //TODO map
+
+    if(mapAddr == 0) {
+      return 0;
+    }
+
+    final int layer = r0.layer_22.get();
+    int r2;
+    if(layer < 3) {
+      r2 = MEMORY.ref(4, mapAddr + 0x130 + layer * 0x30).get(); //TODO map layers
+    } else {
+      //LAB_801210e
+      r2 = 0x2010000;
+    }
+
+    //LAB_8012110
+    r2 = r2 + (r5 / 0x10 + (r6 / 0x10) * 0x80) * 0x4;
+
+    if(MEMORY.ref(1, r2 + 0x2).getUnsigned() == 0xff) {
+      return 2;
+    }
+
+    final int r1_0 = MEMORY.ref(1, r2 + 0x3).getUnsigned();
+    final int r0_0 = _80134fc.get(MEMORY.ref(1, 0x202c000 + r1_0 * 0x4).getUnsigned() & 0xf).deref().run(0x202c001 + r1_0 * 0x4, r5 & 0xf, r6 & 0xf) - r0._14.get();
+    if(r0_0 > 0x80000) {
+      return 1;
+    }
+
+    if(r0_0 < -0xc0000) {
+      return -1;
+    }
+
+    //LAB_801217c
+    return 0;
   }
 
   @Method(0x8012330)
