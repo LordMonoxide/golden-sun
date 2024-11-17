@@ -33,12 +33,13 @@ public final class CopiedSegment8001b70 {
             break;
           }
           r2 = CPU.andA(r0, 0x3);
-          r4 = MEMORY.ref(4, r0).getUnsigned();
-          r5 = MEMORY.ref(4, r0 + 0x4).getUnsigned();
+          // These can be misaligned
+          r4 = MEMORY.ref(4, r0 & ~0x3).getUnsigned();
+          r5 = MEMORY.ref(4, r0 + 0x4 & ~0x3).getUnsigned();
           r0 = r0 + 0x8;
 
           if(r2 != 0) {
-            r6 = MEMORY.ref(4, r0).getUnsigned();
+            r6 = MEMORY.ref(4, r0 & ~0x3).getUnsigned();
             r2 = r2 * 8;
             r7 = 32 - r2;
             r4 = r4 >>> r2 | r5 << r7;
@@ -103,14 +104,12 @@ public final class CopiedSegment8001b70 {
 
             CPU.setCFlag((lr & 0x1 << 31) != 0);
             lr = CPU.movA(r0, lr << 1);
-            if(!CPU.cpsr().getCarry()) { // unsigned <
-              do {
-                MEMORY.ref(1, r1).setu(MEMORY.ref(1, r0).getUnsigned());
-                r0 = r0 + 0x1;
-                r1 = r1 + 0x1;
-                CPU.setCFlag((lr & 0x1 << 31) != 0);
-                lr = CPU.movA(r0, lr << 1);
-              } while(!CPU.cpsr().getCarry()); // unsigned <
+            while(!CPU.cpsr().getCarry()) { // unsigned <
+              MEMORY.ref(1, r1).setu(MEMORY.ref(1, r0).getUnsigned());
+              r0 = r0 + 0x1;
+              r1 = r1 + 0x1;
+              CPU.setCFlag((lr & 0x1 << 31) != 0);
+              lr = CPU.movA(r0, lr << 1);
             }
             if(CPU.cpsr().getZero()) { // ==
               continue jmp_8001b74;
@@ -151,6 +150,7 @@ public final class CopiedSegment8001b70 {
           }
 
           r3 = CPU.subA(r3, 0x10);
+          r12 = 15; // When looping back it does the full 16 copies
         } while(CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()); // >=
 
         CPU.setCFlag((lr & 0x1 << 31) != 0);
