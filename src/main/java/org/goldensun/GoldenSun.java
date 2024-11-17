@@ -1707,7 +1707,7 @@ public final class GoldenSun {
   }
 
   @Method(0x80053e8)
-  public static int FUN_80053e8(final int r0, final int r1) {
+  public static int FUN_80053e8(final int src, final int dest) {
     final int size = 0x258;
     final int addr = mallocChip(size);
     DMA.channels[3].SAD.setu(0x8001b70);
@@ -1715,7 +1715,7 @@ public final class GoldenSun {
     DMA.channels[3].CNT.setu(0x84000000 | size / 0x4);
 
     MEMORY.setFunction(addr, CopiedSegment8001b70.class, "FUN_8001b70", int.class, int.class);
-    final int ret = (int)MEMORY.call(addr, r0, r1);
+    final int ret = (int)MEMORY.call(addr, src, dest);
     setMallocAddress(addr);
 
     return ret;
@@ -2309,6 +2309,12 @@ public final class GoldenSun {
     MEMORY.call(0x800c430, actor, spriteDataIndex);
   }
 
+  /** {@link GoldenSun_801#FUN_8011590} */
+  @Method(0x8009230)
+  public static void FUN_8009230() {
+    MEMORY.call(0x8011590);
+  }
+
   /** {@link GoldenSun#FUN_800c598} */
   @Method(0x8009240)
   public static void FUN_8009240(final Actor70 r0, final int r1) {
@@ -2319,6 +2325,12 @@ public final class GoldenSun {
   @Method(0x8009268)
   public static int FUN_8009268(final int r0, final int r1) {
     return (int)MEMORY.call(0x80122c8, r0, r1);
+  }
+
+  /** {@link GoldenSun#FUN_800f9cc} */
+  @Method(0x8009288)
+  public static void FUN_8009288(final int r0, final int r1) {
+    MEMORY.call(0x800f9cc, r0, r1);
   }
 
   @Method(0x800a97c)
@@ -5078,6 +5090,16 @@ public final class GoldenSun {
     CPU.sp().value += 0x68;
 
     return 1;
+  }
+
+  @Method(0x800f9cc)
+  public static void FUN_800f9cc(final int r0, final int r1) {
+    //LAB_800f9dc
+    for(int i = 0; i < r1; i++) {
+      MEMORY.ref(1, r0 + i).setu(MEMORY.ref(1, 0x80097b8 + MEMORY.ref(1, r0 + i).getUnsigned()).getUnsigned());
+    }
+
+    //LAB_800f9ea
   }
 
   @Method(0x800f9f4)

@@ -52,6 +52,7 @@ public final class Hardware {
     MEMORY.addFunctions(GoldenSun_807.class);
     MEMORY.addFunctions(GoldenSun_808.class);
     MEMORY.addFunctions(GoldenSun_809.class);
+    MEMORY.addFunctions(GoldenSun_80a.class);
     MEMORY.addFunctions(GoldenSun_818.class);
     GATE.release();
   }

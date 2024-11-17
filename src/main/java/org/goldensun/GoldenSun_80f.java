@@ -292,9 +292,10 @@ public final class GoldenSun_80f {
     return (int)MEMORY.call(0x80f954c);
   }
 
+  /** {@link GoldenSun_80f#FUN_80f9594} */
   @Method(0x80f9070)
   public static int FUN_80f9070() {
-    throw new RuntimeException("Not implenented");
+    return (int)MEMORY.call(0x80f9594);
   }
 
   @Method(0x80f9080)
@@ -504,6 +505,11 @@ public final class GoldenSun_80f {
   @Method(0x80f954c)
   public static int FUN_80f954c() {
     return MEMORY.ref(1, 0x2003000).getUnsigned();
+  }
+
+  @Method(0x80f9594)
+  public static int FUN_80f9594() {
+    return MEMORY.ref(1, 0x200303c).getUnsigned();
   }
 
   @Method(0x80f95e0)

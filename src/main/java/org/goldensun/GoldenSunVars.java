@@ -152,6 +152,7 @@ public final class GoldenSunVars {
   public static final IntRef _3001cf4 = MEMORY.ref(4, 0x3001cf4, IntRef::new);
   public static final UnsignedShortRef blendConfig_3001cf8 = MEMORY.ref(2, 0x3001cf8, UnsignedShortRef::new);
 
+  /** TODO function ptr */
   public static final IntRef _3001cfc = MEMORY.ref(4, 0x3001cfc, IntRef::new);
   public static final UnsignedByteRef rotationScalingCount_3001d00 = MEMORY.ref(1, 0x3001d00, UnsignedByteRef::new);
 
