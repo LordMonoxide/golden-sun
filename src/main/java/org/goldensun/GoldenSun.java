@@ -128,6 +128,12 @@ public final class GoldenSun {
     MEMORY.call(0x80041d8, callback, classAndPriority);
   }
 
+  /** {@link GoldenSun#clearTickCallback} */
+  @Method(0x80000d8)
+  public static int clearTickCallback_(final RunnableRef r0) {
+    return (int)MEMORY.call(0x8004278, r0);
+  }
+
   /** {@link GoldenSun#rand} */
   @Method(0x80000f8)
   public static int rand_() {
@@ -1841,6 +1847,11 @@ public final class GoldenSun {
     return r0;
   }
 
+  @Method(0x8005920)
+  public static int FUN_8005920(final int r0, final int r1) {
+    throw new RuntimeException("Not implemented");
+  }
+
   @Method(0x8005ae0)
   public static int calcSaveChecksum() {
     int r0 = 0;
@@ -1993,42 +2004,27 @@ public final class GoldenSun {
   }
 
   @Method(0x8006878)
-  public static int FUN_8006878() {
-    CPU.sp().value -= 0x44;
+  public static int getSramManufacturerAndDevice() {
+    CPU.sp().value -= 0x40;
     FUN_8006ac0(CPU.sp().value);
     final int r5 = CPU.sp().value + 0x1;
     MEMORY.ref(1, 0xe005555).setu(0xaa);
     MEMORY.ref(1, 0xe002aaa).setu(0x55);
     MEMORY.ref(1, 0xe005555).setu(0x90);
 
-    final int r1 = CPU.sp().value + 0x40;
-    MEMORY.ref(2, r1).setu(20000);
-
-    //LAB_80068ac
-    //TODO wait loop?
-    while(MEMORY.ref(2, r1).getUnsigned() != 0) {
-      MEMORY.ref(2, r1).decr();
-    }
-
     final int r4 = ((int)MEMORY.call(r5, 0xe000001) & 0xff) << 8 | (int)MEMORY.call(r5, 0xe000000) & 0xff;
     MEMORY.ref(1, 0xe005555).setu(0xaa);
     MEMORY.ref(1, 0xe002aaa).setu(0x55);
     MEMORY.ref(1, 0xe005555).setu(0xf0);
-    MEMORY.ref(2, r1).setu(0x4e20);
 
-    //LAB_80068f8
-    while(MEMORY.ref(2, r1).getUnsigned() != 0) {
-      MEMORY.ref(2, r1).decr();
-    }
-
-    CPU.sp().value += 0x44;
+    CPU.sp().value += 0x40;
     return r4;
   }
 
   @Method(0x8006910)
   public static int FUN_8006910() {
     INTERRUPTS.WAITCNT.and(0xfffc).oru(0x3);
-    final int r3 = FUN_8006878() & 0xffff;
+    final int r3 = getSramManufacturerAndDevice() & 0xffff;
     int r2 = 0x8007a0c; //TODO
     int r4 = 0;
 
@@ -2093,17 +2089,25 @@ public final class GoldenSun {
     MEMORY.setFunction(r0, GoldenSun.class, "FUN_8006abc", int.class);
   }
 
-  @Method(0x8006ba8)
-  public static void FUN_8006ba8(int r0, final int r1, final int r2, final int r3) {
-    int r4;
+  @Method(0x8006b84)
+  public static void FUN_8006b84(final int r0, final int r1, final int r2) {
+    //LAB_8006b92
+    for(int r3 = 0; r3 < r2; r3++) {
+      MEMORY.ref(1, r1 + r3).setu(MEMORY.ref(1, r0 + r3).getUnsigned());
+    }
 
+    //LAB_8006ba0
+  }
+
+  @Method(0x8006ba8)
+  public static void FUN_8006ba8(final int r0, final int r1, final int r2, final int r3) {
     CPU.sp().value -= 0x80;
-    r4 = r0 & 0xffff;
     INTERRUPTS.WAITCNT.and(0xfffc).oru(0x3);
+
     MEMORY.memcpy(CPU.sp().value, 0x8006b84, 0x24);
-    r0 = 0x8007abc;
-    r0 = MEMORY.ref(1, r0 + 0x1c).getUnsigned();
-    r4 = r4 << r0;
+    MEMORY.setFunction(CPU.sp().value, GoldenSun.class, "FUN_8006b84", int.class, int.class, int.class);
+
+    final int r4 = (r0 & 0xffff) << MEMORY.ref(1, 0x8007abc + 0x1c).getUnsigned();
     MEMORY.call(CPU.sp().value + 0x1, 0xe000000 + r4 + r1, r2, r3);
     CPU.sp().value += 0x80;
   }

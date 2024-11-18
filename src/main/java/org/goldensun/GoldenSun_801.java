@@ -5042,7 +5042,7 @@ public final class GoldenSun_801 {
     }
 
     //LAB_801dbb4
-    MEMORY.ref(4, CPU.sp().value + 0x8).setu(FUN_8021620(0x6, sp10, 0x28, r4).getAddress()); //TODO
+    GraphicsStruct1c sp08 = FUN_8021620(0x6, sp10, 0x28, r4);
     sleep(1);
     CPU.r8().value = MEMORY.ref(2, CPU.r10().value + 0x574).getUnsigned();
     if(r5 != 0) {
@@ -5122,8 +5122,7 @@ public final class GoldenSun_801 {
       }
 
       //LAB_801dc6e
-      r0 = MEMORY.ref(4, CPU.sp().value + 0x8).get();
-      FUN_80216b4(r0);
+      FUN_80216b4(sp08);
       sleep(1);
       r1 = MEMORY.ref(4, 0x801dd20).get();
       r2 = MEMORY.ref(4, r1).get();
@@ -5872,5 +5871,50 @@ public final class GoldenSun_801 {
     //LAB_801f810
     //LAB_801f812
     return r6;
+  }
+
+  @Method(0x801fd34)
+  public static void FUN_801fd34() {
+    //LAB_801fd3c
+    for(int r5 = 0; r5 < 4; r5++) {
+      int r3 = sin((ticks_3001800.get() + r5 * 8) * 0x300) / 0x4000;
+      r3 = r3 + 0x14 << 10 | r3 + 0x10 << 5 | r3 * 2 + 0x16;
+      MEMORY.ref(2, 0x50001d0 + r5 * 0x2).setu(r3);
+    }
+  }
+
+  @Method(0x801f818)
+  public static int FUN_801f818() {
+    throw new RuntimeException("Not implemented");
+  }
+
+  @Method(0x801fd84)
+  public static void FUN_801fd84() {
+    setTickCallback(getRunnable(GoldenSun_801.class, "FUN_801fd34"), 0xc80);
+  }
+
+  @Method(0x801fd98)
+  public static void FUN_801fd98() {
+    throw new RuntimeException("Not implemented");
+  }
+
+  @Method(0x801fda8)
+  public static void FUN_801fda8(final GraphicsStruct24 r0, final int r1, final int r2, final int r3, final int a4) {
+    throw new RuntimeException("Not implemented");
+  }
+
+  @Method(0x801fe2c)
+  public static void FUN_801fe2c(final GraphicsStruct24 r0, final int r1, final int r2, final int r3) {
+    throw new RuntimeException("Not implemented");
+  }
+
+  @Method(0x801ff14)
+  public static void FUN_801ff14() {
+    throw new RuntimeException("Not implemented");
+  }
+
+  @Method(0x801ffd8)
+  public static void FUN_801ffd8(final GraphicsStruct24 r0, final int r1, final int r2) {
+    throw new RuntimeException("Not implemented");
   }
 }

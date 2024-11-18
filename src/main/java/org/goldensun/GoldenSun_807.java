@@ -109,6 +109,12 @@ public final class GoldenSun_807 {
     MEMORY.call(0x8077c10);
   }
 
+  /** {@link GoldenSun_807#FUN_8077cb8} */
+  @Method(0x8077300)
+  public static int FUN_8077300() {
+    return (int)MEMORY.call(0x8077cb8);
+  }
+
   @Method(0x8077330)
   public static int FUN_8077330(final int r0) {
     if(r0 == 0) {
@@ -1360,7 +1366,6 @@ public final class GoldenSun_807 {
   @Method(0x8077cb8)
   public static int FUN_8077cb8() {
     int r0;
-    final int r1;
     int r2;
     int r3;
     int r4;

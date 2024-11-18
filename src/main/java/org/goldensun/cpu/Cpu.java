@@ -7,6 +7,7 @@ import org.goldensun.memory.IllegalAddressException;
 import org.goldensun.memory.Memory;
 import org.goldensun.memory.Segment;
 import org.goldensun.memory.Value;
+import org.goldensun.saves.Sram;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -26,6 +27,7 @@ public class Cpu implements Runnable {
   public static final Value HALTCNT = MEMORY.ref(1, 0x400_0301);
 
   private final Memory memory;
+  private final Sram sram;
 
   private final Map<CpuMode, CpuState> states = new EnumMap<>(CpuMode.class);
 
@@ -56,9 +58,10 @@ public class Cpu implements Runnable {
 
   private boolean running;
 
-  public Cpu(final Memory memory) {
+  public Cpu(final Memory memory, final Sram sram) {
     this.memory = memory;
     this.memory.addSegment(new CpuSegment());
+    this.sram = sram;
 
     final PlainRegister r8 = new PlainRegister();
     final PlainRegister r9 = new PlainRegister();
@@ -95,6 +98,7 @@ public class Cpu implements Runnable {
 
     while(this.running) {
       this.dispatchIrq();
+      this.sram.tick();
       DebugHelper.sleep(1);
     }
   }

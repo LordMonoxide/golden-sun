@@ -11,6 +11,7 @@ import org.goldensun.memory.Memory;
 import org.goldensun.memory.segments.PrivilegeGate;
 import org.goldensun.memory.segments.RamSegment;
 import org.goldensun.memory.segments.RomSegment;
+import org.goldensun.saves.Sram;
 import org.goldensun.spu.Spu;
 import org.goldensun.timers.TimerController;
 
@@ -25,7 +26,8 @@ public final class Hardware {
   public static final PrivilegeGate GATE = new PrivilegeGate();
   public static final InterruptController INTERRUPTS = new InterruptController(MEMORY); // 0x400_0200
   public static final DmaController DMA = new DmaController(MEMORY);
-  public static final Cpu CPU = new Cpu(MEMORY);
+  public static final Sram SRAM = new Sram(MEMORY);
+  public static final Cpu CPU = new Cpu(MEMORY, SRAM);
   public static final Gpu GPU = new Gpu(MEMORY, DMA, INTERRUPTS);
   public static final Spu SPU = new Spu(MEMORY);
   public static final Input INPUT = new Input(MEMORY, GPU.window.events);
@@ -40,7 +42,6 @@ public final class Hardware {
     MEMORY.addSegment(new RamSegment(0x200_0000, 0x4_0000)); // On-board work RAM
     MEMORY.addSegment(new RamSegment(0x300_0000, 0x8000, 0xf00_7fff)); // On-chip work RAM
     MEMORY.addSegment(RomSegment.fromFile(0x800_0000, 0x80_0000, Path.of("game.rom")));
-    MEMORY.addSegment(new RamSegment(0xe00_0000, 0x1_0000)); // Gamepak SRAM
 
     GATE.acquire();
     MEMORY.addFunctions(Bios.class);

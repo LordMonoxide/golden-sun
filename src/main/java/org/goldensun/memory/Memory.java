@@ -106,9 +106,10 @@ public class Memory {
     }
   }
 
-  public void addSegment(final Segment segment) {
+  public <T extends Segment> T addSegment(final T segment) {
     synchronized(this.lock) {
       this.segments.add(segment);
+      return segment;
     }
   }
 
