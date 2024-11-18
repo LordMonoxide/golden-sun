@@ -2122,6 +2122,12 @@ public final class GoldenSun {
     return (int)MEMORY.call(0x800ba30, r0, r1);
   }
 
+  /** {@link GoldenSun#loadSprite} */
+  @Method(0x8009030)
+  public static Sprite38 loadSprite_(final int spriteDataIndex) {
+    return (Sprite38)MEMORY.call(0x800bc70, spriteDataIndex);
+  }
+
   @Method(0x8009038)
   public static void FUN_8009038(final int r0) {
     MEMORY.call(0x800bdd4, r0);

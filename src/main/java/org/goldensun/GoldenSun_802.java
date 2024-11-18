@@ -9,6 +9,7 @@ import org.goldensun.types.Struct12fc;
 import javax.annotation.Nullable;
 
 import static org.goldensun.GoldenSun.FUN_8005920;
+import static org.goldensun.GoldenSun.FUN_8009038;
 import static org.goldensun.GoldenSun.FUN_8009288;
 import static org.goldensun.GoldenSun.divideS;
 import static org.goldensun.GoldenSun.FUN_8003d28;
@@ -81,6 +82,23 @@ public final class GoldenSun_802 {
 
   @Method(0x8020088)
   public static void FUN_8020088() {
+    final int r7 = boardWramMallocHead_3001e50.offset(55 * 0x4).get();
+    clearTickCallback(getRunnable(GoldenSun_802.class, "FUN_80200cc"));
+
+    //LAB_80200a2
+    for(int r6 = 0; r6 < 4; r6++) {
+      final int r0 = MEMORY.ref(4, r7 + 0x224 + r6 * 0x4).get();
+      if(r0 != 0) {
+        FUN_8009038(r0);
+        MEMORY.ref(4, r7 + 0x224 + r6 * 0x4).setu(0);
+      }
+
+      //LAB_80200b0
+    }
+  }
+
+  @Method(0x80200cc)
+  public static void FUN_80200cc() {
     throw new RuntimeException("Not implemented");
   }
 
@@ -302,7 +320,7 @@ public final class GoldenSun_802 {
 
     FUN_801e41c(r10, 0, 0x2, 0x1b, 0x2);
     FUN_801e41c(r10, 0, 0x4, 0x1b, 0x4);
-    GraphicsStruct1c sp10 = FUN_8021620(r9, r10, 0x48 ,-0x18);
+    final GraphicsStruct1c sp10 = FUN_8021620(r9, r10, 0x48 ,-0x18);
     r11 = 0x2;
 
     //LAB_8020494
