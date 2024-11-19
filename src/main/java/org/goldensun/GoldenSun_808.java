@@ -8,6 +8,7 @@ import org.goldensun.types.Sprite38;
 import org.goldensun.types.Actor70;
 
 import static org.goldensun.GoldenSun.FUN_8009230;
+import static org.goldensun.GoldenSun.FUN_8009238;
 import static org.goldensun.GoldenSun.FUN_8009268;
 import static org.goldensun.GoldenSun.atan2;
 import static org.goldensun.GoldenSun.divideS;
@@ -458,6 +459,7 @@ public final class GoldenSun_808 {
     MEMORY.call(0x808ba38);
   }
 
+  /** {@link GoldenSun_808#FUN_808b158} */
   @Method(0x808a5d0)
   public static int FUN_808a5d0(final int r0, final int r1) {
     return (int)MEMORY.call(0x808b158, r0, r1);
@@ -473,6 +475,12 @@ public final class GoldenSun_808 {
   @Method(0x808a5e8)
   public static void FUN_808a5e8() {
     MEMORY.call(0x809202c);
+  }
+
+  /** {@link GoldenSun_808#FUN_808b3d0} */
+  @Method(0x808a5f0)
+  public static int FUN_808a5f0(final int r0, final int r1) {
+    return (int)MEMORY.call(0x808b3d0, r0, r1);
   }
 
   @Method(0x808a5f8)
@@ -574,6 +582,11 @@ public final class GoldenSun_808 {
   @Method(0x808a6e4)
   public static void FUN_808a6e4(final int r0) {
     throw new RuntimeException("Not implemented");
+  }
+
+  @Method(0x808a8d0)
+  public static int FUN_808a8d0(final int r0) {
+    return MEMORY.ref(1, 0x809f1a8 + r0 * 0x8 + 0x2).get();
   }
 
   @Method(0x808a8e4)
@@ -927,6 +940,37 @@ public final class GoldenSun_808 {
     _2000430.set(r10);
   }
 
+  @Method(0x808b158)
+  public static int FUN_808b158(final int r0, final int r1) {
+    int r5 = 0x809ddd8;
+    final int r12 = FUN_808a8d0(r0);
+
+    //LAB_808b182
+    int r1_0;
+    while((r1_0 = MEMORY.ref(2, r5).get()) != -1) {
+      int r2 = MEMORY.ref(1, r5 + 0x3).getUnsigned();
+      if(((r2 & 0x80) == 0 || r1_0 == r0) && ((r2 & 0x80) != 0 || r1_0 == r12)) {
+        //LAB_808b19e
+        r2 = MEMORY.ref(2, r5 + 0x2).getUnsigned();
+        if((r2 & 0x7fff) == 0x7fff) {
+          return MEMORY.ref(4, r5 + 0x4).get();
+        }
+        int r3 = CPU.lslT(r2, 17);
+        r3 = CPU.asrT(r3, 17);
+        if(r3 == r1) {
+          //LAB_808b1b0
+          return MEMORY.ref(4, r5 + 0x4).get();
+        }
+      }
+
+      //LAB_808b1b6
+      r5 += 0x8;
+    }
+
+    //LAB_808b1c4
+    return 0;
+  }
+
   @Method(0x808b1d8)
   public static void FUN_808b1d8() {
     final int r6 = _2000400.get();
@@ -1010,6 +1054,25 @@ public final class GoldenSun_808 {
     }
 
     //LAB_808b3c8
+    return r0;
+  }
+
+  @Method(0x808b3d0)
+  public static int FUN_808b3d0(int r0, final int r1) {
+    if(r0 <= 8) {
+      if(r1 != 0) {
+        if(r0 == 0) {
+          r0 = 0x12;
+        }
+
+        //LAB_808b3e0
+        if(r0 == 1) {
+          r0 = 0x13;
+        }
+      }
+    }
+
+    //LAB_808b3e6
     return r0;
   }
 
@@ -1317,7 +1380,70 @@ public final class GoldenSun_808 {
 
   @Method(0x808ba38)
   public static void FUN_808ba38() {
-    throw new RuntimeException("Not implemented");
+    int r7 = 0x2001124;
+    int r8 = 0;
+    int r6 = r7 - 0x20;
+
+    final int sp00;
+    if(boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).offset(2, 0x19e).get() == 3) {
+      sp00 = 0x8;
+    } else {
+      sp00 = 0x42;
+    }
+
+    //LAB_808ba84
+    //LAB_808ba8c
+    for(int r5 = 0; r5 < sp00; r5++) {
+      final Actor70 r4 = getActor(r5);
+      if(r4 != null) {
+        MEMORY.ref(1, r6).setu(r5);
+        DMA.channels[3].SAD.setu(r4.getAddress());
+        DMA.channels[3].DAD.setu(r7);
+        DMA.channels[3].CNT.setu(0x8400001c);
+
+        final int r4_0;
+        final int r1;
+        final int r0;
+        if(r4.spriteType_54.get() == 1) {
+          final Sprite38 r2 = r4.sprite_50.deref();
+          r4_0 = r2._24.get();
+          r1 = r2._26.get();
+          r0 = r2.packet_00.attribs_04.attrib2_04.get() << 20 >>> 30;
+        } else {
+          //LAB_808bac4
+          r4_0 = 0;
+          r1 = 0;
+          r0 = 0;
+        }
+
+        //LAB_808baca
+        MEMORY.ref(1, r7 + 0xe00 + r8).setu(r4_0);
+        MEMORY.ref(1, r7 + 0xe20 + r8).setu(r1);
+        MEMORY.ref(1, r7 + 0xe40 + r8).setu(r0);
+        r8++;
+        r6++;
+        r7 += 0x70;
+        if(r8 > 0x1f) {
+          break;
+        }
+      }
+
+      //LAB_808baea
+    }
+
+    //LAB_808baf2
+    if(r8 < 0x20) {
+      int r5 = 0x20 - r8;
+
+      //LAB_808bafe
+      do {
+        MEMORY.ref(1, r6).setu(0xff);
+        r6++;
+        r5--;
+      } while(r5 != 0);
+    }
+
+    //LAB_808bb08
   }
 
   @Method(0x808bb2c)
@@ -2178,7 +2304,14 @@ public final class GoldenSun_808 {
 
   @Method(0x808c4c0)
   public static void FUN_808c4c0() {
-    throw new RuntimeException("Not implemented");
+    final int r5 = mallocSlotBoard(27, 0xccc);
+    if(MEMORY.ref(2, r5 + 0x19e).get() == 3) {
+      FUN_8009238();
+      final int r3 = MEMORY.ref(4, r5 + 0x1e0).get();
+      MEMORY.ref(1, r3 + 0x5b).setu(0);
+    }
+
+    //LAB_808c4ec
   }
 
   @Method(0x808c4f8)
@@ -2446,7 +2579,7 @@ public final class GoldenSun_808 {
             MEMORY.ref(2, r9 + 0x1c0).setu(0x1fe);
             _2000402.set(MEMORY.ref(2, r8 + 0x17c).getUnsigned());
             MEMORY.ref(2, r1).setu(999);
-            FUN_80941e0(MEMORY.ref(2, r8 + 0x17c).get());
+            FUN_80941e0();
             MEMORY.ref(4, r8 + 0x1a8).setu(0);
             MEMORY.ref(2, r8 + 0x17c).setu(0);
             _2000478.set(0);

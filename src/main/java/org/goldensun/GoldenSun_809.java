@@ -2019,8 +2019,56 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x80941e0)
-  public static void FUN_80941e0(final int r0) {
-    throw new RuntimeException("Not implemented");
+  public static void FUN_80941e0() {
+    int r1;
+    int r2;
+    int r5;
+    int r6;
+    int r7;
+
+    r6 = boardWramMallocHead_3001e50.offset(27 * 0x4).get();
+    FUN_80f9010(MEMORY.ref(2, 0x200042e).get());
+    FUN_80f9010(0x120);
+    FUN_80f9010(0x93);
+
+    if(MEMORY.ref(2, r6 + 0x19e).get() == 3) {
+      MEMORY.ref(2, 0x50001e6).setu(0x7fff);
+      FUN_80901c0(0x401, 0x10);
+      MEMORY.ref(2, r6 + 0x1c6).setu(0);
+      sleep(16);
+      r7 = 0x7800;
+      r1 = 0x3c0;
+      r6 = 0x1e;
+
+      //LAB_8094242
+      for(r5 = 0; r5 < 0x10; r5++) {
+        MEMORY.ref(2, 0x50001e6).setu(r7 | r1 | r6);
+        sleep(1);
+        r7 -= 0x800;
+        r1 -= 0x40;
+        r6 -= 0x2;
+      }
+    } else {
+      //LAB_8094266
+      MEMORY.ref(2, 0x5000000).setu(0x7fff);
+      FUN_80901c0(0x207, 0x10);
+      MEMORY.ref(2, r6 + 0x1c6).setu(0);
+      sleep(16);
+      r7 = 0x7800;
+      r2 = 0x3c0;
+      r6 = 0x1e;
+
+      //LAB_8094294
+      for(r5 = 0; r5 < 0x10; r5++) {
+        MEMORY.ref(2, 0x5000000).setu(r7 | r2 | r6);
+        sleep(1);
+        r7 -= 0x800;
+        r2 -= 0x40;
+        r6 -= 0x2;
+      }
+    }
+
+    //LAB_80942b6
   }
 
   @Method(0x8094428)
@@ -3381,7 +3429,7 @@ public final class GoldenSun_809 {
     CPU.cmpT(r2 + 0x1fffff, 0x12ffffe);
     if(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()) { // unsigned <=
       if(r0_0 > -0x200000 && r0_0 < 0xe00000) {
-        FUN_8009008(r5, CPU.sp().value + 0x8, CPU.sp().value, 0);
+        FUN_8009008(MEMORY.ref(4, r5, Sprite38::new), CPU.sp().value + 0x8, CPU.sp().value, 0);
       }
     }
 
@@ -3589,7 +3637,7 @@ public final class GoldenSun_809 {
     CPU.sp().value -= 0x4;
 
     if(MEMORY.ref(4, r0).get() != 0) {
-      FUN_8009038(MEMORY.ref(4, r0).get());
+      FUN_8009038(MEMORY.ref(4, r0).deref(4).cast(Sprite38::new));
     }
 
     //LAB_809bb44

@@ -20,6 +20,7 @@ import org.goldensun.types.RotationScaling08;
 import org.goldensun.types.SoundStruct0c;
 import org.goldensun.types.SoundStructFb0;
 import org.goldensun.types.Sprite38;
+import org.goldensun.types.SramTypeStruct;
 import org.goldensun.types.Struct12fc;
 import org.goldensun.types.Struct5c;
 import org.goldensun.types.VramSlot04;
@@ -98,6 +99,24 @@ public final class GoldenSunVars {
 
   /** These appear to be pointers into map/cutscene code */
   public static final Pointer<SupplierRef<Integer>> _2008024 = MEMORY.ref(4, 0x2008024, Pointer.deferred(4, SupplierRef::new));
+
+  public static final Pointer<TriFunctionRef<Integer, Integer, Integer, Integer>> _2004c00 = MEMORY.ref(4, 0x2004c00, Pointer.deferred(4, TriFunctionRef::new));
+  public static final IntRef _2004c04 = MEMORY.ref(4, 0x2004c04, IntRef::new);
+  public static final IntRef _2004c08 = MEMORY.ref(4, 0x2004c08, IntRef::new);
+  public static final UnsignedShortRef _2004c0c = MEMORY.ref(2, 0x2004c0c, UnsignedShortRef::new);
+
+  public static final IntRef _2004c10 = MEMORY.ref(4, 0x2004c10, IntRef::new);
+  public static final IntRef _2004c14 = MEMORY.ref(4, 0x2004c14, IntRef::new);
+  public static final IntRef _2004c18 = MEMORY.ref(4, 0x2004c18, IntRef::new);
+  public static final Pointer<FunctionRef<Integer, Integer>> readOneByteFromPtr_2004c1c = MEMORY.ref(4, 0x2004c1c, Pointer.deferred(4, FunctionRef::new));
+
+  public static final UnsignedByteRef timerIndex_2004c20 = MEMORY.ref(1, 0x2004c20, UnsignedByteRef::new);
+
+  public static final ShortRef _2004c22 = MEMORY.ref(2, 0x2004c22, ShortRef::new);
+  public static final UnsignedByteRef _2004c24 = MEMORY.ref(1, 0x2004c24, UnsignedByteRef::new);
+
+  public static final IntRef timerCntLPtr_2004c28 = MEMORY.ref(4, 0x2004c28, IntRef::new);
+  public static final IntRef oldInterrupts_2004c2c = MEMORY.ref(4, 0x2004c2c, IntRef::new);
 
   public static final ArrayRef<Pointer<RenderPacket0c>> packets_3001400 = MEMORY.ref(4, 0x3001400, ArrayRef.of(Pointer.classFor(RenderPacket0c.class), 0x100, 0x4, Pointer.deferred(4, RenderPacket0c::new)));
   public static final IntRef ticks_3001800 = MEMORY.ref(4, 0x3001800, IntRef::new);
@@ -204,6 +223,8 @@ public final class GoldenSunVars {
   public static final Pointer<SoundStructFb0> _3007ff0 = MEMORY.ref(4, 0x3007ff0, Pointer.deferred(4, SoundStructFb0::new));
 
   public static final IntRef _3007ffc = MEMORY.ref(4, 0x3007ffc, IntRef::new);
+
+  public static final ArrayRef<Pointer<SramTypeStruct>> _8007a0c = MEMORY.ref(4, 0x8007a0c, ArrayRef.of(Pointer.classFor(SramTypeStruct.class), 5, 0x4, Pointer.deferred(4, SramTypeStruct::new)));
 
   /**
    * <ul>

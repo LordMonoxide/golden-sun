@@ -16,8 +16,15 @@ import org.goldensun.types.Struct12fc;
 import javax.annotation.Nullable;
 
 import static org.goldensun.GoldenSun.FUN_80042c8;
+import static org.goldensun.GoldenSun.FUN_800439c;
+import static org.goldensun.GoldenSun.FUN_80053e8;
+import static org.goldensun.GoldenSun.FUN_8005920;
+import static org.goldensun.GoldenSun.FUN_8005a78;
+import static org.goldensun.GoldenSun.FUN_8009008;
 import static org.goldensun.GoldenSun.FUN_8009020;
 import static org.goldensun.GoldenSun.FUN_8009038;
+import static org.goldensun.GoldenSun.decompress;
+import static org.goldensun.GoldenSun.divideU;
 import static org.goldensun.GoldenSun.loadSprite_;
 import static org.goldensun.GoldenSun.divideS;
 import static org.goldensun.GoldenSun.modS;
@@ -58,6 +65,7 @@ import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.heldButtonsLastFrame_3001ae8;
 import static org.goldensun.GoldenSunVars.pressedButtons_3001c94;
 import static org.goldensun.GoldenSunVars.ticks_3001800;
+import static org.goldensun.GoldenSun_802.FUN_8020244;
 import static org.goldensun.GoldenSun_802.FUN_8021620;
 import static org.goldensun.GoldenSun_802.FUN_80216b4;
 import static org.goldensun.GoldenSun_802.FUN_80216e8;
@@ -65,8 +73,12 @@ import static org.goldensun.GoldenSun_802.FUN_8021750;
 import static org.goldensun.GoldenSun_802.FUN_80217a4;
 import static org.goldensun.GoldenSun_807.FUN_8077008;
 import static org.goldensun.GoldenSun_807.FUN_80770c0;
+import static org.goldensun.GoldenSun_807.FUN_8077158;
+import static org.goldensun.GoldenSun_807.FUN_8077290;
+import static org.goldensun.GoldenSun_807.FUN_8077300;
 import static org.goldensun.GoldenSun_808.FUN_808a278;
 import static org.goldensun.GoldenSun_808.FUN_808a5d0;
+import static org.goldensun.GoldenSun_808.FUN_808a5f0;
 import static org.goldensun.GoldenSun_80a.FUN_80a1038;
 import static org.goldensun.GoldenSun_80b.FUN_80b0020;
 import static org.goldensun.GoldenSun_80b.FUN_80b0030;
@@ -432,6 +444,173 @@ public final class GoldenSun_801 {
     CPU.r10().value = CPU.pop();
   }
 
+  @Method(0x80108e4)
+  public static int FUN_80108e4(int r0, int r1, final int r2, int r3, final int a4) {
+    int r5 = r3;
+    int r10 = r1;
+    int r8 = r2;
+    final Map194 r2_1 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
+    int r6 = r2_1._104.get(0)._0c.get();
+    r10 = r10 & 0x1;
+    r0 = r0 * 2;
+    final int r9 = r0;
+    r8 = r8 & 0x1;
+    final int r2_0 = r2_1.getAddress() + 0x338 + ((r9 + r8) * 0x2 + r10) * 0x2; //TODO huh?
+
+    if(a4 == 0) {
+      r0 = 0;
+    }
+
+    if(a4 == 0 && r5 == MEMORY.ref(2, r2_0).getUnsigned()) {
+      return r0;
+    }
+
+    //LAB_8010932
+    MEMORY.ref(2, r2_0).setu(r5);
+    final int r7 = mallocSlotChip(14, 0x400);
+    FUN_80053e8(r6 + MEMORY.ref(4, r6 + r5 * 0x4).get(), r7);
+    int r4 = r7;
+    r5 = 0x2020000 + ((r9 + r8) * 0x20 + r10) * 0x40;
+
+    //LAB_801095e
+    for(r6 = 0; r6 < 0x10; r6++) {
+      DMA.channels[3].SAD.setu(r4);
+      DMA.channels[3].DAD.setu(r5);
+      DMA.channels[3].CNT.setu(0x84000010);
+
+      r4 += 0x40;
+      r5 += 0x80;
+    }
+
+    if(a4 != 0) {
+      r1 = 0x6004000 + ((r9 + r8) * 0x40 + r10) * 0x20;
+      r4 = r7;
+
+      //LAB_801098e
+      for(r6 = 0; r6 < 0x10; r6++) {
+        //LAB_8010990
+        for(int i = 0; i < 0x10; i++) {
+          r3 = MEMORY.ref(2, r4).getUnsigned() * 0x4;
+          MEMORY.ref(2, r1).setu(MEMORY.ref(2, 0x2010000 + r3).getUnsigned());
+          MEMORY.ref(2, r1 + 0x40).setu(MEMORY.ref(2, 0x2010002 + r3).getUnsigned());
+          r1 += 0x2;
+          r4 += 0x4;
+        }
+
+        r1 += 0x60;
+      }
+    }
+
+    //LAB_80109b6
+    freeSlot(14);
+
+    //LAB_80109be
+    return 1;
+  }
+
+  @Method(0x80113e4)
+  public static void FUN_80113e4() {
+    int r0;
+    int r1;
+    int r2;
+    int r3;
+    int r4;
+    int r5;
+    int r6;
+    int r7;
+
+    CPU.push(CPU.r11().value);
+    CPU.push(CPU.r10().value);
+    CPU.push(CPU.r9().value);
+    CPU.push(CPU.r8().value);
+
+    r3 = MEMORY.ref(4, 0x8011498).get();
+    r3 = MEMORY.ref(4, r3).get();
+    CPU.sp().value -= 0x10;
+    r1 = CPU.movT(0, 0x0);
+    MEMORY.ref(4, CPU.sp().value + 0xc).setu(r3);
+    MEMORY.ref(4, CPU.sp().value + 0x8).setu(r1);
+    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r1);
+    r3 = MEMORY.ref(4, r3).get();
+    if(r3 != 0) {
+      r2 = MEMORY.ref(4, r3).get();
+      r3 += 0x4;
+
+      MEMORY.ref(4, CPU.sp().value + 0x8).setu(r2);
+      r3 = MEMORY.ref(4, r3 + 0x4).get();
+      MEMORY.ref(4, CPU.sp().value + 0x4).setu(r3);
+    }
+
+    //LAB_801140e
+    r3 = MEMORY.ref(4, CPU.sp().value + 0x8).get() - 0x1000000;
+    r1 = MEMORY.ref(4, CPU.sp().value + 0x4).get();
+    r3 = CPU.asrT(r3, 25);
+    MEMORY.ref(4, CPU.sp().value + 0x8).setu(r3);
+    r3 = r1 - 0x1400000;
+    r3 = CPU.asrT(r3, 25);
+    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r3);
+    CPU.r9().value = 0;
+    CPU.r11().value = 0;
+
+    //LAB_801142a
+    do {
+      r6 = MEMORY.ref(4, CPU.sp().value + 0x4).get();
+      CPU.r10().value = 0;
+
+      //LAB_8011430
+      do {
+        r3 = r6 & 0xf;
+        r5 = 0;
+        CPU.r8().value = r6;
+        r7 = CPU.lslT(r3, 4);
+
+        //LAB_801143c
+        do {
+          r3 = MEMORY.ref(4, CPU.sp().value + 0x8).get();
+          r1 = CPU.addT(r3, r5);
+          r3 = CPU.addT(r1, 0x0);
+          r2 = CPU.movT(0, 0xf);
+          r3 = CPU.andT(r3, r2);
+          r4 = CPU.addT(r7, r3);
+          r2 = CPU.movT(0, 0x9c);
+          r3 = CPU.lslT(r4, 1);
+          r2 = CPU.lslT(r2, 1);
+          r3 = CPU.addT(r3, r2);
+          r2 = MEMORY.ref(4, CPU.sp().value + 0xc).get();
+          r4 = MEMORY.ref(2, r2 + r3).getUnsigned();
+          r3 = CPU.movT(0, 0x1);
+          r4 += CPU.r11().value;
+          MEMORY.ref(4, CPU.sp().value).setu(r3);
+          r0 = CPU.r9().value;
+          r2 = CPU.r8().value;
+          r3 = CPU.addT(r4, 0x0);
+          r5 = CPU.addT(r5, 0x1);
+          FUN_80108e4(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get());
+          CPU.cmpT(r5, 0x1);
+        } while(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()); // unsigned <=
+
+        r3 = CPU.movT(0, 0x1);
+        CPU.r10().value += r3;
+        r1 = CPU.r10().value;
+        r6 = CPU.addT(r6, 0x1);
+        CPU.cmpT(r1, 0x1);
+      } while(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()); // unsigned <=
+
+      r2 = CPU.movT(0, 0xa0);
+      CPU.r9().value += r3;
+      r2 = CPU.lslT(r2, 1);
+      r3 = CPU.r9().value;
+      CPU.r11().value += r2;
+      CPU.cmpT(r3, 0x1);
+    } while(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()); // unsigned <=
+
+    CPU.sp().value += 0x10;
+    CPU.r8().value = CPU.pop();
+    CPU.r9().value = CPU.pop();
+    CPU.r10().value = CPU.pop();
+    CPU.r11().value = CPU.pop();
+  }
+
   @Method(0x8011590)
   public static void FUN_8011590() {
     final int r5 = boardWramMallocHead_3001e50.offset(7 * 0x4).get();
@@ -449,6 +628,35 @@ public final class GoldenSun_801 {
     r7._100.get(2).set(0xff);
     r7._103.set(0);
     _3001cfc.set(0x8011569);
+  }
+
+  @Method(0x8011644)
+  public static void FUN_8011644() {
+    final Map194 r7 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
+    final int r5 = r7._104.get(0)._18.get();
+    final int r8 = MEMORY.ref(2, 0x5000000).get();
+    FUN_80053e8(getPointerTableEntry(MEMORY.ref(4, r5).get()), 0x2010000);
+    MEMORY.ref(2, 0x2010000).setu(r8);
+    DMA.channels[3].SAD.setu(0x2010000);
+    DMA.channels[3].DAD.setu(0x5000000);
+    DMA.channels[3].CNT.setu(0x84000070);
+
+    decompress(getPointerTableEntry(MEMORY.ref(4, r5 + 0x4).get()), 0x2038000);
+    decompress(getPointerTableEntry(MEMORY.ref(4, r5 + 0x8).get()), 0x203a000);
+    decompress(getPointerTableEntry(MEMORY.ref(4, r5 + 0xc).get()), 0x203c000);
+    decompress(getPointerTableEntry(MEMORY.ref(4, r5 + 0x10).get()), 0x203e000);
+
+    _3001cfc.set(0x801161c); //TODO function
+    r7._100.get(0).set(0);
+    r7._100.get(1).set(0);
+    r7._100.get(2).set(0x9f);
+    r7._103.set(0);
+    sleep(1);
+    decompress(getPointerTableEntry(213), 0x2010000);
+    FUN_80113e4();
+    r7._fc.set(0);
+    FUN_800439c(getRunnable(GoldenSun_801.class, "FUN_801179c"));
+    sleep(1);
   }
 
   @Method(0x801179c)
@@ -961,6 +1169,7 @@ public final class GoldenSun_801 {
     return (GraphicsStruct24)MEMORY.call(0x8017658, r0, r1, r2, r3);
   }
 
+  /** {@link GoldenSun_801#FUN_801776c} */
   @Method(0x8015040)
   public static void FUN_8015040(final int r0, final int r1) {
     MEMORY.call(0x801776c, r0, r1);
@@ -1001,6 +1210,7 @@ public final class GoldenSun_801 {
     MEMORY.call(0x8019908, r0, r1);
   }
 
+  /** {@link GoldenSun_801#FUN_8019a54} */
   @Method(0x8015140)
   public static void FUN_8015140() {
     MEMORY.call(0x8019a54);
@@ -1014,6 +1224,12 @@ public final class GoldenSun_801 {
   @Method(0x80151e8)
   public static int FUN_80151e8() {
     throw new RuntimeException("Not implemented");
+  }
+
+  /** {@link GoldenSun_802#FUN_80289e8} */
+  @Method(0x80151f0)
+  public static int FUN_80151f0() {
+    return (int)MEMORY.call(0x80289e8);
   }
 
   @Method(0x8015200)
@@ -1046,6 +1262,18 @@ public final class GoldenSun_801 {
     throw new RuntimeException("Not implemented");
   }
 
+  /** {@link GoldenSun_802#FUN_80208e4} */
+  @Method(0x80152f0)
+  public static int FUN_80152f0(final int r0) {
+    return (int)MEMORY.call(0x80208e4, r0);
+  }
+
+  /** {@link GoldenSun_801#FUN_801fba8} */
+  @Method(0x80152f8)
+  public static int FUN_80152f8() {
+    return (int)MEMORY.call(0x801fba8);
+  }
+
   @Method(0x8015318)
   public static int FUN_8015318() {
     return (int)MEMORY.call(0x801f77d);
@@ -1056,6 +1284,7 @@ public final class GoldenSun_801 {
     return (int)MEMORY.call(0x8020bd8, r0);
   }
 
+  /** {@link GoldenSun_801#FUN_801ccc0} */
   @Method(0x8015360)
   public static void FUN_8015360(final int r0, final int r1) {
     MEMORY.call(0x801ccc0, r0, r1);
@@ -2582,6 +2811,73 @@ public final class GoldenSun_801 {
     //LAB_8017bf6
   }
 
+  @Method(0x8017c8c)
+  public static void FUN_8017c8c(final int r0, final GraphicsStruct24 r1, int r2, int r3) {
+    int r4 = r3;
+    final int r8 = boardWramMallocHead_3001e50.offset(15 * 0x4).get();
+    int r7 = r2;
+    final int r10 = (short)r7;
+    CPU.sp().value -= 0x8;
+    int r6;
+    if(r0 == 0) {
+      MEMORY.ref(2, r8 + 0xeb0 + MEMORY.ref(2, r8 + 0x12b2).getUnsigned() * 0x2).setu(0);
+      MEMORY.ref(2, r8 + 0x12b2).incr().and(0x1ff);
+      r6 = r8 + 0xeb0;
+    } else {
+      r6 = r0;
+    }
+
+    //LAB_8017cd0
+    r3 = MEMORY.ref(2, r6).get();
+    r6 = CPU.addT(r6, 0x2);
+    //LAB_8017cdc
+    while(r3 != 0) {
+      final int r5 = r3 & 0xffff;
+      if(r5 > 30) {
+        //LAB_8017d80
+        FUN_8018efc(r1, r5, r7, r4, 0);
+        r3 = r5 - 0xde << 16;
+        r2 = 0x10000;
+        r3 = CPU.cmpT(r3, r2);
+        if(CPU.cpsr().getCarry() && !CPU.cpsr().getZero()) { // unsigned >
+          r7 = CPU.addT(r7, 0x1);
+        }
+      } else {
+        switch(r5) {
+          case 3:
+            r7 = r10;
+            r4 = CPU.addT(r4, 0x1);
+            break;
+
+          case 0xe:
+          case 0xf:
+          case 0x1c:
+            r6 = CPU.addT(r6, 0x2);
+
+          case 0x7:
+          case 0x8:
+          case 0x9:
+          case 0xa:
+          case 0xb:
+          case 0xc:
+          case 0x11:
+          case 0x1d:
+            r6 = CPU.addT(r6, 0x2);
+            break;
+        }
+      }
+
+      //LAB_8017da4
+      r3 = MEMORY.ref(2, r6).get();
+      r6 = CPU.addT(r6, 0x2);
+    }
+
+    //LAB_8017db2
+    MEMORY.ref(1, r8 + 0xea3).setu(0x1);
+
+    CPU.sp().value += 0x8;
+  }
+
   /**
    * Convert number to ascii
    *
@@ -3911,6 +4207,49 @@ public final class GoldenSun_801 {
     return r0;
   }
 
+  @Method(0x8018efc)
+  public static void FUN_8018efc(final GraphicsStruct24 r0, final int r1, final int r2, final int r3, final int a4) {
+    final Struct12fc r6 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
+    if((r3 & 0xffff_ffffL) <= (r0._0a.get() - 2 & 0xffff_ffffL)) {
+      if((r2 & 0xffff_ffffL) <= (r0._08.get() - 2 & 0xffff_ffffL)) {
+        if(a4 != 0) {
+          //LAB_8018fcc
+          CPU.cmpT(r1, 0xff);
+          if(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()) { // unsigned <=
+            final int offset = (r0._0e.get() + r3 + 1) * 0x20 + r0._0c.get() + r2 + 1;
+            if(offset < 640) {
+              MEMORY.ref(2, r6.getAddress() + offset * 0x2).setu(r1 | 0xf000); //TODO
+            }
+          }
+        } else {
+          final GraphicsStruct1c r5 = FUN_8015e8c();
+          if(r5 != null) {
+            r5._05.set(0x2);
+            if(r6.vramSlot_12b6.get() == 0x63) {
+              r6.vramSlot_12b6.set(getFreeVramSlot());
+            }
+
+            //LAB_8018f5a
+            r5._16.and(~0x1ff).or((r0._0c.get() + r0._08.get() - 2) * 0x8 + 0x4 & 0x1ff);
+            r5._14.set((r0._0e.get() + r0._0a.get() - 2) * 0x8 - 1);
+            r5._06.set(r5._16.get() << 23 >>> 23);
+            r5._08.set(r5._14.get());
+            r5._00.clear();
+            r5.slot_0e.set((r5.getAddress() - r6.getAddress() - 0x698) * 0xb6db6db7); //TODO
+            if(r5._05.get() == 0) {
+              r5._05.set(a4);
+            }
+
+            //LAB_8018fc2
+            FUN_8016584(r0, r5);
+          }
+        }
+      }
+    }
+
+    //LAB_8018ff0
+  }
+
   @Method(0x801908c)
   public static void FUN_801908c(final GraphicsStruct1c r0) {
     CPU.sp().value -= 0x8;
@@ -3999,7 +4338,7 @@ public final class GoldenSun_801 {
                 //TODO
                 final int r2 = 0x80368d4 + (ticks_3001800.get() >>> 2 & 0x7) * 0x80;
                 r7.attribs_04.attrib2_04.and(~0x3ff).or(FUN_8003fa4(r9.vramSlot_12b6.get(), 0x80, r2) & 0x3ff);
-                r6.slot_0e.set(r7.attribs_04.attrib2_04.get());
+                r6.slot_0e.set(r7.attribs_04.attrib2_04.get() & 0xff);
                 r5 = r7.attribs_04.flags_01.get() & ~0xc & ~0x10 | 0x20;
                 r5 = r5 & 0x3f | 0x80;
                 r7.attribs_04.flags_01.set(r5);
@@ -5673,14 +6012,14 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x801e7c0)
-  public static void FUN_801e7c0(final int r0, final int r1, final int r2, final int r3) {
+  public static void FUN_801e7c0(final int r0, final GraphicsStruct24 r1, final int r2, final int r3) {
     final Struct12fc r7 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
     r7.textOffset_12b2.set(0);
     FUN_8018038(r0, 0x1);
     r7.text_eb0.get(r7.textOffset_12b2.get()).set(0);
     r7.textOffset_12b2.incr().and(0x1ff);
 
-    final int r1_0 = (MEMORY.ref(2, r1 + 0xe).getUnsigned() + (r3 >>> 3) + 0x1) * 0x20 + MEMORY.ref(2, r1 + 0xc).getUnsigned() + (r2 >>> 3) + 0x1;
+    final int r1_0 = (r1._0e.get() + (r3 >>> 3) + 0x1) * 0x20 + r1._0c.get() + (r2 >>> 3) + 0x1;
     if(r1_0 >= 0 && r1_0 < 0x280) {
       FUN_801de5c(r7.text_eb0, r7._00.getAddress() + r1_0 * 0x2, 0x6002000 + r1_0 * 0x2, r2 & 0x7);
     }
@@ -5703,6 +6042,58 @@ public final class GoldenSun_801 {
     r6.get(i).set(0);
     FUN_8017aa4(r6, r1, r2, r3);
     setMallocAddress(r6.getAddress());
+  }
+
+  @Method(0x801e8b0)
+  public static void FUN_801e8b0(final int r0, final GraphicsStruct24 r1, final int r2, final int r3) {
+    final ArrayRef<UnsignedShortRef> r6 = MEMORY.ref(4, mallocBoard(0x200), ArrayRef.of(UnsignedShortRef.class, 0x100, 0x2, UnsignedShortRef::new));
+
+    //LAB_801e8d6
+    int i;
+    for(i = 0; MEMORY.ref(1, r0 + i).getUnsigned() != 0; i++) {
+      r6.get(i).set(MEMORY.ref(1, r0 + i).getUnsigned());
+    }
+
+    //LAB_801e8e4
+    r6.get(i).set(0);
+
+    final int r1_0 = (r1._0e.get() + (r3 >>> 3) + 1) * 0x20 + r1._0c.get() + (CPU.r10().value >>> 3) + 1;
+    if(r1_0 < 640) {
+      FUN_801de5c(r6, boardWramMallocHead_3001e50.offset(15 * 0x4).get() + r1_0 * 0x2, 0x6002000 + r1_0 * 0x2, r2 & 0x7); //TODO
+      setMallocAddress(r6.getAddress());
+    }
+
+    //LAB_801e932
+  }
+
+  @Method(0x801e940)
+  public static void FUN_801e940(final int r0, final GraphicsStruct24 r1, final int r2, final int r3) {
+    final int r6 = mallocBoard(0x200);
+
+    //LAB_801e962
+    int i;
+    for(i = 0; MEMORY.ref(1, r0 + i).getUnsigned() != 0; i++) {
+      MEMORY.ref(2, r6 + i * 0x2).setu(MEMORY.ref(1, r0 + i).getUnsigned());
+    }
+
+    //LAB_801e970
+    MEMORY.ref(2, r6 + i * 0x2).setu(0);
+    FUN_8017c8c(r6, r1, r2 >>> 3, r3 >>> 3);
+    setMallocAddress(r6);
+  }
+
+  @Method(0x801e9d4)
+  public static void FUN_801e9d4(final int r0, final int r1, final GraphicsStruct24 r2, final int r3, final int a4) {
+    CPU.sp().value -= 0x10;
+    FUN_801e8b0(convertNumberToAscii(CPU.sp().value, r0, r1), r2, r3, a4);
+    CPU.sp().value += 0x10;
+  }
+
+  @Method(0x801ea08)
+  public static void FUN_801ea08(final int r0, final int r1, final GraphicsStruct24 r2, final int r3, final int a4) {
+    CPU.sp().value -= 0x10;
+    FUN_801e940(convertNumberToAscii(CPU.sp().value, r0, r1), r2, r3, a4);
+    CPU.sp().value += 0x10;
   }
 
   @Method(0x801eadc)
@@ -5814,51 +6205,90 @@ public final class GoldenSun_801 {
     //LAB_801ee4e
   }
 
+  @Method(0x801f680)
+  public static int FUN_801f680(final int r0, final int r1) {
+    CPU.sp().value -= 0x40;
+    final int r6 = Math.min(59999, divideU(r0, 3600));
+    final int div = divideU(r6, 60);
+    final int mod = modU(r6, 60);
+    final int num1 = convertNumberToAscii(CPU.sp().value, div, 0x3);
+    MEMORY.ref(1, r1).setu(MEMORY.ref(1, num1).getUnsigned());
+    MEMORY.ref(1, r1 + 0x1).setu(MEMORY.ref(1, num1 + 0x1).getUnsigned());
+    MEMORY.ref(1, r1 + 0x2).setu(MEMORY.ref(1, num1 + 0x2).getUnsigned());
+    MEMORY.ref(1, r1 + 0x3).setu(0x3a);
+    final int num2 = convertNumberToAscii(CPU.sp().value, mod + 100, 0x2);
+    MEMORY.ref(1, r1 + 0x4).setu(MEMORY.ref(1, num2).getUnsigned());
+    MEMORY.ref(1, r1 + 0x5).setu(MEMORY.ref(1, num2 + 0x1).getUnsigned());
+    MEMORY.ref(1, r1 + 0x6).setu(0);
+    CPU.sp().value += 0x40;
+    return r1;
+  }
+
+  @Method(0x801f704)
+  public static int FUN_801f704() {
+    int r0;
+    int r1;
+    int r2;
+    int r3;
+
+    r3 = MEMORY.ref(4, 0x801f728).get();
+    r1 = CPU.movT(0, 0x82);
+    r3 = MEMORY.ref(4, r3).get();
+    r1 = CPU.lslT(r1, 5);
+    r2 = CPU.addT(r3, r1);
+    r0 = CPU.movT(0, 0x0);
+
+    //LAB_801f712
+    do {
+      r3 = MEMORY.ref(1, r2 + 0x1c).getUnsigned();
+      CPU.cmpT(r3, 0x0);
+      if(CPU.cpsr().getZero()) { // ==
+        return r0;
+      }
+      r0 = CPU.addT(r0, 0x1);
+      r2 = CPU.addT(r2, 0x40);
+      CPU.cmpT(r0, 0x2);
+    } while(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()); // unsigned <=
+    r0 = MEMORY.ref(4, 0x801f72c).get();
+
+    //LAB_801f722
+    return r0;
+  }
+
   @Method(0x801f77c)
   public static int FUN_801f77c() {
     int r0;
     int r1;
-    int r3;
     int r5;
     int r6;
 
     r0 = loadSaveList();
-    r6 = CPU.movT(0, 0x9);
-    r5 = CPU.movT(0, 0x0);
-    r6 = CPU.negT(r6, r6);
-    CPU.cmpT(r0, 0x0);
-    if(CPU.cpsr().getZero()) { // ==
-      r0 = loadSavePreview();
+    r5 = 0;
+    r6 = -9;
+    if(r0 == 0) {
+      r6 = loadSavePreview();
       r1 = boardWramMallocHead_3001e50.offset(51 * 0x4).get();
-      MEMORY.ref(2, 0x2002010).setu(r5);
-      MEMORY.ref(2, 0x200200c).setu(r5);
-      r6 = CPU.addT(r0, 0x0);
+      MEMORY.ref(2, 0x2002010).setu(0);
+      MEMORY.ref(2, 0x200200c).setu(0);
       r1 = CPU.addT(r1, 0x1070);
       r0 = CPU.movT(0, 0x2);
 
       //LAB_801f7a8
       do {
-        r3 = CPU.movT(0, 0x1);
-        r3 = MEMORY.ref(1, r1 + r3).get();
-        CPU.cmpT(r3, 0x0);
-        if(!CPU.cpsr().getZero()) { // !=
+        if(MEMORY.ref(1, r1 + 0x1).get() != 0) {
           MEMORY.ref(2, 0x2002010).setu(0x1);
           r5 = CPU.addT(r5, 0x1);
         }
 
         //LAB_801f7b4
-        r3 = CPU.movT(0, 0x2);
-        r3 = MEMORY.ref(1, r1 + r3).get();
-        CPU.cmpT(r3, 0x0);
-        if(!CPU.cpsr().getZero()) { // !=
+        if(MEMORY.ref(1, r1 + 0x2).get() != 0) {
           MEMORY.ref(2, 0x200200c).setu(0x1);
         }
 
         //LAB_801f7be
         r0 = CPU.subT(r0, 0x1);
         r1 = CPU.addT(r1, 0x40);
-        CPU.cmpT(r0, 0x0);
-      } while(CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()); // >=
+      } while(r0 >= 0);
 
       if((heldButtonsLastFrame_3001ae8.get() & 0x120) != 0x120) { // Left/R
         MEMORY.ref(2, 0x2002010).setu(0);
@@ -5877,6 +6307,327 @@ public final class GoldenSun_801 {
     return r6;
   }
 
+  @Method(0x801f818)
+  public static int FUN_801f818() {
+    int r0;
+    int r1;
+    int r2;
+    int r3;
+    int r5;
+    int r6;
+    int r7;
+
+    CPU.push(CPU.r8().value);
+
+    r0 = CPU.movT(0, 0x0);
+    r5 = MEMORY.ref(4, 0x801f988).get();
+    CPU.sp().value -= 0x1c;
+    CPU.r8().value = r0;
+    r0 = FUN_8077300();
+    r2 = MEMORY.ref(4, 0x801f98c).get();
+    r3 = MEMORY.ref(4, 0x801f990).get();
+    MEMORY.ref(4, r2).setu(r0);
+    r0 = CPU.movT(0, 0x80);
+    r1 = MEMORY.ref(4, r3).get();
+    r3 = MEMORY.ref(4, 0x801f994).get();
+    r0 = CPU.lslT(r0, 1);
+    r3 = CPU.addT(r3, r0);
+    MEMORY.ref(4, r2 + 0x4).setu(r1);
+    MEMORY.ref(4, r3).setu(r1);
+    r3 = MEMORY.ref(4, 0x801f998).get();
+    r0 = MEMORY.ref(4, 0x801f99c).get();
+    r1 = MEMORY.ref(1, r3).getUnsigned();
+    r3 = CPU.addT(r2, r0);
+    MEMORY.ref(1, r3).setu(r1);
+    r1 = CPU.movT(0, 0xfa);
+    r1 = CPU.lslT(r1, 1);
+    r2 = CPU.addT(r2, r1);
+    r0 = MEMORY.ref(4, r2).get();
+    r0 = FUN_8077008(r0);
+    r7 = CPU.addT(r5, 0x0);
+    r6 = CPU.addT(r0, 0x0);
+    r1 = CPU.addT(r5, 0x0);
+    r7 = CPU.subT(r7, 0x10);
+    r2 = CPU.addT(r6, 0x0);
+    r5 = CPU.movT(0, 0xb);
+
+    //LAB_801f860
+    do {
+      r3 = MEMORY.ref(1, r2).getUnsigned();
+      r5 = CPU.subT(r5, 0x1);
+      MEMORY.ref(1, r1).setu(r3);
+      r2 = CPU.addT(r2, 0x1);
+      r1 = CPU.addT(r1, 0x1);
+      CPU.cmpT(r5, 0x0);
+    } while(CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()); // >=
+
+    r3 = MEMORY.ref(1, r6 + 0xf).getUnsigned();
+    r5 = MEMORY.ref(4, 0x801f98c).get();
+    MEMORY.ref(1, r7 + 0x1c).setu(r3);
+    r3 = MEMORY.ref(4, r5 + 0x4).get();
+    r2 = CPU.movT(0, 0xe0);
+    MEMORY.ref(4, r7 + 0x20).setu(r3);
+    r2 = CPU.lslT(r2, 1);
+    r3 = CPU.addT(r5, r2);
+    r2 = CPU.addT(r2, 0x2);
+    r1 = CPU.movT(0, 0x0);
+    r0 = MEMORY.ref(2, r3 + r1).get();
+    r3 = CPU.addT(r5, r2);
+    r2 = CPU.movT(0, 0x0);
+    r1 = MEMORY.ref(2, r3 + r2).get();
+    r0 = FUN_808a5d0(r0, r1);
+    MEMORY.ref(2, r7 + 0x1e).setu(r0);
+    r0 = MEMORY.ref(4, 0x801f9a0).get();
+    r3 = CPU.addT(r6, r0);
+    r3 = MEMORY.ref(1, r3).getUnsigned();
+    MEMORY.ref(1, r7 + 0x1d).setu(r3);
+    r3 = MEMORY.ref(4, r5 + 0x10).get();
+    r0 = CPU.movT(0, 0x0);
+    MEMORY.ref(4, r7 + 0x24).setu(r3);
+    r0 = FUN_8077290(r0);
+    r3 = CPU.addT(r7, 0x0);
+    r3 = CPU.addT(r3, 0x28);
+    MEMORY.ref(1, r3).setu(r0);
+    r0 = CPU.movT(0, 0x1);
+    r0 = FUN_8077290(r0);
+    r3 = CPU.addT(r7, 0x0);
+    r3 = CPU.addT(r3, 0x29);
+    MEMORY.ref(1, r3).setu(r0);
+    r0 = CPU.movT(0, 0x2);
+    r0 = FUN_8077290(r0);
+    r3 = CPU.addT(r7, 0x0);
+    r3 = CPU.addT(r3, 0x2a);
+    MEMORY.ref(1, r3).setu(r0);
+    r0 = CPU.movT(0, 0x3);
+    r0 = FUN_8077290(r0);
+    r3 = CPU.addT(r7, 0x0);
+    r3 = CPU.addT(r3, 0x2b);
+    r6 = CPU.sp().value;
+    MEMORY.ref(1, r3).setu(r0);
+    r5 = CPU.movT(0, 0x0);
+    r0 = CPU.addT(r6, 0x0);
+    FUN_8077158(r0);
+    r3 = MEMORY.ref(2, r6 + r5).getUnsigned();
+    CPU.cmpT(r3, 0xff);
+    if(!CPU.cpsr().getZero()) { // !=
+      r1 = CPU.addT(r7, 0x0);
+      r0 = CPU.addT(r6, 0x0);
+      r1 = CPU.addT(r1, 0x2c);
+      r2 = CPU.movT(0, 0x0);
+
+      //LAB_801f8e4
+      do {
+        r3 = MEMORY.ref(2, r2 + r0).getUnsigned();
+        r5 = CPU.addT(r5, 0x1);
+        MEMORY.ref(1, r1).setu(r3);
+        r2 = CPU.addT(r2, 0x2);
+        r1 = CPU.addT(r1, 0x1);
+        CPU.cmpT(r5, 0x3);
+        if(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >
+          break;
+        }
+        r3 = MEMORY.ref(2, r2 + r6).getUnsigned();
+        CPU.cmpT(r3, 0xff);
+      } while(!CPU.cpsr().getZero()); // !=
+    }
+
+    //LAB_801f8f8
+    r1 = CPU.movT(0, 0x1);
+    r2 = CPU.addT(r5, 0x0);
+    r1 = CPU.negT(r1, r1);
+    r3 = CPU.addT(r1, 0x0);
+    r2 = CPU.addT(r2, 0x2c);
+    MEMORY.ref(1, r7 + r2).setu(r3);
+    r0 = MEMORY.ref(4, 0x801f9a4).get();
+    r2 = MEMORY.ref(4, 0x801f98c).get();
+    r3 = CPU.addT(r2, r0);
+    r1 = MEMORY.ref(1, r3).getUnsigned();
+    r3 = CPU.addT(r7, 0x0);
+    r3 = CPU.addT(r3, 0x34);
+    MEMORY.ref(1, r3).setu(r1);
+    r1 = MEMORY.ref(4, 0x801f9a8).get();
+    r3 = CPU.addT(r2, r1);
+    r3 = MEMORY.ref(1, r3).getUnsigned();
+    r1 = CPU.addT(r7, 0x0);
+    r1 = CPU.addT(r1, 0x35);
+    MEMORY.ref(1, r1).setu(r3);
+    r3 = MEMORY.ref(4, 0x801f9ac).get();
+    r2 = CPU.addT(r2, r3);
+    r3 = MEMORY.ref(1, r2).getUnsigned();
+    r2 = CPU.addT(r7, 0x0);
+    r2 = CPU.addT(r2, 0x31);
+    MEMORY.ref(1, r2).setu(r3);
+    r3 = CPU.addT(r7, 0x0);
+    r3 = CPU.addT(r3, 0x32);
+    r0 = CPU.movT(0, 0x0);
+    MEMORY.ref(1, r3).setu(r0);
+    r5 = CPU.movT(0, 0x30);
+    r6 = CPU.addT(r3, 0x0);
+
+    //LAB_801f936
+    do {
+      r0 = CPU.addT(r5, 0x0);
+      r0 = FUN_80770c0(r0);
+      CPU.cmpT(r0, 0x0);
+      if(!CPU.cpsr().getZero()) { // !=
+        r3 = MEMORY.ref(1, r6).getUnsigned();
+        r3 = CPU.addT(r3, 0x1);
+        MEMORY.ref(1, r6).setu(r3);
+      }
+
+      //LAB_801f946
+      r5 = CPU.addT(r5, 0x1);
+      CPU.cmpT(r5, 0x7f);
+    } while(CPU.cpsr().getZero() || CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()); // <=
+
+    r0 = CPU.movT(0, 0x20);
+    r0 = FUN_80770c0(r0);
+    r3 = CPU.negT(r3, r0);
+    r3 = CPU.orrT(r3, r0);
+    r2 = CPU.addT(r7, 0x0);
+    r3 = CPU.lsrT(r3, 31);
+    r2 = CPU.addT(r2, 0x33);
+    MEMORY.ref(1, r2).setu(r3);
+    r3 = MEMORY.ref(4, 0x801f98c).get();
+    r1 = CPU.movT(0, 0xf2);
+    r3 = MEMORY.ref(4, r3).get();
+    r2 = MEMORY.ref(4, 0x801f9b0).get();
+    r5 = CPU.movT(0, 0x0);
+    r1 = CPU.lslT(r1, 2);
+    MEMORY.ref(2, r7 + 0x36).setu(r3);
+
+    //LAB_801f96e
+    //LAB_801f974
+    while(r5 < r1) {
+      r3 = MEMORY.ref(4, r2).get();
+      r2 += 0x4;
+
+      r5 = CPU.addT(r5, 0x1);
+      CPU.r8().value += r3;
+
+    }
+    r0 = CPU.r8().value;
+    MEMORY.ref(4, r7 + 0x3c).setu(r0);
+
+    CPU.sp().value += 0x1c;
+    CPU.r8().value = CPU.pop();
+    return r0;
+  }
+
+  @Method(0x801fba8)
+  public static int FUN_801fba8() {
+    int r0;
+    int r1;
+    int r3;
+    int r5;
+    int r6;
+    int r7;
+
+    r7 = CPU.r10().value;
+    r6 = CPU.r8().value;
+    CPU.push(r7);
+    CPU.push(r6);
+
+    r3 = CPU.movT(0, 0x0);
+    CPU.r8().value = r3;
+    r0 = loadSaveList();
+    r6 = CPU.addT(r0, 0x0);
+    CPU.cmpT(r6, 0x0);
+    if(!CPU.cpsr().getZero()) { // !=
+      r0 = MEMORY.ref(4, 0x801fc6c).get();
+      r1 = CPU.movT(0, 0x1);
+      FUN_801776c(r0, r1);
+      r3 = CPU.movT(0, 0x9);
+      r3 = CPU.negT(r3, r3);
+      CPU.r8().value = r3;
+    } else {
+      //LAB_801fbca
+      loadSavePreview();
+      r0 = CPU.movT(0, 0x0);
+      r1 = CPU.movT(0, 0x2);
+      r0 = FUN_8020244(r0, r1);
+      r3 = CPU.movT(0, 0x1);
+      r5 = CPU.addT(r0, 0x0);
+      r3 = CPU.negT(r3, r3);
+      r5 = CPU.cmpT(r5, r3);
+      if(CPU.cpsr().getZero()) { // ==
+        CPU.r8().value = r5;
+      } else {
+        //LAB_801fbe4
+        r7 = MEMORY.ref(4, 0x801fc70).get();
+        r0 = CPU.addT(r5, 0x0);
+        r1 = CPU.addT(r7, 0x0);
+        r0 = FUN_8005a78(r0, r1);
+        r3 = CPU.movT(0, 0x80);
+        r3 = CPU.lslT(r3, 5);
+        r3 = CPU.addT(r3, r7);
+        CPU.r10().value = r3;
+        r6 = CPU.addT(r0, 0x0);
+        r1 = CPU.r10().value;
+        r0 = CPU.addT(r5, 0x3);
+        r0 = FUN_8005a78(r0, r1);
+        r6 = CPU.orrT(r6, r0);
+        CPU.cmpT(r6, 0x0);
+        if(!CPU.cpsr().getZero()) { // !=
+          r0 = MEMORY.ref(4, 0x801fc74).get();
+          r1 = CPU.movT(0, 0x1);
+          FUN_801776c(r0, r1);
+          r3 = CPU.movT(0, 0x2);
+          r3 = CPU.negT(r3, r3);
+          CPU.r8().value = r3;
+        } else {
+          //LAB_801fc12
+          r0 = FUN_801f704();
+          r3 = MEMORY.ref(4, 0x801fc78).get();
+          r5 = CPU.addT(r0, 0x0);
+          r5 = CPU.cmpT(r5, r3);
+          if(CPU.cpsr().getZero()) { // ==
+            r0 = MEMORY.ref(4, 0x801fc7c).get();
+            r1 = CPU.movT(0, 0x1);
+            FUN_801776c(r0, r1);
+            r3 = CPU.movT(0, 0x5);
+            r3 = CPU.negT(r3, r3);
+            CPU.r8().value = r3;
+          } else {
+            //LAB_801fc2a
+            r1 = CPU.addT(r7, 0x0);
+            r0 = CPU.addT(r5, 0x0);
+            r0 = FUN_8005920(r0, r1);
+            r1 = CPU.r10().value;
+            r6 = CPU.addT(r0, 0x0);
+            r0 = CPU.addT(r5, 0x3);
+            r0 = FUN_8005920(r0, r1);
+            r6 = CPU.orrT(r6, r0);
+            CPU.cmpT(r6, 0x0);
+            if(!CPU.cpsr().getZero()) { // !=
+              r0 = MEMORY.ref(4, 0x801fc7c).get();
+              r1 = CPU.movT(0, 0x1);
+              FUN_801776c(r0, r1);
+              r3 = CPU.movT(0, 0x3);
+              r3 = CPU.negT(r3, r3);
+              CPU.r8().value = r3;
+            } else {
+              //LAB_801fc52
+              r0 = MEMORY.ref(4, 0x801fc80).get();
+              r1 = CPU.movT(0, 0x1);
+              FUN_801776c(r0, r1);
+            }
+          }
+        }
+      }
+    }
+
+    //LAB_801fc5a
+    unloadSaveList();
+    r0 = CPU.r8().value;
+    r3 = CPU.pop();
+    r5 = CPU.pop();
+
+    CPU.r8().value = r3;
+    CPU.r10().value = r5;
+    return r0;
+  }
+
   @Method(0x801fd34)
   public static void FUN_801fd34() {
     //LAB_801fd3c
@@ -5887,11 +6638,6 @@ public final class GoldenSun_801 {
     }
   }
 
-  @Method(0x801f818)
-  public static int FUN_801f818() {
-    throw new RuntimeException("Not implemented");
-  }
-
   @Method(0x801fd84)
   public static void FUN_801fd84() {
     setTickCallback(getRunnable(GoldenSun_801.class, "FUN_801fd34"), 0xc80);
@@ -5899,7 +6645,7 @@ public final class GoldenSun_801 {
 
   @Method(0x801fd98)
   public static void FUN_801fd98() {
-    throw new RuntimeException("Not implemented");
+    clearTickCallback(getRunnable(GoldenSun_801.class, "FUN_801fd34"));
   }
 
   @Method(0x801fda8)
@@ -5992,7 +6738,26 @@ public final class GoldenSun_801 {
 
   @Method(0x801fe2c)
   public static void FUN_801fe2c(final GraphicsStruct24 r0, final int r1, final int r2, final int r3) {
-    throw new RuntimeException("Not implemented");
+    final int r1_0 = boardWramMallocHead_3001e50.offset(55 * 0x4).get();
+
+    //LAB_801fe72
+    for(int sp04 = 0; sp04 < 4 && MEMORY.ref(1, r3 + 0x2c + sp04).get() != -1; sp04++) {
+      final Sprite38 r5 = loadSprite_(FUN_808a5f0(MEMORY.ref(1, r3 + 0x2c + sp04).get(), MEMORY.ref(1, r3 + 0x33).get()));
+      if(r5 != null) {
+        FUN_8009020(r5, 0x1);
+        r5._26.set(0);
+        r5.packet_00.attribs_04.attrib2_04.and(~0xc00);
+      }
+
+      //LAB_801fea6
+      MEMORY.ref(4, r1_0 + 0x114 + sp04 * 0x4).setu(r5 == null ? 0 : r5.getAddress());
+      MEMORY.ref(2, r1_0 + 0x134 + sp04 * 0x2).setu((r1 + r0._0c.get() + sp04 * 0x3) * 0x8 + 0x10);
+      MEMORY.ref(2, r1_0 + 0x134 + 0x10 + sp04 * 0x2).setu((r2 + r0._0e.get()) * 0x8 + 0x10);
+      MEMORY.ref(4, r1_0 + 0x114 + 0x40 + sp04 * 0x4).setu(0x10000);
+    }
+
+    //LAB_801feee
+    setTickCallback(getRunnable(GoldenSun_801.class, "FUN_801ff58"), 0xc80);
   }
 
   @Method(0x801ff14)
@@ -6004,7 +6769,7 @@ public final class GoldenSun_801 {
     for(int r6 = 0; r6 < 4; r6++) {
       final int r0 = MEMORY.ref(4, r7 + 0x114 + r6 * 0x4).get();
       if(r0 != 0) {
-        FUN_8009038(r0);
+        FUN_8009038(MEMORY.ref(4, r0, Sprite38::new));
         MEMORY.ref(4, r7 + 0x114 + r6 * 0x4).setu(0);
       }
 
@@ -6014,7 +6779,31 @@ public final class GoldenSun_801 {
 
   @Method(0x801ff58)
   public static void FUN_801ff58() {
-    throw new RuntimeException("Not implemented");
+    CPU.sp().value -= 0x1c;
+
+    final int r3 = boardWramMallocHead_3001e50.offset(55 * 0x4).get();
+    final int r4 = CPU.sp().value + 0x4;
+    final int r6 = CPU.sp().value + 0xc;
+
+    //LAB_801ff7e
+    for(int r8 = 0; r8 < 4; r8++) {
+      final int r0_0 = MEMORY.ref(4, r3 + 0x114 + r8 * 0x4).get();
+      if(r0_0 != 0) {
+        MEMORY.ref(4, r4).setu(MEMORY.ref(4, r3 + 0x114 + 0x40 + r8 * 0x4).get());
+        MEMORY.ref(4, r4 + 0x4).setu(MEMORY.ref(4, r3 + 0x114 + 0x40 + r8 * 0x4).get());
+
+        MEMORY.ref(4, r6).setu(MEMORY.ref(2, r3 + 0x134 + r8 * 0x2).get() << 16);
+        MEMORY.ref(4, r6 + 0x4).setu(0x1f40000);
+        MEMORY.ref(4, r6 + 0x8).setu(0x1f40000 + (MEMORY.ref(2, r3 + 0x134 + 0x10 + r8 * 0x2).get() << 16));
+        MEMORY.ref(4, r6 + 0xc).setu(0);
+
+        FUN_8009008(MEMORY.ref(4, r0_0, Sprite38::new), r6, r4, 0x4000);
+      }
+
+      //LAB_801ffb6
+    }
+
+    CPU.sp().value += 0x1c;
   }
 
   @Method(0x801ffd8)

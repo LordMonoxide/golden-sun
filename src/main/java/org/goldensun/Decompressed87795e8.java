@@ -1337,6 +1337,7 @@ public final class Decompressed87795e8 {
     MEMORY.call(0x8015018, r0, r1);
   }
 
+  /** {@link GoldenSun_801#FUN_8015040} */
   @Method(0x2009394)
   public static void FUN_2009394(final int r0, final int r1) {
     MEMORY.call(0x8015040, r0, r1);
@@ -1367,11 +1368,13 @@ public final class Decompressed87795e8 {
     MEMORY.call(0x8015088, r0, r1, r2, r3);
   }
 
+  /** {@link GoldenSun_801#FUN_8015140} */
   @Method(0x20093c4)
   public static void FUN_20093c4() {
     MEMORY.call(0x8015140);
   }
 
+  /** {@link GoldenSun_801#FUN_80151f0} */
   @Method(0x20093cc)
   public static int FUN_20093cc() {
     return (int)MEMORY.call(0x80151f0);
@@ -1397,11 +1400,13 @@ public final class Decompressed87795e8 {
     return (int)MEMORY.call(0x80152e8);
   }
 
+  /** {@link GoldenSun_801#FUN_80152f0} */
   @Method(0x20093f4)
   public static int FUN_20093f4(final int r0) {
     return (int)MEMORY.call(0x80152f0, r0);
   }
 
+  /** {@link GoldenSun_801#FUN_80152f8} */
   @Method(0x20093fc)
   public static int FUN_20093fc() {
     return (int)MEMORY.call(0x80152f8);
@@ -1422,11 +1427,13 @@ public final class Decompressed87795e8 {
     return (int)MEMORY.call(0x8015320, r0);
   }
 
+  /** {@link GoldenSun_801#FUN_8015360} */
   @Method(0x200941c)
   public static void FUN_200941c(final int r0, final int r1) {
     MEMORY.call(0x8015360, r0, r1);
   }
 
+  /** {@link GoldenSun_801#FUN_8015390} */
   @Method(0x2009424)
   public static int FUN_2009424(final int r0, final int r1, final int r2, final int r3) {
     return (int)MEMORY.call(0x8015390, r0, r1, r2, r3);
@@ -1462,11 +1469,13 @@ public final class Decompressed87795e8 {
     return (int)MEMORY.call(0x80770c0, r0);
   }
 
+  /** {@link GoldenSun_807#FUN_80770c8} */
   @Method(0x200945c)
   public static void FUN_200945c(final int r0) {
     MEMORY.call(0x80770c8, r0);
   }
 
+  /** {@link GoldenSun_807#FUN_80770d0} */
   @Method(0x2009464)
   public static void FUN_2009464(final int r0) {
     MEMORY.call(0x80770d0, r0);

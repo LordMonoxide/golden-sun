@@ -96,9 +96,11 @@ public class Map194 implements MemoryRef {
     public final IntRef _00;
     public final IntRef _04;
     public final IntRef _08;
+    /** TODO pointer */
     public final IntRef _0c;
     public final IntRef _10;
     public final IntRef _14;
+    /** TODO pointer */
     public final IntRef _18;
     public final IntRef _1c;
     public final IntRef _20;
