@@ -13,6 +13,7 @@ import org.goldensun.memory.types.TriFunctionRef;
 import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
+import org.goldensun.types.ChoiceMenu98;
 import org.goldensun.types.GraphicsStruct184;
 import org.goldensun.types.Map194;
 import org.goldensun.types.RenderPacket0c;
@@ -204,6 +205,7 @@ public final class GoldenSunVars {
    *   <li>7 - </li>
    *   <li>8 - {@link Map194}</li>
    *   <li>15 - {@link Struct12fc}</li>
+   *   <li>58 - {@link ChoiceMenu98}</li>
    * </ul>
    */
   public static final Value boardWramMallocHead_3001e50 = MEMORY.ref(4, 0x3001e50);
