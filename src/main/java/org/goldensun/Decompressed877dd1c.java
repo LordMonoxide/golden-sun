@@ -134,7 +134,7 @@ public final class Decompressed877dd1c {
       actor8._64.set(FUN_200c634(rand(), 0x5a) + 0x3c);
       actor8._66.set(4);
       FUN_200c744(0x8, 0x200cec8);
-      FUN_200c794(0x8, 0x6);
+      setActorAnimationIfLoaded_(0x8, 0x6);
       getActor(0x16).flags_23.and(0xfe);
       getActor(0x8).flags_23.and(0xfe);
       setTickCallback(getRunnable(Decompressed877dd1c.class, "FUN_200c5b8"), 0xc80);
@@ -152,17 +152,17 @@ public final class Decompressed877dd1c {
       //LAB_20086ec
       FUN_200c78c(0xa, 0xc00000, 0x4be0000);
       FUN_200c7fc(0xa, 0x2000, 0);
-      FUN_200c794(0xa, 0x5);
+      setActorAnimationIfLoaded_(0xa, 0x5);
       getActor(10)._64.set(FUN_200c634(rand(), 0x5a) + 0x3c);
       FUN_200c744(0xa, 0x200cec8);
       FUN_200c78c(0x18, 0xe30000, 0x4be0000);
       FUN_200c7fc(0x18, 0x4000, 0);
-      FUN_200c794(0x18, 0x6);
+      setActorAnimationIfLoaded_(0x18, 0x6);
       getActor(24)._64.set(FUN_200c634(rand(), 0x5a) + 0x3c);
       FUN_200c744(0x18, 0x200cec8);
       FUN_200c78c(0x19, 0xf70000, 0x4be0000);
       FUN_200c7fc(0x19, 0x4000, 0);
-      FUN_200c794(0x19, 0x6);
+      setActorAnimationIfLoaded_(0x19, 0x6);
       getActor(25)._64.set(FUN_200c634(rand(), 0x5a) + 0x3c);
       FUN_200c744(0x19, 0x200cec8);
       FUN_200c78c(0x17, 0xf30000, 0x4fd0000);
@@ -208,7 +208,7 @@ public final class Decompressed877dd1c {
       FUN_2008a10();
     } else {
       //LAB_2008930
-      FUN_200c794(0x17, 0x7);
+      setActorAnimationIfLoaded_(0x17, 0x7);
 
       if(FUN_200c6dc(0x837) == 0) {
         FUN_200c6fc();
@@ -217,15 +217,15 @@ public final class Decompressed877dd1c {
         FUN_200c78c(0x15, 0x1a80000, 0x2730000);
         FUN_200c774(0x16, 0x190, 0x26b);
         FUN_200c77c(0x15, 0x1a8, 0x26b);
-        FUN_200c794(0x15, 0x2);
-        FUN_200c794(0x16, 0x5);
+        setActorAnimationIfLoaded_(0x15, 0x2);
+        setActorAnimationIfLoaded_(0x16, 0x5);
         FUN_200c704();
       } else {
         //LAB_2008994
         FUN_200c6fc();
         FUN_200c78c(0x15, 0x1a80000, 0x2730000);
         FUN_200c77c(0x15, 0x1a8, 0x26b);
-        FUN_200c794(0x15, 0x3);
+        setActorAnimationIfLoaded_(0x15, 0x3);
         FUN_200c704();
       }
 
@@ -351,7 +351,7 @@ public final class Decompressed877dd1c {
     FUN_200c77c(r0, r1, r2);
     r0 = CPU.movT(0, 0x9);
     r1 = CPU.movT(0, 0x1);
-    FUN_200c794(r0, r1);
+    setActorAnimationIfLoaded_(r0, r1);
     r0 = CPU.movT(0, 0x9);
     r1 = CPU.movT(0, 0x1);
     FUN_200c7b4(r0, r1);
@@ -375,7 +375,7 @@ public final class Decompressed877dd1c {
     FUN_200c6f4(r0);
     r0 = CPU.movT(0, 0xa);
     r1 = CPU.movT(0, 0x4);
-    FUN_200c79c(r0, r1);
+    setActorAnimationAndWaitUntilFinished(r0, r1);
     r0 = CPU.movT(0, 0xa);
     r1 = CPU.movT(0, 0x0);
     FUN_200c7e4(r0, r1);
@@ -409,7 +409,7 @@ public final class Decompressed877dd1c {
     FUN_200c7ec(r0, r1, r2);
     r0 = CPU.movT(0, 0xa);
     r1 = CPU.movT(0, 0x4);
-    FUN_200c79c(r0, r1);
+    setActorAnimationAndWaitUntilFinished(r0, r1);
     r0 = CPU.movT(0, 0xa);
     r1 = CPU.movT(0, 0x0);
     FUN_200c7e4(r0, r1);
@@ -454,7 +454,7 @@ public final class Decompressed877dd1c {
     FUN_200c7e4(r0, r1);
     r0 = CPU.movT(0, 0x9);
     r1 = CPU.movT(0, 0x4);
-    FUN_200c79c(r0, r1);
+    setActorAnimationAndWaitUntilFinished(r0, r1);
     r0 = CPU.movT(0, 0x9);
     r1 = CPU.movT(0, 0x0);
     r2 = CPU.movT(0, 0xa);
@@ -494,7 +494,7 @@ public final class Decompressed877dd1c {
 
     r1 = CPU.movT(0, 0x3);
     r0 = CPU.movT(0, 0x9);
-    FUN_200c79c(r0, r1);
+    setActorAnimationAndWaitUntilFinished(r0, r1);
     r0 = MEMORY.ref(4, 0x2008d44).get();
     FUN_200c7d4(r0);
     r2 = CPU.movT(0, 0xa);
@@ -503,7 +503,7 @@ public final class Decompressed877dd1c {
     FUN_200c7ec(r0, r1, r2);
     r0 = CPU.movT(0, 0x0);
     r1 = CPU.movT(0, 0x3);
-    FUN_200c79c(r0, r1);
+    setActorAnimationAndWaitUntilFinished(r0, r1);
     r1 = CPU.movT(0, 0xc0);
     r2 = CPU.movT(0, 0xc0);
     r0 = CPU.movT(0, 0xa);
@@ -530,13 +530,13 @@ public final class Decompressed877dd1c {
     FUN_200c78c(r0, r1, r2);
     r0 = CPU.movT(0, 0xa);
     r1 = CPU.movT(0, 0x1);
-    FUN_200c794(r0, r1);
+    setActorAnimationIfLoaded_(r0, r1);
     r0 = CPU.movT(0, 0x15);
     r1 = CPU.movT(0, 0x2);
-    FUN_200c794(r0, r1);
+    setActorAnimationIfLoaded_(r0, r1);
     r1 = CPU.movT(0, 0x5);
     r0 = CPU.movT(0, 0x16);
-    FUN_200c794(r0, r1);
+    setActorAnimationIfLoaded_(r0, r1);
     r0 = MEMORY.ref(4, 0x2008d50).get();
     FUN_200c6ec(r0);
     r0 = MEMORY.ref(4, 0x2008d54).get();
@@ -736,16 +736,16 @@ public final class Decompressed877dd1c {
     MEMORY.call(0x808a0f0, actorIndex, x, z);
   }
 
-  /** {@link GoldenSun_809#FUN_80924d4} */
+  /** {@link GoldenSun_809#setActorAnimationIfLoaded} */
   @Method(0x200c794)
-  public static void FUN_200c794(final int actorIndex, final int r1) {
-    MEMORY.call(0x80924d4, actorIndex, r1);
+  public static void setActorAnimationIfLoaded_(final int actorIndex, final int animationIndex) {
+    MEMORY.call(0x80924d4, actorIndex, animationIndex);
   }
 
-  /** {@link GoldenSun_808#FUN_808a110} */
+  /** {@link GoldenSun_808#setActorAnimationAndWaitUntilFinished_} */
   @Method(0x200c79c)
-  public static void FUN_200c79c(final int actorIndex, final int r1) {
-    MEMORY.call(0x808a110, actorIndex, r1);
+  public static void setActorAnimationAndWaitUntilFinished(final int actorIndex, final int animationIndex) {
+    MEMORY.call(0x808a110, actorIndex, animationIndex);
   }
 
   /** {@link GoldenSun_808#FUN_808a138} */

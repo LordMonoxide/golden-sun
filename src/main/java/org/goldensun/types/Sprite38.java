@@ -22,7 +22,7 @@ public class Sprite38 implements MemoryRef {
   public final UnsignedByteRef height_21;
   public final ByteRef x_22;
   public final ByteRef y_23;
-  public final UnsignedByteRef _24;
+  public final UnsignedByteRef anim_24;
   public final UnsignedByteRef _25;
   public final UnsignedByteRef _26;
   /** Count of elements in {@link #layers_28} */
@@ -42,7 +42,7 @@ public class Sprite38 implements MemoryRef {
     this.height_21 = ref.offset(1, 0x21).cast(UnsignedByteRef::new);
     this.x_22 = ref.offset(1, 0x22).cast(ByteRef::new);
     this.y_23 = ref.offset(1, 0x23).cast(ByteRef::new);
-    this._24 = ref.offset(1, 0x24).cast(UnsignedByteRef::new);
+    this.anim_24 = ref.offset(1, 0x24).cast(UnsignedByteRef::new);
     this._25 = ref.offset(1, 0x25).cast(UnsignedByteRef::new);
     this._26 = ref.offset(1, 0x26).cast(UnsignedByteRef::new);
     this.layerCount_27 = ref.offset(1, 0x27).cast(UnsignedByteRef::new);

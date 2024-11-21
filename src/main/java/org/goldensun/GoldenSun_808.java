@@ -26,7 +26,7 @@ import static org.goldensun.GoldenSun.clearTickCallback;
 import static org.goldensun.GoldenSun.FUN_8004760;
 import static org.goldensun.GoldenSun.FUN_8009048;
 import static org.goldensun.GoldenSun.FUN_8009078;
-import static org.goldensun.GoldenSun.FUN_8009080;
+import static org.goldensun.GoldenSun.setActorAnimation_;
 import static org.goldensun.GoldenSun.FUN_80090a0;
 import static org.goldensun.GoldenSun.FUN_80090a8;
 import static org.goldensun.GoldenSun.FUN_80090b0;
@@ -249,9 +249,9 @@ public final class GoldenSun_808 {
     MEMORY.call(0x80924d4, r0, r1);
   }
 
-  /** {@link GoldenSun_809#FUN_8092548} */
+  /** {@link GoldenSun_809#setActorAnimationAndWaitUntilFinished} */
   @Method(0x808a110)
-  public static void FUN_808a110(final int actorIndex, final int r1) {
+  public static void setActorAnimationAndWaitUntilFinished_(final int actorIndex, final int r1) {
     MEMORY.call(0x8092548, actorIndex, r1);
   }
 
@@ -1164,12 +1164,12 @@ public final class GoldenSun_808 {
 
           //LAB_808b528
           if(r6 != null) {
-            FUN_8009080(r6, 0x1);
+            setActorAnimation_(r6, 0x1);
 
             if(r6.spriteType_54.get() == 1) {
               r8 = r6.sprite_50.derefNullable();
               if(r8 != null) {
-                r8._24.set(modU(rand(), 0x1e));
+                r8.anim_24.set(modU(rand(), 0x1e));
               }
             }
 
@@ -1177,7 +1177,7 @@ public final class GoldenSun_808 {
             r6.angle_06.set(MEMORY.ref(2, r7 + 0x14).getUnsigned());
             r6._59.set(0x1);
             FUN_8093a6c(r6, MEMORY.ref(4, r7 + 0x4).get());
-            FUN_8009080(r6, 0x1);
+            setActorAnimation_(r6, 0x1);
             r6._64.set(r6.pos_08.getX() / 0x10000);
             r6._66.set(r6.pos_08.getZ() / 0x10000);
             if(r6.pos_08.getY() != 0) {
@@ -1296,7 +1296,7 @@ public final class GoldenSun_808 {
       r5_0._14.set(r3);
       r5_0._55.set(0);
       FUN_80091e0(r5_0, 0);
-      FUN_8009080(r5_0, 0xc);
+      setActorAnimation_(r5_0, 0xc);
     } else {
       //LAB_808b7b8
       _2000432.set(0);
@@ -1401,23 +1401,23 @@ public final class GoldenSun_808 {
         DMA.channels[3].DAD.setu(r7);
         DMA.channels[3].CNT.setu(0x8400001c);
 
-        final int r4_0;
+        final int anim;
         final int r1;
         final int r0;
         if(r4.spriteType_54.get() == 1) {
           final Sprite38 r2 = r4.sprite_50.deref();
-          r4_0 = r2._24.get();
+          anim = r2.anim_24.get();
           r1 = r2._26.get();
           r0 = r2.packet_00.attribs_04.attrib2_04.get() << 20 >>> 30;
         } else {
           //LAB_808bac4
-          r4_0 = 0;
+          anim = 0;
           r1 = 0;
           r0 = 0;
         }
 
         //LAB_808baca
-        MEMORY.ref(1, r7 + 0xe00 + r8).setu(r4_0);
+        MEMORY.ref(1, r7 + 0xe00 + r8).setu(anim);
         MEMORY.ref(1, r7 + 0xe20 + r8).setu(r1);
         MEMORY.ref(1, r7 + 0xe40 + r8).setu(r0);
         r8++;
@@ -2516,7 +2516,7 @@ public final class GoldenSun_808 {
 
               //LAB_808c894
               for(r6 = 0; r6 < MEMORY.ref(2, r8 + 0x184).get(); r6++) {
-                FUN_8009080(r10, 0x16);
+                setActorAnimation_(r10, 0x16);
                 FUN_8015120(MEMORY.ref(2, r8 + 0x188 + r6 * 0x2).get(), 0x1);
                 FUN_8015040(0x91a, 0x1);
               }
@@ -2529,12 +2529,12 @@ public final class GoldenSun_808 {
                 //LAB_808c8d0
                 if(_2000434.get() != 0) {
                   //LAB_808c900
-                  FUN_8009080(r10, 0x13);
+                  setActorAnimation_(r10, 0x13);
                 } else if(FUN_80770c0(0x20) != 0) {
-                  FUN_8009080(r10, 0x15);
+                  setActorAnimation_(r10, 0x15);
                 } else {
                   //LAB_808c8ec
-                  FUN_8009080(r10, 0x25);
+                  setActorAnimation_(r10, 0x25);
                 }
 
                 //LAB_808c908
@@ -3432,7 +3432,7 @@ public final class GoldenSun_808 {
                           FUN_808e9a8(r5_0);
                           FUN_80091e0(r5_0, 0);
                           FUN_8009140(r5_0);
-                          FUN_8009080(r5_0, 0x1);
+                          setActorAnimation_(r5_0, 0x1);
 
                           r5_0._64.set(r5_0.pos_08.getX() / 0x10000);
                           r5_0._66.set(r5_0.pos_08.getZ() / 0x10000);
@@ -3467,7 +3467,7 @@ public final class GoldenSun_808 {
                       }
 
                       //LAB_808eaa2
-                      FUN_8009080(r5_0, 0x2);
+                      setActorAnimation_(r5_0, 0x2);
                     }
 
                     //LAB_808eaaa

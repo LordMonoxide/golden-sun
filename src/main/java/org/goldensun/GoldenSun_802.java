@@ -132,10 +132,12 @@ public final class GoldenSun_802 {
       if(r0 != 0) {
         MEMORY.ref(4, r4).setu(0x10000);
         MEMORY.ref(4, r4 + 0x4).setu(0x10000);
+
         MEMORY.ref(4, r5).setu(MEMORY.ref(2, r3 + 0x234 + r8 * 0x2).get() << 16);
         MEMORY.ref(4, r5 + 0x4).setu(0x1f40000);
         MEMORY.ref(4, r5 + 0x8).setu(0x1f40000 + (MEMORY.ref(2, r3 + 0x234 + 0x8 + r8 * 0x2).get() << 16));
         MEMORY.ref(4, r5 + 0xc).setu(0);
+
         FUN_8009008(MEMORY.ref(4, r0, Sprite38::new), r5, r4, 0x4000);
       }
 

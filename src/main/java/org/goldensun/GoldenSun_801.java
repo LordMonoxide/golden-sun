@@ -1193,6 +1193,7 @@ public final class GoldenSun_801 {
     return (GraphicsStruct24)MEMORY.call(0x8019da8, r0, r1, r2, r3);
   }
 
+  /** {@link GoldenSun_801#FUN_8019e48} */
   @Method(0x8015100)
   public static void FUN_8015100(final int r0) {
     MEMORY.call(0x8019e48, r0);
@@ -6549,6 +6550,7 @@ public final class GoldenSun_801 {
     //LAB_801ff7e
     for(int r8 = 0; r8 < 4; r8++) {
       final int r0_0 = MEMORY.ref(4, r3 + 0x114 + r8 * 0x4).get();
+
       if(r0_0 != 0) {
         MEMORY.ref(4, r4).setu(MEMORY.ref(4, r3 + 0x114 + 0x40 + r8 * 0x4).get());
         MEMORY.ref(4, r4 + 0x4).setu(MEMORY.ref(4, r3 + 0x114 + 0x40 + r8 * 0x4).get());
