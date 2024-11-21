@@ -7,6 +7,7 @@ import static org.goldensun.Hardware.MEMORY;
 public final class GoldenSun_818 {
   private GoldenSun_818() { }
 
+  /** {@link GoldenSun_818#FUN_8185008} */
   @Method(0x8185000)
   public static int getSpriteData(final int index) {
     return (int)MEMORY.call(0x8185008, index);

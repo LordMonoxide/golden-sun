@@ -1279,7 +1279,7 @@ public final class GoldenSun_80f {
     int r5;
     int r6;
 
-    FUN_80f9010(0x6e);
+    playSound_(0x6e);
     _3001d18.set(0x1);
     clearTickCallbacks();
     fadeOutBrightness(1);
@@ -2737,9 +2737,9 @@ public final class GoldenSun_80f {
     FUN_80f9438();
   }
 
-  /** {@link GoldenSun_80f#FUN_80f9080} */
+  /** {@link GoldenSun_80f#playSound} */
   @Method(0x80f9010)
-  public static void FUN_80f9010(final int r0) {
+  public static void playSound_(final int r0) {
     MEMORY.call(0x80f9080, r0);
   }
 
@@ -2760,7 +2760,7 @@ public final class GoldenSun_80f {
   }
 
   @Method(0x80f9080)
-  public static void FUN_80f9080(final int r0) {
+  public static void playSound(final int r0) {
     int r2;
     int r3;
 

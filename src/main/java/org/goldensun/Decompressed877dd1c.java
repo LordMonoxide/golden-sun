@@ -862,7 +862,7 @@ public final class Decompressed877dd1c {
     MEMORY.call(0x808a5e8);
   }
 
-  /** {@link GoldenSun_80f#FUN_80f9010} */
+  /** {@link GoldenSun_80f#playSound_} */
   @Method(0x200c8b4)
   public static void FUN_200c8b4(final int r0) {
     MEMORY.call(0x80f9010, r0);

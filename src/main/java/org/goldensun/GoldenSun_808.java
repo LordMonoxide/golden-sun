@@ -147,7 +147,7 @@ import static org.goldensun.GoldenSun_80b.FUN_80b50a0;
 import static org.goldensun.GoldenSun_80b.FUN_80b50f8;
 import static org.goldensun.GoldenSun_80f.FUN_80f4000;
 import static org.goldensun.GoldenSun_80f.FUN_80f6000;
-import static org.goldensun.GoldenSun_80f.FUN_80f9010;
+import static org.goldensun.GoldenSun_80f.playSound_;
 import static org.goldensun.GoldenSun_80f.FUN_80f9070;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.DMA;
@@ -637,7 +637,7 @@ public final class GoldenSun_808 {
         FUN_80770d0(0x101);
       } else {
         //LAB_808a9a8
-        FUN_80f9010(0x120);
+        playSound_(0x120);
       }
 
       //LAB_808a9b0
@@ -702,7 +702,7 @@ public final class GoldenSun_808 {
           //LAB_808aaf0
           r0 = _200045e.get();
           if(r0 != -1) {
-            FUN_80f9010(r0);
+            playSound_(r0);
           } else {
             //LAB_808ab06
             FUN_808acc4();
@@ -778,7 +778,7 @@ public final class GoldenSun_808 {
 
   @Method(0x808acc4)
   public static void FUN_808acc4() {
-    FUN_80f9010(_2000430.get());
+    playSound_(_2000430.get());
   }
 
   @Method(0x808ace0)
@@ -1631,7 +1631,7 @@ public final class GoldenSun_808 {
             if(r0 >= r6 << 16 && r0 < r10 << 16) {
               if(r2 >= r11 << 16 && r2 < r9 << 16) {
                 MEMORY.ref(2, sp00 + 0x170).setu(sp04);
-                FUN_80f9010(0x7b);
+                playSound_(0x7b);
                 FUN_8091660();
                 break;
               }
@@ -1947,7 +1947,7 @@ public final class GoldenSun_808 {
               CPU.cmpT(r0, 0x0);
               if(!CPU.cpsr().getZero()) { // !=
                 r0 = CPU.movT(0, 0x8b);
-                FUN_80f9010(r0);
+                playSound_(r0);
               }
 
               //LAB_808c0b8
@@ -2538,7 +2538,7 @@ public final class GoldenSun_808 {
                 }
 
                 //LAB_808c908
-                FUN_80f9010(0x3b);
+                playSound_(0x3b);
                 FUN_8015040(0x91b, 0x1);
                 r6 = FUN_8077008(_2000434.get());
                 MEMORY.ref(2, r6 + 0x38).setu(0x1);
@@ -2630,7 +2630,7 @@ public final class GoldenSun_808 {
           } else if(MEMORY.ref(2, r8 + 0x172).get() != 0) {
             FUN_8015208();
             FUN_8091660();
-            FUN_80f9010(0x6f);
+            playSound_(0x6f);
             FUN_808c44c();
             FUN_80770c8(0x106);
 
@@ -2680,7 +2680,7 @@ public final class GoldenSun_808 {
             MEMORY.ref(2, r8 + 0x180).setu(0);
             //LAB_808cc76
           } else if(MEMORY.ref(2, r8 + 0x176).get() != 0) {
-            FUN_80f9010(0x6f);
+            playSound_(0x6f);
             FUN_8091660();
             FUN_808c44c();
             FUN_80770c8(0x106);

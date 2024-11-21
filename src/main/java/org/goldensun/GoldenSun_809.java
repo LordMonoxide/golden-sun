@@ -86,7 +86,7 @@ import static org.goldensun.GoldenSun_808.FUN_808d394;
 import static org.goldensun.GoldenSun_808.FUN_808e118;
 import static org.goldensun.GoldenSun_808.FUN_808fecc;
 import static org.goldensun.GoldenSun_808.FUN_808fefc;
-import static org.goldensun.GoldenSun_80f.FUN_80f9010;
+import static org.goldensun.GoldenSun_80f.playSound_;
 import static org.goldensun.GoldenSun_818.getSpriteData;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.DMA;
@@ -1075,8 +1075,8 @@ public final class GoldenSun_809 {
     }
 
     //LAB_809200c
-    FUN_80f9010(0x12a);
-    FUN_80f9010(r0);
+    playSound_(0x12a);
+    playSound_(r0);
   }
 
   @Method(0x809202c)
@@ -1084,7 +1084,7 @@ public final class GoldenSun_809 {
     final int r3 = boardWramMallocHead_3001e50.offset(27 * 0x4).get() + 0xcc8;
     final int r0 = MEMORY.ref(2, r3).get();
     if(r0 != -1) {
-      FUN_80f9010(r0);
+      playSound_(r0);
     }
 
     //LAB_8092046
@@ -1252,10 +1252,10 @@ public final class GoldenSun_809 {
       r0_0.velocity_24.setY(r1 << 16);
 
       if(r1 > 5) {
-        FUN_80f9010(0x99);
+        playSound_(0x99);
       } else {
         //LAB_809258a
-        FUN_80f9010(0x98);
+        playSound_(0x98);
       }
 
       //LAB_8092590
@@ -1882,7 +1882,7 @@ public final class GoldenSun_809 {
   @Method(0x80937b8)
   public static void FUN_80937b8(final int actorIndex, final int r1, final int r2) {
     if((r1 & 0xff) == 6) {
-      FUN_80f9010(0x6e);
+      playSound_(0x6e);
     }
 
     //LAB_80937d4
@@ -2027,9 +2027,9 @@ public final class GoldenSun_809 {
     int r7;
 
     r6 = boardWramMallocHead_3001e50.offset(27 * 0x4).get();
-    FUN_80f9010(MEMORY.ref(2, 0x200042e).get());
-    FUN_80f9010(0x120);
-    FUN_80f9010(0x93);
+    playSound_(MEMORY.ref(2, 0x200042e).get());
+    playSound_(0x120);
+    playSound_(0x93);
 
     if(MEMORY.ref(2, r6 + 0x19e).get() == 3) {
       MEMORY.ref(2, 0x50001e6).setu(0x7fff);
@@ -2148,10 +2148,10 @@ public final class GoldenSun_809 {
           if(MEMORY.ref(2, r6 + 0x1f82).get() != 0) {
             MEMORY.ref(2, r6 + 0x1f80).setu((rand() * 400 >>> 16) - (rand() * 100 >>> 16) + 150);
             if(MEMORY.ref(2, r6 + 0x1f84).get() != 0) {
-              FUN_80f9010(0xac);
+              playSound_(0xac);
             } else {
               //LAB_8094a5c
-              FUN_80f9010(0xab);
+              playSound_(0xab);
             }
           }
 
@@ -2964,7 +2964,7 @@ public final class GoldenSun_809 {
     r5.velocity_24.zero();
 
     if(MEMORY.ref(1, r6 + 0x22).get() != 0) {
-      FUN_80f9010(0xd4);
+      playSound_(0xd4);
       r5._6c.set(getConsumer(GoldenSun_809.class, "FUN_8096f14", Actor70.class));
     }
 
@@ -3235,7 +3235,7 @@ public final class GoldenSun_809 {
     if(r6 != null) {
       //LAB_809aefe
       FUN_8097384();
-      FUN_80f9010(0x8a);
+      playSound_(0x8a);
       r6.angle_06.set(MEMORY.ref(2, r7 + 0x6).getUnsigned());
       r6._30.set(0x14ccc);
       r6._55.set(0);
@@ -3292,7 +3292,7 @@ public final class GoldenSun_809 {
       } while(r5 >= 0);
 
       FUN_8009080(r6, 0x5);
-      FUN_80f9010(0x84);
+      playSound_(0x84);
 
       if(sp00 != 0) {
         FUN_80090f0(MEMORY.ref(4, sp00, Actor70::new), -0x90000, MEMORY.ref(4, r2 + 0xc).get(), -0x90000); //TODO
@@ -3310,7 +3310,7 @@ public final class GoldenSun_809 {
       } while(r5 >= 0);
 
       sleep(10);
-      FUN_80f9010(0x72);
+      playSound_(0x72);
       r7 = 0;
       CPU.r10().value = CPU.r9().value;
       CPU.r8().value = CPU.r11().value;

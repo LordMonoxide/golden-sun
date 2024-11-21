@@ -113,7 +113,7 @@ import static org.goldensun.GoldenSun_808.FUN_808a008;
 import static org.goldensun.GoldenSun_808.FUN_808a330;
 import static org.goldensun.GoldenSun_808.FUN_808a348;
 import static org.goldensun.GoldenSun_80f.FUN_80f9008;
-import static org.goldensun.GoldenSun_80f.FUN_80f9010;
+import static org.goldensun.GoldenSun_80f.playSound_;
 import static org.goldensun.GoldenSun_80f.FUN_80f9018;
 import static org.goldensun.GoldenSun_818.getSpriteData;
 import static org.goldensun.Hardware.CPU;
@@ -5056,7 +5056,7 @@ public final class GoldenSun {
       }
 
       if(count - 0x88 < 0) {
-        FUN_80f9010(0x87);
+        playSound_(0x87);
       }
 
       //LAB_800ec3e
