@@ -607,9 +607,10 @@ public final class Decompressed8779188 {
     MEMORY.call(0x80002d0);
   }
 
+  /** {@link GoldenSun_801#FUN_8015318} */
   @Method(0x2008598)
   public static int FUN_2008598() {
-    return (int)MEMORY.call(0x8015319);
+    return (int)MEMORY.call(0x8015318);
   }
 
   @Method(0x20085a0)

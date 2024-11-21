@@ -2,6 +2,7 @@ package org.goldensun;
 
 import org.goldensun.memory.Value;
 import org.goldensun.memory.types.ArrayRef;
+import org.goldensun.memory.types.BiFunctionRef;
 import org.goldensun.memory.types.FunctionRef;
 import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.Pointer;
@@ -102,7 +103,7 @@ public final class GoldenSunVars {
   public static final Pointer<SupplierRef<Integer>> _2008024 = MEMORY.ref(4, 0x2008024, Pointer.deferred(4, SupplierRef::new));
 
   public static final Pointer<TriFunctionRef<Integer, Integer, Integer, Integer>> _2004c00 = MEMORY.ref(4, 0x2004c00, Pointer.deferred(4, TriFunctionRef::new));
-  public static final IntRef _2004c04 = MEMORY.ref(4, 0x2004c04, IntRef::new);
+  public static final Pointer<BiFunctionRef<Integer, Integer, Integer>> _2004c04 = MEMORY.ref(4, 0x2004c04, Pointer.deferred(4, BiFunctionRef::new));
   public static final IntRef _2004c08 = MEMORY.ref(4, 0x2004c08, IntRef::new);
   public static final UnsignedShortRef _2004c0c = MEMORY.ref(2, 0x2004c0c, UnsignedShortRef::new);
 

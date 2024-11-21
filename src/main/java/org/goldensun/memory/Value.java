@@ -41,6 +41,10 @@ public class Value {
   }
 
   public <T> T cast(final Function<Value, T> constructor) {
+    if(this.getAddress() == 0) {
+      return null;
+    }
+
     return constructor.apply(this);
   }
 

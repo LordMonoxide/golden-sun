@@ -81,6 +81,8 @@ public class Memory {
 
       System.out.printf("%02x ", this.get(address + i, 1) & 0xff);
     }
+
+    System.out.println();
   }
 
   public void waitForLock(final Runnable callback) {

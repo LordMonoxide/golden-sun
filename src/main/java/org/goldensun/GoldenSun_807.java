@@ -30,6 +30,7 @@ public final class GoldenSun_807 {
     return (int)MEMORY.call(0x8077330, r0);
   }
 
+  /** {@link GoldenSun_807#FUN_8077394} */
   @Method(0x8077008)
   public static int FUN_8077008(final int r0) {
     return (int)MEMORY.call(0x8077394, r0);
