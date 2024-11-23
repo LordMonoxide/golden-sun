@@ -5143,7 +5143,7 @@ public final class GoldenSun {
           //LAB_800ef80
           if((otherActor._59.get() & 0x1) != 0) {
             //LAB_800ef90
-            if(otherActor != r0) {
+            if(otherActor.getAddress() != r0.getAddress()) {
               //LAB_800ef96
               if(FUN_800eba0(otherActor.pos_08, r0.radius_20.get() - 2, sp44, otherActor.radius_20.get() - 2) >= 0) {
                 if((otherActor._58.get() & 0xff000200) != 0x200) {
@@ -5259,7 +5259,7 @@ public final class GoldenSun {
     } else {
       //LAB_800f1a4
       FUN_800d14c(r0, sp5c.getX(), sp5c.getY(), sp5c.getZ());
-      final int sqrt = sqrt((int)MEMORY.call(0x3000118, r0.velocity_24.getX()) + (int)MEMORY.call(0x3000118, r0.velocity_24.getZ()));
+      final int sqrt = sqrt((int)MEMORY.call(0x3000118, r0.velocity_24.getX(), r0.velocity_24.getX()) + (int)MEMORY.call(0x3000118, r0.velocity_24.getZ(), r0.velocity_24.getZ()));
       r0.velocity_24.setX(sp14);
       r0.velocity_24.setZ(sp14);
       rotVec3(sqrt, sp0c & 0xffff, r0.velocity_24);

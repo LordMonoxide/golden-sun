@@ -119,6 +119,12 @@ public final class GoldenSun_807 {
     return (int)MEMORY.call(0x807a5bc, r0);
   }
 
+  /** {@link GoldenSun_807#FUN_8077348} */
+  @Method(0x80772c8)
+  public static int FUN_80772c8() {
+    return (int)MEMORY.call(0x8077348);
+  }
+
   /** {@link GoldenSun_807#FUN_8077c10} */
   @Method(0x80772f0)
   public static void FUN_80772f0() {
@@ -140,6 +146,25 @@ public final class GoldenSun_807 {
 
     //LAB_8077340
     return FUN_8077394(0x83);
+  }
+
+  @Method(0x8077348)
+  public static int FUN_8077348() {
+    final int r7 = FUN_80795fc();
+
+    if(r7 == 0) {
+      return 0;
+    }
+
+    //LAB_8077368
+    int r6 = 0;
+    for(int r5 = 0; r5 < r7; r5++) {
+      r6 += MEMORY.ref(1, FUN_8077394(MEMORY.ref(1, 0x2000438 + r5).getUnsigned()) + 0xf).getUnsigned();
+    }
+
+    //LAB_807737e
+    //LAB_8077388
+    return divideS(r6, r7);
   }
 
   @Method(0x8077394)

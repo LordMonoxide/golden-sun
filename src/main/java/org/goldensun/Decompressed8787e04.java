@@ -495,16 +495,19 @@ public final class Decompressed8787e04 {
     MEMORY.call(0x8015210, r0, r1, r2);
   }
 
+  /** {@link GoldenSun_807#readFlag_} */
   @Method(0x20098ec)
   public static int FUN_20098ec(final int r0) {
     return (int)MEMORY.call(0x80770c0, r0);
   }
 
+  /** {@link GoldenSun_807#setFlag_} */
   @Method(0x20098f4)
   public static void FUN_20098f4(final int r0) {
     MEMORY.call(0x80770c8, r0);
   }
 
+  /** {@link GoldenSun_807#clearFlag_} */
   @Method(0x20098fc)
   public static void FUN_20098fc(final int r0) {
     MEMORY.call(0x80770d0, r0);
