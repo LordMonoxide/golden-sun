@@ -20,11 +20,13 @@ public class Sram {
 
   private final Path path = Path.of("save.dat");
 
+  private final Memory memory;
   private final SramSegment segment;
   private final byte[] data = new byte[0x1_0000];
   private long lastWrite;
 
   public Sram(final Memory memory) {
+    this.memory = memory;
     this.segment = memory.addSegment(new SramSegment());
 
     if(Files.exists(this.path)) {
@@ -39,21 +41,29 @@ public class Sram {
     }
   }
 
+  public void directWrite(final int sector, final int dataPtr) {
+    this.memory.getBytes(dataPtr, this.data, sector * 0x1000, 0x1000);
+    this.writeToDisk();
+  }
+
   public void tick() {
     if(this.lastWrite != 0) {
       if(System.nanoTime() - this.lastWrite > 1_000_000_000) {
-        LOGGER.info("Writing save to disk");
         this.segment.reset();
-
-        try {
-          Files.write(this.path, this.data, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
-        } catch(final IOException e) {
-          LOGGER.error("Failed to write save data", e);
-        }
-
-        this.lastWrite = 0;
+        this.writeToDisk();
       }
     }
+  }
+
+  private void writeToDisk() {
+    LOGGER.info("Writing save to disk");
+    try {
+      Files.write(this.path, this.data, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+    } catch(final IOException e) {
+      LOGGER.error("Failed to write save data", e);
+    }
+
+    this.lastWrite = 0;
   }
 
   public class SramSegment extends Segment {

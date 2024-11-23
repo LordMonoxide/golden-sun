@@ -126,6 +126,7 @@ import static org.goldensun.Hardware.GPU;
 import static org.goldensun.Hardware.INPUT;
 import static org.goldensun.Hardware.INTERRUPTS;
 import static org.goldensun.Hardware.MEMORY;
+import static org.goldensun.Hardware.SRAM;
 import static org.goldensun.Hardware.TIMERS;
 import static org.goldensun.MathHelper.clamp;
 import static org.goldensun.input.Input.BUTTON_B;
@@ -1856,7 +1857,10 @@ public final class GoldenSun {
   @Method(0x8005868)
   public static boolean writeSector(final int saveSlot) {
     final int r6 = boardWramMallocHead_3001e50.offset(51 * 0x4).deref(4).cast(SaveStruct1100::new)._40.getAddress(); //TODO
+    SRAM.directWrite(saveSlot, r6);
+    return false;
 
+/*
     if((short)(int)writeSectorPtr_2004c04.deref().run(saveSlot, r6) != 0) {
       return true;
     }
@@ -1864,6 +1868,7 @@ public final class GoldenSun {
     //LAB_800588c
     //LAB_800589c
     return verifySram(saveSlot, r6) != 0;
+*/
   }
 
   /** @return difference between calculated checksum and checksum stored with save */
