@@ -293,7 +293,7 @@ public final class Decompressed877dd1c {
     FUN_200c88c();
     FUN_200c86c();
     r0 = CPU.movT(0, 0x9e);
-    FUN_200c8b4(r0);
+    playSound(r0);
     r2 = CPU.movT(0, 0x2c);
     r0 = MEMORY.ref(4, 0x2008d14).get();
     r1 = CPU.movT(0, 0x32);
@@ -864,7 +864,7 @@ public final class Decompressed877dd1c {
 
   /** {@link GoldenSun_80f#playSound_} */
   @Method(0x200c8b4)
-  public static void FUN_200c8b4(final int r0) {
+  public static void playSound(final int r0) {
     MEMORY.call(0x80f9010, r0);
   }
 }

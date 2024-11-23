@@ -247,7 +247,7 @@ public final class Decompressed8787e04 {
     FUN_200999c(0x8, 0x2);
     FUN_20098c4(FUN_200992c(0), 0xe2);
     FUN_20098f4(0x21);
-    FUN_2009aac(0x7e);
+    playSound(0x7e);
     FUN_20099b4(0, 0x7);
     FUN_2009904(0xa);
     FUN_20099b4(0, 0);
@@ -337,7 +337,7 @@ public final class Decompressed8787e04 {
     FUN_200993c(0x8, 0x2009b78);
     FUN_2009a5c();
     FUN_2009944(0x8);
-    FUN_2009aac(0x9e);
+    playSound(0x9e);
     FUN_2009a04(0x8, 0x100, 0x0);
     FUN_200999c(0x8, 0x2);
     FUN_20099ec(0x8, 0x4000, 0xa);
@@ -360,7 +360,7 @@ public final class Decompressed8787e04 {
     FUN_2009904(0xa);
     FUN_200993c(0x8, 0x2009c04);
     FUN_200993c(0x0, 0x2009c54);
-    FUN_2009aac(0xea);
+    playSound(0xea);
     FUN_2009904(0x14);
     FUN_200993c(0xa, 0x2009d38);
 
@@ -370,7 +370,7 @@ public final class Decompressed8787e04 {
       FUN_2009814(0x1);
     }
 
-    FUN_2009aac(0xca);
+    playSound(0xca);
     FUN_2009814(0xa);
 
     //LAB_2008ce4
@@ -754,8 +754,9 @@ public final class Decompressed8787e04 {
     MEMORY.call(0x808a448);
   }
 
+  /** {@link GoldenSun_80f#playSound_} */
   @Method(0x2009aac)
-  public static void FUN_2009aac(final int r0) {
+  public static void playSound(final int r0) {
     MEMORY.call(0x80f9010, r0);
   }
 }

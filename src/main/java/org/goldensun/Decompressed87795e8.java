@@ -205,7 +205,7 @@ public final class Decompressed87795e8 {
 
             if(MEMORY.ref(2, 0x20094d4 + MEMORY.ref(2, 0x20096b6).get() * 0x2).getUnsigned() == 0) {
               MEMORY.ref(2, 0x20096b2).setu(1);
-              FUN_20094cc(0x6e);
+              playSound(0x6e);
             }
           } else {
             //LAB_2008274
@@ -230,7 +230,7 @@ public final class Decompressed87795e8 {
             MEMORY.ref(2, 0x20096bc).setu(1);
             if(MEMORY.ref(2, 0x20094dc + MEMORY.ref(2, 0x20096b8).get() * 0x2).getUnsigned() == 0) {
               MEMORY.ref(2, 0x20096b4).setu(1);
-              FUN_20094cc(0x6e);
+              playSound(0x6e);
             }
           } else {
             //LAB_20082ec
@@ -338,7 +338,7 @@ public final class Decompressed87795e8 {
       //LAB_2008450
       FUN_2009494(0x3c);
       FUN_20094b4();
-      FUN_20094cc(0x11);
+      playSound(0x11);
       FUN_2009494(0x12c);
       FUN_20094a4(0x2, 0x48);
     } else {
@@ -590,7 +590,7 @@ public final class Decompressed87795e8 {
                             FUN_2009434(0x6002500);
                             if((pressedButtons_3001c94.get() & 0x2) != 0) {
                               //LAB_20089a6
-                              FUN_20094cc(0x71);
+                              playSound(0x71);
                               FUN_200939c(CPU.r10().value);
                               FUN_200938c(CPU.r10().value, 0x2);
                               FUN_200938c(MEMORY.ref(4, CPU.sp().value + 0x10).get(), 0x2);
@@ -604,7 +604,7 @@ public final class Decompressed87795e8 {
                               r7 = 0x1;
                               if(CPU.r11().value == CPU.r8().value) {
                                 //LAB_2008474
-                                FUN_20094cc(0x70);
+                                playSound(0x70);
                                 FUN_200939c(CPU.r10().value);
                                 FUN_200938c(CPU.r10().value, 0x2);
                                 FUN_200938c(MEMORY.ref(4, CPU.sp().value + 0x10).get(), 0x2);
@@ -614,18 +614,18 @@ public final class Decompressed87795e8 {
                               }
 
                               //LAB_2008ad2
-                              FUN_20094cc(0x6f);
+                              playSound(0x6f);
                             } else {
                               //LAB_2008ada
                               if((pressedButtons_3001c94.get() & 0x20) != 0 && CPU.r8().value > 1) {
-                                FUN_20094cc(0x6f);
+                                playSound(0x6f);
                                 CPU.r11().value = FUN_200931c(CPU.r11().value + CPU.r8().value - 1, CPU.r8().value);
                                 r7 = 0x1;
                               } else {
                                 //LAB_2008b30
                                 if((pressedButtons_3001c94.get() & 0x10) != 0) {
                                   if(CPU.r8().value > 1) {
-                                    FUN_20094cc(0x6f);
+                                    playSound(0x6f);
                                     CPU.r11().value = FUN_200931c(CPU.r11().value + CPU.r8().value + 1, CPU.r8().value);
                                     r7 = 0x1;
                                   }
@@ -766,7 +766,7 @@ public final class Decompressed87795e8 {
                         //LAB_20088ce
                       }
 
-                      FUN_20094cc(0x71);
+                      playSound(0x71);
                     }
 
                     //LAB_20088e0
@@ -846,7 +846,7 @@ public final class Decompressed87795e8 {
       //LAB_2008c96
       MEMORY.ref(2, boardWramMallocHead_3001e50.offset(27 * 0x4).get() + 0x170).setu(999);
       FUN_2009494(0x1e);
-      FUN_20094cc(0x11);
+      playSound(0x11);
       FUN_20094b4();
       FUN_20094bc();
       FUN_2009494(0x3c);
@@ -1545,8 +1545,9 @@ public final class Decompressed87795e8 {
     return (int)MEMORY.call(0x808a4d8, r0);
   }
 
+  /** {@link GoldenSun_80f#playSound_} */
   @Method(0x20094cc)
-  public static void FUN_20094cc(final int r0) {
+  public static void playSound(final int r0) {
     MEMORY.call(0x80f9010, r0);
   }
 }

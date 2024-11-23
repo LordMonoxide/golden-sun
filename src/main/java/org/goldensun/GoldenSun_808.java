@@ -127,12 +127,18 @@ import static org.goldensun.GoldenSun_809.FUN_8091220;
 import static org.goldensun.GoldenSun_809.FUN_8091240;
 import static org.goldensun.GoldenSun_809.FUN_8091254;
 import static org.goldensun.GoldenSun_809.FUN_8091660;
+import static org.goldensun.GoldenSun_809.FUN_80916b0;
+import static org.goldensun.GoldenSun_809.FUN_8091750;
 import static org.goldensun.GoldenSun_809.FUN_8091858;
 import static org.goldensun.GoldenSun_809.FUN_80919d8;
 import static org.goldensun.GoldenSun_809.FUN_8091a58;
+import static org.goldensun.GoldenSun_809.FUN_8092b94;
+import static org.goldensun.GoldenSun_809.FUN_8092f84;
 import static org.goldensun.GoldenSun_809.FUN_8093874;
 import static org.goldensun.GoldenSun_809.FUN_8093a6c;
 import static org.goldensun.GoldenSun_809.FUN_80941e0;
+import static org.goldensun.GoldenSun_809.FUN_8094354;
+import static org.goldensun.GoldenSun_809.FUN_8094368;
 import static org.goldensun.GoldenSun_809.FUN_8094428;
 import static org.goldensun.GoldenSun_809.FUN_8095680;
 import static org.goldensun.GoldenSun_809.FUN_8095778;
@@ -3257,6 +3263,139 @@ public final class GoldenSun_808 {
     return 1 - ((-r0 | r0) >>> 31);
   }
 
+  @Method(0x808d458)
+  public static int FUN_808d458(final int r0, final int r1) {
+    if((r0 & 0xf) != 3) {
+      return 0;
+    }
+
+    //LAB_808d466
+    if((r0 & 0x1ff) == 3) {
+      return 0;
+    }
+
+    final int r3 = r1 & 0xfff00000 ^ 0x500000;
+
+    //LAB_808d480
+    return (-r3 | r3) >>> 31;
+  }
+
+  @Method(0x808d48c)
+  public static int FUN_808d48c(int r0, int r1) {
+    int r2;
+    int r3;
+    int r4;
+    int r5;
+    int r6;
+    final int r7;
+
+    CPU.push(CPU.r11().value);
+    CPU.push(CPU.r10().value);
+    CPU.push(CPU.r9().value);
+    CPU.push(CPU.r8().value);
+
+    r7 = boardWramMallocHead_3001e50.offset(27 * 0x4).get();
+    CPU.r11().value = r0;
+    r6 = MEMORY.ref(4, r7 + 0x10).get();
+    CPU.r9().value = r1;
+    CPU.r8().value = getActor(_2000434.get()).angle_06.get() & 0xffff;
+    r5 = MEMORY.ref(4, r6).get();
+    r3 = -1;
+    r5 = CPU.cmpT(r5, r3);
+    if(!CPU.cpsr().getZero()) { // !=
+      CPU.r10().value = 0x3ffe;
+
+      //LAB_808d4c4
+      do {
+        r3 = CPU.movT(0, 0xf);
+        r3 = CPU.andT(r3, r5);
+        CPU.cmpT(r3, CPU.r11().value);
+        jmp_808d560:
+        if(CPU.cpsr().getZero()) { // ==
+          r3 = MEMORY.ref(1, r6 + 0x4).getUnsigned();
+          CPU.cmpT(r3, CPU.r9().value);
+          if(CPU.cpsr().getZero()) { // ==
+            r1 = MEMORY.ref(4, r6 + 0x8).get();
+            if(FUN_808d458(r5, r1) == 0) {
+              if(FUN_808d428(MEMORY.ref(2, r6 + 0x6).get()) == 0) {
+                break jmp_808d560;
+              }
+              r5 = MEMORY.ref(4, r6).get();
+            }
+
+            //LAB_808d4ec
+            r3 = r5 & 0x800;
+            r4 = CPU.movT(0, 0x0);
+            r0 = CPU.movT(0, 0xc);
+            CPU.cmpT(r3, 0x0);
+            if(!CPU.cpsr().getZero()) { // !=
+              r0 = CPU.movT(0, 0x2);
+            }
+
+            //LAB_808d4fc
+            r1 = 0x600;
+            r3 = r5 + 0x600;
+            r2 = 0x200;
+            if(r3 == r2) {
+              if(MEMORY.ref(2, r7 + 0x19c).get() > r0) {
+                r4 = 0x1;
+              }
+            } else {
+              if(r3 <= r2) {
+                if(r3 == 0) {
+                  r4 = 0x1;
+                }
+              } else {
+                //LAB_808d516
+                r2 = 0x400;
+                if(r3 == r2 || r3 == r1 && MEMORY.ref(2, r7 + 0x19c).get() > r0) {
+                  //LAB_808d542
+                  r2 = CPU.r8().value;
+                  r5 = r5 & 0xf000;
+                  r3 = CPU.subT(r5, r2);
+                  r3 = r3 + 0x1fff;
+                  r3 = CPU.lslT(r3, 16);
+                  r3 = CPU.lsrT(r3, 16);
+                  CPU.cmpT(r3, CPU.r10().value);
+                  if(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()) { // unsigned <=
+                    //LAB_808d558
+                    r4 = 0x1;
+                  }
+                }
+              }
+            }
+
+            //LAB_808d55a
+            CPU.cmpT(r4, 0x0);
+            if(!CPU.cpsr().getZero()) { // !=
+              CPU.r8().value = CPU.pop();
+              CPU.r9().value = CPU.pop();
+              CPU.r10().value = CPU.pop();
+              CPU.r11().value = CPU.pop();
+              return r6;
+            }
+          }
+        }
+
+        //LAB_808d560
+        r6 = CPU.addT(r6, 0xc);
+        r3 = MEMORY.ref(4, r6).get();
+        r2 = -1;
+        r5 = CPU.addT(r3, 0x0);
+        r3 = CPU.cmpT(r3, r2);
+      } while(!CPU.cpsr().getZero()); // !=
+    }
+
+    //LAB_808d56e
+    //LAB_808d570
+    CPU.r8().value = CPU.pop();
+    CPU.r9().value = CPU.pop();
+    CPU.r10().value = CPU.pop();
+    CPU.r11().value = CPU.pop();
+
+    return 0;
+  }
+
   @Method(0x808d5a4)
   public static int FUN_808d5a4(final int r0) {
     throw new RuntimeException("Not implemented");
@@ -3273,8 +3412,109 @@ public final class GoldenSun_808 {
   }
 
   @Method(0x808d828)
-  public static int FUN_808d828(final int r0) {
-    throw new RuntimeException("Not implemented");
+  public static int FUN_808d828(int r0) {
+    int r1;
+    int r2;
+    int r3;
+    int r5;
+    final int r6;
+    int r7;
+
+    CPU.push(CPU.r8().value);
+
+    r6 = CPU.addT(r0, 0x0);
+    r1 = CPU.addT(r6, 0x0);
+    r0 = CPU.movT(0, 0x2);
+    r0 = FUN_808d48c(r0, r1);
+    r3 = MEMORY.ref(4, 0x808d8ec).get();
+    r3 = MEMORY.ref(4, r3).get();
+    r7 = CPU.movT(0, 0x1);
+    r5 = CPU.addT(r0, 0x0);
+    r7 = CPU.negT(r7, r7);
+    CPU.r8().value = r3;
+    if(r5 != 0 && MEMORY.ref(4, r5 + 0x8).get() != 0) {
+      r3 = MEMORY.ref(4, r5).get();
+      r2 = CPU.movT(0, 0x80);
+      r2 = CPU.lslT(r2, 2);
+      r3 = CPU.andT(r3, r2);
+      CPU.cmpT(r3, 0x0);
+      if(!CPU.cpsr().getZero()) { // !=
+        r2 = CPU.subT(r2, 0x64);
+        r2 += CPU.r8().value;
+        r3 = CPU.movT(0, 0x0);
+        MEMORY.ref(2, r2).setu(r3);
+      }
+      r1 = MEMORY.ref(4, r5 + 0x8).get();
+
+      //LAB_808d864
+      r3 = CPU.movT(0, 0x80);
+      r3 = CPU.lslT(r3, 9);
+      r1 = CPU.cmpT(r1, r3);
+      if(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <
+        FUN_80916b0();
+        r0 = MEMORY.ref(4, r5 + 0x8).get();
+        FUN_8092b94(r0);
+        r0 = CPU.addT(r7, 0x0);
+        r1 = CPU.movT(0, 0x0);
+        FUN_8092f84(r0, r1);
+        r7 = CPU.movT(0, 0x0);
+        FUN_8091750();
+      } else {
+        //LAB_808d886
+        r0 = CPU.addT(r6, 0x0);
+        MEMORY.call(r1, r0);
+        r7 = CPU.movT(0, 0x0);
+      }
+    } else {
+      //LAB_808d88e
+      r0 = CPU.movT(0, 0x1);
+      r1 = CPU.addT(r6, 0x0);
+      r0 = FUN_808d48c(r0, r1);
+      r5 = CPU.addT(r0, 0x0);
+      CPU.cmpT(r5, 0x0);
+      if(!CPU.cpsr().getZero()) { // !=
+        r2 = MEMORY.ref(4, r5).get();
+        r3 = CPU.movT(0, 0x30);
+        r2 = CPU.andT(r2, r3);
+        CPU.cmpT(r2, 0x30);
+        if(!CPU.cpsr().getZero()) { // !=
+          CPU.cmpT(r2, 0x30);
+          if(CPU.cpsr().getZero() || CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <=
+            CPU.cmpT(r2, 0x0);
+            if(CPU.cpsr().getZero()) { // ==
+              //LAB_808d8b4
+              r0 = CPU.movT(0, 0x7b);
+              playSound_(r0);
+            } else {
+              CPU.cmpT(r2, 0x20);
+              if(CPU.cpsr().getZero()) { // ==
+                //LAB_808d8bc
+                r0 = CPU.movT(0, 0x80);
+                playSound_(r0);
+                FUN_8094354();
+              }
+            }
+          }
+        } else {
+          //LAB_808d8c8
+          r0 = CPU.movT(0, 0x81);
+          playSound_(r0);
+          FUN_8094368();
+        }
+
+        //LAB_808d8d2
+        r3 = CPU.movT(0, 0xb8);
+        r2 = MEMORY.ref(4, r5 + 0x8).get();
+        r3 = CPU.lslT(r3, 1);
+        r3 += CPU.r8().value;
+        MEMORY.ref(2, r3).setu(r2);
+        r7 = CPU.movT(0, 0x0);
+      }
+    }
+
+    //LAB_808d8de
+    CPU.r8().value = CPU.pop();
+    return r7;
   }
 
   @Method(0x808d8f0)

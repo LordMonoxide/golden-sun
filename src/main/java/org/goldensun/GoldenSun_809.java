@@ -12,6 +12,7 @@ import org.goldensun.types.Struct12fc;
 import org.goldensun.types.Vec3;
 
 import static org.goldensun.GoldenSun.FUN_80053e8;
+import static org.goldensun.GoldenSun.FUN_8009048;
 import static org.goldensun.GoldenSun.divideS;
 import static org.goldensun.GoldenSun.insertIntoRenderQueue;
 import static org.goldensun.GoldenSun.modS;
@@ -2070,6 +2071,36 @@ public final class GoldenSun_809 {
     }
 
     //LAB_80942b6
+  }
+
+  @Method(0x80942e0)
+  public static void FUN_80942e0(final int r0) {
+    final Actor70 r5 = getActor(_2000434.get());
+    final Sprite38 r6 = r5.sprite_50.deref();
+    final int r0_0 = FUN_8009048(r6, 0x1b);
+    r6._26.set(0);
+    MEMORY.ref(1, r0_0 + 0x5).setu(0xf);
+    final int r2 = MEMORY.ref(4, 0x8094350).get();
+    r5.pos_08.x_00.and(r2).add(0x80000);
+    r5.pos_08.z_08.and(r2).add(0x100000);
+    r5.velocity_24.setX(0);
+    r5.velocity_24.setZ(0);
+    r5.dest_38.setX(0x80000000);
+    r5.dest_38.setZ(0x80000000);
+    setActorAnimation_(r5, r0);
+    sleep(18);
+  }
+
+  @Method(0x8094354)
+  public static void FUN_8094354() {
+    FUN_80942e0(0x1a);
+    setFlag_(0x120);
+  }
+
+  @Method(0x8094368)
+  public static void FUN_8094368() {
+    FUN_80942e0(0x19);
+    setFlag_(0x121);
   }
 
   @Method(0x8094428)
