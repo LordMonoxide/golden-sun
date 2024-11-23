@@ -14,6 +14,7 @@ import java.util.Arrays;
 public class Sram {
   private static final Logger LOGGER = LogManager.getFormatterLogger(Sram.class);
 
+  // SST
   public static final int MANUFACTURER = 0xbf;
   public static final int DEVICE = 0xd4;
 

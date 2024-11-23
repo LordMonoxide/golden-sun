@@ -20,7 +20,7 @@ import javax.annotation.Nullable;
 import static org.goldensun.GoldenSun.FUN_80042c8;
 import static org.goldensun.GoldenSun.FUN_800439c;
 import static org.goldensun.GoldenSun.FUN_80053e8;
-import static org.goldensun.GoldenSun.FUN_8005920;
+import static org.goldensun.GoldenSun.saveGame;
 import static org.goldensun.GoldenSun.FUN_8005a78;
 import static org.goldensun.GoldenSun.drawSprite_;
 import static org.goldensun.GoldenSun.FUN_8009020;
@@ -6484,7 +6484,7 @@ public final class GoldenSun_801 {
           FUN_801776c(0xd, 0x1);
           r8 = -5;
           //LAB_801fc2a
-        } else if((FUN_8005920(r5, 0x2000000) | FUN_8005920(r5 + 0x3, 0x2001000)) != 0) {
+        } else if((saveGame(r5, 0x2000000) | saveGame(r5 + 0x3, 0x2001000)) != 0) {
           FUN_801776c(0xd, 0x1);
           r8 = -3;
         } else {

@@ -33,7 +33,7 @@ import static org.goldensun.GoldenSunVars._2000434;
 import static org.goldensun.GoldenSunVars.runButton_200045c;
 import static org.goldensun.GoldenSunVars._2002090;
 import static org.goldensun.GoldenSunVars._2004c00;
-import static org.goldensun.GoldenSunVars._2004c04;
+import static org.goldensun.GoldenSunVars.writeSectorPtr_2004c04;
 import static org.goldensun.GoldenSunVars._2004c08;
 import static org.goldensun.GoldenSunVars._2004c0c;
 import static org.goldensun.GoldenSunVars._2004c10;
@@ -130,6 +130,7 @@ import static org.goldensun.Hardware.TIMERS;
 import static org.goldensun.MathHelper.clamp;
 import static org.goldensun.input.Input.BUTTON_B;
 import static org.goldensun.input.Input.BUTTON_L;
+import static org.goldensun.memory.MemoryHelper.getMethodAddress;
 import static org.goldensun.memory.MemoryHelper.getRunnable;
 
 public final class GoldenSun {
@@ -1780,7 +1781,6 @@ public final class GoldenSun {
     }
 
     //LAB_800572c
-
     //LAB_8005748
     for(int saveSlot = 0; saveSlot < 16; saveSlot++) {
       r11._00.get(saveSlot).set(0);
@@ -1854,10 +1854,10 @@ public final class GoldenSun {
 
   /** Returns true if there's a problem with the save data */
   @Method(0x8005868)
-  public static boolean FUN_8005868(final int saveSlot) {
+  public static boolean writeSector(final int saveSlot) {
     final int r6 = boardWramMallocHead_3001e50.offset(51 * 0x4).deref(4).cast(SaveStruct1100::new)._40.getAddress(); //TODO
 
-    if((short)(int)_2004c04.deref().run(saveSlot, r6) != 0) {
+    if((short)(int)writeSectorPtr_2004c04.deref().run(saveSlot, r6) != 0) {
       return true;
     }
 
@@ -1875,17 +1875,17 @@ public final class GoldenSun {
   }
 
   @Method(0x8005920)
-  public static int FUN_8005920(final int r0, final int r1) {
+  public static int saveGame(final int saveFile, final int gameStatePtr) {
     final SaveStruct1100 r10 = boardWramMallocHead_3001e50.offset(51 * 0x4).deref(4).cast(SaveStruct1100::new);
     MEMORY.memfill(r10._40.getAddress(), 0x1000, 0);
 
-    final int r7 = getSaveSlot(r0);
-    int r6 = getRandomAvailableSaveSlot(r0);
+    final int saveSlot = getSaveSlot(saveFile);
+    int r6 = getRandomAvailableSaveSlot(saveFile);
     if(r6 > 0xf) {
       return 1;
     }
 
-    DMA.channels[3].SAD.setu(r1);
+    DMA.channels[3].SAD.setu(gameStatePtr);
     DMA.channels[3].DAD.setu(r10._50.getAddress());
     DMA.channels[3].CNT.setu(0x840003fc); // 0xff0 bytes
 
@@ -1895,11 +1895,11 @@ public final class GoldenSun {
     }
 
     MEMORY.memcpy(r10._40.camelot_00.getAddress(), 0x80079b8, 8); // CAMELOTT
-    r10._40._07.set(r0);
+    r10._40._07.set(saveFile);
     r10._40.checksum_08.set(calcSaveChecksum());
-    r10._40._0a.set(FUN_8005c2c(r0) + 1);
+    r10._40._0a.set(FUN_8005c2c(saveFile) + 1);
 
-    if(FUN_8005868(r6) || r7 < 0x10 && FUN_8005b64(r7) != 0) {
+    if(writeSector(r6) || saveSlot < 0x10 && FUN_8005b64(saveSlot) != 0) {
       return 1;
     }
 
@@ -1907,17 +1907,17 @@ public final class GoldenSun {
     if(r10._40._0a.get() > 65000) {
       r10._40._0a.set(0x1);
 
-      if(FUN_8005868(r7) || FUN_8005b64(r6) != 0) {
+      if(writeSector(saveSlot) || FUN_8005b64(r6) != 0) {
         return 1;
       }
 
       //LAB_8005a2a
-      r6 = r7;
+      r6 = saveSlot;
     }
 
     //LAB_8005a2c
     r10._00.get(r6).set(0x1);
-    r10._10.get(r6).set(r0);
+    r10._10.get(r6).set(saveFile);
     r10._20.get(r6).set(r10._40._0a.get());
 
     //LAB_8005a46
@@ -1999,7 +1999,7 @@ public final class GoldenSun {
     r6._40._07.set(0x10);
     r6._40._0a.set(0);
 
-    if(FUN_8005868(r0)) {
+    if(writeSector(r0)) {
       return 1;
     }
 
@@ -2150,7 +2150,7 @@ public final class GoldenSun {
       final SramTypeStruct r2 = _8007a0c.get(i).deref();
 
       if(r2._28.get() == r3) {
-        _2004c04.set(r2._00.deref());
+        writeSectorPtr_2004c04.set(r2._00.deref());
         _2004c10.set(r2._04.get());
         _2004c14.set(r2._08.get());
         _2004c00.set(r2._0c.deref());
@@ -2224,8 +2224,6 @@ public final class GoldenSun {
   /** Copies {@link #FUN_8006abc} to r0 */
   @Method(0x8006ac0)
   public static void FUN_8006ac0(final int r0) {
-    // Why does this even need to exist
-
     readOneByteFromPtr_2004c1c.setPointer(r0 + 0x1);
 
     //LAB_8006ae4
@@ -2237,23 +2235,22 @@ public final class GoldenSun {
   }
 
   @Method(0x8006af8)
-  public static int FUN_8006af8(final int r0, final int r1, final int r2) {
-    final int r6 = r2 & 0xff;
+  public static int FUN_8006af8(final int r0, final int sramPtr, final int data) {
     FUN_8006a00(r0 & 0xff);
 
     //LAB_8006b48
     do {
-      if((readOneByteFromPtr_2004c1c.deref().run(r1) & 0xff) == r6) {
+      if((readOneByteFromPtr_2004c1c.deref().run(sramPtr) & 0xff) == data) {
         FUN_8006a78();
         return 0;
       }
     } while(_2004c24.get() == 0);
 
     int r8 = 0;
-    if((readOneByteFromPtr_2004c1c.deref().run(r1) & 0xff) != r6) {
+    if((readOneByteFromPtr_2004c1c.deref().run(sramPtr) & 0xff) != data) {
       //LAB_8006b24
       final int r1_0 = _2004c08.get();
-      if(MEMORY.ref(2, r1_0 + 0x14).getUnsigned() == 0x1cc2) {
+      if(MEMORY.ref(2, r1_0 + 0x14).getUnsigned() == 0x1cc2) { // Macronix, unsure what this is doing but we don't need it
         MEMORY.ref(1, 0xe005555).setu(0xf0);
       }
 
@@ -2324,26 +2321,25 @@ public final class GoldenSun {
   }
 
   @Method(0x8006d50)
-  public static int FUN_8006d50(final int sector) {
+  public static int eraseSector(final int sector) {
     CPU.sp().value -= 0x40;
 
     final int ret;
     if(sector < 0x10) {
       final int r2 = _2004c08.get();
       INTERRUPTS.WAITCNT.and(~0x3).oru(MEMORY.ref(2, r2 + 0x10).getUnsigned());
-      final int r3 = sector << MEMORY.ref(1, r2 + 0x8).getUnsigned();
-      final int r4 = 0xe000000 + r3;
+      final int sramSectorPtr = 0xe000000 + (sector << MEMORY.ref(1, r2 + 0x8).getUnsigned());
 
       // erase sector
       MEMORY.ref(1, 0xe005555).setu(0xaa);
       MEMORY.ref(1, 0xe002aaa).setu(0x55);
-      MEMORY.ref(1, 0xe005555).setu(0x80);
+      MEMORY.ref(1, 0xe005555).setu(0x80); // erase
       MEMORY.ref(1, 0xe005555).setu(0xaa);
       MEMORY.ref(1, 0xe002aaa).setu(0x55);
-      MEMORY.ref(1, r4).setu(0x30);
+      MEMORY.ref(1, sramSectorPtr).setu(0x30); // sector n
 
       FUN_8006ac0(CPU.sp().value);
-      ret = _2004c00.deref().run(0x2, r4, 0xff) & 0xffff;
+      ret = _2004c00.deref().run(0x2, sramSectorPtr, 0xff) & 0xffff;
       INTERRUPTS.WAITCNT.oru(0x3);
     } else {
       //LAB_8006dd8
@@ -2356,25 +2352,21 @@ public final class GoldenSun {
   }
 
   @Method(0x8006dec)
-  public static int FUN_8006dec(final int r0, final int r1) {
+  public static int writeByteToSram(final int dataPtr, final int sramPtr) {
+    final int data = MEMORY.ref(1, dataPtr).getUnsigned();
     MEMORY.ref(1, 0x0e005555).setu(0xaa);
     MEMORY.ref(1, 0xe002aaa).setu(0x55);
     MEMORY.ref(1, 0x0e005555).setu(0xa0);
-    MEMORY.ref(1, r1).setu(MEMORY.ref(1, r0).getUnsigned());
-    return _2004c00.deref().run(0x1, r1, MEMORY.ref(1, r0).getUnsigned()) & 0xffff;
+    MEMORY.ref(1, sramPtr).setu(data);
+    return _2004c00.deref().run(0x1, sramPtr, data) & 0xffff;
   }
 
   @Method(0x8006e24)
-  public static int FUN_8006e24(final int sector, int r1) {
-    final int r2;
+  public static int writeSectorSst(final int sector, final int dataPtr) {
     int r4;
     int r5;
     final int r6;
-    int r7;
-    int r9;
 
-
-    r9 = r1;
     if(sector >= 0x10) {
       return 0x80ff;
     }
@@ -2382,22 +2374,19 @@ public final class GoldenSun {
     CPU.sp().value -= 0x60;
 
     //LAB_8006e44
-    r7 = 0xe000000 + (sector << MEMORY.ref(1, _2004c08.get() + 0x8).getUnsigned());
+    final int sectorPtr = 0xe000000 + (sector << MEMORY.ref(1, _2004c08.get() + 0x8).getUnsigned());
 
     //LAB_8006e70
     //LAB_8006e7a
-    for(r1 = 0; r1 < 0x12; r1++) {
-      MEMORY.ref(2, CPU.sp().value + r1 * 0x2).setu(MEMORY.ref(2, 0x8006f48 + r1 * 0x2).getUnsigned());
-    }
-
-    MEMORY.setFunction(CPU.sp().value, GoldenSun.class, "FUN_8006f48", int.class);
+    MEMORY.memcpy(CPU.sp().value, getMethodAddress(GoldenSun.class, "verifySectorErased", int.class), 0x24);
+    MEMORY.setFunction(CPU.sp().value, GoldenSun.class, "verifySectorErased", int.class);
 
     r4 = 0;
 
     //LAB_8006e86
     //LAB_8006e90
-    while((r5 = FUN_8006d50(sector) & 0xffff) != 0 || (r5 = FUN_8006f6c(r7, CPU.sp().value + 0x1) & 0xffff) != 0) {
-      r4 = r4 + 1 & 0xff;
+    while((r5 = eraseSector(sector) & 0xffff) != 0 || (r5 = FUN_8006f6c(sectorPtr, CPU.sp().value + 0x1) & 0xffff) != 0) {
+      r4++;
       if(r4 == 0x51) {
         CPU.sp().value += 0x60;
         return r5;
@@ -2415,22 +2404,20 @@ public final class GoldenSun {
 
     //LAB_8006ebe
     while(r4 <= r6) {
-      FUN_8006d50(sector);
-      r4 = r4 + 1 & 0xff;
+      eraseSector(sector);
+      r4++;
     }
 
     //LAB_8006ece
     FUN_8006ac0(CPU.sp().value);
 
-    r2 = _2004c08.get();
-    INTERRUPTS.WAITCNT.and(~0x3).oru(MEMORY.ref(2, r2 + 0x10).getUnsigned());
+    final int sramInfo = _2004c08.get();
+    INTERRUPTS.WAITCNT.and(~0x3).oru(MEMORY.ref(2, sramInfo + 0x10).getUnsigned());
 
-    _2004c0c.set(MEMORY.ref(4, r2 + 0x4).get());
+    _2004c0c.set(MEMORY.ref(4, sramInfo + 0x4).get());
     //LAB_8006f00
-    while(_2004c0c.get() > 0 && (r5 = FUN_8006dec(r9, r7) & 0xffff) == 0) {
+    for(int i = 0; _2004c0c.get() > 0 && (r5 = writeByteToSram(dataPtr + i, sectorPtr + i) & 0xffff) == 0; i++) {
       _2004c0c.decr();
-      r9++;
-      r7++;
     }
 
     //LAB_8006f22
@@ -2442,7 +2429,7 @@ public final class GoldenSun {
   }
 
   @Method(0x8006f48)
-  public static int FUN_8006f48(final int r0) {
+  public static int verifySectorErased(final int r0) {
     int r2 = r0;
     int r1 = MEMORY.ref(4, _2004c08.get() + 0x4).get();
 

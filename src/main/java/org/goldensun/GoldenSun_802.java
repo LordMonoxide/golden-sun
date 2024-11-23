@@ -10,7 +10,7 @@ import org.goldensun.types.Struct12fc;
 
 import javax.annotation.Nullable;
 
-import static org.goldensun.GoldenSun.FUN_8005920;
+import static org.goldensun.GoldenSun.saveGame;
 import static org.goldensun.GoldenSun.FUN_8005a78;
 import static org.goldensun.GoldenSun.drawSprite_;
 import static org.goldensun.GoldenSun.clearSprite_;
@@ -510,7 +510,7 @@ public final class GoldenSun_802 {
 
         FUN_801f818();
         FUN_808a5b0();
-        r6 = FUN_8005920(r7, 0x2000000) | FUN_8005920(r7 + 0x3, 0x2001000);
+        r6 = saveGame(r7, 0x2000000) | saveGame(r7 + 0x3, 0x2001000);
         FUN_8019a54();
         if(r6 != 0) {
           FUN_801776c(0xb, 0x1);

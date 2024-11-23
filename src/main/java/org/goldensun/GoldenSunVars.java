@@ -103,8 +103,10 @@ public final class GoldenSunVars {
   /** These appear to be pointers into map/cutscene code */
   public static final Pointer<SupplierRef<Integer>> _2008024 = MEMORY.ref(4, 0x2008024, Pointer.deferred(4, SupplierRef::new));
 
+  /** Should always point to {@link GoldenSun#FUN_8006af8} */
   public static final Pointer<TriFunctionRef<Integer, Integer, Integer, Integer>> _2004c00 = MEMORY.ref(4, 0x2004c00, Pointer.deferred(4, TriFunctionRef::new));
-  public static final Pointer<BiFunctionRef<Integer, Integer, Integer>> _2004c04 = MEMORY.ref(4, 0x2004c04, Pointer.deferred(4, BiFunctionRef::new));
+  /** Should always point to {@link GoldenSun#writeSectorSst} */
+  public static final Pointer<BiFunctionRef<Integer, Integer, Integer>> writeSectorPtr_2004c04 = MEMORY.ref(4, 0x2004c04, Pointer.deferred(4, BiFunctionRef::new));
   public static final IntRef _2004c08 = MEMORY.ref(4, 0x2004c08, IntRef::new);
   public static final UnsignedShortRef _2004c0c = MEMORY.ref(2, 0x2004c0c, UnsignedShortRef::new);
 
