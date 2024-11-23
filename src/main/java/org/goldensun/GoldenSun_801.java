@@ -891,6 +891,72 @@ public final class GoldenSun_801 {
     return r2 + r1 * ((MEMORY.ref(1, r0 + 0x1).get() << 19) - r2) / 0x10;
   }
 
+  @Method(0x8011d10)
+  public static int FUN_8011d10(final int r0, int r1, final int r2) {
+    r1 = MEMORY.ref(1, r0).get() << 19;
+    final int r3 = MEMORY.ref(1, r0 + 0x1).get() << 19;
+    return r1 + r2 * (r3 - r1) / 0x10;
+  }
+
+  @Method(0x8011d34)
+  public static int FUN_8011d34(int r0, int r1, final int r2) {
+    final int r4;
+
+    r4 = MEMORY.ref(1, r0).get() << 19;
+    r0 = MEMORY.ref(1, r0 + 0x1).get() << 19;
+    r1 = r1 + r2;
+    if(r1 == 0xf) {
+      return Math.max(r0, r4);
+    }
+
+    //LAB_8011d54
+    CPU.cmpT(r1, 0xe);
+    if(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()) { // unsigned <=
+      return r4;
+    }
+
+    //LAB_8011d5a
+    return r0;
+  }
+
+  @Method(0x8011d60)
+  public static int FUN_8011d60(int r0, int r1, int r2) {
+    int r3;
+    final int r4;
+    final int r5;
+
+    r3 = CPU.movT(0, 0x0);
+    r3 = MEMORY.ref(1, r0 + r3).get();
+    r4 = CPU.lslT(r3, 19);
+    r3 = CPU.movT(0, 0x1);
+    r3 = MEMORY.ref(1, r0 + r3).get();
+    r0 = CPU.lslT(r3, 19);
+    r5 = CPU.addT(r2, 0x0);
+    r2 = CPU.addT(r4, 0x0);
+    r0 = CPU.cmpT(r0, r4);
+    if(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >
+      r2 = CPU.addT(r0, 0x0);
+    }
+
+    //LAB_8011d78
+    r3 = CPU.subT(r5, r1);
+    r1 = CPU.addT(r3, 0x0);
+    r1 = CPU.addT(r1, 0xf);
+    CPU.cmpT(r1, 0xf);
+    if(CPU.cpsr().getZero()) { // ==
+      r0 = CPU.addT(r2, 0x0);
+    } else {
+      //LAB_8011d86
+      CPU.cmpT(r1, 0xe);
+      if(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()) { // unsigned <=
+        r0 = CPU.addT(r4, 0x0);
+      }
+    }
+
+    //LAB_8011d8c
+    return r0;
+  }
+
   @Method(0x8011f54)
   public static int FUN_8011f54(final int r0, final int r1, final int r2) {
     final int r1_0 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
