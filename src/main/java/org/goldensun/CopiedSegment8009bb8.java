@@ -34,7 +34,7 @@ public final class CopiedSegment8009bb8 {
         //LAB_8009bd8
         do {
           do {
-            for(; i < 3; i++) {
+            for(; i < 4; i++) {
               r2 = r4 & r3 >>> i * 8;
               if(r2 == 0) {
                 return;
