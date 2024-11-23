@@ -11,6 +11,7 @@ import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.setMallocAddress;
 import static org.goldensun.GoldenSunVars._2000434;
 import static org.goldensun.GoldenSunVars._200044c;
+import static org.goldensun.GoldenSunVars.runButton_200045c;
 import static org.goldensun.GoldenSunVars._3001c9c;
 import static org.goldensun.GoldenSunVars._3001d08;
 import static org.goldensun.GoldenSunVars.framesSinceInput_3001d24;
@@ -20,6 +21,7 @@ import static org.goldensun.GoldenSun_801.FUN_8015020;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.DMA;
 import static org.goldensun.Hardware.MEMORY;
+import static org.goldensun.input.Input.BUTTON_B;
 
 public final class GoldenSun_807 {
   private GoldenSun_807() { }
@@ -58,21 +60,21 @@ public final class GoldenSun_807 {
     FUN_8077d38();
   }
 
-  /** {@link GoldenSun_807#FUN_8079338} */
+  /** {@link GoldenSun_807#readFlag} */
   @Method(0x80770c0)
-  public static int FUN_80770c0(final int r0) {
+  public static int readFlag_(final int r0) {
     return (int)MEMORY.call(0x8079338, r0);
   }
 
-  /** {@link GoldenSun_807#FUN_8079358} */
+  /** {@link GoldenSun_807#setFlag} */
   @Method(0x80770c8)
-  public static void FUN_80770c8(final int r0) {
+  public static void setFlag_(final int r0) {
     MEMORY.call(0x8079358, r0);
   }
 
-  /** {@link GoldenSun_807#FUN_8079374} */
+  /** {@link GoldenSun_807#clearFlag} */
   @Method(0x80770d0)
-  public static void FUN_80770d0(final int r0) {
+  public static void clearFlag_(final int r0) {
     MEMORY.call(0x8079374, r0);
   }
 
@@ -936,27 +938,27 @@ public final class GoldenSun_807 {
         case 0 -> {
           r0 = CPU.movT(0, 0x88);
           r0 = CPU.lslT(r0, 1);
-          r0 = FUN_8079338(r0);
+          r0 = readFlag(r0);
         }
 
         case 1 -> {
           r0 = CPU.movT(0, 0x89);
           r0 = CPU.lslT(r0, 1);
-          r0 = FUN_8079338(r0);
+          r0 = readFlag(r0);
         }
 
         case 2 -> {
-          r0 = FUN_8079338(0x113);
+          r0 = readFlag(0x113);
         }
 
         case 3 -> {
-          r0 = FUN_8079338(0x111);
+          r0 = readFlag(0x111);
         }
 
         case 5 -> {
           r0 = CPU.movT(0, 0x89);
           r0 = CPU.lslT(r0, 1);
-          r0 = FUN_8079338(r0);
+          r0 = readFlag(r0);
         }
       }
 
@@ -1314,7 +1316,7 @@ public final class GoldenSun_807 {
     CPU.push(CPU.r9().value);
     CPU.push(CPU.r8().value);
 
-    FUN_8079374(0x167);
+    clearFlag(0x167);
     CPU.r10().value = FUN_80795fc();
     CPU.r8().value = 0;
     CPU.cmpT(CPU.r8().value, CPU.r10().value);
@@ -1349,7 +1351,7 @@ public final class GoldenSun_807 {
               r5 = CPU.addT(r5, 0x4);
               CPU.cmpT(r3, 0x1b);
               if(CPU.cpsr().getZero()) { // ==
-                FUN_8079358(0x167);
+                setFlag(0x167);
               }
 
               //LAB_8077c86
@@ -1478,7 +1480,7 @@ public final class GoldenSun_807 {
     MEMORY.ref(2, 0x2000456).setu(0x8);
     MEMORY.ref(2, 0x2000458).setu(0x200);
     MEMORY.ref(2, 0x200045a).setu(0x100);
-    MEMORY.ref(2, 0x200045c).setu(0x2);
+    runButton_200045c.set(BUTTON_B);
     int r4 = MEMORY.ref(4, CPU.sp().value).get();
     MEMORY.ref(2, 0x2000460).setu(r4);
     MEMORY.ref(2, 0x2000462).setu(r4);
@@ -2457,7 +2459,7 @@ public final class GoldenSun_807 {
   /** Called after confirming character names */
   @Method(0x8077f40)
   public static void FUN_8077f40() {
-    FUN_8079358(0x20);
+    setFlag(0x20);
     FUN_8079ae8(0);
     FUN_8079ae8(1);
     FUN_8079ae8(5);
@@ -2856,18 +2858,18 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x8079338)
-  public static int FUN_8079338(final int r0) {
+  public static int readFlag(final int r0) {
     final int r3 = MEMORY.ref(1, 0x2000040 + (r0 << 20 >>> 23)).getUnsigned() & 0x1 << (r0 & 0x7); //TODO
     return (-r3 | r3) >>> 31;
   }
 
   @Method(0x8079358)
-  public static void FUN_8079358(final int r0) {
+  public static void setFlag(final int r0) {
     MEMORY.ref(1, 0x2000040 + (r0 << 20 >>> 23)).oru(0x1 << (r0 & 0x7)); //TODO
   }
 
   @Method(0x8079374)
-  public static void FUN_8079374(final int r0) {
+  public static void clearFlag(final int r0) {
     MEMORY.ref(1, 0x2000040 + (r0 << 20 >>> 23)).and(~(0x1 << (r0 & 0x7))); //TODO
   }
 
@@ -2883,7 +2885,7 @@ public final class GoldenSun_807 {
     //LAB_8079602
     do {
       r0 = CPU.addT(r5, 0x0);
-      r0 = FUN_8079338(r0);
+      r0 = readFlag(r0);
       CPU.cmpT(r0, 0x0);
       if(!CPU.cpsr().getZero()) { // !=
         r6 = CPU.addT(r6, 0x1);
@@ -2910,7 +2912,7 @@ public final class GoldenSun_807 {
     r0 = FUN_80795fc();
     r5 = CPU.addT(r0, 0x0);
     r0 = CPU.addT(r6, 0x0);
-    FUN_8079358(r0);
+    setFlag(r0);
     r2 = CPU.movT(0, 0x0);
     r2 = CPU.cmpT(r2, r5);
     r0 = 0x2000240;
@@ -3226,7 +3228,7 @@ public final class GoldenSun_807 {
       r2 = CPU.addT(r6, 0x0);
       FUN_80797fc(r0, r1, r2);
       r0 = CPU.movT(0, 0x20);
-      r0 = FUN_8079338(r0);
+      r0 = readFlag(r0);
       CPU.cmpT(r0, 0x0);
       if(!CPU.cpsr().getZero()) { // !=
         if(r5 == 0) {

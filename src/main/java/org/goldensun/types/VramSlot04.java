@@ -21,4 +21,9 @@ public class VramSlot04 implements MemoryRef {
   public int getAddress() {
     return this.ref.getAddress();
   }
+
+  @Override
+  public String toString() {
+    return "%s 0x%x 0x%x @ 0x%x".formatted(this.getClass().getSimpleName(), 0x6010000 + this.vramAddr_02.get(), this._00.get(), this.getAddress());
+  }
 }

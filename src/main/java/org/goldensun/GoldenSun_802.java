@@ -12,8 +12,8 @@ import javax.annotation.Nullable;
 
 import static org.goldensun.GoldenSun.FUN_8005920;
 import static org.goldensun.GoldenSun.FUN_8005a78;
-import static org.goldensun.GoldenSun.FUN_8009008;
-import static org.goldensun.GoldenSun.FUN_8009038;
+import static org.goldensun.GoldenSun.drawSprite_;
+import static org.goldensun.GoldenSun.clearSprite_;
 import static org.goldensun.GoldenSun.FUN_8009288;
 import static org.goldensun.GoldenSun.divideS;
 import static org.goldensun.GoldenSun.FUN_8003d28;
@@ -76,9 +76,9 @@ import static org.goldensun.GoldenSun_801.FUN_801f818;
 import static org.goldensun.GoldenSun_801.FUN_801fd84;
 import static org.goldensun.GoldenSun_801.FUN_801fd98;
 import static org.goldensun.GoldenSun_801.FUN_801fda8;
-import static org.goldensun.GoldenSun_801.drawCharacters;
-import static org.goldensun.GoldenSun_801.FUN_801ff14;
-import static org.goldensun.GoldenSun_801.drawDjinn;
+import static org.goldensun.GoldenSun_801.loadCharacterSprites;
+import static org.goldensun.GoldenSun_801.clearCharacterSprites;
+import static org.goldensun.GoldenSun_801.loadDjinnSprites;
 import static org.goldensun.GoldenSun_807.FUN_8077008;
 import static org.goldensun.GoldenSun_807.FUN_8077300;
 import static org.goldensun.GoldenSun_808.FUN_808a5b0;
@@ -100,15 +100,15 @@ public final class GoldenSun_802 {
   private GoldenSun_802() { }
 
   @Method(0x8020088)
-  public static void FUN_8020088() {
+  public static void clearDjinnSprites() {
     final int r7 = boardWramMallocHead_3001e50.offset(55 * 0x4).get();
-    clearTickCallback(getRunnable(GoldenSun_802.class, "FUN_80200cc"));
+    clearTickCallback(getRunnable(GoldenSun_802.class, "drawDjinn"));
 
     //LAB_80200a2
     for(int r6 = 0; r6 < 4; r6++) {
       final int r0 = MEMORY.ref(4, r7 + 0x224 + r6 * 0x4).get();
       if(r0 != 0) {
-        FUN_8009038(MEMORY.ref(4, r0, Sprite38::new));
+        clearSprite_(MEMORY.ref(4, r0, Sprite38::new));
         MEMORY.ref(4, r7 + 0x224 + r6 * 0x4).setu(0);
       }
 
@@ -116,9 +116,8 @@ public final class GoldenSun_802 {
     }
   }
 
-  /** Render callback on load game screen */
   @Method(0x80200cc)
-  public static void FUN_80200cc() {
+  public static void drawDjinn() {
     CPU.sp().value -= 0x1c;
 
     final int r3 = boardWramMallocHead_3001e50.offset(55 * 0x4).get();
@@ -138,7 +137,7 @@ public final class GoldenSun_802 {
         MEMORY.ref(4, r5 + 0x8).setu(0x1f40000 + (MEMORY.ref(2, r3 + 0x234 + 0x8 + r8 * 0x2).get() << 16));
         MEMORY.ref(4, r5 + 0xc).setu(0);
 
-        FUN_8009008(MEMORY.ref(4, r0, Sprite38::new), r5, r4, 0x4000);
+        drawSprite_(MEMORY.ref(4, r0, Sprite38::new), r5, r4, 0x4000);
       }
 
       //LAB_8020130
@@ -340,8 +339,8 @@ public final class GoldenSun_802 {
           }
 
           //LAB_8020504
-          FUN_801ff14();
-          drawCharacters(sp1c, 0, 0, r5_0);
+          clearCharacterSprites();
+          loadCharacterSprites(sp1c, 0, 0, r5_0);
           sleep(1);
 
           if(r5_0.djinnCounts_28.get(0).get() + r5_0.djinnCounts_28.get(1).get() + r5_0.djinnCounts_28.get(2).get() + r5_0.djinnCounts_28.get(3).get() != 0) {
@@ -351,19 +350,19 @@ public final class GoldenSun_802 {
 
             //LAB_8020552
             drawDjinnCounts(sp18, r5_0);
-            FUN_8020088();
-            drawDjinn(sp18, 0, 0);
+            clearDjinnSprites();
+            loadDjinnSprites(sp18, 0, 0);
           } else {
             //LAB_802056a
-            FUN_8020088();
+            clearDjinnSprites();
             FUN_8016418(sp18, 0x2);
             sp18 = null;
           }
         } else {
           //LAB_80205ac
           FUN_801ccc0(MEMORY.ref(1, 0x2000445).getUnsigned(), MEMORY.ref(1, 0x2000446).getUnsigned());
-          FUN_8020088();
-          FUN_801ff14();
+          clearDjinnSprites();
+          clearCharacterSprites();
           FUN_8016418(sp18, 0x2);
           FUN_8016418(sp1c, 0x2);
           FUN_8016418(sp20, 0x2);
@@ -446,8 +445,8 @@ public final class GoldenSun_802 {
     } while(true);
 
     //LAB_802074a
-    FUN_8020088();
-    FUN_801ff14();
+    clearDjinnSprites();
+    clearCharacterSprites();
     FUN_8016418(sp18, 0x2);
     FUN_8016418(sp1c, 0x2);
     FUN_8016418(sp20, 0x2);

@@ -66,6 +66,7 @@ public final class GoldenSunVars {
 
   public static final UnsignedByteRef _200044c = MEMORY.ref(1, 0x200044c, UnsignedByteRef::new);
 
+  public static final UnsignedShortRef runButton_200045c = MEMORY.ref(2, 0x200045c, UnsignedShortRef::new);
   public static final ShortRef _200045e = MEMORY.ref(2, 0x200045e, ShortRef::new);
 
   public static final UnsignedByteRef _2000464 = MEMORY.ref(1, 0x2000464, UnsignedByteRef::new);

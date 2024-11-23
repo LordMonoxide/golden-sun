@@ -24,8 +24,8 @@ public class Actor70 implements MemoryRef {
   public final UnsignedByteRef layer_22;
   public final UnsignedByteRef flags_23;
   public final Vec3 velocity_24;
-  public final IntRef _30;
-  public final IntRef _34;
+  public final IntRef velocityScalar_30;
+  public final IntRef acceleration_34;
   public final Vec3 dest_38;
   public final IntRef _44;
   public final IntRef _48;
@@ -73,8 +73,8 @@ public class Actor70 implements MemoryRef {
     this.layer_22 = ref.offset(1, 0x22).cast(UnsignedByteRef::new);
     this.flags_23 = ref.offset(1, 0x23).cast(UnsignedByteRef::new);
     this.velocity_24 = ref.offset(4, 0x24).cast(Vec3::new);
-    this._30 = ref.offset(4, 0x30).cast(IntRef::new);
-    this._34 = ref.offset(4, 0x34).cast(IntRef::new);
+    this.velocityScalar_30 = ref.offset(4, 0x30).cast(IntRef::new);
+    this.acceleration_34 = ref.offset(4, 0x34).cast(IntRef::new);
     this.dest_38 = ref.offset(4, 0x38).cast(Vec3::new);
     this._44 = ref.offset(4, 0x44).cast(IntRef::new);
     this._48 = ref.offset(4, 0x48).cast(IntRef::new);

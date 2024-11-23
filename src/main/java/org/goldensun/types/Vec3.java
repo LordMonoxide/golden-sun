@@ -4,12 +4,22 @@ import org.goldensun.memory.Value;
 import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.MemoryRef;
 
+import javax.annotation.Nullable;
+
 public class Vec3 implements MemoryRef {
+  @Nullable
   private final Value ref;
 
   public final IntRef x_00;
   public final IntRef y_04;
   public final IntRef z_08;
+
+  public Vec3() {
+    this.ref = null;
+    this.x_00 = new IntRef();
+    this.y_04 = new IntRef();
+    this.z_08 = new IntRef();
+  }
 
   public Vec3(final Value ref) {
     this.ref = ref;
@@ -63,6 +73,15 @@ public class Vec3 implements MemoryRef {
 
   @Override
   public int getAddress() {
+    if(this.ref == null) {
+      throw new NullPointerException("Can't get address of non-heap object");
+    }
+
     return this.ref.getAddress();
+  }
+
+  @Override
+  public String toString() {
+    return "VECTOR {x: " + this.x_00 + ", y: " + this.y_04 + ", z: " + this.z_08 + '}' + (this.ref == null ? " (local)" : " @ " + Integer.toHexString(this.getAddress()));
   }
 }

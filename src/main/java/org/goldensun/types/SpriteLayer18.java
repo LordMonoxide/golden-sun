@@ -10,6 +10,7 @@ public class SpriteLayer18 implements MemoryRef {
   private final Value ref;
 
   public final ShortRef spriteDataIndex_00;
+  /** TODO this value seems to change when lightning flashes */
   public final ShortRef _02;
   public final UnsignedByteRef _04;
   public final UnsignedByteRef _05;

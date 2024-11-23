@@ -420,13 +420,13 @@ public final class Decompressed87795e8 {
                 continue jmp_20084a8;
               }
 
-              FUN_200945c(0x109);
+              setFlag(0x109);
               FUN_200941c(MEMORY.ref(1, 0x2000445).getUnsigned(), MEMORY.ref(1, 0x2000446).getUnsigned());
 
               if(MEMORY.ref(4, 0x2000240).get() != FUN_2009484()) {
                 MEMORY.ref(2, 0x2000400).setu(MEMORY.ref(2, 0x2000404).getUnsigned());
                 MEMORY.ref(2, 0x2000402).setu(MEMORY.ref(2, 0x2000406).getUnsigned());
-                FUN_2009464(0x109);
+                clearFlag(0x109);
               } else {
                 //LAB_20085d8
                 if((heldButtonsLastFrame_3001ae8.get() & 0x208) == 0x208) {
@@ -438,8 +438,8 @@ public final class Decompressed87795e8 {
                   //LAB_20085f2
                   MEMORY.ref(2, 0x2000400).setu(MEMORY.ref(2, 0x2000404).getUnsigned());
                   MEMORY.ref(2, 0x2000402).setu(MEMORY.ref(2, 0x2000406).getUnsigned());
-                  FUN_2009464(0x109);
-                  FUN_200945c(0x13e);
+                  clearFlag(0x109);
+                  setFlag(0x13e);
                 } else {
                   //LAB_200861e
                   if(MEMORY.ref(4, 0x2000244).get() != MEMORY.ref(4, 0x2001100).get()) {
@@ -462,14 +462,14 @@ public final class Decompressed87795e8 {
                     //LAB_200866c
                     MEMORY.ref(2, 0x2000400).setu(MEMORY.ref(2, 0x2000404).getUnsigned());
                     MEMORY.ref(2, 0x2000402).setu(MEMORY.ref(2, 0x2000406).getUnsigned());
-                    FUN_2009464(0x109);
-                    FUN_200945c(0x13f);
+                    clearFlag(0x109);
+                    setFlag(0x13f);
                   }
                 }
               }
 
               //LAB_2008696
-              FUN_2009464(0x106);
+              clearFlag(0x106);
             } else {
               //LAB_20086a0
               if(r6 == 2) {
@@ -506,9 +506,9 @@ public final class Decompressed87795e8 {
 
                 //LAB_2008774
                 FUN_200941c(MEMORY.ref(1, 0x2000445).getUnsigned(), MEMORY.ref(1, 0x2000446).getUnsigned());
-                FUN_2009464(0x109);
-                FUN_2009464(0x106);
-                FUN_200945c(0x17e);
+                clearFlag(0x109);
+                clearFlag(0x106);
+                setFlag(0x17e);
                 MEMORY.ref(1, 0x3001ca0).setu(0x1);
                 FUN_20094a4(0xbe, 0x1);
               } else {
@@ -1469,15 +1469,15 @@ public final class Decompressed87795e8 {
     return (int)MEMORY.call(0x80770c0, r0);
   }
 
-  /** {@link GoldenSun_807#FUN_80770c8} */
+  /** {@link GoldenSun_807#setFlag_} */
   @Method(0x200945c)
-  public static void FUN_200945c(final int r0) {
+  public static void setFlag(final int r0) {
     MEMORY.call(0x80770c8, r0);
   }
 
-  /** {@link GoldenSun_807#FUN_80770d0} */
+  /** {@link GoldenSun_807#clearFlag_} */
   @Method(0x2009464)
-  public static void FUN_2009464(final int r0) {
+  public static void clearFlag(final int r0) {
     MEMORY.call(0x80770d0, r0);
   }
 

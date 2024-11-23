@@ -42,7 +42,7 @@ public final class Decompressed877dd1c {
 
   @Method(0x200810c)
   public static void FUN_200810c() {
-    FUN_200c6e4(0x210);
+    setFlag(0x210);
     FUN_200c6ac(0x28, 0x54, 0x7, 0x4, 0xa, 0x54);
   }
 
@@ -51,31 +51,31 @@ public final class Decompressed877dd1c {
     FUN_200c8a4(0xaa);
     FUN_200c78c(0x17, 0, 0);
 
-    if(FUN_200c6dc(0x109) != 0) {
-      FUN_200c6ec(0x205);
-      FUN_200c6ec(0x206);
+    if(readFlag_(0x109) != 0) {
+      clearFlag_(0x205);
+      clearFlag_(0x206);
     }
 
     //LAB_2008462
-    if(FUN_200c6dc(0x830) != 0) {
+    if(readFlag_(0x830) != 0) {
       FUN_200c78c(0xb, 0x14e0000, 0x3a40000);
       FUN_2008ec4();
     }
 
     //LAB_2008480
-    if(FUN_200c6dc(0x831) != 0) {
+    if(readFlag_(0x831) != 0) {
       FUN_200c78c(0xc, 0xe00000, 0x3680000);
       FUN_20090a4();
     }
 
     //LAB_200849c
-    if(FUN_200c6dc(0x832) != 0) {
+    if(readFlag_(0x832) != 0) {
       FUN_200c78c(0xd, 0x400000, 0x2bf0000);
       FUN_20092f0();
     }
 
     //LAB_20084b6
-    if(FUN_200c6dc(0x833) != 0) {
+    if(readFlag_(0x833) != 0) {
       FUN_200c78c(0xe, 0x1b00000, 0x47b0000);
       FUN_2009498();
     }
@@ -90,7 +90,7 @@ public final class Decompressed877dd1c {
     getActor(0x11)._59.or(0x4);
     getActor(0x12)._59.or(0x4);
 
-    if(FUN_200c6dc(0x837) != 0) {
+    if(readFlag_(0x837) != 0) {
       FUN_200c78c(0x16, 0, 0);
     }
 
@@ -99,7 +99,7 @@ public final class Decompressed877dd1c {
     actor19._18.set(0x20000);
     actor19._1c.set(0x20000);
 
-    if(FUN_200c6dc(0x838) != 0) {
+    if(readFlag_(0x838) != 0) {
       FUN_200c78c(0x13, 0x720000, 0x14d0000);
     } else {
       //LAB_200857c
@@ -107,7 +107,7 @@ public final class Decompressed877dd1c {
     }
 
     //LAB_2008584
-    if(FUN_200c6dc(0x841) != 0) {
+    if(readFlag_(0x841) != 0) {
       //LAB_2008590
       FUN_200c0f0();
       FUN_200c78c(0x9, 0xa50000, 0x4cd0000);
@@ -143,12 +143,12 @@ public final class Decompressed877dd1c {
       FUN_200c78c(0x17, 0, 0);
       FUN_200c78c(0x13, 0, 0);
 
-      if(FUN_200c6dc(0x842) != 0) {
+      if(readFlag_(0x842) != 0) {
         //LAB_20086dc
         FUN_200c78c(0x16, 0, 0);
       }
       //LAB_20086e0
-    } else if(FUN_200c6dc(0x83a) != 0) {
+    } else if(readFlag_(0x83a) != 0) {
       //LAB_20086ec
       FUN_200c78c(0xa, 0xc00000, 0x4be0000);
       FUN_200c7fc(0xa, 0x2000, 0);
@@ -177,19 +177,19 @@ public final class Decompressed877dd1c {
     }
 
     //LAB_2008854
-    if(MEMORY.ref(2, 0x2000240 + 0x1c2).get() != 0xf || FUN_200c6dc(0x87b) != 0) {
+    if(MEMORY.ref(2, 0x2000240 + 0x1c2).get() != 0xf || readFlag_(0x87b) != 0) {
       //LAB_200886e
       FUN_200c84c();
       FUN_200c854();
     }
 
     //LAB_2008876
-    if(FUN_200c6dc(0x210) != 0) {
+    if(readFlag_(0x210) != 0) {
       FUN_200810c();
     }
 
     //LAB_2008886
-    FUN_200c6e4(0x834);
+    setFlag(0x834);
     FUN_200c6ac(0x1d, 0x18, 0x1, 0x2, 0x1a, 0x2e);
     FUN_200c6ac(0x1d, 0x19, 0x1, 0x1, 0x1b, 0x2e);
     FUN_200c6ac(0x1d, 0x19, 0x1, 0x1, 0x1c, 0x2e);
@@ -204,13 +204,13 @@ public final class Decompressed877dd1c {
 
     sleep(1);
 
-    if(FUN_200c6dc(0x87b) == 0 && MEMORY.ref(2, 0x2000240 + 0x1c2).get() == 0xf) {
+    if(readFlag_(0x87b) == 0 && MEMORY.ref(2, 0x2000240 + 0x1c2).get() == 0xf) {
       FUN_2008a10();
     } else {
       //LAB_2008930
       setActorAnimationIfLoaded_(0x17, 0x7);
 
-      if(FUN_200c6dc(0x837) == 0) {
+      if(readFlag_(0x837) == 0) {
         FUN_200c6fc();
         FUN_200c814(0x16, 0x101);
         FUN_200c78c(0x16, 0x1900000, 0x2630000);
@@ -538,11 +538,11 @@ public final class Decompressed877dd1c {
     r0 = CPU.movT(0, 0x16);
     setActorAnimationIfLoaded_(r0, r1);
     r0 = MEMORY.ref(4, 0x2008d50).get();
-    FUN_200c6ec(r0);
+    clearFlag_(r0);
     r0 = MEMORY.ref(4, 0x2008d54).get();
-    FUN_200c6e4(r0);
+    setFlag(r0);
     r0 = MEMORY.ref(4, 0x2008d58).get();
-    FUN_200c6e4(r0);
+    setFlag(r0);
     FUN_200c704();
   }
 
@@ -658,21 +658,21 @@ public final class Decompressed877dd1c {
     MEMORY.call(0x80091e0, r0, r1);
   }
 
-  /** {@link GoldenSun_807#FUN_8079338} */
+  /** {@link GoldenSun_807#readFlag} */
   @Method(0x200c6dc)
-  public static int FUN_200c6dc(final int r0) {
+  public static int readFlag_(final int r0) {
     return (int)MEMORY.call(0x8079338, r0);
   }
 
-  /** {@link GoldenSun_807#FUN_80770c8} */
+  /** {@link GoldenSun_807#setFlag_} */
   @Method(0x200c6e4)
-  public static void FUN_200c6e4(final int r0) {
+  public static void setFlag(final int r0) {
     MEMORY.call(0x80770c8, r0);
   }
 
-  /** {@link GoldenSun_807#FUN_8079374} */
+  /** {@link GoldenSun_807#clearFlag} */
   @Method(0x200c6ec)
-  public static void FUN_200c6ec(final int r0) {
+  public static void clearFlag_(final int r0) {
     MEMORY.call(0x8079374, r0);
   }
 

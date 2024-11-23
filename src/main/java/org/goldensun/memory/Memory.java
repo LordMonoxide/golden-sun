@@ -69,7 +69,9 @@ public class Memory {
     writeWatches.remove(address);
   }
 
-  public void dump(final int address, final int size) {
+  public void dump(int address, final int size) {
+    address &= ~0xf;
+
     for(int i = 0; i < size; i++) {
       if(i % 0x10 == 0) {
         if(i != 0) {

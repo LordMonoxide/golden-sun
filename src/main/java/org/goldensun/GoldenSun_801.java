@@ -13,6 +13,7 @@ import org.goldensun.types.Map194;
 import org.goldensun.types.SaveStruct1100;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.Struct12fc;
+import org.goldensun.types.Vec3;
 
 import javax.annotation.Nullable;
 
@@ -21,9 +22,9 @@ import static org.goldensun.GoldenSun.FUN_800439c;
 import static org.goldensun.GoldenSun.FUN_80053e8;
 import static org.goldensun.GoldenSun.FUN_8005920;
 import static org.goldensun.GoldenSun.FUN_8005a78;
-import static org.goldensun.GoldenSun.FUN_8009008;
+import static org.goldensun.GoldenSun.drawSprite_;
 import static org.goldensun.GoldenSun.FUN_8009020;
-import static org.goldensun.GoldenSun.FUN_8009038;
+import static org.goldensun.GoldenSun.clearSprite_;
 import static org.goldensun.GoldenSun.decompress;
 import static org.goldensun.GoldenSun.divideU;
 import static org.goldensun.GoldenSun.loadSprite_;
@@ -75,7 +76,7 @@ import static org.goldensun.GoldenSun_802.FUN_80216e8;
 import static org.goldensun.GoldenSun_802.FUN_8021750;
 import static org.goldensun.GoldenSun_802.FUN_80217a4;
 import static org.goldensun.GoldenSun_807.FUN_8077008;
-import static org.goldensun.GoldenSun_807.FUN_80770c0;
+import static org.goldensun.GoldenSun_807.readFlag_;
 import static org.goldensun.GoldenSun_807.FUN_8077158;
 import static org.goldensun.GoldenSun_807.FUN_8077290;
 import static org.goldensun.GoldenSun_807.FUN_8077300;
@@ -909,9 +910,9 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x80120dc)
-  public static int FUN_80120dc(final Actor70 r0, final int r1) {
-    final int r6 = MEMORY.ref(2, r1 + 0xa).get();
-    final int r5 = MEMORY.ref(2, r1 + 0x2).get();
+  public static int FUN_80120dc(final Actor70 r0, final Vec3 r1) {
+    final int r5 = r1.getX() >> 16;
+    final int r6 = r1.getZ() >> 16;
     final int mapAddr = boardWramMallocHead_3001e50.offset(8 * 0x4).get(); //TODO map
 
     if(mapAddr == 0) {
@@ -5314,7 +5315,7 @@ public final class GoldenSun_801 {
     final int r11 = boardWramMallocHead_3001e50.offset(20 * 0x4).get();
     int r10 = 0x3;
     CPU.sp().value -= 0xc;
-    final int r9 = FUN_80770c0(0x17e);
+    final int r9 = readFlag_(0x17e);
     MEMORY.ref(4, CPU.sp().value + 0x8).setu(0);
     if(r9 != 0) {
       MEMORY.ref(4, CPU.sp().value + 0x8).setu(0x2);
@@ -5415,7 +5416,7 @@ public final class GoldenSun_801 {
 
     MEMORY.ref(4, CPU.sp().value + 0xc).setu(0x1);
     CPU.r11().value = 0x3;
-    r5 = FUN_80770c0(0x17e);
+    r5 = readFlag_(0x17e);
     MEMORY.ref(4, CPU.sp().value + 0x4).setu(0);
     FUN_801d980();
     CPU.r10().value = boardWramMallocHead_3001e50.offset(20 * 0x4).get();
@@ -6173,7 +6174,7 @@ public final class GoldenSun_801 {
     CPU.sp().value -= 0x10;
 
     final Struct12fc r7 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
-    if(FUN_80770c0(0x20) != 0) {
+    if(readFlag_(0x20) != 0) {
       if(r0 == 0) {
         r0 = 0x12;
       }
@@ -6370,14 +6371,14 @@ public final class GoldenSun_801 {
 
     //LAB_801f936
     for(r5 = 0x30; r5 < 0x80; r5++) {
-      if(FUN_80770c0(r5) != 0) {
+      if(readFlag_(r5) != 0) {
         MEMORY.ref(1, 0x2000022).incr();
       }
 
       //LAB_801f946
     }
 
-    final int r0 = FUN_80770c0(0x20);
+    final int r0 = readFlag_(0x20);
     MEMORY.ref(1, 0x2000023).setu((-r0 | r0) >>> 31);
     MEMORY.ref(2, 0x2000026).setu(MEMORY.ref(4, 0x2000240).get());
 
@@ -6499,7 +6500,7 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x801fe2c)
-  public static void drawCharacters(final GraphicsStruct24 r0, final int r1, final int r2, final SaveStruct1100.Preview40 r3) {
+  public static void loadCharacterSprites(final GraphicsStruct24 r0, final int r1, final int r2, final SaveStruct1100.Preview40 r3) {
     final int r1_0 = boardWramMallocHead_3001e50.offset(55 * 0x4).get();
 
     //LAB_801fe72
@@ -6519,19 +6520,19 @@ public final class GoldenSun_801 {
     }
 
     //LAB_801feee
-    setTickCallback(getRunnable(GoldenSun_801.class, "FUN_801ff58"), 0xc80);
+    setTickCallback(getRunnable(GoldenSun_801.class, "drawCharacters"), 0xc80);
   }
 
   @Method(0x801ff14)
-  public static void FUN_801ff14() {
+  public static void clearCharacterSprites() {
     final int r7 = boardWramMallocHead_3001e50.offset(55 * 0x4).get();
-    clearTickCallback(getRunnable(GoldenSun_801.class, "FUN_801ff58"));
+    clearTickCallback(getRunnable(GoldenSun_801.class, "drawCharacters"));
 
     //LAB_801ff2e
     for(int r6 = 0; r6 < 4; r6++) {
       final int r0 = MEMORY.ref(4, r7 + 0x114 + r6 * 0x4).get();
       if(r0 != 0) {
-        FUN_8009038(MEMORY.ref(4, r0, Sprite38::new));
+        clearSprite_(MEMORY.ref(4, r0, Sprite38::new));
         MEMORY.ref(4, r7 + 0x114 + r6 * 0x4).setu(0);
       }
 
@@ -6540,7 +6541,7 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x801ff58)
-  public static void FUN_801ff58() {
+  public static void drawCharacters() {
     CPU.sp().value -= 0x1c;
 
     final int r3 = boardWramMallocHead_3001e50.offset(55 * 0x4).get();
@@ -6560,7 +6561,7 @@ public final class GoldenSun_801 {
         MEMORY.ref(4, r6 + 0x8).setu(0x1f40000 + (MEMORY.ref(2, r3 + 0x134 + 0x10 + r8 * 0x2).get() << 16));
         MEMORY.ref(4, r6 + 0xc).setu(0);
 
-        FUN_8009008(MEMORY.ref(4, r0_0, Sprite38::new), r6, r4, 0x4000);
+        drawSprite_(MEMORY.ref(4, r0_0, Sprite38::new), r6, r4, 0x4000);
       }
 
       //LAB_801ffb6
@@ -6570,7 +6571,7 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x801ffd8)
-  public static void drawDjinn(@Nullable final GraphicsStruct24 r0, final int x, final int y) {
+  public static void loadDjinnSprites(@Nullable final GraphicsStruct24 r0, final int x, final int y) {
     if(r0 != null) {
       final int r3 = boardWramMallocHead_3001e50.offset(55 * 0x4).get();
 
@@ -6589,7 +6590,7 @@ public final class GoldenSun_801 {
         MEMORY.ref(2, r3 + 0x234 + 0x8 + r7 * 0x2).setu(0x10 + (r0.y_0e.get() + y) * 0x8);
       }
 
-      setTickCallback(getRunnable(GoldenSun_802.class, "FUN_80200cc"), 0xc80);
+      setTickCallback(getRunnable(GoldenSun_802.class, "drawDjinn"), 0xc80);
     }
 
     //LAB_8020068
