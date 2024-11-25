@@ -9,7 +9,7 @@ import org.goldensun.memory.types.UnsignedShortRef;
 public class GraphicsStruct28 implements MemoryRef {
   private final Value ref;
 
-  public final Pointer<GraphicsStruct24> _00;
+  public final Pointer<Panel24> _00;
   public final UnsignedShortRef _04;
   public final UnsignedShortRef _06;
   public final ArrayRef<UnsignedShortRef> _08;
@@ -28,7 +28,7 @@ public class GraphicsStruct28 implements MemoryRef {
   public GraphicsStruct28(final Value ref) {
     this.ref = ref;
 
-    this._00 = ref.offset(4, 0x00).cast(Pointer.deferred(4, GraphicsStruct24::new));
+    this._00 = ref.offset(4, 0x00).cast(Pointer.deferred(4, Panel24::new));
     this._04 = ref.offset(2, 0x04).cast(UnsignedShortRef::new);
     this._06 = ref.offset(2, 0x06).cast(UnsignedShortRef::new);
     this._08 = ref.offset(2, 0x08).cast(ArrayRef.of(UnsignedShortRef.class, 4, 0x2, UnsignedShortRef::new));

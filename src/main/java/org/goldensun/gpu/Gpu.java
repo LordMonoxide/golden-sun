@@ -535,7 +535,7 @@ public class Gpu {
       final int objPriority = this.oam.getPriority(objNumber);
 
       if(objPriority == priority) {
-        final boolean isRotScaleEnabled = this.oam.isRotScalEnabled(objNumber);
+        final boolean isRotScaleEnabled = this.oam.isRotScaleEnabled(objNumber);
 
         final int xSize = this.oam.getXSize(objNumber);
         final int ySize = this.oam.getYSize(objNumber);
@@ -545,6 +545,13 @@ public class Gpu {
 
         final int xCoordinate = this.oam.getXCoordinate(objNumber);
         int yCoordinate = this.oam.getYCoordinate(objNumber);
+
+        final boolean isHFlip = this.oam.isHFlipEnabled(objNumber);
+        final boolean isVFlip = this.oam.isVFlipEnabled(objNumber);
+
+        if(yCoordinate >= V_DRAW_LINES) {
+          yCoordinate -= 256;
+        }
 
         final boolean is256ColorPalette = this.oam.is256ColorPalette(objNumber);
         final int paletteNumber = this.oam.getPaletteNumber(objNumber);
@@ -564,11 +571,6 @@ public class Gpu {
           final boolean isDisplayable = this.oam.isDisplayable(objNumber);
 
           if(isDisplayable) {
-            final boolean isHFlip = this.oam.isHFlipEnabled(objNumber);
-            final boolean isVFlip = this.oam.isVFlipEnabled(objNumber);
-
-            if(yCoordinate >= V_DRAW_LINES) yCoordinate -= 256;
-
             if(line >= yCoordinate && line < yCoordinate + ySize) {
               final int ySprite = line - yCoordinate;
 
@@ -599,8 +601,11 @@ public class Gpu {
 
                     int colorIndex = this.vram[vidBase + tileNumber * 32 + tileY * 4 + tileX / 2] & 0xff;
 
-                    if((tileX & 0x1) != 0) colorIndex >>>= 4;
-                    else colorIndex &= 0xf;
+                    if((tileX & 0x1) != 0) {
+                      colorIndex >>>= 4;
+                    } else {
+                      colorIndex &= 0xf;
+                    }
 
                     if(colorIndex != 0) {
                       final int rgb15 = get(this.palette, palBase + (paletteNumber * 16 + colorIndex) * 2, 2);
@@ -610,6 +615,99 @@ public class Gpu {
                 }
               }
             }
+          }
+        } else {
+          final int mode = this.oam.getMode(objNumber);
+          final boolean doubleSize = this.oam.isDoubleSize(objNumber);
+
+          int renderXSize = xSize;
+
+          if(doubleSize) {
+            renderXSize *= 2;
+          }
+
+          final int parameterId = this.oam.getRotScaleGroupNumber(objNumber);
+          final int pA = this.oam.getPA(parameterId);
+          final int pB = this.oam.getPB(parameterId);
+          final int pC = this.oam.getPC(parameterId);
+          final int pD = this.oam.getPD(parameterId);
+
+          final int xofs;
+          final int yofs;
+          final int xfofs;
+          final int yfofs;
+
+          if(doubleSize) {
+            xofs = xSize;
+            yofs = ySize;
+            xfofs = -xofs / 2;
+            yfofs = -yofs / 2;
+          } else {
+            xofs = xSize / 2;
+            yofs = ySize / 2;
+            xfofs = 0;
+            yfofs = 0;
+          }
+
+          // Left edge
+          final int origXEdge0 = -xofs;
+          final int origY = (line - yCoordinate) - yofs;
+
+          // Calculate starting parameters for matrix multiplications
+          final int shiftedXOfs = xofs + xfofs << 8;
+          final int shiftedYOfs = yofs + yfofs << 8;
+          final int pBYOffset = pB * origY + shiftedXOfs;
+          final int pDYOffset = pD * origY + shiftedYOfs;
+
+          int objPixelXEdge0 = pA * origXEdge0 + pBYOffset;
+          int objPixelYEdge0 = pC * origXEdge0 + pDYOffset;
+
+          for(int xSprite = 0; xSprite < renderXSize; xSprite++) {
+            final int xScreen = xCoordinate + xSprite;
+
+            if(xScreen < H_DRAW_DOTS) {
+              final int lerpedObjPixelX = objPixelXEdge0 >> 8;
+              final int lerpedObjPixelY = objPixelYEdge0 >> 8;
+
+              if(lerpedObjPixelX >= 0 && lerpedObjPixelX < xSize && lerpedObjPixelY >= 0 && lerpedObjPixelY < ySize) {
+                final int x = isHFlip ? xSize - 1 - lerpedObjPixelX : lerpedObjPixelX;
+                final int y = isVFlip ? ySize - 1 - lerpedObjPixelY : lerpedObjPixelY;
+
+                final int xTile = x >>> 3;
+                final int yTile = y >>> 3;
+
+                final int tileX = x & 0x7;
+                final int tileY = y & 0x7;
+
+                if(is256ColorPalette) {
+                  final int tileNumber = firstTileNumber + yTile * tileNumberIncrement + xTile * 2;
+
+                  final int colorIndex = this.vram[vidBase + tileNumber * 32 + tileY * 8 + tileX] & 0xff;
+
+                  if(colorIndex != 0) {
+                    final int rgb15 = get(this.palette, palBase + colorIndex * 2, 2);
+                    this.pixels[line * H_DRAW_DOTS + xScreen] = colour15To24(rgb15);
+                  }
+                } else {
+                  final int tileNumber = firstTileNumber + yTile * tileNumberIncrement + xTile;
+
+                  int colorIndex = this.vram[vidBase + tileNumber * 32 + tileY * 4 + tileX / 2] & 0xff;
+
+                  if((tileX & 0x1) != 0) {
+                    colorIndex >>>= 4;
+                  } else {
+                    colorIndex &= 0xf;
+                  }
+
+                  if(colorIndex != 0) {
+                    final int rgb15 = get(this.palette, palBase + (paletteNumber * 16 + colorIndex) * 2, 2);
+                    this.pixels[line * H_DRAW_DOTS + xScreen] = colour15To24(rgb15);
+                  }
+                }
+              }
+            }
+            objPixelXEdge0 += pA;
+            objPixelYEdge0 += pC;
           }
         }
       }
@@ -956,6 +1054,11 @@ public class Gpu {
       return (this.oam[objAttributesAddress + 1] & 0x20) != 0;
     }
 
+    public int getMode(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return this.oam[objAttributesAddress + 1] >>> 2 & 0x3;
+    }
+
     public int getPaletteNumber(final int objNumber) {
       final int objAttributesAddress = objNumber << 3;
       return (this.oam[objAttributesAddress + 5] & 0xf0) >>> 4;
@@ -966,7 +1069,7 @@ public class Gpu {
       return this.oam[objAttributesAddress + 4] & 0xff | (this.oam[objAttributesAddress + 5] & 0x3) << 8;
     }
 
-    public boolean isRotScalEnabled(final int objNumber) {
+    public boolean isRotScaleEnabled(final int objNumber) {
       final int objAttributesAddress = objNumber << 3;
       return (this.oam[objAttributesAddress + 1] & 0x1) != 0;
     }
@@ -976,7 +1079,7 @@ public class Gpu {
       return (this.oam[objAttributesAddress + 1] & 0x2) != 0;
     }
 
-    public int getRotScalGroupNumber(final int objNumber) {
+    public int getRotScaleGroupNumber(final int objNumber) {
       final int objAttributesAddress = objNumber << 3;
       return this.oam[objAttributesAddress + 3] >>> 1 & 0x1f;
     }
@@ -1004,6 +1107,11 @@ public class Gpu {
     public boolean isDisplayable(final int objNumber) {
       final int objAttributesAddress = objNumber << 3;
       return (this.oam[objAttributesAddress + 1] & 0x2) == 0;
+    }
+
+    public boolean isDoubleSize(final int objNumber) {
+      final int objAttributesAddress = objNumber << 3;
+      return (this.oam[objAttributesAddress + 1] & 0x2) != 0;
     }
 
     public boolean isHFlipEnabled(final int objNumber) {

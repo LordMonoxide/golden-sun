@@ -15,7 +15,7 @@ public class Struct12fc implements MemoryRef {
 
   /** GPU data */
   public final ArrayRef<ArrayRef<UnsignedShortRef>> _00;
-  public final ArrayRef<GraphicsStruct24> _500;
+  public final ArrayRef<Panel24> _500;
   public final ArrayRef<GraphicsStruct28> _620;
   public final ArrayRef<GraphicsStruct1c> _698;
   public final Pointer<GraphicsStruct1c> _d98;
@@ -59,7 +59,7 @@ public class Struct12fc implements MemoryRef {
     this.ref = ref;
 
     this._00 = ref.offset(2, 0x00).cast(ArrayRef.of(ArrayRef.classFor(UnsignedShortRef.class), 5, 0x100, ArrayRef.of(UnsignedShortRef.class, 0x80, 0x2, UnsignedShortRef::new)));
-    this._500 = ref.offset(4, 0x500).cast(ArrayRef.of(GraphicsStruct24.class, 8, 0x24, GraphicsStruct24::new));
+    this._500 = ref.offset(4, 0x500).cast(ArrayRef.of(Panel24.class, 8, 0x24, Panel24::new));
     this._620 = ref.offset(4, 0x620).cast(ArrayRef.of(GraphicsStruct28.class, 3, 0x28, GraphicsStruct28::new));
     this._698 = ref.offset(4, 0x698).cast(ArrayRef.of(GraphicsStruct1c.class, 64, 0x1c, GraphicsStruct1c::new));
     this._d98 = ref.offset(4, 0xd98).cast(Pointer.deferred(4, GraphicsStruct1c::new));

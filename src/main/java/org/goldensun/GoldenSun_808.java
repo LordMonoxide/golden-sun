@@ -2,7 +2,7 @@ package org.goldensun;
 
 import org.goldensun.memory.Method;
 import org.goldensun.types.GraphicsStruct0c;
-import org.goldensun.types.GraphicsStruct24;
+import org.goldensun.types.Panel24;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.Actor70;
@@ -109,7 +109,7 @@ import static org.goldensun.GoldenSun_801.FUN_8015288;
 import static org.goldensun.GoldenSun_801.FUN_8015290;
 import static org.goldensun.GoldenSun_801.FUN_8015360;
 import static org.goldensun.GoldenSun_801.FUN_8015370;
-import static org.goldensun.GoldenSun_807.FUN_8077008;
+import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
 import static org.goldensun.GoldenSun_807.FUN_8077080;
 import static org.goldensun.GoldenSun_807.FUN_8077098;
 import static org.goldensun.GoldenSun_807.FUN_80772c8;
@@ -117,7 +117,7 @@ import static org.goldensun.GoldenSun_807.readFlag_;
 import static org.goldensun.GoldenSun_807.setFlag_;
 import static org.goldensun.GoldenSun_807.clearFlag_;
 import static org.goldensun.GoldenSun_807.FUN_8077120;
-import static org.goldensun.GoldenSun_807.FUN_8077148;
+import static org.goldensun.GoldenSun_807.getCharCount_;
 import static org.goldensun.GoldenSun_807.FUN_80772f0;
 import static org.goldensun.GoldenSun_809.FUN_80901c0;
 import static org.goldensun.GoldenSun_809.FUN_80907b0;
@@ -298,8 +298,8 @@ public final class GoldenSun_808 {
 
   /** {@link GoldenSun_809#FUN_8092c40} */
   @Method(0x808a178)
-  public static GraphicsStruct24 FUN_808a178(final int r0) {
-    return (GraphicsStruct24)MEMORY.call(0x8092c40, r0);
+  public static Panel24 FUN_808a178(final int r0) {
+    return (Panel24)MEMORY.call(0x8092c40, r0);
   }
 
   /** {@link GoldenSun_809#FUN_8092f84} */
@@ -467,10 +467,10 @@ public final class GoldenSun_808 {
     MEMORY.call(0x808ba38);
   }
 
-  /** {@link GoldenSun_808#FUN_808b158} */
+  /** {@link GoldenSun_808#getRoomNameStringId} */
   @Method(0x808a5d0)
-  public static int FUN_808a5d0(final int r0, final int r1) {
-    return (int)MEMORY.call(0x808b158, r0, r1);
+  public static int getRoomNameStringId_(final int roomId, final int r1) {
+    return (int)MEMORY.call(0x808b158, roomId, r1);
   }
 
   /** {@link GoldenSun_809#FUN_8091ff0} */
@@ -593,8 +593,8 @@ public final class GoldenSun_808 {
   }
 
   @Method(0x808a8d0)
-  public static int FUN_808a8d0(final int r0) {
-    return MEMORY.ref(1, 0x809f1a8 + r0 * 0x8 + 0x2).get();
+  public static int getAreaIndexForRoom(final int roomId) {
+    return MEMORY.ref(1, 0x809f1a8 + roomId * 0x8 + 0x2).get();
   }
 
   @Method(0x808a8e4)
@@ -1001,7 +1001,7 @@ public final class GoldenSun_808 {
       CPU.cmpT(r0, 0x0);
       if(!CPU.cpsr().getZero()) { // !=
         r0 = CPU.movT(0, 0x5);
-        r0 = FUN_8077008(r0);
+        r0 = getCharOrMonsterData_(r0);
         r3 = CPU.movT(0, 0x92);
         r3 = CPU.lslT(r3, 1);
         r0 = CPU.addT(r0, r3);
@@ -1236,15 +1236,15 @@ public final class GoldenSun_808 {
   }
 
   @Method(0x808b158)
-  public static int FUN_808b158(final int r0, final int r1) {
+  public static int getRoomNameStringId(final int roomId, final int r1) {
     int r5 = 0x809ddd8;
-    final int r12 = FUN_808a8d0(r0);
+    final int r12 = getAreaIndexForRoom(roomId);
 
     //LAB_808b182
     int r1_0;
     while((r1_0 = MEMORY.ref(2, r5).get()) != -1) {
       int r2 = MEMORY.ref(1, r5 + 0x3).getUnsigned();
-      if(((r2 & 0x80) == 0 || r1_0 == r0) && ((r2 & 0x80) != 0 || r1_0 == r12)) {
+      if(((r2 & 0x80) == 0 || r1_0 == roomId) && ((r2 & 0x80) != 0 || r1_0 == r12)) {
         //LAB_808b19e
         r2 = MEMORY.ref(2, r5 + 0x2).getUnsigned();
         if((r2 & 0x7fff) == 0x7fff) {
@@ -1929,7 +1929,7 @@ public final class GoldenSun_808 {
     CPU.cmpT(r0, 0x0);
     if(!CPU.cpsr().getZero()) { // !=
       //LAB_808bf02
-      r0 = FUN_8077148();
+      r0 = getCharCount_();
       r6 = CPU.movT(0, 0x0);
       MEMORY.ref(4, CPU.sp().value + 0x8).setu(r0);
       r6 = CPU.cmpT(r6, r0);
@@ -1942,7 +1942,7 @@ public final class GoldenSun_808 {
         //LAB_808bf16
         do {
           r0 = MEMORY.ref(1, r7).getUnsigned();
-          r0 = FUN_8077008(r0);
+          r0 = getCharOrMonsterData_(r0);
           r3 = MEMORY.ref(2, r0 + 0x38).getUnsigned();
           MEMORY.ref(2, r5).setu(r3);
           r4 = MEMORY.ref(4, CPU.sp().value + 0x8).get();
@@ -2409,7 +2409,7 @@ public final class GoldenSun_808 {
           //LAB_808c258
           do {
             r0 = MEMORY.ref(1, r5).getUnsigned();
-            r0 = FUN_8077008(r0);
+            r0 = getCharOrMonsterData_(r0);
             r1 = CPU.movT(0, 0x38);
             r3 = MEMORY.ref(2, r0 + r1).get();
             CPU.cmpT(r3, 0x0);
@@ -2468,7 +2468,7 @@ public final class GoldenSun_808 {
 
   @Method(0x808c2dc)
   public static void FUN_808c2dc(final int r0) {
-    final int r5 = FUN_8077148();
+    final int r5 = getCharCount_();
 
     //LAB_808c2f2
     for(int i = 0; i < r5; i++) {
@@ -2783,7 +2783,7 @@ public final class GoldenSun_808 {
                 //LAB_808c908
                 playSound_(0x3b);
                 FUN_8015040(0x91b, 0x1);
-                r6 = FUN_8077008(_2000434.get());
+                r6 = getCharOrMonsterData_(_2000434.get());
                 MEMORY.ref(2, r6 + 0x38).setu(0x1);
                 r5 = MathHelper.clamp(divideS(0x4000, MEMORY.ref(2, r6 + 0x34).get()), 0, 0x4000);
 

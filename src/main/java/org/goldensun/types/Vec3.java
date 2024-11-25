@@ -82,6 +82,6 @@ public class Vec3 implements MemoryRef {
 
   @Override
   public String toString() {
-    return "VECTOR {x: " + this.x_00 + ", y: " + this.y_04 + ", z: " + this.z_08 + '}' + (this.ref == null ? " (local)" : " @ " + Integer.toHexString(this.getAddress()));
+    return "Vec3 {x: " + this.x_00 + ", y: " + this.y_04 + ", z: " + this.z_08 + '}' + (this.ref == null ? " (local)" : " @ " + Integer.toHexString(this.getAddress()));
   }
 }

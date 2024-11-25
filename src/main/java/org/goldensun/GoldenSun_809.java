@@ -2,7 +2,7 @@ package org.goldensun;
 
 import org.goldensun.memory.Method;
 import org.goldensun.types.GraphicsStruct0c;
-import org.goldensun.types.GraphicsStruct24;
+import org.goldensun.types.Panel24;
 import org.goldensun.types.RenderPacket0c;
 import org.goldensun.types.SpriteLayer18;
 import org.goldensun.types.Map194;
@@ -1452,7 +1452,7 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8092c40)
-  public static GraphicsStruct24 FUN_8092c40(int r0) {
+  public static Panel24 FUN_8092c40(int r0) {
     int r2;
     int r3;
     int r4;
@@ -1467,8 +1467,8 @@ public final class GoldenSun_809 {
     final Struct12fc sp20 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
     r6 = r0;
     final int sp1c = boardWramMallocHead_3001e50.offset(27 * 0x4).get();
-    GraphicsStruct24 r10 = null;
-    GraphicsStruct24 r9 = null;
+    Panel24 r10 = null;
+    Panel24 r9 = null;
     int sp14 = 0;
     int sp10 = 0;
     int sp0c = 0x4;
@@ -1681,7 +1681,7 @@ public final class GoldenSun_809 {
   @Method(0x8092f84)
   public static void FUN_8092f84(final int r0, final int r1) {
     final int r3 = boardWramMallocHead_3001e50.offset(27 * 0x4).get();
-    final GraphicsStruct24 r10 = FUN_8092c40(r0);
+    final Panel24 r10 = FUN_8092c40(r0);
     sleep(0x1);
     int r8 = FUN_8092ba8(r0);
     if(r0 < 8) {

@@ -3,7 +3,7 @@ package org.goldensun;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.types.Actor70;
-import org.goldensun.types.GraphicsStruct24;
+import org.goldensun.types.Panel24;
 
 import javax.annotation.Nullable;
 
@@ -768,8 +768,8 @@ public final class Decompressed877dd1c {
 
   /** {@link GoldenSun_808#FUN_808a178} */
   @Method(0x200c7dc)
-  public static GraphicsStruct24 FUN_200c7dc(final int r0) {
-    return (GraphicsStruct24)MEMORY.call(0x808a178, r0);
+  public static Panel24 FUN_200c7dc(final int r0) {
+    return (Panel24)MEMORY.call(0x808a178, r0);
   }
 
   /** {@link GoldenSun_808#FUN_808a180} */

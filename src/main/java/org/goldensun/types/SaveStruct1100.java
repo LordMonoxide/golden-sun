@@ -77,7 +77,7 @@ public class SaveStruct1100 implements MemoryRef {
     public final ByteRef _33;
     public final UnsignedByteRef _34;
     public final UnsignedByteRef _35;
-    public final UnsignedShortRef _36;
+    public final UnsignedShortRef buildDate_36;
     public final IntRef _38;
 
     public Preview40(final Value ref) {
@@ -97,7 +97,7 @@ public class SaveStruct1100 implements MemoryRef {
       this._33 = ref.offset(1, 0x33).cast(ByteRef::new);
       this._34 = ref.offset(1, 0x34).cast(UnsignedByteRef::new);
       this._35 = ref.offset(1, 0x35).cast(UnsignedByteRef::new);
-      this._36 = ref.offset(2, 0x36).cast(UnsignedShortRef::new);
+      this.buildDate_36 = ref.offset(2, 0x36).cast(UnsignedShortRef::new);
       this._38 = ref.offset(4, 0x38).cast(IntRef::new);
     }
 

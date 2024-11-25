@@ -1,7 +1,7 @@
 package org.goldensun;
 
 import org.goldensun.memory.Method;
-import org.goldensun.types.GraphicsStruct24;
+import org.goldensun.types.Panel24;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.Actor70;
@@ -624,8 +624,8 @@ public final class Decompressed8787e04 {
   }
 
   @Method(0x20099cc)
-  public static GraphicsStruct24 FUN_20099cc(final int r0) {
-    return (GraphicsStruct24)MEMORY.call(0x808a178, r0);
+  public static Panel24 FUN_20099cc(final int r0) {
+    return (Panel24)MEMORY.call(0x808a178, r0);
   }
 
   @Method(0x20099d4)

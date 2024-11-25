@@ -87,6 +87,8 @@ public final class GoldenSunVars {
   public static final ShortRef _200048a = MEMORY.ref(2, 0x200048a, ShortRef::new);
   public static final ShortRef _200048c = MEMORY.ref(2, 0x200048c, ShortRef::new);
 
+  public static final ShortRef lastSaveSlot_2002004 = MEMORY.ref(2, 0x2002004, ShortRef::new);
+
   public static final GraphicsStruct184 _2002090 = MEMORY.ref(4, 0x2002090, GraphicsStruct184::new);
 
   public static final SoundStructFb0 _2003050 = MEMORY.ref(4, 0x2003050, SoundStructFb0::new);

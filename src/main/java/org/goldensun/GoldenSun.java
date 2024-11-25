@@ -109,7 +109,7 @@ import static org.goldensun.GoldenSun_801.FUN_80118d8;
 import static org.goldensun.GoldenSun_801.FUN_8011a84;
 import static org.goldensun.GoldenSun_801.FUN_8011f54;
 import static org.goldensun.GoldenSun_801.FUN_80120dc;
-import static org.goldensun.GoldenSun_807.FUN_8077008;
+import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
 import static org.goldensun.GoldenSun_807.readFlag_;
 import static org.goldensun.GoldenSun_807.clearFlag_;
 import static org.goldensun.GoldenSun_808.FUN_808a008;
@@ -931,40 +931,41 @@ public final class GoldenSun {
 
   /** Looks like it's building a rotation matrix */
   @Method(0x8003d28)
-  public static int FUN_8003d28(final int r0) {
+  public static int addRotScaleParams(final int r0) {
     final int index = rotationScalingCount_3001d00.get();
-    final int r8 = MEMORY.ref(2, r0).get();
-    final int r10 = MEMORY.ref(2, r0 + 0x2).get();
-    final int angle = MEMORY.ref(2, r0 + 0x4).getUnsigned();
     if(index > 0x1f) {
       return 0;
     }
 
-    final RotationScaling08 r7 = rotationScaling_3001d40.get(index);
+    final int x = MEMORY.ref(2, r0).get();
+    final int y = MEMORY.ref(2, r0 + 0x2).get();
+    final int angle = MEMORY.ref(2, r0 + 0x4).getUnsigned();
+
+    final RotationScaling08 params = rotationScaling_3001d40.get(index);
+
     //LAB_8003d62
-    if((r8 == r10 || -r8 == r10) && angle == 0) {
-      final int r0_0 = (int)MEMORY.call(0x3000380, 0x10000, r10);
-      final int r3 = -r8;
+    if((x == y || -x == y) && angle == 0) { // uniform scaling, no rotation
+      final int r0_0 = (int)MEMORY.call(0x3000380, 0x10000, y); // divideS
       final int r2;
-      if(r3 == r10) {
+      if(-x == y) {
         r2 = -r0_0;
       } else {
         r2 = r0_0;
       }
 
       //LAB_8003d7e
-      r7.pa_00.set(r2 & 0xffff);
-      r7.pb_02.set(0);
-      r7.pc_04.set(0);
-      r7.pd_06.set(r0_0);
+      params.pa_00.set(r2 & 0xffff);
+      params.pb_02.set(0);
+      params.pc_04.set(0);
+      params.pd_06.set(r0_0);
     } else {
       //LAB_8003d8a
       final int sin = sin(angle);
       final int cos = cos(angle);
-      r7.pa_00.set(divideS(cos, r8));
-      r7.pb_02.set(divideS(sin, r8));
-      r7.pc_04.set(divideS(-sin, r10));
-      r7.pd_06.set(divideS(cos, r10));
+      params.pa_00.set(divideS(cos, x));
+      params.pb_02.set(divideS(sin, x));
+      params.pc_04.set(divideS(-sin, y));
+      params.pd_06.set(divideS(cos, y));
     }
 
     //LAB_8003dc8
@@ -3132,22 +3133,22 @@ public final class GoldenSun {
 
     r5 = FUN_800aa0c(sprite, angle & 0xffff);
 
-    r2 = sprite.rotation_1e.get();
-    if((r5 == 0 && r8 == 0x10000) && r9 == r8 && r2 == 0) {
+    if((r5 == 0 && r8 == 0x10000) && r9 == r8 && sprite.rotation_1e.get() == 0) {
       MEMORY.ref(4, CPU.sp().value + 0x8).setu(0);
       MEMORY.ref(4, CPU.sp().value + 0x20).setu(0);
     } else {
       //LAB_800b1dc
       MEMORY.ref(4, CPU.sp().value + 0x8).setu(1);
-      MEMORY.ref(4, CPU.sp().value + 0x28).and(0xffff0000).oru(r2);
       MEMORY.ref(4, CPU.sp().value + 0x24).setu((r9 >>> 8 & 0xffff) << 16 | (r8 >>> 8 & 0xffff));
+      MEMORY.ref(4, CPU.sp().value + 0x28).set(sprite.rotation_1e.get());
 
       if(r5 != 0) {
-        MEMORY.ref(4, CPU.sp().value + 0x24).and(0xffff0000).oru(-MEMORY.ref(2, CPU.sp().value + 0x24).getUnsigned() & 0xffff);
+        final int x = -MEMORY.ref(2, CPU.sp().value + 0x24).getUnsigned() & 0xffff;
+        MEMORY.ref(4, CPU.sp().value + 0x24).and(0xffff0000).oru(x);
       }
 
       //LAB_800b21c
-      MEMORY.ref(4, CPU.sp().value + 0x20).setu(FUN_8003d28(CPU.sp().value + 0x24));
+      MEMORY.ref(4, CPU.sp().value + 0x20).setu(addRotScaleParams(CPU.sp().value + 0x24));
     }
 
     //LAB_800b222
@@ -5210,7 +5211,7 @@ public final class GoldenSun {
       setActorAnimation(r0, 0x8);
       //LAB_800f0fe
     } else if(sp14 != 0) {
-      if(MEMORY.ref(2, FUN_8077008(_2000434.get()) + 0x38).get() != 0) {
+      if(MEMORY.ref(2, getCharOrMonsterData_(_2000434.get()) + 0x38).get() != 0) {
         r5 = 0x16;
       } else {
         r5 = 0x9;

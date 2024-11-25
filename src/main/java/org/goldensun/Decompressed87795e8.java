@@ -368,7 +368,7 @@ public final class Decompressed87795e8 {
 
         //LAB_20084f6
         if(r6 > 0) {
-          r6 = FUN_20093cc();
+          r6 = handleTitleScreenChoiceMenu();
         } else {
           //LAB_2008502
           r6 = 0;
@@ -416,7 +416,7 @@ public final class Decompressed87795e8 {
             //LAB_200857a
             if(r6 == 1) {
               //LAB_2008580
-              if(FUN_20093f4(0x1) == -1) {
+              if(loadLoadGameMenu(0x1) == -1) {
                 continue jmp_20084a8;
               }
 
@@ -485,7 +485,7 @@ public final class Decompressed87795e8 {
 
               //LAB_2008714
               if(r6 == 4) {
-                if(FUN_20093f4(0x4) == -1) {
+                if(loadLoadGameMenu(0x4) == -1) {
                   continue jmp_20084a8;
                 }
 
@@ -519,7 +519,7 @@ public final class Decompressed87795e8 {
 
                 jmp_20087b8:
                 while(true) {
-                  if(FUN_20093f4(0x5) == -1) {
+                  if(loadLoadGameMenu(0x5) == -1) {
                     continue jmp_20084a8;
                   }
 
@@ -1374,9 +1374,9 @@ public final class Decompressed87795e8 {
     MEMORY.call(0x8015140);
   }
 
-  /** {@link GoldenSun_801#FUN_80151f0} */
+  /** {@link GoldenSun_801#handleTitleScreenChoiceMenu_} */
   @Method(0x20093cc)
-  public static int FUN_20093cc() {
+  public static int handleTitleScreenChoiceMenu() {
     return (int)MEMORY.call(0x80151f0);
   }
 
@@ -1400,9 +1400,9 @@ public final class Decompressed87795e8 {
     return (int)MEMORY.call(0x80152e8);
   }
 
-  /** {@link GoldenSun_801#FUN_80152f0} */
+  /** {@link GoldenSun_801#loadLoadGameMenu_} */
   @Method(0x20093f4)
-  public static int FUN_20093f4(final int r0) {
+  public static int loadLoadGameMenu(final int r0) {
     return (int)MEMORY.call(0x80152f0, r0);
   }
 
@@ -1498,7 +1498,7 @@ public final class Decompressed87795e8 {
     MEMORY.call(0x8077270);
   }
 
-  /** {@link GoldenSun_807#FUN_8077300} */
+  /** {@link GoldenSun_807#calculateBuildDate_} */
   @Method(0x2009484)
   public static int FUN_2009484() {
     return (int)MEMORY.call(0x8077300);
