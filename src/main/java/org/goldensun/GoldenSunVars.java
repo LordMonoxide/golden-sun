@@ -25,6 +25,7 @@ import org.goldensun.types.Sprite38;
 import org.goldensun.types.SramTypeStruct;
 import org.goldensun.types.Struct12fc;
 import org.goldensun.types.Struct5c;
+import org.goldensun.types.Structccc;
 import org.goldensun.types.VramSlot04;
 import org.goldensun.types.Struct0c;
 import org.goldensun.types.Actor70;
@@ -55,20 +56,30 @@ public final class GoldenSunVars {
   public static final IntRef _2000424 = MEMORY.ref(4, 0x2000424, IntRef::new);
   public static final IntRef _2000428 = MEMORY.ref(4, 0x2000428, IntRef::new);
   public static final UnsignedShortRef _200042c = MEMORY.ref(2, 0x200042c, UnsignedShortRef::new);
-
+  public static final ShortRef _200042e = MEMORY.ref(2, 0x200042e, ShortRef::new);
   public static final ShortRef _2000430 = MEMORY.ref(2, 0x2000430, ShortRef::new);
   public static final UnsignedByteRef _2000432 = MEMORY.ref(1, 0x2000432, UnsignedByteRef::new);
 
-  public static final IntRef _2000434 = MEMORY.ref(4, 0x2000434, IntRef::new);
+  /** A specific actor index, maybe the player? */
+  public static final IntRef playerMapActorIndex_2000434 = MEMORY.ref(4, 0x2000434, IntRef::new);
 
   public static final UnsignedByteRef _2000445 = MEMORY.ref(1, 0x2000445, UnsignedByteRef::new);
   public static final UnsignedByteRef _2000446 = MEMORY.ref(1, 0x2000446, UnsignedByteRef::new);
 
+  public static final UnsignedByteRef _200044a = MEMORY.ref(1, 0x200044a, UnsignedByteRef::new);
+
   public static final UnsignedByteRef _200044c = MEMORY.ref(1, 0x200044c, UnsignedByteRef::new);
 
+  public static final UnsignedShortRef _2000450 = MEMORY.ref(2, 0x2000450, UnsignedShortRef::new);
+
+  public static final UnsignedShortRef _2000454 = MEMORY.ref(2, 0x2000454, UnsignedShortRef::new);
+  public static final UnsignedShortRef _2000456 = MEMORY.ref(2, 0x2000456, UnsignedShortRef::new);
+  public static final UnsignedShortRef _2000458 = MEMORY.ref(2, 0x2000458, UnsignedShortRef::new);
+  public static final UnsignedShortRef _200045a = MEMORY.ref(2, 0x200045a, UnsignedShortRef::new);
   public static final UnsignedShortRef runButton_200045c = MEMORY.ref(2, 0x200045c, UnsignedShortRef::new);
   public static final ShortRef _200045e = MEMORY.ref(2, 0x200045e, ShortRef::new);
-
+  public static final UnsignedShortRef _2000460 = MEMORY.ref(2, 0x2000460, UnsignedShortRef::new);
+  public static final UnsignedShortRef _2000462 = MEMORY.ref(2, 0x2000462, UnsignedShortRef::new);
   public static final UnsignedByteRef _2000464 = MEMORY.ref(1, 0x2000464, UnsignedByteRef::new);
 
   public static final ShortRef _200046c = MEMORY.ref(2, 0x200046c, ShortRef::new);
@@ -76,7 +87,7 @@ public final class GoldenSunVars {
   public static final ShortRef _2000470 = MEMORY.ref(2, 0x2000470, ShortRef::new);
   public static final ShortRef _2000472 = MEMORY.ref(2, 0x2000472, ShortRef::new);
   public static final ShortRef _2000474 = MEMORY.ref(2, 0x2000474, ShortRef::new);
-
+  public static final ShortRef _2000476 = MEMORY.ref(2, 0x2000476, ShortRef::new);
   public static final IntRef _2000478 = MEMORY.ref(4, 0x2000478, IntRef::new);
   public static final UnsignedShortRef _200047c = MEMORY.ref(2, 0x200047c, UnsignedShortRef::new);
   public static final ShortRef _200047e = MEMORY.ref(2, 0x200047e, ShortRef::new);
@@ -87,6 +98,8 @@ public final class GoldenSunVars {
   public static final ShortRef _200048a = MEMORY.ref(2, 0x200048a, ShortRef::new);
   public static final ShortRef _200048c = MEMORY.ref(2, 0x200048c, ShortRef::new);
 
+  public static final ShortRef _20004a4 = MEMORY.ref(2, 0x20004a4, ShortRef::new);
+
   public static final ShortRef lastSaveSlot_2002004 = MEMORY.ref(2, 0x2002004, ShortRef::new);
 
   public static final GraphicsStruct184 _2002090 = MEMORY.ref(4, 0x2002090, GraphicsStruct184::new);
@@ -96,7 +109,7 @@ public final class GoldenSunVars {
   // These are the main interface for map code
   public static final Pointer<RunnableRef> init_2008004 = MEMORY.ref(4, 0x2008004, Pointer.deferred(4, RunnableRef::new));
   public static final Pointer<SupplierRef<Integer>> getRooms_200800c = MEMORY.ref(4, 0x200800c, Pointer.deferred(4, SupplierRef::new));
-  public static final Pointer<SupplierRef<Integer>> getTransitions_200800c = MEMORY.ref(4, 0x2008014, Pointer.deferred(4, SupplierRef::new));
+  public static final Pointer<SupplierRef<Integer>> getTransitions_2008014 = MEMORY.ref(4, 0x2008014, Pointer.deferred(4, SupplierRef::new));
   public static final Pointer<SupplierRef<Integer>> getActors_200801c = MEMORY.ref(4, 0x200801c, Pointer.deferred(4, SupplierRef::new));
   public static final Pointer<SupplierRef<Integer>> getEvents_2008024 = MEMORY.ref(4, 0x2008024, Pointer.deferred(4, SupplierRef::new));
 
@@ -206,6 +219,7 @@ public final class GoldenSunVars {
    *   <li>7 - </li>
    *   <li>8 - {@link Map194}</li>
    *   <li>15 - {@link Struct12fc}</li>
+   *   <li>27 - {@link Structccc}</li>
    *   <li>58 - {@link ChoiceMenu98}</li>
    * </ul>
    */

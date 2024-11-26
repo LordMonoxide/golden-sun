@@ -13,6 +13,7 @@ import org.goldensun.types.Map194;
 import org.goldensun.types.SaveStruct1100;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.Struct12fc;
+import org.goldensun.types.Structccc;
 import org.goldensun.types.Vec3;
 import org.goldensun.types.Vec3s;
 
@@ -55,7 +56,7 @@ import static org.goldensun.GoldenSun.mallocSlotBoard;
 import static org.goldensun.GoldenSun.mallocSlotChip;
 import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.setMallocAddress;
-import static org.goldensun.GoldenSunVars._2000434;
+import static org.goldensun.GoldenSunVars.playerMapActorIndex_2000434;
 import static org.goldensun.GoldenSunVars._200044c;
 import static org.goldensun.GoldenSunVars._3001c9c;
 import static org.goldensun.GoldenSunVars._3001cfc;
@@ -103,11 +104,11 @@ public final class GoldenSun_801 {
   @Method(0x8010000)
   public static void FUN_8010000() {
     final Map194 r8 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
-    final int r1_0 = r8._00.get();
-    if(r1_0 != 0) {
+    final Vec3 r1_0 = r8._00.derefNullable();
+    if(r1_0 != null) {
       //LAB_8010024
-      int r7 = MEMORY.ref(4, r1_0).get() + 0xff880000;
-      int r6 = MEMORY.ref(4, r1_0 + 0x8).get() - MEMORY.ref(4, r1_0 + 0x4).get() + 0xffa00000;
+      int r7 = r1_0.getX() + 0xff880000;
+      int r6 = r1_0.getZ() - r1_0.getY() + 0xffa00000;
       final int r12 = r8._04.get();
       final int r5 = r8._08.get();
       final int r0 = r8._ec.get() + r12;
@@ -978,17 +979,17 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x8011f54)
-  public static int FUN_8011f54(final int r0, final int r1, final int r2) {
+  public static int getHeight(final int mapLayer, final int x, final int y) {
     final int r1_0 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
     final int r2_0;
     if(r1_0 != 0) {
-      r2_0 = MEMORY.ref(4, r1_0, Map194::new)._104.get(r0 & 0x3)._2c.get();
+      r2_0 = MEMORY.ref(4, r1_0, Map194::new)._104.get(mapLayer & 0x3)._2c.get();
     } else {
       r2_0 = 0x2010000;
     }
 
-    final int r5 = r1 >> 16;
-    final int r6 = r2 >> 16;
+    final int r5 = x >> 16;
+    final int r6 = y >> 16;
 
     //LAB_8011f7a
     final int r1_1 = MEMORY.ref(1, r2_0 + (r6 / 0x10 * 0x80 + r5 / 0x10) * 0x4 + 0x3).getUnsigned() * 0x4;
@@ -2683,7 +2684,7 @@ public final class GoldenSun_801 {
         r3 = r2 + 0xc;
       } else {
         //LAB_80177e0
-        FUN_808a278(_2000434.get(), CPU.sp().value + 0x4);
+        FUN_808a278(playerMapActorIndex_2000434.get(), CPU.sp().value + 0x4);
         r3 = MEMORY.ref(4, CPU.sp().value + 0x8).get() >> 3;
         if(r3 > 9) {
           r3 -= 5;
@@ -3460,7 +3461,7 @@ public final class GoldenSun_801 {
 
           if(r7 == 0x10) {
             //LAB_8018486
-            r0 = getCharOrMonsterData_(_2000434.get());
+            r0 = getCharOrMonsterData_(playerMapActorIndex_2000434.get());
 
             //LAB_801849a
             for(r4 = 0; r4 < 15; r4++) {
@@ -5057,11 +5058,10 @@ public final class GoldenSun_801 {
 
   @Method(0x801c428)
   public static void FUN_801c428() {
-    final int addr = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).offset(0x230).get();
-    if(addr != 0) {
-      final Panel24 r0 = MEMORY.ref(4, addr, Panel24::new);
-      if(r0.flags_16.get() != 0) {
-        FUN_8016418(r0, 0x2);
+    final Panel24 panel = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new).panel_230.derefNullable();
+    if(panel != null) {
+      if(panel.flags_16.get() != 0) {
+        FUN_8016418(panel, 0x2);
         clearTickCallback(getRunnable(GoldenSun_801.class, "FUN_801c3e8"));
       }
     }
@@ -6164,7 +6164,7 @@ public final class GoldenSun_801 {
     MEMORY.ref(4, 0x2000244).setu(_3001c9c.get());
     MEMORY.ref(4, 0x2001100).setu(_3001c9c.get());
     MEMORY.ref(1, 0x200046a).setu(_3001d08.get());
-    int r6 = getCharOrMonsterData_(_2000434.get());
+    int r6 = getCharOrMonsterData_(playerMapActorIndex_2000434.get());
 
     //LAB_801f860
     for(int r5 = 0; r5 < 0xc; r5++) {

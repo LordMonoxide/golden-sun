@@ -4,14 +4,14 @@ import org.goldensun.memory.Value;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.MemoryRef;
+import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 
 public class Map194 implements MemoryRef {
   private final Value ref;
 
-  /** TODO pointer */
-  public final IntRef _00;
+  public final Pointer<Vec3> _00;
   public final IntRef _04;
   public final IntRef _08;
   public final IntRef _0c;
@@ -38,7 +38,7 @@ public class Map194 implements MemoryRef {
   public Map194(final Value ref) {
     this.ref = ref;
 
-    this._00 = ref.offset(4, 0x00).cast(IntRef::new);
+    this._00 = ref.offset(4, 0x00).cast(Pointer.deferred(4, Vec3::new));
     this._04 = ref.offset(4, 0x04).cast(IntRef::new);
     this._08 = ref.offset(4, 0x08).cast(IntRef::new);
     this._0c = ref.offset(4, 0x0c).cast(IntRef::new);
@@ -107,6 +107,7 @@ public class Map194 implements MemoryRef {
     public final IntRef _24;
     public final UnsignedShortRef _28;
     public final UnsignedShortRef _2a;
+    /** TODO ptr */
     public final IntRef _2c;
 
     public Sub30(final Value ref) {

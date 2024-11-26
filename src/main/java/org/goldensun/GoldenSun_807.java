@@ -9,7 +9,7 @@ import static org.goldensun.GoldenSun.getPointerTableEntry;
 import static org.goldensun.GoldenSun.mallocBoard;
 import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.setMallocAddress;
-import static org.goldensun.GoldenSunVars._2000434;
+import static org.goldensun.GoldenSunVars.playerMapActorIndex_2000434;
 import static org.goldensun.GoldenSunVars._200044c;
 import static org.goldensun.GoldenSunVars.lastSaveSlot_2002004;
 import static org.goldensun.GoldenSunVars.runButton_200045c;
@@ -1505,7 +1505,7 @@ public final class GoldenSun_807 {
     int r4 = MEMORY.ref(4, CPU.sp().value).get();
     MEMORY.ref(2, 0x2000460).setu(r4);
     MEMORY.ref(2, 0x2000462).setu(r4);
-    _2000434.set(r4);
+    playerMapActorIndex_2000434.set(r4);
     addChar(0);
     r4 = MEMORY.ref(4, CPU.sp().value).get();
     MEMORY.ref(4, 0x2000250).setu(r4);
@@ -1921,31 +1921,17 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x8078bc0)
-  public static int FUN_8078bc0(int r0, int r1) {
-    int r2;
-    int r3;
-    final int r5;
-
-    r5 = CPU.addT(r1, 0x0);
-    r0 = getCharOrMonsterData(r0);
-    r1 = MEMORY.ref(4, 0x8078bec).get();
-    r2 = CPU.movT(0, 0x0);
-    r0 = CPU.addT(r0, 0x58);
+  public static int FUN_8078bc0(final int charOrMonsterId, final int r1) {
+    final int r0 = getCharOrMonsterData(charOrMonsterId) + 0x58;
 
     //LAB_8078bce
-    do {
-      r3 = MEMORY.ref(2, r0).getUnsigned();
-      r3 = CPU.andT(r3, r1);
-      r0 = CPU.addT(r0, 0x4);
-      r3 = CPU.cmpT(r3, r5);
-      if(CPU.cpsr().getZero()) { // ==
+    for(int r2 = 0; r2 < 0x20; r2++) {
+      if((MEMORY.ref(2, r0 + r2 * 0x4).getUnsigned() & 0x3fff) == r1) {
         return 1;
       }
 
       //LAB_8078bdc
-      r2 = CPU.addT(r2, 0x1);
-      CPU.cmpT(r2, 0x1f);
-    } while(CPU.cpsr().getZero() || CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()); // <=
+    }
 
     //LAB_8078be4
     return 0;

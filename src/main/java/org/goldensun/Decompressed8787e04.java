@@ -5,6 +5,7 @@ import org.goldensun.types.Panel24;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.Actor70;
+import org.goldensun.types.Structccc;
 
 import static org.goldensun.GoldenSunVars.entranceId_2000402;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
@@ -16,11 +17,13 @@ import static org.goldensun.Hardware.MEMORY;
 public final class Decompressed8787e04 {
   private Decompressed8787e04() { }
 
+  /** {@link GoldenSunVars#getRooms_200800c} */
   @Method(0x2008088)
   public static int getRooms() {
     return 0x2009fd0;
   }
 
+  /** {@link GoldenSunVars#getTransitions_2008014} */
   @Method(0x2008094)
   public static int getTransitions() {
     //LAB_20080a4
@@ -28,9 +31,10 @@ public final class Decompressed8787e04 {
     return readFlag(0x834) != 0 ? 0x200a1dc : 0x200a198;
   }
 
+  /** {@link GoldenSunVars#getActors_200801c} */
   @Method(0x20080b8)
   public static int getActors() {
-    if(entranceId_2000402.get() == 19) {
+    if(entranceId_2000402.get() == 19) { // Lab in Babi's palace
       return 0x200a518;
     }
 
@@ -53,10 +57,11 @@ public final class Decompressed8787e04 {
     return r5;
   }
 
+  /** {@link GoldenSunVars#getEvents_2008024} */
   @Method(0x2008160)
   public static int getEvents() {
     final int r0;
-    if(entranceId_2000402.get() == 19) {
+    if(entranceId_2000402.get() == 19) { // Lab in Babi's palace
       if(readFlag(0x950) != 0) {
         r0 = 0x200ac5c;
       } else {
@@ -81,32 +86,33 @@ public final class Decompressed8787e04 {
     return r0;
   }
 
+  /** {@link GoldenSunVars#init_2008004} */
   @Method(0x20083f8)
   public static int init() {
     int r3;
 
-    if(entranceId_2000402.get() == 19) {
+    if(entranceId_2000402.get() == 19) { // Lab in Babi's palace
       clearFlag(0x12f);
-      boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).offset(0x1c0).setu(0x209);
+      boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._1c0.set(0x209);
     } else {
       //LAB_2008420
       if(readFlag(0x834) != 0) {
-        FUN_2009974(0xb, 0, 0);
-        FUN_2009974(0xc, 0, 0);
-        FUN_2009974(0xd, 0, 0);
-        FUN_2009974(0xe, 0, 0);
-        FUN_2009974(0xf, 0, 0);
-        FUN_2009974(0x10, 0, 0);
+        FUN_2009974(11, 0, 0);
+        FUN_2009974(12, 0, 0);
+        FUN_2009974(13, 0, 0);
+        FUN_2009974(14, 0, 0);
+        FUN_2009974(15, 0, 0);
+        FUN_2009974(16, 0, 0);
       } else {
         //LAB_2008468
         FUN_20093b4();
       }
 
       //LAB_200846c
-      FUN_20099fc(0xd, 0x1);
+      setActorPriority(13, 1);
 
       if(readFlag(0x87a) != 0) {
-        FUN_20098a4(getActor(0x11), 0);
+        FUN_20098a4(getActor(17), 0);
         r3 = entranceId_2000402.get() & 0xffff;
         r3 = CPU.subT(r3, 0x6);
         r3 = CPU.lslT(r3, 16);
@@ -119,8 +125,8 @@ public final class Decompressed8787e04 {
           } else {
             //LAB_20084bc
             FUN_2009884(0xb);
-            FUN_20098a4(getActor(0x8), 0);
-            setActorAnimationIfLoaded(0x8, 0xa);
+            FUN_20098a4(getActor(8), 0);
+            setActorAnimationIfLoaded(8, 10);
           }
         }
       } else {
@@ -137,20 +143,20 @@ public final class Decompressed8787e04 {
           FUN_20093e4();
         } else {
           //LAB_2008508
-          boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).offset(0x1c0).setu(0x209);
+          boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._1c0.set(0x209);
 
           if(readFlag(0x834) != 0) {
             FUN_2009a3c();
             boardWramMallocHead_3001e50.offset(120 * 0x4).deref(4).offset(2, 0x1f84).setu(0x1);
             FUN_2009a4c();
-            sleep(0x1e);
+            sleep(30);
             FUN_2009a5c();
             FUN_2009a6c();
             FUN_2009a54();
           } else {
             //LAB_2008546
             FUN_200986c();
-            sleep(0x1);
+            sleep(1);
           }
         }
       }
@@ -162,17 +168,17 @@ public final class Decompressed8787e04 {
 
   @Method(0x2008578)
   public static void FUN_2008578() {
-    final int r3 = boardWramMallocHead_3001e50.offset(27 * 0x4).get();
+    final Structccc r3 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
     final Map194 r7 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
-    final int r6 = MEMORY.ref(4, r3 + 0x1e0).get();
-    final Sprite38 r8 = getActor(0x11).sprite_50.deref();
+    final Actor70 r6 = r3.actor_1e0.deref();
+    final Sprite38 r8 = getActor(17).sprite_50.deref();
     FUN_200990c();
-    FUN_2009974(0xb, 0, 0);
-    FUN_2009974(0xc, 0, 0);
-    FUN_2009974(0xd, 0, 0);
-    FUN_2009974(0xe, 0, 0);
-    FUN_2009974(0xf, 0, 0);
-    FUN_2009974(0x10, 0, 0);
+    FUN_2009974(11, 0, 0);
+    FUN_2009974(12, 0, 0);
+    FUN_2009974(13, 0, 0);
+    FUN_2009974(14, 0, 0);
+    FUN_2009974(15, 0, 0);
+    FUN_2009974(16, 0, 0);
     FUN_20098a4(getActor(0), 0);
     setActorAnimationIfLoaded(0, 0x12);
     r8.rotation_1e.set(0x555);
@@ -194,14 +200,11 @@ public final class Decompressed8787e04 {
     r7._f0.set(0x2580000);
     r7._f4.set(0x2700000);
     r7._f8.set(0x3300000);
-    MEMORY.ref(4, r6 + 0x8).setu(0x2340000);
-    MEMORY.ref(4, r6 + 0xc).setu(0);
-    MEMORY.ref(4, r6 + 0x10).setu(0x2b30000);
+    r6.pos_08.set(0x2340000, 0, 0x2b30000);
     FUN_200986c();
     sleep(0x1);
-    int r1 = boardWramMallocHead_3001e50.offset(27 * 0x4).get();
-    MEMORY.ref(4, r1 + 0x1c0).setu(0x209);
-    MEMORY.ref(4, r1 + 0x1c8).setu(0x40);
+    r3._1c0.set(0x209);
+    r3._1c8.set(0x40);
     FUN_2009a3c();
     boardWramMallocHead_3001e50.offset(30 * 0x4).deref(4).offset(2, 0x1f84).setu(0x1);
     FUN_2009a4c();
@@ -232,7 +235,7 @@ public final class Decompressed8787e04 {
     FUN_20098a4(getActor(0), 0x1);
     FUN_200998c(0, 0x4, 0);
     FUN_200996c(0, 0x21f, 0x2a2);
-    FUN_20099fc(0, 0x3);
+    setActorPriority(0, 0x3);
     FUN_20099ec(0, 0x4000, 0x28);
     setActorAnimationAndWaitUntilFinished(0x8, 0x4);
     FUN_2009904(0x14);
@@ -274,7 +277,7 @@ public final class Decompressed8787e04 {
     FUN_20099cc(0x8008);
 
     if(FUN_2009924(0, 0) == 0) {
-      boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).offset(2, 0x1d8).incr();
+      r3._1d8.incr();
     }
 
     //LAB_200895a
@@ -286,15 +289,14 @@ public final class Decompressed8787e04 {
     FUN_200993c(0x8, 0x2009b04);
     FUN_200993c(0, 0x2009b34);
     FUN_2009904(0x14);
-    r1 = boardWramMallocHead_3001e50.offset(27 * 0x4).get();
-    MEMORY.ref(4, r1 + 0x1c0).setu(0x201);
-    MEMORY.ref(4, r1 + 0x1c8).setu(0x10);
+    r3._1c0.set(0x201);
+    r3._1c8.set(0x10);
     FUN_2009a64();
     FUN_2009a6c();
     FUN_2009a34(0x14);
   }
 
-  /** This is the cutscene code for leaving the house in the first cutscene */
+  /** This is the cutscene code for going downstairs in the first cutscene */
   @Method(0x2008a0c)
   public static void FUN_2008a0c() {
     final Actor70 r5 = getActor(0xa);
@@ -313,7 +315,7 @@ public final class Decompressed8787e04 {
     r5._55.set(0);
     r6.packet_00.attribs_04.attrib2_04.and(~0xc00).or(0x400);
     FUN_200993c(0xa, 0x2009cec);
-    boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).offset(4, 0x1c0).setu(0x201);
+    boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._1c0.set(0x201);
     FUN_200987c(0x53, 0xf, 0x53, 0x13, 0x5, 0x4);
     FUN_200987c(0x5a, 0x10, 0x5a, 0x14, 0x5, 0x4);
     FUN_200987c(0x4d, 0x17, 0x52, 0x17, 0x5, 0x7);
@@ -400,9 +402,9 @@ public final class Decompressed8787e04 {
     FUN_200993c(0x8, 0x2009ca4);
     FUN_200994c(0x0, 0x2009ca4);
 
-    final int r1 = boardWramMallocHead_3001e50.offset(27 * 0x4).get();
-    MEMORY.ref(4, r1 + 0x1c0).setu(0x100);
-    MEMORY.ref(4, r1 + 0x1c8).setu(0x20);
+    final Structccc r1 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
+    r1._1c0.set(0x100);
+    r1._1c8.set(0x20);
 
     FUN_2009a64();
     FUN_2009a6c();
@@ -418,7 +420,7 @@ public final class Decompressed8787e04 {
   @Method(0x20097e4)
   public static void FUN_20097e4() {
     FUN_2009a7c(0x94, 0x1);
-    FUN_2009a84(0x8, 0x11);
+    FUN_2009a84(8, 17);
     FUN_2009a9c();
     FUN_2009a74(0x1);
     FUN_2009a8c();
@@ -468,8 +470,8 @@ public final class Decompressed8787e04 {
 
   /** {@link GoldenSun#FUN_80091e0} */
   @Method(0x20098a4)
-  public static void FUN_20098a4(final Actor70 r0, final int r1) {
-    MEMORY.call(0x80091e0, r0, r1);
+  public static void FUN_20098a4(final Actor70 actor, final int r1) {
+    MEMORY.call(0x80091e0, actor, r1);
   }
 
   /** {@link GoldenSun#FUN_80091f0} */
@@ -682,10 +684,10 @@ public final class Decompressed8787e04 {
     MEMORY.call(0x808a1d8, r0);
   }
 
-  /** {@link GoldenSun_808#FUN_808a1e0} */
+  /** {@link GoldenSun_808#setActorPriority_} */
   @Method(0x20099fc)
-  public static void FUN_20099fc(final int r0, final int r1) {
-    MEMORY.call(0x808a1e0, r0, r1);
+  public static void setActorPriority(final int actorIndex, final int priority) {
+    MEMORY.call(0x808a1e0, actorIndex, priority);
   }
 
   /** {@link GoldenSun_808#FUN_808a1e8} */
@@ -708,8 +710,8 @@ public final class Decompressed8787e04 {
 
   /** {@link GoldenSun_808#FUN_808a208} */
   @Method(0x2009a1c)
-  public static void FUN_2009a1c(final int r0, final int r1) {
-    MEMORY.call(0x808a208, r0, r1);
+  public static void FUN_2009a1c(final int velocityScalar, final int acceleration) {
+    MEMORY.call(0x808a208, velocityScalar, acceleration);
   }
 
   /** {@link GoldenSun_808#FUN_808a210} */
@@ -780,8 +782,8 @@ public final class Decompressed8787e04 {
 
   /** {@link GoldenSun_808#FUN_808a430} */
   @Method(0x2009a84)
-  public static void FUN_2009a84(final int r0, final int r1) {
-    MEMORY.call(0x808a430, r0, r1);
+  public static void FUN_2009a84(final int actorIndex1, final int actorIndex2) {
+    MEMORY.call(0x808a430, actorIndex1, actorIndex2);
   }
 
   /** {@link GoldenSun_808#FUN_808a438} */

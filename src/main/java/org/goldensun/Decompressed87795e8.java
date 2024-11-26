@@ -5,10 +5,11 @@ import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Actor70;
 import org.goldensun.types.Struct12fc;
+import org.goldensun.types.Structccc;
 
 import javax.annotation.Nullable;
 
-import static org.goldensun.GoldenSunVars._2000434;
+import static org.goldensun.GoldenSunVars.playerMapActorIndex_2000434;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.heldButtonsLastFrame_3001ae8;
 import static org.goldensun.GoldenSunVars.pressedButtons_3001c94;
@@ -96,7 +97,7 @@ public final class Decompressed87795e8 {
     DMA.channels[3].CNT.setu(0x84000004);
 
     boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new)._14.set(0x1400);
-    FUN_200949c(_2000434.get())._55.set(0);
+    FUN_200949c(playerMapActorIndex_2000434.get())._55.set(0);
   }
 
   @Method(0x2008154)
@@ -316,8 +317,7 @@ public final class Decompressed87795e8 {
     MEMORY.ref(4, CPU.sp().value + 0x14).setu(0);
     FUN_2008054();
     setTickCallback(getRunnable(Decompressed87795e8.class, "FUN_20081fc"), 0xc80);
-    r3 = boardWramMallocHead_3001e50.offset(27 * 0x4).get() + 0x1c0;
-    MEMORY.ref(4, r3).setu(MEMORY.ref(4, CPU.sp().value + 0x14).get());
+    boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._1c0.set(MEMORY.ref(4, CPU.sp().value + 0x14).get());
     FUN_20094ac();
     FUN_20094bc();
 
@@ -340,7 +340,7 @@ public final class Decompressed87795e8 {
       FUN_20094b4();
       playSound(0x11);
       FUN_2009494(0x12c);
-      FUN_20094a4(0x2, 0x48);
+      setMapAndEntranceId(0x2, 0x48);
     } else {
       //LAB_20084a0
       MEMORY.ref(1, 0x3001ca0).setu(MEMORY.ref(1, CPU.sp().value + 0x14).getUnsigned());
@@ -485,7 +485,7 @@ public final class Decompressed87795e8 {
               }
 
               //LAB_200872a
-              _2000434.set(0);
+              playerMapActorIndex_2000434.set(0);
 
               if(FUN_2009454(0x952) != 0) {
                 FUN_200948c();
@@ -505,7 +505,7 @@ public final class Decompressed87795e8 {
               clearFlag(0x106);
               setFlag(0x17e);
               MEMORY.ref(1, 0x3001ca0).setu(0x1);
-              FUN_20094a4(0xbe, 0x1);
+              setMapAndEntranceId(0xbe, 0x1);
             } else {
               //LAB_20087b2
               if(r6 != 5) {
@@ -838,7 +838,7 @@ public final class Decompressed87795e8 {
       }
 
       //LAB_2008c96
-      MEMORY.ref(2, boardWramMallocHead_3001e50.offset(27 * 0x4).get() + 0x170).setu(999);
+      boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._170.set(999);
       FUN_2009494(0x1e);
       playSound(0x11);
       FUN_20094b4();
@@ -1513,9 +1513,10 @@ public final class Decompressed87795e8 {
     return (Actor70)MEMORY.call(0x808a080, r0);
   }
 
+  /** {@link GoldenSun_808#setMapAndEntranceId_} */
   @Method(0x20094a4)
-  public static void FUN_20094a4(final int r0, final int r1) {
-    MEMORY.call(0x808a238, r0, r1);
+  public static void setMapAndEntranceId(final int mapId, final int entranceId) {
+    MEMORY.call(0x808a238, mapId, entranceId);
   }
 
   @Method(0x20094ac)

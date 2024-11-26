@@ -4,6 +4,7 @@ import org.goldensun.memory.Method;
 import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.types.Actor70;
 import org.goldensun.types.Panel24;
+import org.goldensun.types.Structccc;
 
 import javax.annotation.Nullable;
 
@@ -230,9 +231,9 @@ public final class Decompressed877dd1c {
       }
 
       //LAB_20089bc
-      final int r1 = boardWramMallocHead_3001e50.offset(27 * 0x4).get();
-      MEMORY.ref(4, r1 + 0x1c0).setu(0x100);
-      MEMORY.ref(4, r1 + 0x1c8).setu(0x18);
+      final Structccc r1 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
+      r1._1c0.set(0x100);
+      r1._1c8.set(0x18);
       FUN_200c884();
       FUN_200c88c();
       FUN_200c86c();
@@ -804,8 +805,8 @@ public final class Decompressed877dd1c {
 
   /** {@link GoldenSun_808#FUN_808a208} */
   @Method(0x200c81c)
-  public static void FUN_200c81c(final int r0, final int r1) {
-    MEMORY.call(0x808a208, r0, r1);
+  public static void FUN_200c81c(final int velocityScalar, final int acceleration) {
+    MEMORY.call(0x808a208, velocityScalar, acceleration);
   }
 
   /** {@link GoldenSun_808#FUN_808a210} */
