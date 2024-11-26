@@ -35,8 +35,8 @@ import static org.goldensun.Hardware.MEMORY;
 public final class GoldenSunVars {
   private GoldenSunVars() { }
 
-  public static final ShortRef _2000400 = MEMORY.ref(2, 0x2000400, ShortRef::new);
-  public static final ShortRef _2000402 = MEMORY.ref(2, 0x2000402, ShortRef::new);
+  public static final ShortRef mapId_2000400 = MEMORY.ref(2, 0x2000400, ShortRef::new);
+  public static final ShortRef entranceId_2000402 = MEMORY.ref(2, 0x2000402, ShortRef::new);
   public static final ShortRef _2000404 = MEMORY.ref(2, 0x2000404, ShortRef::new);
   public static final ShortRef _2000406 = MEMORY.ref(2, 0x2000406, ShortRef::new);
   public static final UnsignedShortRef _2000408 = MEMORY.ref(2, 0x2000408, UnsignedShortRef::new);
@@ -93,17 +93,12 @@ public final class GoldenSunVars {
 
   public static final SoundStructFb0 _2003050 = MEMORY.ref(4, 0x2003050, SoundStructFb0::new);
 
-  /** These appear to be pointers into map/cutscene code */
-  public static final Pointer<RunnableRef> _2008004 = MEMORY.ref(4, 0x2008004, Pointer.deferred(4, RunnableRef::new));
-
-  /** These appear to be pointers into map/cutscene code */
-  public static final Pointer<SupplierRef<Integer>> _200800c = MEMORY.ref(4, 0x200800c, Pointer.deferred(4, SupplierRef::new));
-
-  /** These appear to be pointers into map/cutscene code */
-  public static final Pointer<SupplierRef<Integer>> _200801c = MEMORY.ref(4, 0x200801c, Pointer.deferred(4, SupplierRef::new));
-
-  /** These appear to be pointers into map/cutscene code */
-  public static final Pointer<SupplierRef<Integer>> _2008024 = MEMORY.ref(4, 0x2008024, Pointer.deferred(4, SupplierRef::new));
+  // These are the main interface for map code
+  public static final Pointer<RunnableRef> init_2008004 = MEMORY.ref(4, 0x2008004, Pointer.deferred(4, RunnableRef::new));
+  public static final Pointer<SupplierRef<Integer>> getRooms_200800c = MEMORY.ref(4, 0x200800c, Pointer.deferred(4, SupplierRef::new));
+  public static final Pointer<SupplierRef<Integer>> getTransitions_200800c = MEMORY.ref(4, 0x2008014, Pointer.deferred(4, SupplierRef::new));
+  public static final Pointer<SupplierRef<Integer>> getActors_200801c = MEMORY.ref(4, 0x200801c, Pointer.deferred(4, SupplierRef::new));
+  public static final Pointer<SupplierRef<Integer>> getEvents_2008024 = MEMORY.ref(4, 0x2008024, Pointer.deferred(4, SupplierRef::new));
 
   /** Should always point to {@link GoldenSun#FUN_8006af8} */
   public static final Pointer<TriFunctionRef<Integer, Integer, Integer, Integer>> _2004c00 = MEMORY.ref(4, 0x2004c00, Pointer.deferred(4, TriFunctionRef::new));

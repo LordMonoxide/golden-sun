@@ -31,13 +31,13 @@ import static org.goldensun.GoldenSun.atan2;
 import static org.goldensun.GoldenSun.sqrt;
 import static org.goldensun.GoldenSun.FUN_8005268;
 import static org.goldensun.GoldenSun.drawSprite_;
-import static org.goldensun.GoldenSun.FUN_8009020;
+import static org.goldensun.GoldenSun.setSpriteAnimation_;
 import static org.goldensun.GoldenSun.clearSprite_;
 import static org.goldensun.GoldenSun.setActorAnimation_;
 import static org.goldensun.GoldenSun.FUN_8009088;
 import static org.goldensun.GoldenSun.FUN_8009098;
 import static org.goldensun.GoldenSun.loadActor_;
-import static org.goldensun.GoldenSun.FUN_80090d0;
+import static org.goldensun.GoldenSun.clearActor_;
 import static org.goldensun.GoldenSun.FUN_80090e0;
 import static org.goldensun.GoldenSun.setActorPosition_;
 import static org.goldensun.GoldenSun.FUN_8009128;
@@ -1098,11 +1098,11 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8092064)
-  public static void FUN_8092064(final int r0, final int r1, final int r2) {
-    final Actor70 r0_0 = getActor(r0);
-    if(r0_0 != null) {
-      r0_0.acceleration_34.set(r2);
-      r0_0.velocityScalar_30.set(r1);
+  public static void setActorVelocityScalerAndAcceleration(final int actorIndex, final int velocityScaler, final int acceleration) {
+    final Actor70 actor = getActor(actorIndex);
+    if(actor != null) {
+      actor.velocityScalar_30.set(velocityScaler);
+      actor.acceleration_34.set(acceleration);
     }
 
     //LAB_8092076
@@ -1758,8 +1758,8 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x809335c)
-  public static void FUN_809335c(final int r0, final int r1) {
-    final Actor70 r6 = getActor(r0);
+  public static void FUN_809335c(final int actorIndex, final int r1) {
+    final Actor70 r6 = getActor(actorIndex);
     final int r8 = mallocSlotBoard(27, 0xccc);
     final Actor70 r5 = MEMORY.ref(4, r8 + 0x1e0).deref(4).cast(Actor70::new); //TODO
     final Map194 r3 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
@@ -1963,7 +1963,7 @@ public final class GoldenSun_809 {
         //LAB_80938b2
         r5 = r7._68.derefNullable();
         if(r5 != null) {
-          FUN_80090d0(r5);
+          clearActor_(r5);
           r7._68.clear();
         }
       }
@@ -2660,7 +2660,7 @@ public final class GoldenSun_809 {
     final Actor70 r5 = loadActor_(spriteTypeAndDataIndex, x, y, z);
     if(r5 != null) {
       if(r5.spriteType_54.get() == 0) {
-        FUN_80090d0(r5);
+        clearActor_(r5);
         return null;
       }
 
@@ -2754,7 +2754,7 @@ public final class GoldenSun_809 {
         r0_0._1c.set(0x1999);
         r0_0._18.set(0x1999);
         if(r5 != null) {
-          FUN_8009020(r5, 0);
+          setSpriteAnimation_(r5, 0);
           r5._26.set(0);
           clearVramSlot(r5.slot_1c.get());
           r5.slot_1c.set(MEMORY.ref(2, r10 + 0x46).getUnsigned());
@@ -3297,7 +3297,7 @@ public final class GoldenSun_809 {
         sleep(1);
       }
 
-      FUN_80090d0(r6);
+      clearActor_(r6);
       FUN_809748c();
     }
 

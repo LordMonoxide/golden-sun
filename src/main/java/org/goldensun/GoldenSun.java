@@ -2469,7 +2469,7 @@ public final class GoldenSun {
 
   /** {@link GoldenSun#setSpriteAnimation} */
   @Method(0x8009020)
-  public static int FUN_8009020(final Sprite38 r0, final int r1) {
+  public static int setSpriteAnimation_(final Sprite38 r0, final int r1) {
     return (int)MEMORY.call(0x800ba30, r0, r1);
   }
 
@@ -2490,9 +2490,10 @@ public final class GoldenSun {
     throw new RuntimeException("Not implemented");
   }
 
+  /** {@link GoldenSun#FUN_800c004} */
   @Method(0x8009078)
   public static void FUN_8009078(final int r0) {
-    MEMORY.call(0x800c005, r0);
+    MEMORY.call(0x800c004, r0);
   }
 
   /** {@link GoldenSun#setActorAnimation} */
@@ -2501,6 +2502,7 @@ public final class GoldenSun {
     MEMORY.call(0x800c300, actor, animationIndex);
   }
 
+  /** {@link GoldenSun#FUN_800c344} */
   @Method(0x8009088)
   public static void FUN_8009088(final Actor70 r0, final int r1) {
     MEMORY.call(0x800c344, r0, r1);
@@ -2542,8 +2544,9 @@ public final class GoldenSun {
     return (Actor70)MEMORY.call(0x800c150, spriteTypeAndDataIndex, x, y, z);
   }
 
+  /** {@link GoldenSun#clearActor} */
   @Method(0x80090d0)
-  public static void FUN_80090d0(final Actor70 r0) {
+  public static void clearActor_(final Actor70 r0) {
     MEMORY.call(0x800c0f4, r0);
   }
 
@@ -2565,14 +2568,16 @@ public final class GoldenSun {
     return (int)MEMORY.call(0x800fb38, index);
   }
 
+  /** {@link GoldenSun_801#FUN_80109e8} */
   @Method(0x8009118)
   public static void FUN_8009118() {
     MEMORY.call(0x80109e8);
   }
 
+  /** {@link GoldenSun#FUN_800fe9c} */
   @Method(0x8009128)
   public static void FUN_8009128() {
-    MEMORY.call(0x800fe9d);
+    MEMORY.call(0x800fe9c);
   }
 
   @Method(0x8009130)
@@ -2585,21 +2590,25 @@ public final class GoldenSun {
     throw new RuntimeException("Not implemented");
   }
 
+  /** {@link GoldenSun#FUN_800c4ac} */
   @Method(0x8009140)
   public static void FUN_8009140(final Actor70 r0) {
     MEMORY.call(0x800c4ac, r0);
   }
 
+  /** {@link GoldenSun#FUN_800c4ec} */
   @Method(0x8009148)
   public static void FUN_8009148(final Actor70 r0) {
     MEMORY.call(0x800c4ec, r0);
   }
 
+  /** {@link GoldenSun#FUN_800d14c} */
   @Method(0x8009150)
   public static void FUN_8009150(final Actor70 r0, final int r1, final int r2, final int r3) {
     MEMORY.call(0x800d14c, r0, r1, r2, r3);
   }
 
+  /** {@link GoldenSun#FUN_800ca6c} */
   @Method(0x8009158)
   public static void FUN_8009158(final Actor70 r0) {
     MEMORY.call(0x800ca6c, r0);
@@ -2611,16 +2620,19 @@ public final class GoldenSun {
     MEMORY.call(0x8010560, r0, r1, r2);
   }
 
+  /** {@link GoldenSun_801#FUN_8010424} */
   @Method(0x8009180)
   public static void FUN_8009180(final int r0, final int r1, final int r2, final int r3, final int a4, final int a5) {
     MEMORY.call(0x8010424, r0, r1, r2, r3, a4, a5);
   }
 
+  /** {@link GoldenSun_801#FUN_80118a8} */
   @Method(0x8009188)
   public static void FUN_8009188(final int r0) {
     MEMORY.call(0x80118a8, r0);
   }
 
+  /** {@link GoldenSun_801#FUN_80118c0} */
   @Method(0x8009190)
   public static void FUN_8009190(final int r0) {
     MEMORY.call(0x80118c0, r0);
@@ -2638,6 +2650,7 @@ public final class GoldenSun {
     return (int)MEMORY.call(0x8011f54, r0, r1, r2);
   }
 
+  /** {@link GoldenSun_801#FUN_8010704} */
   @Method(0x80091c0)
   public static void FUN_80091c0(final int r0, final int r1, final int r2, final int r3, final int a4, final int a5) {
     MEMORY.call(0x8010704, r0, r1, r2, r3, a4, a5);
@@ -2649,16 +2662,19 @@ public final class GoldenSun {
     MEMORY.call(0x800c528, r0, r1);
   }
 
+  /** {@link GoldenSun_801#FUN_8012330} */
   @Method(0x80091f0)
   public static void FUN_80091f0(final int r0, final int r1, final int r2) {
     MEMORY.call(0x8012330, r0, r1, r2);
   }
 
+  /** {@link GoldenSun#FUN_800c5b4} */
   @Method(0x8009208)
   public static void FUN_8009208() {
     MEMORY.call(0x800c5b4);
   }
 
+  /** {@link GoldenSun#FUN_800c5fc} */
   @Method(0x8009210)
   public static void FUN_8009210() {
     MEMORY.call(0x800c5fc);

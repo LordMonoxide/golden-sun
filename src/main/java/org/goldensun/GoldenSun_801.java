@@ -24,7 +24,7 @@ import static org.goldensun.GoldenSun.FUN_80053e8;
 import static org.goldensun.GoldenSun.saveGame;
 import static org.goldensun.GoldenSun.FUN_8005a78;
 import static org.goldensun.GoldenSun.drawSprite_;
-import static org.goldensun.GoldenSun.FUN_8009020;
+import static org.goldensun.GoldenSun.setSpriteAnimation_;
 import static org.goldensun.GoldenSun.clearSprite_;
 import static org.goldensun.GoldenSun.decompress;
 import static org.goldensun.GoldenSun.divideU;
@@ -511,6 +511,11 @@ public final class GoldenSun_801 {
 
     //LAB_80109be
     return 1;
+  }
+
+  @Method(0x80109e8)
+  public static void FUN_80109e8() {
+    throw new RuntimeException("Not implemented");
   }
 
   @Method(0x80113e4)
@@ -1239,6 +1244,7 @@ public final class GoldenSun_801 {
     freeSlot(49);
   }
 
+  /** {@link GoldenSun_801#FUN_8015f30} */
   @Method(0x8015000)
   public static void FUN_8015000() {
     MEMORY.call(0x8015f30);
@@ -1261,19 +1267,22 @@ public final class GoldenSun_801 {
     MEMORY.call(0x801776c, r0, r1);
   }
 
+  /** {@link GoldenSun_801#FUN_8017364} */
   @Method(0x8015048)
   public static int FUN_8015048() {
     return (int)MEMORY.call(0x8017364);
   }
 
+  /** {@link GoldenSun_801#FUN_8017394} */
   @Method(0x8015050)
   public static int FUN_8015050(final Panel24 r0) {
     return (int)MEMORY.call(0x8017394, r0);
   }
 
+  /** {@link GoldenSun_801#FUN_8019da8} */
   @Method(0x80150f8)
-  public static Panel24 FUN_80150f8(final int r0, final int r1, final int r2, final int r3) {
-    return (Panel24)MEMORY.call(0x8019da8, r0, r1, r2, r3);
+  public static Panel24 FUN_80150f8(final int r0, final int r1, final int x, final int y) {
+    return (Panel24)MEMORY.call(0x8019da8, r0, r1, x, y);
   }
 
   /** {@link GoldenSun_801#FUN_8019e48} */
@@ -1282,16 +1291,19 @@ public final class GoldenSun_801 {
     MEMORY.call(0x8019e48, r0);
   }
 
+  /** {@link GoldenSun_801#FUN_80187ac} */
   @Method(0x8015108)
   public static int FUN_8015108(final int r0, final int r1, final int r2, final int r3, final int a4) {
     return (int)MEMORY.call(0x80187ac, r0, r1, r2, r3, a4);
   }
 
+  /** {@link GoldenSun_801#FUN_80187fc} */
   @Method(0x8015110)
   public static int FUN_8015110(final int r0, final int r1, final int r2, final int r3, final int a4) {
     return (int)MEMORY.call(0x80187fc, r0, r1, r2, r3, a4);
   }
 
+  /** {@link GoldenSun_801#FUN_8019908} */
   @Method(0x8015120)
   public static void FUN_8015120(final int r0, final int r1) {
     MEMORY.call(0x8019908, r0, r1);
@@ -1303,6 +1315,7 @@ public final class GoldenSun_801 {
     MEMORY.call(0x8019a54);
   }
 
+  /** {@link GoldenSun_801#FUN_8019d2c} */
   @Method(0x80151e0)
   public static int FUN_80151e0(final int r0) {
     return (int)MEMORY.call(0x8019d2c, r0);
@@ -1324,16 +1337,19 @@ public final class GoldenSun_801 {
     throw new RuntimeException("Not implemented");
   }
 
+  /** {@link GoldenSun_801#FUN_801c428} */
   @Method(0x8015208)
   public static void FUN_8015208() {
     MEMORY.call(0x801c428);
   }
 
+  /** {@link GoldenSun_801#FUN_8019aa0} */
   @Method(0x8015210)
   public static void FUN_8015210(final int r0, final int r1, final int r2) {
     MEMORY.call(0x8019aa0, r0, r1, r2);
   }
 
+  /** {@link GoldenSun_801#FUN_801edec} */
   @Method(0x8015268)
   public static void FUN_8015268(final int r0) {
     MEMORY.call(0x801edec, r0);
@@ -1367,6 +1383,7 @@ public final class GoldenSun_801 {
     return (int)MEMORY.call(0x801f77c);
   }
 
+  /** {@link GoldenSun_802#FUN_8020bd8} */
   @Method(0x8015320)
   public static int FUN_8015320(final int r0) {
     return (int)MEMORY.call(0x8020bd8, r0);
@@ -4909,7 +4926,7 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x8019da8)
-  public static Panel24 FUN_8019da8(final int r0, final int r1, final int r2, final int r3) {
+  public static Panel24 FUN_8019da8(final int r0, final int r1, final int x, final int y) {
     if(FUN_8019d2c(r0) == -1) {
       return null;
     }
@@ -4918,11 +4935,11 @@ public final class GoldenSun_801 {
     final Panel24 r5;
     final int r8;
     if(boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new)._ea4.get() != 0) {
-      r5 = addPanel(r2, r3, 0x6, 0x5, 0x2);
+      r5 = addPanel(x, y, 0x6, 0x5, 0x2);
       r8 = 0;
     } else {
       //LAB_8019dfe
-      r5 = addPanel(r2, r3, 0x5, 0x5, 0x2);
+      r5 = addPanel(x, y, 0x5, 0x5, 0x2);
       r8 = -4;
     }
 
@@ -6318,7 +6335,7 @@ public final class GoldenSun_801 {
     for(int charIndex = 0; charIndex < 4 && preview.charIds.get(charIndex).get() != -1; charIndex++) {
       final Sprite38 r5 = loadSprite_(FUN_808a5f0(preview.charIds.get(charIndex).get(), preview._33.get()));
       if(r5 != null) {
-        FUN_8009020(r5, 0x1);
+        setSpriteAnimation_(r5, 0x1);
         r5._26.set(0);
         r5.packet_00.attribs_04.attrib2_04.and(~0xc00);
       }
@@ -6390,7 +6407,7 @@ public final class GoldenSun_801 {
       for(int r7 = 0; r7 < 4; r7++) {
         final Sprite38 r5 = loadSprite_(MEMORY.ref(4, 0x8073854 + r7 * 0x4).get());
         if(r5 != null) {
-          FUN_8009020(r5, 0x2);
+          setSpriteAnimation_(r5, 0x2);
           r5._26.set(0);
           r5.packet_00.attribs_04.attrib2_04.and(~0xc00);
         }

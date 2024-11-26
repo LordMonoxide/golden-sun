@@ -304,15 +304,15 @@ public final class Decompressed877dd1c {
     r0 = CPU.movT(0, 0x9);
     r1 = MEMORY.ref(4, 0x2008d1c).get();
     r2 = MEMORY.ref(4, 0x2008d20).get();
-    FUN_200c73c(r0, r1, r2);
+    setActorVelocityScalerAndAcceleration(r0, r1, r2);
     r0 = CPU.movT(0, 0x0);
     r1 = MEMORY.ref(4, 0x2008d1c).get();
     r2 = MEMORY.ref(4, 0x2008d20).get();
-    FUN_200c73c(r0, r1, r2);
+    setActorVelocityScalerAndAcceleration(r0, r1, r2);
     r0 = CPU.movT(0, 0xa);
     r1 = MEMORY.ref(4, 0x2008d1c).get();
     r2 = MEMORY.ref(4, 0x2008d20).get();
-    FUN_200c73c(r0, r1, r2);
+    setActorVelocityScalerAndAcceleration(r0, r1, r2);
     r1 = CPU.movT(0, 0xab);
     r0 = CPU.movT(0, 0x9);
     r1 = CPU.lslT(r1, 17);
@@ -433,7 +433,7 @@ public final class Decompressed877dd1c {
     r0 = CPU.movT(0, 0x9);
     r1 = CPU.lslT(r1, 9);
     r2 = CPU.lslT(r2, 8);
-    FUN_200c73c(r0, r1, r2);
+    setActorVelocityScalerAndAcceleration(r0, r1, r2);
     r0 = CPU.movT(0, 0x9);
     r1 = MEMORY.ref(4, 0x2008d38).get();
     r2 = MEMORY.ref(4, 0x2008d3c).get();
@@ -509,7 +509,7 @@ public final class Decompressed877dd1c {
     r0 = CPU.movT(0, 0xa);
     r1 = CPU.lslT(r1, 9);
     r2 = CPU.lslT(r2, 8);
-    FUN_200c73c(r0, r1, r2);
+    setActorVelocityScalerAndAcceleration(r0, r1, r2);
     r1 = MEMORY.ref(4, 0x2008d48).get();
     r2 = MEMORY.ref(4, 0x2008d4c).get();
     r0 = CPU.movT(0, 0xa);
@@ -706,10 +706,10 @@ public final class Decompressed877dd1c {
     return (Actor70)MEMORY.call(0x8092054, actorIndex);
   }
 
-  /** {@link GoldenSun_808#FUN_808a090} */
+  /** {@link GoldenSun_808#setActorVelocityScalerAndAcceleration_} */
   @Method(0x200c73c)
-  public static void FUN_200c73c(final int r0, final int r1, final int r2) {
-    MEMORY.call(0x808a090, r0, r1, r2);
+  public static void setActorVelocityScalerAndAcceleration(final int actorIndex, final int velocityScaler, final int acceleration) {
+    MEMORY.call(0x808a090, actorIndex, velocityScaler, acceleration);
   }
 
   /** {@link GoldenSun_809#FUN_809207c} */
