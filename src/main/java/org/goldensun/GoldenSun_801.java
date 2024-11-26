@@ -4192,7 +4192,7 @@ public final class GoldenSun_801 {
           final int r3 = r6._eac.get();
           if(r3 == 2) {
             r5._05.set(0x4);
-            r5._0c.set(0);
+            r5.rotation_0c.set(0);
           } else if(r3 == 3) {
             //LAB_8018dac
             r5._05.set(0x5);
@@ -4200,11 +4200,11 @@ public final class GoldenSun_801 {
           } else if(r3 == 4) {
             //LAB_8018db2
             r5._05.set(0x6);
-            r5._0c.set(0x8);
+            r5.rotation_0c.set(0x8);
           } else if(r3 == 5) {
             //LAB_8018dbc
             r5._05.set(0x7);
-            r5._0c.set(0);
+            r5.rotation_0c.set(0);
           }
 
           //LAB_8018dc6
@@ -4306,23 +4306,23 @@ public final class GoldenSun_801 {
     int r7 = 0x100;
     if(r0._05.get() == 0x9) {
       //LAB_80190b6
-      r7 = MEMORY.ref(2, 0x80366f8 + (r0._0c.get() & 0x1f) * 0x2).getUnsigned(); //TODO
-      r0._0c.incr();
+      r7 = MEMORY.ref(2, 0x80366f8 + (r0.rotation_0c.get() & 0x1f) * 0x2).getUnsigned(); //TODO
+      r0.rotation_0c.incr();
     } else if(r0._05.get() == 0xa) {
       //LAB_80190c8
-      r7 = MEMORY.ref(2, 0x80366f8 + (r0._0c.get() & 0x1f) * 0x2).getUnsigned() >>> 1; //TODO
-      r0._0c.incr();
+      r7 = MEMORY.ref(2, 0x80366f8 + (r0.rotation_0c.get() & 0x1f) * 0x2).getUnsigned() >>> 1; //TODO
+      r0.rotation_0c.incr();
     } else if(r0._05.get() == 0xb) {
       //LAB_80190da
-      if(r0._0c.get() < 8) {
-        r7 = MEMORY.ref(2, 0x80366f8 + 0x20 + r0._0c.get() * 0x4).getUnsigned(); //TODO
-        r0._0c.incr();
+      if(r0.rotation_0c.get() < 8) {
+        r7 = MEMORY.ref(2, 0x80366f8 + 0x20 + r0.rotation_0c.get() * 0x4).getUnsigned(); //TODO
+        r0.rotation_0c.incr();
       }
     } else if(r0._05.get() == 0xc) {
       //LAB_80190f0
-      if(r0._0c.get() < 8) {
-        r7 = MEMORY.ref(2, 0x80366f8 + 0x20 + r0._0c.get() * 0x4).getUnsigned() >>> 1; //TODO
-        r0._0c.incr();
+      if(r0.rotation_0c.get() < 8) {
+        r7 = MEMORY.ref(2, 0x80366f8 + 0x20 + r0.rotation_0c.get() * 0x4).getUnsigned() >>> 1; //TODO
+        r0.rotation_0c.incr();
       }
     }
 
@@ -4335,8 +4335,9 @@ public final class GoldenSun_801 {
       packet.attribs_04.y_00.set(r0._08.get()); // y
     } else {
       //LAB_8019124
-      MEMORY.ref(4, CPU.sp().value).setu(r7 << 16 | r7 & 0xffff);
-      MEMORY.ref(4, CPU.sp().value + 0x4).and(~0xffff);
+      MEMORY.ref(2, CPU.sp().value).setu(r7 & 0xffff);
+      MEMORY.ref(2, CPU.sp().value + 0x2).setu(r7 & 0xffff);
+      MEMORY.ref(2, CPU.sp().value + 0x4).set(0);
       packet.attribs_04.attrib1_02.and(~0x3e00).or((addRotScaleParams(CPU.sp().value) & 0x1f) << 9); // upper flags
 
       if(r7 > 0x100) {
@@ -4374,7 +4375,7 @@ public final class GoldenSun_801 {
           final RenderPacket0c r7 = r6.packet_10;
 
           if(r10._12.get() == 0x4) {
-            r6._0c.set(0x2);
+            r6.rotation_0c.set(0x2);
             r6._05.set(0x8);
           }
 
@@ -4407,7 +4408,7 @@ public final class GoldenSun_801 {
               break;
 
             case 6:
-              if(r6._0c.get() == 0) {
+              if(r6.rotation_0c.get() == 0) {
                 r7.attribs_04.attrib1_02.and(~0x3e00); // mask off rotation/scaling/flip
                 r7.attribs_04.flags_01.and(~0x3);
                 r7.attribs_04.attrib1_02.and(~0x1ff).or(r6._06.get() & 0x1ff);
@@ -4420,7 +4421,7 @@ public final class GoldenSun_801 {
                 r7.attribs_04.flags_01.or(0x3);
                 r7.attribs_04.attrib1_02.and(~0x1ff).or(r6._06.get() - 5 & 0x1ff);
                 r7.attribs_04.y_00.set(r6._08.get() - 5);
-                r6._0c.decr();
+                r6.rotation_0c.decr();
               }
               break;
 
@@ -4428,8 +4429,8 @@ public final class GoldenSun_801 {
               r5 = CPU.sp().value + 0x10;
               MEMORY.ref(2, r5).setu(0x100);
               MEMORY.ref(2, r5 + 0x2).setu(0x100);
-              r6._0c.add(0x300);
-              MEMORY.ref(2, r5 + 0x4).setu(r6._0c.get());
+              r6.rotation_0c.add(0x300);
+              MEMORY.ref(2, r5 + 0x4).setu(r6.rotation_0c.get());
               r7.attribs_04.attrib1_02.and(~0x3e00).or((addRotScaleParams(r5) & 0x1f) << 9);
               r7.attribs_04.flags_01.and(~0x3).or(0x1);
               r7.attribs_04.attrib1_02.and(~0x1ff).or(r6._06.get() - (sin(MEMORY.ref(2, r5 + 0x4).getUnsigned() + 0xe800) >> 14) - 2 & 0x1ff);
@@ -4438,34 +4439,34 @@ public final class GoldenSun_801 {
 
             case 4:
               if((ticks_3001800.get() & 0x1) != 0) {
-                r6._0c.incr();
+                r6.rotation_0c.incr();
               }
 
               //LAB_801948e
-              r7.attribs_04.attrib1_02.and(~0x1ff).or(r6._06.get() + MEMORY.ref(1, 0x8033eb0 + (modU(r6._0c.get(), 0x14) & 0xffff) * 0x2).get() & 0x1ff);
-              r7.attribs_04.y_00.set(r6._08.get() + MEMORY.ref(1, 0x8033eb0 + (modU(r6._0c.get(), 0x14) & 0xffff) * 0x2 + 0x1).getUnsigned() - 2);
+              r7.attribs_04.attrib1_02.and(~0x1ff).or(r6._06.get() + MEMORY.ref(1, 0x8033eb0 + (modU(r6.rotation_0c.get(), 0x14) & 0xffff) * 0x2).get() & 0x1ff);
+              r7.attribs_04.y_00.set(r6._08.get() + MEMORY.ref(1, 0x8033eb0 + (modU(r6.rotation_0c.get(), 0x14) & 0xffff) * 0x2 + 0x1).getUnsigned() - 2);
               break;
 
             case 0x11:
-              r6._0c.incr();
-              r7.attribs_04.y_00.set(r6._08.get() - MEMORY.ref(1, 0x8033ee8 + (r6._0c.get() & 0xf)).getUnsigned()); //TODO
+              r6.rotation_0c.incr();
+              r7.attribs_04.y_00.set(r6._08.get() - MEMORY.ref(1, 0x8033ee8 + (r6.rotation_0c.get() & 0xf)).getUnsigned()); //TODO
               break;
 
             case 0xe:
             case 0xf:
             case 0x10:
-              r6._0c.incr();
-              r7.attribs_04.y_00.set(r6._08.get() + MEMORY.ref(1, 0x8033ee8 + (r6._0c.get() & 0xf)).getUnsigned()); //TODO
+              r6.rotation_0c.incr();
+              r7.attribs_04.y_00.set(r6._08.get() + MEMORY.ref(1, 0x8033ee8 + (r6.rotation_0c.get() & 0xf)).getUnsigned()); //TODO
               break;
 
             case 0x12:
-              r6._0c.incr();
-              r7.attribs_04.attrib1_02.and(~0x1ff).or(r6._06.get() - MEMORY.ref(1, 0x8033ee8 + (r6._0c.get() & 0xf)).get() & 0x1ff); //TODO
-              r7.attribs_04.y_00.set(r6._08.get() + MEMORY.ref(1, 0x8033ee8 + r6._0c.get() & 0xf).getUnsigned()); //TODO
+              r6.rotation_0c.incr();
+              r7.attribs_04.attrib1_02.and(~0x1ff).or(r6._06.get() - MEMORY.ref(1, 0x8033ee8 + (r6.rotation_0c.get() & 0xf)).get() & 0x1ff); //TODO
+              r7.attribs_04.y_00.set(r6._08.get() + MEMORY.ref(1, 0x8033ee8 + r6.rotation_0c.get() & 0xf).getUnsigned()); //TODO
               break;
 
             case 8:
-              if(r6._0c.get() != 0) {
+              if(r6.rotation_0c.get() != 0) {
                 MEMORY.ref(2, CPU.sp().value + 0x10).setu(0x140);
                 MEMORY.ref(2, CPU.sp().value + 0x12).setu(0x140);
                 MEMORY.ref(2, CPU.sp().value + 0x14).setu(0);
@@ -4473,7 +4474,7 @@ public final class GoldenSun_801 {
                 r7.attribs_04.flags_01.or(0x3);
                 r7.attribs_04.attrib1_02.and(~0x1ff).or(r6._06.get() - 8 & 0x1ff);
                 r7.attribs_04.y_00.set(r6._08.get() - 8);
-                r6._0c.and(0xffff);
+                r6.rotation_0c.and(0xffff);
               } else {
                 //LAB_80195b0
                 r7.attribs_04.attrib1_02.and(~0x3e00);

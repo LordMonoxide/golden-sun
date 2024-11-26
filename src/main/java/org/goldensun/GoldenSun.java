@@ -929,7 +929,6 @@ public final class GoldenSun {
     memzero(packets_3001400.getAddress(), 0x400);
   }
 
-  /** Looks like it's building a rotation matrix */
   @Method(0x8003d28)
   public static int addRotScaleParams(final int r0) {
     final int index = rotationScalingCount_3001d00.get();
@@ -1931,14 +1930,16 @@ public final class GoldenSun {
   }
 
   @Method(0x8005a78)
-  public static int FUN_8005a78(final int r0, final int r1) {
+  public static int FUN_8005a78(final int saveFile, final int r1) {
     final SaveStruct1100 r5 = boardWramMallocHead_3001e50.offset(51 * 0x4).deref(4).cast(SaveStruct1100::new);
-    if(getSaveSlot(r0) > 0xf) {
+
+    final int saveSlot = getSaveSlot(saveFile);
+    if(saveSlot > 0xf) {
       return 1;
     }
 
     //LAB_8005a8c
-    loadSave(r0);
+    loadSave(saveSlot);
 
     DMA.channels[3].SAD.setu(r5._50.getAddress());
     DMA.channels[3].DAD.setu(r1);
@@ -3101,7 +3102,7 @@ public final class GoldenSun {
   }
 
   @Method(0x800b168)
-  public static void drawSprite(final Sprite38 sprite, int r1, int r2, final int angle) {
+  public static void drawSprite(final Sprite38 sprite, int r1, final int r2, final int angle) {
     int r4;
     int r5;
     int r6;
@@ -3117,19 +3118,12 @@ public final class GoldenSun {
     MEMORY.ref(4, CPU.sp().value + 0xc).setu(0x4);
 
     r8 = MEMORY.ref(4, r2).get();
-    r2 += 0x4;
+    r9 = MEMORY.ref(4, r2 + 0x4).get();
 
     r10 = MEMORY.ref(4, r1).get();
-    r1 += 0x4;
-
-    r9 = MEMORY.ref(4, r2).get();
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(MEMORY.ref(4, r1).get());
-    r1 += 0x4;
-
-    r11 = MEMORY.ref(4, r1).get();
-    r1 += 0x4;
-
-    r6 = MEMORY.ref(4, r1).get();
+    MEMORY.ref(4, CPU.sp().value + 0x4).setu(MEMORY.ref(4, r1 + 0x4).get());
+    r11 = MEMORY.ref(4, r1 + 0x8).get();
+    r6 = MEMORY.ref(4, r1 + 0xc).get();
 
     r5 = FUN_800aa0c(sprite, angle & 0xffff);
 
@@ -3139,12 +3133,12 @@ public final class GoldenSun {
     } else {
       //LAB_800b1dc
       MEMORY.ref(4, CPU.sp().value + 0x8).setu(1);
-      MEMORY.ref(4, CPU.sp().value + 0x24).setu((r9 >>> 8 & 0xffff) << 16 | (r8 >>> 8 & 0xffff));
-      MEMORY.ref(4, CPU.sp().value + 0x28).set(sprite.rotation_1e.get());
+      MEMORY.ref(2, CPU.sp().value + 0x24).setu(r8 >>> 8 & 0xffff);
+      MEMORY.ref(2, CPU.sp().value + 0x26).setu(r9 >>> 8 & 0xffff);
+      MEMORY.ref(2, CPU.sp().value + 0x28).set(sprite.rotation_1e.get());
 
       if(r5 != 0) {
-        final int x = -MEMORY.ref(2, CPU.sp().value + 0x24).getUnsigned() & 0xffff;
-        MEMORY.ref(4, CPU.sp().value + 0x24).and(0xffff0000).oru(x);
+        MEMORY.ref(2, CPU.sp().value + 0x24).neg().and(0xffff);
       }
 
       //LAB_800b21c

@@ -1055,31 +1055,23 @@ public final class GoldenSun_802 {
 
   @Method(0x80217a4)
   public static void FUN_80217a4(final int r0) {
-    int r1;
-    int r3;
-    final int r5;
+    if(r0 != 0) {
+      final int r1 = MEMORY.ref(4, 0x8037230 + (ticks_3001800.get() >>> 1 & 0x7) * 0x4).get() / 0x100;
 
-    r1 = MEMORY.ref(4, 0x8037230 + (ticks_3001800.get() >>> 1 & 0x7) * 0x4).get();
-    CPU.sp().value -= 0x8;
-    r5 = r0;
-    r1 = r1 / 0x100;
-    if(r5 != 0) {
-      r1 = r1 & 0xffff;
-      r3 = MEMORY.ref(4, CPU.sp().value).get() & ~0xffff | r1;
-      r3 = r3 & 0xffff;
-      r1 = r1 << 16;
-      r3 = r3 | r1;
-      MEMORY.ref(4, CPU.sp().value).setu(r3);
-      MEMORY.ref(4, CPU.sp().value + 0x4).and(~0xffff);
-      MEMORY.ref(1, r5 + 0x17).and(~0x3e).or((addRotScaleParams(CPU.sp().value) & 0x1f) << 1);
-      MEMORY.ref(1, r5 + 0x15).oru(0x3);
-      MEMORY.ref(2, r5 + 0x16).and(~0x1ff).or(MEMORY.ref(2, r5 + 0x6).getUnsigned() + 0xfff0 & 0x1ff);
-      MEMORY.ref(1, r5 + 0x14).setu(MEMORY.ref(1, r5 + 0x8).getUnsigned() + 0xf0);
-      MEMORY.ref(1, r5 + 0xf).setu(0xfc);
+      CPU.sp().value -= 0x8;
+      MEMORY.ref(2, CPU.sp().value).setu(r1 & 0xffff);
+      MEMORY.ref(2, CPU.sp().value + 0x2).setu(r1 & 0xffff);
+      MEMORY.ref(2, CPU.sp().value + 0x4).set(0);
+      MEMORY.ref(1, r0 + 0x17).and(~0x3e).or((addRotScaleParams(CPU.sp().value) & 0x1f) << 1);
+      CPU.sp().value += 0x8;
+
+      MEMORY.ref(1, r0 + 0x15).oru(0x3);
+      MEMORY.ref(2, r0 + 0x16).and(~0x1ff).or(MEMORY.ref(2, r0 + 0x6).getUnsigned() + 0xfff0 & 0x1ff);
+      MEMORY.ref(1, r0 + 0x14).setu(MEMORY.ref(1, r0 + 0x8).getUnsigned() + 0xf0);
+      MEMORY.ref(1, r0 + 0xf).setu(0xfc);
     }
 
     //LAB_8021840
-    CPU.sp().value += 0x8;
   }
 
   @Method(0x8028194)
@@ -1095,8 +1087,9 @@ public final class GoldenSun_802 {
     final ChoiceMenu98 menu = boardWramMallocHead_3001e50.offset(58 * 0x4).deref(4).cast(ChoiceMenu98::new);
 
     final int scaleVal = (MEMORY.ref(2, 0x80366f8 + (_3001e40.get() * 0x2 & 0x1f) * 0x2).getUnsigned() - 0x100) / 4 + 0x130;
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu((scaleVal & 0xffff) << 16 | scaleVal & 0xffff);
-    MEMORY.ref(4, CPU.sp().value + 0x8).setu(0);
+    MEMORY.ref(2, CPU.sp().value + 0x4).setu(scaleVal & 0xffff);
+    MEMORY.ref(2, CPU.sp().value + 0x6).setu(scaleVal & 0xffff);
+    MEMORY.ref(2, CPU.sp().value + 0x8).setu(0);
     final int rotScaleIndex = addRotScaleParams(CPU.sp().value + 0x4);
 
     //LAB_8028202
@@ -1449,7 +1442,7 @@ public final class GoldenSun_802 {
     }
 
     int r6 = 0;
-    int r5 = 0;
+    int initialChoice = 0;
 
     //LAB_8028a04
     if(r0 == 3) {
@@ -1462,7 +1455,7 @@ public final class GoldenSun_802 {
       r6 = 3;
     } else {
       //LAB_8028a1c
-      r5 = 1;
+      initialChoice = 1;
     }
 
     //LAB_8028a1e
@@ -1499,16 +1492,16 @@ public final class GoldenSun_802 {
     //LAB_8028a6e
     updateChoiceMenuLayout(0x11, 0x7, 0);
 
-    r5 = handleChoiceMenu(r5);
+    final int choice = handleChoiceMenu(initialChoice);
     deallocateChoiceMenu();
 
-    if(r5 >= 0) {
-      r5 = MEMORY.ref(1, 0x803740f + r5 + r6 * 0x6).get();
+    if(choice < 0) {
+      return -1;
     }
 
     //LAB_8028a94
     //LAB_8028a96
-    return r5;
+    return MEMORY.ref(1, 0x803740f + choice + r6 * 0x6).get();
   }
 
   @Method(0x8028df4)

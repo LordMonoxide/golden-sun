@@ -376,7 +376,7 @@ public final class Decompressed87795e8 {
 
         {
           //LAB_2008504
-          if(r6 == 0) {
+          if(r6 == 0) { // new game
             FUN_200944c();
             FUN_200941c(MEMORY.ref(1, 0x2000445).getUnsigned(), MEMORY.ref(1, 0x2000446).getUnsigned());
             r5 = 1;
@@ -412,429 +412,423 @@ public final class Decompressed87795e8 {
             FUN_200947c();
             MEMORY.ref(2, 0x2000400).setu(0x8);
             MEMORY.ref(2, 0x2000402).setu(0x14);
-          } else {
             //LAB_200857a
-            if(r6 == 1) {
-              //LAB_2008580
-              if(loadLoadGameMenu(0x1) == -1) {
+          } else if(r6 == 1) { // continue
+            //LAB_2008580
+            if(loadLoadGameMenu(0x1) == -1) {
+              continue jmp_20084a8;
+            }
+
+            setFlag(0x109);
+            FUN_200941c(MEMORY.ref(1, 0x2000445).getUnsigned(), MEMORY.ref(1, 0x2000446).getUnsigned());
+
+            if(MEMORY.ref(4, 0x2000240).get() != calculateBuildDate()) {
+              MEMORY.ref(2, 0x2000400).setu(MEMORY.ref(2, 0x2000404).getUnsigned());
+              MEMORY.ref(2, 0x2000402).setu(MEMORY.ref(2, 0x2000406).getUnsigned());
+              clearFlag(0x109);
+              //LAB_20085d8
+            } else if((heldButtonsLastFrame_3001ae8.get() & 0x208) == 0x208) {
+              if(FUN_2008384() != 0) {
+                FUN_2009394(0x6, 0x9);
                 continue jmp_20084a8;
               }
 
-              setFlag(0x109);
+              //LAB_20085f2
+              MEMORY.ref(2, 0x2000400).setu(MEMORY.ref(2, 0x2000404).getUnsigned());
+              MEMORY.ref(2, 0x2000402).setu(MEMORY.ref(2, 0x2000406).getUnsigned());
+              clearFlag(0x109);
+              setFlag(0x13e);
+              //LAB_200861e
+            } else if(MEMORY.ref(4, 0x2000244).get() != MEMORY.ref(4, 0x2001100).get()) {
+              FUN_2009394(0x4, 0x9);
+              FUN_2009394(0x5, 0xd);
+
+              if(FUN_2009424(0x1, 0, 0, 0) != 0) {
+                FUN_20093c4();
+                continue jmp_20084a8;
+              }
+
+              //LAB_2008656
+              FUN_20093c4();
+
+              if(FUN_2008384() != 0) {
+                FUN_2009394(0x6, 0x9);
+                continue jmp_20084a8;
+              }
+
+              //LAB_200866c
+              MEMORY.ref(2, 0x2000400).setu(MEMORY.ref(2, 0x2000404).getUnsigned());
+              MEMORY.ref(2, 0x2000402).setu(MEMORY.ref(2, 0x2000406).getUnsigned());
+              clearFlag(0x109);
+              setFlag(0x13f);
+            }
+
+            //LAB_2008696
+            clearFlag(0x106);
+          } else {
+            //LAB_20086a0
+            if(r6 == 2) {
+              r0 = FUN_20093fc();
+              continue jmp_20084a8;
+            }
+
+            //LAB_20086aa
+            if(r6 == 3) {
+              r0 = FUN_2009404();
+              continue jmp_20084a8;
+            }
+
+            //LAB_2008714
+            if(r6 == 4) {
+              if(loadLoadGameMenu(0x4) == -1) {
+                continue jmp_20084a8;
+              }
+
+              //LAB_200872a
+              _2000434.set(0);
+
+              if(FUN_2009454(0x952) != 0) {
+                FUN_200948c();
+                FUN_2009474(0);
+                FUN_2009474(1);
+                FUN_2009474(2);
+                FUN_2009474(3);
+                FUN_200946c(0);
+                FUN_200946c(1);
+                FUN_200946c(2);
+                FUN_200946c(3);
+              }
+
+              //LAB_2008774
               FUN_200941c(MEMORY.ref(1, 0x2000445).getUnsigned(), MEMORY.ref(1, 0x2000446).getUnsigned());
-
-              if(MEMORY.ref(4, 0x2000240).get() != FUN_2009484()) {
-                MEMORY.ref(2, 0x2000400).setu(MEMORY.ref(2, 0x2000404).getUnsigned());
-                MEMORY.ref(2, 0x2000402).setu(MEMORY.ref(2, 0x2000406).getUnsigned());
-                clearFlag(0x109);
-              } else {
-                //LAB_20085d8
-                if((heldButtonsLastFrame_3001ae8.get() & 0x208) == 0x208) {
-                  if(FUN_2008384() != 0) {
-                    FUN_2009394(0x6, 0x9);
-                    continue jmp_20084a8;
-                  }
-
-                  //LAB_20085f2
-                  MEMORY.ref(2, 0x2000400).setu(MEMORY.ref(2, 0x2000404).getUnsigned());
-                  MEMORY.ref(2, 0x2000402).setu(MEMORY.ref(2, 0x2000406).getUnsigned());
-                  clearFlag(0x109);
-                  setFlag(0x13e);
-                } else {
-                  //LAB_200861e
-                  if(MEMORY.ref(4, 0x2000244).get() != MEMORY.ref(4, 0x2001100).get()) {
-                    FUN_2009394(0x4, 0x9);
-                    FUN_2009394(0x5, 0xd);
-
-                    if(FUN_2009424(0x1, 0, 0, 0) != 0) {
-                      FUN_20093c4();
-                      continue jmp_20084a8;
-                    }
-
-                    //LAB_2008656
-                    FUN_20093c4();
-
-                    if(FUN_2008384() != 0) {
-                      FUN_2009394(0x6, 0x9);
-                      continue jmp_20084a8;
-                    }
-
-                    //LAB_200866c
-                    MEMORY.ref(2, 0x2000400).setu(MEMORY.ref(2, 0x2000404).getUnsigned());
-                    MEMORY.ref(2, 0x2000402).setu(MEMORY.ref(2, 0x2000406).getUnsigned());
-                    clearFlag(0x109);
-                    setFlag(0x13f);
-                  }
-                }
-              }
-
-              //LAB_2008696
+              clearFlag(0x109);
               clearFlag(0x106);
+              setFlag(0x17e);
+              MEMORY.ref(1, 0x3001ca0).setu(0x1);
+              FUN_20094a4(0xbe, 0x1);
             } else {
-              //LAB_20086a0
-              if(r6 == 2) {
-                r0 = FUN_20093fc();
+              //LAB_20087b2
+              if(r6 != 5) {
                 continue jmp_20084a8;
               }
 
-              //LAB_20086aa
-              if(r6 == 3) {
-                r0 = FUN_2009404();
-                continue jmp_20084a8;
-              }
-
-              //LAB_2008714
-              if(r6 == 4) {
-                if(loadLoadGameMenu(0x4) == -1) {
+              jmp_20087b8:
+              while(true) {
+                if(loadLoadGameMenu(0x5) == -1) {
                   continue jmp_20084a8;
                 }
 
-                //LAB_200872a
-                _2000434.set(0);
-
-                if(FUN_2009454(0x952) != 0) {
-                  FUN_200948c();
-                  FUN_2009474(0);
-                  FUN_2009474(1);
-                  FUN_2009474(2);
-                  FUN_2009474(3);
-                  FUN_200946c(0);
-                  FUN_200946c(1);
-                  FUN_200946c(2);
-                  FUN_200946c(3);
-                }
-
-                //LAB_2008774
+                //LAB_20087ca
                 FUN_200941c(MEMORY.ref(1, 0x2000445).getUnsigned(), MEMORY.ref(1, 0x2000446).getUnsigned());
-                clearFlag(0x109);
-                clearFlag(0x106);
-                setFlag(0x17e);
-                MEMORY.ref(1, 0x3001ca0).setu(0x1);
-                FUN_20094a4(0xbe, 0x1);
-              } else {
-                //LAB_20087b2
-                if(r6 != 5) {
-                  continue jmp_20084a8;
-                }
 
-                jmp_20087b8:
-                while(true) {
-                  if(loadLoadGameMenu(0x5) == -1) {
-                    continue jmp_20084a8;
-                  }
-
-                  //LAB_20087ca
-                  FUN_200941c(MEMORY.ref(1, 0x2000445).getUnsigned(), MEMORY.ref(1, 0x2000446).getUnsigned());
-
-                  //LAB_20087dc
+                //LAB_20087dc
+                do {
                   do {
-                    do {
-                      r6 = FUN_20093d4(0);
-                      if(r6 == -1) {
-                        continue jmp_20087b8;
-                      }
-                      if(r6 == 1) {
-                        break;
-                      }
-                      //LAB_20089cc
-                      if(r6 != 0) {
-                        FUN_2009324(0x12c);
-                        continue jmp_20084a8;
-                      }
+                    r6 = FUN_20093d4(0);
+                    if(r6 == -1) {
+                      continue jmp_20087b8;
+                    }
+                    if(r6 == 1) {
+                      break;
+                    }
+                    //LAB_20089cc
+                    if(r6 != 0) {
+                      FUN_2009324(0x12c);
+                      continue jmp_20084a8;
+                    }
 
-                      jmp_20089d2:
-                      while(true) {
-                        r6 = FUN_20093d4(0x1);
-                        if(r6 != -1) {
-                          //LAB_20089e4
-                          r5 = CPU.sp().value + 0x15c;
-                          r0 = FUN_2008de4(0, r6, r5);
-                          CPU.r9().value = r0;
-                          r0 = FUN_20092c8(r0, r5);
-                          r3 = CPU.r9().value;
-                          r0 = CPU.lslT(r0, 16);
-                          r3 = CPU.addT(r3, 0x1);
-                          r2 = CPU.asrT(r0, 16);
-                          r1 = CPU.r9().value;
-                          r0 = CPU.lsrT(r0, 24);
-                          MEMORY.ref(1, r5 + r1).setu(r0);
-                          MEMORY.ref(1, r5 + r3).setu(r2);
-                          CPU.r9().value = FUN_20091e4(r5, CPU.r9().value + 0x2, CPU.sp().value + 0x1c);
-                          loadUiTextures();
-                          FUN_2009384(0x5, 0x4, 0x14, 0xc, 0x2);
-                          CPU.r10().value = 0x5;
-                          CPU.r11().value = 0;
-                          CPU.r8().value = FUN_2009314(CPU.r9().value, 0x32) + 0x1;
-                          FUN_2009384(0xa, 0, 0xa, 0x4, 0x2);
-                          r5 = MEMORY.ref(4, 0x2008b24).get();
-                          MEMORY.ref(4, CPU.sp().value + 0xc).setu(0xa);
-                          FUN_20093ac(r5, MEMORY.ref(4, CPU.sp().value + 0xc).get(), 0x6, 0x4);
-                          r7 = 0x1;
-                          if(CPU.r8().value == 1) {
-                            FUN_2009384(0x5, 0x10, 0x14, 0x3, 0x2);
-                            MEMORY.ref(4, CPU.sp().value + 0x10).setu(0x5);
-                            FUN_20093b4(r5 - 0x2, MEMORY.ref(4, CPU.sp().value + 0x10).get(), 0x50, 0);
-                          } else {
-                            //LAB_2008a82
-                            FUN_2009384(0x1, 0x10, 0x1c, 0x3, 0x2);
-                            MEMORY.ref(4, CPU.sp().value + 0x10).setu(0x1);
-                            FUN_20093b4(r5 - 0x1, MEMORY.ref(4, CPU.sp().value + 0x10).get(), 0, 0);
+                    jmp_20089d2:
+                    while(true) {
+                      r6 = FUN_20093d4(0x1);
+                      if(r6 != -1) {
+                        //LAB_20089e4
+                        r5 = CPU.sp().value + 0x15c;
+                        r0 = FUN_2008de4(0, r6, r5);
+                        CPU.r9().value = r0;
+                        r0 = FUN_20092c8(r0, r5);
+                        r3 = CPU.r9().value;
+                        r0 = CPU.lslT(r0, 16);
+                        r3 = CPU.addT(r3, 0x1);
+                        r2 = CPU.asrT(r0, 16);
+                        r1 = CPU.r9().value;
+                        r0 = CPU.lsrT(r0, 24);
+                        MEMORY.ref(1, r5 + r1).setu(r0);
+                        MEMORY.ref(1, r5 + r3).setu(r2);
+                        CPU.r9().value = FUN_20091e4(r5, CPU.r9().value + 0x2, CPU.sp().value + 0x1c);
+                        loadUiTextures();
+                        FUN_2009384(0x5, 0x4, 0x14, 0xc, 0x2);
+                        CPU.r10().value = 0x5;
+                        CPU.r11().value = 0;
+                        CPU.r8().value = FUN_2009314(CPU.r9().value, 0x32) + 0x1;
+                        FUN_2009384(0xa, 0, 0xa, 0x4, 0x2);
+                        r5 = MEMORY.ref(4, 0x2008b24).get();
+                        MEMORY.ref(4, CPU.sp().value + 0xc).setu(0xa);
+                        FUN_20093ac(r5, MEMORY.ref(4, CPU.sp().value + 0xc).get(), 0x6, 0x4);
+                        r7 = 0x1;
+                        if(CPU.r8().value == 1) {
+                          FUN_2009384(0x5, 0x10, 0x14, 0x3, 0x2);
+                          MEMORY.ref(4, CPU.sp().value + 0x10).setu(0x5);
+                          FUN_20093b4(r5 - 0x2, MEMORY.ref(4, CPU.sp().value + 0x10).get(), 0x50, 0);
+                        } else {
+                          //LAB_2008a82
+                          FUN_2009384(0x1, 0x10, 0x1c, 0x3, 0x2);
+                          MEMORY.ref(4, CPU.sp().value + 0x10).setu(0x1);
+                          FUN_20093b4(r5 - 0x1, MEMORY.ref(4, CPU.sp().value + 0x10).get(), 0, 0);
+                        }
+
+                        //LAB_2008a9e
+                        FUN_200942c(0x6006000);
+                        FUN_200939c(CPU.r10().value);
+
+                        //LAB_2008aaa
+                        do {
+                          FUN_2009434(0x6002500);
+                          if((pressedButtons_3001c94.get() & 0x2) != 0) {
+                            //LAB_20089a6
+                            playSound(0x71);
+                            FUN_200939c(CPU.r10().value);
+                            FUN_200938c(CPU.r10().value, 0x2);
+                            FUN_200938c(MEMORY.ref(4, CPU.sp().value + 0x10).get(), 0x2);
+                            FUN_200938c(MEMORY.ref(4, CPU.sp().value + 0xc).get(), 0x2);
+                            continue jmp_20089d2;
                           }
 
-                          //LAB_2008a9e
-                          FUN_200942c(0x6006000);
-                          FUN_200939c(CPU.r10().value);
-
-                          //LAB_2008aaa
-                          do {
-                            FUN_2009434(0x6002500);
-                            if((pressedButtons_3001c94.get() & 0x2) != 0) {
-                              //LAB_20089a6
-                              playSound(0x71);
+                          //LAB_2008abe
+                          if((pressedButtons_3001c94.get() & 0x1) != 0) {
+                            CPU.r11().value += 0x1;
+                            r7 = 0x1;
+                            if(CPU.r11().value == CPU.r8().value) {
+                              //LAB_2008474
+                              playSound(0x70);
                               FUN_200939c(CPU.r10().value);
                               FUN_200938c(CPU.r10().value, 0x2);
                               FUN_200938c(MEMORY.ref(4, CPU.sp().value + 0x10).get(), 0x2);
                               FUN_200938c(MEMORY.ref(4, CPU.sp().value + 0xc).get(), 0x2);
-                              continue jmp_20089d2;
+                              FUN_2009324(0x1);
+                              continue jmp_20084a8;
                             }
 
-                            //LAB_2008abe
-                            if((pressedButtons_3001c94.get() & 0x1) != 0) {
-                              CPU.r11().value += 0x1;
-                              r7 = 0x1;
-                              if(CPU.r11().value == CPU.r8().value) {
-                                //LAB_2008474
-                                playSound(0x70);
-                                FUN_200939c(CPU.r10().value);
-                                FUN_200938c(CPU.r10().value, 0x2);
-                                FUN_200938c(MEMORY.ref(4, CPU.sp().value + 0x10).get(), 0x2);
-                                FUN_200938c(MEMORY.ref(4, CPU.sp().value + 0xc).get(), 0x2);
-                                FUN_2009324(0x1);
-                                continue jmp_20084a8;
-                              }
-
-                              //LAB_2008ad2
+                            //LAB_2008ad2
+                            playSound(0x6f);
+                          } else {
+                            //LAB_2008ada
+                            if((pressedButtons_3001c94.get() & 0x20) != 0 && CPU.r8().value > 1) {
                               playSound(0x6f);
+                              CPU.r11().value = FUN_200931c(CPU.r11().value + CPU.r8().value - 1, CPU.r8().value);
+                              r7 = 0x1;
                             } else {
-                              //LAB_2008ada
-                              if((pressedButtons_3001c94.get() & 0x20) != 0 && CPU.r8().value > 1) {
-                                playSound(0x6f);
-                                CPU.r11().value = FUN_200931c(CPU.r11().value + CPU.r8().value - 1, CPU.r8().value);
-                                r7 = 0x1;
-                              } else {
-                                //LAB_2008b30
-                                if((pressedButtons_3001c94.get() & 0x10) != 0) {
-                                  if(CPU.r8().value > 1) {
-                                    playSound(0x6f);
-                                    CPU.r11().value = FUN_200931c(CPU.r11().value + CPU.r8().value + 1, CPU.r8().value);
-                                    r7 = 0x1;
-                                  }
+                              //LAB_2008b30
+                              if((pressedButtons_3001c94.get() & 0x10) != 0) {
+                                if(CPU.r8().value > 1) {
+                                  playSound(0x6f);
+                                  CPU.r11().value = FUN_200931c(CPU.r11().value + CPU.r8().value + 1, CPU.r8().value);
+                                  r7 = 0x1;
                                 }
                               }
                             }
-
-                            //LAB_2008b58
-                            if(r7 == 1) {
-                              //LAB_2008b5e
-                              FUN_200939c(CPU.r10().value);
-                              r5 = 0x2;
-
-                              //LAB_2008b68
-                              for(r7 = 0; r7 < 4; r7++) {
-                                FUN_20093a4(CPU.r10().value, 0, r5, 0x12, r5);
-                                r5 += 0x2;
-                              }
-
-                              r3 = CPU.r8().value;
-                              if(r3 > 1) {
-                                r7 = 0;
-                                if(r3 != 0) {
-                                  r5 = -r3 + 0x12;
-
-                                  //LAB_2008b92
-                                  do {
-                                    if(r7 == CPU.r11().value) {
-                                      r1 = r7 + 0xf30b;
-                                    } else {
-                                      r1 = r7 + 0xf301;
-                                    }
-
-                                    //LAB_2008b9e
-                                    FUN_20093e4(CPU.r10().value, r1, r5, -1, 0);
-                                    r5++;
-                                    r7++;
-                                  } while(r7 != CPU.r8().value);
-                                }
-
-                                //LAB_2008bb4
-                                FUN_20093e4(CPU.r10().value, 0xf128, 0x11 - CPU.r8().value, -1, 0);
-                                FUN_20093e4(CPU.r10().value, 0xf129, 0x12, -1, 0);
-                                r3 = MEMORY.ref(2, CPU.r10().value + 0xe).getUnsigned() >>> 2;
-                                boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new)._ea3.or(0x2 << r3);
-                              }
-
-                              //LAB_2008bf2
-                              r0 = CPU.r11().value * 50;
-                              r6 = r0 + 50;
-                              if(r6 > CPU.r9().value) {
-                                r6 = CPU.r9().value;
-                              }
-
-                              //LAB_2008c02
-                              r7 = r0;
-                              r4 = 0;
-
-                              //LAB_2008c0a
-                              while(r7 != r6) {
-                                FUN_20082f4(MEMORY.ref(1, CPU.sp().value + 0x1c + r7).getUnsigned() & 0x3f, CPU.sp().value + 0x18);
-                                r0 = FUN_200931c(r7, 0xa);
-                                r5 = FUN_200931c(r4, 0xa);
-                                r3 = FUN_2009314(r4, 0xa) << 4;
-                                if(r0 > 4) {
-                                  r2 = r5 * 0xc + 0x12;
-                                } else {
-                                  //LAB_2008c4a
-                                  r2 = r5 * 0xc + 0x8;
-                                }
-
-                                //LAB_2008c6c
-                                FUN_20093bc(CPU.sp().value + 0x18, CPU.r10().value, r2, r3 + 0x2);
-                                r7++;
-                                r4++;
-                              }
-
-                              //LAB_2008c80
-                              r7 = 0;
-                            }
-
-                            //LAB_2008c82
-                            FUN_2009324(0x1);
-                          } while(true);
-
-                          // unreachable break jmp_2008c96;
-                        }
-
-                        break;
-                      }
-                    } while(true);
-
-                    //LAB_20087f2
-                    r6 = FUN_2009384(0x6, 0x5, 0x12, 0x8, 0x2);
-                    FUN_20093ac(0xc83, r6, 0, 0x4);
-                    FUN_20093ac(0xc84, r6, 0, 0x10);
-                    FUN_20093ac(0xc86, r6, 0, 0x24);
-                    FUN_200936c();
-                    FUN_2009324(0xa);
-
-                    r2 = 0x2002224;
-                    MEMORY.ref(2, r2).setu(0x30);
-                    MEMORY.ref(2, r2 + 0x2).setu(0x30);
-                    MEMORY.ref(2, r2 + 0x4).setu(0x30);
-                    MEMORY.ref(2, r2 + 0x6).setu(0x30);
-
-                    r3 = 0x2002024;
-                    r7 = 0x0;
-                    r1 = 0x0;
-
-                    //LAB_200884c
-                    do {
-                      MEMORY.ref(2, r3).setu(0x30);
-                      MEMORY.ref(2, r3 + 0x2).setu(0x30);
-                      MEMORY.ref(2, r3 + 0x4).setu(0x30);
-                      MEMORY.ref(2, r3 + 0x6).setu(0x30);
-                      r3 += 0x18;
-                      r1++;
-                    } while(r1 != 0x4);
-
-                    jmp_20088e0:
-                    {
-                      //LAB_200888c
-                      while((pressedButtons_3001c94.get() & 0x2) == 0) {
-                        if((MEMORY.ref(2, 0x3001f64).getUnsigned() & 0x3) == 0x3) {
-                          r3 = MEMORY.ref(4, 0x4000128).get(); // SIOCNT
-                          r3 = r3 << 26 >>> 30 ^ 0x1;
-                          r2 = 0x2002024 + r3 * 0x18;
-                          if(MEMORY.ref(2, r2).getUnsigned() == 0x55 && MEMORY.ref(2, r2 + 0x2).getUnsigned() == 0x56 && MEMORY.ref(2, r2 + 0x4).getUnsigned() == 0x54 && MEMORY.ref(2, r2 + 0x6).getUnsigned() == 0x53) {
-                            r7 = 0x1;
-                            break jmp_20088e0;
                           }
-                        }
 
-                        //LAB_20088c8
-                        FUN_2009324(0x1);
+                          //LAB_2008b58
+                          if(r7 == 1) {
+                            //LAB_2008b5e
+                            FUN_200939c(CPU.r10().value);
+                            r5 = 0x2;
 
-                        //LAB_20088ce
+                            //LAB_2008b68
+                            for(r7 = 0; r7 < 4; r7++) {
+                              FUN_20093a4(CPU.r10().value, 0, r5, 0x12, r5);
+                              r5 += 0x2;
+                            }
+
+                            r3 = CPU.r8().value;
+                            if(r3 > 1) {
+                              r7 = 0;
+                              if(r3 != 0) {
+                                r5 = -r3 + 0x12;
+
+                                //LAB_2008b92
+                                do {
+                                  if(r7 == CPU.r11().value) {
+                                    r1 = r7 + 0xf30b;
+                                  } else {
+                                    r1 = r7 + 0xf301;
+                                  }
+
+                                  //LAB_2008b9e
+                                  FUN_20093e4(CPU.r10().value, r1, r5, -1, 0);
+                                  r5++;
+                                  r7++;
+                                } while(r7 != CPU.r8().value);
+                              }
+
+                              //LAB_2008bb4
+                              FUN_20093e4(CPU.r10().value, 0xf128, 0x11 - CPU.r8().value, -1, 0);
+                              FUN_20093e4(CPU.r10().value, 0xf129, 0x12, -1, 0);
+                              r3 = MEMORY.ref(2, CPU.r10().value + 0xe).getUnsigned() >>> 2;
+                              boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new)._ea3.or(0x2 << r3);
+                            }
+
+                            //LAB_2008bf2
+                            r0 = CPU.r11().value * 50;
+                            r6 = r0 + 50;
+                            if(r6 > CPU.r9().value) {
+                              r6 = CPU.r9().value;
+                            }
+
+                            //LAB_2008c02
+                            r7 = r0;
+                            r4 = 0;
+
+                            //LAB_2008c0a
+                            while(r7 != r6) {
+                              FUN_20082f4(MEMORY.ref(1, CPU.sp().value + 0x1c + r7).getUnsigned() & 0x3f, CPU.sp().value + 0x18);
+                              r0 = FUN_200931c(r7, 0xa);
+                              r5 = FUN_200931c(r4, 0xa);
+                              r3 = FUN_2009314(r4, 0xa) << 4;
+                              if(r0 > 4) {
+                                r2 = r5 * 0xc + 0x12;
+                              } else {
+                                //LAB_2008c4a
+                                r2 = r5 * 0xc + 0x8;
+                              }
+
+                              //LAB_2008c6c
+                              FUN_20093bc(CPU.sp().value + 0x18, CPU.r10().value, r2, r3 + 0x2);
+                              r7++;
+                              r4++;
+                            }
+
+                            //LAB_2008c80
+                            r7 = 0;
+                          }
+
+                          //LAB_2008c82
+                          FUN_2009324(0x1);
+                        } while(true);
+
+                        // unreachable break jmp_2008c96;
                       }
 
-                      playSound(0x71);
+                      break;
+                    }
+                  } while(true);
+
+                  //LAB_20087f2
+                  r6 = FUN_2009384(0x6, 0x5, 0x12, 0x8, 0x2);
+                  FUN_20093ac(0xc83, r6, 0, 0x4);
+                  FUN_20093ac(0xc84, r6, 0, 0x10);
+                  FUN_20093ac(0xc86, r6, 0, 0x24);
+                  FUN_200936c();
+                  FUN_2009324(0xa);
+
+                  r2 = 0x2002224;
+                  MEMORY.ref(2, r2).setu(0x30);
+                  MEMORY.ref(2, r2 + 0x2).setu(0x30);
+                  MEMORY.ref(2, r2 + 0x4).setu(0x30);
+                  MEMORY.ref(2, r2 + 0x6).setu(0x30);
+
+                  r3 = 0x2002024;
+                  r7 = 0x0;
+                  r1 = 0x0;
+
+                  //LAB_200884c
+                  do {
+                    MEMORY.ref(2, r3).setu(0x30);
+                    MEMORY.ref(2, r3 + 0x2).setu(0x30);
+                    MEMORY.ref(2, r3 + 0x4).setu(0x30);
+                    MEMORY.ref(2, r3 + 0x6).setu(0x30);
+                    r3 += 0x18;
+                    r1++;
+                  } while(r1 != 0x4);
+
+                  jmp_20088e0:
+                  {
+                    //LAB_200888c
+                    while((pressedButtons_3001c94.get() & 0x2) == 0) {
+                      if((MEMORY.ref(2, 0x3001f64).getUnsigned() & 0x3) == 0x3) {
+                        r3 = MEMORY.ref(4, 0x4000128).get(); // SIOCNT
+                        r3 = r3 << 26 >>> 30 ^ 0x1;
+                        r2 = 0x2002024 + r3 * 0x18;
+                        if(MEMORY.ref(2, r2).getUnsigned() == 0x55 && MEMORY.ref(2, r2 + 0x2).getUnsigned() == 0x56 && MEMORY.ref(2, r2 + 0x4).getUnsigned() == 0x54 && MEMORY.ref(2, r2 + 0x6).getUnsigned() == 0x53) {
+                          r7 = 0x1;
+                          break jmp_20088e0;
+                        }
+                      }
+
+                      //LAB_20088c8
+                      FUN_2009324(0x1);
+
+                      //LAB_20088ce
                     }
 
-                    //LAB_20088e0
-                    FUN_200938c(r6, 0x2);
-                    if(r7 == 0) {
-                      //LAB_20088ee
-                      r6 = FUN_2009384(0x5, 0xa, 0x14, 0x4, 0x2);
-                      FUN_20093ac(0xc85, r6, 0, 0x4);
-                      FUN_2009324(0xa);
-                      FUN_200937c(0x2000000, 0x1004);
-                      FUN_2009324(0xa);
-                      r5 = 0x0;
-                      r4 = 0x1;
-                      r7 = 0x0;
+                    playSound(0x71);
+                  }
+
+                  //LAB_20088e0
+                  FUN_200938c(r6, 0x2);
+                  if(r7 == 0) {
+                    //LAB_20088ee
+                    r6 = FUN_2009384(0x5, 0xa, 0x14, 0x4, 0x2);
+                    FUN_20093ac(0xc85, r6, 0, 0x4);
+                    FUN_2009324(0xa);
+                    FUN_200937c(0x2000000, 0x1004);
+                    FUN_2009324(0xa);
+                    r5 = 0x0;
+                    r4 = 0x1;
+                    r7 = 0x0;
+                    r5++;
+                    if((MEMORY.ref(2, 0x3001f64).getUnsigned() & 0x3) == 0x3) {
+                      r5 = 0;
+                    }
+
+                    //LAB_2008950
+                    //LAB_2008956
+                    //LAB_200892a
+                    while(MEMORY.ref(4, 0x2002080).get() != 0) {
+                      FUN_2009324(0x1);
+                      r7++;
+
+                      //LAB_200893a
+                      if(r7 >= 600000) {
+                        break;
+                      }
+
                       r5++;
                       if((MEMORY.ref(2, 0x3001f64).getUnsigned() & 0x3) == 0x3) {
                         r5 = 0;
                       }
 
                       //LAB_2008950
+                      if(r5 == 0xa) {
+                        r4 = 0;
+                        break;
+                      }
+
                       //LAB_2008956
-                      //LAB_200892a
-                      while(MEMORY.ref(4, 0x2002080).get() != 0) {
-                        FUN_2009324(0x1);
-                        r7++;
-
-                        //LAB_200893a
-                        if(r7 >= 600000) {
-                          break;
-                        }
-
-                        r5++;
-                        if((MEMORY.ref(2, 0x3001f64).getUnsigned() & 0x3) == 0x3) {
-                          r5 = 0;
-                        }
-
-                        //LAB_2008950
-                        if(r5 == 0xa) {
-                          r4 = 0;
-                          break;
-                        }
-
-                        //LAB_2008956
-                      }
-
-                      //LAB_200895e
-                      if(r4 == 0) {
-                        FUN_200939c(r6);
-                        FUN_20093ac(0xc87, r6, 0, 0x4);
-
-                        //LAB_2008978
-                        do {
-                          FUN_2009324(0x1);
-                        } while((pressedButtons_3001c94.get() & 0x1) == 0);
-                      }
-
-                      //LAB_2008986
-                      FUN_2009324(0xa);
-                      FUN_2009374();
-                      FUN_2009324(0xa);
-                      FUN_200939c(r6);
-                      FUN_200938c(r6, 0x2);
-                      continue jmp_20084a8;
                     }
-                  } while(true);
 
-                  // unreachable break;
-                }
+                    //LAB_200895e
+                    if(r4 == 0) {
+                      FUN_200939c(r6);
+                      FUN_20093ac(0xc87, r6, 0, 0x4);
+
+                      //LAB_2008978
+                      do {
+                        FUN_2009324(0x1);
+                      } while((pressedButtons_3001c94.get() & 0x1) == 0);
+                    }
+
+                    //LAB_2008986
+                    FUN_2009324(0xa);
+                    FUN_2009374();
+                    FUN_2009324(0xa);
+                    FUN_200939c(r6);
+                    FUN_200938c(r6, 0x2);
+                    continue jmp_20084a8;
+                  }
+                } while(true);
+
+                // unreachable break;
               }
             }
           }
@@ -1500,7 +1494,7 @@ public final class Decompressed87795e8 {
 
   /** {@link GoldenSun_807#calculateBuildDate_} */
   @Method(0x2009484)
-  public static int FUN_2009484() {
+  public static int calculateBuildDate() {
     return (int)MEMORY.call(0x8077300);
   }
 
