@@ -958,6 +958,20 @@ public final class GoldenSun_801 {
     return r0;
   }
 
+  @Method(0x8011e50)
+  public static int FUN_8011e50(int r0, final int r1, final int r2) {
+    CPU.cmpT(r1, 0x7);
+    if(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()) { // unsigned <=
+      r0 = MEMORY.ref(1, r0).get();
+    } else {
+      //LAB_8011e5e
+      r0 = MEMORY.ref(1, r0 + 0x1).get();
+    }
+
+    //LAB_8011e64
+    return r0 << 19;
+  }
+
   @Method(0x8011f54)
   public static int FUN_8011f54(final int r0, final int r1, final int r2) {
     final int r1_0 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
