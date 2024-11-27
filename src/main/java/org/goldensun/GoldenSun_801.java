@@ -56,6 +56,8 @@ import static org.goldensun.GoldenSun.mallocSlotBoard;
 import static org.goldensun.GoldenSun.mallocSlotChip;
 import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.setMallocAddress;
+import static org.goldensun.GoldenSunVars.entranceId_2000402;
+import static org.goldensun.GoldenSunVars.mapId_2000400;
 import static org.goldensun.GoldenSunVars.playerMapActorIndex_2000434;
 import static org.goldensun.GoldenSunVars._200044c;
 import static org.goldensun.GoldenSunVars._3001c9c;
@@ -964,6 +966,24 @@ public final class GoldenSun_801 {
     return r0;
   }
 
+  @Method(0x8011e2c)
+  public static int FUN_8011e2c(int r0, int r1, int r2) {
+    int r3;
+    int r4;
+    r3 = CPU.addT(r0, 0x0);
+    r0 = MEMORY.ref(1, r3).get();
+    r4 = MEMORY.ref(1, r3 + 0x1).get();
+    r2 = CPU.lslT(r2, 4);
+    r1 = CPU.addT(r1, r2);
+    r0 = CPU.lslT(r0, 19);
+    r3 = MEMORY.ref(1, 0x80132fc + r1).getUnsigned();
+    r4 = CPU.lslT(r4, 19);
+    r4 = CPU.subT(r4, r0);
+    r3 = CPU.mulT(r3, r4);
+    r0 = CPU.addT(r0, r3);
+    return r0;
+  }
+
   @Method(0x8011e50)
   public static int FUN_8011e50(int r0, final int r1, final int r2) {
     CPU.cmpT(r1, 0x7);
@@ -976,6 +996,23 @@ public final class GoldenSun_801 {
 
     //LAB_8011e64
     return r0 << 19;
+  }
+
+  @Method(0x8011e6c)
+  public static int FUN_8011e6c(int r0, final int r1, final int r2) {
+    CPU.cmpT(r2, 0x7);
+    if(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()) { // unsigned <=
+      r0 = MEMORY.ref(1, r0).getUnsigned();
+    } else {
+      //LAB_8011e7a
+      r0 = MEMORY.ref(1, r0 + 0x1).getUnsigned();
+    }
+    r0 = CPU.lslT(r0, 24);
+    r0 = CPU.asrT(r0, 24);
+
+    //LAB_8011e80
+    r0 = CPU.lslT(r0, 19);
+    return r0;
   }
 
   @Method(0x8011f54)
@@ -1121,6 +1158,28 @@ public final class GoldenSun_801 {
     }
 
     //LAB_8012348
+  }
+
+  @Method(0x8012350)
+  public static void FUN_8012350() {
+    int r6;
+
+    final Map194 r5 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
+    r6 = 0;
+
+    //LAB_801235c
+    //LAB_801236e
+    while(r5._04.get() > 0xff || r5._08.get() > 0xff) {
+      sleep(1);
+
+      r6++;
+      if(r6 >= 0x12c) {
+        break;
+      }
+    }
+
+    //LAB_8012378
+    r5._0c.set(0);
   }
 
   @Method(0x8012388)
@@ -6064,7 +6123,7 @@ public final class GoldenSun_801 {
 
     MEMORY.ref(1, 0x200000c).setu(MEMORY.ref(1, r6 + 0xf).getUnsigned());
     MEMORY.ref(4, 0x2000010).setu(MEMORY.ref(4, 0x2000244).get());
-    MEMORY.ref(2, 0x200000e).setu(getRoomNameStringId_(MEMORY.ref(2, 0x2000400).get(), MEMORY.ref(2, 0x2000402).get()));
+    MEMORY.ref(2, 0x200000e).setu(getRoomNameStringId_(mapId_2000400.get(), entranceId_2000402.get()));
     MEMORY.ref(1, 0x200000d).setu(MEMORY.ref(1, r6 + 0x129).getUnsigned());
     MEMORY.ref(4, 0x2000014).setu(MEMORY.ref(4, 0x2000240 + 0x10).get());
     MEMORY.ref(1, 0x2000018).setu(getDjinnCount_(0));

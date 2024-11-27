@@ -429,8 +429,9 @@ public final class GoldenSun {
     setMallocAddress(addr);
 
     switch(pointerTableEntry) {
-      case 882 -> MEMORY.addFunctions(Decompressed877dd1c.class);
-      case 887 -> MEMORY.addFunctions(Decompressed8787e04.class);
+      case 882 -> MEMORY.addFunctions(Map3Overlay_877dd1c.class);
+      case 886 -> MEMORY.addFunctions(Map7Overlay_8786f0c.class);
+      case 887 -> MEMORY.addFunctions(Map8Overlay_8787e04.class);
     }
   }
 
@@ -2582,8 +2583,8 @@ public final class GoldenSun {
 
   /** {@link GoldenSun#FUN_800d14c} */
   @Method(0x8009150)
-  public static void FUN_8009150(final Actor70 r0, final int r1, final int r2, final int r3) {
-    MEMORY.call(0x800d14c, r0, r1, r2, r3);
+  public static void FUN_8009150(final Actor70 actor, final int x, final int y, final int z) {
+    MEMORY.call(0x800d14c, actor, x, y, z);
   }
 
   /** {@link GoldenSun#FUN_800ca6c} */
@@ -2644,6 +2645,12 @@ public final class GoldenSun {
   @Method(0x80091f0)
   public static void FUN_80091f0(final int r0, final int r1, final int r2) {
     MEMORY.call(0x8012330, r0, r1, r2);
+  }
+
+  /** {@link GoldenSun_801#FUN_8012350} */
+  @Method(0x80091f8)
+  public static void FUN_80091f8() {
+    MEMORY.call(0x8012350);
   }
 
   /** {@link GoldenSun#FUN_800c5b4} */

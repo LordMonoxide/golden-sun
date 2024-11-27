@@ -113,6 +113,7 @@ public final class GoldenSunVars {
   public static final Pointer<SupplierRef<Integer>> getTransitions_2008014 = MEMORY.ref(4, 0x2008014, Pointer.deferred(4, SupplierRef::new));
   public static final Pointer<SupplierRef<Integer>> getActors_200801c = MEMORY.ref(4, 0x200801c, Pointer.deferred(4, SupplierRef::new));
   public static final Pointer<SupplierRef<Integer>> getEvents_2008024 = MEMORY.ref(4, 0x2008024, Pointer.deferred(4, SupplierRef::new));
+  public static final Pointer<SupplierRef<Integer>> getLadders_200802c = MEMORY.ref(4, 0x200802c, Pointer.deferred(4, SupplierRef::new));
 
   /** Should always point to {@link GoldenSun#FUN_8006af8} */
   public static final Pointer<TriFunctionRef<Integer, Integer, Integer, Integer>> _2004c00 = MEMORY.ref(4, 0x2004c00, Pointer.deferred(4, TriFunctionRef::new));
