@@ -62,6 +62,7 @@ public final class GoldenSunVars {
 
   /** A specific actor index, maybe the player? */
   public static final IntRef playerMapActorIndex_2000434 = MEMORY.ref(4, 0x2000434, IntRef::new);
+  public static final ArrayRef<UnsignedByteRef> charIds_2000438 = MEMORY.ref(1, 0x2000438, ArrayRef.of(UnsignedByteRef.class, 8, 0x1, UnsignedByteRef::new));
 
   public static final UnsignedByteRef _2000445 = MEMORY.ref(1, 0x2000445, UnsignedByteRef::new);
   public static final UnsignedByteRef _2000446 = MEMORY.ref(1, 0x2000446, UnsignedByteRef::new);

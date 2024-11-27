@@ -2687,7 +2687,7 @@ public final class GoldenSun {
 
   /** {@link GoldenSun_801#FUN_80122c8} */
   @Method(0x8009268)
-  public static int FUN_8009268(final int r0, final int r1) {
+  public static int FUN_8009268(final Vec3 r0, final int r1) {
     return (int)MEMORY.call(0x80122c8, r0, r1);
   }
 

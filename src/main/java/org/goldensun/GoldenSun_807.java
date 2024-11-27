@@ -9,6 +9,7 @@ import static org.goldensun.GoldenSun.getPointerTableEntry;
 import static org.goldensun.GoldenSun.mallocBoard;
 import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.setMallocAddress;
+import static org.goldensun.GoldenSunVars.charIds_2000438;
 import static org.goldensun.GoldenSunVars.playerMapActorIndex_2000434;
 import static org.goldensun.GoldenSunVars._200044c;
 import static org.goldensun.GoldenSunVars.lastSaveSlot_2002004;
@@ -45,15 +46,16 @@ public final class GoldenSun_807 {
     MEMORY.call(0x8077428, r0);
   }
 
+  /** {@link GoldenSun_807#getAbility} */
   @Method(0x8077080)
-  public static int FUN_8077080(final int r0) {
+  public static int getAbility_(final int r0) {
     return (int)MEMORY.call(0x8078b9c, r0);
   }
 
-  /** {@link GoldenSun_807#FUN_8078bc0} */
+  /** {@link GoldenSun_807#hasAbility} */
   @Method(0x8077090)
-  public static int FUN_8077090(final int r0, final int r1) {
-    return (int)MEMORY.call(0x8078bc0, r0, r1);
+  public static int hasAbility_(final int charOrMonsterId, final int ability) {
+    return (int)MEMORY.call(0x8078bc0, charOrMonsterId, ability);
   }
 
   @Method(0x8077098)
@@ -79,10 +81,10 @@ public final class GoldenSun_807 {
     MEMORY.call(0x8079374, r0);
   }
 
-  /** {@link GoldenSun_807#FUN_80783dc} */
+  /** {@link GoldenSun_807#addPp} */
   @Method(0x8077120)
-  public static int FUN_8077120(final int r0, final int r1) {
-    return (int)MEMORY.call(0x80783dc, r0, r1);
+  public static int addPp_(final int charId, final int amount) {
+    return (int)MEMORY.call(0x80783dc, charId, amount);
   }
 
   /** {@link GoldenSun_807#getCharCount} */
@@ -160,7 +162,7 @@ public final class GoldenSun_807 {
     //LAB_8077368
     int r6 = 0;
     for(int r5 = 0; r5 < r7; r5++) {
-      r6 += MEMORY.ref(1, getCharOrMonsterData(MEMORY.ref(1, 0x2000438 + r5).getUnsigned()) + 0xf).getUnsigned();
+      r6 += MEMORY.ref(1, getCharOrMonsterData(charIds_2000438.get(r5).get()) + 0xf).getUnsigned();
     }
 
     //LAB_807737e
@@ -393,7 +395,7 @@ public final class GoldenSun_807 {
         if(!CPU.cpsr().getZero()) { // !=
           //LAB_8077564
           r0 = MEMORY.ref(2, r7 + r1).getUnsigned();
-          r0 = FUN_8078414(r0);
+          r0 = getItem(r0);
           r2 = MEMORY.ref(1, r0 + 0x3).getUnsigned();
           r3 = CPU.movT(0, 0x1);
           r3 = CPU.andT(r3, r2);
@@ -737,7 +739,7 @@ public final class GoldenSun_807 {
         CPU.cmpT(r3, 0x0);
         if(!CPU.cpsr().getZero()) { // !=
           r0 = MEMORY.ref(2, r7 + r1).getUnsigned();
-          r0 = FUN_8078414(r0);
+          r0 = getItem(r0);
           r1 = CPU.movT(0, 0x0);
           MEMORY.ref(4, r6 + 0x58).setu(r0);
           CPU.r8().value = r1;
@@ -1324,80 +1326,40 @@ public final class GoldenSun_807 {
 
   @Method(0x8077c10)
   public static void FUN_8077c10() {
-    int r0;
-    int r1;
-    int r2;
-    int r3;
-    int r5;
-    int r6;
-    int r7;
-
-    CPU.push(CPU.r11().value);
-    CPU.push(CPU.r10().value);
-    CPU.push(CPU.r9().value);
-    CPU.push(CPU.r8().value);
-
     clearFlag(0x167);
-    CPU.r10().value = getCharCount();
-    CPU.r8().value = 0;
-    CPU.cmpT(CPU.r8().value, CPU.r10().value);
-    if(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <
-      CPU.r9().value = 0x2000438;
-      CPU.r11().value = 0x200;
 
-      //LAB_8077c44
+    //LAB_8077c44
+    for(int charIndex = 0; charIndex < getCharCount(); charIndex++) {
+      final int charData = getCharOrMonsterData(charIds_2000438.get(charIndex).get());
+      int r2 = 0xd8;
+      int r1 = 0xe;
+
+      //LAB_8077c52
       do {
-        r2 = CPU.r9().value;
-        r0 = MEMORY.ref(1, r2).getUnsigned();
-        r0 = getCharOrMonsterData(r0);
-        r2 = CPU.movT(0, 0xd8);
-        r7 = CPU.addT(r0, 0x0);
-        r1 = CPU.movT(0, 0xe);
+        if((MEMORY.ref(2, charData + r2).getUnsigned() & 0x200) != 0) {
+          int r5 = getItem(MEMORY.ref(2, r2 + charData).getUnsigned()) + 0x18;
+          int r6 = 0x3;
 
-        //LAB_8077c52
-        do {
-          r3 = MEMORY.ref(2, r2 + r7).getUnsigned();
-          r0 = CPU.r11().value;
-          r3 = CPU.andT(r3, r0);
-          CPU.cmpT(r3, 0x0);
-          if(!CPU.cpsr().getZero()) { // !=
-            r0 = FUN_8078414(MEMORY.ref(2, r2 + r7).getUnsigned());
-            r5 = CPU.addT(r0, 0x0);
-            r5 = CPU.addT(r5, 0x18);
-            r6 = CPU.movT(0, 0x3);
+          //LAB_8077c70
+          do {
+            final int r3 = MEMORY.ref(1, r5).getUnsigned();
+            r5 += 0x4;
+            if(r3 == 0x1b) {
+              setFlag(0x167);
+            }
 
-            //LAB_8077c70
-            do {
-              r3 = MEMORY.ref(1, r5).getUnsigned();
-              r5 = CPU.addT(r5, 0x4);
-              CPU.cmpT(r3, 0x1b);
-              if(CPU.cpsr().getZero()) { // ==
-                setFlag(0x167);
-              }
+            //LAB_8077c86
+            r6--;
+          } while(r6 >= 0);
+        }
 
-              //LAB_8077c86
-              r6 = CPU.subT(r6, 0x1);
-              CPU.cmpT(r6, 0x0);
-            } while(CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()); // >=
-          }
-
-          //LAB_8077c8c
-          r1 = CPU.subT(r1, 0x1);
-          r2 = CPU.addT(r2, 0x2);
-          CPU.cmpT(r1, 0x0);
-        } while(CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()); // >=
-
-        CPU.r8().value++;
-        CPU.r9().value++;
-        CPU.cmpT(CPU.r8().value, CPU.r10().value);
-      } while(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()); // <
+        //LAB_8077c8c
+        r1--;
+        r2 += 0x2;
+      } while(r1 >= 0);
     }
 
     //LAB_8077c9e
-    CPU.r8().value = CPU.pop();
-    CPU.r9().value = CPU.pop();
-    CPU.r10().value = CPU.pop();
-    CPU.r11().value = CPU.pop();
   }
 
   @Method(0x8077cb8)
@@ -1618,36 +1580,29 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x80783dc)
-  public static int FUN_80783dc(final int r0, final int r1) {
-    final int r6 = getCharOrMonsterData(r0);
-    MEMORY.ref(2, r6 + 0x3a).setu(MathHelper.clamp(MEMORY.ref(2, r6 + 0x3a).get() + r1, 0, MEMORY.ref(2, r6 + 0x36).get()));
-    FUN_807822c(r0);
+  public static int addPp(final int charId, final int amount) {
+    final int r6 = getCharOrMonsterData(charId);
+    MEMORY.ref(2, r6 + 0x3a).setu(MathHelper.clamp(MEMORY.ref(2, r6 + 0x3a).get() + amount, 0, MEMORY.ref(2, r6 + 0x36).get()));
+    FUN_807822c(charId);
     return MEMORY.ref(2, r6 + 0x3a).get();
   }
 
   @Method(0x8078414)
-  public static int FUN_8078414(int r0) {
-    final int r2;
-    final int r3;
-    r2 = CPU.movT(0, 0x2c);
-    r3 = CPU.andT(r0, 0x1ff);
-    r0 = CPU.addT(r3, 0x0);
-    r0 = CPU.mulT(r0, r2);
-    r0 = CPU.addT(0x807b6a8, r0); //TODO
-    return r0;
+  public static int getItem(final int itemId) {
+    return 0x807b6a8 + (itemId & 0x1ff) * 0x2c;
   }
 
   @Method(0x807842c)
-  public static int FUN_807842c(int r0, final int r1) {
+  public static int isEquipped(int r0, final int itemId) {
     int r3;
     final int r5;
     int r6;
 
-    r5 = CPU.addT(r1, 0x0);
+    r5 = CPU.addT(itemId, 0x0);
     r0 = getCharOrMonsterData(r0);
     r6 = CPU.addT(r0, 0x0);
     r0 = CPU.addT(r5, 0x0);
-    r0 = FUN_8078414(r0);
+    r0 = getItem(r0);
     r3 = CPU.movT(0, 0x94);
     r3 = CPU.lslT(r3, 1);
     r6 = CPU.addT(r6, r3);
@@ -1669,7 +1624,7 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x8078588)
-  public static int FUN_8078588(int r0, int r1) {
+  public static int addItem(int r0, int r1) {
     int r2;
     int r3;
     int r4;
@@ -1680,7 +1635,7 @@ public final class GoldenSun_807 {
     r0 = getCharOrMonsterData(r0);
     r6 = CPU.addT(r0, 0x0);
     r0 = CPU.addT(r5, 0x0);
-    r0 = FUN_8078414(r0);
+    r0 = getItem(r0);
     r2 = MEMORY.ref(1, r0 + 0x3).getUnsigned();
     r3 = CPU.movT(0, 0x10);
     r3 = CPU.andT(r3, r2);
@@ -1767,7 +1722,7 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x8078708)
-  public static int FUN_8078708(int r0, int r1) {
+  public static int equipItem(int r0, int r1) {
     int r2;
     int r3;
     int r5;
@@ -1795,7 +1750,7 @@ public final class GoldenSun_807 {
     r5 = MEMORY.ref(2, r7 + r3).getUnsigned();
     r0 = CPU.r10().value;
     r1 = CPU.addT(r5, 0x0);
-    r0 = FUN_807842c(r0, r1);
+    r0 = isEquipped(r0, r1);
     CPU.cmpT(r0, 0x0);
 
     jmp_80787cc:
@@ -1813,7 +1768,7 @@ public final class GoldenSun_807 {
       CPU.cmpT(r3, 0x0);
       if(CPU.cpsr().getZero()) { // ==
         r0 = CPU.addT(r5, 0x0);
-        r0 = FUN_8078414(r0);
+        r0 = getItem(r0);
         r0 = MEMORY.ref(1, r0 + 0x2).getUnsigned();
         CPU.r8().value = r0;
         CPU.cmpT(r0, 0x6);
@@ -1838,7 +1793,7 @@ public final class GoldenSun_807 {
               continue;
             }
             r0 = MEMORY.ref(2, r5 + r7).getUnsigned();
-            r0 = FUN_8078414(r0);
+            r0 = getItem(r0);
             r3 = MEMORY.ref(1, r0 + 0x2).getUnsigned();
             CPU.cmpT(r3, CPU.r8().value);
             if(!CPU.cpsr().getZero()) { // !=
@@ -1858,7 +1813,7 @@ public final class GoldenSun_807 {
             r6 = CPU.addT(r3, 0x0);
             r6 = CPU.addT(r6, 0xd8);
             r0 = MEMORY.ref(2, r7 + r6).getUnsigned();
-            r0 = FUN_8078414(r0);
+            r0 = getItem(r0);
             r2 = MEMORY.ref(1, r0 + 0x3).getUnsigned();
             r3 = CPU.movT(0, 0x2);
             r3 = CPU.andT(r3, r2);
@@ -1901,32 +1856,24 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x8078b9c)
-  public static int FUN_8078b9c(int r0) {
-    int r3;
+  public static int getAbility(int r0) {
+    r0 = r0 & 0x3fff;
 
-    r3 = MEMORY.ref(4, 0x8078bb8).get();
-    r0 = CPU.andT(r0, r3);
-    r3 = CPU.movT(0, 0x82);
-    r3 = CPU.lslT(r3, 2);
-    r0 = CPU.cmpT(r0, r3);
-    if(CPU.cpsr().getCarry()) { // unsigned >=
-      r0 = CPU.movT(0, 0x0);
+    if(r0 >= 0x208) {
+      r0 = 0;
     }
 
     //LAB_8078bac
-    r3 = MEMORY.ref(4, 0x8078bbc).get();
-    r0 = CPU.lslT(r0, 4);
-    r0 = CPU.addT(r0, r3);
-    return r0;
+    return 0x807ee58 + r0 * 0x10;
   }
 
   @Method(0x8078bc0)
-  public static int FUN_8078bc0(final int charOrMonsterId, final int r1) {
+  public static int hasAbility(final int charOrMonsterId, final int ability) {
     final int r0 = getCharOrMonsterData(charOrMonsterId) + 0x58;
 
     //LAB_8078bce
     for(int r2 = 0; r2 < 0x20; r2++) {
-      if((MEMORY.ref(2, r0 + r2 * 0x4).getUnsigned() & 0x3fff) == r1) {
+      if((MEMORY.ref(2, r0 + r2 * 0x4).getUnsigned() & 0x3fff) == ability) {
         return 1;
       }
 
@@ -2168,7 +2115,7 @@ public final class GoldenSun_807 {
           CPU.cmpT(r3, 0x0);
           if(!CPU.cpsr().getZero()) { // !=
             r0 = MEMORY.ref(2, r0 + r1).getUnsigned();
-            r0 = FUN_8078414(r0);
+            r0 = getItem(r0);
             r3 = MEMORY.ref(1, r0 + 0xc).getUnsigned();
             CPU.cmpT(r3, 0x3);
             if(CPU.cpsr().getZero()) { // ==
@@ -2415,13 +2362,13 @@ public final class GoldenSun_807 {
             r3 = MEMORY.ref(2, r6).getUnsigned();
             r1 = CPU.r9().value;
             r1 = CPU.andT(r1, r3);
-            r0 = FUN_8078588(r0, r1);
+            r0 = addItem(r0, r1);
             r2 = CPU.r8().value;
             r1 = CPU.addT(r0, 0x0);
             r5 = CPU.addT(r5, 0x1);
             r0 = MEMORY.ref(4, r2).get();
             r6 = CPU.addT(r6, 0x2);
-            r0 = FUN_8078708(r0, r1);
+            r0 = equipItem(r0, r1);
             CPU.cmpT(r5, 0xc);
           } while(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()); // unsigned <=
 
@@ -2903,14 +2850,14 @@ public final class GoldenSun_807 {
 
     //LAB_807963a
     for(int charSlot = 0; charSlot < charCount; charSlot++) {
-      if(MEMORY.ref(1, 0x2000438 + charSlot).getUnsigned() == charId) {
+      if(charIds_2000438.get(charSlot).get() == charId) {
         //LAB_807964a
         return charCount;
       }
     }
 
     //LAB_8079650
-    MEMORY.ref(1, 0x2000438 + charCount).setu(charId);
+    charIds_2000438.get(charCount).set(charId);
 
     //LAB_807965a
     return charCount + 1;
@@ -2930,7 +2877,7 @@ public final class GoldenSun_807 {
 
     //LAB_80796e0
     for(int charSlot = 0; charSlot < charCount; charSlot++) {
-      MEMORY.ref(2, out + charSlot * 0x2).setu(MEMORY.ref(1, 0x2000438 + charSlot).getUnsigned());
+      MEMORY.ref(2, out + charSlot * 0x2).setu(charIds_2000438.get(charSlot).get());
     }
 
     //LAB_80796ee
