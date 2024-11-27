@@ -33,7 +33,7 @@ public class Map194 implements MemoryRef {
 
   public final ArrayRef<UnsignedByteRef> _100;
   public final UnsignedByteRef _103;
-  public final ArrayRef<Sub30> _104;
+  public final ArrayRef<Sub30> layers_104;
 
   public Map194(final Value ref) {
     this.ref = ref;
@@ -58,7 +58,7 @@ public class Map194 implements MemoryRef {
 
     this._100 = ref.offset(1, 0x100).cast(ArrayRef.of(UnsignedByteRef.class, 3, 0x1, UnsignedByteRef::new));
     this._103 = ref.offset(1, 0x103).cast(UnsignedByteRef::new);
-    this._104 = ref.offset(4, 0x104).cast(ArrayRef.of(Sub30.class, 3, 0x30, Sub30::new));
+    this.layers_104 = ref.offset(4, 0x104).cast(ArrayRef.of(Sub30.class, 3, 0x30, Sub30::new));
   }
 
   @Override

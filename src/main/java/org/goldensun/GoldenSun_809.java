@@ -2,6 +2,7 @@ package org.goldensun;
 
 import org.goldensun.input.Input;
 import org.goldensun.memory.Method;
+import org.goldensun.types.EventStruct0c;
 import org.goldensun.types.GraphicsStruct0c;
 import org.goldensun.types.Panel24;
 import org.goldensun.types.RenderPacket0c;
@@ -2377,54 +2378,31 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8096b28)
-  public static int FUN_8096b28(int r0, int r1, int r2) {
-    int r3;
-    final int r5;
-    final int r6;
-
-    r5 = CPU.addT(r0, 0x0);
-    r6 = CPU.addT(r2, 0x0);
-    r0 = CPU.addT(r1, 0x0);
-    CPU.cmpT(r5, 0x0);
-    if(!CPU.cpsr().getZero()) { // !=
-      r3 = MEMORY.ref(4, r5 + 0x8).get();
-      CPU.cmpT(r3, 0x0);
-      if(!CPU.cpsr().getZero()) { // !=
-        r2 = CPU.movT(0, 0x80);
-        r2 = CPU.lslT(r2, 9);
-        r3 = CPU.cmpT(r3, r2);
-        if(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <
+  public static int FUN_8096b28(final EventStruct0c r0, final int r1, final int r2) {
+    if(r0 != null) {
+      final int r3 = r0.callback_08.get();
+      if(r3 != 0) {
+        if(r3 < 0x10000) {
           FUN_80916b0();
-          r0 = MEMORY.ref(4, r5 + 0x8).get();
-          FUN_8092b94(r0);
-          r0 = CPU.addT(r6, 0x0);
-          r1 = CPU.movT(0, 0x0);
-          FUN_8092f84(r0, r1);
+          FUN_8092b94(r3);
+          FUN_8092f84(r2, 0);
           FUN_8091750();
         } else {
           //LAB_8096b5a
-          r1 = CPU.addT(r6, 0x0);
-          MEMORY.call(r3, r0, r1);
+          MEMORY.call(r3, r1, r2);
         }
       }
 
       //LAB_8096b60
-      r0 = CPU.movT(0, 0xa1);
-      r0 = CPU.lslT(r0, 1);
-      r0 = readFlag_(r0);
-      CPU.cmpT(r0, 0x0);
-      if(!CPU.cpsr().getZero()) { // !=
+      if(readFlag_(0x142) != 0) {
         FUN_80916b0();
-        r0 = MEMORY.ref(4, 0x8096b84).get();
-        r1 = CPU.movT(0, 0x1);
-        FUN_8015040(r0, r1);
+        FUN_8015040(0x927, 0x1);
         FUN_8091750();
       }
     }
 
     //LAB_8096b7c
-    r0 = CPU.movT(0, 0x0);
-    return r0;
+    return 0;
   }
 
   @Method(0x8096c24)

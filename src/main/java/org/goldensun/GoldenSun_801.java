@@ -163,7 +163,7 @@ public final class GoldenSun_801 {
 
       //LAB_8010112
       for(int r10 = 0; r10 < 3; r10++) {
-        final Map194.Sub30 r4 = r8._104.get(r10);
+        final Map194.Sub30 r4 = r8.layers_104.get(r10);
         r7 = (int)MEMORY.call(0x3000118, r8._e4.get(), r4._10.get());
         r6 = (int)MEMORY.call(0x3000118, r8._e8.get(), r4._14.get());
 
@@ -252,7 +252,7 @@ public final class GoldenSun_801 {
 
     //LAB_80102a6
     for(int sp1c = 0; sp1c < 3; sp1c++) {
-      final Map194.Sub30 lr = sp14._104.get(sp1c);
+      final Map194.Sub30 lr = sp14.layers_104.get(sp1c);
       if(sp14._100.get(sp1c).get() == 0) {
         break;
       }
@@ -319,8 +319,8 @@ public final class GoldenSun_801 {
 
     //LAB_801045e
     for(int i = 0; i < 3; i++) {
-      r9[i * 2    ] = r2_0._104.get(i)._00.get() >> 20;
-      r9[i * 2 + 1] = r2_0._104.get(i)._04.get() >> 20;
+      r9[i * 2    ] = r2_0.layers_104.get(i)._00.get() >> 20;
+      r9[i * 2 + 1] = r2_0.layers_104.get(i)._04.get() >> 20;
     }
 
     final int sp00 = r3 + a5;
@@ -456,7 +456,7 @@ public final class GoldenSun_801 {
     int r10 = r1;
     int r8 = r2;
     final Map194 r2_1 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
-    int r6 = r2_1._104.get(0)._0c.get();
+    int r6 = r2_1.layers_104.get(0)._0c.get();
     r10 = r10 & 0x1;
     r0 = r0 * 2;
     final int r9 = r0;
@@ -644,7 +644,7 @@ public final class GoldenSun_801 {
   @Method(0x8011644)
   public static void FUN_8011644() {
     final Map194 r7 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
-    final int r5 = r7._104.get(0)._18.get();
+    final int r5 = r7.layers_104.get(0)._18.get();
     final int r8 = MEMORY.ref(2, 0x5000000).get();
     FUN_80053e8(getPointerTableEntry(MEMORY.ref(4, r5).get()), 0x2010000);
     MEMORY.ref(2, 0x2010000).setu(r8);
@@ -983,7 +983,7 @@ public final class GoldenSun_801 {
     final int r1_0 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
     final int r2_0;
     if(r1_0 != 0) {
-      r2_0 = MEMORY.ref(4, r1_0, Map194::new)._104.get(mapLayer & 0x3)._2c.get();
+      r2_0 = MEMORY.ref(4, r1_0, Map194::new).layers_104.get(mapLayer & 0x3)._2c.get();
     } else {
       r2_0 = 0x2010000;
     }

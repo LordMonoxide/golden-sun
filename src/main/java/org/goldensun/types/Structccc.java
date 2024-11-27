@@ -7,6 +7,7 @@ import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.MemoryRef;
 import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.ShortRef;
+import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 
@@ -16,7 +17,7 @@ public class Structccc implements MemoryRef {
   /** TODO ptrs */
   public final ArrayRef<IntRef> _00;
   /** TODO ptr */
-  public final IntRef events_10;
+  public final Pointer<UnboundedArrayRef<EventStruct0c>> events_10;
   /**
    * This array is janky
    * - There's room for 66 elements
@@ -93,7 +94,7 @@ public class Structccc implements MemoryRef {
     this.ref = ref;
 
     this._00 = ref.offset(4, 0x00).cast(ArrayRef.of(IntRef.class, 4, 0x4, IntRef::new));
-    this.events_10 = ref.offset(4, 0x10).cast(IntRef::new);
+    this.events_10 = ref.offset(4, 0x10).cast(Pointer.deferred(4, UnboundedArrayRef.of(0xc, EventStruct0c::new)));
     this.actors_14 = ref.offset(4, 0x14).cast(ArrayRef.of(Pointer.classFor(Actor70.class), 67, 0x4, Pointer.deferred(4, Actor70::new)));
     this._11c = ref.offset(4, 0x11c).cast(ArrayRef.of(Sub08.class, 10, 0x8, Sub08::new));
     this._16c = ref.offset(2, 0x16c).cast(ShortRef::new);

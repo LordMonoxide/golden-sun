@@ -3942,7 +3942,7 @@ public final class GoldenSun {
           if(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()) { // unsigned <=
             //LAB_800c6fe
             if(r2 > 0xffe00000 && r2 <= 0xdfffff) {
-              r1 = sp0c._104.get(actor.layer_22.get())._2c.get() + ((r0 >> 20) * 0x80 + (r1 >> 20)) * 0x4;
+              r1 = sp0c.layers_104.get(actor.layer_22.get())._2c.get() + ((r0 >> 20) * 0x80 + (r1 >> 20)) * 0x4;
 
               //LAB_800c762
               final int r4 = MEMORY.ref(4, r1).get();
@@ -5411,7 +5411,7 @@ public final class GoldenSun {
     //LAB_800fc48
     for(int i = 0; i < 3; i++) {
       final PointerTableType296.Sub08 r6 = r5._0c.get(i);
-      final Map194.Sub30 r7 = map._104.get(i);
+      final Map194.Sub30 r7 = map.layers_104.get(i);
       final int lr = r6._00.get() << 19;
       final int r10 = r6._01.get() << 19;
       r7._08.set(lr);
