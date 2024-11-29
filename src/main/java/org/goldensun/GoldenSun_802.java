@@ -82,6 +82,7 @@ import static org.goldensun.GoldenSun_801.loadCharacterSprites;
 import static org.goldensun.GoldenSun_801.loadDjinnSprites;
 import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
 import static org.goldensun.GoldenSun_807.calculateBuildDate_;
+import static org.goldensun.GoldenSun_807.getDjinnCount_;
 import static org.goldensun.GoldenSun_808.FUN_808a5b0;
 import static org.goldensun.GoldenSun_80b.FUN_80b0020;
 import static org.goldensun.GoldenSun_80b.FUN_80b0028;
@@ -1074,6 +1075,62 @@ public final class GoldenSun_802 {
     //LAB_8021840
   }
 
+  @Method(0x8021950)
+  public static void FUN_8021950(int r0, int r1, int r2, int r3) {
+    final int r6 = r3;
+    r3 = -r6;
+    int sp04 = r0;
+    int r7 = r2;
+    int sp00 = r1;
+    final int r8 = r3 * 0x4;
+    final int lr = r6 * 0x4;
+
+    //LAB_802196e
+    for(int r12 = 0; r12 < 8; r12++) {
+      int r4 = MEMORY.ref(4, sp00).get();
+      sp00 += 0x4;
+
+      r1 = MEMORY.ref(4, sp04).get();
+      sp04 += 0x4;
+
+      r2 = 0;
+      if(r6 < 0) {
+        r4 = r4 >>> r8;
+      } else {
+        //LAB_802198a
+        r4 = r4 << lr;
+      }
+
+      //LAB_802198e
+      //LAB_8021992
+      for(r0 = 0; r0 < 8; r0++) {
+        r2 = r2 << 4;
+        r4 = CPU.cmpT(r4, 0xfffffff);
+        if(CPU.cpsr().getCarry() && !CPU.cpsr().getZero()) { // unsigned >
+          r3 = r4 >>> 28;
+        } else {
+          //LAB_802199c
+          r3 = r1 >>> 28;
+        }
+
+        //LAB_802199e
+        r2 = r2 + r3;
+        r4 = r4 << 4;
+        r1 = r1 << 4;
+      }
+
+      MEMORY.ref(4, r7).setu(r2);
+      r7 += 0x4;
+    }
+  }
+
+  @Method(0x80219c8)
+  public static void FUN_80219c8(final int r0) {
+    final int r6 = MathHelper.clamp(_3001e40.get() >>> 2 & 0x3, 1, 2) + 1;
+    FUN_8021950(0x6000220, 0x8037280, r0, -r6);
+    FUN_8021950(0x6000240, 0x80372a0, r0 + 0x20, r6);
+  }
+
   @Method(0x8028194)
   public static void drawChoiceMenu() {
     int r0;
@@ -1427,6 +1484,39 @@ public final class GoldenSun_802 {
 
     //LAB_802887e
     menu.panel_78.setNullable(addPanel(x, y, menu.panelW_90.get(), 3, 0x2));
+  }
+
+  @Method(0x8028920)
+  public static int handleAMenu(final int r0) {
+    int hasDjinn = 0;
+
+    if(getDjinnCount_(-1) == 0) {
+      hasDjinn = 1;
+    }
+
+    //LAB_8028934
+    int r5 = Math.max(0, MEMORY.ref(1, 0x8037403 + r0 + hasDjinn * 0x6).get() - 1);
+
+    allocateChoiceMenu();
+    addChoiceMenuOption(0x1);
+
+    if(hasDjinn == 0) {
+      addChoiceMenuOption(0xf);
+    }
+
+    //LAB_802895c
+    addChoiceMenuOption(0x2);
+    addChoiceMenuOption(0x7);
+    updateChoiceMenuLayout(0x11, 0x7, 0);
+    r5 = handleChoiceMenu(r5);
+    deallocateChoiceMenu();
+
+    if(r5 >= 0) {
+      r5 = MEMORY.ref(1, 0x80373f7 + r5 + hasDjinn * 0x6 + 0x1).get();
+    }
+
+    //LAB_802898a
+    return r5;
   }
 
   @Method(0x80289e8)

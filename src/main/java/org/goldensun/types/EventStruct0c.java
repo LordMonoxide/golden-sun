@@ -18,6 +18,7 @@ public class EventStruct0c implements MemoryRef {
   public final UnsignedByteRef _04_b;
   public final ShortRef _06;
   public final IntRef callback_08;
+  public final UnsignedShortRef _08_s;
 
   public EventStruct0c(final Value ref) {
     this.ref = ref;
@@ -28,6 +29,7 @@ public class EventStruct0c implements MemoryRef {
     this._04_b = ref.offset(1, 0x04).cast(UnsignedByteRef::new);
     this._06 = ref.offset(2, 0x06).cast(ShortRef::new);
     this.callback_08 = ref.offset(4, 0x08).cast(IntRef::new);
+    this._08_s = ref.offset(2, 0x08).cast(UnsignedShortRef::new);
   }
 
   @Override

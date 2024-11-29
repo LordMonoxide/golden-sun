@@ -2,8 +2,8 @@ package org.goldensun;
 
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.RunnableRef;
-import org.goldensun.types.Map194;
 import org.goldensun.types.Actor70;
+import org.goldensun.types.Map194;
 import org.goldensun.types.Struct12fc;
 import org.goldensun.types.Structccc;
 
@@ -11,11 +11,11 @@ import javax.annotation.Nullable;
 
 import static org.goldensun.GoldenSunVars._2000404;
 import static org.goldensun.GoldenSunVars._2000406;
+import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.entranceId_2000402;
+import static org.goldensun.GoldenSunVars.heldButtonsLastFrame_3001ae8;
 import static org.goldensun.GoldenSunVars.mapId_2000400;
 import static org.goldensun.GoldenSunVars.playerMapActorIndex_2000434;
-import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
-import static org.goldensun.GoldenSunVars.heldButtonsLastFrame_3001ae8;
 import static org.goldensun.GoldenSunVars.pressedButtons_3001c94;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.DMA;
@@ -1330,17 +1330,19 @@ public final class Decompressed87795e8 {
     return (int)MEMORY.call(0x8015010, r0, r1, r2, r3, a4);
   }
 
+  /** {@link GoldenSun_801#FUN_8015018} TODO busted? r0 is a Panel */
   @Method(0x200938c)
   public static void FUN_200938c(final int r0, final int r1) {
     MEMORY.call(0x8015018, r0, r1);
   }
 
-  /** {@link GoldenSun_801#FUN_8015040} */
+  /** {@link GoldenSun_801#FUN_8015040}  */
   @Method(0x2009394)
   public static void FUN_2009394(final int r0, final int r1) {
     MEMORY.call(0x8015040, r0, r1);
   }
 
+  /** {@link GoldenSun_801#FUN_8015060} TODO busted? r0 is a Panel */
   @Method(0x200939c)
   public static void FUN_200939c(final int r0) {
     MEMORY.call(0x8015060, r0);

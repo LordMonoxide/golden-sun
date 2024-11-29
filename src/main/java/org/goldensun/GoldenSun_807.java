@@ -46,6 +46,12 @@ public final class GoldenSun_807 {
     MEMORY.call(0x8077428, r0);
   }
 
+  /** {@link GoldenSun_807#FUN_8078618} */
+  @Method(0x8077030)
+  public static int FUN_8077030(final int r0) {
+    return (int)MEMORY.call(0x8078618, r0);
+  }
+
   /** {@link GoldenSun_807#getAbility} */
   @Method(0x8077080)
   public static int getAbility_(final int r0) {
@@ -95,8 +101,8 @@ public final class GoldenSun_807 {
 
   /** {@link GoldenSun_807#getPartyMemberIds} */
   @Method(0x8077158)
-  public static int getPartyMemberIds_(final int r0) {
-    return (int)MEMORY.call(0x80796c4, r0);
+  public static int getPartyMemberIds_(final int out) {
+    return (int)MEMORY.call(0x80796c4, out);
   }
 
   /** {@link GoldenSun_807#FUN_807a2e4} */
@@ -111,6 +117,13 @@ public final class GoldenSun_807 {
     return (int)MEMORY.call(0x807a3a8, r0, r1, r2);
   }
 
+  /** {@link GoldenSun_807#FUN_8079700} */
+  @Method(0x8077230)
+  public static int FUN_8077230(final int amount) {
+    return (int)MEMORY.call(0x8079700, amount);
+  }
+
+  /** {@link GoldenSun_807#FUN_8077f40} */
   @Method(0x8077270)
   public static void FUN_8077270() {
     MEMORY.call(0x8077f40);
@@ -1721,6 +1734,30 @@ public final class GoldenSun_807 {
     return r0;
   }
 
+  @Method(0x8078618)
+  public static int FUN_8078618(final int r0) {
+    CPU.sp().value -= 0x18;
+
+    final int r3 = CPU.sp().value + 0x4;
+    final int r7 = getPartyMemberIds(r3);
+
+    //LAB_8078634
+    for(int r6 = 0; r6 < r7; r6++) {
+      final int r5 = MEMORY.ref(2, r3 + r6 * 0x2).get();
+      if(addItem(r5, r0) >= 0) {
+        CPU.sp().value += 0x18;
+        return r5;
+      }
+
+      //LAB_807864e
+    }
+
+    //LAB_8078654
+    //LAB_8078658
+    CPU.sp().value += 0x18;
+    return -1;
+  }
+
   @Method(0x8078708)
   public static int equipItem(int r0, int r1) {
     int r2;
@@ -2885,6 +2922,13 @@ public final class GoldenSun_807 {
 
     //LAB_80796f2
     return charCount;
+  }
+
+  @Method(0x8079700)
+  public static int FUN_8079700(final int amount) {
+    final int r3 = MathHelper.clamp(MEMORY.ref(4, 0x2000250).get() + amount, 0, 999999);
+    MEMORY.ref(4, 0x2000250).setu(r3);
+    return r3;
   }
 
   @Method(0x80797ec)

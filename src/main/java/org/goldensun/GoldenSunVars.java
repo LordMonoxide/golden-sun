@@ -58,6 +58,7 @@ public final class GoldenSunVars {
   public static final UnsignedShortRef _200042c = MEMORY.ref(2, 0x200042c, UnsignedShortRef::new);
   public static final ShortRef _200042e = MEMORY.ref(2, 0x200042e, ShortRef::new);
   public static final ShortRef _2000430 = MEMORY.ref(2, 0x2000430, ShortRef::new);
+  /** Maybe a position type - 0 is normal, 1 is on ladder, 2 is ? */
   public static final UnsignedByteRef _2000432 = MEMORY.ref(1, 0x2000432, UnsignedByteRef::new);
 
   /** A specific actor index, maybe the player? */

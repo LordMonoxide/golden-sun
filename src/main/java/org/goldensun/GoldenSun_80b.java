@@ -3,7 +3,10 @@ package org.goldensun;
 import org.goldensun.memory.Method;
 
 import static org.goldensun.GoldenSun.divideS;
+import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
+import static org.goldensun.GoldenSunVars.charIds_2000438;
 import static org.goldensun.GoldenSun_807.FUN_8077000;
+import static org.goldensun.GoldenSun_807.getCharCount_;
 import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
 import static org.goldensun.GoldenSun_807.FUN_8077010;
 import static org.goldensun.GoldenSun_807.FUN_80771b0;
@@ -169,10 +172,62 @@ public final class GoldenSun_80b {
     throw new RuntimeException("Not implemented");
   }
 
+  /** {@link GoldenSun_80b#FUN_80b6a60} */
+  @Method(0x80b50c8)
+  public static int FUN_80b50c8(final int r0) {
+    return (int)MEMORY.call(0x80b6a60, r0);
+  }
+
   /** {@link GoldenSun_80b#FUN_80bf5a8} */
   @Method(0x80b50f8)
   public static int FUN_80b50f8() {
     return (int)MEMORY.call(0x80bf5a8);
+  }
+
+  /** {@link GoldenSun_80b#FUN_80be0b4} */
+  @Method(0x80b5130)
+  public static int FUN_80b5130(final int r0, final int r1) {
+    return (int)MEMORY.call(0x80be0b4, r0, r1);
+  }
+
+  @Method(0x80b6a60)
+  public static int FUN_80b6a60(final int r0) {
+    final int r3 = boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).offset(1, 0x44).getUnsigned();
+    final int maxCharCount;
+    if(r3 != 0) {
+      maxCharCount = 3;
+    } else {
+      maxCharCount = 4;
+    }
+
+    //LAB_80b6a7a
+    final int charCount = Math.min(maxCharCount, getCharCount_());
+
+    //LAB_80b6a86
+    //LAB_80b6a98
+    for(int charSlot = 0; charSlot < charCount; charSlot++) {
+      final int charId = charIds_2000438.get(charSlot).get();
+
+      if(r0 != 0) {
+        MEMORY.ref(2, r0 + charSlot * 0x2).setu(charId);
+      }
+
+      //LAB_80b6aa4
+      MEMORY.ref(1, getCharOrMonsterData_(charId) + 0x12a).setu(0x2);
+    }
+
+    //LAB_80b6abc
+    if(r0 != 0) {
+      MEMORY.ref(2, r0 + charCount * 0x2).setu(0xff);
+    }
+
+    //LAB_80b6ac4
+    return charCount;
+  }
+
+  @Method(0x80be0b4)
+  public static int FUN_80be0b4(final int r0, final int r1) {
+    throw new RuntimeException("Not implemented");
   }
 
   @Method(0x80bf5a8)

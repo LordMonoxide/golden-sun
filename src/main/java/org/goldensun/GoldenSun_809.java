@@ -758,7 +758,7 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8091660)
-  public static void FUN_8091660() {
+  public static void stopPlayerAndSetIdle() {
     final Actor70 actor = getMapActor(playerMapActorIndex_2000434.get());
     actor.velocity_24.setX(0);
     actor.velocity_24.setZ(0);
@@ -768,7 +768,7 @@ public final class GoldenSun_809 {
     actor.dest_38.setZ(0x80000000);
 
     if(_2000432.get() == 1) {
-      setActorAnimation_(actor, 12);
+      setActorAnimation_(actor, 12); // ladder idle
     } else {
       //LAB_809169e
       setActorAnimation_(actor, 1);
@@ -781,7 +781,7 @@ public final class GoldenSun_809 {
   public static void FUN_80916b0() {
     final Structccc r6 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
     FUN_8015208();
-    FUN_8091660();
+    stopPlayerAndSetIdle();
 
     if(r6._cb6.get() != 0) {
       FUN_808e118();

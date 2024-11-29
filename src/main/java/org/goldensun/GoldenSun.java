@@ -1307,7 +1307,7 @@ public final class GoldenSun {
 
   /** Pretty sure this temporarily disables a callback */
   @Method(0x80042c8)
-  public static int FUN_80042c8(@Nullable final RunnableRef r0) {
+  public static int disableTickCallback(@Nullable final RunnableRef r0) {
     final int r6 = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
     INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
@@ -1328,9 +1328,30 @@ public final class GoldenSun {
     return r5;
   }
 
+  @Method(0x800430c)
+  public static int disableMapTickCallbacks() {
+    final int oldIme = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
+    INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
+
+    //LAB_8004320
+    int ret = -1;
+    for(int callbackIndex = 0; callbackIndex < 20; callbackIndex++) {
+      final TickCallback08 callback = tickCallbacks_3001a20.get(callbackIndex);
+      if((callback.callback_00.getPointer() & 0xff00_0000) == 0x200_0000 && (callback._06.get() & 0x1) == 0) {
+        callback.classAndPriority_04.or(0x100);
+        ret = callbackIndex;
+      }
+
+      //LAB_800433a
+    }
+
+    INTERRUPTS.INT_MASTER_ENABLE.setu(oldIme);
+    return ret;
+  }
+
   /** Pretty sure this re-enables a callback */
   @Method(0x800439c)
-  public static int FUN_800439c(final RunnableRef r0) {
+  public static int enableTickCallback(final RunnableRef r0) {
     final int r7 = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
     INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
     int r5 = -1;
@@ -1349,6 +1370,27 @@ public final class GoldenSun {
 
     INTERRUPTS.INT_MASTER_ENABLE.setu(r7);
     return r5;
+  }
+
+  @Method(0x80043e0)
+  public static int enableMapTickCallbacks() {
+    final int oldIme = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
+    INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
+
+    //LAB_80043f4
+    int ret = -1;
+    for(int callbackIndex = 0; callbackIndex < 20; callbackIndex++) {
+      final TickCallback08 r4 = tickCallbacks_3001a20.get(callbackIndex);
+      if((r4.callback_00.getPointer() & 0xff00_0000) == 0x200_0000) {
+        r4.classAndPriority_04.and(~0x100);
+        ret = callbackIndex;
+      }
+
+      //LAB_8004404
+    }
+
+    INTERRUPTS.INT_MASTER_ENABLE.set(oldIme);
+    return ret;
   }
 
   @Method(0x8004420)
@@ -1473,6 +1515,11 @@ public final class GoldenSun {
   @Method(0x80045d4)
   public static int sqrt(final int r0) {
     return (int)MEMORY.call(0x30001d8, r0) << 8;
+  }
+
+  @Method(0x80045e8)
+  public static int FUN_80045e8() {
+    return 0x800779c;
   }
 
   @Method(0x8004760)
@@ -2704,6 +2751,18 @@ public final class GoldenSun {
     MEMORY.call(0x800f9cc, r0, r1);
   }
 
+  /** {@link GoldenSun_801#FUN_8011984} */
+  @Method(0x8009290)
+  public static void FUN_8009290() {
+    MEMORY.call(0x8011984);
+  }
+
+  /** {@link GoldenSun_801#FUN_80119a8} */
+  @Method(0x8009298)
+  public static void FUN_8009298() {
+    MEMORY.call(0x80119a8);
+  }
+
   @Method(0x800a97c)
   public static int decompressSprite(int r0, int r1) {
     int r2;
@@ -3875,8 +3934,8 @@ public final class GoldenSun {
 
   @Method(0x800c5b4)
   public static void FUN_800c5b4() {
-    FUN_80042c8(getRunnable(GoldenSun.class, "FUN_800c62c"));
-    FUN_80042c8(getRunnable(GoldenSun.class, "FUN_800c880"));
+    disableTickCallback(getRunnable(GoldenSun.class, "FUN_800c62c"));
+    disableTickCallback(getRunnable(GoldenSun.class, "FUN_800c880"));
     FUN_808a330(0x10000, 0x1);
     FUN_808a348(0x1);
     sleep(0x1);
@@ -3885,8 +3944,8 @@ public final class GoldenSun {
 
   @Method(0x800c5fc)
   public static void FUN_800c5fc() {
-    FUN_800439c(getRunnable(GoldenSun.class, "FUN_800c62c"));
-    FUN_800439c(getRunnable(GoldenSun.class, "FUN_800c880"));
+    enableTickCallback(getRunnable(GoldenSun.class, "FUN_800c62c"));
+    enableTickCallback(getRunnable(GoldenSun.class, "FUN_800c880"));
     GPU.DISPCNT.and(0xe1ff);
   }
 
@@ -4900,7 +4959,7 @@ public final class GoldenSun {
 
     final int r5;
     if((pressedButtons_3001c94.get() & _2000454.get()) != 0) {
-      r1._172.set(0x1);
+      r1.shouldOpenMenu_172.set(0x1);
       r5 = 0x1;
       //LAB_800eb1e
     } else if((pressedButtons_3001c94.get() & _2000450.get()) != 0) {

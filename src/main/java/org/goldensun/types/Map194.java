@@ -2,6 +2,7 @@ package org.goldensun.types;
 
 import org.goldensun.memory.Value;
 import org.goldensun.memory.types.ArrayRef;
+import org.goldensun.memory.types.ByteRef;
 import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.MemoryRef;
 import org.goldensun.memory.types.Pointer;
@@ -29,7 +30,7 @@ public class Map194 implements MemoryRef {
   public final IntRef _f0;
   public final IntRef _f4;
   public final IntRef _f8;
-  public final UnsignedByteRef _fc;
+  public final ByteRef _fc;
 
   public final ArrayRef<UnsignedByteRef> _100;
   public final UnsignedByteRef _103;
@@ -54,7 +55,7 @@ public class Map194 implements MemoryRef {
     this._f0 = ref.offset(4, 0xf0).cast(IntRef::new);
     this._f4 = ref.offset(4, 0xf4).cast(IntRef::new);
     this._f8 = ref.offset(4, 0xf8).cast(IntRef::new);
-    this._fc = ref.offset(1, 0xfc).cast(UnsignedByteRef::new);
+    this._fc = ref.offset(1, 0xfc).cast(ByteRef::new);
 
     this._100 = ref.offset(1, 0x100).cast(ArrayRef.of(UnsignedByteRef.class, 3, 0x1, UnsignedByteRef::new));
     this._103 = ref.offset(1, 0x103).cast(UnsignedByteRef::new);
