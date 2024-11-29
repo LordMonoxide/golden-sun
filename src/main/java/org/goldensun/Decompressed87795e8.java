@@ -1017,7 +1017,7 @@ public final class Decompressed87795e8 {
 
         //LAB_2008fe2
         for(r7 = 0; r7 < 15; r7++) {
-          FUN_2009444(MEMORY.ref(2, r4 + 0xd8 + r7 * 0x2).getUnsigned());
+          getItem(MEMORY.ref(2, r4 + 0xd8 + r7 * 0x2).getUnsigned());
           r1 = MEMORY.ref(2, r4 + 0xd8 + r7 * 0x2).getUnsigned() & 0x1ff;
           r6++;
           MEMORY.ref(1, r5).addu(r1 >> r6);
@@ -1358,6 +1358,7 @@ public final class Decompressed87795e8 {
     MEMORY.call(0x8015078, r0, r1, r2, r3);
   }
 
+  /** {@link GoldenSun_801#FUN_8015080} */
   @Method(0x20093b4)
   public static void FUN_20093b4(final int r0, final int r1, final int r2, final int r3) {
     MEMORY.call(0x8015080, r0, r1, r2, r3);
@@ -1454,9 +1455,10 @@ public final class Decompressed87795e8 {
     return (int)MEMORY.call(0x8077008, r0);
   }
 
+  /** {@link GoldenSun_807#getItem_} */
   @Method(0x2009444)
-  public static int FUN_2009444(final int r0) {
-    return (int)MEMORY.call(0x8077018, r0);
+  public static int getItem(final int itemId) {
+    return (int)MEMORY.call(0x8077018, itemId);
   }
 
   @Method(0x200944c)

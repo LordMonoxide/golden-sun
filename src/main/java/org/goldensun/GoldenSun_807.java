@@ -46,10 +46,22 @@ public final class GoldenSun_807 {
     MEMORY.call(0x8077428, r0);
   }
 
+  /** {@link GoldenSun_807#getItem} */
+  @Method(0x8077018)
+  public static int getItem_(final int itemId) {
+    return (int)MEMORY.call(0x8078414, itemId);
+  }
+
   /** {@link GoldenSun_807#FUN_8078618} */
   @Method(0x8077030)
   public static int FUN_8077030(final int r0) {
     return (int)MEMORY.call(0x8078618, r0);
+  }
+
+  /** {@link GoldenSun_807#equipItem} */
+  @Method(0x8077050)
+  public static int equipItem_(final int r0, final int r1) {
+    return (int)MEMORY.call(0x8078708, r0, r1);
   }
 
   /** {@link GoldenSun_807#getAbility} */
@@ -115,6 +127,12 @@ public final class GoldenSun_807 {
   @Method(0x80771c0)
   public static int FUN_80771c0(final int r0, final int r1, final int r2) {
     return (int)MEMORY.call(0x807a3a8, r0, r1, r2);
+  }
+
+  /** {@link GoldenSun_807#isEquipped} */
+  @Method(0x8077218)
+  public static int isEquipped_(final int charId, final int itemId) {
+    return (int)MEMORY.call(0x807842c, charId, itemId);
   }
 
   /** {@link GoldenSun_807#FUN_8079700} */
@@ -1606,34 +1624,17 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x807842c)
-  public static int isEquipped(int r0, final int itemId) {
-    int r3;
-    final int r5;
-    int r6;
-
-    r5 = CPU.addT(itemId, 0x0);
-    r0 = getCharOrMonsterData(r0);
-    r6 = CPU.addT(r0, 0x0);
-    r0 = CPU.addT(r5, 0x0);
-    r0 = getItem(r0);
-    r3 = CPU.movT(0, 0x94);
-    r3 = CPU.lslT(r3, 1);
-    r6 = CPU.addT(r6, r3);
-    r3 = MEMORY.ref(1, r6).getUnsigned();
-    r0 = MEMORY.ref(2, r0 + 0x4).getUnsigned();
+  public static int isEquipped(final int charId, final int itemId) {
+    final int charData = getCharOrMonsterData(charId);
+    final int itemData = getItem(itemId);
+    final int r3 = MEMORY.ref(1, charData + 0x128).getUnsigned();
     CPU.cmpT(r3, 0x7);
     if(CPU.cpsr().getCarry() && !CPU.cpsr().getZero()) { // unsigned >
-      r0 = CPU.movT(0, 0x0);
-    } else {
-      //LAB_807844e
-      r3 = MEMORY.ref(1, r6).getUnsigned();
-      r0 = CPU.asrT(r0, r3);
-      r3 = CPU.movT(0, 0x1);
-      r0 = CPU.andT(r0, r3);
+      return 0;
     }
 
-    //LAB_8078456
-    return r0;
+    //LAB_807844e
+    return MEMORY.ref(2, itemData + 0x4).getUnsigned() >> MEMORY.ref(1, charData + 0x128).getUnsigned() & 0x1;
   }
 
   @Method(0x8078588)

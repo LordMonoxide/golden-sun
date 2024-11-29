@@ -17,6 +17,7 @@ import org.goldensun.memory.types.UnsignedShortRef;
 import org.goldensun.types.ChoiceMenu98;
 import org.goldensun.types.GraphicsStruct184;
 import org.goldensun.types.Map194;
+import org.goldensun.types.Menua70;
 import org.goldensun.types.RenderPacket0c;
 import org.goldensun.types.RotationScaling08;
 import org.goldensun.types.SoundStruct0c;
@@ -223,6 +224,7 @@ public final class GoldenSunVars {
    *   <li>8 - {@link Map194}</li>
    *   <li>15 - {@link Struct12fc}</li>
    *   <li>27 - {@link Structccc}</li>
+   *   <li>55 - {@link Menua70}</li>
    *   <li>58 - {@link ChoiceMenu98}</li>
    * </ul>
    */

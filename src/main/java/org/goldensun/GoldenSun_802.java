@@ -1012,9 +1012,9 @@ public final class GoldenSun_802 {
 
   @Method(0x80216b4)
   public static void FUN_80216b4(final GraphicsStruct1c r0) {
-    r0._14.set((r0._08.get() & 0xff) + MEMORY.ref(1, 0x8037226 + (ticks_3001800.get() >>> 2 & 0x7)).getUnsigned());
+    r0.packet_10.attribs_04.y_00.set((r0.y_08.get() & 0xff) + MEMORY.ref(1, 0x8037226 + (ticks_3001800.get() >>> 2 & 0x7)).getUnsigned());
     final GraphicsStruct1c r0_0 = r0._00.deref();
-    r0_0._14.set((r0._08.get() & 0xff) + MEMORY.ref(1, 0x8037226 + (ticks_3001800.get() >>> 2 & 0x7)).getUnsigned());
+    r0_0.packet_10.attribs_04.y_00.set((r0.y_08.get() & 0xff) + MEMORY.ref(1, 0x8037226 + (ticks_3001800.get() >>> 2 & 0x7)).getUnsigned());
   }
 
   @Method(0x80216e8)
@@ -1048,7 +1048,7 @@ public final class GoldenSun_802 {
     FUN_80216e8(r0, r5, r1);
     final GraphicsStruct1c r0_0 = FUN_801eadc(r5, 0x80000000, r2, r3, a4);
     r0_0._0f.set(0xfb);
-    r0_0._15.or(0x20);
+    r0_0.packet_10.attribs_04.flags_01.or(0x20);
 
     //LAB_8021796
     return r0_0;
