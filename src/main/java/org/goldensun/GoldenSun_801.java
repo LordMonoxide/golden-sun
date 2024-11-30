@@ -92,7 +92,7 @@ import static org.goldensun.GoldenSun_808.FUN_808a278;
 import static org.goldensun.GoldenSun_808.getInteractedTileType_;
 import static org.goldensun.GoldenSun_808.getRoomNameStringId_;
 import static org.goldensun.GoldenSun_808.FUN_808a5f0;
-import static org.goldensun.GoldenSun_80a.FUN_80a1000;
+import static org.goldensun.GoldenSun_80a.handleItemMenu_;
 import static org.goldensun.GoldenSun_80a.handlePsynergyMenu_;
 import static org.goldensun.GoldenSun_80a.FUN_80a1010;
 import static org.goldensun.GoldenSun_80a.FUN_80a1038;
@@ -1880,8 +1880,48 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x80164d4)
-  public static void FUN_80164d4(final Panel24 r0, final int r1, final int r2, final int r3, final int a4) {
-    throw new RuntimeException("Not implemented");
+  public static void FUN_80164d4(final Panel24 r0, int r1, int r2, int r3, final int a4) {
+    int r4;
+    int r5;
+    final int r6;
+    int r7;
+
+    r7 = CPU.addT(r2, 0x0);
+    r5 = CPU.addT(r1, 0x0);
+    final Struct12fc r8 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
+    r4 = CPU.lsrT(r5, 3);
+    r3 = CPU.addT(r3, 0x7);
+    r1 = CPU.addT(a4, 0x7);
+    r3 = CPU.lsrT(r3, 3);
+    r2 = CPU.lsrT(r7, 3);
+    r1 = CPU.lsrT(r1, 3);
+    r2 = r2 + r0.y_0e.get();
+    r4 = r4 + r0.x_0c.get();
+    r3 = r3 + r0.x_0c.get();
+    r1 = r1 + r0.y_0e.get();
+    r5 = CPU.addT(r4, 0x1);
+    r7 = CPU.addT(r2, 0x1);
+    r6 = CPU.subT(r3, r4);
+    r4 = CPU.subT(r1, r2);
+    FUN_801e260(r5, r7, r6, r4);
+    int r0_0 = r8._00.getAddress() + (r7 * 0x20 + r5) * 0x2;
+    r3 = 0x20 - r6;
+    r3 = CPU.lslT(r3, 1);
+
+    //LAB_801652e
+    for(r1 = 0; r1 < r4; r1++) {
+      //LAB_8016536
+      for(r5 = 0; r5 < r6; r5++) {
+        MEMORY.ref(2, r0_0).setu(0xf020);
+        r0_0 += 0x2;
+      }
+
+      //LAB_8016540
+      r0_0 += r3;
+    }
+
+    //LAB_8016548
+    r8._ea3.set(0x1);
   }
 
   @Method(0x8016584)
@@ -5621,7 +5661,7 @@ public final class GoldenSun_801 {
           break;
 
         case 3:
-          if(FUN_80a1000() != -1) {
+          if(handleItemMenu_() != -1) {
             return;
           }
           break;

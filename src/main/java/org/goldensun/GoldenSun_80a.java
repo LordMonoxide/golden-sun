@@ -89,9 +89,9 @@ import static org.goldensun.memory.MemoryHelper.getRunnable;
 public final class GoldenSun_80a {
   private GoldenSun_80a() { }
 
-  /** {@link GoldenSun_80a#FUN_80a24d0} */
+  /** {@link GoldenSun_80a#handleItemMenu} */
   @Method(0x80a1000)
-  public static int FUN_80a1000() {
+  public static int handleItemMenu_() {
     return (int)MEMORY.call(0x80a24d0);
   }
 
@@ -401,7 +401,7 @@ public final class GoldenSun_80a {
     if(r0 != null) {
       r0._05.set(0x1);
       r0.packet_10.attribs_04.attrib1_02.and(~0x1ff).or(r0.x_06.get() & 0x1ff);
-      r0.packet_10.attribs_04.y_00.set(r0.y_08.get());
+      r0.packet_10.attribs_04.y_00.set(r0.y_08.get() & 0xff);
       r0.packet_10.attribs_04.flags_01.and(~0x3);
       r0.packet_10.attribs_04.attrib1_02.and(~0x3e00);
     }
@@ -683,7 +683,7 @@ public final class GoldenSun_80a {
   }
 
   @Method(0x80a24d0)
-  public static int FUN_80a24d0() {
+  public static int handleItemMenu() {
     CPU.push(CPU.r10().value);
     CPU.push(CPU.r9().value);
 
