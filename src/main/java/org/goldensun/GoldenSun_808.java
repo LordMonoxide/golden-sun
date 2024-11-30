@@ -575,6 +575,12 @@ public final class GoldenSun_808 {
     return (int)MEMORY.call(0x808e96c, r0);
   }
 
+  /** {@link GoldenSun_808#FUN_808e990} */
+  @Method(0x808a490)
+  public static int FUN_808a490(final int r0) {
+    return (int)MEMORY.call(0x808e990, r0);
+  }
+
   /** {@link GoldenSun_809#FUN_8091858} */
   @Method(0x808a548)
   public static void FUN_808a548() {
@@ -3419,6 +3425,11 @@ public final class GoldenSun_808 {
     //LAB_808e138
   }
 
+  @Method(0x808e14c)
+  public static int FUN_808e14c(final int r0) {
+    throw new RuntimeException("Not implemented");
+  }
+
   @Method(0x808e23c)
   public static int FUN_808e23c(final int r0, final int r1) {
     throw new RuntimeException("Not implemented");
@@ -3515,6 +3526,12 @@ public final class GoldenSun_808 {
     final EventStruct0c r3 = FUN_808e4b4(0x70000005, r0 & 0xffff, CPU.sp().value);
     CPU.sp().value += 0x4;
     return r3 != null ? 1 : 0;
+  }
+
+  @Method(0x808e990)
+  public static int FUN_808e990(final int r0) {
+    final int r3 = FUN_808e14c(r0 & 0xffff);
+    return (-r3 | r3) >>> 31;
   }
 
   @Method(0x808e9a8)

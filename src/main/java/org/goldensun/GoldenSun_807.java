@@ -52,6 +52,12 @@ public final class GoldenSun_807 {
     return (int)MEMORY.call(0x8078414, itemId);
   }
 
+  /** {@link GoldenSun_807#FUN_8078588} */
+  @Method(0x8077028)
+  public static int FUN_8077028(final int r0, final int r1) {
+    return (int)MEMORY.call(0x8078588, r0, r1);
+  }
+
   /** {@link GoldenSun_807#FUN_8078618} */
   @Method(0x8077030)
   public static int FUN_8077030(final int r0) {
@@ -62,6 +68,18 @@ public final class GoldenSun_807 {
   @Method(0x8077050)
   public static int equipItem_(final int r0, final int r1) {
     return (int)MEMORY.call(0x8078708, r0, r1);
+  }
+
+  /** {@link GoldenSun_807#FUN_80788c4} */
+  @Method(0x8077058)
+  public static int FUN_8077058(final int r0, final int r1) {
+    return (int)MEMORY.call(0x80788c4, r0, r1);
+  }
+
+  /** {@link GoldenSun_807#FUN_8078a34} */
+  @Method(0x8077060)
+  public static int FUN_8077060(final int r0, final int r1) {
+    return (int)MEMORY.call(0x8078a34, r0, r1);
   }
 
   /** {@link GoldenSun_807#getAbility} */
@@ -141,6 +159,12 @@ public final class GoldenSun_807 {
     return (int)MEMORY.call(0x8079700, amount);
   }
 
+  /** {@link GoldenSun_807#FUN_8078ad0} */
+  @Method(0x8077240)
+  public static int FUN_8077240(final int r0, final int r1) {
+    return (int)MEMORY.call(0x8078ad0, r0, r1);
+  }
+
   /** {@link GoldenSun_807#FUN_8077f40} */
   @Method(0x8077270)
   public static void FUN_8077270() {
@@ -151,6 +175,12 @@ public final class GoldenSun_807 {
   @Method(0x8077290)
   public static int getDjinnCount_(final int r0) {
     return (int)MEMORY.call(0x807a5bc, r0);
+  }
+
+  /** {@link GoldenSun_807#FUN_8078bf0} */
+  @Method(0x80772c0)
+  public static int FUN_80772c0(final int r0) {
+    return (int)MEMORY.call(0x8078bf0, r0);
   }
 
   /** {@link GoldenSun_807#FUN_8077348} */
@@ -1891,6 +1921,31 @@ public final class GoldenSun_807 {
     CPU.r10().value = CPU.pop();
     CPU.r11().value = CPU.pop();
     return r0;
+  }
+
+  @Method(0x80788c4)
+  public static int FUN_80788c4(final int r0, final int r1) {
+    throw new RuntimeException("Not implemented");
+  }
+
+  @Method(0x8078a34)
+  public static int FUN_8078a34(int r0, final int r1) {
+    r0 = getCharOrMonsterData(r0);
+
+    if(MEMORY.ref(2, r0 + 0xd8 + r1 * 0x2).getUnsigned() == 0) {
+      return -1;
+    }
+
+    //LAB_8078a4e
+    MEMORY.ref(2, r0 + 0xd8 + r1 * 0x2).oru(0x400);
+
+    //LAB_8078a56
+    return 0;
+  }
+
+  @Method(0x8078ad0)
+  public static int FUN_8078ad0(final int r0, final int r1) {
+    throw new RuntimeException("Not implemented");
   }
 
   @Method(0x8078b9c)

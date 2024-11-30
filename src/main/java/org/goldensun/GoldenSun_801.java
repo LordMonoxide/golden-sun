@@ -5502,6 +5502,11 @@ public final class GoldenSun_801 {
     return r0;
   }
 
+  @Method(0x801a2ec)
+  public static int FUN_801a2ec(final int r0, final int r1, final int r2) {
+    throw new RuntimeException("Not implemented");
+  }
+
   @Method(0x801a32c)
   public static int FUN_801a32c(final int r0, final int r1, final int r2) {
     throw new RuntimeException("Not implemented");
@@ -5623,7 +5628,36 @@ public final class GoldenSun_801 {
 
   @Method(0x801bcd4)
   public static int FUN_801bcd4(final int r0, final int r1, final int r2, final int r3) {
-    throw new RuntimeException("Not implemented");
+    CPU.sp().value -= 0xc;
+    int r4 = r2;
+    if(r4 == -1) {
+      r4 = getFreeVramSlot();
+      if(r4 == 0x60) {
+        CPU.sp().value += 0xc;
+        return -1;
+      }
+    }
+
+    MEMORY.ref(4, CPU.sp().value + 0x8).setu(r4);
+
+    //LAB_801bcfe
+    switch(r0) {
+      case 1, 6 -> FUN_8019ee4(r1, r3, CPU.sp().value + 0x8, CPU.sp().value + 0x4, 0x1);
+      case 2 -> FUN_801a2a4(r1, 0x3a, r4);
+      case 7 -> FUN_801a2a4(r1, 0x2a, r4);
+      case 4 -> FUN_801a3d0(r1, r3, CPU.sp().value + 0x8, CPU.sp().value + 0x4, 0x1);
+      case 8 -> FUN_801a2ec(r1, 0, r4);
+      case 9 -> FUN_801a32c(r1, 0, r4);
+    };
+
+    r4 = MEMORY.ref(4, CPU.sp().value + 0x8).get();
+
+    //case 3:
+    //case 5:
+    //LAB_801bd84
+    //LAB_801bd86
+    CPU.sp().value += 0xc;
+    return r4;
   }
 
   @Method(0x801c244)
