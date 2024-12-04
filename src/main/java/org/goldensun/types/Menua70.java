@@ -26,6 +26,7 @@ public class Menua70 implements MemoryRef {
 
   public final Pointer<Panel24> panel_34;
 
+  public final GraphicsStruct1c _44;
   public final ArrayRef<Pointer<GraphicsStruct1c>> _48;
 
   public final Pointer<Panel24> panel_10c;
@@ -38,18 +39,15 @@ public class Menua70 implements MemoryRef {
   public final ArrayRef<ShortRef> _134;
   public final ArrayRef<ShortRef> _144;
   public final ArrayRef<IntRef> _154;
-  public final UnsignedShortRef _174;
-  public final UnsignedShortRef _176;
-  public final UnsignedShortRef abilityId_178;
-  public final UnsignedShortRef _17a;
+  public final ArrayRef<UnsignedShortRef> _174;
+  public final ArrayRef<UnsignedShortRef> abilityId_178;
   public final Pointer<GraphicsStruct1c> _17c;
 
   public final ArrayRef<UnsignedShortRef> _1c8;
   public final ArrayRef<UnsignedShortRef> partyMemberIds_208;
   public final UnsignedByteRef _218;
   public final UnsignedByteRef partyMemberCount_219;
-  public final UnsignedByteRef _21a;
-  public final UnsignedByteRef _21b;
+  public final ArrayRef<UnsignedByteRef> _21a;
   public final Pointer<GraphicsStruct1c> _21c;
   public final UnsignedShortRef _220;
   public final UnsignedShortRef _222;
@@ -58,7 +56,11 @@ public class Menua70 implements MemoryRef {
   public final ByteRef _25c;
   public final ByteRef _25d;
 
+  public final ArrayRef<UnsignedByteRef> _260;
   public final UnsignedByteRef _268;
+
+  public final UnsignedShortRef _392;
+  public final UnsignedShortRef _394;
 
   public Menua70(final Value ref) {
     this.ref = ref;
@@ -76,6 +78,7 @@ public class Menua70 implements MemoryRef {
 
     this.panel_34 = ref.offset(4, 0x34).cast(Pointer.deferred(4, Panel24::new));
 
+    this._44 = ref.offset(4, 0x44).cast(GraphicsStruct1c::new);
     this._48 = ref.offset(4, 0x48).cast(ArrayRef.of(Pointer.classFor(GraphicsStruct1c.class), 32, 0x4, Pointer.deferred(4, GraphicsStruct1c::new)));
 
     this.panel_10c = ref.offset(4, 0x10c).cast(Pointer.deferred(4, Panel24::new));
@@ -88,18 +91,15 @@ public class Menua70 implements MemoryRef {
     this._134 = ref.offset(2, 0x134).cast(ArrayRef.of(ShortRef.class, 8, 0x2, ShortRef::new));
     this._144 = ref.offset(2, 0x144).cast(ArrayRef.of(ShortRef.class, 8, 0x2, ShortRef::new));
     this._154 = ref.offset(4, 0x154).cast(ArrayRef.of(IntRef.class, 8, 0x4, IntRef::new));
-    this._174 = ref.offset(2, 0x174).cast(UnsignedShortRef::new);
-    this._176 = ref.offset(2, 0x176).cast(UnsignedShortRef::new);
-    this.abilityId_178 = ref.offset(2, 0x178).cast(UnsignedShortRef::new);
-    this._17a = ref.offset(2, 0x17a).cast(UnsignedShortRef::new);
+    this._174 = ref.offset(2, 0x174).cast(ArrayRef.of(UnsignedShortRef.class, 2, 0x2, UnsignedShortRef::new));
+    this.abilityId_178 = ref.offset(2, 0x178).cast(ArrayRef.of(UnsignedShortRef.class, 2, 0x2, UnsignedShortRef::new));
     this._17c = ref.offset(4, 0x17c).cast(Pointer.deferred(4, GraphicsStruct1c::new));
 
     this._1c8 = ref.offset(2, 0x1c8).cast(ArrayRef.of(UnsignedShortRef.class, 0x20, 0x2, UnsignedShortRef::new));
     this.partyMemberIds_208 = ref.offset(2, 0x208).cast(ArrayRef.of(UnsignedShortRef.class, 8, 0x2, UnsignedShortRef::new));
     this._218 = ref.offset(1, 0x218).cast(UnsignedByteRef::new);
     this.partyMemberCount_219 = ref.offset(1, 0x219).cast(UnsignedByteRef::new);
-    this._21a = ref.offset(1, 0x21a).cast(UnsignedByteRef::new);
-    this._21b = ref.offset(1, 0x21b).cast(UnsignedByteRef::new);
+    this._21a = ref.offset(1, 0x21a).cast(ArrayRef.of(UnsignedByteRef.class, 2, 0x1, UnsignedByteRef::new));
     this._21c = ref.offset(4, 0x21c).cast(Pointer.deferred(4, GraphicsStruct1c::new));
     this._220 = ref.offset(2, 0x220).cast(UnsignedShortRef::new);
     this._222 = ref.offset(2, 0x222).cast(UnsignedShortRef::new);
@@ -108,7 +108,11 @@ public class Menua70 implements MemoryRef {
     this._25c = ref.offset(1, 0x25c).cast(ByteRef::new);
     this._25d = ref.offset(1, 0x25d).cast(ByteRef::new);
 
+    this._260 = ref.offset(1, 0x260).cast(ArrayRef.of(UnsignedByteRef.class, 8, 0x1, UnsignedByteRef::new));
     this._268 = ref.offset(1, 0x268).cast(UnsignedByteRef::new);
+
+    this._392 = ref.offset(2, 0x392).cast(UnsignedShortRef::new);
+    this._394 = ref.offset(2, 0x394).cast(UnsignedShortRef::new);
   }
 
   @Override

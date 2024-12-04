@@ -299,12 +299,12 @@ public final class GoldenSun {
     r1 = CPU.lsrT(r1, 24);
     if(CPU.cpsr().getZero()) { // ==
       r2 = CPU.lsrT(r0, 14);
-      r0 = CPU.movT(0, 0x1);
+      r0 = CPU.movT(0x1);
       r0 = CPU.andT(r0, r2);
       r0 = CPU.lslT(r0, 16);
       r2 = CPU.lsrT(r2, 2);
       if(CPU.cpsr().getCarry()) { // unsigned >=
-        r0 = CPU.negT(r0, r0);
+        r0 = CPU.negT(r0);
       }
 
       //LAB_800231a
@@ -312,7 +312,7 @@ public final class GoldenSun {
     }
     r2 = CPU.lsrT(r0, 15);
     if(CPU.cpsr().getCarry()) { // unsigned >=
-      r3 = CPU.movT(0, 0x80);
+      r3 = CPU.movT(0x80);
       r3 = CPU.lslT(r3, 1);
       r1 = CPU.subT(r3, r1);
     }
@@ -323,7 +323,7 @@ public final class GoldenSun {
     r0 = MEMORY.ref(2, r3 + r1).getUnsigned();
     r2 = CPU.lsrT(r2, 1);
     if(CPU.cpsr().getCarry()) { // unsigned >=
-      r0 = CPU.negT(r0, r0);
+      r0 = CPU.negT(r0);
     }
 
     //LAB_8002342
@@ -667,6 +667,11 @@ public final class GoldenSun {
 */
 
     //LAB_80034fc
+  }
+
+  @Method(0x800352c)
+  public static void FUN_800352c() {
+    _3001b00.set(0x13);
   }
 
   @Method(0x8003538)
@@ -5618,31 +5623,31 @@ public final class GoldenSun {
     lr = r3;
     r3 = CPU.lsrT(r2, 31);
     r3 = CPU.addT(r2, r3);
-    r4 = CPU.movT(0, 0x7f);
+    r4 = CPU.movT(0x7f);
     r3 = CPU.asrT(r3, 1);
     r3 = CPU.andT(r3, r4);
     r6 = CPU.lslT(r3, 7);
     r3 = CPU.lsrT(r1, 31);
-    r0 = CPU.movT(0, 0x1e);
+    r0 = CPU.movT(0x1e);
     r3 = CPU.addT(r1, r3);
     r2 = CPU.andT(r2, r0);
     r7 = CPU.asrT(r3, 1);
     CPU.r9().value = r1;
     r5 = CPU.lslT(r2, 5);
     r7 = CPU.andT(r7, r4);
-    r2 = CPU.movT(0, 0x1);
+    r2 = CPU.movT(0x1);
     r4 = CPU.r9().value;
     r4 = CPU.andT(r4, r0);
     CPU.r12().value = r2;
     r3 = CPU.r12().value;
     CPU.r9().value = r4;
-    r2 = CPU.movT(0, 0xf0);
-    r4 = CPU.movT(0, 0xfe);
+    r2 = CPU.movT(0xf0);
+    r4 = CPU.movT(0xfe);
     r3 = CPU.andT(r3, r1);
     r4 = CPU.lslT(r4, 6);
     r2 = CPU.lslT(r2, 2);
     CPU.r12().value = r3;
-    r0 = CPU.movT(0, 0x0);
+    r0 = CPU.movT(0x0);
     CPU.r10().value = r4;
     CPU.r8().value = r2;
 

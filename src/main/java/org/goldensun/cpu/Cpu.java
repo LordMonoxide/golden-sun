@@ -401,11 +401,11 @@ public class Cpu implements Runnable {
     return left;
   }
 
-  public int negT(final int left, final int right) {
-    return this.negA(left, right);
+  public int negT(final int right) {
+    return this.negA(right);
   }
 
-  public int negA(final int left, final int right) {
+  public int negA(final int right) {
     final int newValue = -right;
     this.setVcFlagsSub(0, right, newValue);
     this.setZsFlags(newValue);
@@ -456,7 +456,7 @@ public class Cpu implements Runnable {
     return result;
   }
 
-  public int movT(final int left, final int right) {
+  public int movT(final int right) {
     this.setZsFlags(right);
     return right;
   }

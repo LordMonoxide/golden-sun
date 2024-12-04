@@ -147,7 +147,7 @@ public final class Bios {
     final int r0;
     int r1;
 
-    r0 = CPU.movT(0, 0x0);
+    r0 = CPU.movT(0x0);
     r1 = MEMORY.ref(4, 0x0000280).get();
 
     //LAB_0000120
@@ -199,7 +199,7 @@ public final class Bios {
   public static int FUN_000039c(int r0) {
     CPU.cmpT(r0, 0x0);
     if(CPU.cpsr().getZero() || CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <=
-      r0 = CPU.negT(r0, r0);
+      r0 = CPU.negT(r0);
     }
 
     //LAB_00003a2
@@ -216,24 +216,24 @@ public final class Bios {
     int r5;
     int r6;
 
-    r6 = CPU.movT(0, 0x8);
+    r6 = CPU.movT(0x8);
     r6 = CPU.lslT(r6, 24);
-    r5 = CPU.movT(0, 0x9e);
+    r5 = CPU.movT(0x9e);
     r5 = CPU.addT(r5, r6);
     r0 = CPU.subT(r5, 0x1);
-    r1 = CPU.movT(0, 0x1b);
+    r1 = CPU.movT(0x1b);
     r0 = FUN_00006ac(r0, r1);
-    r4 = CPU.movT(0, 0xc);
+    r4 = CPU.movT(0xc);
     r4 = CPU.mulT(r4, r0);
     r3 = MEMORY.ref(1, r5).getUnsigned();
     r3 = CPU.lslT(r3, 30);
     r3 = CPU.lsrT(r3, 30);
-    r2 = CPU.movT(0, 0x30);
+    r2 = CPU.movT(0x30);
     r2 = CPU.mulT(r2, r3);
     r4 = CPU.addT(r4, r2);
     r5 = 0x00005ec;
     r5 = CPU.addT(r5, r4);
-    r4 = CPU.movT(0, 0x0);
+    r4 = CPU.movT(0x0);
 
     //LAB_00005cc
     do {
@@ -264,14 +264,14 @@ public final class Bios {
     final int r4;
     int r5;
 
-    r4 = CPU.movT(0, 0x3);
-    r3 = CPU.movT(0, 0x0);
+    r4 = CPU.movT(0x3);
+    r3 = CPU.movT(0x0);
 
     //LAB_00006b2
     do {
       r2 = MEMORY.ref(1, r0).getUnsigned();
       r3 = CPU.rorT(r3, r4);
-      r5 = CPU.movT(0, 0x4);
+      r5 = CPU.movT(0x4);
 
       //LAB_00006b8
       do {
@@ -297,15 +297,15 @@ public final class Bios {
     int r3;
     int r4;
 
-    r4 = CPU.movT(0, 0x14);
+    r4 = CPU.movT(0x14);
     r4 = CPU.mulT(r4, r0);
-    r3 = CPU.movT(0, 0x8);
+    r3 = CPU.movT(0x8);
     r3 = CPU.lslT(r3, 24);
     r0 = CPU.addT(r3, 0x4);
     r0 = CPU.addT(r0, r4);
     r1 = MEMORY.ref(4, 0x0000ac0).get();
     r1 = CPU.addT(r1, r4);
-    r2 = CPU.movT(0, 0xa);
+    r2 = CPU.movT(0xa);
     CpuSet(r0, r1, r2);
   }
 
@@ -320,9 +320,9 @@ public final class Bios {
     int r2;
     final int r3;
     r3 = MEMORY.ref(4, 0x0000ac8).get();
-    r2 = CPU.movT(0, 0x8);
-    r0 = CPU.movT(0, 0x7e);
-    r0 = CPU.negT(r0, r0);
+    r2 = CPU.movT(0x8);
+    r0 = CPU.movT(0x7e);
+    r0 = CPU.negT(r0);
 
     //LAB_000072e
     do {
@@ -351,11 +351,11 @@ public final class Bios {
 
     r4 = MEMORY.ref(4, CPU.sp().value + 0x14).get();
     r5 = MEMORY.ref(4, CPU.sp().value + 0x18).get();
-    r7 = CPU.movT(0, 0x0);
+    r7 = CPU.movT(0x0);
 
     //LAB_00007a6
     do {
-      r6 = CPU.movT(0, 0x0);
+      r6 = CPU.movT(0x0);
 
       //LAB_00007a8
       do {
@@ -384,7 +384,7 @@ public final class Bios {
 
     //LAB_0000800
     do {
-      r1 = CPU.movT(0, 0x2);
+      r1 = CPU.movT(0x2);
       r1 = CPU.lslT(r1, 8);
       CPU.r12().value = r1;
       r3 = MEMORY.ref(4, 0x0000ad4).get();
@@ -410,7 +410,7 @@ public final class Bios {
 
       //LAB_0000822
       MEMORY.ref(2, r3).setu(r2);
-      r2 = CPU.movT(0, 0x8);
+      r2 = CPU.movT(0x8);
 
       //LAB_0000826
       do {
@@ -427,7 +427,7 @@ public final class Bios {
     final int r1;
     int r2;
     r1 = MEMORY.ref(4, 0x0000ad8).get();
-    r2 = CPU.movT(0, 0x37);
+    r2 = CPU.movT(0x37);
     r2 = CPU.lslT(r2, 4);
     r0 = MEMORY.ref(4, 0x0000adc).get();
     FUN_0000858(r0, r1, r2);
@@ -436,7 +436,7 @@ public final class Bios {
   @Method(0x0000838)
   public static void FUN_0000838() {
     final int r1 = MEMORY.ref(4, 0x0000ad8).get();
-    final int r2 = CPU.movT(0, 0x24);
+    final int r2 = CPU.movT(0x24);
     final int r0 = MEMORY.ref(4, 0x0000ae0).get();
     FUN_0000858(r0, r1, r2);
   }
@@ -446,9 +446,9 @@ public final class Bios {
     final int r0;
     int r1;
     final int r2;
-    r1 = CPU.movT(0, 0x7);
+    r1 = CPU.movT(0x7);
     r1 = CPU.lslT(r1, 24);
-    r2 = CPU.movT(0, 0x50);
+    r2 = CPU.movT(0x50);
     r0 = MEMORY.ref(4, 0x0000ae4).get();
     FUN_0000858(r0, r1, r2);
   }
@@ -466,7 +466,7 @@ public final class Bios {
     }
 
     //LAB_0000854
-    r2 = CPU.movT(0, 0x8);
+    r2 = CPU.movT(0x8);
     r0 = MEMORY.ref(4, 0x0000aec).get();
     FUN_0000858(r0, r1, r2);
   }
@@ -484,7 +484,7 @@ public final class Bios {
       if(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <
         break;
       }
-      r3 = CPU.movT(0, 0x4);
+      r3 = CPU.movT(0x4);
       r3 = CPU.lslT(r3, 12);
       r0 = CPU.cmpT(r0, r3);
       if(CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >=
@@ -532,7 +532,7 @@ public final class Bios {
 
     //LAB_000088c
     r1 = MEMORY.ref(4, 0x0000ad8).get();
-    r2 = CPU.movT(0, 0xa);
+    r2 = CPU.movT(0xa);
     CpuSet(r0, r1, r2);
     FUN_00005a4();
     r1 = MEMORY.ref(4, 0x0000ac0).get();
@@ -556,7 +556,7 @@ public final class Bios {
     r0 = MEMORY.ref(4, 0x0000b04).get();
     r1 = MEMORY.ref(4, 0x0000ad8).get();
     FUN_00010f8(r0, r1);
-    r7 = CPU.movT(0, 0x0);
+    r7 = CPU.movT(0x0);
 
     //LAB_00008c6
     do {
@@ -574,11 +574,11 @@ public final class Bios {
       CPU.cmpT(r7, 0x8);
     } while(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()); // <
 
-    r7 = CPU.movT(0, 0xe);
+    r7 = CPU.movT(0xe);
 
     //LAB_00008e4
     do {
-      r4 = CPU.movT(0, 0x3);
+      r4 = CPU.movT(0x3);
 
       //LAB_00008e6
       do {
@@ -594,7 +594,7 @@ public final class Bios {
         r1 = CPU.addT(r1, r2);
         r1 = CPU.lslT(r1, 6);
         r1 = CPU.addT(r1, r3);
-        r2 = CPU.movT(0, 0x80);
+        r2 = CPU.movT(0x80);
         CpuSet(r0, r1, r2);
         r4 = CPU.subT(r4, 0x1);
       } while(CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()); // >=
@@ -606,22 +606,22 @@ public final class Bios {
     FUN_000094a(r0);
     FUN_0000974();
     FUN_0000982();
-    r2 = CPU.movT(0, 0x20);
+    r2 = CPU.movT(0x20);
     MEMORY.ref(4, CPU.sp().value + 0x4).setu(r2);
     r1 = MEMORY.ref(4, 0x0000b14).get();
     MEMORY.ref(4, CPU.sp().value).setu(r1);
-    r3 = CPU.movT(0, 0x4);
-    r2 = CPU.movT(0, 0x4);
+    r3 = CPU.movT(0x4);
+    r2 = CPU.movT(0x4);
     r1 = MEMORY.ref(4, 0x0000b18).get();
     r0 = MEMORY.ref(4, 0x0000b1c).get();
     FUN_000079e(r0, r1, r2, r3);
-    r1 = CPU.movT(0, 0x5);
+    r1 = CPU.movT(0x5);
     r1 = CPU.lslT(r1, 24);
     r0 = CPU.mvnT(0, r1);
     MEMORY.ref(2, r1).setu(r0);
-    r0 = CPU.movT(0, 0x0);
+    r0 = CPU.movT(0x0);
     FUN_000084a(r0);
-    r0 = CPU.movT(0, 0x1);
+    r0 = CPU.movT(0x1);
     FUN_000084a(r0);
     FUN_0000840();
     CPU.sp().value += 0x14;
@@ -638,7 +638,7 @@ public final class Bios {
     FUN_0000838();
     r0 = MEMORY.ref(4, CPU.sp().value).get();
     r1 = MEMORY.ref(4, 0x0000b24).get();
-    r2 = CPU.movT(0, 0x4e);
+    r2 = CPU.movT(0x4e);
     CpuSet(r0, r1, r2);
     r0 = MEMORY.ref(4, 0x0000ad8).get();
     r1 = MEMORY.ref(4, 0x0000b04).get();
@@ -671,11 +671,11 @@ public final class Bios {
 
     r6 = MEMORY.ref(4, 0x0000b04).get();
     r4 = MEMORY.ref(4, 0x0000b30).get();
-    r7 = CPU.movT(0, 0x2);
+    r7 = CPU.movT(0x2);
 
     //LAB_000098a
     do {
-      r5 = CPU.movT(0, 0x34);
+      r5 = CPU.movT(0x34);
 
       //LAB_000098c
       do {
@@ -702,7 +702,7 @@ public final class Bios {
       r7 = CPU.subT(r7, 0x1);
     } while(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()); // >
 
-    r7 = CPU.movT(0, 0x3);
+    r7 = CPU.movT(0x3);
 
     //LAB_000099c
     do {
@@ -711,7 +711,7 @@ public final class Bios {
       r0 = CPU.addT(r0, r3);
       r1 = MEMORY.ref(4, 0x0000b38).get();
       r1 = CPU.addT(r1, r3);
-      r2 = CPU.movT(0, 0x1);
+      r2 = CPU.movT(0x1);
       r2 = CPU.lslT(r2, 8);
       r0 = FUN_0000bc0(r0, r1, r2);
       r7 = CPU.subT(r7, 0x1);
@@ -794,7 +794,7 @@ public final class Bios {
     r4 = CPU.lsrT(r4, 9);
     FUN_0000b9c(r0, r4);
     if(!CPU.cpsr().getZero()) { // !=
-      r5 = CPU.movT(0, 0x0);
+      r5 = CPU.movT(0x0);
       r3 = CPU.lsrT(lenMode, 27);
       if(CPU.cpsr().getCarry()) { // unsigned >=
         r5 = CPU.addT(r1, r4);
@@ -1318,7 +1318,7 @@ public final class Bios {
     if(CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >=
       CPU.cmpT(r4, 0x10);
       if(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >
-        r4 = CPU.movT(0, 0x10);
+        r4 = CPU.movT(0x10);
       }
 
       //LAB_00013d6
@@ -1328,7 +1328,7 @@ public final class Bios {
       r0 = MEMORY.ref(4, 0x0001424).get();
       MEMORY.ref(1, r7 + 0x8).setu(r4);
       MEMORY.ref(4, r7 + 0x4).setu(r0);
-      r0 = CPU.movT(0, 0x0);
+      r0 = CPU.movT(0x0);
 
       //LAB_00013f2
       CPU.cmpT(r4, 0x0);
@@ -1387,26 +1387,26 @@ public final class Bios {
 
     r7 = CPU.addT(r0, 0x0);
     r1 = MEMORY.ref(4, 0x00016dc).get();
-    r0 = CPU.movT(0, 0x0);
+    r0 = CPU.movT(0x0);
     MEMORY.ref(2, r1 + 0x6).setu(r0);
     MEMORY.ref(2, r1 + 0x12).setu(r0);
     r0 = MEMORY.ref(4, 0x00016e0).get();
-    r2 = CPU.movT(0, 0x8f);
+    r2 = CPU.movT(0x8f);
     MEMORY.ref(2, r0 + 0x4).setu(r2);
     r2 = MEMORY.ref(4, 0x00016e4).get();
     MEMORY.ref(2, r0 + 0x2).setu(r2);
     r2 = MEMORY.ref(1, r0 + 0x9).getUnsigned();
     r2 = CPU.lslT(r2, 26);
     r2 = CPU.lsrT(r2, 26);
-    r3 = CPU.movT(0, 0x40);
+    r3 = CPU.movT(0x40);
     r2 = CPU.orrT(r2, r3);
-    r3 = CPU.movT(0, 0x35);
+    r3 = CPU.movT(0x35);
     r3 = CPU.lslT(r3, 4);
     MEMORY.ref(1, r0 + 0x9).setu(r2);
     r2 = CPU.addT(r7, r3);
     MEMORY.ref(4, r0 + 0x3c).setu(r2);
     r0 = MEMORY.ref(4, 0x00016e8).get();
-    r3 = CPU.movT(0, 0x13);
+    r3 = CPU.movT(0x13);
     r3 = CPU.lslT(r3, 7);
     MEMORY.ref(4, r1).setu(r0);
     r0 = CPU.addT(r7, r3);
@@ -1416,14 +1416,14 @@ public final class Bios {
     MEMORY.ref(4, r1 + 0xc).setu(r0);
     r0 = MEMORY.ref(4, 0x00016f0).get();
     MEMORY.ref(4, r0 + 0x30).setu(r7);
-    r0 = CPU.movT(0, 0x0);
+    r0 = CPU.movT(0x0);
     MEMORY.ref(4, CPU.sp().value).setu(r0);
     r0 = CPU.sp().value;
     r1 = CPU.addT(r7, 0x0);
     CpuSet(r0, r1, r2);
-    r0 = CPU.movT(0, 0x8);
+    r0 = CPU.movT(0x8);
     MEMORY.ref(1, r7 + 0x6).setu(r0);
-    r0 = CPU.movT(0, 0xf);
+    r0 = CPU.movT(0xf);
     MEMORY.ref(1, r7 + 0x7).setu(r0);
     r0 = MEMORY.ref(4, 0x00016f8).get();
     MEMORY.ref(4, r7 + 0x38).setu(r0);
@@ -1434,7 +1434,7 @@ public final class Bios {
     MEMORY.ref(4, r7 + 0x3c).setu(r0);
     r0 = MEMORY.ref(4, 0x0001700).get();
     MEMORY.ref(4, r7 + 0x34).setu(r0);
-    r0 = CPU.movT(0, 0x1);
+    r0 = CPU.movT(0x1);
     r0 = CPU.lslT(r0, 18);
     FUN_000170a(r0);
     r0 = MEMORY.ref(4, 0x0001704).get();
@@ -1472,14 +1472,14 @@ public final class Bios {
       }
 
       //LAB_00017ba
-      r1 = CPU.movT(0, 0xf);
+      r1 = CPU.movT(0xf);
       r1 = CPU.lslT(r1, 8);
       r1 = CPU.andT(r1, r0);
       if(!CPU.cpsr().getZero()) { // !=
         r1 = CPU.lsrT(r1, 8);
         MEMORY.ref(1, r7 + 0x6).setu(r1);
-        r1 = CPU.movT(0, 0xc);
-        r3 = CPU.movT(0, 0x0);
+        r1 = CPU.movT(0xc);
+        r3 = CPU.movT(0x0);
         r2 = CPU.addT(r7, 0x7);
         r2 = CPU.addT(r2, 0x49);
 
@@ -1492,7 +1492,7 @@ public final class Bios {
       }
 
       //LAB_00017d6
-      r1 = CPU.movT(0, 0xf);
+      r1 = CPU.movT(0xf);
       r1 = CPU.lslT(r1, 12);
       r1 = CPU.andT(r1, r0);
       if(!CPU.cpsr().getZero()) { // !=
@@ -1501,11 +1501,11 @@ public final class Bios {
       }
 
       //LAB_00017e2
-      r1 = CPU.movT(0, 0xb);
+      r1 = CPU.movT(0xb);
       r1 = CPU.lslT(r1, 20);
       r1 = CPU.andT(r1, r0);
       if(!CPU.cpsr().getZero()) { // !=
-        r3 = CPU.movT(0, 0x3);
+        r3 = CPU.movT(0x3);
         r3 = CPU.lslT(r3, 20);
         r2 = MEMORY.ref(4, 0x0001820).get();
         r1 = CPU.andT(r1, r3);
@@ -1518,7 +1518,7 @@ public final class Bios {
       }
 
       //LAB_00017fe
-      r4 = CPU.movT(0, 0xf);
+      r4 = CPU.movT(0xf);
       r4 = CPU.lslT(r4, 16);
       r4 = CPU.andT(r4, r0);
       if(!CPU.cpsr().getZero()) { // !=
@@ -1551,23 +1551,23 @@ public final class Bios {
     int r7;
 
     CPU.sp().value -= 0x34;
-    r1 = CPU.movT(0, 0x0);
-    r0 = CPU.movT(0, 0x0);
+    r1 = CPU.movT(0x0);
+    r0 = CPU.movT(0x0);
     MEMORY.ref(4, CPU.sp().value + 0x14).setu(r0);
-    r0 = CPU.movT(0, 0x10);
+    r0 = CPU.movT(0x10);
     MEMORY.ref(4, CPU.sp().value + 0xc).setu(r0);
     r7 = CPU.mvnT(0, r1);
-    r0 = CPU.movT(0, 0xff);
+    r0 = CPU.movT(0xff);
     MEMORY.ref(4, CPU.sp().value + 0x10).setu(r1);
     MEMORY.ref(4, CPU.sp().value).setu(r1);
     FUN_00009c2(r0);
     r0 = MEMORY.ref(4, 0x0001d2c).get();
-    r5 = CPU.movT(0, 0x1);
+    r5 = CPU.movT(0x1);
     MEMORY.ref(1, r0).setu(r5);
-    r0 = CPU.movT(0, 0x1);
+    r0 = CPU.movT(0x1);
     FUN_0000800(r0);
     r6 = MEMORY.ref(4, 0x0001d30).get();
-    r0 = CPU.movT(0, 0x8);
+    r0 = CPU.movT(0x8);
     r1 = CPU.lslT(r0, 23);
     MEMORY.ref(2, r6).setu(r5);
     MEMORY.ref(2, r1 + 0x4).setu(r0);
@@ -1579,19 +1579,19 @@ public final class Bios {
 
     //LAB_0001962
     FUN_0000874();
-    r0 = CPU.movT(0, 0xef);
+    r0 = CPU.movT(0xef);
     r0 = CPU.lslT(r0, 7);
-    r1 = CPU.movT(0, 0x1);
+    r1 = CPU.movT(0x1);
     r1 = CPU.lslT(r1, 26);
     MEMORY.ref(2, r1 + 0xe).setu(r0);
-    r0 = CPU.movT(0, 0x54);
+    r0 = CPU.movT(0x54);
     MEMORY.ref(4, CPU.sp().value + 0x8).setu(r0);
-    r0 = CPU.movT(0, 0x76);
+    r0 = CPU.movT(0x76);
     MEMORY.ref(4, CPU.sp().value + 0x4).setu(r0);
-    r0 = CPU.movT(0, 0x15);
+    r0 = CPU.movT(0x15);
     r0 = CPU.lslT(r0, 10);
     MEMORY.ref(4, r1 + 0x38).setu(r0);
-    r0 = CPU.movT(0, 0x3b);
+    r0 = CPU.movT(0x3b);
     r0 = CPU.lslT(r0, 9);
     MEMORY.ref(4, r1 + 0x3c).setu(r0);
     r1 = MEMORY.ref(4, 0x0001d38).get();
@@ -1605,11 +1605,11 @@ public final class Bios {
     FUN_000179c(r0);
     r1 = MEMORY.ref(4, 0x0001d44).get();
     r0 = MEMORY.ref(4, 0x0001d48).get();
-    r2 = CPU.movT(0, 0x6);
+    r2 = CPU.movT(0x6);
     FUN_00013c4(r0, r1, r2);
     r1 = MEMORY.ref(4, 0x0001d4c).get();
     r0 = MEMORY.ref(4, 0x0001d50).get();
-    r2 = CPU.movT(0, 0x6);
+    r2 = CPU.movT(0x6);
     FUN_00013c4(r0, r1, r2);
 
     //LAB_0001c62
@@ -1618,14 +1618,14 @@ public final class Bios {
 
     //LAB_00019b4
     while(CPU.cpsr().getZero() || CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <=
-      r5 = CPU.movT(0, 0x7);
+      r5 = CPU.movT(0x7);
 
       //LAB_0001b0a
       r5 = CPU.subT(r5, 0x1);
 
       //LAB_00019b8
       while(!CPU.cpsr().getNegative()) { // positive
-        r0 = CPU.movT(0, 0x6);
+        r0 = CPU.movT(0x6);
         r2 = CPU.subT(r0, r5);
         r0 = CPU.lslT(r2, 2);
         r0 = CPU.addT(r0, r2);
@@ -1651,7 +1651,7 @@ public final class Bios {
         MEMORY.ref(4, CPU.sp().value + 0x18).setu(r1);
         MEMORY.ref(4, CPU.sp().value + 0x1c).setu(r2);
         r6 = MEMORY.ref(4, r1 + 0x8).get();
-        r3 = CPU.movT(0, 0x7);
+        r3 = CPU.movT(0x7);
         r3 = CPU.lslT(r3, 24);
         MEMORY.ref(4, CPU.sp().value + 0x2c).setu(r4);
         r4 = CPU.addT(r4, r3);
@@ -1668,7 +1668,7 @@ public final class Bios {
           r0 = CPU.asrT(r0, 16);
           r1 = MEMORY.ref(4, CPU.sp().value + 0x18).get();
           FUN_0000738(r0, r1);
-          r0 = CPU.movT(0, 0x14);
+          r0 = CPU.movT(0x14);
           r0 = CPU.mulT(r0, r5);
           r1 = MEMORY.ref(4, 0x0001d5c).get();
           r1 = CPU.addT(r0, r1);
@@ -1678,31 +1678,31 @@ public final class Bios {
           FUN_0000768(r0, r1);
           r0 = CPU.lslT(r5, 5);
           r3 = MEMORY.ref(4, 0x0001d60).get();
-          r2 = CPU.movT(0, 0x1);
+          r2 = CPU.movT(0x1);
           r1 = CPU.addT(r0, r3);
           r0 = MEMORY.ref(4, CPU.sp().value + 0x24).get();
-          r3 = CPU.movT(0, 0x8);
+          r3 = CPU.movT(0x8);
           r0 = CPU.addT(r0, 0xc);
           FUN_0003730(r0, r1, r2, r3);
-          r3 = CPU.movT(0, 0x60);
+          r3 = CPU.movT(0x60);
           r6 = CPU.cmnT(r6, r3);
           if(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >
             r0 = MEMORY.ref(4, r4).get();
             r2 = CPU.lslT(r3, 3);
             r2 = CPU.orrT(r2, r0);
-            r0 = CPU.movT(0, 0x3f);
+            r0 = CPU.movT(0x3f);
             r0 = CPU.mvnT(r0, r0);
             r1 = CPU.addT(r0, 0x0);
             MEMORY.ref(4, r4).setu(r2);
             if(r6 >= r0 || r5 < 4) {
               //LAB_0001a44
-              r3 = CPU.movT(0, 0x4b);
+              r3 = CPU.movT(0x4b);
               r6 = CPU.cmnT(r6, r3);
               if(CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >=
                 CPU.cmpT(r6, 0x0);
                 if(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <
                   r0 = MEMORY.ref(2, r4).getUnsigned();
-                  r3 = CPU.movT(0, 0x1);
+                  r3 = CPU.movT(0x1);
                   r3 = CPU.lslT(r3, 15);
                   r0 = CPU.orrT(r0, r3);
                   MEMORY.ref(2, r4).setu(r0);
@@ -1718,14 +1718,14 @@ public final class Bios {
                   r0 = CPU.lsrT(r0, 22);
                   r0 = CPU.orrT(r0, r2);
                   MEMORY.ref(2, r4 + 0x4).setu(r0);
-                  r0 = CPU.movT(0, 0x1f);
+                  r0 = CPU.movT(0x1f);
                   r0 = CPU.mvnT(r0, r0);
                 } else {
                   //LAB_0001a76
-                  r3 = CPU.movT(0, 0x3);
+                  r3 = CPU.movT(0x3);
                   r3 = CPU.lslT(r3, 8);
                   r2 = CPU.bicT(r2, r3);
-                  r0 = CPU.movT(0, 0xf);
+                  r0 = CPU.movT(0xf);
                   r0 = CPU.mvnT(r0, r0);
                   r1 = CPU.lslT(r0, 1);
                   MEMORY.ref(4, r4).setu(r2);
@@ -1757,7 +1757,7 @@ public final class Bios {
           }
 
           //LAB_0001aac
-          r0 = CPU.negT(0, r6);
+          r0 = CPU.negT(r6);
           r1 = CPU.lslT(r0, 28);
           r1 = CPU.lsrT(r1, 28);
           r1 = CPU.lslT(r1, 1);
@@ -1796,7 +1796,7 @@ public final class Bios {
         r1 = CPU.subT(r1, 0x59);
         CPU.cmpT(r1, 0x50);
         if(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()) { // unsigned <=
-          r0 = CPU.movT(0, 0x5);
+          r0 = CPU.movT(0x5);
           r0 = FUN_0003720(r0, r1);
           r0 = CPU.subT(r0, 0x8);
           r0 = FUN_000039c(r0);
@@ -1804,7 +1804,7 @@ public final class Bios {
           r1 = CPU.lslT(r0, 2);
           r0 = CPU.lslT(r2, 2);
           r2 = CPU.addT(r0, 0x1);
-          r0 = CPU.movT(0, 0x0);
+          r0 = CPU.movT(0x0);
           FUN_00007bc(r0, r1, r2);
         }
 
@@ -1812,19 +1812,19 @@ public final class Bios {
       }
 
       //LAB_0001b10
-      r4 = CPU.movT(0, 0x7);
+      r4 = CPU.movT(0x7);
       r4 = CPU.lslT(r4, 24);
       if(r7 == 0x6c || r7 == 0xb4) {
         //LAB_0001b1c
         r0 = MEMORY.ref(4, CPU.sp().value + 0x8).get();
-        r1 = CPU.movT(0, 0x6);
+        r1 = CPU.movT(0x6);
         r0 = CPU.subT(r0, 0x38);
         MEMORY.ref(4, CPU.sp().value + 0x8).setu(r0);
         r0 = MEMORY.ref(4, CPU.sp().value + 0x4).get();
         MEMORY.ref(4, CPU.sp().value + 0x10).setu(r1);
         r0 = CPU.subT(r0, 0x80);
         MEMORY.ref(4, CPU.sp().value + 0x4).setu(r0);
-        r0 = CPU.movT(0, 0xa);
+        r0 = CPU.movT(0xa);
         MEMORY.ref(4, CPU.sp().value + 0xc).setu(r0);
         r0 = MEMORY.ref(4, 0x0001d70).get();
         r1 = MEMORY.ref(4, 0x0001d38).get();
@@ -1839,14 +1839,14 @@ public final class Bios {
           r0 = MEMORY.ref(4, CPU.sp().value + 0x20).get();
           CPU.cmpT(r0, 0x0);
           if(CPU.cpsr().getZero()) { // ==
-            r0 = CPU.movT(0, 0x1);
+            r0 = CPU.movT(0x1);
           } else {
             //LAB_0001b4c
-            r0 = CPU.movT(0, 0x2);
+            r0 = CPU.movT(0x2);
           }
 
           //LAB_0001b4e
-          r3 = CPU.movT(0, 0x3);
+          r3 = CPU.movT(0x3);
           r1 = MEMORY.ref(4, r4 + 0x48).get();
           r3 = CPU.lslT(r3, 8);
           r1 = CPU.bicT(r1, r3);
@@ -1856,14 +1856,14 @@ public final class Bios {
           r0 = CPU.orrT(r0, r1);
           r1 = MEMORY.ref(4, 0x0001d68).get();
           r1 = CPU.andT(r1, r0);
-          r3 = CPU.movT(0, 0x1);
+          r3 = CPU.movT(0x1);
           r3 = CPU.lslT(r3, 18);
           r0 = CPU.addT(r0, r3);
           r3 = MEMORY.ref(4, 0x0001d68).get();
           r0 = CPU.bicT(r0, r3);
           r0 = CPU.orrT(r0, r1);
           MEMORY.ref(4, r4 + 0x48).setu(r0);
-          r5 = CPU.movT(0, 0x0);
+          r5 = CPU.movT(0x0);
 
           //LAB_0001b72
           do {
@@ -1871,11 +1871,11 @@ public final class Bios {
             r0 = CPU.addT(r0, r4);
             r1 = CPU.addT(r0, 0x7);
             r1 = CPU.addT(r1, 0x79);
-            r2 = CPU.movT(0, 0x3);
+            r2 = CPU.movT(0x3);
             r6 = CPU.addT(r1, 0x0);
             CpuSet(r0, r1, r2);
             r0 = MEMORY.ref(2, r6).getUnsigned();
-            r3 = CPU.movT(0, 0x3);
+            r3 = CPU.movT(0x3);
             r3 = CPU.lslT(r3, 10);
             r0 = CPU.eorT(r0, r3);
             r5 = CPU.addT(r5, 0x1);
@@ -1883,7 +1883,7 @@ public final class Bios {
             MEMORY.ref(2, r6).setu(r0);
           } while(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()); // <
 
-          r0 = CPU.movT(0, 0x6);
+          r0 = CPU.movT(0x6);
           r1 = CPU.addT(r7, 0x0);
           r0 = FUN_0003720(r0, r1);
           CPU.cmpT(r1, 0x0);
@@ -1911,7 +1911,7 @@ public final class Bios {
         }
 
         //LAB_0001bbe
-        r1 = CPU.movT(0, 0x1);
+        r1 = CPU.movT(0x1);
         r1 = CPU.lslT(r1, 26);
         MEMORY.ref(2, r1).setu(r0);
       }
@@ -1919,7 +1919,7 @@ public final class Bios {
       //LAB_0001bc4
       r0 = MEMORY.ref(4, CPU.sp().value + 0x8).get();
       r0 = CPU.lslT(r0, 8);
-      r1 = CPU.movT(0, 0x1);
+      r1 = CPU.movT(0x1);
       r1 = CPU.lslT(r1, 26);
       MEMORY.ref(4, r1 + 0x38).setu(r0);
       r0 = MEMORY.ref(4, CPU.sp().value + 0x4).get();
@@ -1950,7 +1950,7 @@ public final class Bios {
         CPU.cmpT(r0, 0x0);
         if(CPU.cpsr().getZero()) { // ==
           r0 = MEMORY.ref(4, 0x0001d88).get();
-          r3 = CPU.movT(0, 0x1);
+          r3 = CPU.movT(0x1);
           r0 = MEMORY.ref(4, r0 + 0x24).get();
           r0 = CPU.cmnT(r0, r3);
           if(!CPU.cpsr().getZero()) { // !=
@@ -1961,7 +1961,7 @@ public final class Bios {
               r1 = MEMORY.ref(4, 0x0001d90).get();
               r0 = MEMORY.ref(4, 0x0001d50).get();
               FUN_0001434(r0, r1);
-              r0 = CPU.movT(0, 0x1);
+              r0 = CPU.movT(0x1);
               MEMORY.ref(4, CPU.sp().value + 0x20).setu(r0);
             }
           }
@@ -1983,8 +1983,8 @@ public final class Bios {
           }
 
           //LAB_0001c32
-          r2 = CPU.movT(0, 0x1f);
-          r0 = CPU.movT(0, 0x6);
+          r2 = CPU.movT(0x1f);
+          r0 = CPU.movT(0x6);
           r1 = MEMORY.ref(4, CPU.sp().value).get();
           FUN_00007bc(r0, r1, r2);
         }
@@ -1993,7 +1993,7 @@ public final class Bios {
       //LAB_0001c3c
       r0 = FUN_0002b34();
       r1 = MEMORY.ref(4, 0x0001d30).get();
-      r0 = CPU.movT(0, 0x1);
+      r0 = CPU.movT(0x1);
       MEMORY.ref(2, r1 + 0x8).setu(r0);
       FUN_0003728();
       CPU.cmpT(r7, 0x10);
@@ -2017,12 +2017,12 @@ public final class Bios {
     //LAB_0001c6a
     r0 = MEMORY.ref(4, 0x0001d94).get();
     r0 = FUN_00006e8(r0);
-    r6 = CPU.movT(0, 0x0);
+    r6 = CPU.movT(0x0);
     r7 = CPU.addT(r0, 0x0);
     r5 = MEMORY.ref(4, 0x0001d98).get();
     if(r0 != 0 || MEMORY.ref(4, CPU.sp().value + 0x20).get() != 0) {
       //LAB_0001c80
-      r0 = CPU.movT(0, 0x1);
+      r0 = CPU.movT(0x1);
       MEMORY.ref(1, r5 + 0xb).setu(r0);
       MEMORY.ref(1, r5 + 0x7).setu(r6);
 
@@ -2048,7 +2048,7 @@ public final class Bios {
               r0 = MEMORY.ref(4, 0x0001d8c).get();
               r0 = MEMORY.ref(1, r0).getUnsigned();
               r0 = CPU.mvnT(r0, r0);
-              r3 = CPU.movT(0, 0xf3);
+              r3 = CPU.movT(0xf3);
               r0 = CPU.andT(r0, r3);
               if(!CPU.cpsr().getZero()) { // !=
                 r1 = MEMORY.ref(4, 0x0001d9c).get();
@@ -2064,10 +2064,10 @@ public final class Bios {
                 break;
               }
               r1 = MEMORY.ref(4, CPU.sp().value).get();
-              r2 = CPU.movT(0, 0x1f);
+              r2 = CPU.movT(0x1f);
               r1 = CPU.subT(r1, 0x1);
               MEMORY.ref(4, CPU.sp().value).setu(r1);
-              r0 = CPU.movT(0, 0x6);
+              r0 = CPU.movT(0x6);
               FUN_00007bc(r0, r1, r2);
             }
           }
@@ -2080,13 +2080,13 @@ public final class Bios {
     r0 = MEMORY.ref(4, 0x0001d38).get();
     MEMORY.ref(4, r0 + 0x10).setu(r1);
     MEMORY.ref(4, r0 + 0x14).setu(r6);
-    r1 = CPU.movT(0, 0x0);
+    r1 = CPU.movT(0x0);
 
     //LAB_0001ce2
     do {
       r2 = CPU.lslT(r1, 3);
       r7 = MEMORY.ref(4, r4 + r2).get(); //NOTE: r4 uninitialized
-      r3 = CPU.movT(0, 0x3);
+      r3 = CPU.movT(0x3);
       r3 = CPU.lslT(r3, 10);
       r7 = CPU.bicT(r7, r3);
       r1 = CPU.addT(r1, 0x1);
@@ -2094,7 +2094,7 @@ public final class Bios {
       MEMORY.ref(4, r4 + r2).setu(r7);
     } while(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()); // <
 
-    r7 = CPU.movT(0, 0x0);
+    r7 = CPU.movT(0x0);
     r7 = CPU.mvnT(r7, r7);
     r4 = CPU.addT(r0, 0x0);
 
@@ -2125,10 +2125,10 @@ public final class Bios {
     r0 = MEMORY.ref(1, r5 + 0xa).getUnsigned();
     CPU.cmpT(r0, 0x0);
     if(!CPU.cpsr().getZero()) { // !=
-      r0 = CPU.movT(0, 0xde);
+      r0 = CPU.movT(0xde);
     } else {
       //LAB_0001da4
-      r0 = CPU.movT(0, 0xff);
+      r0 = CPU.movT(0xff);
     }
 
     //LAB_0001da6
@@ -2143,10 +2143,10 @@ public final class Bios {
 
   @Method(0x00023b0)
   public static void FUN_00023b0(int r0) {
-    final int r1 = CPU.movT(0, 0x0);
-    final int r2 = CPU.movT(0, 0x0);
-    final int r3 = CPU.movT(0, 0x0);
-    final int r4 = CPU.movT(0, 0x0);
+    final int r1 = CPU.movT(0x0);
+    final int r2 = CPU.movT(0x0);
+    final int r3 = CPU.movT(0x0);
+    final int r4 = CPU.movT(0x0);
     MEMORY.ref(4, r0).setu(r1);
     r0 += 0x4;
     MEMORY.ref(4, r0).setu(r2);
@@ -2189,7 +2189,7 @@ public final class Bios {
   @Method(0x0002d68)
   public static void FUN_0002d68() {
     final int r3 = MEMORY.ref(4, 0x0003098).get();
-    final int r1 = CPU.movT(0, 0x0);
+    final int r1 = CPU.movT(0x0);
     MEMORY.ref(1, r3 + 0xf).setu(r1);
   }
 

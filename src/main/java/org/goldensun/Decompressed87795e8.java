@@ -141,7 +141,7 @@ public final class Decompressed87795e8 {
       r2 = MEMORY.ref(4, 0x20081f0).get();
       MEMORY.ref(4, r3).setu(r2);
       r3 += 0x4;
-      r2 = CPU.movT(0, 0x80);
+      r2 = CPU.movT(0x80);
       r2 = CPU.lslT(r2, 10);
       MEMORY.ref(4, r3).setu(r2);
     }
@@ -160,7 +160,7 @@ public final class Decompressed87795e8 {
       r3 = CPU.addT(r3, 0x1);
       r1 = CPU.lsrT(r0, 16);
       MEMORY.ref(2, r4).setu(r3);
-      r3 = CPU.movT(0, 0x10);
+      r3 = CPU.movT(0x10);
       r2 = CPU.lslT(r2, 2);
       r3 = CPU.subT(r3, r1);
       r2 = CPU.addT(r2, r4);
@@ -172,7 +172,7 @@ public final class Decompressed87795e8 {
       r3 = MEMORY.ref(4, 0x20081f4).get();
       MEMORY.ref(4, r2).setu(r3);
       r2 += 0x4;
-      r3 = CPU.movT(0, 0x80);
+      r3 = CPU.movT(0x80);
       r3 = CPU.lslT(r3, 10);
       MEMORY.ref(4, r2).setu(r3);
     } else {
@@ -183,7 +183,7 @@ public final class Decompressed87795e8 {
     //LAB_20081c6
     r3 = MEMORY.ref(4, 0x20081e8).get();
     MEMORY.ref(2, r3).setu(r6);
-    r3 = CPU.movT(0, 0xf0);
+    r3 = CPU.movT(0xf0);
     r3 = CPU.lslT(r3, 12);
     r0 = CPU.cmpT(r0, r3);
     if(CPU.cpsr().getCarry() && !CPU.cpsr().getZero()) { // unsigned >

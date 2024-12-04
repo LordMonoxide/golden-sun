@@ -693,7 +693,7 @@ public final class GoldenSun_809 {
     r2 = CPU.addT(r0, 0x0);
     r0 = 0x809e9f0;
     r3 = MEMORY.ref(2, r0).getUnsigned();
-    r1 = CPU.movT(0, 0x0);
+    r1 = CPU.movT(0x0);
     r3 = CPU.cmpT(r3, r2);
     if(!CPU.cpsr().getZero()) { // !=
       //LAB_809156e
@@ -3283,7 +3283,7 @@ public final class GoldenSun_809 {
     int r7;
 
     r6 = CPU.addT(r0, 0x0);
-    r2 = CPU.movT(0, 0x80);
+    r2 = CPU.movT(0x80);
     r0 = MEMORY.ref(4, r6 + 0xc).get();
     r2 = CPU.lslT(r2, 24);
     CPU.sp().value -= 0x4;
@@ -3329,7 +3329,7 @@ public final class GoldenSun_809 {
         r0 = CPU.addT(r0, r3);
         r3 = MEMORY.ref(4, 0x809ba2c).get();
         r0 = (int)MEMORY.call(r3, r0);
-        r3 = CPU.movT(0, 0x80);
+        r3 = CPU.movT(0x80);
         r0 = CPU.lslT(r0, 16);
         r3 = CPU.lslT(r3, 16);
         r0 = CPU.cmpT(r0, r3);
@@ -3352,7 +3352,7 @@ public final class GoldenSun_809 {
         }
 
         //LAB_809b974
-        r2 = CPU.movT(0, 0x80);
+        r2 = CPU.movT(0x80);
         r2 = CPU.lslT(r2, 12);
         r0 = CPU.cmpT(r0, r2);
         if(CPU.cpsr().getZero() || CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <=
@@ -3385,21 +3385,21 @@ public final class GoldenSun_809 {
         r3 = CPU.addT(r2, 0x0);
         CPU.cmpT(r2, 0x0);
         if(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <
-          r3 = CPU.negT(r3, r2);
+          r3 = CPU.negT(r2);
         }
 
         //LAB_809b9b2
-        r7 = CPU.movT(0, 0x32);
+        r7 = CPU.movT(0x32);
         r1 = MEMORY.ref(2, r6 + r7).get();
         r0 = MEMORY.ref(2, r6 + 0x32).getUnsigned();
         r3 = CPU.cmpT(r3, r1);
         if(CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >=
           CPU.cmpT(r2, 0x0);
           if(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()) { // <
-            r3 = CPU.negT(r3, r2);
+            r3 = CPU.negT(r2);
             r3 = CPU.cmpT(r3, r1);
             if(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >
-              r3 = CPU.negT(r3, r0);
+              r3 = CPU.negT(r0);
               r3 = CPU.lslT(r3, 16);
               r2 = CPU.asrT(r3, 16);
             }
