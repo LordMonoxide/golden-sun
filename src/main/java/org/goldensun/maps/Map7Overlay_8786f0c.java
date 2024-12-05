@@ -1,5 +1,10 @@
-package org.goldensun;
+package org.goldensun.maps;
 
+import org.goldensun.CopiedSegment8000770;
+import org.goldensun.GoldenSun;
+import org.goldensun.GoldenSunVars;
+import org.goldensun.GoldenSun_807;
+import org.goldensun.GoldenSun_808;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.types.Actor70;

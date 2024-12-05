@@ -1,5 +1,11 @@
-package org.goldensun;
+package org.goldensun.maps;
 
+import org.goldensun.GoldenSun;
+import org.goldensun.GoldenSunVars;
+import org.goldensun.GoldenSun_801;
+import org.goldensun.GoldenSun_807;
+import org.goldensun.GoldenSun_808;
+import org.goldensun.GoldenSun_80f;
 import org.goldensun.memory.Method;
 import org.goldensun.types.Panel24;
 import org.goldensun.types.Map194;

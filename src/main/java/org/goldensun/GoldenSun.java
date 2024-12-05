@@ -2,6 +2,9 @@ package org.goldensun;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.goldensun.maps.Map3Overlay_877dd1c;
+import org.goldensun.maps.Map7Overlay_8786f0c;
+import org.goldensun.maps.Map8Overlay_8787e04;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.Pointer;
