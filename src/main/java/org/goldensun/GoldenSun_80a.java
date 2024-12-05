@@ -48,6 +48,7 @@ import static org.goldensun.GoldenSunVars.pressedButtons_3001c94;
 import static org.goldensun.GoldenSun_801.FUN_8015018;
 import static org.goldensun.GoldenSun_801.FUN_8015068;
 import static org.goldensun.GoldenSun_801.FUN_8015070;
+import static org.goldensun.GoldenSun_801.FUN_8015078;
 import static org.goldensun.GoldenSun_801.FUN_8015080;
 import static org.goldensun.GoldenSun_801.FUN_8015090;
 import static org.goldensun.GoldenSun_801.FUN_8015098;
@@ -717,7 +718,65 @@ public final class GoldenSun_80a {
 
   @Method(0x80a1d08)
   public static void FUN_80a1d08(final int r0, final int r1, final int r2) {
-    throw new RuntimeException("Not implemented");
+    CPU.sp().value -= 0x18;
+
+    final Menua70 r7 = boardWramMallocHead_3001e50.offset(55 * 0x4).deref(4).cast(Menua70::new);
+    r7._14.get(0).deref()._05.set(0xd);
+
+    final Panel24 r5;
+    if(r2 != -1) {
+      FUN_8015108(r0, CPU.sp().value + 0x14, CPU.sp().value + 0x10, CPU.sp().value + 0xc, CPU.sp().value + 0x8);
+      if(FUN_80a10d0(r7.panel_3c, r1, r2, MEMORY.ref(4, CPU.sp().value + 0xc).get(), MEMORY.ref(4, CPU.sp().value + 0x8).get(), 0x102) == 0) {
+        setPanelMetrics(r7.panel_3c.deref(), r1, r2, MEMORY.ref(4, CPU.sp().value + 0xc).get(), MEMORY.ref(4, CPU.sp().value + 0x8).get());
+      }
+
+      //LAB_80a1d68
+      r5 = r7.panel_3c.deref();
+    } else {
+      //LAB_80a1d6c
+      r5 = r7.panel_2c.deref();
+    }
+
+    //LAB_80a1d6e
+    FUN_8015270(r5);
+    FUN_8015278(r5);
+    if(r2 == -1) {
+      FUN_8015080(r0, r5, 0, 0);
+    } else {
+      //LAB_80a1d90
+      FUN_8015078(r0, r5, 0, 0);
+    }
+
+    //LAB_80a1d9c
+    if(r1 != -1) {
+      sleep(1);
+
+      //LAB_80a1db0
+      do {
+        sleep(1);
+      } while((pressedButtons_3001c94.get() & 0x1) == 0 && (pressedButtons_3001c94.get() & 0x2) == 0 && (pressedButtons_3001c94.get() & 0x8) == 0);
+
+      //LAB_80a1dd4
+      if(r2 == -1) {
+        FUN_8015270(r5);
+      }
+
+      //LAB_80a1de2
+      FUN_8015278(r5);
+    } else {
+      //LAB_80a1df4
+      setFlag_(0x151);
+    }
+
+    //LAB_80a1dfa
+    r7._222.set(0x1);
+    r7._14.get(0).deref()._05.set(0x1);
+    if(r2 != -1) {
+      FUN_80a1114(r7.panel_3c, 0x1);
+    }
+
+    //LAB_80a1e28
+    CPU.sp().value += 0x18;
   }
 
   @Method(0x80a1e38)
@@ -2068,6 +2127,40 @@ public final class GoldenSun_80a {
     throw new RuntimeException("Not implemented");
   }
 
+  @Method(0x80a3c08)
+  public static void FUN_80a3c08() {
+    if((_3001e40.get() & 0x1f) == 0) {
+      final Menua70 r6 = boardWramMallocHead_3001e50.offset(55 * 0x4).deref(4).cast(Menua70::new);
+
+      //LAB_80a3c26
+      for(int r7 = 0; r7 < r6.partyMemberCount_219.get(); r7++) {
+        if(isEquipped_(r6.partyMemberIds_208.get(r7).get(), r6.abilityId_178.get(0).get() & 0x1ff) != 0) {
+          setSpriteAnimation_(r6._114.get(r7).deref(), 3);
+        } else {
+          //LAB_80a3c68
+          setSpriteAnimation_(r6._114.get(r7).deref(), 1);
+        }
+
+        //LAB_80a3c78
+      }
+    }
+
+    //LAB_80a3c8c
+  }
+
+  @Method(0x80a3c98)
+  public static void FUN_80a3c98() {
+    final Menua70 r6 = boardWramMallocHead_3001e50.offset(55 * 0x4).deref(4).cast(Menua70::new);
+
+    //LAB_80a3caa
+    for(int r5 = 0; r5 < r6.partyMemberCount_219.get(); r5++) {
+      setSpriteAnimation_(r6._114.get(r5).deref(), 1);
+    }
+
+    //LAB_80a3ccc
+    clearTickCallback(getRunnable(GoldenSun_80a.class, "FUN_80a3c08"));
+  }
+
   @Method(0x80a3ce4)
   public static int FUN_80a3ce4(final int r0) {
     if(r0 > 0xc4 || r0 <= 0xc0) {
@@ -2353,14 +2446,385 @@ public final class GoldenSun_80a {
     return r0;
   }
 
+  @Method(0x80a4110)
+  public static int FUN_80a4110(final int r0, final int r1) {
+    if(r0 > 2 || r1 > 2 || r0 < 0 || r1 < 0) {
+      //LAB_80a4122
+      return 0;
+    }
+
+    //LAB_80a4126
+    return MEMORY.ref(4, 0x80af2e4 + (r1 * 0x3 + r0) * 0x4).get();
+  }
+
+  @Method(0x80a413c)
+  public static int FUN_80a413c(final int r0, final int r1) {
+    if(r1 != 0) {
+      return 0x26;
+    }
+
+    //LAB_80a4146
+    return 0x1e;
+  }
+
   @Method(0x80a414c)
   public static int FUN_80a414c() {
-    throw new RuntimeException("Not implemented");
+    final int r0;
+    int r5;
+    int r7;
+
+    CPU.push(CPU.r11().value);
+    CPU.push(CPU.r10().value);
+    CPU.push(CPU.r9().value);
+    CPU.push(CPU.r8().value);
+    CPU.sp().value -= 0x10;
+    CPU.r10().value = 0;
+    CPU.r11().value = CPU.sp().value + 0x8;
+    final Menua70 r6 = boardWramMallocHead_3001e50.offset(55 * 0x4).deref(4).cast(Menua70::new);
+    CPU.r8().value = 0;
+    CPU.r9().value = 1;
+    FUN_80a448c(CPU.r11().value);
+    r7 = 0x0;
+    if(r6._220.get() != 1) {
+      FUN_80a345c();
+      FUN_8015270(r6.panel_34.deref());
+      final Panel24 r5_0 = r6.panel_10c.deref();
+      FUN_80a4eb8();
+      FUN_8015270(r5_0);
+      FUN_8015070(r5_0, 0, 0x3, 0x10, 0x3);
+      FUN_80a51d0();
+      FUN_80a45cc(CPU.r11().value, r5_0);
+      FUN_8015270(r6.panel_2c.deref());
+      FUN_8015080((r6.abilityId_178.get(0).get() & 0x1ff) + 0x75, r6.panel_2c.deref(), 0, 0);
+    }
+
+    //LAB_80a41e0
+    r6._220.set(CPU.r10().value);
+    r5 = r6._25d.get();
+    if(r5 == -1) {
+      if(MEMORY.ref(1, CPU.r11().value + 0x2).get() == 1) {
+        r7 = 0x2;
+        CPU.r8().value = 0;
+      }
+
+      //LAB_80a4206
+      if(MEMORY.ref(1, CPU.r11().value + 0x3).get() == 1) {
+        r7 = 0x0;
+        CPU.r8().value = 1;
+      }
+
+      //LAB_80a4216
+      if(MEMORY.ref(1, CPU.r11().value + 0x1).get() == 1) {
+        r7 = 0x1;
+        CPU.r8().value = 0;
+      }
+
+      //LAB_80a4226
+      if(MEMORY.ref(1, CPU.r11().value + 0x4).get() == 1) {
+        r7 = 0x1;
+        CPU.r8().value = 1;
+      }
+
+      //LAB_80a4236
+      if(MEMORY.ref(1, CPU.r11().value).get() == 1) {
+        r7 = 0x0;
+        CPU.r8().value = 0;
+      }
+    } else {
+      //LAB_80a4258
+      r7 = (byte)modS(r5, 3);
+      CPU.r8().value = (byte)divideS(r5, 3);
+      CPU.r10().value = CPU.r8().value * 3 + r7;
+    }
+
+    //LAB_80a427a
+    FUN_80a1ac0(FUN_80a4110(r7, CPU.r8().value), FUN_80a413c(r7, CPU.r8().value));
+
+    //LAB_80a4436
+    do {
+      r5 = readFlag_(0x150);
+      if(r5 != 0) {
+        break;
+      }
+
+      //LAB_80a4296
+      if(CPU.r9().value != 0) {
+        CPU.r9().value = 0;
+        r7 = modS(r7 + 3, 3);
+        CPU.r8().value = (CPU.r8().value + 2) % 2;
+        CPU.r10().value = CPU.r8().value * 3 + r7;
+        FUN_80a3c98();
+
+        if(CPU.r10().value > 2) {
+          r6._25c.set(1);
+          FUN_80a3ef0(r6._21a.get(0).get(), r6._174.get(0).get(), 0, r6._21a.get(0).get());
+          if(CPU.r10().value == 3) {
+            setTickCallback(getRunnable(GoldenSun_80a.class, "FUN_80a3c08"), 0xc80);
+          }
+        } else {
+          //LAB_80a42fc
+          if(CPU.r10().value != 0) {
+            r6._25c.set(r5);
+            FUN_80a3ef0(r6._21a.get(0).get(), r6._174.get(0).get(), 0, r6._21a.get(0).get());
+          } else {
+            //LAB_80a4320
+            FUN_80a112c(r6.panel_24.derefNullable(), r6._21a.get(0).get(), 0, 0);
+          }
+        }
+      }
+
+      //LAB_80a4330
+      FUN_80a1a40(FUN_80a4110(r7, CPU.r8().value), FUN_80a413c(r7, CPU.r8().value));
+      sleep(1);
+
+      if((pressedButtons_3001c94.get() & 0x1) != 0) {
+        if(MEMORY.ref(1, CPU.r11().value + CPU.r10().value).get() == -1) {
+          playSound_(0x72);
+        } else {
+          //LAB_80a4372
+          switch(CPU.r10().value) {
+            case 0: // switch 80a4380
+              //LAB_00a4398
+              playSound_(0xae);
+              break;
+
+            case 1: // switch 80a4380
+              //LAB_00a43a0
+              playSound_(0xaf);
+              break;
+
+            case 2: // switch 80a4380
+            case 3: // switch 80a4380
+            case 5: // switch 80a4380
+              //LAB_00a43a8
+              playSound_(0x70);
+              break;
+
+            case 4: // switch 80a4380
+              //LAB_00a43b0
+              playSound_(0x75);
+              break;
+
+            default:
+              //LAB_80a43b8
+              playSound_(0x70);
+              break;
+          }
+
+          //LAB_80a43be
+          r6._25d.set(CPU.r10().value);
+          break;
+        }
+      }
+
+      //LAB_80a43c8
+      if((pressedButtons_3001c94.get() & 0x2) != 0) {
+        //LAB_80a4248
+        playSound_(0x71);
+        CPU.r10().value = -1;
+        r6._25d.set(CPU.r10().value);
+        break;
+      }
+
+      //LAB_80a43d4
+      if((pressedButtons_3001b04.get() & 0x40) != 0) {
+        CPU.r8().value--;
+        CPU.r9().value = 1;
+        playSound_(0x6f);
+        //LAB_80a43f0
+      } else if((pressedButtons_3001b04.get() & 0x80) != 0) {
+        CPU.r8().value++;
+        CPU.r9().value = 1;
+        playSound_(0x6f);
+        //LAB_80a4408
+      } else if((pressedButtons_3001b04.get() & 0x10) != 0) {
+        r7 = r7 + 0x1;
+        CPU.r9().value = 1;
+        playSound_(0x6f);
+        //LAB_80a4420
+      } else if((pressedButtons_3001b04.get() & 0x20) != 0) {
+        r7 = r7 - 0x1;
+        CPU.r9().value = 1;
+        playSound_(0x6f);
+      }
+    } while(true);
+
+    //LAB_80a4446
+    r6._25c.set(0);
+    FUN_80a3c98();
+    r0 = CPU.r10().value;
+    CPU.sp().value += 0x10;
+    CPU.r8().value = CPU.pop();
+    CPU.r9().value = CPU.pop();
+    CPU.r10().value = CPU.pop();
+    CPU.r11().value = CPU.pop();
+    return r0;
+  }
+
+  @Method(0x80a448c)
+  public static void FUN_80a448c(final int r0) {
+    final Menua70 r7 = boardWramMallocHead_3001e50.offset(55 * 0x4).deref(4).cast(Menua70::new);
+    final int r8 = getItem_(r7.abilityId_178.get(0).get() & 0x1ff);
+
+    final int r3;
+    if(MEMORY.ref(1, r8 + 0x2).getUnsigned() == 0) {
+      MEMORY.ref(1, r0).setu(1);
+      r3 = -1;
+    } else {
+      //LAB_80a44bc
+      MEMORY.ref(1, r0).setu(-1);
+      r3 = 1;
+    }
+
+    //LAB_80a44c6
+    MEMORY.ref(1, r0 + 0x1).setu(r3);
+
+    if(FUN_80a46b4(r7._21a.get(0).get(), r7.abilityId_178.get(0).get()) != -1) {
+      MEMORY.ref(1, r0).setu(1);
+    } else {
+      //LAB_80a44e8
+      MEMORY.ref(1, r0).setu(-1);
+    }
+
+    //LAB_80a44ea
+    if((r7.abilityId_178.get(0).get() & 0x400) != 0) {
+      MEMORY.ref(1, r0).setu(-1);
+    }
+
+    //LAB_80a4506
+    if(isEquipped_(r7._21a.get(0).get(), r7.abilityId_178.get(0).get() & 0x1ff) == 0) {
+      MEMORY.ref(1, r0 + 0x1).setu(-1);
+    }
+
+    //LAB_80a4520
+    MEMORY.ref(1, r0 + 0x3).setu(1);
+    MEMORY.ref(1, r0 + 0x5).setu(1);
+    MEMORY.ref(1, r0 + 0x2).setu(1);
+
+    if((r7.abilityId_178.get(0).get() & 0x200) != 0) {
+      MEMORY.ref(1, r0 + 0x4).setu(1);
+      MEMORY.ref(1, r0 + 0x1).setu(-1);
+    } else {
+      //LAB_80a4540
+      MEMORY.ref(1, r0 + 0x4).setu(-1);
+    }
+
+    //LAB_80a4548
+    if((MEMORY.ref(1, r8 + 0x3).getUnsigned() & 0x2) != 0) {
+      MEMORY.ref(1, r0 + 0x4).setu(-1);
+      if((r7.abilityId_178.get(0).get() & 0x200) != 0) {
+        MEMORY.ref(1, r0 + 0x3).setu(-1);
+        MEMORY.ref(1, r0 + 0x5).setu(-1);
+      }
+    }
+
+    //LAB_80a4572
+    if(FUN_808a490(r7.abilityId_178.get(0).get() & 0x1ff) != 0) {
+      MEMORY.ref(1, r0).setu(1);
+    }
+
+    //LAB_80a458a
+    if(r7.partyMemberCount_219.get() <= 1) {
+      MEMORY.ref(1, r0 + 0x3).setu(-1);
+    }
+
+    //LAB_80a459c
+    if((MEMORY.ref(1, r8 + 0x3).getUnsigned() & 0x8) != 0) {
+      MEMORY.ref(1, r0 + 0x5).setu(-1);
+    }
+
+    //LAB_80a45b0
+  }
+
+  @Method(0x80a45cc)
+  public static void FUN_80a45cc(final int r0, final Panel24 r1) {
+    FUN_80150b8(0xf);
+    if(MEMORY.ref(1, r0).get() == -1) {
+      FUN_80150b8(0xe);
+    }
+
+    //LAB_80a45f0
+    FUN_8015080(0xb33, r1, 0, 0x18);
+    FUN_80150b8(0xf);
+    if(MEMORY.ref(1, r0 + 0x1).get() == -1) {
+      FUN_80150b8(0xe);
+    }
+
+    //LAB_80a4612
+    FUN_8015080(0xb34, r1, 0x20, 0x18);
+    FUN_80150b8(0xf);
+    if(MEMORY.ref(1, r0 + 0x3).get() == -1) {
+      FUN_80150b8(0xe);
+    }
+
+    //LAB_80a4632
+    FUN_8015080(0xb35, r1, 0, 0x20);
+    FUN_80150b8(0xf);
+    if(MEMORY.ref(1, r0 + 0x5).get() == -1) {
+      FUN_80150b8(0xe);
+    }
+
+    //LAB_80a4652
+    FUN_8015080(0xb36, r1, 0x50, 0x20);
+    FUN_80150b8(0xf);
+    if(MEMORY.ref(1, r0 + 0x2).get() == -1) {
+      FUN_80150b8(0xe);
+    }
+
+    //LAB_80a4672
+    FUN_8015080(0xb37, r1, 0x50, 0x18);
+    FUN_80150b8(0xf);
+    if(MEMORY.ref(1, r0 + 0x4).get() == -1) {
+      FUN_80150b8(0xe);
+    }
+
+    //LAB_80a4692
+    FUN_8015080(0xb38, r1, 0x20, 0x20);
+    FUN_80150b8(0xf);
   }
 
   @Method(0x80a46b4)
   public static int FUN_80a46b4(final int r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+    final int r6 = r1 & 0x1ff;
+    final int r5 = getItem_(r6);
+    int r7 = -1;
+    if(FUN_808a490(r6) != 0) {
+      return 0;
+    }
+
+    //LAB_80a46de
+    final int r8 = getAbility_(MEMORY.ref(2, r5 + 0x28).getUnsigned() & 0x3fff);
+    if(MEMORY.ref(2, r5 + 0x28).getUnsigned() != 0) {
+      if(MEMORY.ref(1, r5 + 0x2).getUnsigned() == 0) {
+        r7 = 0x1;
+      } else if(MEMORY.ref(1, r5 + 0xc).getUnsigned() != 3 && isEquipped_(r0, r6) != 0) {
+        //LAB_80a4708
+        r7 = 0x1;
+      }
+
+      //LAB_80a470a
+      if(r7 == 1) {
+        int r2 = MEMORY.ref(1, r8 + 0x1).getUnsigned();
+        int r3;
+        if((r2 & 0x40) != 0) {
+          r2 = MEMORY.ref(1, r8 + 0x8).getUnsigned() ^ 0xff;
+          r7 = (-r2 | r2) >>> 31;
+          r3 = 0x2;
+        } else {
+          //LAB_80a472c
+          r3 = r2 & 0x80;
+          r7 = (-r3 | r3) >>> 31;
+          r3 = 0x0;
+        }
+
+        //LAB_80a473a
+        r7 = r3 - r7;
+      }
+    }
+
+    //LAB_80a473c
+    //LAB_80a473e
+    return r7;
   }
 
   @Method(0x80a4754)
@@ -2398,6 +2862,11 @@ public final class GoldenSun_80a {
   @Method(0x80a4e90)
   public static void FUN_80a4e90() {
     setPanelMetrics(boardWramMallocHead_3001e50.offset(55 * 0x4).deref(4).cast(Menua70::new).panel_10c.derefNullable(), 13, 0, 17, 6);
+  }
+
+  @Method(0x80a4eb8)
+  public static void FUN_80a4eb8() {
+    setPanelMetrics(boardWramMallocHead_3001e50.offset(55 * 0x4).deref(4).cast(Menua70::new).panel_10c.derefNullable(), 13, 0, 17, 7);
   }
 
   @Method(0x80a4ee0)

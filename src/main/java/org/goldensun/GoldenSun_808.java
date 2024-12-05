@@ -3426,8 +3426,61 @@ public final class GoldenSun_808 {
   }
 
   @Method(0x808e14c)
-  public static int FUN_808e14c(final int r0) {
-    throw new RuntimeException("Not implemented");
+  public static int FUN_808e14c(int r0) {
+    CPU.push(CPU.r11().value);
+    CPU.push(CPU.r10().value);
+    CPU.push(CPU.r9().value);
+    CPU.push(CPU.r8().value);
+    final Structccc r3 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
+    CPU.r8().value = r0;
+    int r6 = r3.events_10.deref().getAddress(); //TODO
+    CPU.sp().value -= 0x4;
+    CPU.r11().value = getMapActor(playerMapActorIndex_2000434.get()).angle_06.get();
+    CPU.r9().value = getClosestActorInFront(playerMapActorIndex_2000434.get());
+    CPU.r8().value = CPU.r8().value & 0x1ff;
+    CPU.r10().value = FUN_808bd24();
+    int r1 = MEMORY.ref(4, r6).get();
+
+    //LAB_808e224
+    r0 = 0x0;
+    //LAB_808e196
+    while(r1 != -1) {
+      final int r2 = MEMORY.ref(2, r6 + 0x4).getUnsigned();
+      if((r1 & 0xf) == 4) {
+        if(FUN_808d428(MEMORY.ref(2, r6 + 0x6).get()) != 0) {
+          if((r2 & 0x800) == 0 || ((MEMORY.ref(2, r6 + 0x4).get() & 0xf000) - CPU.r11().value + 0x17ff & 0xffff) < 0x2fff) {
+            //LAB_808e1f2
+            if(CPU.r8().value == 0 || MEMORY.ref(1, r6 + 0x1).getUnsigned() == CPU.r8().value) {
+              //LAB_808e200
+              if((MEMORY.ref(4, r6).get() & 0x10) == 0) {
+                //LAB_808e210
+                r0 = r6;
+                if((r2 & 0xff) == CPU.r10().value) {
+                  break;
+                }
+              } else {
+                if((r2 & 0xff) == CPU.r9().value) {
+                  r0 = r6;
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      //LAB_808e216
+      r6 = r6 + 0xc;
+      r1 = MEMORY.ref(4, r6).get();
+    }
+
+    //LAB_808e226
+    CPU.sp().value += 0x4;
+    CPU.r8().value = CPU.pop();
+    CPU.r9().value = CPU.pop();
+    CPU.r10().value = CPU.pop();
+    CPU.r11().value = CPU.pop();
+    return r0;
   }
 
   @Method(0x808e23c)

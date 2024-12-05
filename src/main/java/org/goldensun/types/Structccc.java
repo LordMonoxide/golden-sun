@@ -16,7 +16,6 @@ public class Structccc implements MemoryRef {
 
   /** TODO ptrs */
   public final ArrayRef<IntRef> _00;
-  /** TODO ptr */
   public final Pointer<UnboundedArrayRef<EventStruct0c>> events_10;
   /**
    * This array is janky

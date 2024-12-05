@@ -1302,6 +1302,12 @@ public final class GoldenSun_801 {
     MEMORY.call(0x801e41c, r0, x, y, w, h);
   }
 
+  /** {@link GoldenSun_801#FUN_801e74c} */
+  @Method(0x8015078)
+  public static void FUN_8015078(final int r0, final Panel24 panel, final int x, final int y) {
+    MEMORY.call(0x801e74c, r0, panel, x, y);
+  }
+
   /** {@link GoldenSun_801#FUN_801e7c0} */
   @Method(0x8015080)
   public static void FUN_8015080(final int r0, final Panel24 panel, final int x, final int y) {
