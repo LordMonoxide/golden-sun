@@ -2,9 +2,6 @@ package org.goldensun;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.goldensun.maps.Map3Overlay_877dd1c;
-import org.goldensun.maps.Map7Overlay_8786f0c;
-import org.goldensun.maps.Map8Overlay_8787e04;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.Pointer;
@@ -33,7 +30,6 @@ import javax.annotation.Nullable;
 import static org.goldensun.Bios.SvcHalt;
 import static org.goldensun.CopiedSegment8000770.intHandlers_30000e0;
 import static org.goldensun.CopiedSegment8000770.memzero;
-import static org.goldensun.GoldenSunVars.playerMapActorIndex_2000434;
 import static org.goldensun.GoldenSunVars._2000450;
 import static org.goldensun.GoldenSunVars._2000454;
 import static org.goldensun.GoldenSunVars._2000456;
@@ -41,10 +37,8 @@ import static org.goldensun.GoldenSunVars._2000458;
 import static org.goldensun.GoldenSunVars._200045a;
 import static org.goldensun.GoldenSunVars._2000460;
 import static org.goldensun.GoldenSunVars._2000462;
-import static org.goldensun.GoldenSunVars.runButton_200045c;
 import static org.goldensun.GoldenSunVars._2002090;
 import static org.goldensun.GoldenSunVars._2004c00;
-import static org.goldensun.GoldenSunVars.writeSectorPtr_2004c04;
 import static org.goldensun.GoldenSunVars._2004c08;
 import static org.goldensun.GoldenSunVars._2004c0c;
 import static org.goldensun.GoldenSunVars._2004c10;
@@ -100,12 +94,14 @@ import static org.goldensun.GoldenSunVars.heldButtonsLastFrame_3001ae8;
 import static org.goldensun.GoldenSunVars.heldButtons_3001d0c;
 import static org.goldensun.GoldenSunVars.oldInterrupts_2004c2c;
 import static org.goldensun.GoldenSunVars.packets_3001400;
+import static org.goldensun.GoldenSunVars.playerMapActorIndex_2000434;
 import static org.goldensun.GoldenSunVars.pressedButtons_3001b04;
 import static org.goldensun.GoldenSunVars.pressedButtons_3001c94;
 import static org.goldensun.GoldenSunVars.ptrTable_8320000;
 import static org.goldensun.GoldenSunVars.readOneByteFromPtr_2004c1c;
 import static org.goldensun.GoldenSunVars.rotationScalingCount_3001d00;
 import static org.goldensun.GoldenSunVars.rotationScaling_3001d40;
+import static org.goldensun.GoldenSunVars.runButton_200045c;
 import static org.goldensun.GoldenSunVars.seed_3001cb4;
 import static org.goldensun.GoldenSunVars.tickCallbacksInitialized_3001d34;
 import static org.goldensun.GoldenSunVars.tickCallbacks_3001a20;
@@ -114,15 +110,16 @@ import static org.goldensun.GoldenSunVars.timerCntLPtr_2004c28;
 import static org.goldensun.GoldenSunVars.timerIndex_2004c20;
 import static org.goldensun.GoldenSunVars.vblankOccurred_3001d28;
 import static org.goldensun.GoldenSunVars.vramSlots_3001b10;
+import static org.goldensun.GoldenSunVars.writeSectorPtr_2004c04;
 import static org.goldensun.GoldenSun_801.FUN_8010000;
 import static org.goldensun.GoldenSun_801.FUN_8010230;
 import static org.goldensun.GoldenSun_801.FUN_80118d8;
 import static org.goldensun.GoldenSun_801.FUN_8011a84;
-import static org.goldensun.GoldenSun_801.getHeight;
 import static org.goldensun.GoldenSun_801.FUN_80120dc;
+import static org.goldensun.GoldenSun_801.getHeight;
+import static org.goldensun.GoldenSun_807.clearFlag_;
 import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
 import static org.goldensun.GoldenSun_807.readFlag_;
-import static org.goldensun.GoldenSun_807.clearFlag_;
 import static org.goldensun.GoldenSun_808.FUN_808a008;
 import static org.goldensun.GoldenSun_808.FUN_808a330;
 import static org.goldensun.GoldenSun_808.FUN_808a348;
@@ -174,10 +171,76 @@ public final class GoldenSun {
     return (int)MEMORY.call(0x8004458);
   }
 
+  /** {@link GoldenSun#atan2} */
+  @Method(0x8000100)
+  public static int atan2_(final int b, final int a) {
+    return (int)MEMORY.call(0x80044d0, b, a);
+  }
+
+  /** {@link GoldenSun#sqrt} */
+  @Method(0x8000110)
+  public static int sqrt_(final int r0) {
+    return (int)MEMORY.call(0x80045d4, r0);
+  }
+
+  /** {@link GoldenSun#sin} */
+  @Method(0x8000118)
+  public static int sin_(final int angle) {
+    return (int)MEMORY.call(0x8002322, angle);
+  }
+
+  /** {@link GoldenSun#cos} */
+  @Method(0x8000120)
+  public static int cos_(final int angle) {
+    return (int)MEMORY.call(0x800231c, angle);
+  }
+
+  /** {@link GoldenSun#rotVec3} */
+  @Method(0x8000128)
+  public static void retVec3(final int distance, final int angle, final Vec3 vec) {
+    MEMORY.call(0x800447c, distance, angle, vec);
+  }
+
+  /** {@link GoldenSun#setInterruptHandler} */
+  @Method(0x8000130)
+  public static void setInterruptHandler_(final int interruptType, final int vcountSetting, @Nullable final RunnableRef callback) {
+    MEMORY.call(0x800307c, interruptType, vcountSetting, callback);
+  }
+
+  /** {@link GoldenSun#initMemoryAllocator} */
+  @Method(0x8000138)
+  public static void initMemoryAllocator_() {
+    MEMORY.call(0x8004858);
+  }
+
+  /** {@link GoldenSun#mallocSlotChip} */
+  @Method(0x8000140)
+  public static int mallocSlotChip_(final int slot, final int size) {
+    return (int)MEMORY.call(0x80048b0, slot, size);
+  }
+
+  /** {@link GoldenSun#mallocSlotBoard} */
+  @Method(0x8000148)
+  public static int mallocSlotBoard_(final int slot, final int size) {
+    return (int)MEMORY.call(0x80048f4, slot, size);
+  }
+
+  /** {@link GoldenSun#freeSlot} */
+  @Method(0x8000150)
+  public static void freeSlot_(final int slot) {
+    MEMORY.call(0x8002dd8, slot);
+  }
+
   /** {@link #decompress} */
   @Method(0x80001a8)
   public static int decompress_(final int src, final int dest) {
     return (int)MEMORY.call(0x8005340, src, dest);
+  }
+
+  /** {@link GoldenSun#FUN_8003fa4} */
+  @Method(0x80001c8)
+  public static int FUN_80001c8(final int slot, final int size, final int newDataPtr) {
+    return (int)MEMORY.call(0x8003fa4, slot, size, newDataPtr);
   }
 
   /** {@link #getPointerTableEntry} */
@@ -430,12 +493,6 @@ public final class GoldenSun {
     MEMORY.setFunction(addr, CopiedSegment8002d5c.class, "FUN_8002d5c", int.class, int.class);
     MEMORY.call(addr, dst, decompressedSize); // Update function pointers in decompressed THUMB code
     setMallocAddress(addr);
-
-    switch(pointerTableEntry) {
-      case 882 -> MEMORY.addFunctions(Map3Overlay_877dd1c.class);
-      case 886 -> MEMORY.addFunctions(Map7Overlay_8786f0c.class);
-      case 887 -> MEMORY.addFunctions(Map8Overlay_8787e04.class);
-    }
   }
 
   @Method(0x8003008)
@@ -2690,6 +2747,12 @@ public final class GoldenSun {
     MEMORY.call(0x8010704, r0, r1, r2, r3, a4, a5);
   }
 
+  /** {@link GoldenSun_801#FUN_80120dc} */
+  @Method(0x80091d8)
+  public static int FUN_80091d8(final Actor70 r0, final Vec3 r1) {
+    return (int)MEMORY.call(0x80120dc, r0, r1);
+  }
+
   /** {@link GoldenSun#FUN_800c528} */
   @Method(0x80091e0)
   public static void FUN_80091e0(final Actor70 actor, final int r1) {
@@ -2751,6 +2814,12 @@ public final class GoldenSun {
   @Method(0x8009268)
   public static int FUN_8009268(final Vec3 r0, final int r1) {
     return (int)MEMORY.call(0x80122c8, r0, r1);
+  }
+
+  /** {@link GoldenSun_801#FUN_8012078} */
+  @Method(0x8009278)
+  public static void FUN_8009278(final int r0, final int r1, final int r2, final int r3) {
+    MEMORY.call(0x8012078, r0, r1, r2, r3);
   }
 
   /** {@link GoldenSun#FUN_800f9cc} */

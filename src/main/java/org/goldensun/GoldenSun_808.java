@@ -2,6 +2,10 @@ package org.goldensun;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.goldensun.maps.Map132Overlay_87ced6c;
+import org.goldensun.maps.Map3Overlay_877dd1c;
+import org.goldensun.maps.Map7Overlay_8786f0c;
+import org.goldensun.maps.Map8Overlay_8787e04;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.UnboundedArrayRef;
@@ -209,6 +213,12 @@ public final class GoldenSun_808 {
     MEMORY.call(0x8091750);
   }
 
+  /** {@link GoldenSun_809#FUN_8091a58} */
+  @Method(0x808a060)
+  public static int FUN_808a060(final int r0, final int r1) {
+    return (int)MEMORY.call(0x8091a58, r0, r1);
+  }
+
   /** {@link GoldenSun_808#FUN_808b868} */
   @Method(0x808a038)
   public static void FUN_808a038(final int r0) {
@@ -287,6 +297,18 @@ public final class GoldenSun_808 {
     MEMORY.call(0x80921c4, actorIndex, r1, r2);
   }
 
+  /** {@link GoldenSun_809#FUN_8092208} */
+  @Method(0x808a0d8)
+  public static void FUN_808a0d8(final int r0, final int r1, final int r2) {
+    MEMORY.call(0x8092208, r0, r1, r2);
+  }
+
+  /** {@link GoldenSun_809#FUN_809228c} */
+  @Method(0x808a0e0)
+  public static void FUN_808a0e0(final int r0, final int r1, final int r2) {
+    MEMORY.call(0x809228c, r0, r1, r2);
+  }
+
   /** {@link GoldenSun_809#FUN_80923c4} */
   @Method(0x808a0e8)
   public static void FUN_808a0e8(final int mapActorIndex) {
@@ -339,6 +361,12 @@ public final class GoldenSun_808 {
   @Method(0x808a158)
   public static void FUN_808a158(final int actorIndex, final int r1) {
     MEMORY.call(0x8092950, actorIndex, r1);
+  }
+
+  /** {@link GoldenSun_809#FUN_80929d8} */
+  @Method(0x808a160)
+  public static void FUN_808a160(final Actor70 r0, final int r1) {
+    MEMORY.call(0x80929d8, r0, r1);
   }
 
   /** {@link GoldenSun_809#FUN_8092a1c} */
@@ -455,6 +483,18 @@ public final class GoldenSun_808 {
     MEMORY.call(0x8091e9c, r0);
   }
 
+  /** {@link GoldenSun_809#FUN_8091eb0} */
+  @Method(0x808a250)
+  public static void FUN_808a250(final int r0, final int r1) {
+    MEMORY.call(0x8091eb0, r0, r1);
+  }
+
+  /** {@link GoldenSun_809#FUN_8091f90} */
+  @Method(0x808a260)
+  public static void FUN_808a260(final int r0, final int r1) {
+    MEMORY.call(0x8091f90, r0, r1);
+  }
+
   /** {@link GoldenSun_809#FUN_8094154} */
   @Method(0x808a278)
   public static void FUN_808a278(final int actorIndex, final int r1) {
@@ -531,6 +571,18 @@ public final class GoldenSun_808 {
   @Method(0x808a370)
   public static void FUN_808a370() {
     MEMORY.call(0x8091e20);
+  }
+
+  /** {@link GoldenSun_808#FUN_808f1c0} */
+  @Method(0x808a398)
+  public static void FUN_808a398(final int r0, final int r1) {
+    MEMORY.call(0x808f1c0, r0, r1);
+  }
+
+  /** {@link GoldenSun_808#FUN_808edac} */
+  @Method(0x808a3c0)
+  public static void FUN_808a3c0(final int r0, final int r1, final int r2) {
+    MEMORY.call(0x808edac, r0, r1, r2);
   }
 
   /** {@link GoldenSun_809#FUN_80967e4} */
@@ -855,6 +907,18 @@ public final class GoldenSun_808 {
   public static void decompressMap() {
     LOGGER.info("Loading map %d", mapId_2000400.get());
     decompressPointerTableEntry(MEMORY.ref(2, 0x809f1a8 + mapId_2000400.get() * 0x8).get(), 0x2008000);
+
+    switch(mapId_2000400.get()) {
+      // Camelot intro
+      case 0 -> { }
+      // Title screen
+      case 1 -> { }
+      case 3 -> MEMORY.addFunctions(Map3Overlay_877dd1c.class);
+      case 7 -> MEMORY.addFunctions(Map7Overlay_8786f0c.class);
+      case 8 -> MEMORY.addFunctions(Map8Overlay_8787e04.class);
+      case 132 -> MEMORY.addFunctions(Map132Overlay_87ced6c.class);
+      default -> throw new RuntimeException("Unimplemented map " + mapId_2000400.get());
+    }
   }
 
   @Method(0x808ab74)
@@ -3839,6 +3903,11 @@ public final class GoldenSun_808 {
     //LAB_808eda2
   }
 
+  @Method(0x808edac)
+  public static void FUN_808edac(final int r0, final int r1, final int r2) {
+    throw new RuntimeException("Not implemented");
+  }
+
   @Method(0x808ef70)
   public static Actor70 FUN_808ef70(final int r0, final int r1) {
     throw new RuntimeException("Not implemented");
@@ -3867,6 +3936,11 @@ public final class GoldenSun_808 {
     }
 
     //LAB_808f132
+  }
+
+  @Method(0x808f1c0)
+  public static void FUN_808f1c0(final int r0, final int r1) {
+    throw new RuntimeException("Not implemented");
   }
 
   @Method(0x808f498)
@@ -4207,7 +4281,67 @@ public final class GoldenSun_808 {
       case 3:
         throw new RuntimeException("0808f958");
       case 4:
-        throw new RuntimeException("0808f9ea");
+        r5 = MEMORY.ref(4, CPU.sp().value + 0x14).get();
+        r7 = 0x52a;
+        r3 = r5 + r7;
+        r5 = MEMORY.ref(2, r3).getUnsigned();
+        r3 = 0x20;
+        r3 = r3 & r5;
+        CPU.cmpT(r3, 0x0);
+        if(!CPU.cpsr().getZero()) { // !=
+          r3 = 0x1;
+          MEMORY.ref(2, r4).setu(r3);
+          r3 = 0x7f7f;
+        } else {
+          //LAB_808fa10
+          r3 = 0x7f7f;
+          MEMORY.ref(2, r4).setu(r3);
+          r3 = 0x1;
+        }
+
+        //LAB_808fa16
+        r4 = r4 + 0x2;
+        MEMORY.ref(2, r4).setu(r3);
+        r4 = r4 + 0x2;
+        r3 = 0x1f;
+        r3 = r3 & r5;
+        r2 = r3 << 4;
+        r2 = r2 - r3;
+        r2 = r2 << 4;
+        r5 = r2 >>> 5;
+        r3 = 0xf0;
+        r3 = r3 - r5;
+        r0 = 0x0;
+        r3 = r3 << 8;
+        CPU.r8().value = r0;
+        r3 = r3 + 0xf0;
+
+        //LAB_808fa40
+        do {
+          r1 = 0x2;
+          CPU.r8().value = CPU.r8().value + r1;
+          r2 = CPU.r8().value;
+          MEMORY.ref(2, r4).setu(r5);
+          MEMORY.ref(2, r4 + 0x4).setu(r3);
+          r4 = r4 + 0x8;
+          CPU.cmpT(r2, 0x9f);
+        } while(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()); // unsigned <=
+
+        //LAB_808fe10
+        r7 = MEMORY.ref(4, CPU.sp().value + 0x14).get();
+        r0 = 0x539;
+        r3 = r7 + r0;
+        r2 = MEMORY.ref(1, r3).getUnsigned();
+        r1 = 0x1;
+        r2 = r2 ^ r1;
+        MEMORY.ref(1, r3).setu(r2);
+        CPU.sp().value += 0x18;
+        CPU.r8().value = CPU.pop();
+        CPU.r9().value = CPU.pop();
+        CPU.r10().value = CPU.pop();
+        CPU.r11().value = CPU.pop();
+        break;
+
       case 5:
       case 6:
       case 10:

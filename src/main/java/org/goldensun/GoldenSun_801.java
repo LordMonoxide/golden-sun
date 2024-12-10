@@ -1075,6 +1075,11 @@ public final class GoldenSun_801 {
     return _80134fc.get(MEMORY.ref(1, 0x202c000 + r1_1).getUnsigned() & 0xf).deref().run(0x202c001 + r1_1, r5 & 0xf, r6 & 0xf);
   }
 
+  @Method(0x8012078)
+  public static void FUN_8012078(final int r0, final int r1, final int r2, final int r3) {
+    throw new RuntimeException("Not implemented");
+  }
+
   @Method(0x80120dc)
   public static int FUN_80120dc(final Actor70 r0, final Vec3 r1) {
     final int r5 = r1.getX() >> 16;
@@ -1561,6 +1566,12 @@ public final class GoldenSun_801 {
   @Method(0x8015418)
   public static void FUN_8015418(final int r0) {
     MEMORY.call(0x80219c8, r0);
+  }
+
+  /** {@link GoldenSun_801#FUN_801a370} */
+  @Method(0x8015250)
+  public static void FUN_8015250(final int r0) {
+    MEMORY.call(0x801a370, r0);
   }
 
   @Method(0x8015e8c)
@@ -5527,6 +5538,11 @@ public final class GoldenSun_801 {
 
   @Method(0x801a32c)
   public static int FUN_801a32c(final int r0, final int r1, final int r2) {
+    throw new RuntimeException("Not implemented");
+  }
+
+  @Method(0x801a370)
+  public static void FUN_801a370(final int r0) {
     throw new RuntimeException("Not implemented");
   }
 

@@ -52,7 +52,7 @@ public class Actor70 implements MemoryRef {
   public final ShortRef _5e;
   public final UnsignedByteRef _60;
   public final UnsignedByteRef _61;
-
+  public final UnsignedByteRef _62;
   public final UnsignedByteRef _63;
   public final ShortRef _64;
   public final ShortRef _66;
@@ -93,7 +93,7 @@ public class Actor70 implements MemoryRef {
     this._5e = ref.offset(2, 0x5e).cast(ShortRef::new);
     this._60 = ref.offset(1, 0x60).cast(UnsignedByteRef::new);
     this._61 = ref.offset(1, 0x61).cast(UnsignedByteRef::new);
-
+    this._62 = ref.offset(1, 0x62).cast(UnsignedByteRef::new);
     this._63 = ref.offset(1, 0x63).cast(UnsignedByteRef::new);
     this._64 = ref.offset(2, 0x64).cast(ShortRef::new);
     this._66 = ref.offset(2, 0x66).cast(ShortRef::new);

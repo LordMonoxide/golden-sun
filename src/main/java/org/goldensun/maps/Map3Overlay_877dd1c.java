@@ -756,7 +756,7 @@ public final class Map3Overlay_877dd1c {
     setActorAnimationIfLoaded_(22, 2);
 
     if(player != null) {
-      FUN_200c764(22, player.pos_08.getX() >>> 16, player.pos_08.getZ() >>> 16);
+      FUN_200c764(22, player.pos_08.getX() >> 16, player.pos_08.getZ() >> 16);
     }
 
     //LAB_2009afc

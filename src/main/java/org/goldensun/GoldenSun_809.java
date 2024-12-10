@@ -16,6 +16,10 @@ import org.goldensun.types.Vec3;
 
 import static org.goldensun.GoldenSun.FUN_80053e8;
 import static org.goldensun.GoldenSun.FUN_8009048;
+import static org.goldensun.GoldenSun.FUN_800ca6c;
+import static org.goldensun.GoldenSun.FUN_800d14c;
+import static org.goldensun.GoldenSun.addLayerToSprite;
+import static org.goldensun.GoldenSun.clearSpriteLayer;
 import static org.goldensun.GoldenSun.divideS;
 import static org.goldensun.GoldenSun.insertIntoRenderQueue;
 import static org.goldensun.GoldenSun.modS;
@@ -969,6 +973,16 @@ public final class GoldenSun_809 {
     boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._170.set(r0);
   }
 
+  @Method(0x8091eb0)
+  public static void FUN_8091eb0(final int r0, final int r1) {
+    throw new RuntimeException("Not implemented");
+  }
+
+  @Method(0x8091f90)
+  public static void FUN_8091f90(final int r0, final int r1) {
+    throw new RuntimeException("Not implemented");
+  }
+
   @Method(0x8091ff0)
   public static void FUN_8091ff0(int r0) {
     boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new).soundId_cc8.set(r0);
@@ -1103,6 +1117,16 @@ public final class GoldenSun_809 {
     }
 
     //LAB_8092202
+  }
+
+  @Method(0x8092208)
+  public static void FUN_8092208(final int r0, final int r1, final int r2) {
+    throw new RuntimeException("Not implemented");
+  }
+
+  @Method(0x809228c)
+  public static void FUN_809228c(final int r0, final int r1, final int r2) {
+    throw new RuntimeException("Not implemented");
   }
 
   @Method(0x80923c4)
@@ -2096,9 +2120,94 @@ public final class GoldenSun_809 {
     setFlag_(0x121);
   }
 
+  @Method(0x8094380)
+  public static void FUN_8094380(int r0) {
+    int r1;
+    final int r2;
+    int r3;
+    int r6;
+
+    r6 = r0;
+    final Actor70 r5 = getMapActor(playerMapActorIndex_2000434.get());
+    final Sprite38 r8 = r5.sprite_50.deref();
+    addLayerToSprite(r8, 27)._05.set(0xf);
+    r8._26.set(0);
+    r5.pos_08.x_00.and(0xfff00000).add(0x80000);
+    r3 = r5.pos_08.getZ();
+    r3 = r3 & 0xfff00000;
+    r1 = r6;
+    r5.pos_08.setZ(r3);
+    setActorAnimation_(r5, r1);
+    r0 = 0x1e;
+    sleep(r0);
+    r6 = 0x1;
+    r8.layerCount_27.set(r6);
+    clearSpriteLayer(r8.layers_28.get(1).deref());
+    r8.layers_28.get(1).clear();
+    r8._26.set(r6);
+    r3 = 0x80;
+    r3 = r3 << 9;
+    r5.acceleration_34.set(r3);
+    r5.velocityScalar_30.set(r3);
+    r1 = r5.pos_08.getX();
+    r2 = r5.pos_08.getY();
+    r3 = r5.pos_08.getZ();
+    r3 = r3 + 0x80000;
+    FUN_800d14c(r5, r1, r2, r3);
+    FUN_800ca6c(r5);
+  }
+
+  /** Called in Crossbone Isle */
   @Method(0x8094428)
   public static int FUN_8094428() {
-    throw new RuntimeException("Not implemented");
+    int r0;
+    int r1;
+    final int r3;
+    int r6;
+
+    r6 = 0x0;
+    r0 = readFlag_(0x120);
+    CPU.cmpT(r0, 0x0);
+    if(!CPU.cpsr().getZero()) { // !=
+      FUN_8094380(0x18);
+      clearFlag_(0x120);
+      r6 = 0x1;
+    } else {
+      //LAB_809444a
+      r0 = readFlag_(0x121);
+      CPU.cmpT(r0, 0x0);
+      if(!CPU.cpsr().getZero()) { // !=
+        FUN_8094380(0x17);
+        clearFlag_(0x121);
+        r6 = 0x2;
+      } else {
+        //LAB_8094466
+        r0 = readFlag_(0x122);
+        CPU.cmpT(r0, 0x0);
+        if(!CPU.cpsr().getZero()) { // !=
+          clearFlag_(0x122);
+          final Actor70 r5 = getMapActor(playerMapActorIndex_2000434.get());
+          r5.pos_08.y_04.add(0xa00000);
+          FUN_80933f8(-1, -1, -1, 0);
+
+          //LAB_80944a6
+          while(r5.pos_08.getY() + r5.velocity_24.getY() > r5._14.get()) {
+            sleep(1);
+          }
+
+          playSound_(0x9f);
+          r5.pos_08.setY(r5._14.get());
+          setActorAnimation_(r5, 22);
+          FUN_809163c(0xf);
+          FUN_809335c(playerMapActorIndex_2000434.get(), 1);
+          r6 = 0x3;
+        }
+      }
+    }
+
+    //LAB_80944da
+    r0 = r6;
+    return r0;
   }
 
   @Method(0x8094820)
