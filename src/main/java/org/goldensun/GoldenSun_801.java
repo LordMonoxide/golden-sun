@@ -5785,9 +5785,22 @@ public final class GoldenSun_801 {
     throw new RuntimeException("Not implemented");
   }
 
+  /** Opening a chest */
   @Method(0x801a370)
   public static void FUN_801a370(final int r0) {
-    throw new RuntimeException("Not implemented");
+    final int r6 = boardWramMallocHead_3001e50.offset(17 * 0x4).get();
+    final int item = getItem_(r0 & 0x1ff);
+    if(r0 != 0x0) {
+      MEMORY.ref(4, r6 + 0x604).setu(MEMORY.ref(4, 0x8029ee4 + MEMORY.ref(2, item + 0x6).getUnsigned() * 0x4).get());
+    } else {
+      //LAB_801a394
+      MEMORY.ref(4, r6 + 0x604).setu(MEMORY.ref(4, 0x8029ee4).get());
+    }
+
+    //LAB_801a39e
+    MEMORY.ref(2, r6 + 0x600).setu(0x2);
+    MEMORY.ref(2, r6 + 0x602).setu(0x2);
+    FUN_801a5a4(r6, 0);
   }
 
   @Method(0x801a3d0)

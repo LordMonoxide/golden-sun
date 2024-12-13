@@ -23,8 +23,10 @@ import org.goldensun.types.SpriteLayer18;
 import org.goldensun.types.Structccc;
 import org.goldensun.types.Vec3;
 
+import static org.goldensun.GoldenSun.FUN_8003fa4;
 import static org.goldensun.GoldenSun.FUN_8004760;
 import static org.goldensun.GoldenSun.FUN_8009048;
+import static org.goldensun.GoldenSun.FUN_8009098;
 import static org.goldensun.GoldenSun.FUN_80090a0;
 import static org.goldensun.GoldenSun.FUN_80090a8;
 import static org.goldensun.GoldenSun.FUN_80090b0;
@@ -59,6 +61,7 @@ import static org.goldensun.GoldenSun.loadActor_;
 import static org.goldensun.GoldenSun.loadMap_;
 import static org.goldensun.GoldenSun.mallocChip;
 import static org.goldensun.GoldenSun.mallocSlotBoard;
+import static org.goldensun.GoldenSun.mallocSlotChip;
 import static org.goldensun.GoldenSun.modU;
 import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.rotVec3;
@@ -124,6 +127,7 @@ import static org.goldensun.GoldenSun_801.FUN_8015120;
 import static org.goldensun.GoldenSun_801.FUN_8015128;
 import static org.goldensun.GoldenSun_801.FUN_8015138;
 import static org.goldensun.GoldenSun_801.FUN_8015140;
+import static org.goldensun.GoldenSun_801.FUN_8015250;
 import static org.goldensun.GoldenSun_801.handleIngameMenus_;
 import static org.goldensun.GoldenSun_801.FUN_8015200;
 import static org.goldensun.GoldenSun_801.FUN_8015208;
@@ -161,6 +165,7 @@ import static org.goldensun.GoldenSun_809.FUN_8093fa0;
 import static org.goldensun.GoldenSun_809.FUN_8096810;
 import static org.goldensun.GoldenSun_809.FUN_8096960;
 import static org.goldensun.GoldenSun_809.FUN_8096ab0;
+import static org.goldensun.GoldenSun_809.FUN_8096c80;
 import static org.goldensun.GoldenSun_809.FUN_809728c;
 import static org.goldensun.GoldenSun_809.stopPlayerAndSetIdle;
 import static org.goldensun.GoldenSun_809.FUN_80916b0;
@@ -199,6 +204,7 @@ import static org.goldensun.Hardware.DMA;
 import static org.goldensun.Hardware.GPU;
 import static org.goldensun.Hardware.INTERRUPTS;
 import static org.goldensun.Hardware.MEMORY;
+import static org.goldensun.memory.MemoryHelper.getConsumer;
 import static org.goldensun.memory.MemoryHelper.getRunnable;
 
 public final class GoldenSun_808 {
@@ -4295,9 +4301,82 @@ public final class GoldenSun_808 {
     throw new RuntimeException("Not implemented");
   }
 
+  /** Opening chest */
+  @Method(0x808eee4)
+  public static void FUN_808eee4(final Actor70 r0) {
+    CPU.sp().value -= 0xc;
+    final int r3 = r0.velocity_24.getY() + 0xff;
+    if((r3 & 0xffff_ffffL) < 0x1ff) {
+      r0._55.set(0);
+    }
+
+    //LAB_808eefe
+    if(rand() * 100 >>> 16 < 10) {
+      final Vec3 r6 = new Vec3();
+      r6.set(r0.pos_08);
+      rotVec3(rand() * 0x10, rand(), r6);
+      final Actor70 r5 = FUN_8096c80(0x11d, r6.getX(), r6.getY(), r6.getZ());
+      if(r5 != null) {
+        FUN_8009098(r5, 0x809e87c);
+        setActorAnimation_(r5, 0);
+        r5.sprite_50.deref().packet_00.attribs_04.attrib2_04.and(~0xc00).or(0x400);
+      }
+    }
+
+    //LAB_808ef60
+    CPU.sp().value += 0xc;
+  }
+
+  /** Opening chest */
   @Method(0x808ef70)
   public static Actor70 FUN_808ef70(final int r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+    final Structccc r6 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
+    final Actor70 r7 = r6.actors_14.get(r0).derefNullable();
+
+    if(r7 == null) {
+      return null;
+    }
+
+    //LAB_808ef92
+    final Vec3 r5 = new Vec3();
+    r5.set(r7.pos_08);
+    rotVec3(0x100000, r7.angle_06.get() & 0xffff, r5);
+    if(r6._cb8.get() != 0x0) {
+      final ArrayRef<Actor70> actors = boardWramMallocHead_3001e50.offset(5 * 0x4).deref(4).cast(ArrayRef.of(Actor70.class, 64, 0x70, Actor70::new));
+
+      //LAB_808efd4
+      for(int actorIndex = 0; actorIndex < 64; actorIndex++) {
+        final Actor70 actor = actors.get(actorIndex);
+        if(actor._00.get() != 0 && (actor._6c.getPointer() == 0x808f28c || actor._00.get() == 0x809e87c)) {
+          clearActor_(actor);
+        }
+
+        //LAB_808eff6
+      }
+    }
+
+    //LAB_808effe
+    sleep(3);
+    final Actor70 actor = loadActor_(0x16, (r5.getX() & 0xfff00000) + 0x80000, 0x100000, (r5.getZ() & 0xfff00000) + 0x80000);
+    if(actor == null) {
+      return null;
+    }
+
+    FUN_8009098(actor, 0x809e6c0);
+    final Sprite38 sprite = actor.sprite_50.deref();
+    sprite._26.set(0);
+    sprite.layerCount_27.set(0);
+    sprite.packet_00.attribs_04.flags_01.and(~0x20);
+    sprite.packet_00.attribs_04.attrib2_04.and(0xfff).and(~0xc00).or(0x400);
+    actor.velocity_24.setY(0x20000);
+    actor._48.set(0x4000);
+
+    final int addr = mallocSlotChip(17, 0x608);
+    FUN_8015250(r1);
+    sprite.packet_00.attribs_04.attrib2_04.and(~0x3ff).or(FUN_8003fa4(sprite.slot_1c.get(), 0x80, addr + 0x400) & 0x3ff);
+    freeSlot(17);
+    actor._6c.set(getConsumer(GoldenSun_808.class, "FUN_808eee4", Actor70.class));
+    return actor;
   }
 
   @Method(0x808f0c8)
