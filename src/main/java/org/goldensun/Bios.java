@@ -1624,7 +1624,7 @@ public final class Bios {
       r5 = CPU.subT(r5, 0x1);
 
       //LAB_00019b8
-      while(!CPU.cpsr().getNegative()) { // positive
+      while(!CPU.cpsr().getNegative()) { // positive or 0
         r0 = CPU.movT(0x6);
         r2 = CPU.subT(r0, r5);
         r0 = CPU.lslT(r2, 2);

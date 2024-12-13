@@ -117,6 +117,12 @@ public final class GoldenSun_807 {
     MEMORY.call(0x8079374, r0);
   }
 
+  /** {@link GoldenSun_807#addHp} */
+  @Method(0x8077118)
+  public static int addHp_(final int charId, final int amount) {
+    return (int)MEMORY.call(0x80783a4, charId, amount);
+  }
+
   /** {@link GoldenSun_807#addPp} */
   @Method(0x8077120)
   public static int addPp_(final int charId, final int amount) {
@@ -1638,6 +1644,14 @@ public final class GoldenSun_807 {
     }
 
     //LAB_8078298
+  }
+
+  @Method(0x80783a4)
+  public static int addHp(final int charId, final int amount) {
+    final int r6 = getCharOrMonsterData(charId);
+    MEMORY.ref(2, r6 + 0x38).setu(MathHelper.clamp(MEMORY.ref(2, r6 + 0x38).get() + amount, 0, MEMORY.ref(2, r6 + 0x34).get()));
+    FUN_807822c(charId);
+    return MEMORY.ref(2, r6 + 0x38).get();
   }
 
   @Method(0x80783dc)

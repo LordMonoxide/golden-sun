@@ -1086,7 +1086,7 @@ public final class Map132Overlay_87ced6c {
    * Event list 0x200b880 handler 5
    */
   @Method(0x20092b4)
-  public static void FUN_20092b4(final int r0) {
+  public static void FUN_20092b4(final int r0, final int r1) {
     final Actor70 r5 = getMapActor(8);
     if(r5.pos_08.getX() >> 20 == 0x28) {
       final int r7 = readFlag(MEMORY.ref(2, 0x2000400).get() + 0x8d2 - 0x7e);
@@ -1112,25 +1112,23 @@ public final class Map132Overlay_87ced6c {
    * Event list 0x200b880 handler 4
    */
   @Method(0x2009374)
-  public static void FUN_2009374(final int r0) {
+  public static void FUN_2009374(final int r0, final int r1) {
     FUN_808a018();
     FUN_20080c4();
     FUN_808a020();
-    FUN_20092b4(r0);
+    FUN_20092b4(r0, r1);
   }
 
   /**
    * Event list 0x200b880 handler 3
    */
   @Method(0x200938c)
-  public static void FUN_200938c(int r0) {
-    final int r1;
+  public static void FUN_200938c(int r0, final int r1) {
     final int r2;
 
-    r1 = 0x25;
     r2 = 0x7;
     r0 = 0x200b2bc;
-    FUN_8009178(r0, r1, r2);
+    FUN_8009178(r0, 0x25, r2);
     r0 = 0xb7;
     playSound(r0);
     r0 = 0x4;
