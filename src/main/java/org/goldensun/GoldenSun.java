@@ -5418,7 +5418,7 @@ public final class GoldenSun {
       setActorAnimation(r0, 0x8);
       //LAB_800f0fe
     } else if(sp14 != 0) {
-      if(MEMORY.ref(2, getCharOrMonsterData_(playerMapActorIndex_2000434.get()) + 0x38).get() != 0) {
+      if(getCharOrMonsterData_(playerMapActorIndex_2000434.get()).hp_38.get() != 0) {
         r5 = 0x16;
       } else {
         r5 = 0x9;

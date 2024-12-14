@@ -7,6 +7,7 @@ import org.goldensun.types.Panel24;
 import org.goldensun.types.SaveStruct1100;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.Struct12fc;
+import org.goldensun.types.Unit14c;
 
 import javax.annotation.Nullable;
 
@@ -711,7 +712,7 @@ public final class GoldenSun_802 {
     int sp1c = 0;
     final int sp18 = CPU.sp().value + 0x51;
     final int sp2c = r0;
-    final int sp14 = getCharOrMonsterData_(r0);
+    final Unit14c charData = getCharOrMonsterData_(r0);
     final Struct12fc sp10 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
     int sp0c = 0x1;
     r9 = 0x1;
@@ -724,11 +725,10 @@ public final class GoldenSun_802 {
     sp10._ea3.set(sp0c);
     MEMORY.ref(1, CPU.sp().value + 0x50).setu(sp24);
     r1 = sp18;
-    r2 = sp14;
 
     //LAB_8020c74
     do {
-      r3 = MEMORY.ref(1, r2).getUnsigned();
+      r3 = MEMORY.ref(1, charData.getAddress() + r1).getUnsigned();
       MEMORY.ref(1, r1).setu(r3);
       if(r3 != 0) {
         sp20++;
@@ -736,12 +736,11 @@ public final class GoldenSun_802 {
       }
 
       //LAB_8020c8c
-      r2++;
       r1++;
     } while(r1 < CPU.sp().value + 0x5f);
 
     MEMORY.ref(1, sp18 + 0xe).setu(0);
-    FUN_8020b64(sp28, sp14);
+    FUN_8020b64(sp28, charData.getAddress());
     r6 = 0x12;
     r7 = 0x5;
     r5 = getFreeVramSlot();
@@ -926,13 +925,13 @@ public final class GoldenSun_802 {
                 r2 = MEMORY.ref(4, CPU.sp().value + 0x30).get();
                 MEMORY.ref(1, r2 + 0x5).setu(0xd);
                 FUN_8016478(sp28);
-                FUN_8020b64(sp28, sp14);
+                FUN_8020b64(sp28, charData.getAddress());
                 sleep(0xa);
               } else {
                 //LAB_8020fc8
                 //LAB_8020fce
                 for(r0 = 0; r0 < 15; r0++) {
-                  MEMORY.ref(1, sp14 + r0).setu(MEMORY.ref(1, sp18 + r0).getUnsigned());
+                  charData.name_00.get(r0).set(MEMORY.ref(1, sp18 + r0).getUnsigned());
                 }
               }
               break jmp_8021034;

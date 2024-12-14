@@ -18,6 +18,7 @@ import org.goldensun.types.ChoiceMenu98;
 import org.goldensun.types.GraphicsStruct184;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Menua70;
+import org.goldensun.types.RecoveryQueue10c;
 import org.goldensun.types.RenderPacket0c;
 import org.goldensun.types.RotationScaling08;
 import org.goldensun.types.SoundStruct0c;
@@ -27,6 +28,7 @@ import org.goldensun.types.SramTypeStruct;
 import org.goldensun.types.Struct12fc;
 import org.goldensun.types.Struct5c;
 import org.goldensun.types.Structccc;
+import org.goldensun.types.Unit14c;
 import org.goldensun.types.VramSlot04;
 import org.goldensun.types.Struct0c;
 import org.goldensun.types.Actor70;
@@ -36,6 +38,8 @@ import static org.goldensun.Hardware.MEMORY;
 
 public final class GoldenSunVars {
   private GoldenSunVars() { }
+
+  public static final RecoveryQueue10c djinnRecoveryQueue_200024c = MEMORY.ref(4, 0x200024c, RecoveryQueue10c::new);
 
   public static final ShortRef mapId_2000400 = MEMORY.ref(2, 0x2000400, ShortRef::new);
   public static final ShortRef entranceId_2000402 = MEMORY.ref(2, 0x2000402, ShortRef::new);
@@ -102,6 +106,8 @@ public final class GoldenSunVars {
   public static final ShortRef _200048c = MEMORY.ref(2, 0x200048c, ShortRef::new);
 
   public static final ShortRef _20004a4 = MEMORY.ref(2, 0x20004a4, ShortRef::new);
+
+  public static final ArrayRef<Unit14c> _2000500 = MEMORY.ref(4, 0x2000500, ArrayRef.of(Unit14c.class, 8, 0x14c, Unit14c::new));
 
   public static final ShortRef lastSaveSlot_2002004 = MEMORY.ref(2, 0x2002004, ShortRef::new);
 
@@ -224,6 +230,7 @@ public final class GoldenSunVars {
    *   <li>8 - {@link Map194}</li>
    *   <li>15 - {@link Struct12fc}</li>
    *   <li>27 - {@link Structccc}</li>
+   *   <li>54 - Array of ?? {@link Unit14c}</li>
    *   <li>55 - {@link Menua70}</li>
    *   <li>58 - {@link ChoiceMenu98}</li>
    * </ul>

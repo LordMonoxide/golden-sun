@@ -1,16 +1,18 @@
 package org.goldensun;
 
 import org.goldensun.memory.Method;
+import org.goldensun.types.RecoveryQueue10c;
+import org.goldensun.types.Unit14c;
 
 import static org.goldensun.GoldenSun.divideS;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.charIds_2000438;
-import static org.goldensun.GoldenSun_807.FUN_8077000;
+import static org.goldensun.GoldenSun_807.getDjinnRecoveryQueue_;
 import static org.goldensun.GoldenSun_807.getCharCount_;
 import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
-import static org.goldensun.GoldenSun_807.FUN_8077010;
-import static org.goldensun.GoldenSun_807.FUN_80771b0;
-import static org.goldensun.GoldenSun_807.FUN_80771c0;
+import static org.goldensun.GoldenSun_807.recalcStats_;
+import static org.goldensun.GoldenSun_807.setDjinn_;
+import static org.goldensun.GoldenSun_807.recoverDjinn_;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.MEMORY;
 
@@ -213,7 +215,7 @@ public final class GoldenSun_80b {
       }
 
       //LAB_80b6aa4
-      MEMORY.ref(1, getCharOrMonsterData_(charId) + 0x12a).setu(0x2);
+      getCharOrMonsterData_(charId)._12a.set(2);
     }
 
     //LAB_80b6abc
@@ -232,15 +234,15 @@ public final class GoldenSun_80b {
 
   @Method(0x80bf5a8)
   public static int FUN_80bf5a8() {
-    final int r7 = FUN_8077000(0) + 0x8;
+    final RecoveryQueue10c queue = getDjinnRecoveryQueue_(0);
     int r2 = 0;
 
     //LAB_80bf5ce
-    for(int r8 = 0; r8 < MEMORY.ref(4, r7 + 0x100).get(); r8++) {
-      if(MEMORY.ref(1, r7 + r8 * 0x4 + 0x3).get() > 0) {
-        final int r0 = getCharOrMonsterData_(MEMORY.ref(1, r7 + r8 * 0x4 + 0x2).getUnsigned());
-        if(MEMORY.ref(2, r0 + 0x38).get() != 0) {
-          MEMORY.ref(1, r7 + r8 * 0x4 + 0x3).decr();
+    for(int r8 = 0; r8 < queue.count_108.get(); r8++) {
+      if(queue._08.get(r8)._03.get() > 0) {
+        final Unit14c r0 = getCharOrMonsterData_(queue._08.get(r8).charId_02.get());
+        if(r0.hp_38.get() != 0) {
+          queue._08.get(r8)._03.decr();
         }
       }
 
@@ -249,12 +251,12 @@ public final class GoldenSun_80b {
 
     //LAB_80bf600
     //LAB_80bf612
-    for(int r8 = 0; r8 < MEMORY.ref(4, r7 + 0x100).get(); ) {
-      if(MEMORY.ref(1, r7 + r8 * 0x4 + 0x3).get() == 0) {
-        final int r5 = MEMORY.ref(1, r7 + r8 * 0x4 + 0x2).getUnsigned();
-        FUN_80771b0(r5, MEMORY.ref(1, r7 + r8 * 0x4).getUnsigned(), MEMORY.ref(1, r7 + r8 * 0x4 + 0x1).getUnsigned());
-        FUN_80771c0(r5, MEMORY.ref(1, r7 + r8 * 0x4).getUnsigned(), MEMORY.ref(1, r7 + r8 * 0x4 + 0x1).getUnsigned());
-        FUN_8077010(r5);
+    for(int r8 = 0; r8 < queue.count_108.get(); ) {
+      if(queue._08.get(r8)._03.get() == 0) {
+        final int charId = queue._08.get(r8).charId_02.get();
+        setDjinn_(charId, queue._08.get(r8).element_00.get(), queue._08.get(r8).djinn_01.get());
+        recoverDjinn_(charId, queue._08.get(r8).element_00.get(), queue._08.get(r8).djinn_01.get());
+        recalcStats_(charId);
         r2 = 1;
       } else {
         //LAB_80bf63a

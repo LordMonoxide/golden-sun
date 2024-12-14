@@ -82,6 +82,22 @@ public class ByteRef implements MemoryRef {
     return this.set(~this.get());
   }
 
+  public ByteRef and(final int val) {
+    return this.set(this.get() & val);
+  }
+
+  public ByteRef and(final UnsignedByteRef val) {
+    return this.and(val.get());
+  }
+
+  public ByteRef or(final int val) {
+    return this.set(this.get() | val);
+  }
+
+  public ByteRef or(final UnsignedByteRef val) {
+    return this.or(val.get());
+  }
+
   public ByteRef xor(final int val) {
     return this.set(this.get() ^ val);
   }
