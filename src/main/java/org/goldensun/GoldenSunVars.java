@@ -16,6 +16,7 @@ import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 import org.goldensun.types.ChoiceMenu98;
 import org.goldensun.types.GraphicsStruct184;
+import org.goldensun.types.Item2c;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Menua70;
 import org.goldensun.types.RecoveryQueue10c;
@@ -377,6 +378,8 @@ public final class GoldenSunVars {
   public static final ArrayRef<Pointer<TriConsumerRef<Actor70, Integer, Integer>>> _80136e0 = MEMORY.ref(4, 0x80136e0, ArrayRef.of(Pointer.classFor(TriConsumerRef.classFor(Actor70.class, Integer.class, Integer.class)), 41, 0x4, Pointer.deferred(4, TriConsumerRef::new)));
 
   public static final UnboundedArrayRef<Struct0c> _8013784 = MEMORY.ref(4, 0x8013784, UnboundedArrayRef.of(0xc, Struct0c::new));
+
+  public static final ArrayRef<Item2c> items_807b6a8 = MEMORY.ref(4, 0x807b6a8, ArrayRef.of(Item2c.class, 0x1ff, 0x2c, Item2c::new));
 
   public static final ArrayRef<SoundStruct0c> _80fc624 = MEMORY.ref(4, 0x80fc624, ArrayRef.of(SoundStruct0c.class, 8, 0xc, SoundStruct0c::new));
 

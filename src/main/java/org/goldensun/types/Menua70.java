@@ -37,7 +37,7 @@ public class Menua70 implements MemoryRef {
   public final UnsignedByteRef _111;
   public final UnsignedByteRef _112;
   public final UnsignedByteRef _113;
-  public final ArrayRef<Pointer<Sprite38>> _114;
+  public final ArrayRef<Pointer<Sprite38>> charSpriteIds_114;
   public final ArrayRef<ShortRef> _134;
   public final ArrayRef<ShortRef> _144;
   public final ArrayRef<IntRef> _154;
@@ -45,9 +45,9 @@ public class Menua70 implements MemoryRef {
   public final ArrayRef<UnsignedShortRef> abilityId_178;
   public final Pointer<GraphicsStruct1c> _17c;
 
-  public final ArrayRef<UnsignedShortRef> _1c8;
+  public final ArrayRef<UnsignedShortRef> items_1c8;
   public final ArrayRef<UnsignedShortRef> partyMemberIds_208;
-  public final UnsignedByteRef _218;
+  public final UnsignedByteRef itemCount_218;
   public final UnsignedByteRef partyMemberCount_219;
   public final ArrayRef<UnsignedByteRef> _21a;
   public final Pointer<GraphicsStruct1c> _21c;
@@ -61,8 +61,8 @@ public class Menua70 implements MemoryRef {
   public final ArrayRef<UnsignedByteRef> _260;
   public final UnsignedByteRef _268;
 
-  public final UnsignedShortRef _392;
-  public final UnsignedShortRef _394;
+  public final UnsignedShortRef downArrow_392;
+  public final UnsignedShortRef upArrow_394;
 
   public Menua70(final Value ref) {
     this.ref = ref;
@@ -91,7 +91,7 @@ public class Menua70 implements MemoryRef {
     this._111 = ref.offset(1, 0x111).cast(UnsignedByteRef::new);
     this._112 = ref.offset(1, 0x112).cast(UnsignedByteRef::new);
     this._113 = ref.offset(1, 0x113).cast(UnsignedByteRef::new);
-    this._114 = ref.offset(4, 0x114).cast(ArrayRef.of(Pointer.classFor(Sprite38.class), 8, 0x4, Pointer.deferred(4, Sprite38::new)));
+    this.charSpriteIds_114 = ref.offset(4, 0x114).cast(ArrayRef.of(Pointer.classFor(Sprite38.class), 8, 0x4, Pointer.deferred(4, Sprite38::new)));
     this._134 = ref.offset(2, 0x134).cast(ArrayRef.of(ShortRef.class, 8, 0x2, ShortRef::new));
     this._144 = ref.offset(2, 0x144).cast(ArrayRef.of(ShortRef.class, 8, 0x2, ShortRef::new));
     this._154 = ref.offset(4, 0x154).cast(ArrayRef.of(IntRef.class, 8, 0x4, IntRef::new));
@@ -99,9 +99,9 @@ public class Menua70 implements MemoryRef {
     this.abilityId_178 = ref.offset(2, 0x178).cast(ArrayRef.of(UnsignedShortRef.class, 2, 0x2, UnsignedShortRef::new));
     this._17c = ref.offset(4, 0x17c).cast(Pointer.deferred(4, GraphicsStruct1c::new));
 
-    this._1c8 = ref.offset(2, 0x1c8).cast(ArrayRef.of(UnsignedShortRef.class, 0x20, 0x2, UnsignedShortRef::new));
+    this.items_1c8 = ref.offset(2, 0x1c8).cast(ArrayRef.of(UnsignedShortRef.class, 0x20, 0x2, UnsignedShortRef::new));
     this.partyMemberIds_208 = ref.offset(2, 0x208).cast(ArrayRef.of(UnsignedShortRef.class, 8, 0x2, UnsignedShortRef::new));
-    this._218 = ref.offset(1, 0x218).cast(UnsignedByteRef::new);
+    this.itemCount_218 = ref.offset(1, 0x218).cast(UnsignedByteRef::new);
     this.partyMemberCount_219 = ref.offset(1, 0x219).cast(UnsignedByteRef::new);
     this._21a = ref.offset(1, 0x21a).cast(ArrayRef.of(UnsignedByteRef.class, 2, 0x1, UnsignedByteRef::new));
     this._21c = ref.offset(4, 0x21c).cast(Pointer.deferred(4, GraphicsStruct1c::new));
@@ -115,8 +115,8 @@ public class Menua70 implements MemoryRef {
     this._260 = ref.offset(1, 0x260).cast(ArrayRef.of(UnsignedByteRef.class, 8, 0x1, UnsignedByteRef::new));
     this._268 = ref.offset(1, 0x268).cast(UnsignedByteRef::new);
 
-    this._392 = ref.offset(2, 0x392).cast(UnsignedShortRef::new);
-    this._394 = ref.offset(2, 0x394).cast(UnsignedShortRef::new);
+    this.downArrow_392 = ref.offset(2, 0x392).cast(UnsignedShortRef::new);
+    this.upArrow_394 = ref.offset(2, 0x394).cast(UnsignedShortRef::new);
   }
 
   @Override

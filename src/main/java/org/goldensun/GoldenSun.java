@@ -2543,8 +2543,8 @@ public final class GoldenSun {
 
   /** {@link GoldenSun#setSpriteAnimation} */
   @Method(0x8009020)
-  public static int setSpriteAnimation_(final Sprite38 r0, final int r1) {
-    return (int)MEMORY.call(0x800ba30, r0, r1);
+  public static int setSpriteAnimation_(final Sprite38 sprite, final int animation) {
+    return (int)MEMORY.call(0x800ba30, sprite, animation);
   }
 
   /** {@link GoldenSun#loadSprite} */

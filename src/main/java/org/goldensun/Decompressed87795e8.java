@@ -3,6 +3,7 @@ package org.goldensun;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.types.Actor70;
+import org.goldensun.types.Item2c;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Struct12fc;
 import org.goldensun.types.Structccc;
@@ -1358,7 +1359,7 @@ public final class Decompressed87795e8 {
     MEMORY.call(0x8015078, r0, r1, r2, r3);
   }
 
-  /** {@link GoldenSun_801#FUN_8015080} */
+  /** {@link GoldenSun_801#drawIcon} */
   @Method(0x20093b4)
   public static void FUN_20093b4(final int r0, final int r1, final int r2, final int r3) {
     MEMORY.call(0x8015080, r0, r1, r2, r3);
@@ -1457,8 +1458,8 @@ public final class Decompressed87795e8 {
 
   /** {@link GoldenSun_807#getItem_} */
   @Method(0x2009444)
-  public static int getItem(final int itemId) {
-    return (int)MEMORY.call(0x8077018, itemId);
+  public static Item2c getItem(final int itemId) {
+    return (Item2c)MEMORY.call(0x8077018, itemId);
   }
 
   @Method(0x200944c)

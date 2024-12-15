@@ -2,6 +2,7 @@ package org.goldensun;
 
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.ArrayRef;
+import org.goldensun.types.Item2c;
 import org.goldensun.types.RecoveryQueue10c;
 import org.goldensun.types.Unit14c;
 
@@ -15,6 +16,7 @@ import static org.goldensun.GoldenSun.setMallocAddress;
 import static org.goldensun.GoldenSunVars._2000500;
 import static org.goldensun.GoldenSunVars.charIds_2000438;
 import static org.goldensun.GoldenSunVars.djinnRecoveryQueue_200024c;
+import static org.goldensun.GoldenSunVars.items_807b6a8;
 import static org.goldensun.GoldenSunVars.playerMapActorIndex_2000434;
 import static org.goldensun.GoldenSunVars._200044c;
 import static org.goldensun.GoldenSunVars.lastSaveSlot_2002004;
@@ -54,14 +56,17 @@ public final class GoldenSun_807 {
 
   /** {@link GoldenSun_807#getItem} */
   @Method(0x8077018)
-  public static int getItem_(final int itemId) {
-    return (int)MEMORY.call(0x8078414, itemId);
+  public static Item2c getItem_(final int itemId) {
+    return (Item2c)MEMORY.call(0x8078414, itemId);
   }
 
-  /** {@link GoldenSun_807#addItem} */
+  /**
+   * {@link GoldenSun_807#addItem}
+   * @return item slot
+   */
   @Method(0x8077028)
-  public static int addItem_(final int r0, final int r1) {
-    return (int)MEMORY.call(0x8078588, r0, r1);
+  public static int addItem_(final int charId, final int itemId) {
+    return (int)MEMORY.call(0x8078588, charId, itemId);
   }
 
   /** {@link GoldenSun_807#giveItem} */
@@ -347,26 +352,24 @@ public final class GoldenSun_807 {
       //LAB_807754e
       //LAB_8077550
       for(r5 = 0; r5 < 15; r5++) {
-        r2 = r7.items_d8.get(r5).get();
-        if((r2 & 0x200) != 0) {
+        final int itemId = r7.items_d8.get(r5).get();
+        if((itemId & 0x200) != 0) {
           //LAB_8077564
-          r0 = getItem(r2);
-          MEMORY.ref(4, r6 + 0x58).setu(r0);
-          if((MEMORY.ref(1, r0 + 0x3).getUnsigned() & 0x1) != 0) {
+          final Item2c item = getItem(itemId);
+          MEMORY.ref(4, r6 + 0x58).setu(item.getAddress());
+          if((item.flags_03.get() & Item2c.FLAG_CURSED_01) != 0) {
             r7.curse_130.or(0x3);
           }
 
           //LAB_8077584
-          r1 = MEMORY.ref(4, r6 + 0x58).get();
-          MEMORY.ref(4, r6 + 0x8).addu(MEMORY.ref(2, r1 + 0x8).get());
-          MEMORY.ref(4, r6 + 0xc).addu(MEMORY.ref(1, r1 + 0xa).get());
+          MEMORY.ref(4, r6 + 0x8).addu(item.attack_08.get());
+          MEMORY.ref(4, r6 + 0xc).addu(item.defence_0a.get());
           CPU.r8().value = 0;
 
           //LAB_807759e
           do {
-            r2 = MEMORY.ref(4, r6 + 0x58).get();
-            MEMORY.ref(4, r6 + 0x48).setu(MEMORY.ref(1, r2 + 0x18 + CPU.r8().value * 0x4).getUnsigned());
-            MEMORY.ref(4, r6 + 0x54).setu(MEMORY.ref(1, r2 + 0x18 + CPU.r8().value * 0x4 + 0x1).get());
+            MEMORY.ref(4, r6 + 0x48).setu(item.equipEffect_18.get(CPU.r8().value).effect_00.get());
+            MEMORY.ref(4, r6 + 0x54).setu(item.equipEffect_18.get(CPU.r8().value).value_01.get());
 
             //LAB_80775b8
             switch(MEMORY.ref(4, r6 + 0x48).get()) {
@@ -434,16 +437,15 @@ public final class GoldenSun_807 {
 
       //LAB_807780c
       for(r5 = 0; r5 < 15; r5++) {
-        r2 = r7.items_d8.get(r5).get();
-        if((r2 & 0x200) != 0) {
-          final int item = getItem(r2);
-          MEMORY.ref(4, r6 + 0x58).setu(item);
+        final int itemId = r7.items_d8.get(r5).get();
+        if((itemId & 0x200) != 0) {
+          final Item2c item = getItem(itemId);
+          MEMORY.ref(4, r6 + 0x58).setu(item.getAddress());
 
           //LAB_807782a
           for(CPU.r8().value = 0; CPU.r8().value < 4; CPU.r8().value++) {
-            r2 = MEMORY.ref(4, r6 + 0x58).get();
-            MEMORY.ref(4, r6 + 0x48).setu(MEMORY.ref(1, r2 + 0x18 + CPU.r8().value * 0x4).getUnsigned());
-            MEMORY.ref(4, r6 + 0x54).setu(MEMORY.ref(1, r2 + 0x18 + CPU.r8().value * 0x4 + 0x1).get());
+            MEMORY.ref(4, r6 + 0x48).setu(item.equipEffect_18.get(CPU.r8().value).effect_00.get());
+            MEMORY.ref(4, r6 + 0x54).setu(item.equipEffect_18.get(CPU.r8().value).value_01.get());
 
             switch(MEMORY.ref(4, r6 + 0x48).get()) {
               case 14 -> MEMORY.ref(4, r6).setu(divideS(MEMORY.ref(4, r6 + 0x54).get() * MEMORY.ref(4, r6).get(), 10));
@@ -835,20 +837,16 @@ public final class GoldenSun_807 {
       //LAB_8077c52
       for(int r1 = 0; r1 < 15; r1++) {
         if((charData.items_d8.get(r1).get() & 0x200) != 0) {
-          int r5 = getItem(charData.items_d8.get(r1).get()) + 0x18;
-          int r6 = 0x3;
+          final Item2c item = getItem(charData.items_d8.get(r1).get());
 
           //LAB_8077c70
-          do {
-            final int r3 = MEMORY.ref(1, r5).getUnsigned();
-            r5 += 0x4;
-            if(r3 == 0x1b) {
+          for(int r6 = 0; r6 < 4; r6++) {
+            if(item.equipEffect_18.get(r6).effect_00.get() == 0x1b) {
               setFlag(0x167);
             }
 
             //LAB_8077c86
-            r6--;
-          } while(r6 >= 0);
+          }
         }
 
         //LAB_8077c8c
@@ -1080,8 +1078,8 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x8078414)
-  public static int getItem(final int itemId) {
-    return 0x807b6a8 + (itemId & 0x1ff) * 0x2c;
+  public static Item2c getItem(final int itemId) {
+    return items_807b6a8.get(itemId & 0x1ff);
   }
 
   @Method(0x807842c)
@@ -1092,41 +1090,42 @@ public final class GoldenSun_807 {
     }
 
     //LAB_807844e
-    final int itemData = getItem(itemId);
-    return MEMORY.ref(2, itemData + 0x4).getUnsigned() >> charData._128.get() & 0x1;
+    final Item2c item = getItem(itemId);
+    return item.equippable_04.get() >> charData._128.get() & 0x1;
   }
 
+  /** @return item slot */
   @Method(0x8078588)
-  public static int addItem(int r0, int r1) {
-    final int r5 = r1;
-    final Unit14c r6 = getCharOrMonsterData(r0);
-    r0 = getItem(r5);
-    if((MEMORY.ref(1, r0 + 0x3).getUnsigned() & 0x10) != 0) {
+  public static int addItem(final int charId, final int itemId) {
+    final Unit14c r6 = getCharOrMonsterData(charId);
+    final Item2c item = getItem(itemId);
+    if((item.flags_03.get() & Item2c.FLAG_STACKABLE_10) != 0) {
       //LAB_80785b8
-      for(r0 = 0; r0 < 15 && ((r6.items_d8.get(r0).get() ^ r5) & 0x1ff) != 0; r0++) {
+      int i;
+      for(i = 0; i < 15 && ((r6.items_d8.get(i).get() ^ itemId) & 0x1ff) != 0; i++) {
         // no-op
       }
 
       //LAB_80785ca
-      if(r0 != 15) {
-        r1 = r6.items_d8.get(r0).get();
+      if(i != 15) {
+        final int r1 = r6.items_d8.get(i).get();
         final int r3 = r1 >>> 11;
         if(r3 > 28) {
           return -1;
         }
         final int r2 = r3 + 0x1;
-        r6.items_d8.get(r0).set(r1 & 0x7ff | r2 << 11);
-        return r0;
+        r6.items_d8.get(i).set(r1 & 0x7ff | r2 << 11);
+        return i;
       }
     }
 
     //LAB_80785ee
     //LAB_80785f6
-    for(r0 = 0; r0 < 15; r0++) {
-      if(r6.items_d8.get(r0).get() == 0) {
+    for(int i = 0; i < 15; i++) {
+      if(r6.items_d8.get(i).get() == 0) {
         //LAB_80785ea
-        r6.items_d8.get(r0).set(r5);
-        return r0;
+        r6.items_d8.get(i).set(itemId);
+        return i;
       }
     }
 
@@ -1173,12 +1172,12 @@ public final class GoldenSun_807 {
       return 0;
     }
 
-    final int r8 = MEMORY.ref(1, getItem(r5) + 0x2).getUnsigned();
+    final int r8 = getItem(r5).type_02.get();
     if(r8 != 6) {
       //LAB_8078764
       int r6;
       for(r6 = 0; r6 < 15; r6++) {
-        if((r7.items_d8.get(r6).get() & 0x200) != 0 && MEMORY.ref(1, getItem(r7.items_d8.get(r6).get()) + 0x2).getUnsigned() == r8) {
+        if((r7.items_d8.get(r6).get() & 0x200) != 0 && getItem(r7.items_d8.get(r6).get()).type_02.get() == r8) {
           break;
         }
 
@@ -1187,7 +1186,7 @@ public final class GoldenSun_807 {
 
       //LAB_807877e
       if(r6 != 15) {
-        if((MEMORY.ref(1, getItem(r7.items_d8.get(r6).get()) + 0x3).getUnsigned() & 0x2) != 0) {
+        if((getItem(r7.items_d8.get(r6).get()).flags_03.get() & Item2c.FLAG_CANT_REMOVE_02) != 0) {
           return -1;
         }
 
@@ -1354,11 +1353,11 @@ public final class GoldenSun_807 {
     //LAB_8078d32
     //LAB_8078d38
     for(r5 = 0; r5 < 15; r5++) {
-      r2 = r9.items_d8.get(r5).get();
-      if(r2 != 0 && (r2 & 0x200) != 0) {
-        r0 = getItem(r2);
-        if(MEMORY.ref(1, r0 + 0xc).getUnsigned() == 3) {
-          r0 = MEMORY.ref(2, r0 + 0x28).getUnsigned();
+      final int itemId = r9.items_d8.get(r5).get();
+      if(itemId != 0 && (itemId & 0x200) != 0) {
+        final Item2c item = getItem(itemId);
+        if(item.useType_0c.get() == 3) {
+          r0 = item.useAbility_28.get();
 
           //LAB_8078d78
           for(r4 = 0; r4 < 32 && (r9.psynergy_58.get(r4).get() & 0x3fff) != r0; r4++) {
@@ -1390,10 +1389,10 @@ public final class GoldenSun_807 {
 
     //LAB_8078dd4
     for(r4 = 0; r4 < 32; r4++) {
-      r2 = r9.psynergy_58.get(r4).get();
-      if(r2 != 0) {
+      final int psynergyId = r9.psynergy_58.get(r4).get();
+      if(psynergyId != 0) {
         //LAB_8078de8
-        r9.psynergy_58.get(r5).set(r2);
+        r9.psynergy_58.get(r5).set(psynergyId);
         r5++;
       }
 
