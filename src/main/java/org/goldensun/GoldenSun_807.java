@@ -152,6 +152,12 @@ public final class GoldenSun_807 {
     return (int)MEMORY.call(0x80796c4, out);
   }
 
+  /** {@link GoldenSun_807#FUN_8079c5c} */
+  @Method(0x8077190)
+  public static int FUN_8077190(final int r0, final int r1, final int r2) {
+    return (int)MEMORY.call(0x8079c5c, r0, r1, r2);
+  }
+
   /** {@link GoldenSun_807#setDjinn} */
   @Method(0x80771b0)
   public static int setDjinn_(final int charId, final int element, final int djinn) {
@@ -997,7 +1003,6 @@ public final class GoldenSun_807 {
   @Method(0x807822c)
   public static void FUN_807822c(int r0) {
     int r1;
-    int r2;
     int r3;
 
     final Unit14c r5 = getCharOrMonsterData(r0);
@@ -1986,6 +1991,41 @@ public final class GoldenSun_807 {
   @Method(0x8079ad8)
   public static int getClass(final int r0) {
     return 0x8084b1c + r0 * 0x54;
+  }
+
+  @Method(0x8079b24)
+  public static int FUN_8079b24(final int r0, final int r1) {
+    final int r5 = 0x8089258;
+    final int r6 = MathHelper.clamp(r0, MEMORY.ref(2, r5 + 0x10).get(), MEMORY.ref(2, r5).get());
+
+    //LAB_8079b48
+    //LAB_8079b5c
+    int r1_0;
+    for(r1_0 = 0; r1_0 < 5 && r6 <= MEMORY.ref(2, r5 + r1_0 * 4).get(); r1_0++) {
+      // no-op
+    }
+
+    //LAB_8079b78
+    int ret;
+    if(r1_0 == 5) {
+      ret = MEMORY.ref(2, r5 + r1_0 * 4 - 0x2).get();
+    } else {
+      //LAB_8079b82
+      ret = divideS((r6 - MEMORY.ref(2, r5 + r1_0 * 4).get()) * (MEMORY.ref(2, r5 + r1_0 * 4 - 0x2).get() - MEMORY.ref(2, r5 + r1_0 * 4 + 0x2).get()), MEMORY.ref(2, r5 + r1_0 * 4 - 0x4).get() - MEMORY.ref(2, r5 + r1_0 * 4).get()) + MEMORY.ref(2, r5 + r1_0 * 4 + 0x2).get();
+    }
+
+    //LAB_8079b9e
+    if(r1 == 1) {
+      ret /= 2;
+    }
+
+    //LAB_8079bae
+    return ret + 0x100;
+  }
+
+  @Method(0x8079c5c)
+  public static int FUN_8079c5c(final int r0, final int r1, final int r2) {
+    return r2 * r0 * FUN_8079b24(r1 * 0x2 - 0xc8, 0) / 0x10000;
   }
 
   @Method(0x807a0cc)
