@@ -1067,6 +1067,16 @@ public final class GoldenSun_80a {
     //LAB_80a22e2
   }
 
+  @Method(0x80a22f4)
+  public static void FUN_80a22f4() {
+    DMA.channels[3].SAD.setu(0x5000200);
+    DMA.channels[3].DAD.setu(0x50001c0);
+    DMA.channels[3].CNT.setu(0x80000010);
+    DMA.channels[3].SAD.setu(0x50001e8);
+    DMA.channels[3].DAD.setu(0x50001dc);
+    DMA.channels[3].CNT.setu(0x80000001);
+  }
+
   @Method(0x80a2324)
   public static void FUN_80a2324(final int r0, final int r1, final Panel24 r2, final int x, final int y) {
     final Menua70 r8 = boardWramMallocHead_3001e50.offset(55 * 0x4).deref(4).cast(Menua70::new);
@@ -2782,9 +2792,324 @@ public final class GoldenSun_80a {
     //LAB_80a479e
   }
 
+  /** Item details */
   @Method(0x80a4800)
   public static int FUN_80a4800(final int r0) {
-    throw new RuntimeException("Not implemented");
+    int r10 = 1;
+    final Menua70 menu = boardWramMallocHead_3001e50.offset(55 * 0x4).deref(4).cast(Menua70::new);
+    menu._21c.deref()._05.set(13);
+    final Panel24 panel = addPanel_(0, 0, 30, 10, 0x2);
+    clearTickCallback(getRunnable(GoldenSun_80a.class, "FUN_80a19a0"));
+    menu._17c.deref()._05.set(13);
+    FUN_80a22f4();
+    sleep(1);
+
+    //LAB_80a487c
+    int r6 = 0;
+    do {
+      if(readFlag_(0x150) != 0) {
+        break;
+      }
+
+      if(r10 != 0) {
+        r10 = 0;
+        r6 = modS(r6 + 5, 5);
+        FUN_80a4924(panel, r0);
+      }
+
+      //LAB_80a48a4
+      if((pressedButtons_3001c94.get() & 0x1) != 0) {
+        break;
+      }
+      if((pressedButtons_3001c94.get() & 0x2) != 0) {
+        r6 = -1;
+        break;
+      }
+
+      //LAB_80a4854
+      if((pressedButtons_3001b04.get() & 0x40) != 0) {
+        r6--;
+        r10 = 1;
+      }
+
+      //LAB_80a4866
+      if((pressedButtons_3001b04.get() & 0x80) != 0) {
+        r6++;
+        r10 = 1;
+      }
+
+      //LAB_80a4876
+      sleep(1);
+    } while(true);
+
+    //LAB_80a48be
+    FUN_8015270(panel);
+    sleep(1);
+    FUN_8015018(panel, 1);
+    FUN_8015270(menu.panel_10.deref());
+    FUN_80a2144(14);
+    setTickCallback(getRunnable(GoldenSun_80a.class, "FUN_80a19a0"), 0xc80);
+    menu._17c.deref()._05.set(1);
+    FUN_8015408(13, 0, 17, 10);
+    return r6;
+  }
+
+  @Method(0x80a4924)
+  public static void FUN_80a4924(final Panel24 panel, int r1) {
+    int r5 = 0;
+    final int r11 = r1;
+    int sp08 = r5;
+    final Item2c r10 = getItem_(r1 & 0x1ff);
+
+    if(r10.type_02.get() != 0) {
+      r1 = 0;
+
+      jmp_80a497a:
+      {
+        if(r10.attack_08.get() == 0 && r10.defence_0a.get() == 0) {
+          int r9 = 0;
+
+          //LAB_80a495e
+          do {
+            if(r9 > 3) {
+              break jmp_80a497a;
+            }
+            if(r10.equipEffect_18.get(r9).effect_00.get() != 0) {
+              break;
+            }
+            r9++;
+          } while(r10.useType_0c.get() != 3);
+        }
+
+        //LAB_80a4978
+        r1 = 1;
+      }
+
+      //LAB_80a497a
+      if(r1 == 1) {
+        drawIcon(0xb6d, panel, 16, 0);
+        r5 = 1;
+      }
+
+      //LAB_80a498c
+      if(r10.attack_08.get() != 0) {
+        drawIcon(0xaf7, panel, 0, r5 * 8);
+        FUN_80a4db4(r10.attack_08.get(), 3, panel, 64, r5 * 8);
+        r5++;
+      }
+
+      //LAB_80a49c2
+      if(r10.defence_0a.get() != 0) {
+        drawIcon(0xaf8, panel, 0, r5 * 8);
+        FUN_80a4db4(r10.defence_0a.get(), 0x3, panel, 0x40, r5 * 8);
+        r5++;
+      }
+    }
+
+    //LAB_80a49f8
+    //LAB_80a49fc
+    for(int r9 = 0; r9 < 4; r9++) {
+      if(r10.equipEffect_18.get(r9).effect_00.get() != 0) {
+        //LAB_80a4a0e
+        final int r7 = r10.equipEffect_18.get(r9).value_01.get();
+        final int r3;
+        final int r2;
+
+        switch(r10.equipEffect_18.get(r9).effect_00.get()) {
+          case 1:
+          case 2:
+          case 3:
+          case 4:
+          case 5:
+          case 6:
+          case 26:
+            //LAB_80a4a94
+            drawIcon(0xb3b + r10.equipEffect_18.get(r9).effect_00.get(), panel, 0, r5 * 8);
+            FUN_80a4db4(r7, 3, panel, 0x40, r5 * 8);
+            break;
+
+          case 15:
+          case 16:
+          case 17:
+          case 18:
+          case 19:
+          case 20:
+          case 21:
+          case 22:
+            //LAB_80a4aaa
+            r2 = r10.equipEffect_18.get(r9).effect_00.get();
+            r3 = r2 - 0xf;
+            r1 = r3;
+            if(r1 < 0) {
+              r1 = r2 - 0xc;
+            }
+
+            //LAB_80a4ac0
+            r1 = r1 >> 2;
+            r1 = r1 << 2;
+            r1 = r3 - r1;
+            r1 = r1 << 24;
+            r1 = r1 >>> 24;
+            FUN_8015280(panel, r1 + 1, 0, r5, 0x2);
+            drawIcon(0xb3b + r10.equipEffect_18.get(r9).effect_00.get(), panel, 8, r5 * 8);
+            FUN_80a4db4(r7, 3, panel, 64, r5 * 8);
+            break;
+
+          case 7:
+          case 8:
+          case 9:
+          case 10:
+          case 11:
+          case 12:
+          case 13:
+          case 14:
+            //LAB_80a4b06
+            drawIcon(0xb3b + r10.equipEffect_18.get(r9).effect_00.get(), panel, 0, r5 * 8);
+            FUN_8015098(0x80af21c, panel, 64, r5 * 8);
+
+            final int r0;
+            if(r7 > 9) {
+              FUN_80150b0(1, 1, panel, 72, r5 * 8);
+              FUN_8015098(0x80af220, panel, 80, r5 * 8);
+              r0 = r7 - 10;
+            } else {
+              //LAB_80a4b50
+              FUN_80150b0(0, 1, panel, 72, r5 * 8);
+              FUN_8015098(0x80af220, panel, 80, r5 * 8);
+              r0 = r7;
+            }
+
+            //LAB_80a4b6c
+            FUN_80150b0(r0, 1, panel, 88, r5 * 8);
+            break;
+
+          case 23:
+          case 25:
+          case 27:
+            //LAB_80a4b7a
+            drawIcon(r10.equipEffect_18.get(r9).effect_00.get() + 0xb3b, panel, 0, r5 * 8);
+            break;
+
+          default:
+            //LAB_80a4b94
+            break;
+        }
+
+        //LAB_80a4b96
+        r5++;
+      }
+
+      //LAB_80a4b9e
+    }
+
+    //LAB_80a4baa
+    if((r10.flags_03.get() & 0x1) != 0) {
+      drawIcon(0xb76, panel, 0, r5 * 8);
+      r5++;
+    }
+
+    //LAB_80a4bca
+    final int useType = r10.useType_0c.get();
+    if(useType == 3) {
+      drawIcon(0xb65, panel, 0, r5 * 8);
+      sp08 = 1;
+      r5++;
+    }
+
+    //LAB_80a4bf2
+    if(useType != 4 && useType != 0) {
+      if(sp08 == 0) {
+        drawIcon(0xb6e, panel, 16, r5 * 8);
+        r5++;
+      }
+
+      //LAB_80a4c18
+      if(useType == 1) {
+        //LAB_80a4c2a
+        drawIcon(0xb63, panel, 0, r5 * 8);
+        r5++;
+      } else if(useType == 2) {
+        //LAB_80a4c40
+        if((r11 & 0x400) != 0x0) {
+          drawIcon(0xb73, panel, 0, r5 * 8);
+          r5++;
+          drawIcon(0xb74, panel, 0, r5 * 8);
+          r5++;
+        } else {
+          //LAB_80a4cb0
+          drawIcon(0xb71, panel, 0, r5 * 8);
+          r5++;
+          drawIcon(0xb72, panel, 0, r5 * 8);
+          r5++;
+        }
+
+        //LAB_80a4cda
+      }
+    }
+
+    //LAB_80a4cdc
+    if((r10.useType_0c.get() & 0x10) != 0) {
+      if(r5 != 0) {
+        r5++;
+      }
+
+      //LAB_80a4cf4
+      drawIcon(0xb6f, panel, 16, r5 * 8);
+      r5++;
+      FUN_8015120(((r11 & 0xf800) >>> 11) + 1, 5);
+      drawIcon(0xb70, panel, 0, r5 * 8);
+      r5++;
+    }
+
+    //LAB_80a4d3c
+    r1 = 0;
+    if(r5 == 0) {
+      if((r10.flags_03.get() & 0x4) != 0) {
+        drawIcon(0xb69, panel, 0, 0);
+        r1 = 1;
+      }
+
+      //LAB_80a4d5c
+      if(r1 == 0) {
+        if((r10.useType_0c.get() & 0x8) != 0) {
+          drawIcon(0xb6a, panel, 0, 0);
+          r1 = 1;
+        }
+
+        //LAB_80a4d7a
+        if(r1 == 0) {
+          drawIcon(0xb6c, panel, 0, 0);
+        }
+      }
+    }
+
+    //LAB_80a4d8a
+  }
+
+  @Method(0x80a4db4)
+  public static void FUN_80a4db4(final int number, final int r1, final Panel24 panel, final int x, final int y) {
+    FUN_80150b0(number, 3, panel, x, y);
+
+    int digits = 1;
+
+    if(Math.abs(number) > 9) {
+      digits = 2;
+    }
+
+    //LAB_80a4dda
+    if(Math.abs(number) > 99) {
+      digits = 3;
+    }
+
+    //LAB_80a4de8
+    if(number > 0) {
+      FUN_8015098(0x80af224, panel, x - digits * 8 + 16, y);
+    } else {
+      //LAB_80a4dfe
+      FUN_8015098(0x80af228, panel, x - digits * 8 + 16, y);
+    }
+
+    //LAB_80a4e0e
   }
 
   @Method(0x80a4e20)
