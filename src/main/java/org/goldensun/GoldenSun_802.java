@@ -724,20 +724,18 @@ public final class GoldenSun_802 {
     FUN_801e41c(r8, 0x12, 0, 0x12, 0x7); // I think this adds the inside borders to the name entry box
     sp10._ea3.set(sp0c);
     MEMORY.ref(1, CPU.sp().value + 0x50).setu(sp24);
-    r1 = sp18;
 
     //LAB_8020c74
-    do {
-      r3 = MEMORY.ref(1, charData.getAddress() + r1).getUnsigned();
-      MEMORY.ref(1, r1).setu(r3);
-      if(r3 != 0) {
+    for(r1 = 0; r1 < 14; r1++) {
+      final int chr = MEMORY.ref(1, charData.name_00.getAddress() + r1).getUnsigned();
+      MEMORY.ref(1, sp18 + r1).setu(chr);
+      if(chr != 0) {
         sp20++;
         sp1c++;
       }
 
       //LAB_8020c8c
-      r1++;
-    } while(r1 < CPU.sp().value + 0x5f);
+    }
 
     MEMORY.ref(1, sp18 + 0xe).setu(0);
     FUN_8020b64(sp28, charData.getAddress());
