@@ -33,6 +33,7 @@ import static org.goldensun.GoldenSun.getFreeVramSlot;
 import static org.goldensun.GoldenSun.loadSprite_;
 import static org.goldensun.GoldenSun.mallocBoard;
 import static org.goldensun.GoldenSun.mallocChip;
+import static org.goldensun.GoldenSun.mallocSlotBoard;
 import static org.goldensun.GoldenSun.mallocSlotChip;
 import static org.goldensun.GoldenSun.modS;
 import static org.goldensun.GoldenSun.rand;
@@ -96,6 +97,7 @@ import static org.goldensun.GoldenSun_808.FUN_808a288;
 import static org.goldensun.GoldenSun_808.FUN_808a488;
 import static org.goldensun.GoldenSun_808.FUN_808a490;
 import static org.goldensun.GoldenSun_808.FUN_808a548;
+import static org.goldensun.GoldenSun_80b.FUN_80b0040;
 import static org.goldensun.GoldenSun_80f.playSound_;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.DMA;
@@ -1442,7 +1444,7 @@ public final class GoldenSun_80a {
           CPU.r8().value = 0x9;
           break;
 
-        case 5:
+        case 5: // drop item
           FUN_80a345c();
           r6 = 0;
           if((getItem_(r9.abilityId_178.get(0).get() & 0x1ff).flags_03.get() & Item2c.FLAG_STACKABLE_10) != 0) {
@@ -1466,17 +1468,14 @@ public final class GoldenSun_80a {
           r9._21c.deref().x_06.set(120);
           r9._21c.deref().y_08.set(28);
           FUN_80a17c4(r9._21c.deref());
-          FUN_8015068(r9.panel_34.deref(), 0, 0x48, 0x78, 0x60);
+          FUN_8015068(r9.panel_34.deref(), 0, 72, 120, 96);
           FUN_8015270(r9.panel_10c.deref());
-          r0 = MEMORY.ref(4, CPU.sp().value + 0x14).get();
-          r0 = FUN_80a524c(r0);
-          CPU.cmpT(r0, 0x0);
-          if(CPU.cpsr().getZero()) { // ==
+
+          if(FUN_80a524c(MEMORY.ref(4, CPU.sp().value + 0x14).get()) == 0) {
             r7 = r9._21a.get(0).get();
-            r0 = CPU.addT(r6, 0x1);
-            CPU.cmpT(r0, 0x0);
-            if(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >
-              r5 = CPU.addT(r0, 0x0);
+            r0 = r6 + 1;
+            if(r0 > 0) {
+              r5 = r0;
 
               //LAB_80a2afe
               do {
@@ -2357,8 +2356,21 @@ public final class GoldenSun_80a {
   }
 
   @Method(0x80a3d9c)
-  public static int FUN_80a3d9c(final int r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+  public static int FUN_80a3d9c(final int charId, final int itemId) {
+    final ArrayRef<UnsignedShortRef> items = getCharOrMonsterData_(charId).items_d8;
+
+    //LAB_80a3dac
+    for(int i = 0; i < 15; i++) {
+      final int currentItemId = items.get(i).get();
+      if(currentItemId != 0 && (currentItemId & 0x1ff) == itemId) {
+        return ((currentItemId & 0xf800) >>> 11) + 1;
+      }
+
+      //LAB_80a3dca
+    }
+
+    //LAB_80a3dd0
+    return 0;
   }
 
   @Method(0x80a3ddc)
@@ -3288,9 +3300,114 @@ public final class GoldenSun_80a {
     setPanelMetrics(boardWramMallocHead_3001e50.offset(55 * 0x4).deref(4).cast(Menua70::new).panel_10c.derefNullable(), 13, 0, 17, 3);
   }
 
+  /** Drop item */
   @Method(0x80a4f08)
   public static int FUN_80a4f08(final int r0, final int r1, final int r2) {
-    throw new RuntimeException("Not implemented");
+    final Menua70 r9 = boardWramMallocHead_3001e50.offset(55 * 0x4).deref(4).cast(Menua70::new);
+    final int r10 = mallocSlotBoard(14, 0x400);
+    int sp08 = 0;
+    int sp0c = 1;
+    final Panel24 r7 = r9.panel_10c.deref();
+    FUN_80a4eb8();
+    FUN_8015270(r7);
+    int r8 = r0;
+
+    if(r2 == 0) {
+      sp08 = FUN_80a3d9c(r9._21a.get(1).get(), r9.abilityId_178.get(0).get() & 0x1ff);
+    }
+
+    //LAB_80a4f6a
+    final int sp04 = FUN_80a3d9c(r9._21a.get(0).get(), r9.abilityId_178.get(0).get() & 0x1ff);
+    final int sp10 = getFreeVramSlot();
+    if(sp10 != 0x60) {
+      //LAB_80a4f8e
+      FUN_8003fa4(sp10, 0x100, 0);
+      FUN_80150c8(sp10, 0x40004000, r7, 48, 32);
+      final GraphicsStruct1c r0_0 = FUN_80150c8(sp10, 0x40004000, r7, 80, 32);
+      final int r2_0 = (r0_0.packet_10.attribs_04.attrib2_04.get() & 0x3ff) + 4 & 0x3ff;
+      r0_0.packet_10.attribs_04.attrib2_04.and(~0x3ff).or(r2_0);
+      FUN_80a1ac0(0x80, 0x28);
+
+      //LAB_80a516e
+      while(readFlag_(0x150) == 0) {
+        //LAB_80a4ff4
+        if(sp0c != 0x0) {
+          //LAB_80a4ffc
+          sp0c = 0;
+          r8 = modS(r8 + r1, r1);
+          FUN_8015270(r7);
+          drawIcon(0xade, r7, 0x20, 0);
+          DMA.channels[3].SAD.setu(0x80af08c);
+          DMA.channels[3].DAD.setu(r10);
+          DMA.channels[3].CNT.setu(0x84000040);
+          FUN_80b0040(0x1e, 0xe, r10);
+          FUN_80b0040(r1 + r0, 0, r10);
+          FUN_80b0040(r0 + r8 + 1, 0xa, r10);
+          FUN_80b0040(r0, 0x2, r10);
+          FUN_8003fa4(sp10, 0x100, r10);
+          FUN_80150b0(r8 + 1, 0x2, r7, 0x20, 0x20);
+          drawIcon(0x182 + (r9.abilityId_178.get(0).get() & 0x1ff), r7, 0x10, 0x8);
+          FUN_80150b0(sp04 - r8 - 1, 0x2, r7, 0x10, 0x18);
+
+          if(r2 != 0x0) {
+            //LAB_80a50c4
+            FUN_80150b0(sp08 + r8 + 1, 0x2, r7, 0x50, 0x18);
+          }
+
+          //LAB_80a50d6
+          FUN_8015090(getCharOrMonsterData_(r9._21a.get(0).get()).name_00.getAddress(), r7, 0x10, 0x10);
+
+          if(r2 == 0x0) {
+            FUN_8015090(getCharOrMonsterData_(r9._21a.get(1).get()).name_00.getAddress(), r7, 0x50, 0x10);
+          }
+        }
+
+        //LAB_80a5104
+        if((pressedButtons_3001c94.get() & 0x1) != 0x0) {
+          playSound_(0x70);
+          break;
+        }
+
+        //LAB_80a5118
+        if((pressedButtons_3001c94.get() & 0x2) != 0x0) {
+          r8 = -1;
+          playSound_(0x71);
+          break;
+        }
+
+        //LAB_80a5130
+        FUN_80a1a40(0x80, 0x28);
+
+        if((pressedButtons_3001b04.get() & 0x20) != 0x0) {
+          r8--;
+          sp0c = 1;
+          playSound_(0x6f);
+        }
+
+        //LAB_80a5152
+        if((pressedButtons_3001b04.get() & 0x10) != 0x0) {
+          r8++;
+          sp0c = 1;
+          playSound_(0x6f);
+        }
+
+        //LAB_80a5168
+        sleep(1);
+      }
+    }
+
+    //LAB_80a517c
+    FUN_8015270(r7);
+    FUN_8015278(r7);
+    freeSlot(14);
+    r9._21c.deref()._05.set(0xd);
+
+    if(readFlag_(0x150) != 0x0) {
+      r8 = -1;
+    }
+
+    //LAB_80a51ac
+    return r8;
   }
 
   @Method(0x80a51d0)
@@ -3308,7 +3425,63 @@ public final class GoldenSun_80a {
 
   @Method(0x80a524c)
   public static int FUN_80a524c(final int r0) {
-    throw new RuntimeException("Not implemented");
+    final Panel24 r7 = addPanel_(13, 3, 17, 10, 0x2);
+    drawIcon(0x182 + (r0 & 0x1ff), r7, 24, 0);
+    drawIcon(0xad4, r7, 0, 16);
+    drawIcon(0xad5, r7, 0, 24);
+    drawIcon(0xb2c, r7, 24, 40);
+    drawIcon(0xb2d, r7, 24, 56);
+    int r6 = 1;
+    int r8 = 1;
+    FUN_80a1ac0(104, 86);
+
+    //LAB_80a5306
+    while(readFlag_(0x150) == 0) {
+      if(r8 != 0) {
+        r8 = 0;
+        r6 = modS(r6 + 2, 2);
+      }
+
+      //LAB_80a5326
+      if((pressedButtons_3001c94.get() & 0x1) != 0) {
+        playSound_(0x70);
+        break;
+      }
+
+      //LAB_80a533a
+      if((pressedButtons_3001c94.get() & 0x2) != 0) {
+        playSound_(0x71);
+        r6 = 1;
+        break;
+      }
+
+      //LAB_80a52c8
+      FUN_80a1a40(104, 70 + r6 * 16);
+      if((pressedButtons_3001b04.get() & 0x40) != 0) {
+        r8 = 1;
+        playSound_(0x6f);
+        r6--;
+      }
+
+      //LAB_80a52ea
+      if((pressedButtons_3001b04.get() & 0x80) != 0) {
+        r8 = 1;
+        playSound_(0x6f);
+        r6++;
+      }
+
+      //LAB_80a5300
+      sleep(1);
+    }
+
+    //LAB_80a534c
+    if(readFlag_(0x150) != 0) {
+      r6 = 1;
+    }
+
+    //LAB_80a535a
+    FUN_8015018(r7, 1);
+    return r6;
   }
 
   @Method(0x80a5388)

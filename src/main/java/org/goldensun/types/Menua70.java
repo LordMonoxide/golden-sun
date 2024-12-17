@@ -42,7 +42,7 @@ public class Menua70 implements MemoryRef {
   public final ArrayRef<ShortRef> _144;
   public final ArrayRef<IntRef> _154;
   public final ArrayRef<UnsignedShortRef> _174;
-  public final ArrayRef<UnsignedShortRef> abilityId_178;
+  public final ArrayRef<ShortRef> abilityId_178;
   public final Pointer<GraphicsStruct1c> _17c;
 
   public final ArrayRef<UnsignedShortRef> items_1c8;
@@ -96,7 +96,7 @@ public class Menua70 implements MemoryRef {
     this._144 = ref.offset(2, 0x144).cast(ArrayRef.of(ShortRef.class, 8, 0x2, ShortRef::new));
     this._154 = ref.offset(4, 0x154).cast(ArrayRef.of(IntRef.class, 8, 0x4, IntRef::new));
     this._174 = ref.offset(2, 0x174).cast(ArrayRef.of(UnsignedShortRef.class, 2, 0x2, UnsignedShortRef::new));
-    this.abilityId_178 = ref.offset(2, 0x178).cast(ArrayRef.of(UnsignedShortRef.class, 2, 0x2, UnsignedShortRef::new));
+    this.abilityId_178 = ref.offset(2, 0x178).cast(ArrayRef.of(ShortRef.class, 2, 0x2, ShortRef::new));
     this._17c = ref.offset(4, 0x17c).cast(Pointer.deferred(4, GraphicsStruct1c::new));
 
     this.items_1c8 = ref.offset(2, 0x1c8).cast(ArrayRef.of(UnsignedShortRef.class, 0x20, 0x2, UnsignedShortRef::new));

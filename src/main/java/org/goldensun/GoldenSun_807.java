@@ -71,26 +71,26 @@ public final class GoldenSun_807 {
 
   /** {@link GoldenSun_807#giveItem} */
   @Method(0x8077030)
-  public static int giveItem_(final int r0) {
-    return (int)MEMORY.call(0x8078618, r0);
+  public static int giveItem_(final int itemId) {
+    return (int)MEMORY.call(0x8078618, itemId);
   }
 
   /** {@link GoldenSun_807#equipItem} */
   @Method(0x8077050)
-  public static int equipItem_(final int r0, final int r1) {
-    return (int)MEMORY.call(0x8078708, r0, r1);
+  public static int equipItem_(final int charId, final int itemSlot) {
+    return (int)MEMORY.call(0x8078708, charId, itemSlot);
   }
 
   /** {@link GoldenSun_807#takeItem} */
   @Method(0x8077058)
-  public static int takeItem_(final int r0, final int r1) {
-    return (int)MEMORY.call(0x80788c4, r0, r1);
+  public static int takeItem_(final int charId, final int itemSlot) {
+    return (int)MEMORY.call(0x80788c4, charId, itemSlot);
   }
 
   /** {@link GoldenSun_807#breakItem} */
   @Method(0x8077060)
-  public static int breakItem_(final int r0, final int r1) {
-    return (int)MEMORY.call(0x8078a34, r0, r1);
+  public static int breakItem_(final int charId, final int itemSlot) {
+    return (int)MEMORY.call(0x8078a34, charId, itemSlot);
   }
 
   /** {@link GoldenSun_807#getAbility} */
@@ -1140,7 +1140,7 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x8078618)
-  public static int giveItem(final int r0) {
+  public static int giveItem(final int itemId) {
     CPU.sp().value -= 0x18;
 
     final int r3 = CPU.sp().value + 0x4;
@@ -1149,7 +1149,7 @@ public final class GoldenSun_807 {
     //LAB_8078634
     for(int r6 = 0; r6 < r7; r6++) {
       final int r5 = MEMORY.ref(2, r3 + r6 * 0x2).get();
-      if(addItem(r5, r0) >= 0) {
+      if(addItem(r5, itemId) >= 0) {
         CPU.sp().value += 0x18;
         return r5;
       }
@@ -1164,9 +1164,9 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x8078708)
-  public static int equipItem(final int charId, final int itemIndex) {
+  public static int equipItem(final int charId, final int itemSlot) {
     final Unit14c r7 = getCharOrMonsterData(charId);
-    final int r5 = r7.items_d8.get(itemIndex).get();
+    final int r5 = r7.items_d8.get(itemSlot).get();
 
     if(isEquipped(charId, r5) == 0) {
       return -1;
@@ -1201,35 +1201,87 @@ public final class GoldenSun_807 {
     }
 
     //LAB_80787a6
-    r7.items_d8.get(itemIndex).or(0x200);
+    r7.items_d8.get(itemSlot).or(0x200);
     FUN_8078bf0(charId);
     recalcStats(charId);
     return 0;
   }
 
   @Method(0x80788c4)
-  public static int takeItem(final int r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+  public static int takeItem(final int charId, final int itemSlot) {
+    final Unit14c charData = getCharOrMonsterData(charId);
+    final int r3 = charData.items_d8.get(itemSlot).get();
+    int r6 = -1;
+    if(r3 != 0) {
+      if((r3 & 0xf800) != 0) {
+        charData.items_d8.get(itemSlot).sub(0x800);
+        r6 = 1;
+      } else {
+        //LAB_80788f4
+        charData.items_d8.get(itemSlot).set(0);
+        int r5 = 0;
+
+        //LAB_8078902
+        for(int i = 0; i < 15; i++) {
+          final int itemId = charData.items_d8.get(i).get();
+          if(itemId != 0) {
+            charData.items_d8.get(r5).set(itemId);
+            r5++;
+          }
+
+          //LAB_8078912
+        }
+
+        //LAB_8078926
+        for(int i = r5; i < 15; i++) {
+          charData.items_d8.get(i).set(0);
+        }
+
+        //LAB_8078938
+        r6 = 2;
+      }
+    }
+
+    //LAB_807893a
+    recalcStats(charId);
+    return r6;
   }
 
   @Method(0x8078a34)
-  public static int breakItem(final int charId, final int itemIndex) {
+  public static int breakItem(final int charId, final int itemSlot) {
     final Unit14c charData = getCharOrMonsterData(charId);
 
-    if(charData.items_d8.get(itemIndex).get() == 0) {
+    if(charData.items_d8.get(itemSlot).get() == 0) {
       return -1;
     }
 
     //LAB_8078a4e
-    charData.items_d8.get(itemIndex).or(0x400);
+    charData.items_d8.get(itemSlot).or(0x400);
 
     //LAB_8078a56
     return 0;
   }
 
+  @Method(0x8078aa0)
+  public static int FUN_8078aa0(final int r0, final int r1) {
+    if(r0 >= 0x80) {
+      return 0;
+    }
+
+    //LAB_8078ac2
+    MEMORY.ref(1, 0x2000380 + r0).setu(MathHelper.clamp(MEMORY.ref(1, 0x2000380 + r0).getUnsigned() + r1, 0, 99));
+    return MEMORY.ref(1, 0x2000380 + r0).get();
+  }
+
   @Method(0x8078ad0)
   public static int addArtifact(final int r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+    final int r0_0 = MEMORY.ref(1, 0x807b490 + (r0 & 0x1ff)).getUnsigned();
+
+    if(r0_0 == 0) {
+      return 0;
+    }
+
+    return FUN_8078aa0(r0_0 - 1, r1);
   }
 
   @Method(0x8078b9c)

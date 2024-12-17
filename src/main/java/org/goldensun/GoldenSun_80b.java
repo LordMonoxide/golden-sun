@@ -43,6 +43,37 @@ public final class GoldenSun_80b {
     MEMORY.call(0x80b0a20, r0, r1, r2);
   }
 
+  /** {@link GoldenSun_80b#FUN_80b06c0} */
+  @Method(0x80b0040)
+  public static void FUN_80b0040(final int r0, final int r1, final int r2) {
+    MEMORY.call(0x80b06c0, r0, r1, r2);
+  }
+  @Method(0x80b06c0)
+  public static void FUN_80b06c0(int r0, int r1, final int r2) {
+    int r3;
+    int r4;
+
+    r3 = r1 << 4;
+    r1 = r3 + 0x1;
+    if(r0 > 0x0) {
+      r4 = 0x80b4100;
+
+      //LAB_80b06cc
+      do {
+        r3 = MEMORY.ref(2, r4).getUnsigned();
+        r0 = r0 - 0x1;
+        r3 = r2 + r3;
+        r4 = r4 + 0x2;
+        MEMORY.ref(1, r3 + 0x4).setu(r1);
+        MEMORY.ref(1, r3 + 0x8).setu(r1);
+        MEMORY.ref(1, r3 + 0xc).setu(r1);
+        MEMORY.ref(1, r3 + 0x10).setu(r1);
+        MEMORY.ref(1, r3 + 0x14).setu(r1);
+        MEMORY.ref(1, r3 + 0x18).setu(r1);
+      } while(r0 != 0x0);
+    }
+  }
+
   @Method(0x80b08b8)
   public static void FUN_80b08b8(final int r0) {
     if(r0 != 0) {
