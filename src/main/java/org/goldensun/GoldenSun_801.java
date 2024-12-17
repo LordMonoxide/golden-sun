@@ -96,7 +96,7 @@ import static org.goldensun.GoldenSun_808.getRoomNameStringId_;
 import static org.goldensun.GoldenSun_808.FUN_808a5f0;
 import static org.goldensun.GoldenSun_80a.handleItemMenu_;
 import static org.goldensun.GoldenSun_80a.handlePsynergyMenu_;
-import static org.goldensun.GoldenSun_80a.FUN_80a1010;
+import static org.goldensun.GoldenSun_80a.handleStatusMenu_;
 import static org.goldensun.GoldenSun_80a.FUN_80a1038;
 import static org.goldensun.GoldenSun_80a.FUN_80a1040;
 import static org.goldensun.GoldenSun_80b.FUN_80b0020;
@@ -5755,7 +5755,7 @@ public final class GoldenSun_801 {
           break;
 
         case 4:
-          if(FUN_80a1010() != -1) {
+          if(handleStatusMenu_() != -1) {
             return;
           }
           break;

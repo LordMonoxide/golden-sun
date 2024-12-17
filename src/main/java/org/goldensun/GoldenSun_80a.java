@@ -119,9 +119,9 @@ public final class GoldenSun_80a {
     return (int)MEMORY.call(0x80a5b94);
   }
 
-  /** {@link GoldenSun_80a#FUN_80a7478} */
+  /** {@link GoldenSun_80a#handleStatusMenu} */
   @Method(0x80a1010)
-  public static int FUN_80a1010() {
+  public static int handleStatusMenu_() {
     return (int)MEMORY.call(0x80a7478);
   }
 
@@ -4349,7 +4349,7 @@ public final class GoldenSun_80a {
   }
 
   @Method(0x80a7478)
-  public static int FUN_80a7478() {
+  public static int handleStatusMenu() {
     throw new RuntimeException("Not implemented");
   }
 
