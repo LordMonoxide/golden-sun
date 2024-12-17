@@ -1479,7 +1479,7 @@ public final class GoldenSun_807 {
     //LAB_8078efe
     for(int r6 = 0; r6 < 8; r6++) {
       final Unit14c r7 = getCharOrMonsterData(r6);
-      FUN_8015020(r6, r10);
+      FUN_8015020(0x66 + r6, r10);
 
       //LAB_8078f24
       for(int r5 = 0; r5 < 14 && MEMORY.ref(2, r10 + r5 * 0x2).getUnsigned() != 0; r5++) {
