@@ -572,10 +572,10 @@ public final class Map8Overlay_8787e04 {
     MEMORY.call(0x808a018);
   }
 
-  /** {@link GoldenSun_808#FUN_808a03c} */
+  /** {@link GoldenSun_808#FUN_808b868} */
   @Method(0x200991c)
   public static void FUN_200991c(final int r0) {
-    MEMORY.call(0x808a03c, r0);
+    MEMORY.call(0x808b868, r0);
   }
 
   /** {@link GoldenSun_808#FUN_808a070} */

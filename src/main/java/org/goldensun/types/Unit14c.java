@@ -19,7 +19,7 @@ public class Unit14c implements MemoryRef {
   /** .14 */
   public final ShortRef fractionHp_14;
   /** .14 */
-  public final ShortRef fractionMp_16;
+  public final ShortRef fractionPp_16;
   public final UnsignedShortRef baseAttack_18;
   public final UnsignedShortRef baseDefence_1a;
   public final UnsignedShortRef baseAgility_1c;
@@ -87,7 +87,7 @@ public class Unit14c implements MemoryRef {
     this.baseMaxHp_10 = ref.offset(2, 0x10).cast(ShortRef::new);
     this.baseMaxPp_12 = ref.offset(2, 0x12).cast(ShortRef::new);
     this.fractionHp_14 = ref.offset(2, 0x14).cast(ShortRef::new);
-    this.fractionMp_16 = ref.offset(2, 0x16).cast(ShortRef::new);
+    this.fractionPp_16 = ref.offset(2, 0x16).cast(ShortRef::new);
     this.baseAttack_18 = ref.offset(2, 0x18).cast(UnsignedShortRef::new);
     this.baseDefence_1a = ref.offset(2, 0x1a).cast(UnsignedShortRef::new);
     this.baseAgility_1c = ref.offset(2, 0x1c).cast(UnsignedShortRef::new);

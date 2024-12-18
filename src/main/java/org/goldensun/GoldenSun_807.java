@@ -146,10 +146,22 @@ public final class GoldenSun_807 {
     return (int)MEMORY.call(0x80795fc);
   }
 
+  /** {@link GoldenSun_807#addChar} */
+  @Method(0x8077150)
+  public static int addChar_(final int charId) {
+    return (int)MEMORY.call(0x807961c, charId);
+  }
+
   /** {@link GoldenSun_807#getPartyMemberIds} */
   @Method(0x8077158)
   public static int getPartyMemberIds_(final int out) {
     return (int)MEMORY.call(0x80796c4, out);
+  }
+
+  /** {@link GoldenSun_807#removeChar} */
+  @Method(0x8077168)
+  public static int removeChar_(final int charId) {
+    return (int)MEMORY.call(0x8079664, charId);
   }
 
   /** {@link GoldenSun_807#FUN_8079c5c} */
@@ -327,13 +339,13 @@ public final class GoldenSun_807 {
     //LAB_80774be
     if(Math.abs(r7.fractionHp_14.get() * r7.maxHp_34.get() / 0x4000 - r7.hp_38.get()) > 1) {
       r7.fractionHp_14.set(0x4000);
-      r7.fractionMp_16.set(0x4000);
+      r7.fractionPp_16.set(0x4000);
       r7.hp_38.set(r7.maxHp_34.get());
       r7.pp_3a.set(r7.maxPp_36.get());
-    } else if(Math.abs(r7.fractionMp_16.get() * r7.maxPp_36.get() / 0x4000 - r7.pp_3a.get()) > 1) {
+    } else if(Math.abs(r7.fractionPp_16.get() * r7.maxPp_36.get() / 0x4000 - r7.pp_3a.get()) > 1) {
       //LAB_80774f0
       r7.fractionHp_14.set(0x4000);
-      r7.fractionMp_16.set(0x4000);
+      r7.fractionPp_16.set(0x4000);
       r7.hp_38.set(r7.maxHp_34.get());
       r7.pp_3a.set(r7.maxPp_36.get());
     }
@@ -788,7 +800,7 @@ public final class GoldenSun_807 {
     r3 = CPU.asrT(r3, 16);
     r2 = CPU.cmpT(r2, r3);
     if(!CPU.cpsr().getZero()) { // !=
-      r2 = r7.fractionMp_16.get();
+      r2 = r7.fractionPp_16.get();
       r3 = MEMORY.ref(4, r6 + 0x4).get();
       r2 = CPU.mulT(r2, r3);
       CPU.cmpT(r2, 0x0);
@@ -1051,7 +1063,7 @@ public final class GoldenSun_807 {
     }
 
     //LAB_8078284
-    r5.fractionMp_16.set(r3);
+    r5.fractionPp_16.set(r3);
     r3 = CPU.lslT(r3, 16);
     CPU.cmpT(r3, 0x0);
     if(CPU.cpsr().getZero()) { // ==
@@ -1059,7 +1071,7 @@ public final class GoldenSun_807 {
       CPU.cmpT(r3, 0x0);
       if(!CPU.cpsr().getZero()) { // !=
         r3 = CPU.movT(0x1);
-        r5.fractionMp_16.set(r3);
+        r5.fractionPp_16.set(r3);
       }
     }
 
@@ -1511,7 +1523,7 @@ public final class GoldenSun_807 {
 
         FUN_8079ae8(MEMORY.ref(4, r8).get());
         r7.fractionHp_14.set(0x4000);
-        r7.fractionMp_16.set(0x4000);
+        r7.fractionPp_16.set(0x4000);
         FUN_80792fc(MEMORY.ref(4, r8).get(), MEMORY.ref(1, r10 + 0x96).getUnsigned());
         recalcStats(MEMORY.ref(4, r8).get());
       }
@@ -1843,6 +1855,27 @@ public final class GoldenSun_807 {
 
     //LAB_807965a
     return charCount + 1;
+  }
+
+  @Method(0x8079664)
+  public static int removeChar(final int charId) {
+    final int r6 = getCharCount();
+    clearFlag(charId);
+
+    //LAB_8079688
+    int r1;
+    for(r1 = 0; r1 < r6 && charIds_2000438.get(r1).get() != charId; r1++) {
+      // no-op
+    }
+
+    //LAB_8079696
+    //LAB_80796a8
+    for(int i = r1; i < r6 - 1; i++) {
+      charIds_2000438.get(i).set(charIds_2000438.get(i + 1).get());
+    }
+
+    //LAB_80796b4
+    return getCharCount();
   }
 
   /**

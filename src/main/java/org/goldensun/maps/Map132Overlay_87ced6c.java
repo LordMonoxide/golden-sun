@@ -679,7 +679,7 @@ public final class Map132Overlay_87ced6c {
 
           //LAB_2008bf4
           if((a6 & 0x80000) != 0) {
-            r6._18.set(MEMORY.ref(4, a7 + 0x8).get());
+            r6.scale_18.set(MEMORY.ref(4, a7 + 0x8).get());
             r6._1c.set(MEMORY.ref(4, a7 + 0xc).get());
           }
 
@@ -687,7 +687,7 @@ public final class Map132Overlay_87ced6c {
           if((a6 & 0x40000) != 0) {
             final int r5 = MEMORY.ref(4, 0x200b2d4 + r11).get();
             if((a6 & 0x80000) != 0) {
-              r6.velocityScalar_30.set(FUN_200afb0(MEMORY.ref(4, a7 + 0x10).get() - r6._18.get(), MEMORY.ref(4, r5 + 0xc).get()));
+              r6.velocityScalar_30.set(FUN_200afb0(MEMORY.ref(4, a7 + 0x10).get() - r6.scale_18.get(), MEMORY.ref(4, r5 + 0xc).get()));
               r6.acceleration_34.set(FUN_200afb0(MEMORY.ref(4, a7 + 0x14).get() - r6._1c.get(), MEMORY.ref(4, r5 + 0xc).get()));
             } else {
               //LAB_2008c36

@@ -1948,7 +1948,7 @@ public final class Map121Overlay_87d0e88 {
    */
   @Method(0x200a1ac)
   public static void FUN_200a1ac() {
-    getMapActor(13)._18.set(0x10000);
+    getMapActor(13).scale_18.set(0x10000);
     getMapActor(13)._1c.set(0x10000);
     getMapActor(13).sprite_50.deref().packet_00.attribs_04.attrib2_04.and(~0xc00).or(0x800);
     final Actor70 r6 = getMapActor(14);
@@ -2367,7 +2367,7 @@ public final class Map121Overlay_87d0e88 {
             r0 = readFlag(r0);
             CPU.cmpT(r0, 0x0);
             if(r0 == 0x0) {
-              getMapActor(13)._18.set(0x18000);
+              getMapActor(13).scale_18.set(0x18000);
               getMapActor(13)._1c.set(0x18000);
               getMapActor(13).sprite_50.deref().packet_00.attribs_04.attrib2_04.or(0xc00);
               getMapActor(14).sprite_50.deref().packet_00.attribs_04.attrib2_04.or(0xc00);

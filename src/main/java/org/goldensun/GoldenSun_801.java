@@ -1814,6 +1814,12 @@ public final class GoldenSun_801 {
     MEMORY.call(0x80219c8, r0);
   }
 
+  /** {@link GoldenSun_802#FUN_8021390} */
+  @Method(0x8015420)
+  public static void FUN_8015420(final int charId) {
+    MEMORY.call(0x8021390, charId);
+  }
+
   /** {@link GoldenSun_801#FUN_801a370} */
   @Method(0x8015250)
   public static void FUN_8015250(final int r0) {
@@ -5113,13 +5119,13 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x8019908)
-  public static void FUN_8019908(final int r0, final int r1) {
+  public static void FUN_8019908(final int charId, final int r1) {
     final Struct12fc r1_0 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
 
     //LAB_801991c
     for(int i = 0; i < 8; i++) {
       if(r1_0._12dc.get(i).get() == 0) {
-        r1_0._12bc.get(i).set(r0);
+        r1_0._12bc.get(i).set(charId);
         r1_0._12dc.get(i).set(r1);
         break;
       }
@@ -5291,6 +5297,11 @@ public final class GoldenSun_801 {
 
     //LAB_8019b84
     CPU.sp().value += 0x18;
+  }
+
+  @Method(0x8019ba0)
+  public static int FUN_8019ba0(final int r0) {
+    return FUN_8018038(r0, 1);
   }
 
   @Method(0x8019bac)

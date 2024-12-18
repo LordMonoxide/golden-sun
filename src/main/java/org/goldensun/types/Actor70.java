@@ -18,7 +18,7 @@ public class Actor70 implements MemoryRef {
   public final ShortRef angle_06;
   public final Vec3 pos_08;
   public final IntRef _14;
-  public final IntRef _18;
+  public final IntRef scale_18;
   public final IntRef _1c;
   public final UnsignedShortRef radius_20;
   public final UnsignedByteRef layer_22;
@@ -67,7 +67,7 @@ public class Actor70 implements MemoryRef {
     this.angle_06 = ref.offset(2, 0x06).cast(ShortRef::new);
     this.pos_08 = ref.offset(4, 0x08).cast(Vec3::new);
     this._14 = ref.offset(4, 0x14).cast(IntRef::new);
-    this._18 = ref.offset(4, 0x18).cast(IntRef::new);
+    this.scale_18 = ref.offset(4, 0x18).cast(IntRef::new);
     this._1c = ref.offset(4, 0x1c).cast(IntRef::new);
     this.radius_20 = ref.offset(2, 0x20).cast(UnsignedShortRef::new);
     this.layer_22 = ref.offset(1, 0x22).cast(UnsignedByteRef::new);

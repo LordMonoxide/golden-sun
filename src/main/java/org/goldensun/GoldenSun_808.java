@@ -237,10 +237,10 @@ public final class GoldenSun_808 {
     MEMORY.call(0x8091750);
   }
 
-  /** {@link GoldenSun_809#FUN_8091a58} */
-  @Method(0x808a060)
-  public static int FUN_808a060(final int r0, final int r1) {
-    return (int)MEMORY.call(0x8091a58, r0, r1);
+  /** {@link GoldenSun_809#FUN_80917ac} */
+  @Method(0x808a030)
+  public static void FUN_808a030(final int r0) {
+    MEMORY.call(0x80917ac, r0);
   }
 
   /** {@link GoldenSun_808#FUN_808b868} */
@@ -249,10 +249,22 @@ public final class GoldenSun_808 {
     MEMORY.call(0x808b868, r0);
   }
 
-  /** {@link GoldenSun_808#FUN_808b868} */
-  @Method(0x808a03c)
-  public static void FUN_808a03c(final int r0) {
-    MEMORY.call(0x808b868, r0);
+  /** {@link GoldenSun_809#FUN_80917d0} */
+  @Method(0x808a048)
+  public static void FUN_808a048(final int charId, final int r1) {
+    MEMORY.call(0x80917d0, charId, r1);
+  }
+
+  /** {@link GoldenSun_809#removeCharAndHealRemainingChars} */
+  @Method(0x808a058)
+  public static void removeCharAndHealRemainingChars_(final int charId) {
+    MEMORY.call(0x8091890, charId);
+  }
+
+  /** {@link GoldenSun_809#FUN_8091a58} */
+  @Method(0x808a060)
+  public static int FUN_808a060(final int r0, final int r1) {
+    return (int)MEMORY.call(0x8091a58, r0, r1);
   }
 
   /** {@link GoldenSun_809#FUN_8091c7c} */
@@ -265,6 +277,12 @@ public final class GoldenSun_808 {
   @Method(0x808a080)
   public static Actor70 getMapActor_(final int actorIndex) {
     return (Actor70)MEMORY.call(0x8092054, actorIndex);
+  }
+
+  /** {@link GoldenSun_809#FUN_8092924} */
+  @Method(0x808a088)
+  public static void FUN_808a088(final int mapActorIndex) {
+    MEMORY.call(0x8092924, mapActorIndex);
   }
 
   /** {@link GoldenSun_809#setActorVelocityScalerAndAcceleration} */
@@ -305,20 +323,20 @@ public final class GoldenSun_808 {
 
   /** {@link GoldenSun_809#FUN_8092158} */
   @Method(0x808a0c0)
-  public static void FUN_808a0c0(final int actorIndex, final int r1, final int r2) {
-    MEMORY.call(0x8092158, actorIndex, r1, r2);
+  public static void FUN_808a0c0(final int actorIndex, final int x, final int z) {
+    MEMORY.call(0x8092158, actorIndex, x, z);
   }
 
   /** {@link GoldenSun_809#FUN_809218c} */
   @Method(0x808a0c8)
-  public static void FUN_808a0c8(final int actorIndex, final int r1, final int r2) {
-    MEMORY.call(0x809218c, actorIndex, r1, r2);
+  public static void FUN_808a0c8(final int actorIndex, final int x, final int z) {
+    MEMORY.call(0x809218c, actorIndex, x, z);
   }
 
   /** {@link GoldenSun_809#FUN_80921c4} */
   @Method(0x808a0d0)
-  public static void FUN_808a0d0(final int actorIndex, final int r1, final int r2) {
-    MEMORY.call(0x80921c4, actorIndex, r1, r2);
+  public static void FUN_808a0d0(final int actorIndex, final int x, final int z) {
+    MEMORY.call(0x80921c4, actorIndex, x, z);
   }
 
   /** {@link GoldenSun_809#FUN_8092208} */
@@ -379,6 +397,12 @@ public final class GoldenSun_808 {
   @Method(0x808a138)
   public static void FUN_808a138(final int actorIndex, final int r1) {
     MEMORY.call(0x80925cc, actorIndex, r1);
+  }
+
+  /** {@link GoldenSun_809#FUN_809280c} */
+  @Method(0x808a148)
+  public static void FUN_808a148(final int mapActorIndex1, final int mapActorIndex2, final int sleepFrames) {
+    MEMORY.call(0x809280c, mapActorIndex1, mapActorIndex2, sleepFrames);
   }
 
   /** {@link GoldenSun_809#FUN_8092848} */
@@ -2691,9 +2715,9 @@ public final class GoldenSun_808 {
 
                 //LAB_808c988
                 if(r3 == 0 && charData.pp_3a.get() != 0) {
-                  charData.fractionMp_16.set(1);
+                  charData.fractionPp_16.set(1);
                 } else {
-                  charData.fractionMp_16.set(r3);
+                  charData.fractionPp_16.set(r3);
                 }
 
                 //LAB_808c99c
@@ -2784,13 +2808,13 @@ public final class GoldenSun_808 {
             //LAB_808cbe4
           } else if(r8.interactedActor_178.get() != 0) {
             FUN_808c44c();
-            FUN_808d5dc(r8.interactedActor_178.get() & 0xfff);
+            interactWithActor(r8.interactedActor_178.get() & 0xfff);
             FUN_808c4c0();
             r8.interactedActor_178.set(0);
             //LAB_808cc02
           } else if(r8.interactedTileType_17a.get() != 0) {
             FUN_808c44c();
-            FUN_808d9a4(r8.interactedTileType_17a.get());
+            interactWithTile(r8.interactedTileType_17a.get());
             FUN_808c4c0();
             r8.interactedTileType_17a.set(0);
             //LAB_808cc24
@@ -3213,7 +3237,7 @@ public final class GoldenSun_808 {
   }
 
   @Method(0x808d5dc)
-  public static int FUN_808d5dc(final int r0) {
+  public static int interactWithActor(final int r0) {
     throw new RuntimeException("Not implemented");
   }
 
@@ -3328,7 +3352,7 @@ public final class GoldenSun_808 {
   }
 
   @Method(0x808d9a4)
-  public static int FUN_808d9a4(final int r0) {
+  public static int interactWithTile(final int r0) {
     int r1;
     int r2;
     final int r3;

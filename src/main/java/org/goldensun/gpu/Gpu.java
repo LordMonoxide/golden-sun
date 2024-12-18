@@ -380,6 +380,14 @@ public class Gpu {
 
   private void drawLine(final int line) {
     if(line < V_DRAW_LINES) {
+      if(this.dispCnt.forcedBlank) {
+        for(int x = 0; x < H_DRAW_DOTS; x++) {
+          this.pixels[line * H_DRAW_DOTS + x] = 0x7fff;
+        }
+
+        return;
+      }
+
       switch(this.dispCnt.bgMode) {
         case 0 -> this.drawMode0Line(line);
         case 1 -> this.drawMode1Line(line);

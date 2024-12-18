@@ -433,7 +433,7 @@ public final class Map7Overlay_8786f0c {
       }
 
       //LAB_2009108
-      actor1._18.set(0x6666);
+      actor1.scale_18.set(0x6666);
       actor1._1c.set(0x6666);
       actor1.pos_08.y_04.add(0x180000);
       actor1.dest_38.setY(actor1.pos_08.getY());

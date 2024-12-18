@@ -4,6 +4,7 @@ import org.goldensun.memory.Method;
 import org.goldensun.types.ChoiceMenu98;
 import org.goldensun.types.GraphicsStruct1c;
 import org.goldensun.types.Panel24;
+import org.goldensun.types.RenderPacket0c;
 import org.goldensun.types.SaveStruct1100;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.Struct12fc;
@@ -11,11 +12,11 @@ import org.goldensun.types.Unit14c;
 
 import javax.annotation.Nullable;
 
-import static org.goldensun.GoldenSun.addRotScaleParams;
 import static org.goldensun.GoldenSun.FUN_8003fa4;
 import static org.goldensun.GoldenSun.FUN_80053e8;
 import static org.goldensun.GoldenSun.FUN_8005a78;
 import static org.goldensun.GoldenSun.FUN_8009288;
+import static org.goldensun.GoldenSun.addRotScaleParams;
 import static org.goldensun.GoldenSun.clearSprite_;
 import static org.goldensun.GoldenSun.clearTickCallback;
 import static org.goldensun.GoldenSun.clearVramSlot;
@@ -39,27 +40,30 @@ import static org.goldensun.GoldenSun.setMallocAddress;
 import static org.goldensun.GoldenSun.setTickCallback;
 import static org.goldensun.GoldenSun.sleep;
 import static org.goldensun.GoldenSun.unloadSaveList;
-import static org.goldensun.GoldenSunVars.lastSaveSlot_2002004;
 import static org.goldensun.GoldenSunVars._3001c9c;
 import static org.goldensun.GoldenSunVars._3001d08;
 import static org.goldensun.GoldenSunVars._3001e40;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.framesSinceInput_3001d24;
+import static org.goldensun.GoldenSunVars.lastSaveSlot_2002004;
 import static org.goldensun.GoldenSunVars.pressedButtons_3001b04;
 import static org.goldensun.GoldenSunVars.pressedButtons_3001c94;
 import static org.goldensun.GoldenSunVars.ticks_3001800;
 import static org.goldensun.GoldenSunVars.vramSlots_3001b10;
-import static org.goldensun.GoldenSun_801.addPanel;
 import static org.goldensun.GoldenSun_801.FUN_8016418;
 import static org.goldensun.GoldenSun_801.FUN_8016478;
 import static org.goldensun.GoldenSun_801.FUN_8016498;
+import static org.goldensun.GoldenSun_801.FUN_80165d8;
 import static org.goldensun.GoldenSun_801.FUN_8017364;
 import static org.goldensun.GoldenSun_801.FUN_801776c;
 import static org.goldensun.GoldenSun_801.FUN_8018850;
+import static org.goldensun.GoldenSun_801.FUN_8019908;
 import static org.goldensun.GoldenSun_801.FUN_8019a54;
+import static org.goldensun.GoldenSun_801.FUN_8019ba0;
 import static org.goldensun.GoldenSun_801.FUN_8019d2c;
 import static org.goldensun.GoldenSun_801.FUN_8019da8;
 import static org.goldensun.GoldenSun_801.FUN_8019e48;
+import static org.goldensun.GoldenSun_801.FUN_801a4fc;
 import static org.goldensun.GoldenSun_801.FUN_801ccc0;
 import static org.goldensun.GoldenSun_801.FUN_801d4cc;
 import static org.goldensun.GoldenSun_801.FUN_801db70;
@@ -69,7 +73,6 @@ import static org.goldensun.GoldenSun_801.FUN_801e7c0;
 import static org.goldensun.GoldenSun_801.FUN_801e858;
 import static org.goldensun.GoldenSun_801.FUN_801e8b0;
 import static org.goldensun.GoldenSun_801.FUN_801e940;
-import static org.goldensun.GoldenSun_801.drawNumber;
 import static org.goldensun.GoldenSun_801.FUN_801ea08;
 import static org.goldensun.GoldenSun_801.FUN_801eadc;
 import static org.goldensun.GoldenSun_801.FUN_801f77c;
@@ -77,18 +80,22 @@ import static org.goldensun.GoldenSun_801.FUN_801f818;
 import static org.goldensun.GoldenSun_801.FUN_801fd84;
 import static org.goldensun.GoldenSun_801.FUN_801fd98;
 import static org.goldensun.GoldenSun_801.FUN_801fda8;
+import static org.goldensun.GoldenSun_801.addPanel;
 import static org.goldensun.GoldenSun_801.clearCharacterSprites;
 import static org.goldensun.GoldenSun_801.decodeTime;
+import static org.goldensun.GoldenSun_801.drawNumber;
 import static org.goldensun.GoldenSun_801.loadCharacterSprites;
 import static org.goldensun.GoldenSun_801.loadDjinnSprites;
-import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
 import static org.goldensun.GoldenSun_807.calculateBuildDate_;
+import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
 import static org.goldensun.GoldenSun_807.getDjinnCount_;
+import static org.goldensun.GoldenSun_807.readFlag_;
 import static org.goldensun.GoldenSun_808.FUN_808a5b0;
 import static org.goldensun.GoldenSun_80b.FUN_80b0020;
 import static org.goldensun.GoldenSun_80b.FUN_80b0028;
 import static org.goldensun.GoldenSun_80b.FUN_80b0030;
 import static org.goldensun.GoldenSun_80b.FUN_80b0038;
+import static org.goldensun.GoldenSun_80f.FUN_80f9048;
 import static org.goldensun.GoldenSun_80f.playSound_;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.DMA;
@@ -699,7 +706,7 @@ public final class GoldenSun_802 {
   @Method(0x8020bd8)
   public static int FUN_8020bd8(int r0) {
     int r1;
-    int r2;
+    final int r2;
     int r3;
     int r5;
     int r6;
@@ -971,6 +978,57 @@ public final class GoldenSun_802 {
     CPU.sp().value += 0x60;
 
     return sp24;
+  }
+
+  @Method(0x8021360)
+  public static int FUN_8021360(final int charId) {
+    if(charId < 0 || charId > 8) {
+      return 0;
+    }
+
+    if(readFlag_(0x20) == 0) {
+      return MEMORY.ref(2, 0x8037206 + charId * 0x2).get();
+    }
+
+    //LAB_802137c
+    return MEMORY.ref(2, 0x8037216 + charId * 0x2).get();
+  }
+
+  @Method(0x8021390)
+  public static void FUN_8021390(final int charId) {
+    CPU.sp().value -= 0x1c;
+    final Struct12fc r5 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
+    final Panel24 r8 = addPanel(2, 1, 26, 5, 0);
+    if(r8 != null) {
+      FUN_801e41c(r8, 4, 0, 4, 4);
+      r5._ea3.set(1);
+      FUN_801a4fc(FUN_8019d2c(FUN_8021360(charId)), 0, CPU.sp().value + 0xc, CPU.sp().value + 0x8, 14, 0);
+      final RenderPacket0c r7 = MEMORY.ref(4, CPU.sp().value + 0x10, RenderPacket0c::new);
+      r7.next_00.clear();
+      r7.attribs_04.y_00.set(12);
+      r7.attribs_04.flags_01.set(0);
+      r7.attribs_04.attrib2_04.set(0x8014);
+      r7.attribs_04.attrib2_04.set(0xe000 | MEMORY.ref(4, CPU.sp().value + 0x8).get());
+      r5._12f4.set(0);
+      r5._12f6.set(0);
+      FUN_8019908(charId, 1);
+      FUN_80165d8(r8, FUN_8019ba0(27), 36, 2, 0, 0);
+      playSound_(0x51);
+
+      //LAB_802142a
+      do {
+        insertIntoRenderQueue(r7, 0xfa);
+        sleep(1);
+      } while(FUN_80f9048() != 0 && (pressedButtons_3001c94.get() & 0x303) == 0);
+
+      //LAB_8021448
+      FUN_8016418(r8, 2);
+      sleep(1);
+      clearVramSlot(MEMORY.ref(4, CPU.sp().value + 0xc).get());
+    }
+
+    //LAB_802145c
+    CPU.sp().value += 0x1c;
   }
 
   @Method(0x80215e0)

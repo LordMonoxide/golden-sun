@@ -238,6 +238,12 @@ public final class GoldenSun {
     return (int)MEMORY.call(0x8005340, src, dest);
   }
 
+  /** {@link GoldenSun#clearVramSlot} */
+  @Method(0x80001b8)
+  public static int clearVramSlot_(final int slot) {
+    return (int)MEMORY.call(0x8003f3c, slot);
+  }
+
   /** {@link GoldenSun#FUN_8003fa4} */
   @Method(0x80001c8)
   public static int FUN_80001c8(final int slot, final int size, final int newDataPtr) {
@@ -3860,7 +3866,7 @@ public final class GoldenSun {
       actor._00.set(0x801358c); //TODO
       actor._04.set(0);
       actor.angle_06.set(0x4000);
-      actor._18.set(0x10000);
+      actor.scale_18.set(0x10000);
       actor._1c.set(0x10000);
       actor.velocityScalar_30.set(0x20000);
       actor.acceleration_34.set(0x10000);
@@ -4132,7 +4138,7 @@ public final class GoldenSun {
               //LAB_800c774
               r1 = CPU.sp().value + 0x1c;
               r2 = CPU.sp().value + 0x14;
-              MEMORY.ref(4, r2).setu((int)MEMORY.call(0x3000118, actor._18.get(), r5.scale_18.get()));
+              MEMORY.ref(4, r2).setu((int)MEMORY.call(0x3000118, actor.scale_18.get(), r5.scale_18.get()));
               MEMORY.ref(4, r2 + 0x4).setu((int)MEMORY.call(0x3000118, actor._1c.get(), r5.scale_18.get()));
               MEMORY.ref(4, r1).setu(r9);
               MEMORY.ref(4, r1 + 0x8).setu(r6);
@@ -5011,12 +5017,12 @@ public final class GoldenSun {
   @Method(0x800e364)
   public static void FUN_800e364(final Actor70 r0, final int r1, final int r2) {
     if(r1 == 0) {
-      r0._18.set(r2);
+      r0.scale_18.set(r2);
       //LAB_800e36e
     } else if(r1 == 1) {
-      r0._18.add(r2);
+      r0.scale_18.add(r2);
       //LAB_800e37a
-    } else if(r0._18.get() == r2) {
+    } else if(r0.scale_18.get() == r2) {
       r0._57.set(1);
     } else {
       r0._57.set(0);

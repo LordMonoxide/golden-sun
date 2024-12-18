@@ -494,10 +494,10 @@ public final class Decompressed87795e8 {
 
               if(FUN_2009454(0x952) != 0) {
                 FUN_200948c();
-                FUN_2009474(0);
-                FUN_2009474(1);
-                FUN_2009474(2);
-                FUN_2009474(3);
+                removeChar(0);
+                removeChar(1);
+                removeChar(2);
+                removeChar(3);
                 FUN_200946c(0);
                 FUN_200946c(1);
                 FUN_200946c(2);
@@ -1490,9 +1490,10 @@ public final class Decompressed87795e8 {
     return (int)MEMORY.call(0x8077150, r0);
   }
 
+  /** {@link GoldenSun_807#removeChar_} */
   @Method(0x2009474)
-  public static int FUN_2009474(final int r0) {
-    return (int)MEMORY.call(0x8077168, r0);
+  public static int removeChar(final int charId) {
+    return (int)MEMORY.call(0x8077168, charId);
   }
 
   /** Called after confirming character names */
