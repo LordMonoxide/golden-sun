@@ -2437,18 +2437,26 @@ public final class GoldenSun_809 {
     //LAB_8093958
   }
 
+  @Method(0x8093964)
+  public static int FUN_8093964(final Actor70 r0) {
+    FUN_80091e0(r0, 0);
+    r0._59.set(0);
+    return 0;
+  }
+
   @Method(0x8093a6c)
   public static void FUN_8093a6c(final Actor70 r0, int r1) {
-    switch(r1 - 1) {
-      case 0 -> r1 = 0x809fe00;
-      case 1 -> r1 = 0x809fd44;
-      case 2 -> r1 = 0x809fe10;
-      case 3 -> r1 = 0x809fecc;
-      case 4 -> r1 = 0x809ff18;
-      case 5 -> {
+    switch(r1) {
+      case 1 -> r1 = 0x809fe00;
+      case 2 -> r1 = 0x809fd44;
+      case 3 -> r1 = 0x809fe10;
+      case 4 -> r1 = 0x809fecc;
+      case 5 -> r1 = 0x809ff18;
+      case 6 -> {
         r0._68.set(getMapActor_(playerMapActorIndex_2000434.get()));
         r1 = 0x809ff2c;
       }
+      case 7 -> r1 = 0x809fe04;
     }
 
     //LAB_8093ac6
