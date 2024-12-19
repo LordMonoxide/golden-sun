@@ -21,10 +21,10 @@ public class Panel24 implements MemoryRef {
   public final UnsignedShortRef flags_16;
   public final ShortRef _18;
   public final ShortRef _1a;
-  public final ShortRef _1c;
-  public final ShortRef _1e;
-  public final ShortRef _20;
-  public final ShortRef _22;
+  public final ShortRef currentX_1c;
+  public final ShortRef currentY_1e;
+  public final ShortRef currentW_20;
+  public final ShortRef currentH_22;
 
   public Panel24(final Value ref) {
     this.ref = ref;
@@ -41,10 +41,10 @@ public class Panel24 implements MemoryRef {
     this.flags_16 = ref.offset(2, 0x16).cast(UnsignedShortRef::new);
     this._18 = ref.offset(2, 0x18).cast(ShortRef::new);
     this._1a = ref.offset(2, 0x1a).cast(ShortRef::new);
-    this._1c = ref.offset(2, 0x1c).cast(ShortRef::new);
-    this._1e = ref.offset(2, 0x1e).cast(ShortRef::new);
-    this._20 = ref.offset(2, 0x20).cast(ShortRef::new);
-    this._22 = ref.offset(2, 0x22).cast(ShortRef::new);
+    this.currentX_1c = ref.offset(2, 0x1c).cast(ShortRef::new);
+    this.currentY_1e = ref.offset(2, 0x1e).cast(ShortRef::new);
+    this.currentW_20 = ref.offset(2, 0x20).cast(ShortRef::new);
+    this.currentH_22 = ref.offset(2, 0x22).cast(ShortRef::new);
   }
 
   @Override

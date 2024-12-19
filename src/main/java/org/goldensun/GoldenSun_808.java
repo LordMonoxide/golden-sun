@@ -3822,7 +3822,7 @@ public final class GoldenSun_808 {
   @Method(0x808e4b4)
   public static EventStruct0c FUN_808e4b4(final int r0, final int r1, final IntRef r2) {
     final UnboundedArrayRef<EventStruct0c> events = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new).events_10.deref();
-    final int sp08 = getMapActor(playerMapActorIndex_2000434.get()).angle_06.get();
+    final int playerAngle = getMapActor(playerMapActorIndex_2000434.get()).angle_06.get();
     final int r8 = FUN_808df1c(playerMapActorIndex_2000434.get(), r1);
 
     if(r2 != null) {
@@ -3842,22 +3842,21 @@ public final class GoldenSun_808 {
     //LAB_808e502
     //LAB_808e50c
     for(int i = 0; events.get(i)._00.get() != -1; i++) {
-      final EventStruct0c r7 = events.get(i);
-      final int r2_0 = r7._04_s.get();
-      if((r7._00.get() & 0xf) == 5) {
-        final int r0_0 = FUN_808d428(r7._06.get());
-        if(r0_0 != 0) {
-          if((r2_0 & 0x800) == 0 || ((r2_0 & 0xf000) - sp08 + 0x17ff & 0xffff) < 0x2fff) {
+      final EventStruct0c event = events.get(i);
+      final int r2_0 = event._04_s.get();
+      if((event._00.get() & 0xf) == 5) {
+        if(FUN_808d428(event._06.get()) != 0) {
+          if((r2_0 & 0x800) == 0 || ((r2_0 & 0xf000) - playerAngle + 0x17ff & 0xffff) < 0x2fff) {
             //LAB_808e56a
-            final int ability = getAbility_(r7._01.get());
+            final int ability = getAbility_(event._01.get());
             if(MEMORY.ref(1, ability + 0xc).getUnsigned() == r1) {
-              if(r11 != 0 || (r7._00.get() & 0x7000000f) == r0) {
+              if(r11 != 0 || (event._00.get() & 0x7000000f) == r0) {
                 //LAB_808e58e
-                ret = r7;
-                if((r7._00.get() & 0x80) != 0) {
+                ret = event;
+                if((event._00.get() & 0x80) != 0) {
                   break;
                 }
-                if((r7._00.get() & 0x10) != 0) {
+                if((event._00.get() & 0x10) != 0) {
                   if((r2_0 & 0xff) == r8) {
                     break;
                   }

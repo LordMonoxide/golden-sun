@@ -19,7 +19,7 @@ public class GraphicsStruct1c implements MemoryRef {
   public final UnsignedShortRef rotation_0c;
 
   public final UnsignedByteRef slot_0e;
-  public final UnsignedByteRef _0f;
+  public final UnsignedByteRef z_0f;
   public final RenderPacket0c packet_10;
 
   public GraphicsStruct1c(final Value ref) {
@@ -34,7 +34,7 @@ public class GraphicsStruct1c implements MemoryRef {
     this.rotation_0c = ref.offset(2, 0x0c).cast(UnsignedShortRef::new);
 
     this.slot_0e = ref.offset(1, 0x0e).cast(UnsignedByteRef::new);
-    this._0f = ref.offset(1, 0x0f).cast(UnsignedByteRef::new);
+    this.z_0f = ref.offset(1, 0x0f).cast(UnsignedByteRef::new);
     this.packet_10 = ref.offset(4, 0x10).cast(RenderPacket0c::new);
   }
 

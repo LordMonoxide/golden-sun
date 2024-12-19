@@ -1056,8 +1056,8 @@ public final class GoldenSun {
   }
 
   @Method(0x8003dec)
-  public static void insertIntoRenderQueue(final RenderPacket0c packet, final int r1) {
-    final Pointer<RenderPacket0c> r3 = packets_3001400.get(clamp(r1, 0, 0xff));
+  public static void insertIntoRenderQueue(final RenderPacket0c packet, final int z) {
+    final Pointer<RenderPacket0c> r3 = packets_3001400.get(clamp(z, 0, 0xff));
     packet.next_00.setNullable(r3.derefNullable());
     r3.set(packet);
   }

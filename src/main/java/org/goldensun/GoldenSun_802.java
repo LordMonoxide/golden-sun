@@ -52,7 +52,7 @@ import static org.goldensun.GoldenSunVars.ticks_3001800;
 import static org.goldensun.GoldenSunVars.vramSlots_3001b10;
 import static org.goldensun.GoldenSun_801.FUN_8016418;
 import static org.goldensun.GoldenSun_801.FUN_8016478;
-import static org.goldensun.GoldenSun_801.FUN_8016498;
+import static org.goldensun.GoldenSun_801.drawPanelBackground;
 import static org.goldensun.GoldenSun_801.FUN_80165d8;
 import static org.goldensun.GoldenSun_801.FUN_8017364;
 import static org.goldensun.GoldenSun_801.FUN_801776c;
@@ -373,7 +373,7 @@ public final class GoldenSun_802 {
         }
 
         //LAB_80205e6
-        FUN_8016498(saveListPanel);
+        drawPanelBackground(saveListPanel);
         FUN_801e41c(saveListPanel, 0, 2, 27, 2); // Bar between save slot 1 and 2
         FUN_801e41c(saveListPanel, 0, 4, 27, 4); // Bar between save slot 2 and 3
         FUN_801fda8(saveListPanel, 0, selectedFile * 2, 26, 1); // Selected save hightlight
@@ -763,7 +763,7 @@ public final class GoldenSun_802 {
       FUN_8003fa4(r5, 0x80, 0x80317e4); //TODO
       final GraphicsStruct1c struct = FUN_801eadc(r5, 0x4000_0000, r8, 0, 0);
       MEMORY.ref(4, CPU.sp().value + 0x30).setu(struct.getAddress()); //TODO
-      struct._0f.set(0xff);
+      struct.z_0f.set(0xff);
       struct.packet_10.attribs_04.attrib2_04.and(~0xc00);
       FUN_80b0038(CPU.sp().value + 0x30, FUN_8020b14(sp18) + 0x46, 0x16);
     }
@@ -1053,10 +1053,10 @@ public final class GoldenSun_802 {
 
     FUN_80215e0(r0, slot);
     final GraphicsStruct1c r8 = FUN_801eadc(slot, 0x80004000, panel, x, y);
-    r8._0f.set(0xfd);
+    r8.z_0f.set(0xfd);
 
     final GraphicsStruct1c r0_0 = FUN_801eadc(slot, 0x80004000, panel, x + 0x20, y);
-    r0_0._0f.set(0xfd);
+    r0_0.z_0f.set(0xfd);
 
     final int r1_0 = r0_0.packet_10.attribs_04.attrib2_04.get();
     r0_0.packet_10.attribs_04.attrib2_04.set(r1_0 & ~0x3ff | (r1_0 & 0x3ff) + 0x8 & 0x3ff);
@@ -1102,7 +1102,7 @@ public final class GoldenSun_802 {
 
     FUN_80216e8(r0, r5, r1);
     final GraphicsStruct1c r0_0 = FUN_801eadc(r5, 0x80000000, r2, r3, a4);
-    r0_0._0f.set(0xfb);
+    r0_0.z_0f.set(0xfb);
     r0_0.packet_10.attribs_04.flags_01.or(0x20);
 
     //LAB_8021796

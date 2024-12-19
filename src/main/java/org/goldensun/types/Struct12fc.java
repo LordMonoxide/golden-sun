@@ -9,7 +9,7 @@ import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 
-/** Hold textbox text */
+/** Holds textbox text */
 public class Struct12fc implements MemoryRef {
   private final Value ref;
 
