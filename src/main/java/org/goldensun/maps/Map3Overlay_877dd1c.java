@@ -18,7 +18,6 @@ import static org.goldensun.GoldenSunVars._3001e40;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.entranceId_2000402;
 import static org.goldensun.GoldenSunVars.vramSlots_3001b10;
-import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.MEMORY;
 import static org.goldensun.memory.MemoryHelper.getConsumer;
 import static org.goldensun.memory.MemoryHelper.getRunnable;
@@ -1078,7 +1077,7 @@ public final class Map3Overlay_877dd1c {
   }
 
   /**
-   * Event list 0x200d558 handler 37
+   * Event list 0x200d558 handler 37 - rock is falling
    */
   @Method(value = 0x2009b18, ignoreExtraParams = true)
   public static void FUN_2009b18() {
@@ -2176,158 +2175,22 @@ public final class Map3Overlay_877dd1c {
 
   @Method(0x200c0f0)
   public static void FUN_200c0f0() {
-    int r0;
-    int r1;
-    int r2;
-    int r3;
-    int r5;
-    int r6;
-
-    r6 = CPU.r10().value;
-    r5 = CPU.r9().value;
-    CPU.push(r6);
-    CPU.push(r5);
-    r6 = CPU.r8().value;
-    CPU.push(r6);
-    CPU.sp().value -= 0x8;
-    r2 = 0x6;
-    r3 = 0x3;
-    MEMORY.ref(4, CPU.sp().value).setu(r2);
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r3);
-    CPU.r9().value = r2;
-    CPU.r10().value = r3;
-    r0 = 0x10;
-    r1 = 0x60;
-    r2 = 0xb;
-    r3 = 0x49;
-    FUN_8009180(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
-    r2 = 0xa;
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r2);
-    r6 = 0xe;
-    CPU.r8().value = r2;
-    r0 = 0x10;
-    r1 = 0x60;
-    r2 = 0x22;
-    r3 = 0x44;
-    MEMORY.ref(4, CPU.sp().value).setu(r6);
-    FUN_8009180(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
-    r5 = 0x7;
-    r0 = 0x10;
-    r1 = 0x60;
-    r2 = 0x40;
-    r3 = 0x44;
-    MEMORY.ref(4, CPU.sp().value).setu(r5);
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r5);
-    FUN_8009180(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
-    r3 = CPU.r9().value;
-    r2 = CPU.r10().value;
-    MEMORY.ref(4, CPU.sp().value).setu(r3);
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r2);
-    r0 = 0x9;
-    r1 = 0x5f;
-    r2 = 0xb;
-    r3 = 0x49;
-    FUN_8009180(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
-    r3 = CPU.r8().value;
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r3);
-    r0 = 0x28;
-    r1 = 0x5e;
-    r2 = 0x22;
-    r3 = 0x44;
-    MEMORY.ref(4, CPU.sp().value).setu(r6);
-    FUN_8009180(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
-    r2 = 0x8;
-    MEMORY.ref(4, CPU.sp().value).setu(r2);
-    CPU.r8().value = r2;
-    r0 = 0x36;
-    r1 = 0x5e;
-    r2 = 0x40;
-    r3 = 0x44;
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r5);
-    FUN_8009180(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
-    r5 = 0x1;
-    r0 = 0x48;
-    r1 = 0x4b;
-    r2 = 0x48;
-    r3 = 0x4c;
-    MEMORY.ref(4, CPU.sp().value).setu(r5);
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r5);
-    FUN_8009180(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
-    r0 = 0x48;
-    r1 = 0x4b;
-    r2 = 0x4a;
-    r3 = 0x4c;
-    MEMORY.ref(4, CPU.sp().value).setu(r5);
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r5);
-    FUN_8009180(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
-    r2 = CPU.r9().value;
-    r3 = 0x4b;
-    MEMORY.ref(4, CPU.sp().value).setu(r2);
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r3);
-    r0 = 0x7;
-    r1 = 0x4b;
-    r2 = 0x1;
-    r3 = 0x1;
-    FUN_80091c0(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
-    r2 = CPU.r8().value;
-    r3 = 0x47;
-    MEMORY.ref(4, CPU.sp().value).setu(r2);
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r3);
-    r0 = 0x8;
-    r1 = 0x46;
-    r2 = 0x3;
-    r3 = 0x1;
-    FUN_80091c0(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
-    r3 = 0x48;
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r3);
-    r6 = 0x9;
-    r0 = 0x8;
-    r1 = 0x46;
-    r2 = 0x2;
-    r3 = 0x1;
-    MEMORY.ref(4, CPU.sp().value).setu(r6);
-    FUN_80091c0(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
-    r5 = 0x49;
-    r0 = 0x8;
-    r1 = 0x46;
-    r2 = 0x2;
-    r3 = 0x1;
-    MEMORY.ref(4, CPU.sp().value).setu(r6);
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r5);
-    FUN_80091c0(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
-    r3 = CPU.r8().value;
-    MEMORY.ref(4, CPU.sp().value).setu(r3);
-    r0 = 0xb;
-    r1 = 0x42;
-    r2 = 0x1;
-    r3 = 0x1;
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r5);
-    FUN_80091c0(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
-    r3 = 0xb;
-    MEMORY.ref(4, CPU.sp().value).setu(r3);
-    r0 = 0xc;
-    r1 = 0x42;
-    r2 = 0x1;
-    r3 = 0x4;
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r5);
-    FUN_80091c0(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
-    r2 = CPU.r9().value;
-    r3 = 0x4a;
-    MEMORY.ref(4, CPU.sp().value).setu(r2);
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r3);
-    r0 = 0x19;
-    r1 = 0x0;
-    r2 = 0x1;
-    r3 = 0x1;
-    FUN_80091c0(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
+    FUN_8009180(16, 96, 11, 73, 6, 3);
+    FUN_8009180(16, 96, 34, 68, 14, 10);
+    FUN_8009180(16, 96, 64, 68, 7, 7);
+    FUN_8009180(9, 95, 11, 73, 6, 3);
+    FUN_8009180(40, 94, 34, 68, 14, 10);
+    FUN_8009180(54, 94, 64, 68, 8, 7);
+    FUN_8009180(72, 75, 72, 76, 1, 1);
+    FUN_8009180(72, 75, 74, 76, 1, 1);
+    FUN_80091c0(7, 75, 1, 1, 6, 75);
+    FUN_80091c0(8, 70, 3, 1, 8, 71);
+    FUN_80091c0(8, 70, 2, 1, 9, 72);
+    FUN_80091c0(8, 70, 2, 1, 9, 73);
+    FUN_80091c0(11, 66, 1, 1, 8, 73);
+    FUN_80091c0(12, 66, 1, 4, 11, 73);
+    FUN_80091c0(25, 0, 1, 1, 6, 74);
     FUN_8009128();
-    CPU.sp().value += 0x8;
-    r3 = CPU.pop();
-    r5 = CPU.pop();
-    r6 = CPU.pop();
-    CPU.r8().value = r3;
-    CPU.r9().value = r5;
-    CPU.r10().value = r6;
   }
 
   /**
@@ -2335,31 +2198,13 @@ public final class Map3Overlay_877dd1c {
    */
   @Method(value = 0x200c234, ignoreExtraParams = true)
   public static void FUN_200c234() {
-    int r0;
-    int r1;
-    int r2;
-    int r3;
-
     FUN_808a018();
-    r3 = 0x3001ebc;
-    r1 = MEMORY.ref(4, r3).get();
-    r3 = 0xe0;
-    r3 = r3 << 1;
-    r2 = r1 + r3;
-    r3 = r3 + 0x40;
-    MEMORY.ref(4, r2).setu(r3);
-    r3 = r3 - 0x38;
-    r2 = r1 + r3;
-    r3 = 0x40;
-    MEMORY.ref(4, r2).setu(r3);
-    r0 = 0x87c;
-    setFlag(r0);
-    r1 = 0x2;
-    r0 = 0xc;
-    FUN_808a250(r0, r1);
-    r0 = 0x90;
-    r0 = r0 << 4;
-    setFlag(r0);
+    final Structccc r1 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
+    r1._1c0.set(0x200);
+    r1._1c8.set(0x40);
+    setFlag(0x87c);
+    FUN_808a250(12, 2);
+    setFlag(0x900);
     FUN_808a020();
   }
 
@@ -2368,31 +2213,13 @@ public final class Map3Overlay_877dd1c {
    */
   @Method(value = 0x200c278, ignoreExtraParams = true)
   public static void FUN_200c278() {
-    int r0;
-    int r1;
-    int r2;
-    int r3;
-
     FUN_808a018();
-    r3 = 0x3001ebc;
-    r1 = MEMORY.ref(4, r3).get();
-    r3 = 0xe0;
-    r3 = r3 << 1;
-    r2 = r1 + r3;
-    r3 = r3 + 0x40;
-    MEMORY.ref(4, r2).setu(r3);
-    r3 = r3 - 0x38;
-    r2 = r1 + r3;
-    r3 = 0x40;
-    MEMORY.ref(4, r2).setu(r3);
-    r0 = 0x87f;
-    setFlag(r0);
-    r1 = 0x3;
-    r0 = 0xc;
-    FUN_808a250(r0, r1);
-    r0 = 0x90;
-    r0 = r0 << 4;
-    setFlag(r0);
+    final Structccc r1 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
+    r1._1c0.set(0x200);
+    r1._1c8.set(0x40);
+    setFlag(0x87f);
+    FUN_808a250(12, 3);
+    setFlag(0x900);
     FUN_808a020();
   }
 
@@ -2408,6 +2235,61 @@ public final class Map3Overlay_877dd1c {
     //LAB_200c2dc
     if(FUN_200c634(_3001e40.get(), MEMORY.ref(4, 0x200d7fc).get() * 8 + 16) == 0) {
       FUN_200c41c(r0);
+    }
+  }
+
+  @Method(0x200c304)
+  public static void FUN_200c304(final Actor70 r0) {
+    if((_3001e40.get() & 0x1) != 0) {
+      FUN_8009240(r0, FUN_200c634(_3001e40.get() >>> 1, 6));
+    }
+
+    //LAB_200c326
+    if(FUN_200c634(_3001e40.get(), 16 + MEMORY.ref(4, 0x200d7fc).get() * 8) == 0) {
+      FUN_200c41c(r0);
+    }
+  }
+
+  @Method(0x200c34c)
+  public static void FUN_200c34c(final Actor70 r0) {
+    if((_3001e40.get() & 0x1) != 0) {
+      FUN_8009240(r0, FUN_200c634(_3001e40.get() >>> 1, 6));
+    }
+  }
+
+  @Method(0x200c378)
+  public static void FUN_200c378(final Actor70 r0) {
+    r0._64.incr();
+    final Actor70 r6 = r0._68.deref();
+    final int angle = r0._64.get();
+    if(angle > 0x1f) {
+      clearActor(r0);
+    } else {
+      //LAB_200c398
+      final int sin = sin(angle * 0x400);
+      r0.scale_18.set(sin);
+      r0._1c.set(sin);
+      r0.pos_08.setX(r6.pos_08.getX());
+      r0.pos_08.y_04.add(0x10000);
+      r0.pos_08.setZ(r6.pos_08.getZ() + (0x10000 - sin) * 5 + 0x80000);
+    }
+  }
+
+  @Method(0x200c3c8)
+  public static void FUN_200c3c8(final Actor70 r0) {
+    r0._64.incr();
+    final Actor70 r6 = r0._68.deref();
+    final int angle = r0._64.get();
+    if(angle > 0x1f) {
+      clearActor(r0);
+    } else {
+      //LAB_200c3e8
+      final int sin = sin(angle * 0x400);
+      r0.scale_18.set(sin);
+      r0._1c.set(-sin);
+      r0.pos_08.setX(r6.pos_08.getX());
+      r0.pos_08.y_04.add(0x10000);
+      r0.pos_08.setZ(r6.pos_08.getZ() - (0x10000 - sin) * 5 + 0x100000);
     }
   }
 
@@ -2462,6 +2344,22 @@ public final class Map3Overlay_877dd1c {
     FUN_808a440();
   }
 
+  @Method(0x200c56c)
+  public static void FUN_200c56c() {
+    FUN_200c304(getMapActor(32));
+    FUN_200c304(getMapActor(33));
+    FUN_200c304(getMapActor(30));
+
+    if(MEMORY.ref(4, 0x200d7f8).get() == 0) {
+      FUN_200c304(getMapActor(29));
+    }
+  }
+
+  @Method(0x200c5a8)
+  public static void FUN_200c5a8() {
+    FUN_200c34c(getMapActor(19));
+  }
+
   /**
    * Event list 0x200d558 handler 42
    */
@@ -2512,6 +2410,12 @@ public final class Map3Overlay_877dd1c {
     return (int)MEMORY.call(0x80000f8);
   }
 
+  /** {@link GoldenSun#sin_} */
+  @Method(0x200c65c)
+  public static int sin(final int angle) {
+    return (int)MEMORY.call(0x8000118, angle);
+  }
+
   /** {@link GoldenSun#clearVramSlot_} */
   @Method(0x200c664)
   public static int clearVramSlot(final int slot) {
@@ -2528,6 +2432,12 @@ public final class Map3Overlay_877dd1c {
   @Method(0x200c674)
   public static Actor70 loadActor(final int spriteTypeAndDataIndex, final int x, final int y, final int z) {
     return (Actor70)MEMORY.call(0x80090c8, spriteTypeAndDataIndex, x, y, z);
+  }
+
+  /** {@link GoldenSun#clearActor_} */
+  @Method(0x200c67c)
+  public static void clearActor(final Actor70 r0) {
+    MEMORY.call(0x80090d0, r0);
   }
 
   /** {@link GoldenSun#FUN_8009128} */
