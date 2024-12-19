@@ -4997,6 +4997,21 @@ public final class GoldenSun {
     return 0;
   }
 
+  @Method(0x800e280)
+  public static void FUN_800e280(final Actor70 r0, final int r1, final int r2) {
+    if(r1 == 0) {
+      r0.angle_06.set(r2);
+      //LAB_800e28c
+    } else if(r1 == 1) {
+      r0.angle_06.add(r2);
+      //LAB_800e298
+    } else if(r0.angle_06.get() == r2) {
+      r0._57.set(1);
+    } else {
+      r0._57.set(0);
+    }
+  }
+
   @Method(0x800e2dc)
   public static void FUN_800e2dc(final Actor70 r0, final int r1, final int r2) {
     if(r1 == 0) {
@@ -5052,18 +5067,14 @@ public final class GoldenSun {
   public static void FUN_800e440(final Actor70 r0, final int r1, final int r2) {
     if(r1 == 0) {
       r0.velocityScalar_30.set(r2);
-    } else {
       //LAB_800e44a
-      if(r1 == 1) {
-        r0.velocityScalar_30.add(r2);
-        //LAB_800e456
-      }
-
-      if(r0.velocityScalar_30.get() == r2) {
-        r0._57.set(1);
-      } else {
-        r0._57.set(0);
-      }
+    } else if(r1 == 1) {
+      r0.velocityScalar_30.add(r2);
+      //LAB_800e456
+    } else if(r0.velocityScalar_30.get() == r2) {
+      r0._57.set(1);
+    } else {
+      r0._57.set(0);
     }
   }
 
