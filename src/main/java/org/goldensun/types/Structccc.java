@@ -50,10 +50,8 @@ public class Structccc implements MemoryRef {
   public final IntRef _1ac;
   public final IntRef _1b0;
   public final IntRef _1b4;
-  /** TODO ptr */
-  public final IntRef _1b8;
-  /** TODO ptr */
-  public final IntRef _1bc;
+  public final Pointer<UnboundedArrayRef<TileAttributes04>> tiles_1b8;
+  public final Pointer<UnboundedArrayRef<TileAttributes04>> oldTiles_1bc;
   public final IntRef _1c0;
 
   public final UnsignedShortRef _1c6;
@@ -120,8 +118,8 @@ public class Structccc implements MemoryRef {
     this._1ac = ref.offset(4, 0x1ac).cast(IntRef::new);
     this._1b0 = ref.offset(4, 0x1b0).cast(IntRef::new);
     this._1b4 = ref.offset(4, 0x1b4).cast(IntRef::new);
-    this._1b8 = ref.offset(4, 0x1b8).cast(IntRef::new);
-    this._1bc = ref.offset(4, 0x1bc).cast(IntRef::new);
+    this.tiles_1b8 = ref.offset(4, 0x1b8).cast(Pointer.deferred(4, UnboundedArrayRef.of(0x4, TileAttributes04::new)));
+    this.oldTiles_1bc = ref.offset(4, 0x1bc).cast(Pointer.deferred(4, UnboundedArrayRef.of(0x4, TileAttributes04::new)));
     this._1c0 = ref.offset(4, 0x1c0).cast(IntRef::new);
 
     this._1c6 = ref.offset(2, 0x1c6).cast(UnsignedShortRef::new);

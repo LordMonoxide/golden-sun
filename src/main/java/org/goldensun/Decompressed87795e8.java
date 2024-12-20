@@ -18,6 +18,7 @@ import static org.goldensun.GoldenSunVars.heldButtonsLastFrame_3001ae8;
 import static org.goldensun.GoldenSunVars.mapId_2000400;
 import static org.goldensun.GoldenSunVars.playerMapActorIndex_2000434;
 import static org.goldensun.GoldenSunVars.pressedButtons_3001c94;
+import static org.goldensun.GoldenSunVars.tileAttribs_2010000;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.DMA;
 import static org.goldensun.Hardware.GPU;
@@ -65,8 +66,8 @@ public final class Decompressed87795e8 {
     DMA.channels[3].DAD.setu(0x5000000);
     DMA.channels[3].CNT.setu(0x84000070);
 
-    decompress(r4 + 0x1c0, 0x2010000);
-    DMA.channels[3].SAD.setu(0x2010000);
+    decompress(r4 + 0x1c0, tileAttribs_2010000.getAddress());
+    DMA.channels[3].SAD.setu(tileAttribs_2010000.getAddress());
     DMA.channels[3].DAD.setu(0x6006800);
     DMA.channels[3].CNT.setu(0x84002580);
 

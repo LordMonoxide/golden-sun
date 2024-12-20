@@ -6,6 +6,7 @@ import org.goldensun.memory.types.ByteRef;
 import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.MemoryRef;
 import org.goldensun.memory.types.Pointer;
+import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 
@@ -108,8 +109,7 @@ public class Map194 implements MemoryRef {
     public final IntRef _24;
     public final UnsignedShortRef _28;
     public final UnsignedShortRef _2a;
-    /** TODO ptr */
-    public final IntRef _2c;
+    public final Pointer<UnboundedArrayRef<TileAttributes04>> tiles_2c;
 
     public Sub30(final Value ref) {
       this.ref = ref;
@@ -126,7 +126,7 @@ public class Map194 implements MemoryRef {
       this._24 = ref.offset(4, 0x24).cast(IntRef::new);
       this._28 = ref.offset(2, 0x28).cast(UnsignedShortRef::new);
       this._2a = ref.offset(2, 0x2a).cast(UnsignedShortRef::new);
-      this._2c = ref.offset(4, 0x2c).cast(IntRef::new);
+      this.tiles_2c = ref.offset(4, 0x2c).cast(Pointer.deferred(4, UnboundedArrayRef.of(0x4, TileAttributes04::new)));
     }
 
     @Override

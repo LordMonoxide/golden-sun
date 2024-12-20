@@ -21,6 +21,7 @@ import org.goldensun.types.Panel24;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.SpriteLayer18;
 import org.goldensun.types.Structccc;
+import org.goldensun.types.TileAttributes04;
 import org.goldensun.types.Unit14c;
 import org.goldensun.types.Vec3;
 
@@ -122,6 +123,7 @@ import static org.goldensun.GoldenSunVars.heldButtonsLastFrame_3001ae8;
 import static org.goldensun.GoldenSunVars.init_2008004;
 import static org.goldensun.GoldenSunVars.mapId_2000400;
 import static org.goldensun.GoldenSunVars.playerMapActorIndex_2000434;
+import static org.goldensun.GoldenSunVars.tileAttribs_2010000;
 import static org.goldensun.GoldenSun_801.FUN_8015000;
 import static org.goldensun.GoldenSun_801.FUN_8015040;
 import static org.goldensun.GoldenSun_801.FUN_8015120;
@@ -1815,9 +1817,9 @@ public final class GoldenSun_808 {
     final Actor70 actor = r8.actors_14.get(r7).deref();
     actor.layer_22.set(_200042c.get());
 
-    final int r3 = (actor.pos_08.getX() / 0x100000 + actor.pos_08.getZ() / 0x100000 * 0x80) * 0x4;
+    final int r3 = (actor.pos_08.getX() / 0x100000 + actor.pos_08.getZ() / 0x100000 * 0x80);
 
-    if(_2000420.get() != 0 && MEMORY.ref(1, 0x2010000 + r3 + 0x2).getUnsigned() == 0xfd && MEMORY.ref(1, 0x200fe00 + r3 + 0x2).getUnsigned() == 0xfd) {
+    if(_2000420.get() != 0 && tileAttribs_2010000.get(r3).getType() == 0xfd && MEMORY.ref(1, 0x200fe00 + r3 + 0x2).getUnsigned() == 0xfd) {
       _2000432.set(0x1);
       actor.pos_08.y_04.add(getHeight_(0, actor.pos_08.getX(), actor.pos_08.getZ() - 0x100000) - 0x200000);
       actor._14.set(actor.pos_08.getY());
@@ -2155,17 +2157,17 @@ public final class GoldenSun_808 {
     rotatedPos.set(player.pos_08);
     rotVec3(0x10_0000, player.angle_06.get(), rotatedPos);
 
-    final int r1;
+    final TileAttributes04 tile;
     if(r6._19e.get() == 3) {
-      r1 = 0x2020000 + ((rotatedPos.getZ() / 0x200000 & 0x1f) * 32 + (rotatedPos.getX() / 0x200000 & 0x1f)) * 0x4;
+      tile = MEMORY.ref(4, 0x2020000 + ((rotatedPos.getZ() / 0x200000 & 0x1f) * 32 + (rotatedPos.getX() / 0x200000 & 0x1f)) * 0x4, TileAttributes04::new); //TODO
     } else {
       //LAB_808bd98
-      r1 = r7.layers_104.get(0)._2c.get() + (rotatedPos.getZ() / 0x100000 * 128 + rotatedPos.getX() / 0x100000) * 0x4;
+      tile = r7.layers_104.get(0).tiles_2c.deref().get(rotatedPos.getZ() / 0x100000 * 128 + rotatedPos.getX() / 0x100000);
     }
 
     //LAB_808bdc0
     //LAB_808bdc2
-    return MEMORY.ref(1, r1 + 0x2).getUnsigned();
+    return tile.getType();
   }
 
   @Method(0x808bde0)
@@ -2221,27 +2223,22 @@ public final class GoldenSun_808 {
       }
 
       //LAB_808bf2c
-      int r0_0;
+      final UnboundedArrayRef<TileAttributes04> tiles;
       if(r8._19e.get() == 3) {
-        r0_0 = 0x2020000 + ((z / 0x200000 & 0x1f) * 0x20 + (x / 0x200000 & 0x1f)) * 0x4;
-      } else {
+        tiles = MEMORY.ref(4, 0x2020000 + ((z / 0x200000 & 0x1f) * 0x20 + (x / 0x200000 & 0x1f)) * 0x4, UnboundedArrayRef.of(0x4, TileAttributes04::new)); //TODO
         //LAB_808bf64
-        if(layer >= 0 && layer < 3) {
-          r0_0 = sp14.layers_104.get(layer)._2c.get();
-        } else {
-          //LAB_808bf7c
-          r0_0 = 0x2010000;
-        }
-
-        //LAB_808bf7e
-        r0_0 = r0_0 + (z / 0x100000 * 0x80 + x / 0x100000) * 0x4;
+      } else if(layer >= 0 && layer < 3) {
+        tiles = sp14.layers_104.get(layer).tiles_2c.deref().slice(z / 0x100000 * 0x80 + x / 0x100000);
+      } else {
+        //LAB_808bf7c
+        tiles = tileAttribs_2010000.slice(z / 0x100000 * 0x80 + x / 0x100000);
       }
 
       //LAB_808bf9e
-      r8._1bc.set(r8._1b8.get());
-      r8._1b8.set(r0_0);
+      r8.oldTiles_1bc.setNullable(r8.tiles_1b8.derefNullable());
+      r8.tiles_1b8.set(tiles);
 
-      final int r6 = MEMORY.ref(1, r0_0 + 0x2).getUnsigned();
+      final int r6 = tiles.get(0).getType();
 
       if(r6 != 0) {
         handleLadders(x, y, z);
@@ -2274,6 +2271,7 @@ public final class GoldenSun_808 {
 
             //LAB_808c012
             final int r7;
+            int r0_0;
             if(r8._19e.get() == 3) {
               r0_0 = FUN_808b048(player.pos_08, encounterRate);
               r7 = 0x1;
@@ -2316,8 +2314,7 @@ public final class GoldenSun_808 {
 
             //LAB_808c0c2
             if(MEMORY.ref(2, r4 + 0x22e).get() == 0 && r6 == 0xfa) {
-              final int r3_0 = r8._1bc.get();
-              if(MEMORY.ref(1, r3_0 + 0x2).getUnsigned() == 0xfa) {
+              if(r8.oldTiles_1bc.deref().get(0).getType() == 0xfa) {
                 MEMORY.ref(2, r4 + 0x232).addu(player.velocityScalar_30.get() / 0x10000);
               } else {
                 //LAB_808c128
@@ -2563,7 +2560,7 @@ public final class GoldenSun_808 {
     }
 
     //LAB_808c678
-    r8._1bc.set(0x2010000);
+    r8.oldTiles_1bc.set(tileAttribs_2010000);
 
     if(readFlag_(0x109) == 0) {
       FUN_808b1d8();
@@ -2947,16 +2944,16 @@ public final class GoldenSun_808 {
     reach.set(player.pos_08);
     rotVec3(0x100000, player.angle_06.get() & 0xffff, reach);
 
-    final int r1;
+    final TileAttributes04 tile;
     if(r6._19e.get() == 3) {
-      r1 = 0x2020000 + ((reach.getZ() / 0x200000 & 0x1f) * 0x20 + (reach.getX() / 0x200000 & 0x1f)) * 0x4;
+      tile = MEMORY.ref(4, 0x2020000 + ((reach.getZ() / 0x200000 & 0x1f) * 0x20 + (reach.getX() / 0x200000 & 0x1f)) * 0x4, TileAttributes04::new); //TODO
     } else {
       //LAB_808cef2
-      r1 = r8.layers_104.get(0)._2c.get() + (reach.getZ() / 0x100000 * 0x80 + reach.getX() / 0x100000) * 0x4;
+      tile = r8.layers_104.get(0).tiles_2c.deref().get(reach.getZ() / 0x100000 * 0x80 + reach.getX() / 0x100000);
     }
 
     //LAB_808cf1a
-    final int r6_0 = MEMORY.ref(1, r1 + 0x2).getUnsigned();
+    final int r6_0 = tile.getType();
     if(r6_0 <= 0xf7) {
       final int height = getHeight_(player.layer_22.get(), reach.getX(), reach.getZ());
       if(height < player.pos_08.getY() || height > player.pos_08.getY() + 0x400000) {

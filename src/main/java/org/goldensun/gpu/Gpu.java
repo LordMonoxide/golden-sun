@@ -475,8 +475,6 @@ public class Gpu {
 
     final int yTileDataOffset = (y >>> 3) * 32;
 
-    int tileY = y & 0x7;
-
     for(int xScreen = 0; xScreen < H_DRAW_DOTS; xScreen++) {
       int x = isMosaicEnabled ? xScreen - xScreen % this.bgMosaicW : xScreen;
       x = x + xOffset & xMask;
@@ -492,6 +490,7 @@ public class Gpu {
       final int xTileDataOffset = x >>> 3;
 
       int tileX = x & 0x7;
+      int tileY = y & 0x7;
 
       final int tileDataOffset = (yTileDataOffset + xTileDataOffset) * 2 + yOffsetToAdd + xOffsetToAdd;
       final int tileData = get(this.vram, screenBase + tileDataOffset, 2);

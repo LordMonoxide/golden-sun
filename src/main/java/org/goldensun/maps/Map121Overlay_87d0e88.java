@@ -11,14 +11,17 @@ import org.goldensun.memory.Method;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.RunnableRef;
+import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.types.Actor70;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.Structccc;
+import org.goldensun.types.TileAttributes04;
 import org.goldensun.types.Vec3;
 
 import static org.goldensun.GoldenSunVars._2000432;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
+import static org.goldensun.GoldenSunVars.tileAttribs_2010000;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.DMA;
 import static org.goldensun.Hardware.MEMORY;
@@ -145,15 +148,15 @@ public final class Map121Overlay_87d0e88 {
   }
 
   @Method(0x2008528)
-  public static int FUN_2008528(final int layerIndex, final int x, final int y, final int w, final int h, final int a5) {
+  public static int setMapTileTypes(final int mapLayer, final int x, final int y, final int w, final int h, final int tileType) {
     final Map194 map = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
     if(map != null) {
-      final int layerData;
-      if(layerIndex < 3) {
-        layerData = map.layers_104.get(layerIndex)._2c.get();
+      final UnboundedArrayRef<TileAttributes04> tiles;
+      if(mapLayer < 3) {
+        tiles = map.layers_104.get(mapLayer).tiles_2c.deref();
       } else {
         //LAB_2008552
-        layerData = 0x2010000;
+        tiles = tileAttribs_2010000;
       }
 
       //LAB_2008554
@@ -161,7 +164,7 @@ public final class Map121Overlay_87d0e88 {
       for(int y1 = 0; y1 < h; y1++) {
         //LAB_200856c
         for(int x1 = 0; x1 < w; x1++) {
-          MEMORY.ref(1, layerData + (x + y * 0x80) * 0x4 + y1 * 0x200 + x1 * 0x4 + 0x2).setu(a5);
+          tiles.get((y + y1) * 0x80 + x + x1).setTile(tileType);
         }
 
         //LAB_2008576
@@ -339,7 +342,7 @@ public final class Map121Overlay_87d0e88 {
     MEMORY.ref(4, r0).setu(r1);
     r2 = r7.pos_08.getZ() + (MEMORY.ref(4, r4 + a4 * 0x10 + 0x4).get() << 16) >> 20;
     MEMORY.ref(4, r0 + 0x8).setu(r2);
-    FUN_2008528(0, r1, r2, CPU.r9().value, MEMORY.ref(4, CPU.sp().value + 0x8).get(), 0);
+    setMapTileTypes(0, r1, r2, CPU.r9().value, MEMORY.ref(4, CPU.sp().value + 0x8).get(), 0);
     setActorVelocityScalerAndAcceleration(0, 0x8000, 0x1999);
     setActorAnimationIfLoaded(0, 8);
     FUN_808a010(15);
@@ -410,8 +413,8 @@ public final class Map121Overlay_87d0e88 {
     CPU.r8().value = sp0c.layers_104.get(1)._08.get() >> 20;
     r6 = sp0c.layers_104.get(1)._0c.get() >> 20;
     FUN_80091c0(r0, r1, CPU.r9().value, MEMORY.ref(4, CPU.sp().value + 0x8).get(), CPU.r8().value + r0, r6 + r1);
-    FUN_2008528(0, MEMORY.ref(4, CPU.sp().value + 0x50).get(), MEMORY.ref(4, CPU.sp().value + 0x58).get(), CPU.r9().value, MEMORY.ref(4, CPU.sp().value + 0x8).get(), 0xff);
-    FUN_2008528(2, MEMORY.ref(4, CPU.sp().value + 0x50).get(), MEMORY.ref(4, CPU.sp().value + 0x58).get(), CPU.r9().value, MEMORY.ref(4, CPU.sp().value + 0x8).get(), 0xff);
+    setMapTileTypes(0, MEMORY.ref(4, CPU.sp().value + 0x50).get(), MEMORY.ref(4, CPU.sp().value + 0x58).get(), CPU.r9().value, MEMORY.ref(4, CPU.sp().value + 0x8).get(), 0xff);
+    setMapTileTypes(2, MEMORY.ref(4, CPU.sp().value + 0x50).get(), MEMORY.ref(4, CPU.sp().value + 0x58).get(), CPU.r9().value, MEMORY.ref(4, CPU.sp().value + 0x8).get(), 0xff);
     r2 = a4 << 4;
     r3 = MEMORY.ref(4, 0x200acf8 + r2).get();
     r0 = CPU.r11().value;
@@ -430,7 +433,7 @@ public final class Map121Overlay_87d0e88 {
     CPU.r8().value = CPU.r8().value + r1;
     r6 = r6 + r2;
     FUN_80091c0(CPU.r8().value, r6, CPU.r9().value, MEMORY.ref(4, CPU.sp().value + 0x8).get(), r1, r2);
-    r0 = FUN_2008528(2, MEMORY.ref(4, CPU.r11().value).get(), MEMORY.ref(4, CPU.r11().value + 0x8).get(), CPU.r9().value, MEMORY.ref(4, CPU.sp().value + 0x8).get(), 0);
+    r0 = setMapTileTypes(2, MEMORY.ref(4, CPU.r11().value).get(), MEMORY.ref(4, CPU.r11().value + 0x8).get(), CPU.r9().value, MEMORY.ref(4, CPU.sp().value + 0x8).get(), 0);
     FUN_808a5e8();
     CPU.sp().value += 0x28;
     CPU.r8().value = CPU.pop();
@@ -500,8 +503,8 @@ public final class Map121Overlay_87d0e88 {
       MEMORY.ref(4, r7 + 0x8).setu(r0);
       MEMORY.ref(4, r7 + 0x10).setu(r1);
       FUN_80091c0(r0, r1, r6, CPU.r8().value, (r10.layers_104.get(1)._08.get() >> 20) + r0, (r10.layers_104.get(1)._0c.get() >> 20) + r1);
-      FUN_2008528(0, MEMORY.ref(4, r7 + 0x8).get(), MEMORY.ref(4, r7 + 0x10).get(), r6, CPU.r8().value, 0xff);
-      FUN_2008528(2, MEMORY.ref(4, r7 + 0x8).get(), MEMORY.ref(4, r7 + 0x10).get(), r6, CPU.r8().value, 0xff);
+      setMapTileTypes(0, MEMORY.ref(4, r7 + 0x8).get(), MEMORY.ref(4, r7 + 0x10).get(), r6, CPU.r8().value, 0xff);
+      setMapTileTypes(2, MEMORY.ref(4, r7 + 0x8).get(), MEMORY.ref(4, r7 + 0x10).get(), r6, CPU.r8().value, 0xff);
       r0 = 0x1;
     }
 
@@ -512,83 +515,27 @@ public final class Map121Overlay_87d0e88 {
   }
 
   @Method(0x2008cc0)
-  public static void FUN_2008cc0(int r0, int r1, int r2, int r3, final int a4, final int a5, final int a6) {
-    int r4;
-    int r5;
-    int r6;
-    int r7;
+  public static void FUN_2008cc0(final int x1, final int y1, final int x2, final int y2, final int a4, final int x3, final int y3) {
+    final UnboundedArrayRef<TileAttributes04> r5 = tileAttribs_2010000.slice(y1 * 0x80 + x1);
 
-    CPU.push(CPU.r11().value);
-    CPU.push(CPU.r10().value);
-    CPU.push(CPU.r9().value);
-    CPU.sp().value -= 0x8;
-    r1 = r1 << 7;
-    r4 = a6;
-    CPU.r10().value = r2;
-    r1 = r1 + r0;
-    r2 = 0x2010000;
-    r1 = r1 << 2;
-    r3 = r4 + r3;
-    r5 = r1 + r2;
-    if(r4 < r3) {
-      MEMORY.ref(4, CPU.sp().value + 0x4).setu(r3);
-      CPU.r11().value = (0x80 - CPU.r10().value) * 0x4;
-      CPU.r9().value = a4 * 0x10;
+    //LAB_2008cf6
+    int tileIndex = 0;
+    for(int r4 = y3; r4 < y3 + y2; r4++) {
+      final int sp00 = (a4 * 0x10 + (r4 & 0xf)) * 0x20;
 
-      //LAB_2008cf6
-      do {
-        r0 = a5;
-        r1 = CPU.r10().value;
-        r2 = r0 + r1;
-        if(r0 < r2) {
-          r7 = 0xf;
-          r3 = r4;
-          r3 = r3 & r7;
-          r3 = r3 + CPU.r9().value;
-          r3 = r3 << 5;
-          r6 = 0x6002800;
-          MEMORY.ref(4, CPU.sp().value).setu(r3);
-          CPU.lr().value = r6;
-          CPU.r12().value = r2;
+      //LAB_2008d16
+      for(int i = x3; i < x3 + x2; i++) {
+        final int tile = r5.get(tileIndex).getTile();
+        MEMORY.ref(4, 0x6002800 + (sp00 + (i & 0xf)) * 0x4).setu(MEMORY.ref(4, 0x2020000 + tile * 0x8).get());
+        MEMORY.ref(4, 0x6002840 + (sp00 + (i & 0xf)) * 0x4).setu(MEMORY.ref(4, 0x2020004 + tile * 0x8).get());
+        tileIndex++;
+      }
 
-          //LAB_2008d16
-          do {
-            r6 = MEMORY.ref(4, CPU.sp().value).get();
-            r1 = MEMORY.ref(4, r5).get();
-            r5 += 0x4;
-            r3 = r0;
-            r3 = r3 & r7;
-            r1 = r1 & 0xfff;
-            r3 = r6 + r3;
-            r6 = 0x2020000;
-            r1 = r1 << 3;
-            r2 = r1 + r6;
-            r2 = MEMORY.ref(4, r2).get();
-            r3 = r3 << 2;
-            r6 = CPU.lr().value;
-            MEMORY.ref(4, r3 + r6).setu(r2);
-            r6 = 0x2020004;
-            r2 = r1 + r6;
-            r1 = 0x6002840;
-            r2 = MEMORY.ref(4, r2).get();
-            r3 = r3 + r1;
-            r0 = r0 + 0x1;
-            MEMORY.ref(4, r3).setu(r2);
-          } while(r0 < CPU.r12().value);
-        }
-
-        //LAB_2008d44
-        r2 = MEMORY.ref(4, CPU.sp().value + 0x4).get();
-        r4 = r4 + 0x1;
-        r5 = r5 + CPU.r11().value;
-      } while(r4 < r2);
+      //LAB_2008d44
+      tileIndex += 0x80 - x2;
     }
 
     //LAB_2008d4e
-    CPU.sp().value += 0x8;
-    CPU.r9().value = CPU.pop();
-    CPU.r10().value = CPU.pop();
-    CPU.r11().value = CPU.pop();
   }
 
   @Method(0x2008d78)
@@ -803,7 +750,7 @@ public final class Map121Overlay_87d0e88 {
       final int r4 = MEMORY.ref(4, r6 + 0x10).get();
       final int r5 = MEMORY.ref(4, r6 + 0x8).get();
       FUN_80091c0(MEMORY.ref(4, CPU.sp().value + 0xc).get() + r5, MEMORY.ref(4, CPU.sp().value + 0x8).get() + r4, MEMORY.ref(4, CPU.sp().value + 0x14).get(), MEMORY.ref(4, CPU.sp().value + 0x10).get(), r5, r4);
-      FUN_2008528(0, MEMORY.ref(4, r6 + 0x8).get(), MEMORY.ref(4, r6 + 0x10).get(), MEMORY.ref(4, CPU.sp().value + 0x14).get(), MEMORY.ref(4, CPU.sp().value + 0x10).get(), 0xff);
+      setMapTileTypes(0, MEMORY.ref(4, r6 + 0x8).get(), MEMORY.ref(4, r6 + 0x10).get(), MEMORY.ref(4, CPU.sp().value + 0x14).get(), MEMORY.ref(4, CPU.sp().value + 0x10).get(), 0xff);
       setActorAnimation(r7, 1);
       r7.flags_23.and(~0x2);
       ret = 1;
@@ -815,10 +762,10 @@ public final class Map121Overlay_87d0e88 {
   }
 
   @Method(0x2008fcc)
-  public static void FUN_2008fcc(final int r0, final int r1, final int r2, final int r3) {
+  public static void FUN_2008fcc(final int mapLayer, final int x, final int y, final int r3) {
     final Map194 map = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
     if(map != null) {
-      DMA.channels[3].SAD.setu(map.layers_104.get(r0)._2c.get() + (r1 + r2 * 0x80) * 0x4);
+      DMA.channels[3].SAD.setu(map.layers_104.get(mapLayer).tiles_2c.deref().get(y * 0x80 + x).getAddress());
       DMA.channels[3].DAD.setu(r3);
       DMA.channels[3].CNT.setu(0x84000001);
 
@@ -1710,13 +1657,13 @@ public final class Map121Overlay_87d0e88 {
         FUN_200901c(2, MEMORY.ref(4, CPU.r11().value).get(), MEMORY.ref(4, r3 + CPU.r8().value).get(), r5);
 
         if((r6._55.get() & 0x1) != 0x0) {
-          if(FUN_80091b0(2, r6.pos_08.getX(), r6.pos_08.getZ()) == 0x32) {
+          if(getTileType(2, r6.pos_08.getX(), r6.pos_08.getZ()) == 0x32) {
             playSound(0xbd);
             r6.flags_23.and(~0x1);
             FUN_2009074(MEMORY.ref(4, CPU.sp().value + 0xc).get(), 0x1);
             r6.flags_23.or(0x1);
             //LAB_2009e82
-          } else if(FUN_80091b0(2, r6.pos_08.getX(), r6.pos_08.getZ()) == 0x33) {
+          } else if(getTileType(2, r6.pos_08.getX(), r6.pos_08.getZ()) == 0x33) {
             FUN_2008da8(r6, 0);
             playSound(0xbd);
             r6.pos_08.setY(0);
@@ -2009,7 +1956,7 @@ public final class Map121Overlay_87d0e88 {
   public static void FUN_200a498() {
     final Actor70 r5 = getMapActor(10);
     FUN_808a018();
-    FUN_2008528(2, r5.pos_08.getX() >> 20, r5.pos_08.getZ() >> 20, 1, 1, 0);
+    setMapTileTypes(2, r5.pos_08.getX() >> 20, r5.pos_08.getZ() >> 20, 1, 1, 0);
     FUN_808a020();
   }
 
@@ -2020,7 +1967,7 @@ public final class Map121Overlay_87d0e88 {
   public static void FUN_200a4cc() {
     final Actor70 r5 = getMapActor(10);
     FUN_808a018();
-    FUN_2008528(2, r5.pos_08.getX() >> 20, r5.pos_08.getZ() >> 20, 1, 0x1, 0xff);
+    setMapTileTypes(2, r5.pos_08.getX() >> 20, r5.pos_08.getZ() >> 20, 1, 0x1, 0xff);
     if(r5.pos_08.getX() >> 20 == 0x10) {
       if(readFlag(0x204) == 0) {
         FUN_808a010(10);
@@ -2472,14 +2419,14 @@ public final class Map121Overlay_87d0e88 {
 
   /** {@link GoldenSun#getHeight_} */
   @Method(0x200aaac)
-  public static int getHeight(final int mapLayer, final int x, final int y) {
-    return (int)MEMORY.call(0x80091a8, mapLayer, x, y);
+  public static int getHeight(final int mapLayer, final int x, final int z) {
+    return (int)MEMORY.call(0x80091a8, mapLayer, x, z);
   }
 
-  /** {@link GoldenSun#FUN_80091b0} */
+  /** {@link GoldenSun#getTileType_} */
   @Method(0x200aab4)
-  public static int FUN_80091b0(final int r0, final int r1, final int r2) {
-    return (int)MEMORY.call(0x80091b0, r0, r1, r2);
+  public static int getTileType(final int mapLayer, final int x, final int z) {
+    return (int)MEMORY.call(0x80091b0, mapLayer, x, z);
   }
 
   /** {@link GoldenSun#FUN_80091b8} */

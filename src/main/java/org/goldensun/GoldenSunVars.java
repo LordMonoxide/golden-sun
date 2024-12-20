@@ -29,6 +29,7 @@ import org.goldensun.types.SramTypeStruct;
 import org.goldensun.types.Struct12fc;
 import org.goldensun.types.Struct5c;
 import org.goldensun.types.Structccc;
+import org.goldensun.types.TileAttributes04;
 import org.goldensun.types.Unit14c;
 import org.goldensun.types.VramSlot04;
 import org.goldensun.types.Struct0c;
@@ -143,6 +144,8 @@ public final class GoldenSunVars {
 
   public static final IntRef timerCntLPtr_2004c28 = MEMORY.ref(4, 0x2004c28, IntRef::new);
   public static final IntRef oldInterrupts_2004c2c = MEMORY.ref(4, 0x2004c2c, IntRef::new);
+
+  public static final UnboundedArrayRef<TileAttributes04> tileAttribs_2010000 = MEMORY.ref(4, 0x2010000, UnboundedArrayRef.of(0x4, TileAttributes04::new));
 
   public static final ArrayRef<Pointer<RenderPacket0c>> packets_3001400 = MEMORY.ref(4, 0x3001400, ArrayRef.of(Pointer.classFor(RenderPacket0c.class), 0x100, 0x4, Pointer.deferred(4, RenderPacket0c::new)));
   public static final IntRef ticks_3001800 = MEMORY.ref(4, 0x3001800, IntRef::new);

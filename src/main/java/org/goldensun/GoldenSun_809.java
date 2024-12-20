@@ -20,7 +20,7 @@ import org.goldensun.types.Vec3;
 
 import static org.goldensun.GoldenSun.FUN_80053e8;
 import static org.goldensun.GoldenSun.FUN_8009048;
-import static org.goldensun.GoldenSun.FUN_80091b0;
+import static org.goldensun.GoldenSun.getTileType_;
 import static org.goldensun.GoldenSun.FUN_80091d8;
 import static org.goldensun.GoldenSun.FUN_8009220;
 import static org.goldensun.GoldenSun.FUN_80092a0;
@@ -90,6 +90,7 @@ import static org.goldensun.GoldenSunVars._200048a;
 import static org.goldensun.GoldenSunVars._20004a4;
 import static org.goldensun.GoldenSunVars._2002090;
 import static org.goldensun.GoldenSunVars._3001810;
+import static org.goldensun.GoldenSunVars.tileAttribs_2010000;
 import static org.goldensun.GoldenSunVars.vramSlots_3001b10;
 import static org.goldensun.GoldenSunVars._3001e40;
 import static org.goldensun.GoldenSunVars.debug_3001f54;
@@ -2589,7 +2590,7 @@ public final class GoldenSun_809 {
       }
 
       //LAB_8093dd8
-      if(FUN_80091b0(r6.layer_22.get(), r7.getX(), r7.getZ()) != 0xf9) {
+      if(getTileType_(r6.layer_22.get(), r7.getX(), r7.getZ()) != 0xf9) {
         break;
       }
 
@@ -2637,7 +2638,7 @@ public final class GoldenSun_809 {
       r3 = r3 >> 4;
       r3 = r3 << 7;
       r3 = r2 + r3;
-      if(MEMORY.ref(1, 0x2010000 + r3 * 0x4 + 0x2).getUnsigned() != MEMORY.ref(1, 0x2010200 + r3 * 0x4 + 0x2).getUnsigned()) {
+      if(tileAttribs_2010000.get(r3).getType() != tileAttribs_2010000.get(r3 + 0x80).getType()) {
         //LAB_8093f72
         FUN_8091750();
         return -1;
@@ -2724,7 +2725,7 @@ public final class GoldenSun_809 {
       r3 = r3 >> 4;
       r3 = r3 << 7;
       r3 = r2 + r3;
-      if(MEMORY.ref(1, 0x2010000 + r3 * 0x4 + 0x2).getUnsigned() != MEMORY.ref(1, 0x200fe00 + r3 * 0x4 + 0x2).getUnsigned()) {
+      if(tileAttribs_2010000.get(r3).getType() != tileAttribs_2010000.get(r3 - 0x80).getType()) {
         //LAB_8094138
         FUN_8091750();
         return -1;

@@ -3,6 +3,7 @@ package org.goldensun;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.Pointer;
+import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 import org.goldensun.types.Actor70;
 import org.goldensun.types.GraphicsStruct1c;
@@ -15,6 +16,7 @@ import org.goldensun.types.SaveStruct1100;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.Struct12fc;
 import org.goldensun.types.Structccc;
+import org.goldensun.types.TileAttributes04;
 import org.goldensun.types.Unit14c;
 import org.goldensun.types.Vec3;
 import org.goldensun.types.Vec3s;
@@ -68,6 +70,7 @@ import static org.goldensun.GoldenSunVars._3001cfc;
 import static org.goldensun.GoldenSunVars._3001d08;
 import static org.goldensun.GoldenSunVars._3001e40;
 import static org.goldensun.GoldenSunVars.debug_3001f54;
+import static org.goldensun.GoldenSunVars.tileAttribs_2010000;
 import static org.goldensun.GoldenSunVars.vramSlots_3001b10;
 import static org.goldensun.GoldenSunVars._3001cd0;
 import static org.goldensun.GoldenSunVars._80134fc;
@@ -307,7 +310,7 @@ public final class GoldenSun_801 {
 
         //LAB_8010380
         for(int r12 = 0; r12 < 0x10; r12++) {
-          final int sp04 = (MEMORY.ref(4, 0x2010000 + (r6 + r4) * 0x4).get() << 20 >>> 20) * 0x8;
+          final int sp04 = tileAttribs_2010000.get(r6 + r4).getTile() * 0x8;
           final int sp00 = sp18 + (r5 + r0) * 0x2;
           MEMORY.ref(4, sp00).setu(MEMORY.ref(4, 0x2020000 + sp04).get());
           MEMORY.ref(4, sp00 + 0x40).setu(MEMORY.ref(4, 0x2020004 + sp04).get());
@@ -326,9 +329,9 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x8010424)
-  public static void FUN_8010424(final int r0, final int r1, final int r2, final int r3, final int a4, final int a5) {
-    int sp04 = 0x2010000 + (r3 * 0x80 + r2) * 0x4;
-    int sp08 = 0x2010000 + (r1 * 0x80 + r0) * 0x4;
+  public static void FUN_8010424(final int x1, final int y1, final int x2, final int y2, final int a4, final int a5) {
+    final UnboundedArrayRef<TileAttributes04> sp08 = tileAttribs_2010000.slice(y1 * 0x80 + x1);
+    final UnboundedArrayRef<TileAttributes04> sp04 = tileAttribs_2010000.slice(y2 * 0x80 + x2);
     final Map194 r2_0 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
     final int[] r9 = new int[6];
 
@@ -338,27 +341,21 @@ public final class GoldenSun_801 {
       r9[i * 2 + 1] = r2_0.layers_104.get(i)._04.get() >> 20;
     }
 
-    final int sp00 = r3 + a5;
-    final int r8 = (0x80 - a4) * 0x4;
-
     //LAB_801048a
-    for(int r7 = r3; r7 < sp00; r7++) {
-      final int lr = r2 + a4;
-      final int r12 = r7 & 0xf;
-
+    int tileIndex = 0;
+    for(int y = y2; y < y2 + a5; y++) {
       //LAB_80104a2
-      for(int r1_0 = r2; r1_0 < lr; r1_0++) {
-        final int r5 = MEMORY.ref(4, sp08).get() & 0xfff;
-        MEMORY.ref(4, sp04).and(0xffff_f000).oru(r5);
-        sp08 += 0x4;
-        sp04 += 0x4;
-        final int r3_0 = (r1_0 & 0xf) + r12 * 0x20;
+      for(int x = x2; x < x2 + a4; x++) {
+        final int tile = sp08.get(tileIndex).getTile();
+        sp04.get(tileIndex).setTile(tile);
+        tileIndex++;
 
         //LAB_80104d0
+        final int r3_0 = (y & 0xf) * 0x20 + (x & 0xf);
         for(int i = 0; i < 3; i++) {
-          if(r9[i * 2] <= r1_0 && r9[i * 2] + 0x10 > r1_0 && r9[i * 2 + 1] <= r7 && r9[i * 2 + 1] + 0xc > r7) {
-            MEMORY.ref(4, 0x6002800 + i * 0x800 + r3_0 * 0x4).setu(MEMORY.ref(4, 0x2020000 + r5 * 0x8).get());
-            MEMORY.ref(4, 0x6002840 + i * 0x800 + r3_0 * 0x4).setu(MEMORY.ref(4, 0x2020004 + r5 * 0x8).get());
+          if(x >= r9[i * 2] && x < r9[i * 2] + 16 && y >= r9[i * 2 + 1] && y < r9[i * 2 + 1] + 12) {
+            MEMORY.ref(4, 0x6002800 + i * 0x800 + r3_0 * 0x4).setu(MEMORY.ref(4, 0x2020000 + tile * 0x8).get());
+            MEMORY.ref(4, 0x6002840 + i * 0x800 + r3_0 * 0x4).setu(MEMORY.ref(4, 0x2020004 + tile * 0x8).get());
             break;
           }
 
@@ -369,8 +366,7 @@ public final class GoldenSun_801 {
       }
 
       //LAB_8010518
-      sp08 += r8;
-      sp04 += r8;
+      tileIndex += 0x80 - a4;
     }
 
     //LAB_801052c
@@ -392,298 +388,107 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x80105d4)
-  public static void FUN_80105d4(int r0, int r1, int r2, int r3, final int a4, final int a5) {
-    int r4;
-    int r5;
-    int r6;
-    int r7;
-
-    CPU.push(CPU.r11().value);
-    CPU.push(CPU.r10().value);
-    CPU.push(CPU.r9().value);
-    CPU.push(CPU.r8().value);
-    CPU.sp().value -= 0x24;
-    r6 = a5;
-    r1 = r1 << 7;
-    r1 = r1 + r0;
-    r0 = a4;
-    r4 = r3;
-    r3 = r6 << 7;
-    r3 = r3 + r0;
-    CPU.r11().value = r2;
-    r2 = 0x2010000;
-    r1 = r1 << 2;
-    r3 = r3 << 2;
-    r1 = r1 + r2;
-    r3 = r3 + r2;
-    MEMORY.ref(4, CPU.sp().value + 0x8).setu(r1);
-    MEMORY.ref(4, CPU.sp().value + 0x4).setu(r3);
-    r3 = 0x3001e70;
-    r1 = 0x82;
-    r3 = MEMORY.ref(4, r3).get();
-    r1 = r1 << 1;
-    r0 = CPU.sp().value + 0xc;
-    r2 = r3 + r1;
-    CPU.r9().value = r0;
-    r5 = 0x2;
+  public static void FUN_80105d4(final int x1, final int y1, final int x2, final int y2, final int x3, final int y3) {
+    final UnboundedArrayRef<TileAttributes04> sp08 = tileAttribs_2010000.slice(y1 * 0x80 + x1);
+    final UnboundedArrayRef<TileAttributes04> sp04 = tileAttribs_2010000.slice(y3 * 0x80 + x3);
+    final Map194 map = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
+    final int[] r9 = new int[6];
 
     //LAB_8010612
-    do {
-      r3 = MEMORY.ref(4, r2).get();
-      r3 = r3 >> 20;
-      MEMORY.ref(4, r0).setu(r3);
-      r3 = MEMORY.ref(4, r2 + 0x4).get();
-      r5 = r5 - 0x1;
-      r3 = r3 >> 20;
-      MEMORY.ref(4, r0 + 0x4).setu(r3);
-      r2 = r2 + 0x30;
-      r0 = r0 + 0x8;
-      CPU.cmpT(r5, 0x0);
-    } while(r5 >= 0x0);
+    for(int r5 = 0; r5 < 3; r5++) {
+      final Map194.Sub30 layer = map.layers_104.get(r5);
+      r9[r5] = layer._00.get() >> 20;
+      r9[r5 + 1] = layer._04.get() >> 20;
+    }
 
-    r3 = r6 + r4;
-    CPU.cmpT(r6, r3);
-    if(r6 < r3) {
-      MEMORY.ref(4, CPU.sp().value).setu(r3);
-      r2 = CPU.r11().value;
-      r3 = 0x80;
-      r3 = r3 - r2;
-      r3 = r3 << 2;
-      CPU.r8().value = r3;
+    //LAB_801063a
+    int tileIndex = 0;
+    for(int y = y3; y < y3 + y2; y++) {
+      //LAB_8010652
+      for(int x = x3; x < x3 + x2; x++) {
+        sp04.get(tileIndex).val_00.set(sp08.get(tileIndex).val_00.get());
+        final int tile = sp08.get(tileIndex).getTile();
+        final int r4 = ((y & 0xf) * 0x20 + (x & 0xf)) * 0x4;
 
-      //LAB_801063a
-      do {
-        r1 = a4;
-        r4 = CPU.r11().value;
-        r3 = r1 + r4;
-        CPU.cmpT(r1, r3);
-        if(r1 < r3) {
-          CPU.r12().value = r6;
-          r5 = 0xf;
-          r0 = CPU.r12().value;
-          r0 = r0 & r5;
-          CPU.lr().value = r3;
-          CPU.r10().value = r5;
-          CPU.r12().value = r0;
-
-          //LAB_8010652
-          do {
-            r4 = MEMORY.ref(4, CPU.sp().value + 0x8).get();
-            r3 = MEMORY.ref(4, r4).get();
-            r4 += 0x4;
-            r0 = MEMORY.ref(4, CPU.sp().value + 0x4).get();
-            r7 = 0xfff;
-            r2 = r4;
-            MEMORY.ref(4, CPU.sp().value + 0x8).setu(r2);
-            r4 = CPU.r12().value;
-            MEMORY.ref(4, r0).setu(r3);
-            r0 += 0x4;
-            r7 = r7 & r3;
-            r2 = r1;
-            r3 = CPU.r10().value;
-            r2 = r2 & r3;
-            r3 = r4 << 5;
-            r5 = r0;
-            r3 = r3 + r2;
-            MEMORY.ref(4, CPU.sp().value + 0x4).setu(r5);
-            r0 = CPU.r9().value;
-            r5 = 0x0;
-            r4 = r3 << 2;
-
-            //LAB_8010678
-            do {
-              r3 = MEMORY.ref(4, r0).get();
-              CPU.cmpT(r3, r1);
-              if(r3 <= r1) {
-                r3 = r3 + 0x10;
-                CPU.cmpT(r3, r1);
-                if(r3 > r1) {
-                  r3 = MEMORY.ref(4, r0 + 0x4).get();
-                  CPU.cmpT(r3, r6);
-                  if(r3 <= r6) {
-                    r3 = r3 + 0xc;
-                    CPU.cmpT(r3, r6);
-                    if(r3 > r6) {
-                      r5 = 0x6002800;
-                      r0 = r4 + r5;
-                      r5 = 0x2020000;
-                      r3 = r7 << 3;
-                      r2 = r3 + r5;
-                      r2 = MEMORY.ref(4, r2).get();
-                      MEMORY.ref(4, r0).setu(r2);
-                      r0 = 0x2020004;
-                      r2 = r3 + r0;
-                      r3 = 0x6002840;
-                      r0 = r4 + r3;
-                      r3 = MEMORY.ref(4, r2).get();
-                      MEMORY.ref(4, r0).setu(r3);
-                      break;
-                    }
-                  }
-                }
-              }
-
-              //LAB_80106ac
-              r2 = 0x80;
-              r2 = r2 << 4;
-              r5 = r5 + 0x1;
-              r4 = r4 + r2;
-              r0 = r0 + 0x8;
-              CPU.cmpT(r5, 0x2);
-            } while(r5 <= 0x2);
-
-            //LAB_80106ba
-            r1 = r1 + 0x1;
-            CPU.cmpT(r1, CPU.lr().value);
-          } while(r1 < CPU.lr().value);
+        //LAB_8010678
+        for(int r5 = 0; r5 < 3; r5++) {
+          if(x >= r9[r5] && x < r9[r5] + 16 && y >= r9[r5 + 1] && y < r9[r5 + 1] + 12) {
+            MEMORY.ref(4, 0x6002800 + r4 + r5 * 0x800).setu(MEMORY.ref(4, 0x2020000 + tile * 0x8).get());
+            MEMORY.ref(4, 0x6002840 + r4 + r5 * 0x800).setu(MEMORY.ref(4, 0x2020004 + tile * 0x8).get());
+            break;
+          }
         }
 
-        //LAB_80106c0
-        r3 = MEMORY.ref(4, CPU.sp().value + 0x8).get();
-        r4 = MEMORY.ref(4, CPU.sp().value + 0x4).get();
-        r5 = MEMORY.ref(4, CPU.sp().value).get();
-        r3 = r3 + CPU.r8().value;
-        r4 = r4 + CPU.r8().value;
-        r6 = r6 + 0x1;
-        MEMORY.ref(4, CPU.sp().value + 0x8).setu(r3);
-        MEMORY.ref(4, CPU.sp().value + 0x4).setu(r4);
-        CPU.cmpT(r6, r5);
-      } while(r6 < r5);
+        tileIndex++;
+      }
+
+      //LAB_80106c0
+      tileIndex += 0x80 - x2;
     }
 
     //LAB_80106d4
-    CPU.sp().value += 0x24;
-    CPU.r8().value = CPU.pop();
-    CPU.r9().value = CPU.pop();
-    CPU.r10().value = CPU.pop();
-    CPU.r11().value = CPU.pop();
   }
 
   @Method(0x8010704)
-  public static void FUN_8010704(int r0, int r1, int r2, int r3, final int a4, final int a5) {
-    int r4;
-    int r5;
-    final int lr;
+  public static void FUN_8010704(final int r0, final int r1, final int r2, final int r3, final int a4, final int a5) {
+    final UnboundedArrayRef<TileAttributes04> r10 = tileAttribs_2010000.slice(a5 * 0x80 + a4);
+    final UnboundedArrayRef<TileAttributes04> r8 = tileAttribs_2010000.slice(r1 * 0x80 + r0);
 
-    CPU.push(CPU.r10().value);
-    CPU.push(CPU.r8().value);
+    //LAB_8010732
+    for(int r5 = 0; r5 < r3; r5++) {
+      //LAB_8010748
+      for(int r4 = 0; r4 < r2; r4++) {
+        r10.get(r5 * 0x80 + r4).val_00.and(0xfff).or(r8.get(r5 * 0x80 + r4).val_00.get() & ~0xfff);
+      }
 
-    lr = r3;
-    CPU.r12().value = r2;
-    r3 = CPU.lslT(a5, 7);
-    r3 = CPU.addT(r3, a4);
-    r1 = CPU.lslT(r1, 7);
-    CPU.r8().value = 0x2010000;
-    r3 = CPU.lslT(r3, 2);
-    r1 = CPU.addT(r1, r0);
-    r3 += CPU.r8().value;
-    r1 = CPU.lslT(r1, 2);
-    r2 = lr;
-    CPU.r10().value = r3;
-    CPU.r8().value += r1;
-    CPU.cmpT(r2, 0x0);
-    if(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >
-      r5 = CPU.movT(0x0);
-
-      //LAB_8010732
-      do {
-        r3 = CPU.lsrT(r5, 7);
-        r4 = CPU.r10().value;
-        r2 = CPU.r8().value;
-        r1 = CPU.addT(r4, r3);
-        r0 = CPU.addT(r2, r3);
-        r3 = CPU.r12().value;
-        CPU.cmpT(r3, 0x0);
-        if(!CPU.cpsr().getZero() && CPU.cpsr().getNegative() == CPU.cpsr().getOverflow()) { // >
-          r4 = CPU.movT(0x0);
-
-          //LAB_8010748
-          do {
-            r2 = MEMORY.ref(4, r1).get();
-            r3 = MEMORY.ref(4, r0).get();
-            r0 += 0x4;
-
-            r2 = CPU.andT(r2, 0xfff);
-            r3 = CPU.andT(r3, 0xfffff000);
-            r2 = CPU.orrT(r2, r3);
-            MEMORY.ref(4, r1).setu(r2);
-            r1 += 0x4;
-
-            r2 = CPU.movT(0x80);
-            r2 = CPU.lslT(r2, 9);
-            r3 = CPU.addT(r4, r2);
-            r4 = CPU.addT(r3, 0x0);
-            r3 = CPU.lsrT(r4, 16);
-            CPU.cmpT(r3, CPU.r12().value);
-          } while(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()); // <
-        }
-
-        //LAB_8010762
-        r4 = CPU.movT(0x80);
-        r4 = CPU.lslT(r4, 9);
-        r3 = CPU.addT(r5, r4);
-        r5 = CPU.addT(r3, 0x0);
-        r3 = CPU.lsrT(r5, 16);
-        CPU.cmpT(r3, lr);
-      } while(CPU.cpsr().getNegative() != CPU.cpsr().getOverflow()); // <
+      //LAB_8010762
     }
 
     //LAB_8010770
-    CPU.r8().value = CPU.pop();
-    CPU.r10().value = CPU.pop();
   }
 
   @Method(0x80108e4)
   public static int FUN_80108e4(int r0, int r1, final int r2, int r3, final int a4) {
-    int r5 = r3;
-    int r10 = r1;
-    int r8 = r2;
     final Map194 r2_1 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
     int r6 = r2_1.layers_104.get(0)._0c.get();
-    r10 = r10 & 0x1;
+    final int r10 = r1 & 0x1;
     r0 = r0 * 2;
     final int r9 = r0;
-    r8 = r8 & 0x1;
+    final int r8 = r2 & 0x1;
     final int r2_0 = r2_1.getAddress() + 0x338 + ((r9 + r8) * 0x2 + r10) * 0x2; //TODO huh?
 
     if(a4 == 0) {
       r0 = 0;
     }
 
-    if(a4 == 0 && r5 == MEMORY.ref(2, r2_0).getUnsigned()) {
+    if(a4 == 0 && r3 == MEMORY.ref(2, r2_0).getUnsigned()) {
       return r0;
     }
 
     //LAB_8010932
-    MEMORY.ref(2, r2_0).setu(r5);
+    MEMORY.ref(2, r2_0).setu(r3);
     final int r7 = mallocSlotChip(14, 0x400);
-    FUN_80053e8(r6 + MEMORY.ref(4, r6 + r5 * 0x4).get(), r7);
-    int r4 = r7;
-    r5 = 0x2020000 + ((r9 + r8) * 0x20 + r10) * 0x40;
+    FUN_80053e8(r6 + MEMORY.ref(4, r6 + r3 * 0x4).get(), r7);
+    final int r5 = 0x2020000 + ((r9 + r8) * 0x20 + r10) * 0x40;
 
     //LAB_801095e
     for(r6 = 0; r6 < 0x10; r6++) {
-      DMA.channels[3].SAD.setu(r4);
-      DMA.channels[3].DAD.setu(r5);
+      DMA.channels[3].SAD.setu(r7 + r6 * 0x40);
+      DMA.channels[3].DAD.setu(r5 + r6 * 0x80);
       DMA.channels[3].CNT.setu(0x84000010);
-
-      r4 += 0x40;
-      r5 += 0x80;
     }
 
     if(a4 != 0) {
       r1 = 0x6004000 + ((r9 + r8) * 0x40 + r10) * 0x20;
-      r4 = r7;
 
       //LAB_801098e
       for(r6 = 0; r6 < 0x10; r6++) {
         //LAB_8010990
         for(int i = 0; i < 0x10; i++) {
-          r3 = MEMORY.ref(2, r4).getUnsigned() * 0x4;
-          MEMORY.ref(2, r1).setu(MEMORY.ref(2, 0x2010000 + r3).getUnsigned());
-          MEMORY.ref(2, r1 + 0x40).setu(MEMORY.ref(2, 0x2010002 + r3).getUnsigned());
+          r3 = MEMORY.ref(2, r7 + i * 0x4).getUnsigned();
+          MEMORY.ref(2, r1).setu(tileAttribs_2010000.get(r3).val_00.get() & 0xffff);
+          MEMORY.ref(2, r1 + 0x40).setu(tileAttribs_2010000.get(r3).val_00.get() >>> 16);
           r1 += 0x2;
-          r4 += 0x4;
         }
 
         r1 += 0x60;
@@ -816,7 +621,7 @@ public final class GoldenSun_801 {
     DMA.channels[3].CNT.setu(0x84000800);
 
     sleep(1);
-    FUN_8012388(r5 + (_3001e40.get() & 0x1) * 0x1400 + 0xc80, 0x2010000);
+    FUN_8012388(r5 + (_3001e40.get() & 0x1) * 0x1400 + 0xc80, tileAttribs_2010000);
     r7._100.get(0).set(0xc8);
     r7._100.get(1).set(0);
     r7._100.get(2).set(0xff);
@@ -829,9 +634,9 @@ public final class GoldenSun_801 {
     final Map194 r7 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
     final int r5 = r7.layers_104.get(0)._18.get();
     final int r8 = MEMORY.ref(2, 0x5000000).get();
-    FUN_80053e8(getPointerTableEntry(MEMORY.ref(4, r5).get()), 0x2010000);
+    FUN_80053e8(getPointerTableEntry(MEMORY.ref(4, r5).get()), tileAttribs_2010000.getAddress());
     MEMORY.ref(2, 0x2010000).setu(r8);
-    DMA.channels[3].SAD.setu(0x2010000);
+    DMA.channels[3].SAD.setu(tileAttribs_2010000.getAddress());
     DMA.channels[3].DAD.setu(0x5000000);
     DMA.channels[3].CNT.setu(0x84000070);
 
@@ -1228,71 +1033,51 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x8011f54)
-  public static int getHeight(final int mapLayer, final int x, final int y) {
-    final int r1_0 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
-    final int r2_0;
-    if(r1_0 != 0) {
-      r2_0 = MEMORY.ref(4, r1_0, Map194::new).layers_104.get(mapLayer & 0x3)._2c.get();
+  public static int getHeight(final int mapLayer, final int x, final int z) {
+    final Map194 map = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
+    final UnboundedArrayRef<TileAttributes04> tiles;
+    if(map != null) {
+      tiles = map.layers_104.get(mapLayer & 0x3).tiles_2c.deref();
     } else {
-      r2_0 = 0x2010000;
+      tiles = tileAttribs_2010000;
     }
 
     final int r5 = x >> 16;
-    final int r6 = y >> 16;
+    final int r6 = z >> 16;
 
     //LAB_8011f7a
-    final int r1_1 = MEMORY.ref(1, r2_0 + (r6 / 0x10 * 0x80 + r5 / 0x10) * 0x4 + 0x3).getUnsigned() * 0x4;
+    final int r1_1 = tiles.get(r6 / 0x10 * 0x80 + r5 / 0x10).getHeight() * 0x4;
     return _80134fc.get(MEMORY.ref(1, 0x202c000 + r1_1).getUnsigned() & 0xf).deref().run(0x202c001 + r1_1, r5 & 0xf, r6 & 0xf);
   }
 
   @Method(0x8011fd8)
-  public static int FUN_8011fd8(final int r0, final int r1, final int r2) {
+  public static int FUN_8011fd8(final int mapLayer, final int x, final int z) {
     final Map194 r5 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
 
-    final int r0_0;
+    final UnboundedArrayRef<TileAttributes04> tiles;
     if(r5 != null) {
-      r0_0 = r5.layers_104.get(r0 & 0x3)._2c.get();
+      tiles = r5.layers_104.get(mapLayer & 0x3).tiles_2c.deref();
     } else {
-      r0_0 = 0x2010000;
+      tiles = tileAttribs_2010000;
     }
 
     //LAB_8011ffe
-    return MEMORY.ref(1, 0x202c000 + MEMORY.ref(1, r0_0 + ((r1 >> 16) / 0x10 + (r2 >> 16) / 0x10 * 0x80) * 0x4 + 0x3).getUnsigned() * 0x4).getUnsigned() & 0xf;
+    return MEMORY.ref(1, 0x202c000 + tiles.get((x >> 16) / 0x10 + (z >> 16) / 0x10 * 0x80).getHeight() * 0x4).getUnsigned() & 0xf;
   }
 
   @Method(0x8012038)
-  public static int FUN_8012038(int r0, int r1, int r2) {
-    int r3;
-    int r4;
-    final int r5;
+  public static int getTileType(final int mapLayer, final int x, final int z) {
+    final Map194 map = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
 
-    r3 = 0x3001e70;
-    r5 = r0;
-    r0 = MEMORY.ref(4, r3).get();
-    r4 = r2;
-    r1 = r1 >> 20;
-    r4 = r4 >> 20;
-    r2 = 0x2010000;
-    CPU.cmpT(r0, 0x0);
-    if(r0 != 0x0) {
-      r2 = 0x3;
-      r2 = r2 & r5;
-      r3 = r2 << 1;
-      r3 = r3 + r2;
-      r2 = 0x98;
-      r2 = r2 << 1;
-      r3 = r3 << 4;
-      r3 = r3 + r2;
-      r2 = MEMORY.ref(4, r0 + r3).get();
+    final UnboundedArrayRef<TileAttributes04> tiles;
+    if(map != null) {
+      tiles = map.layers_104.get(mapLayer & 0x3).tiles_2c.deref();
+    } else {
+      tiles = tileAttribs_2010000;
     }
 
     //LAB_801205e
-    r3 = r4 << 7;
-    r3 = r1 + r3;
-    r3 = r3 << 2;
-    r2 = r2 + r3;
-    r0 = MEMORY.ref(1, r2 + 0x2).getUnsigned();
-    return r0;
+    return tiles.get((z >> 20) * 0x80 + (x >> 20)).getType();
   }
 
   @Method(0x8012078)
@@ -1304,30 +1089,28 @@ public final class GoldenSun_801 {
   public static int FUN_80120dc(final Actor70 r0, final Vec3 r1) {
     final int r5 = r1.getX() >> 16;
     final int r6 = r1.getZ() >> 16;
-    final int mapAddr = boardWramMallocHead_3001e50.offset(8 * 0x4).get(); //TODO map
+    final Map194 map = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
 
-    if(mapAddr == 0) {
+    if(map == null) {
       return 0;
     }
 
     final int layer = r0.layer_22.get();
-    int r2;
+    final TileAttributes04 tileAttribs;
     if(layer < 3) {
-      r2 = MEMORY.ref(4, mapAddr + 0x130 + layer * 0x30).get(); //TODO map layers
+      tileAttribs = map.layers_104.get(layer).tiles_2c.deref().get(r5 / 0x10 + (r6 / 0x10) * 0x80);
     } else {
       //LAB_801210e
-      r2 = 0x2010000;
+      tileAttribs = tileAttribs_2010000.get(r5 / 0x10 + (r6 / 0x10) * 0x80);
     }
 
     //LAB_8012110
-    r2 = r2 + (r5 / 0x10 + (r6 / 0x10) * 0x80) * 0x4;
-
-    if(MEMORY.ref(1, r2 + 0x2).getUnsigned() == 0xff) {
+    if(tileAttribs.getType() == 0xff) {
       return 2;
     }
 
-    final int r1_0 = MEMORY.ref(1, r2 + 0x3).getUnsigned();
-    final int r0_0 = _80134fc.get(MEMORY.ref(1, 0x202c000 + r1_0 * 0x4).getUnsigned() & 0xf).deref().run(0x202c001 + r1_0 * 0x4, r5 & 0xf, r6 & 0xf) - r0._14.get();
+    final int height = tileAttribs.getHeight();
+    final int r0_0 = _80134fc.get(MEMORY.ref(1, 0x202c000 + height * 0x4).getUnsigned() & 0xf).deref().run(0x202c001 + height * 0x4, r5 & 0xf, r6 & 0xf) - r0._14.get();
     if(r0_0 > 0x80000) {
       return 1;
     }
@@ -1342,13 +1125,8 @@ public final class GoldenSun_801 {
 
   @Method(0x801219c)
   public static int FUN_801219c(final Vec3 vec) {
-    final int r0;
-    int r1;
-    int r3;
-    int r4;
-
-    r4 = vec.getX() / 0x10000;
-    r0 = (vec.getZ() - vec.getY()) / 0x10000;
+    final int r4 = vec.getX() / 0x10000;
+    final int r0 = (vec.getZ() - vec.getY()) / 0x10000;
 
     final Map194 map = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
     if(map == null) {
@@ -1356,13 +1134,7 @@ public final class GoldenSun_801 {
     }
 
     //LAB_80121c6
-    r1 = map.layers_104.get(2)._2c.get();
-    r4 = r4 / 0x10;
-    r3 = r0 / 0x10 << 7;
-    r3 = r4 + r3;
-    r3 = r3 << 2;
-    r1 = r1 + r3;
-    r3 = MEMORY.ref(1, r1 + 0x2).getUnsigned() ^ 0xff;
+    final int r3 = map.layers_104.get(2).tiles_2c.deref().get(r0 / 0x10 * 0x80 + r4 / 0x10).getTile() ^ 0xff;
     return ((-r3 | r3) >>> 31) - 1;
   }
 
@@ -1476,7 +1248,7 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x8012388)
-  public static void FUN_8012388(final int r0, final int r1) {
+  public static void FUN_8012388(final int r0, final UnboundedArrayRef<TileAttributes04> r1) {
     final int size = 0x27c;
     final int addr = mallocSlotChip(49, size);
     DMA.channels[3].SAD.setu(0x8009e7c);

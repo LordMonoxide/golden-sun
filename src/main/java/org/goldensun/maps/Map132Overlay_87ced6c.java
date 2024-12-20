@@ -7,15 +7,18 @@ import org.goldensun.GoldenSun_807;
 import org.goldensun.GoldenSun_808;
 import org.goldensun.GoldenSun_80f;
 import org.goldensun.memory.Method;
+import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.types.Actor70;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.SpriteLayer18;
 import org.goldensun.types.Structccc;
+import org.goldensun.types.TileAttributes04;
 import org.goldensun.types.Vec3;
 
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.playerMapActorIndex_2000434;
+import static org.goldensun.GoldenSunVars.tileAttribs_2010000;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.MEMORY;
 import static org.goldensun.memory.MemoryHelper.getConsumer;
@@ -105,66 +108,31 @@ public final class Map132Overlay_87ced6c {
   }
 
   @Method(0x2008244)
-  public static int FUN_2008244(int r0, int r1, int r2, int r3, final int a4, final int a5) {
-    final int r4;
-    final int r6;
-
-    r4 = r3;
-    CPU.r12().value = a4;
-    r3 = 0x3001e70;
-    r6 = r1;
-    r1 = r2;
-    r2 = MEMORY.ref(4, r3).get();
-    CPU.cmpT(r2, 0x0);
-    if(!CPU.cpsr().getZero()) { // !=
-      CPU.cmpT(r0, 0x2);
-      if(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()) { // unsigned <=
-        r3 = r0 << 1;
-        r3 = r3 + r0;
-        r0 = 0x98;
-        r0 = r0 << 1;
-        r3 = r3 << 4;
-        r3 = r3 + r0;
-        r0 = MEMORY.ref(4, r2 + r3).get();
+  public static int fillTileTypes(final int layer, final int startX, final int startY, final int w, final int h, final int type) {
+    final Map194 map = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
+    if(map != null) {
+      final UnboundedArrayRef<TileAttributes04> tiles;
+      if(layer < 3) {
+        tiles = map.layers_104.get(layer).tiles_2c.deref().slice(startY * 0x80 + startX);
       } else {
         //LAB_200826e
-        r0 = 0x2010000;
+        tiles = tileAttribs_2010000.slice(startY * 0x80 + startX);
       }
 
       //LAB_2008270
-      r3 = r1 << 7;
-      r3 = r6 + r3;
-      r3 = r3 << 2;
-      r1 = 0x0;
-      r0 = r0 + r3;
-      CPU.cmpT(r1, CPU.r12().value);
-      if(!CPU.cpsr().getCarry()) { // unsigned <
-        //LAB_200827e
-        do {
-          r3 = r1 << 9;
-          r2 = 0x0;
-          r3 = r0 + r3;
-          CPU.cmpT(r2, r4);
-          if(!CPU.cpsr().getCarry()) { // unsigned <
-            //LAB_2008288
-            do {
-              r2 = r2 + 0x1;
-              MEMORY.ref(1, r3 + 0x2).setu(a5);
-              r3 = r3 + 0x4;
-              CPU.cmpT(r2, r4);
-            } while(!CPU.cpsr().getCarry()); // unsigned <
-          }
+      //LAB_200827e
+      for(int y = 0; y < h; y++) {
+        //LAB_2008288
+        for(int x = 0; x < w; x++) {
+          tiles.get(y * 0x80 + x).setType(type);
+        }
 
-          //LAB_2008292
-          r1 = r1 + 0x1;
-          CPU.cmpT(r1, CPU.r12().value);
-        } while(!CPU.cpsr().getCarry()); // unsigned <
+        //LAB_2008292
       }
     }
 
     //LAB_2008298
-    r0 = 0x0;
-    return r0;
+    return 0;
   }
 
   @Method(0x200834c)
@@ -382,7 +350,7 @@ public final class Map132Overlay_87ced6c {
     MEMORY.ref(4, CPU.sp().value + 0x4).setu(r3);
     r0 = 0x0;
     r3 = CPU.r9().value;
-    r0 = FUN_2008244(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
+    r0 = fillTileTypes(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
     r2 = r5;
     r0 = 0x0;
     r1 = r6;
@@ -535,7 +503,7 @@ public final class Map132Overlay_87ced6c {
     r3 = CPU.r9().value;
     r0 = 0x0;
     MEMORY.ref(4, CPU.sp().value + 0x4).setu(r5);
-    r0 = FUN_2008244(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
+    r0 = fillTileTypes(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
     r3 = MEMORY.ref(4, CPU.sp().value + 0x8).get();
     r1 = MEMORY.ref(4, CPU.sp().value + 0x50).get();
     r2 = MEMORY.ref(4, CPU.sp().value + 0x58).get();
@@ -543,7 +511,7 @@ public final class Map132Overlay_87ced6c {
     r0 = 0x2;
     r3 = CPU.r9().value;
     MEMORY.ref(4, CPU.sp().value + 0x4).setu(r5);
-    r0 = FUN_2008244(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
+    r0 = fillTileTypes(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
     r2 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
     r4 = CPU.r10().value;
     r2 = r2 << 4;
@@ -579,7 +547,7 @@ public final class Map132Overlay_87ced6c {
     MEMORY.ref(4, CPU.sp().value).setu(r3);
     r3 = CPU.r9().value;
     MEMORY.ref(4, CPU.sp().value + 0x4).setu(r4);
-    r0 = FUN_2008244(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
+    r0 = fillTileTypes(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get(), MEMORY.ref(4, CPU.sp().value + 0x4).get());
     FUN_808a5e8();
     CPU.sp().value += 0x28;
     CPU.r8().value = CPU.pop();
@@ -624,8 +592,8 @@ public final class Map132Overlay_87ced6c {
       MEMORY.ref(4, r7 + 0x10).setu((MEMORY.ref(4, r4 + r1 + 0x4).get() << 16) + actor.pos_08.getZ() >> 20);
       r6 = Math.abs(MEMORY.ref(4, r4 + r1).get()) + Math.abs(MEMORY.ref(4, r4 + r1 + 0x8).get()) >> 4;
       FUN_80091c0(MEMORY.ref(4, r7 + 0x8).get(), MEMORY.ref(4, r7 + 0x10).get(), r6, r8, (r10.layers_104.get(1)._08.get() >> 20) + MEMORY.ref(4, r7 + 0x8).get(), (r10.layers_104.get(1)._0c.get() >> 20) + MEMORY.ref(4, r7 + 0x10).get());
-      FUN_2008244(0, MEMORY.ref(4, r7 + 0x8).get(), MEMORY.ref(4, r7 + 0x10).get(), r6, r8, 0xff);
-      FUN_2008244(2, MEMORY.ref(4, r7 + 0x8).get(), MEMORY.ref(4, r7 + 0x10).get(), r6, r8, 0xff);
+      fillTileTypes(0, MEMORY.ref(4, r7 + 0x8).get(), MEMORY.ref(4, r7 + 0x10).get(), r6, r8, 0xff);
+      fillTileTypes(2, MEMORY.ref(4, r7 + 0x8).get(), MEMORY.ref(4, r7 + 0x10).get(), r6, r8, 0xff);
       r0 = 0x1;
     }
 
