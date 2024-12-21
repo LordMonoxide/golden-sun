@@ -3331,7 +3331,7 @@ public final class GoldenSun_809 {
       case 8: // switch 8096838
         //LAB_80968b4
         if(_200048a.get() != -1) {
-          FUN_809ade8();
+          FUN_809ade8(_200048a.get());
           _200048a.set(-1);
         }
 
@@ -3437,7 +3437,7 @@ public final class GoldenSun_809 {
 
       case 9:
         if(_200048a.get() != -1) {
-          FUN_809ade8();
+          FUN_809ade8(_200048a.get());
           _200048a.set(-1);
         }
 
@@ -5634,7 +5634,7 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x809ade8)
-  public static void FUN_809ade8() {
+  public static void FUN_809ade8(final int actorIndex) {
     throw new RuntimeException("Not implemented");
   }
 

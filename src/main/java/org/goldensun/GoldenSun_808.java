@@ -28,6 +28,7 @@ import org.goldensun.types.Vec3;
 import static org.goldensun.GoldenSun.FUN_8003fa4;
 import static org.goldensun.GoldenSun.FUN_8004760;
 import static org.goldensun.GoldenSun.FUN_8009048;
+import static org.goldensun.GoldenSun.FUN_8009088;
 import static org.goldensun.GoldenSun.FUN_8009098;
 import static org.goldensun.GoldenSun.FUN_80090a0;
 import static org.goldensun.GoldenSun.FUN_80090a8;
@@ -126,6 +127,7 @@ import static org.goldensun.GoldenSunVars.playerMapActorIndex_2000434;
 import static org.goldensun.GoldenSunVars.tileAttribs_2010000;
 import static org.goldensun.GoldenSun_801.FUN_8015000;
 import static org.goldensun.GoldenSun_801.FUN_8015040;
+import static org.goldensun.GoldenSun_801.FUN_8015058;
 import static org.goldensun.GoldenSun_801.FUN_8015120;
 import static org.goldensun.GoldenSun_801.FUN_8015128;
 import static org.goldensun.GoldenSun_801.FUN_8015138;
@@ -159,9 +161,11 @@ import static org.goldensun.GoldenSun_809.FUN_8091200;
 import static org.goldensun.GoldenSun_809.FUN_8091220;
 import static org.goldensun.GoldenSun_809.FUN_8091240;
 import static org.goldensun.GoldenSun_809.FUN_8091254;
+import static org.goldensun.GoldenSun_809.FUN_80915dc;
 import static org.goldensun.GoldenSun_809.FUN_809163c;
 import static org.goldensun.GoldenSun_809.FUN_8091d84;
 import static org.goldensun.GoldenSun_809.FUN_8092708;
+import static org.goldensun.GoldenSun_809.FUN_8092848;
 import static org.goldensun.GoldenSun_809.FUN_8093c00;
 import static org.goldensun.GoldenSun_809.FUN_8093e28;
 import static org.goldensun.GoldenSun_809.FUN_8093fa0;
@@ -170,6 +174,7 @@ import static org.goldensun.GoldenSun_809.FUN_8096960;
 import static org.goldensun.GoldenSun_809.FUN_8096ab0;
 import static org.goldensun.GoldenSun_809.FUN_8096c80;
 import static org.goldensun.GoldenSun_809.FUN_809728c;
+import static org.goldensun.GoldenSun_809.FUN_809ade8;
 import static org.goldensun.GoldenSun_809.stopPlayerAndSetIdle;
 import static org.goldensun.GoldenSun_809.FUN_80916b0;
 import static org.goldensun.GoldenSun_809.FUN_8091750;
@@ -3233,9 +3238,114 @@ public final class GoldenSun_808 {
     return event2;
   }
 
+  /** I'm not confident in this restructure */
   @Method(0x808d5dc)
-  public static int interactWithActor(final int r0) {
-    throw new RuntimeException("Not implemented");
+  public static int interactWithActor(int r0) {
+    final int r7 = r0;
+    final int r11 = FUN_808d394(r7);
+    int r9 = -1;
+    final Actor70 r8 = getMapActor_(r7);
+    int sp00 = 0;
+    int r10 = 0;
+
+    jmp_808d794:
+    {
+      EventStruct0c r6;
+      if(_200048a.get() != r7) {
+        //LAB_808d678
+        r6 = FUN_808d48c(0, r7);
+      } else {
+        r10 = 1;
+        if((r6 = FUN_808d48c(7, r7)) == null) {
+          if((r6 = FUN_808d48c(0, r7)) == null) {
+            return r9;
+          }
+          sp00 = 1;
+
+          //LAB_808d63e
+          if(r6.callback_08.get() >= 0x10000) {
+            final int r5 = FUN_80915dc(r7) * 0x2 + (rand() * 2 >>> 16) + 0xe0b;
+            FUN_80916b0();
+            FUN_8092b94(r5);
+            FUN_8092f84(r7, 0);
+            FUN_8091750();
+            break jmp_808d794;
+          }
+        }
+      }
+
+      //LAB_808d682
+      if(r6 != null) {
+        //LAB_808d688
+        if(r6.callback_08.get() != 0) {
+          int sp04 = 0;
+
+          //LAB_808d690
+          int r3;
+          if(r10 == 0) {
+            r8._5b.set(1);
+            FUN_8009088(r8, 0);
+            sp04 = r8.angle_06.get() & 0xffff;
+            r3 = MEMORY.ref(1, r11 + 0x16).getUnsigned();
+            if(r3 < 2 || r3 == 3) {
+              //LAB_808d6c2
+              final Actor70 player = getMapActor_(playerMapActorIndex_2000434.get());
+              player.dest_38.set(player.pos_08);
+              player.velocity_24.zero();
+              FUN_8092848(r7, playerMapActorIndex_2000434.get(), 0);
+            }
+          }
+
+          //LAB_808d6f0
+          if(r6.callback_08.get() < 0x10000) {
+            FUN_8015058(sp00);
+            FUN_80916b0();
+            FUN_8092b94(r6.callback_08.get());
+            FUN_8092f84(r7, 0);
+            FUN_8091750();
+          } else {
+            //LAB_808d716
+            stopPlayerAndSetIdle();
+            MEMORY.call(r6.callback_08.get(), r7);
+          }
+
+          //LAB_808d722
+          if(r10 == 0) {
+            r3 = r8._04.get();
+            final int r2 = r8._00.get();
+            if(MEMORY.ref(4, r2 + r3 * 0x4).get() == 0x10) {
+              r0 = MEMORY.ref(1, r11 + 0x16).get();
+              if(r0 == 3) {
+                r8._68.set(getMapActor_(playerMapActorIndex_2000434.get()));
+                r8._5a.or(0x1);
+                FUN_8093a6c(r8, 0x809ff40);
+                //LAB_808d76a
+              } else if(r0 == 1) {
+                r8._64.set(sp04);
+                FUN_8009098(r8, 0x809fc1c);
+              }
+            }
+
+            //LAB_808d780
+            r8._5b.set(0);
+            FUN_8009088(r8, 16);
+          }
+
+          //LAB_808d790
+          r9 = 0;
+        }
+      }
+    }
+
+    //LAB_808d794
+    if(r10 != 0) {
+      FUN_809ade8(_200048a.get());
+      _200048a.set(-1);
+    }
+
+    //LAB_808d7ac
+    //LAB_808d7ae
+    return r9;
   }
 
   @Method(0x808d7d8)
