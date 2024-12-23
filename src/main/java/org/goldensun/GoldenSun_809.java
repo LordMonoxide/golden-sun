@@ -122,6 +122,9 @@ import static org.goldensun.GoldenSun_807.removeChar_;
 import static org.goldensun.GoldenSun_807.setFlag_;
 import static org.goldensun.GoldenSun_807.clearFlag_;
 import static org.goldensun.GoldenSun_807.FUN_80772f0;
+import static org.goldensun.GoldenSun_808.FUN_808adf0;
+import static org.goldensun.GoldenSun_808.FUN_808b05c;
+import static org.goldensun.GoldenSun_808.FUN_808b320;
 import static org.goldensun.GoldenSun_808.FUN_808b3ec;
 import static org.goldensun.GoldenSun_808.FUN_808b824;
 import static org.goldensun.GoldenSun_808.FUN_808d5a4;
@@ -1321,7 +1324,20 @@ public final class GoldenSun_809 {
 
   @Method(0x8091eb0)
   public static void FUN_8091eb0(final int r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+    final Structccc r7 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
+    r7._17c.set(FUN_808b05c(r0, r1));
+
+    if(r0 == 0x62 && r1 == 0) {
+      MEMORY.ref(2, 0x2000416).setu(33);
+    }
+
+    //LAB_8091ed8
+    if(r7._19e.get() == 3) {
+      FUN_808adf0(getMapActor(playerMapActorIndex_2000434.get()).pos_08);
+    }
+
+    //LAB_8091ef8
+    FUN_808b320(r0, r1);
   }
 
   @Method(0x8091f90)

@@ -52,7 +52,6 @@ import static org.goldensun.GoldenSun_801.FUN_8015018;
 import static org.goldensun.GoldenSun_801.FUN_8015068;
 import static org.goldensun.GoldenSun_801.FUN_8015070;
 import static org.goldensun.GoldenSun_801.FUN_8015078;
-import static org.goldensun.GoldenSun_801.drawIcon;
 import static org.goldensun.GoldenSun_801.FUN_8015090;
 import static org.goldensun.GoldenSun_801.FUN_8015098;
 import static org.goldensun.GoldenSun_801.FUN_80150b0;
@@ -63,26 +62,24 @@ import static org.goldensun.GoldenSun_801.FUN_80150d8;
 import static org.goldensun.GoldenSun_801.FUN_80150e0;
 import static org.goldensun.GoldenSun_801.FUN_8015108;
 import static org.goldensun.GoldenSun_801.FUN_8015120;
-import static org.goldensun.GoldenSun_801.drawPanelBackground_;
 import static org.goldensun.GoldenSun_801.FUN_8015278;
 import static org.goldensun.GoldenSun_801.FUN_8015280;
 import static org.goldensun.GoldenSun_801.FUN_8015298;
 import static org.goldensun.GoldenSun_801.FUN_80152a8;
 import static org.goldensun.GoldenSun_801.FUN_80153e0;
-import static org.goldensun.GoldenSun_801.drawPanelBackground_;
 import static org.goldensun.GoldenSun_801.FUN_8015410;
 import static org.goldensun.GoldenSun_801.FUN_8015418;
 import static org.goldensun.GoldenSun_801.addPanel_;
+import static org.goldensun.GoldenSun_801.drawIcon;
 import static org.goldensun.GoldenSun_801.drawNumber_;
+import static org.goldensun.GoldenSun_801.drawPanelBackground_;
 import static org.goldensun.GoldenSun_807.FUN_8077190;
-import static org.goldensun.GoldenSun_807.FUN_807822c;
-import static org.goldensun.GoldenSun_807.recalcStats_;
-import static org.goldensun.GoldenSun_807.addItem_;
-import static org.goldensun.GoldenSun_807.takeItem_;
-import static org.goldensun.GoldenSun_807.breakItem_;
-import static org.goldensun.GoldenSun_807.addArtifact_;
 import static org.goldensun.GoldenSun_807.FUN_80772c0;
+import static org.goldensun.GoldenSun_807.FUN_807822c;
+import static org.goldensun.GoldenSun_807.addArtifact_;
+import static org.goldensun.GoldenSun_807.addItem_;
 import static org.goldensun.GoldenSun_807.addPp_;
+import static org.goldensun.GoldenSun_807.breakItem_;
 import static org.goldensun.GoldenSun_807.clearFlag_;
 import static org.goldensun.GoldenSun_807.equipItem_;
 import static org.goldensun.GoldenSun_807.getAbility_;
@@ -92,7 +89,9 @@ import static org.goldensun.GoldenSun_807.getItem_;
 import static org.goldensun.GoldenSun_807.getPartyMemberIds_;
 import static org.goldensun.GoldenSun_807.isEquipped_;
 import static org.goldensun.GoldenSun_807.readFlag_;
+import static org.goldensun.GoldenSun_807.recalcStats_;
 import static org.goldensun.GoldenSun_807.setFlag_;
+import static org.goldensun.GoldenSun_807.takeItem_;
 import static org.goldensun.GoldenSun_808.FUN_808a288;
 import static org.goldensun.GoldenSun_808.FUN_808a488;
 import static org.goldensun.GoldenSun_808.FUN_808a490;
@@ -2481,7 +2480,7 @@ public final class GoldenSun_80a {
         }
 
         //LAB_80a3fde
-        MEMORY.call(0x3001388, r11, addr, 0x14c);
+        MEMORY.call(0x3001388, r11.getAddress(), addr, 0x14c); // memcpy
         setMallocAddress(addr);
         break;
       }
