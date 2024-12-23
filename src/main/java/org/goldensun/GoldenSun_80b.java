@@ -55,6 +55,12 @@ import static org.goldensun.memory.MemoryHelper.getRunnable;
 public final class GoldenSun_80b {
   private GoldenSun_80b() { }
 
+  /** {@link GoldenSun_80b#FUN_80b0278} */
+  @Method(0x80b0008)
+  public static int FUN_80b0008(final int r0, final int r1) {
+    return (int)MEMORY.call(0x80b0278, r0, r1);
+  }
+
   /** {@link GoldenSun_80b#FUN_80b3284} */
   @Method(0x80b0018)
   public static int FUN_80b0018(final int r0, final int mapActorIndex) {
@@ -139,6 +145,11 @@ public final class GoldenSun_80b {
     clearVramSlot(MEMORY.ref(2, r5 + 0x398).getUnsigned());
     clearVramSlot(MEMORY.ref(2, r5 + 0x39a).getUnsigned());
     freeSlot(55);
+  }
+
+  @Method(0x80b0278)
+  public static int FUN_80b0278(final int r0, final int r1) {
+    throw new RuntimeException("Not implemented");
   }
 
   @Method(0x80b04c4)
