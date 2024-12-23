@@ -21,7 +21,7 @@ public class ChoiceMenu98 implements MemoryRef {
   public final ShortRef panelW_90;
   /** The text IDs shown in the panel, this is the first index and is offset by the selected option (or icon index + 31, if this value is 0) */
   public final ShortRef textIdGroup_92;
-  public final ShortRef _94;
+  public final ShortRef y_94;
 
   public ChoiceMenu98(final Value ref) {
     this.ref = ref;
@@ -35,7 +35,7 @@ public class ChoiceMenu98 implements MemoryRef {
     this.count_8e = ref.offset(2, 0x8e).cast(ShortRef::new);
     this.panelW_90 = ref.offset(2, 0x90).cast(ShortRef::new);
     this.textIdGroup_92 = ref.offset(2, 0x92).cast(ShortRef::new);
-    this._94 = ref.offset(2, 0x94).cast(ShortRef::new);
+    this.y_94 = ref.offset(2, 0x94).cast(ShortRef::new);
   }
 
   @Override

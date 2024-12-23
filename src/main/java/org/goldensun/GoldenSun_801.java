@@ -1568,6 +1568,12 @@ public final class GoldenSun_801 {
     return (int)MEMORY.call(0x8028df4, r0, r1, r2, r3);
   }
 
+  /** {@link GoldenSun_802#FUN_8028e54} */
+  @Method(0x80153b0)
+  public static int FUN_80153b0(final int x, final int y, final int defaultOption) {
+    return (int)MEMORY.call(0x8028e54, x, y, defaultOption);
+  }
+
   /** {@link GoldenSun_801#FUN_801e3c8} */
   @Method(0x80153e0)
   public static void FUN_80153e0(final int r0) {
@@ -1600,8 +1606,8 @@ public final class GoldenSun_801 {
 
   /** {@link GoldenSun_801#FUN_801a370} */
   @Method(0x8015250)
-  public static void FUN_8015250(final int r0) {
-    MEMORY.call(0x801a370, r0);
+  public static void FUN_8015250(final int itemId) {
+    MEMORY.call(0x801a370, itemId);
   }
 
   @Method(0x8015e8c)
@@ -5275,10 +5281,10 @@ public final class GoldenSun_801 {
 
   /** Opening a chest */
   @Method(0x801a370)
-  public static void FUN_801a370(final int r0) {
+  public static void FUN_801a370(final int itemId) {
     final int r6 = boardWramMallocHead_3001e50.offset(17 * 0x4).get();
-    final Item2c item = getItem_(r0 & 0x1ff);
-    if(r0 != 0) {
+    final Item2c item = getItem_(itemId & 0x1ff);
+    if(itemId != 0) {
       MEMORY.ref(4, r6 + 0x604).setu(MEMORY.ref(4, 0x8029ee4 + item.icon_06.get() * 0x4).get());
     } else {
       //LAB_801a394

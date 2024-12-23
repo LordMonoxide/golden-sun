@@ -1248,7 +1248,7 @@ public final class GoldenSun_802 {
 
     //LAB_80282bc
     r1 = boardWramMallocHead_3001e50.offset(31 * 0x4).get();
-    if(menu._94.get() != 0) {
+    if(menu.y_94.get() != 0) {
       //LAB_80283ae
       if(r1 != 0) {
         if(menu.count_8e.get() != 0) {
@@ -1522,11 +1522,11 @@ public final class GoldenSun_802 {
 
   /** After adding options, call this to calculate the layout and allocate the text panel */
   @Method(0x8028808)
-  public static void updateChoiceMenuLayout(final int y, final int r1, final int r2) {
+  public static void updateChoiceMenuLayout(final int y, final int w, final int textIdGroup) {
     final ChoiceMenu98 menu = boardWramMallocHead_3001e50.offset(58 * 0x4).deref(4).cast(ChoiceMenu98::new);
-    menu.panelW_90.set(r1 + 2);
-    menu.textIdGroup_92.set(r2);
-    menu._94.set(y);
+    menu.panelW_90.set(w + 2);
+    menu.textIdGroup_92.set(textIdGroup);
+    menu.y_94.set(y);
     int x = 15 - (menu.count_8e.get() * 3 + divideS(menu.panelW_90.get() * 2, 3)) / 2;
 
     //LAB_8028868
@@ -1539,6 +1539,24 @@ public final class GoldenSun_802 {
 
     //LAB_802887e
     menu.panel_78.setNullable(addPanel(x, y, menu.panelW_90.get(), 3, 0x2));
+  }
+
+  @Method(0x80288a8)
+  public static void FUN_80288a8(int x, final int y, final int w, final int textIdGroup) {
+    final ChoiceMenu98 r5 = boardWramMallocHead_3001e50.offset(58 * 0x4).deref(4).cast(ChoiceMenu98::new);
+    r5.panelW_90.set(w + 2);
+    r5.textIdGroup_92.set(textIdGroup);
+    r5.y_94.set(y);
+
+    //LAB_80288e4
+    for(int i = 0; i < r5.count_8e.get(); i++) {
+      r5.options_00.get(i).x_0c.set(x * 8);
+      r5.options_00.get(i).y_0e.set(y * 8);
+      x += 3;
+    }
+
+    //LAB_80288fc
+    r5.panel_78.set(addPanel(x, y, r5.panelW_90.get(), 3, 0x2));
   }
 
   @Method(0x8028920)
@@ -1679,6 +1697,23 @@ public final class GoldenSun_802 {
 
     //LAB_8028e46
     return r6;
+  }
+
+  @Method(0x8028e54)
+  public static int FUN_8028e54(final int x, final int y, final int defaultOption) {
+    allocateChoiceMenu();
+    addChoiceMenuOption(5);
+    addChoiceMenuOption(6);
+    FUN_80288a8(x, y, 3, 36);
+    int selectedOption = handleChoiceMenu(defaultOption);
+    deallocateChoiceMenu();
+
+    if(selectedOption == -1) {
+      selectedOption = 1;
+    }
+
+    //LAB_8028e96
+    return selectedOption;
   }
 
   @Method(0x8029504)

@@ -14,7 +14,7 @@ public class Menua70 implements MemoryRef {
   private final Value ref;
 
   public final IntRef _08;
-
+  public final Pointer<Panel24> panel_0c;
   public final Pointer<Panel24> panel_10;
   public final ArrayRef<Pointer<GraphicsStruct1c>> _14;
   public final ArrayRef<ByteRef> _1c;
@@ -61,14 +61,27 @@ public class Menua70 implements MemoryRef {
   public final ArrayRef<UnsignedByteRef> _260;
   public final UnsignedByteRef _268;
 
+  /** TODO */
+  public final Value _36c;
+
+  public final Pointer<GraphicsStruct1c> _380;
+
   public final UnsignedShortRef downArrow_392;
   public final UnsignedShortRef upArrow_394;
+
+  public final UnsignedShortRef _3a4;
+
+  public final ByteRef _3a7;
+
+  public final ByteRef _3a9;
+
+  public final ByteRef _3ac;
 
   public Menua70(final Value ref) {
     this.ref = ref;
 
     this._08 = ref.offset(4, 0x08).cast(IntRef::new);
-
+    this.panel_0c = ref.offset(4, 0x0c).cast(Pointer.deferred(4, Panel24::new));
     this.panel_10 = ref.offset(4, 0x10).cast(Pointer.deferred(4, Panel24::new));
     this._14 = ref.offset(4, 0x14).cast(ArrayRef.of(Pointer.classFor(GraphicsStruct1c.class), 2, 0x4, Pointer.deferred(4, GraphicsStruct1c::new)));
     this._1c = ref.offset(1, 0x1c).cast(ArrayRef.of(ByteRef.class, 2, 0x1, ByteRef::new));
@@ -115,8 +128,20 @@ public class Menua70 implements MemoryRef {
     this._260 = ref.offset(1, 0x260).cast(ArrayRef.of(UnsignedByteRef.class, 8, 0x1, UnsignedByteRef::new));
     this._268 = ref.offset(1, 0x268).cast(UnsignedByteRef::new);
 
+    this._36c = ref.offset(2, 0x36c);
+
+    this._380 = ref.offset(4, 0x380).cast(Pointer.deferred(4, GraphicsStruct1c::new));
+
     this.downArrow_392 = ref.offset(2, 0x392).cast(UnsignedShortRef::new);
     this.upArrow_394 = ref.offset(2, 0x394).cast(UnsignedShortRef::new);
+
+    this._3a4 = ref.offset(2, 0x3a4).cast(UnsignedShortRef::new);
+
+    this._3a7 = ref.offset(1, 0x3a7).cast(ByteRef::new);
+
+    this._3a9 = ref.offset(1, 0x3a9).cast(ByteRef::new);
+
+    this._3ac = ref.offset(1, 0x3ac).cast(ByteRef::new);
   }
 
   @Override
