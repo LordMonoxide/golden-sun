@@ -106,6 +106,16 @@ public final class MathHelper {
     return value;
   }
 
+  public static long getLong(final byte[] data, final int offset) {
+    long value = 0;
+
+    for(int i = 0; i < 8; i++) {
+      value |= (data[offset + i] & 0xffL) << i * 8;
+    }
+
+    return value;
+  }
+
   public static void set(final byte[] data, final int offset, final int size, final int value) {
     for(int i = 0; i < size; i++) {
       data[offset + i] = (byte)(value >>> i * 8 & 0xff);

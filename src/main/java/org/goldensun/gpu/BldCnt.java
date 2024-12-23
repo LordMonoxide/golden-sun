@@ -42,6 +42,29 @@ public class BldCnt {
   public boolean objSecondTargetPixel;
   public boolean bdSecondTargetPixel;
 
+  public int firstTargetFlags() {
+    return
+      (this.bg0FirstTargetPixel ? BG0_1ST_TARGET_PIXEL_MASK : 0) |
+      (this.bg1FirstTargetPixel ? BG1_1ST_TARGET_PIXEL_MASK : 0) |
+      (this.bg2FirstTargetPixel ? BG2_1ST_TARGET_PIXEL_MASK : 0) |
+      (this.bg3FirstTargetPixel ? BG3_1ST_TARGET_PIXEL_MASK : 0) |
+      (this.objFirstTargetPixel ? OBJ_1ST_TARGET_PIXEL_MASK : 0) |
+      (this.bdFirstTargetPixel ? BD_1ST_TARGET_PIXEL_MASK : 0)
+    ;
+  }
+
+  public int secondTargetFlags() {
+    return (
+        (this.bg0SecondTargetPixel ? BG0_2ND_TARGET_PIXEL_MASK : 0) |
+        (this.bg1SecondTargetPixel ? BG1_2ND_TARGET_PIXEL_MASK : 0) |
+        (this.bg2SecondTargetPixel ? BG2_2ND_TARGET_PIXEL_MASK : 0) |
+        (this.bg3SecondTargetPixel ? BG3_2ND_TARGET_PIXEL_MASK : 0) |
+        (this.objSecondTargetPixel ? OBJ_2ND_TARGET_PIXEL_MASK : 0) |
+        (this.bdSecondTargetPixel ? BD_2ND_TARGET_PIXEL_MASK : 0)
+      ) >>> 8
+    ;
+  }
+
   public int pack() {
     return
       (this.bg0FirstTargetPixel ? BG0_1ST_TARGET_PIXEL_MASK : 0) |
