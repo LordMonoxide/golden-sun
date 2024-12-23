@@ -5410,13 +5410,13 @@ public final class GoldenSun {
 
     //LAB_800f0ee
     if(sp10 != 0) {
-      setActorAnimation(r0, 0x8);
+      setActorAnimation(r0, 8);
       //LAB_800f0fe
     } else if(sp14 != 0) {
-      if(getCharOrMonsterData_(playerMapActorIndex_2000434.get()).hp_38.get() != 0) {
-        r5 = 0x16;
+      if(getCharOrMonsterData_(playerMapActorIndex_2000434.get()).hp_38.get() == 0) {
+        r5 = 22; // Zero HP standing animation
       } else {
-        r5 = 0x9;
+        r5 = 9; // Normal standing animation
       }
 
       //LAB_800f11e
