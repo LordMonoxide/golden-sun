@@ -1,0 +1,13 @@
+#!/bin/bash
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+cd "$SCRIPT_DIR" || exit
+
+JAVA=./jdk17/Contents/Home/bin/java
+
+if [[ ! -f $JAVA ]]
+then
+  ./download-java
+fi
+
+"$JAVA" -XstartOnFirstThread -Djoml.fastmath -Djoml.sinLookup -Djoml.useMathFma -cp "libs/*:goldensun-@version@.jar" org.goldensun.Main -Xmx2G

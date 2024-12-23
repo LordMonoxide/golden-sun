@@ -1,9 +1,19 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 plugins {
   id 'java'
 }
 
+project.ext.hash = System.getenv("GITHUB_SHA");
+
+if(project.ext.hash == null) {
+  project.ext.hash = 'snapshot'
+}
+
 group = 'org.goldensun'
-version = '1.0-SNAPSHOT'
+version project.ext.hash
+
+sourceCompatibility = targetCompatibility = 1.17
 
 project.ext.lwjglVersion = "3.3.3"
 project.ext.jomlVersion = "1.10.6"
@@ -62,6 +72,81 @@ dependencies {
   implementation group: 'net.java.dev.jna', name: 'jna', version: '5.13.0'
 }
 
+jar {
+  manifest {
+    attributes(
+      'Main-Class': 'org.goldensun.Main'
+    )
+  }
+}
+
+task sourceJar(type: Jar) {
+  from sourceSets.main.allJava
+  archiveClassifier = "sources"
+}
+
+task clearOutput(type: Delete) {
+  delete layout.buildDirectory.dir("libs/libs")
+  delete layout.buildDirectory.file("libs/**")
+}
+
+task copyLibs(type: Copy) {
+  from configurations.compileClasspath + configurations.runtimeClasspath
+  into layout.buildDirectory.dir("libs/libs")
+}
+
+task copySupportFiles(type: Copy) {
+  into layout.buildDirectory.dir("libs")
+
+  into("gfx") {
+    from 'gfx'
+  }
+
+  into(".") {
+    switch(operatingSystem) {
+      case org.gradle.internal.os.OperatingSystem.LINUX:
+        from(isSteamDeck ? 'launch-steamdeck' : 'launch-linux') {
+          filter(ReplaceTokens, tokens: [version: project.ext.hash])
+          rename("-\\w+", "")
+        }
+        from('download-java') {
+          filter(ReplaceTokens, tokens: [os: 'linux', arch: isArm ? "aarch64" : "x64"])
+        }
+        break
+
+      case org.gradle.internal.os.OperatingSystem.MAC_OS:
+        from('launch-macos') {
+          filter(ReplaceTokens, tokens: [version: project.ext.hash])
+          rename("-macos", "")
+        }
+        from('download-java') {
+          filter(ReplaceTokens, tokens: [os: 'macosx', arch: isArm ? "aarch64" : "x64"])
+        }
+        break
+
+      case org.gradle.internal.os.OperatingSystem.WINDOWS:
+        from('launch.bat') {
+          filter(ReplaceTokens, tokens: [version: project.ext.hash])
+        }
+        break
+    }
+
+    from 'log4j2.xml'
+    from 'LICENSE'
+  }
+}
+
+jar.dependsOn(clearOutput, copyLibs, copySupportFiles)
+
 test {
   useJUnitPlatform()
+}
+
+sourceSets {
+  main {
+    java {
+      srcDirs = ["src/main/java"]
+      exclude ".gradle", "build", "files"
+    }
+  }
 }
