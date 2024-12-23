@@ -1268,11 +1268,6 @@ public class Gpu {
 
   private void onBldCntWrite(final int val) {
     this.bldCnt.unpack(val);
-
-    if(val != 0) {
-      //TODO
-      LOGGER.warn("BLDCNT not implemented");
-    }
   }
 
   private int onBldAlphaRead() {
