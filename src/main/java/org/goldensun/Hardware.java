@@ -46,14 +46,17 @@ public final class Hardware {
     GATE.acquire();
     MEMORY.addFunctions(Bios.class);
     MEMORY.addFunctions(GoldenSun.class);
-    MEMORY.addFunctions(GoldenSun_80b.class);
-    MEMORY.addFunctions(GoldenSun_80f.class);
     MEMORY.addFunctions(GoldenSun_801.class);
     MEMORY.addFunctions(GoldenSun_802.class);
     MEMORY.addFunctions(GoldenSun_807.class);
     MEMORY.addFunctions(GoldenSun_808.class);
     MEMORY.addFunctions(GoldenSun_809.class);
     MEMORY.addFunctions(GoldenSun_80a.class);
+    MEMORY.addFunctions(GoldenSun_80b.class);
+    MEMORY.addFunctions(GoldenSun_80c.class);
+    MEMORY.addFunctions(GoldenSun_80d.class);
+    MEMORY.addFunctions(GoldenSun_80e.class);
+    MEMORY.addFunctions(GoldenSun_80f.class);
     MEMORY.addFunctions(GoldenSun_818.class);
     GATE.release();
   }

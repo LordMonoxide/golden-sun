@@ -710,8 +710,66 @@ public class Gpu {
     }
   }
 
-  public void renderAffineBackground(final int line, final BgCnt bg) {
-    throw new RuntimeException("Not implemented");
+  private static final int[] AFFINE_SIZE_TABLE = { 128, 256, 512, 1024 };
+  private static final int[] AFFINE_TILE_SIZE_TABLE = { 16, 32, 64, 128 };
+  private static final int[] AFFINE_SIZE_MASK = { 127, 255, 511, 1023 };
+
+  private void renderAffineBackground(final int line, final BgCnt bg) {
+    final int charBase = bg.characterBaseBlock;
+    final int mapBase = bg.screenBaseBlock;
+
+    final int meta = bg.priority << 8 | 0x1 << bg.id;
+
+    int posX = bg.affinePosX;
+    int posY = bg.affinePosY;
+
+    final int size = AFFINE_SIZE_TABLE[bg.screenSize];
+    final int sizeMask = AFFINE_SIZE_MASK[bg.screenSize];
+    final int tileSize = AFFINE_TILE_SIZE_TABLE[bg.screenSize];
+
+    for(int p = 0; p < H_DRAW_DOTS; p++) {
+      int pixelX = posX >> 8 & 0x7ffff;
+      int pixelY = posY >> 8 & 0x7ffff;
+
+      posX += bg.affineA;
+      posY += bg.affineC;
+
+      if(!bg.overflowWrap && (pixelX >= size || pixelY >= size)) {
+        continue;
+      }
+
+      pixelX &= sizeMask;
+      pixelY &= sizeMask;
+
+      final int tileX = pixelX >> 3;
+      final int intraTileX = pixelX & 7;
+
+      final int tileY = pixelY >> 3;
+      final int intraTileY = pixelY & 7;
+
+      // 1 byte per tile
+      final int mapEntryIndex = mapBase + tileY * tileSize + tileX;
+      final int tileNumber = this.vram[mapEntryIndex] & 0xff;
+
+      // Always 256color
+      // 256 color, 64 bytes per tile, 8 bytes per row
+      final int vramAddr = charBase + tileNumber * 64 + intraTileY * 8 + intraTileX;
+      final int vramValue = this.vram[vramAddr] & 0xff;
+
+      if(vramValue != 0) {
+        this.setBgPixel(p + 8, this.readPalette(vramValue), meta);
+      }
+    }
+
+    bg.affinePosX += bg.affineB;
+    bg.affinePosY += bg.affineD;
+  }
+
+  private void setBgPixel(final int lineIndex, final int color, final int meta) {
+    if((this.winMasks[lineIndex] & meta) != 0) {
+      this.bgLo[lineIndex] = this.bgHi[lineIndex];
+      this.bgHi[lineIndex] = color | meta << 16;
+    }
   }
 
   private void setBgRow(final int line, final int paletteRow, final int[] indices, final int meta, final int clearMask) {
@@ -903,7 +961,7 @@ public class Gpu {
       final int vramAddr = charBase + effectiveTileNumber * 32 + intraTileY * 4 + intraTileX / 2;
       final int vramValue = this.vram[vramAddr] & 0xff;
       // Lower 4 bits is left pixel, upper 4 bits is right pixel
-      final int color = vramValue >> ((intraTileX & 0x1) * 4) & 0xf;
+      final int color = vramValue >> (intraTileX & 0x1) * 4 & 0xf;
       final int finalColor = palette * 16 + color;
 
       if(color != 0) {
@@ -912,7 +970,7 @@ public class Gpu {
     }
   }
 
-  public void setObjPixel(final int x, final int paletteIndex, final int priority, final ObjMode mode) {
+  private void setObjPixel(final int x, final int paletteIndex, final int priority, final ObjMode mode) {
     switch(mode) {
       case NORMAL -> {
         if(priority < this.objBuffer[x].priority) {
@@ -1355,6 +1413,16 @@ public class Gpu {
     @Override
     public void getBytes(final int offset, final byte[] dest, final int dataOffset, final int dataSize) {
       System.arraycopy(Gpu.this.vram, offset, dest, dataOffset, dataSize);
+    }
+
+    @Override
+    public void memcpy(final int dest, final int src, final int length) {
+      System.arraycopy(Gpu.this.vram, src, Gpu.this.vram, dest, length);
+    }
+
+    @Override
+    public void memfill(final int addr, final int length, final int value) {
+      Arrays.fill(Gpu.this.vram, addr, addr + length, (byte)value);
     }
   }
 

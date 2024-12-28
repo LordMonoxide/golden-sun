@@ -53,6 +53,9 @@ public class Unit14c implements MemoryRef {
   public final ArrayRef<UnsignedShortRef> items_d8;
   public final Djinn28 djinn_f8;
 
+  public final ArrayRef<UnsignedByteRef> _118;
+
+  public final IntRef _120;
   public final IntRef exp_124;
   public final UnsignedByteRef _128;
   public final UnsignedByteRef class_129;
@@ -68,14 +71,21 @@ public class Unit14c implements MemoryRef {
   public final ByteRef _135;
 
   public final ByteRef _137;
+  public final UnsignedByteRef _138;
+
+  public final UnsignedByteRef _13b;
+  public final UnsignedByteRef _13c;
+  public final UnsignedByteRef _13d;
 
   public final UnsignedByteRef haunt_140;
+  public final UnsignedByteRef _141;
 
   /** Unleash/crit rate */
   public final UnsignedByteRef crit_142;
   public final UnsignedByteRef reflux_143;
   /** Starts at 2, decrements every round */
   public final UnsignedByteRef kiteTurns_144;
+  public final UnsignedByteRef _145;
 
   public final ByteRef _147;
 
@@ -114,6 +124,9 @@ public class Unit14c implements MemoryRef {
     this.items_d8 = ref.offset(2, 0xd8).cast(ArrayRef.of(UnsignedShortRef.class, 15, 0x2, UnsignedShortRef::new));
     this.djinn_f8 = ref.offset(4, 0xf8).cast(Djinn28::new);
 
+    this._118 = ref.offset(1, 0x118).cast(ArrayRef.of(UnsignedByteRef.class, 4, 0x1, UnsignedByteRef::new));
+
+    this._120 = ref.offset(4, 0x120).cast(IntRef::new);
     this.exp_124 = ref.offset(4, 0x124).cast(IntRef::new);
     this._128 = ref.offset(1, 0x128).cast(UnsignedByteRef::new);
     this.class_129 = ref.offset(1, 0x129).cast(UnsignedByteRef::new);
@@ -128,12 +141,19 @@ public class Unit14c implements MemoryRef {
     this._135 = ref.offset(1, 0x135).cast(ByteRef::new);
 
     this._137 = ref.offset(1, 0x137).cast(ByteRef::new);
+    this._138 = ref.offset(1, 0x138).cast(UnsignedByteRef::new);
+
+    this._13b = ref.offset(1, 0x13b).cast(UnsignedByteRef::new);
+    this._13c = ref.offset(1, 0x13c).cast(UnsignedByteRef::new);
+    this._13d = ref.offset(1, 0x13d).cast(UnsignedByteRef::new);
 
     this.haunt_140 = ref.offset(1, 0x140).cast(UnsignedByteRef::new);
+    this._141 = ref.offset(1, 0x141).cast(UnsignedByteRef::new);
 
     this.crit_142 = ref.offset(1, 0x142).cast(UnsignedByteRef::new);
     this.reflux_143 = ref.offset(1, 0x143).cast(UnsignedByteRef::new);
     this.kiteTurns_144 = ref.offset(1, 0x144).cast(UnsignedByteRef::new);
+    this._145 = ref.offset(1, 0x145).cast(UnsignedByteRef::new);
 
     this._147 = ref.offset(1, 0x147).cast(ByteRef::new);
   }

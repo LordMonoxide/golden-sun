@@ -10,12 +10,16 @@ import org.goldensun.memory.types.UnsignedByteRef;
 public class RecoveryQueue10c implements MemoryRef {
   private final Value ref;
 
+  public final IntRef _00;
+
   public final UnboundedArrayRef<DjinnInfo04> _08;
 
   public final IntRef count_108;
 
   public RecoveryQueue10c(final Value ref) {
     this.ref = ref;
+
+    this._00 = ref.offset(4, 0x00).cast(IntRef::new);
 
     this.count_108 = ref.offset(4, 0x108).cast(IntRef::new);
 

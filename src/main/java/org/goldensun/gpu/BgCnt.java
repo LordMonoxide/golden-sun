@@ -11,6 +11,8 @@ public class BgCnt {
   private static final int PALETTES_SHIFT = 7;
   private static final int SCREEN_BASE_BLOCK_MASK = 0b1_1111_0000_0000;
   private static final int SCREEN_BASE_BLOCK_SHIFT = 8;
+  private static final int DISPLAY_AREA_OVERFLOW_MASK = 0b10_0000_0000_0000;
+  private static final int DISPLAY_AREA_OVERFLOW_SHIFT = 13;
   private static final int SCREEN_SIZE_X_MASK = 0b100_0000_0000_0000;
   private static final int SCREEN_SIZE_X_SHIFT = 14;
   private static final int SCREEN_SIZE_Y_MASK = 0b1000_0000_0000_0000;
@@ -27,6 +29,7 @@ public class BgCnt {
   public ColoursPalettes coloursPalettes = ColoursPalettes._16_16;
   /** Map address */
   public int screenBaseBlock;
+  public boolean overflowWrap;
   public int screenSizeX;
   public int screenSizeY;
   public int screenSize;
@@ -58,6 +61,7 @@ public class BgCnt {
       (this.mosaic ? MOSAIC_MASK : 0) |
       this.coloursPalettes.ordinal() << PALETTES_SHIFT & PALETTES_MASK |
       this.screenBaseBlock / 0x800 << SCREEN_BASE_BLOCK_SHIFT & SCREEN_BASE_BLOCK_MASK |
+      (this.overflowWrap ? DISPLAY_AREA_OVERFLOW_MASK : 0) |
       this.screenSize << SCREEN_SIZE_SHIFT & SCREEN_SIZE_MASK
     ;
   }
@@ -68,6 +72,7 @@ public class BgCnt {
     this.mosaic = (val & MOSAIC_MASK) != 0;
     this.coloursPalettes = ColoursPalettes.values()[(val & PALETTES_MASK) >>> PALETTES_SHIFT];
     this.screenBaseBlock = ((val & SCREEN_BASE_BLOCK_MASK) >>> SCREEN_BASE_BLOCK_SHIFT) * 0x800;
+    this.overflowWrap = (val & DISPLAY_AREA_OVERFLOW_MASK) != 0;
     this.screenSizeX = (((val & SCREEN_SIZE_X_MASK) >>> SCREEN_SIZE_X_SHIFT) + 1) * 256;
     this.screenSizeY = (((val & SCREEN_SIZE_Y_MASK) >>> SCREEN_SIZE_Y_SHIFT) + 1) * 256;
     this.screenSize = (val & SCREEN_SIZE_MASK) >>> SCREEN_SIZE_SHIFT;

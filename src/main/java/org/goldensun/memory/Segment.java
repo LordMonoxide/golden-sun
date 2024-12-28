@@ -67,8 +67,6 @@ public abstract class Segment {
     for(int i = 0; i < (length & 0x3); i++) {
       this.set(addr + i, 1, fill);
     }
-
-    throw new UnsupportedOperationException("This memory segment does not support memcpy (address: " + Integer.toHexString(this.getAddress() + addr) + ')');
   }
 
   protected void setFunction(final int offset, final Method function, @Nullable final Object instance, final boolean ignoreExtraParams) {

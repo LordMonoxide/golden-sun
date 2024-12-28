@@ -28,7 +28,6 @@ import org.goldensun.types.Vec3;
 
 import static org.goldensun.GoldenSun.FUN_8003fa4;
 import static org.goldensun.GoldenSun.FUN_8004760;
-import static org.goldensun.GoldenSun.FUN_8009048;
 import static org.goldensun.GoldenSun.FUN_8009088;
 import static org.goldensun.GoldenSun.FUN_8009098;
 import static org.goldensun.GoldenSun.FUN_80090a0;
@@ -47,6 +46,7 @@ import static org.goldensun.GoldenSun.FUN_8009230;
 import static org.goldensun.GoldenSun.FUN_8009238;
 import static org.goldensun.GoldenSun.FUN_8009268;
 import static org.goldensun.GoldenSun.addLayerToSpriteIfRegularSprite_;
+import static org.goldensun.GoldenSun.addLayerToSprite_;
 import static org.goldensun.GoldenSun.atan2;
 import static org.goldensun.GoldenSun.clearActor_;
 import static org.goldensun.GoldenSun.clearTickCallback;
@@ -133,26 +133,26 @@ import static org.goldensun.GoldenSun_801.FUN_8015120;
 import static org.goldensun.GoldenSun_801.FUN_8015128;
 import static org.goldensun.GoldenSun_801.FUN_8015138;
 import static org.goldensun.GoldenSun_801.FUN_8015140;
-import static org.goldensun.GoldenSun_801.FUN_8015250;
-import static org.goldensun.GoldenSun_801.handleIngameMenus_;
 import static org.goldensun.GoldenSun_801.FUN_8015200;
 import static org.goldensun.GoldenSun_801.FUN_8015208;
+import static org.goldensun.GoldenSun_801.FUN_8015250;
 import static org.goldensun.GoldenSun_801.FUN_8015268;
 import static org.goldensun.GoldenSun_801.FUN_8015288;
 import static org.goldensun.GoldenSun_801.FUN_8015290;
 import static org.goldensun.GoldenSun_801.FUN_8015360;
 import static org.goldensun.GoldenSun_801.FUN_8015370;
-import static org.goldensun.GoldenSun_807.giveItem_;
+import static org.goldensun.GoldenSun_801.handleIngameMenus_;
 import static org.goldensun.GoldenSun_807.FUN_8077098;
-import static org.goldensun.GoldenSun_807.addHp_;
 import static org.goldensun.GoldenSun_807.FUN_8077230;
 import static org.goldensun.GoldenSun_807.FUN_80772c8;
 import static org.goldensun.GoldenSun_807.FUN_80772f0;
+import static org.goldensun.GoldenSun_807.addHp_;
 import static org.goldensun.GoldenSun_807.addPp_;
 import static org.goldensun.GoldenSun_807.clearFlag_;
 import static org.goldensun.GoldenSun_807.getAbility_;
 import static org.goldensun.GoldenSun_807.getCharCount_;
 import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
+import static org.goldensun.GoldenSun_807.giveItem_;
 import static org.goldensun.GoldenSun_807.readFlag_;
 import static org.goldensun.GoldenSun_807.setFlag_;
 import static org.goldensun.GoldenSun_809.FUN_80901c0;
@@ -164,44 +164,44 @@ import static org.goldensun.GoldenSun_809.FUN_8091240;
 import static org.goldensun.GoldenSun_809.FUN_8091254;
 import static org.goldensun.GoldenSun_809.FUN_80915dc;
 import static org.goldensun.GoldenSun_809.FUN_809163c;
-import static org.goldensun.GoldenSun_809.FUN_8091d84;
-import static org.goldensun.GoldenSun_809.FUN_8092708;
-import static org.goldensun.GoldenSun_809.FUN_8092848;
-import static org.goldensun.GoldenSun_809.FUN_8093c00;
-import static org.goldensun.GoldenSun_809.FUN_8093e28;
-import static org.goldensun.GoldenSun_809.FUN_8093fa0;
-import static org.goldensun.GoldenSun_809.FUN_8096810;
-import static org.goldensun.GoldenSun_809.FUN_8096960;
-import static org.goldensun.GoldenSun_809.FUN_8096ab0;
-import static org.goldensun.GoldenSun_809.FUN_8096c80;
-import static org.goldensun.GoldenSun_809.FUN_809728c;
-import static org.goldensun.GoldenSun_809.FUN_809ade8;
-import static org.goldensun.GoldenSun_809.stopPlayerAndSetIdle;
 import static org.goldensun.GoldenSun_809.FUN_80916b0;
 import static org.goldensun.GoldenSun_809.FUN_8091750;
 import static org.goldensun.GoldenSun_809.FUN_8091858;
 import static org.goldensun.GoldenSun_809.FUN_80919d8;
 import static org.goldensun.GoldenSun_809.FUN_8091a58;
+import static org.goldensun.GoldenSun_809.FUN_8091d84;
 import static org.goldensun.GoldenSun_809.FUN_809202c;
+import static org.goldensun.GoldenSun_809.FUN_8092708;
+import static org.goldensun.GoldenSun_809.FUN_8092848;
 import static org.goldensun.GoldenSun_809.FUN_8092b94;
 import static org.goldensun.GoldenSun_809.FUN_8092f84;
 import static org.goldensun.GoldenSun_809.FUN_8093874;
 import static org.goldensun.GoldenSun_809.FUN_8093a6c;
+import static org.goldensun.GoldenSun_809.FUN_8093c00;
+import static org.goldensun.GoldenSun_809.FUN_8093e28;
+import static org.goldensun.GoldenSun_809.FUN_8093fa0;
 import static org.goldensun.GoldenSun_809.FUN_80941e0;
 import static org.goldensun.GoldenSun_809.FUN_8094354;
 import static org.goldensun.GoldenSun_809.FUN_8094368;
 import static org.goldensun.GoldenSun_809.FUN_8094428;
 import static org.goldensun.GoldenSun_809.FUN_8095680;
 import static org.goldensun.GoldenSun_809.FUN_8095778;
+import static org.goldensun.GoldenSun_809.FUN_8096810;
+import static org.goldensun.GoldenSun_809.FUN_8096960;
+import static org.goldensun.GoldenSun_809.FUN_8096ab0;
 import static org.goldensun.GoldenSun_809.FUN_8096af0;
 import static org.goldensun.GoldenSun_809.FUN_8096b28;
+import static org.goldensun.GoldenSun_809.FUN_8096c80;
 import static org.goldensun.GoldenSun_809.FUN_8096fb0;
 import static org.goldensun.GoldenSun_809.FUN_80970f8;
 import static org.goldensun.GoldenSun_809.FUN_8097174;
 import static org.goldensun.GoldenSun_809.FUN_8097194;
+import static org.goldensun.GoldenSun_809.FUN_809728c;
 import static org.goldensun.GoldenSun_809.FUN_8099810;
+import static org.goldensun.GoldenSun_809.FUN_809ade8;
 import static org.goldensun.GoldenSun_809.FUN_809c138;
 import static org.goldensun.GoldenSun_809.FUN_809c3a4;
+import static org.goldensun.GoldenSun_809.stopPlayerAndSetIdle;
 import static org.goldensun.GoldenSun_80b.FUN_80b50a0;
 import static org.goldensun.GoldenSun_80b.FUN_80b50f8;
 import static org.goldensun.GoldenSun_80f.FUN_80f4000;
@@ -719,6 +719,12 @@ public final class GoldenSun_808 {
     return (int)MEMORY.call(0x808e990, r0);
   }
 
+  /** {@link GoldenSun_808#FUN_808b248} */
+  @Method(0x808a4a0)
+  public static int FUN_808a4a0() {
+    return (int)MEMORY.call(0x808b248);
+  }
+
   /** {@link GoldenSun_808#FUN_808acc4} */
   @Method(0x808a4f0)
   public static void FUN_808a4f0() {
@@ -869,7 +875,6 @@ public final class GoldenSun_808 {
 
   @Method(0x808a8e4)
   public static void FUN_808a8e4(int r0) {
-    int r3;
     int r5;
     int r6;
 
@@ -882,10 +887,9 @@ public final class GoldenSun_808 {
     CPU.push(CPU.r9().value);
     CPU.push(0);
 
-    r3 = debug_3001f54.get();
     CPU.r11().value = 0x809f1a8; //TODO
 
-    if(r3 == 0) {
+    if(debug_3001f54.get() == 0) {
       FUN_8077098();
       mapId_2000400.set(0);
       entranceId_2000402.set(2);
@@ -928,12 +932,13 @@ public final class GoldenSun_808 {
       initMemoryAllocator();
       FUN_8004760();
       initVramSlots();
-      r3 = mapId_2000400.get();
-      if(r3 > 0x1fa) {
-        if(r3 == 0x1fb) {
+
+      final int mapId = mapId_2000400.get();
+      if(mapId > 0x1fa) {
+        if(mapId == 0x1fb) {
           //LAB_808aa9e
           r6 = 0;
-        } else if(r3 == 0x1fc) {
+        } else if(mapId == 0x1fc) {
           //LAB_808aa6e
           r5 = mallocChip(0x40);
           DMA.channels[3].SAD.setu(CPU.r9().value);
@@ -944,7 +949,7 @@ public final class GoldenSun_808 {
           DMA.channels[3].DAD.setu(CPU.r9().value);
           DMA.channels[3].CNT.setu(0x84000010);
           setMallocAddress(r5);
-        } else if(r3 == 0x1fd) {
+        } else if(mapId == 0x1fd) {
           //LAB_808aa52
           r5 = mallocChip(0x40);
           DMA.channels[3].SAD.setu(CPU.r9().value);
@@ -955,8 +960,8 @@ public final class GoldenSun_808 {
           DMA.channels[3].DAD.setu(CPU.r9().value);
           DMA.channels[3].CNT.setu(0x84000010);
           setMallocAddress(r5);
-        } else if(r3 == 0x1fe) {
-          r6 = FUN_80b50a0(r6);
+        } else if(mapId == 0x1fe) {
+          r6 = FUN_80b50a0(r6); // Starting battle?
         }
 
         //LAB_808aaa0
@@ -1549,6 +1554,11 @@ public final class GoldenSun_808 {
     //LAB_808b238
   }
 
+  @Method(0x808b248)
+  public static int FUN_808b248() {
+    return _2000416.get();
+  }
+
   @Method(0x808b25c)
   public static void FUN_808b25c() {
     int r1 = 0; // r1 undefined when if statement conditions are false
@@ -1856,9 +1866,9 @@ public final class GoldenSun_808 {
     FUN_80090e0(r6, actor);
 
     if(r8._19e.get() == 3) {
-      final int r0_0 = FUN_8009048(actor.sprite_50.deref(), 0x17);
-      MEMORY.ref(1, r0_0 + 0x5).setu(0xf);
-      MEMORY.ref(1, r0_0 + 0x6).setu(0x9);
+      final SpriteLayer18 r0_0 = addLayerToSprite_(actor.sprite_50.deref(), 0x17);
+      r0_0._05.set(0xf);
+      r0_0._06.set(0x9);
     }
 
     //LAB_808b7fc
