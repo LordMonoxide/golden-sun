@@ -26,7 +26,10 @@ import static org.goldensun.GoldenSun.FUN_80049ac;
 import static org.goldensun.GoldenSun.FUN_8004bd4;
 import static org.goldensun.GoldenSun.FUN_8004c1c;
 import static org.goldensun.GoldenSun.FUN_8004cb4;
+import static org.goldensun.GoldenSun.FUN_80051d8;
+import static org.goldensun.GoldenSun.FUN_80051e8;
 import static org.goldensun.GoldenSun.FUN_8005258;
+import static org.goldensun.GoldenSun.FUN_8005268;
 import static org.goldensun.GoldenSun.FUN_8009050;
 import static org.goldensun.GoldenSun.FUN_8009070;
 import static org.goldensun.GoldenSun.FUN_8009088;
@@ -3795,6 +3798,49 @@ public final class GoldenSun_80b {
     FUN_8004c1c(MEMORY.ref(2, r5 + 0x36).get());
     FUN_8004bd4(MEMORY.ref(2, r5 + 0x34).get());
     MEMORY.call(0x3000250, new Vec3().set(0, 0, MEMORY.ref(4, r5 + 0x20).get()), r5);
+  }
+
+  /** {@link GoldenSun_80b#FUN_80b84c0} */
+  @Method(0x80b50b8)
+  public static void FUN_80b50b8(final int charId, final int r1) {
+    MEMORY.call(0x80b84c0, charId, r1);
+  }
+
+  @Method(0x80b7ed8)
+  public static void FUN_80b7ed8() {
+    final int r5 = boardWramMallocHead_3001e50.offset(12 * 0x4).get();
+
+    FUN_80049ac();
+
+    if(readFlag_(0x16b) != 0) {
+      MEMORY.call(0x30002c0, 0x80c2a7c);
+      FUN_80051e8(r5, r5 + 0xc);
+    } else {
+      //LAB_80b7f00
+      FUN_80051d8(r5, r5 + 0xc);
+    }
+  }
+
+  @Method(0x80b84c0)
+  public static int FUN_80b84c0(final int charId, int r1) {
+    final int r7 = r1;
+    final int r5 = MEMORY.ref(4, FUN_80b7dd0(charId)).get();
+    int r6 = FUN_80b7f70(r5, 0);
+
+    FUN_80b7ed8();
+
+    r6 = (int)MEMORY.call(0x3000118, FUN_8005268(MEMORY.ref(4, r5 + 0x8, Vec3::new), r7), MEMORY.ref(4, r6 + 0x18).get());
+
+    if(FUN_80c23c0(getCharOrMonsterData_(charId)._128.get()) != 0) {
+      r1 = 0x18;
+    } else {
+      //LAB_80b850e
+      r1 = 0x30;
+    }
+
+    //LAB_80b8512
+    MEMORY.ref(4, r7 + 0x4).addu((int)MEMORY.call(0x3000118, r6, r1));
+    return 0;
   }
 
   @Method(0x80b8574)

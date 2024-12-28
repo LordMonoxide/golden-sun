@@ -2531,6 +2531,11 @@ public final class GoldenSun_801 {
     return r5;
   }
 
+  @Method(0x801671c)
+  public static void FUN_801671c() {
+    MEMORY.call(0x3000168, 0x6002500, 0xf00, 0); // memfill32
+  }
+
   @Method(0x8016738)
   public static void FUN_8016738() {
     MEMORY.call(0x3000168, 0x6002500, 0xf00, 0x44444444); // memfill32
@@ -3708,6 +3713,31 @@ public final class GoldenSun_801 {
 
     CPU.sp().value += 0x184;
     return r8;
+  }
+
+  /** Text width? */
+  @Method(0x8017a64)
+  public static int FUN_8017a64(final ArrayRef<UnsignedShortRef> str) {
+    int chr;
+    int r1 = 0;
+
+    //LAB_8017a72
+    for(int i = 0; (chr = str.get(i).get()) != 0; i++) {
+      if(chr == 32) {
+        r1 += 0x4;
+        //LAB_8017a7a
+      } else if(chr < 0 || chr >= 0x100) {
+        //LAB_8017a90
+        r1 += 0xa;
+      } else if(chr < 0xde || chr > 0xdf) {
+        r1 += MEMORY.ref(2, 0x8032224 + (chr - 32) * 0x20).getUnsigned();
+      }
+
+      //LAB_8017a92
+    }
+
+    //LAB_8017a9a
+    return r1;
   }
 
   @Method(0x8017aa4)
