@@ -1469,6 +1469,12 @@ public final class GoldenSun_801 {
     MEMORY.call(0x8019a54);
   }
 
+  /** {@link GoldenSun_802#FUN_8027114} */
+  @Method(0x80151c0)
+  public static int FUN_80151c0(final int r0, final int r1, final int r2) {
+    return (int)MEMORY.call(0x8027114, r0, r1, r2);
+  }
+
   /** {@link GoldenSun_801#FUN_80175a0} */
   @Method(0x80151c8)
   public static void FUN_80151c8(final int r0) {
@@ -3372,6 +3378,16 @@ public final class GoldenSun_801 {
     MEMORY.ref(2, r5 + 0xeae).setu(15);
     MEMORY.ref(2, r5 + 0x12b2).setu(0);
     setTickCallback(getRunnable(GoldenSun_801.class, "FUN_801789c"), 0xc80);
+  }
+
+  @Method(0x80174d8)
+  public static void FUN_80174d8() {
+    final int r5 = boardWramMallocHead_3001e50.offset(37 * 0x4).get();
+    final Panel24 r0 = MEMORY.ref(4, r5).deref(4).cast(Panel24::new);
+    if(r0 != null) {
+      FUN_8016418(r0, 1);
+      MEMORY.ref(4, r5).setu(0);
+    }
   }
 
   @Method(0x80174f8)

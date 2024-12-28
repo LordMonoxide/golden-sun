@@ -1731,12 +1731,12 @@ public final class GoldenSun {
 
   @Method(0x800488c)
   public static int FUN_800488c() {
-    throw new RuntimeException("Not implemented");
+    return 0x3007800 - chipWramMallocHead_3001e54.get();
   }
 
   @Method(0x80048a0)
   public static int FUN_80048a0() {
-    throw new RuntimeException("Not implemented");
+    return 0x2040000 - boardWramMallocHead_3001e50.get();
   }
 
   /** Prefers chip WRAM but will overflow into board WRAM */
@@ -3042,6 +3042,12 @@ public final class GoldenSun {
   @Method(0x8009048)
   public static SpriteLayer18 addLayerToSprite_(final Sprite38 sprite, final int spriteDataIndex) {
     return (SpriteLayer18)MEMORY.call(0x800b8ac, sprite, spriteDataIndex);
+  }
+
+  /** {@link GoldenSun#FUN_800b93c} */
+  @Method(0x8009050)
+  public static void FUN_8009050(final Sprite38 r0, final int r1) {
+    MEMORY.call(0x800b93c, r0, r1);
   }
 
   /** {@link GoldenSun#FUN_800b9f4} */

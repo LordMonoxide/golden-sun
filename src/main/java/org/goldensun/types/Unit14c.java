@@ -60,7 +60,7 @@ public class Unit14c implements MemoryRef {
   public final UnsignedByteRef _128;
   public final UnsignedByteRef class_129;
   public final UnsignedByteRef _12a;
-
+  public final UnsignedByteRef _12b;
   public final ArrayRef<ByteRef> summonBoosts_12c;
   public final ByteRef curse_130;
   /** 1 for poison, 2 for venom; every increase adds 10% damage in battle */
@@ -131,7 +131,7 @@ public class Unit14c implements MemoryRef {
     this._128 = ref.offset(1, 0x128).cast(UnsignedByteRef::new);
     this.class_129 = ref.offset(1, 0x129).cast(UnsignedByteRef::new);
     this._12a = ref.offset(1, 0x12a).cast(UnsignedByteRef::new);
-
+    this._12b = ref.offset(1, 0x12b).cast(UnsignedByteRef::new);
     this.summonBoosts_12c = ref.offset(1, 0x12c).cast(ArrayRef.of(ByteRef.class, 4, 0x1, ByteRef::new));
     this.curse_130 = ref.offset(1, 0x130).cast(ByteRef::new);
     this.affliction_131 = ref.offset(1, 0x131).cast(ByteRef::new);

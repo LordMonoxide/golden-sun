@@ -767,10 +767,9 @@ public final class GoldenSun_80c {
     r3 = MEMORY.ref(4, r3).get();
     CPU.r11().value = r0;
     MEMORY.ref(4, CPU.sp().value).setu(r2);
-    r0 = MEMORY.ref(4, CPU.sp().value + 0x30).get();
     r2 = 0x80;
     r2 = r2 << 9;
-    if(r0 >= r2) {
+    if(a4 >= r2) {
       r0 = 0x80;
       r0 = r0 << 6;
       MEMORY.ref(4, CPU.sp().value).setu(r0);
@@ -813,10 +812,9 @@ public final class GoldenSun_80c {
         r3 = r3 << 6;
         r1 = 0x80;
         r3 = r3 + CPU.r9().value;
-        r0 = MEMORY.ref(4, CPU.sp().value + 0x30).get();
         r1 = r1 << 9;
         r7 = r3;
-        r0 = (int)MEMORY.call(0x300013c, r0, r1);
+        r0 = (int)MEMORY.call(0x300013c, a4, r1);
         r6 = CPU.r9().value;
         r6 = r6 + 0x10;
         r5 = r0 >> 8;
@@ -826,9 +824,8 @@ public final class GoldenSun_80c {
         MEMORY.ref(2, r6 + 0x4).setu(r3);
         MEMORY.ref(2, r6 + 0x6).setu(r5);
         CPU.lr().value = r0;
-        r3 = MEMORY.ref(4, CPU.sp().value + 0x30).get();
         r0 = 0xffff0000;
-        r3 = r3 + r0;
+        r3 = a4 + r0;
         CPU.r8().value = r3;
         r7 = r7 + 0x20;
         r0 = CPU.r10().value;
@@ -1053,9 +1050,165 @@ public final class GoldenSun_80c {
     //FUN_80c100c
   }
 
+  @Method(0x80c1054)
+  public static void FUN_80c1054() {
+    CPU.sp().value -= 0x1c;
+    int r5 = CPU.sp().value;
+    final int r0 = FUN_80b6c08(3, r5);
+    if(r0 > 0) {
+      final int r7 = r5;
+      int r6 = 0x0;
+      r5 = r0;
+
+      //LAB_80c106c
+      do {
+        FUN_80c0f98(MEMORY.ref(2, r6 + r7).get(), 0);
+        r6 = r6 + 0x2;
+        r5 = r5 - 0x1;
+      } while(r5 != 0);
+    }
+
+    //LAB_80c107c
+    CPU.sp().value += 0x1c;
+  }
+
+  @Method(0x80c1084)
+  public static void FUN_80c1084() {
+    int r0;
+    int r1;
+    int r2;
+    int r3;
+
+    r3 = 0x3001e74;
+    r0 = MEMORY.ref(4, r3).get();
+    if(r0 != 0) {
+      if(MEMORY.ref(2, r0 + 0x650).getUnsigned() != 0) {
+        GPU.BLDCNT.setu(0x3f90);
+        GPU.BLDALPHA.setu(0x10);
+        r0 = r0 + 0x64e;
+        r2 = 0x80c5c10;
+        r3 = MEMORY.ref(2, r0).getUnsigned();
+        r3 = MEMORY.ref(1, r2 + r3).get();
+        GPU.BLDY.setu(r3);
+        r2 = MEMORY.ref(2, r0).getUnsigned();
+        r1 = r2 + 0x1;
+        r1 = r1 & 0xf;
+        if((r2 & 0xffff_ffffL) > (0xe & 0xffff_ffffL)) {
+          r1 = r1 | 0x10;
+        }
+
+        //LAB_80c10c4
+        MEMORY.ref(2, r0).setu(r1);
+      }
+    }
+  }
+
   @Method(0x80c10e8)
-  public static void FUN_80c10e8(final int r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+  public static void FUN_80c10e8(int r0, int r1) {
+    int r2;
+    int r3;
+    int r5;
+    int r6;
+    int r7;
+
+    CPU.push(CPU.r11().value);
+    CPU.push(CPU.r10().value);
+    CPU.push(CPU.r9().value);
+    CPU.push(CPU.r8().value);
+    r3 = 0x3001e74;
+    CPU.sp().value -= 0x1c;
+    CPU.r8().value = r0;
+    CPU.r10().value = r1;
+    r5 = MEMORY.ref(4, r3).get();
+    if(r1 == 0) {
+      clearTickCallback(getRunnable(GoldenSun_80c.class, "FUN_80c1084"));
+      GPU.BLDY.setu(CPU.r10().value);
+      FUN_80c1054();
+      sleep(1);
+      r0 = 0x4000050;
+      r1 = 0x0;
+      FUN_800387c(r0, r1);
+    }
+
+    //LAB_80c1122
+    if(r5 != 0) {
+      r2 = CPU.r10().value;
+      if(r2 != 0) {
+        MEMORY.ref(2, r5 + 0x650).setu(CPU.r10().value);
+        MEMORY.ref(2, r5 + 0x64e).setu(0);
+        GPU.BLDY.setu(0);
+        GPU.BLDALPHA.setu(0x10);
+        r5 = CPU.sp().value;
+        r1 = r5;
+        r0 = 0x3;
+        r0 = FUN_80b6c08(r0, r1);
+        r6 = 0x0;
+        r7 = r0;
+        if((r6 & 0xffff_ffffL) < (r7 & 0xffff_ffffL)) {
+          r2 = 0x1;
+          CPU.r11().value = r5;
+          CPU.r9().value = r2;
+          r5 = 0x0;
+
+          //LAB_80c1162
+          do {
+            r3 = CPU.r11().value;
+            r0 = MEMORY.ref(2, r5 + r3).get();
+            r2 = CPU.r9().value;
+            r1 = CPU.r10().value;
+            r1 = r1 & r2;
+            r6 = r6 + 0x1;
+            FUN_80c0f98(r0, r1);
+            r5 = r5 + 0x2;
+          } while((r6 & 0xffff_ffffL) < (r7 & 0xffff_ffffL));
+        }
+
+        //LAB_80c1178
+        r3 = CPU.r8().value;
+        if(r3 != 0) {
+          r0 = MEMORY.ref(2, r3).getUnsigned();
+          r1 = 0x2;
+          r6 = 0x0;
+          CPU.r8().value = CPU.r8().value + r1;
+          if(r0 != 0xff) {
+            r7 = 0x1;
+            r5 = r7;
+            r2 = CPU.r10().value;
+            r5 = r5 & r2;
+
+            //LAB_80c1192
+            do {
+              r1 = r5;
+              r1 = r1 ^ r7;
+              r6 = r6 + 0x1;
+              FUN_80c0f98(r0, r1);
+              if((r6 & 0xffff_ffffL) > (0xd & 0xffff_ffffL)) {
+                break;
+              }
+              r3 = CPU.r8().value;
+              r0 = MEMORY.ref(2, r3).getUnsigned();
+              r1 = 0x2;
+              CPU.r8().value = CPU.r8().value + r1;
+            } while(r0 != 0xff);
+          }
+        }
+
+        //LAB_80c11ac
+        r0 = 0x1;
+        sleep(r0);
+        r0 = 0x4000050;
+        r1 = 0x0;
+        FUN_800387c(r0, r1);
+        setTickCallback(getRunnable(GoldenSun_80c.class, "FUN_80c1084"), 0x480);
+      }
+    }
+
+    //LAB_80c11c4
+    CPU.sp().value += 0x1c;
+    CPU.r8().value = CPU.pop();
+    CPU.r9().value = CPU.pop();
+    CPU.r10().value = CPU.pop();
+    CPU.r11().value = CPU.pop();
   }
 
   @Method(0x80c1724)
