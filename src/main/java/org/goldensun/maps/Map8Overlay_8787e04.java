@@ -13,6 +13,7 @@ import org.goldensun.types.Map194;
 import org.goldensun.types.Panel24;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.Structccc;
+import org.goldensun.weather.LightningStruct1f88;
 
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.entranceId_2000402;
@@ -342,7 +343,7 @@ public final class Map8Overlay_8787e04 {
 
         if(readFlag(0x834) != 0) {
           FUN_808a2c8();
-          boardWramMallocHead_3001e50.offset(30 * 0x4).deref(4).offset(2, 0x1f84).setu(1);
+          boardWramMallocHead_3001e50.offset(30 * 0x4).deref(4).cast(LightningStruct1f88::new).quiet_1f84.set(true);
           FUN_808a2d8();
           sleep(30);
           FUN_808a360();
@@ -400,7 +401,7 @@ public final class Map8Overlay_8787e04 {
     r1._1c0.set(0x209);
     r1._1c8.set(64);
     FUN_808a2c8();
-    boardWramMallocHead_3001e50.offset(30 * 0x4).deref(4).offset(2, 0x1f84).setu(1);
+    boardWramMallocHead_3001e50.offset(30 * 0x4).deref(4).cast(LightningStruct1f88::new).quiet_1f84.set(true);
     FUN_808a2d8();
     sleep(30);
     FUN_808a360();
@@ -523,7 +524,7 @@ public final class Map8Overlay_8787e04 {
     GPU.BLDCNT.setu(0x3f42);
     GPU.BLDALPHA.setu(0x100c);
     FUN_808a2c8();
-    boardWramMallocHead_3001e50.offset(30 * 0x4).deref(4).offset(2, 0x1f84).setu(1);
+    boardWramMallocHead_3001e50.offset(30 * 0x4).deref(4).cast(LightningStruct1f88::new).quiet_1f84.set(true);
     FUN_808a2d8();
     sleep(30);
     FUN_808a200(8, 1);

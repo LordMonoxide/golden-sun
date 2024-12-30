@@ -72,8 +72,10 @@ public class Structccc implements MemoryRef {
 
   public final Pointer<Panel24> panel_230;
 
+  /** Related to psynergy flashes */
   public final Value _236;
 
+  /** Related to psynergy flashes */
   public final Value _776;
 
   public final ShortRef _cb6;

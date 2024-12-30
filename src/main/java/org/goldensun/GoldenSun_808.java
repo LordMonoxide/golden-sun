@@ -16,7 +16,7 @@ import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.types.Actor70;
 import org.goldensun.types.EventStruct0c;
-import org.goldensun.types.GraphicsStruct0c;
+import org.goldensun.types.VblankTransfer0c;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Panel24;
 import org.goldensun.types.Sprite38;
@@ -109,7 +109,7 @@ import static org.goldensun.GoldenSunVars._2000480;
 import static org.goldensun.GoldenSunVars._2000482;
 import static org.goldensun.GoldenSunVars._200048a;
 import static org.goldensun.GoldenSunVars._200048c;
-import static org.goldensun.GoldenSunVars._2002090;
+import static org.goldensun.GoldenSunVars.vblankTransferQueue_2002090;
 import static org.goldensun.GoldenSunVars._3001810;
 import static org.goldensun.GoldenSunVars._3001e40;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
@@ -157,11 +157,11 @@ import static org.goldensun.GoldenSun_807.readFlag_;
 import static org.goldensun.GoldenSun_807.setFlag_;
 import static org.goldensun.GoldenSun_809.FUN_80901c0;
 import static org.goldensun.GoldenSun_809.FUN_80907b0;
-import static org.goldensun.GoldenSun_809.FUN_8091174;
+import static org.goldensun.GoldenSun_809.allocatePaletteModifier;
 import static org.goldensun.GoldenSun_809.FUN_8091200;
 import static org.goldensun.GoldenSun_809.FUN_8091220;
 import static org.goldensun.GoldenSun_809.FUN_8091240;
-import static org.goldensun.GoldenSun_809.FUN_8091254;
+import static org.goldensun.GoldenSun_809.calculatePaletteModificationSteps;
 import static org.goldensun.GoldenSun_809.FUN_80915dc;
 import static org.goldensun.GoldenSun_809.FUN_809163c;
 import static org.goldensun.GoldenSun_809.FUN_80916b0;
@@ -587,13 +587,13 @@ public final class GoldenSun_808 {
     return (int)MEMORY.call(0x8093fa0);
   }
 
-  /** {@link GoldenSun_809#FUN_8094ac8} */
+  /** {@link GoldenSun_809#allocateRain} */
   @Method(0x808a2c0)
   public static void FUN_808a2c0() {
     MEMORY.call(0x8094ac8);
   }
 
-  /** {@link GoldenSun_809#FUN_8095160} */
+  /** {@link GoldenSun_809#allocateLightning} */
   @Method(0x808a2c8)
   public static void FUN_808a2c8() {
     MEMORY.call(0x8095160);
@@ -629,7 +629,7 @@ public final class GoldenSun_808 {
     MEMORY.call(0x8091220, r0, r1);
   }
 
-  /** {@link GoldenSun_809#FUN_8091254} */
+  /** {@link GoldenSun_809#calculatePaletteModificationSteps} */
   @Method(0x808a348)
   public static void FUN_808a348(final int r0) {
     MEMORY.call(0x8091254, r0);
@@ -2472,7 +2472,7 @@ public final class GoldenSun_808 {
     //LAB_808c420
     if(r7 != 0) {
       FUN_8091220(0x1ff, 0);
-      FUN_8091254(4);
+      calculatePaletteModificationSteps(4);
       playSound_(0x85);
     }
 
@@ -2575,7 +2575,7 @@ public final class GoldenSun_808 {
 
     //LAB_808c618
     FUN_808e9c0();
-    FUN_8091174();
+    allocatePaletteModifier();
     FUN_8091200(0x10000, 0);
     r8._1c0.set(0x100);
     r8._1c8.set(0x10);
@@ -5365,12 +5365,12 @@ public final class GoldenSun_808 {
         final int oldInterrupts = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
         INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-        if(_2002090.count_00.get() < 0x20) {
-          final GraphicsStruct0c r2_0 = _2002090._04.get(_2002090.count_00.get());
-          r2_0._00.set(r7._14.get() | GPU.DISPCNT.getUnsigned());
-          r2_0._04.set(GPU.DISPCNT.getAddress());
-          r2_0._08.set(0x20000);
-          _2002090.count_00.incr();
+        if(vblankTransferQueue_2002090.count_00.get() < 0x20) {
+          final VblankTransfer0c r2_0 = vblankTransferQueue_2002090.queue_04.get(vblankTransferQueue_2002090.count_00.get());
+          r2_0.src_00.set(r7._14.get() | GPU.DISPCNT.getUnsigned());
+          r2_0.dst_04.set(GPU.DISPCNT.getAddress());
+          r2_0.cnt_08.set(0x20000);
+          vblankTransferQueue_2002090.count_00.incr();
         }
 
         //LAB_809019a
@@ -5380,18 +5380,18 @@ public final class GoldenSun_808 {
 
       case 1: {
         FUN_8091220(0x8000, MEMORY.ref(2, 0x5000000).getUnsigned());
-        FUN_8091254(r1);
+        calculatePaletteModificationSteps(r1);
         sleep(0x1);
 
         final int oldInterrupts = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
         INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-        if(_2002090.count_00.get() < 0x20) {
-          final GraphicsStruct0c r2_0 = _2002090._04.get(_2002090.count_00.get());
-          r2_0._00.set(r7._14.get() | GPU.DISPCNT.getUnsigned());
-          r2_0._04.set(GPU.DISPCNT.getAddress());
-          r2_0._08.set(0x20000);
-          _2002090.count_00.incr();
+        if(vblankTransferQueue_2002090.count_00.get() < 0x20) {
+          final VblankTransfer0c r2_0 = vblankTransferQueue_2002090.queue_04.get(vblankTransferQueue_2002090.count_00.get());
+          r2_0.src_00.set(r7._14.get() | GPU.DISPCNT.getUnsigned());
+          r2_0.dst_04.set(GPU.DISPCNT.getAddress());
+          r2_0.cnt_08.set(0x20000);
+          vblankTransferQueue_2002090.count_00.incr();
         }
 
         //LAB_808ff98
@@ -5413,12 +5413,12 @@ public final class GoldenSun_808 {
         final int oldInterrupts = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
         INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-        if(_2002090.count_00.get() < 0x20) {
-          final GraphicsStruct0c r2_0 = _2002090._04.get(_2002090.count_00.get());
-          r2_0._00.set(r7._14.get() | GPU.DISPCNT.getUnsigned());
-          r2_0._04.set(GPU.DISPCNT.getAddress());
-          r2_0._08.set(0x20000);
-          _2002090.count_00.incr();
+        if(vblankTransferQueue_2002090.count_00.get() < 0x20) {
+          final VblankTransfer0c r2_0 = vblankTransferQueue_2002090.queue_04.get(vblankTransferQueue_2002090.count_00.get());
+          r2_0.src_00.set(r7._14.get() | GPU.DISPCNT.getUnsigned());
+          r2_0.dst_04.set(GPU.DISPCNT.getAddress());
+          r2_0.cnt_08.set(0x20000);
+          vblankTransferQueue_2002090.count_00.incr();
         }
 
         //LAB_8090018
@@ -5442,12 +5442,12 @@ public final class GoldenSun_808 {
         final int oldInterrupts = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
         INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-        if(_2002090.count_00.get() < 0x20) {
-          final GraphicsStruct0c r2_0 = _2002090._04.get(_2002090.count_00.get());
-          r2_0._00.set(r7._14.get() | GPU.DISPCNT.getUnsigned());
-          r2_0._04.set(GPU.DISPCNT.getAddress());
-          r2_0._08.set(0x20000);
-          _2002090.count_00.incr();
+        if(vblankTransferQueue_2002090.count_00.get() < 0x20) {
+          final VblankTransfer0c r2_0 = vblankTransferQueue_2002090.queue_04.get(vblankTransferQueue_2002090.count_00.get());
+          r2_0.src_00.set(r7._14.get() | GPU.DISPCNT.getUnsigned());
+          r2_0.dst_04.set(GPU.DISPCNT.getAddress());
+          r2_0.cnt_08.set(0x20000);
+          vblankTransferQueue_2002090.count_00.incr();
         }
 
         //LAB_809009e
@@ -5480,12 +5480,12 @@ public final class GoldenSun_808 {
         final int oldInterrupts = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
         INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-        if(_2002090.count_00.get() < 0x20) {
-          final GraphicsStruct0c r2_0 = _2002090._04.get(_2002090.count_00.get());
-          r2_0._00.set(r7._14.get() | GPU.DISPCNT.getUnsigned());
-          r2_0._04.set(GPU.DISPCNT.getAddress());
-          r2_0._08.set(0x20000);
-          _2002090.count_00.incr();
+        if(vblankTransferQueue_2002090.count_00.get() < 0x20) {
+          final VblankTransfer0c r2_0 = vblankTransferQueue_2002090.queue_04.get(vblankTransferQueue_2002090.count_00.get());
+          r2_0.src_00.set(r7._14.get() | GPU.DISPCNT.getUnsigned());
+          r2_0.dst_04.set(GPU.DISPCNT.getAddress());
+          r2_0.cnt_08.set(0x20000);
+          vblankTransferQueue_2002090.count_00.incr();
         }
 
         //LAB_809019a

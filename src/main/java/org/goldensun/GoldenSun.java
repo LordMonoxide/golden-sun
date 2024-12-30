@@ -7,7 +7,7 @@ import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.types.Actor70;
-import org.goldensun.types.GraphicsStruct184;
+import org.goldensun.types.VblankTransferQueue184;
 import org.goldensun.types.Map194;
 import org.goldensun.types.ObjAttributes08;
 import org.goldensun.types.PointerTableType296;
@@ -38,7 +38,7 @@ import static org.goldensun.GoldenSunVars._2000458;
 import static org.goldensun.GoldenSunVars._200045a;
 import static org.goldensun.GoldenSunVars._2000460;
 import static org.goldensun.GoldenSunVars._2000462;
-import static org.goldensun.GoldenSunVars._2002090;
+import static org.goldensun.GoldenSunVars.vblankTransferQueue_2002090;
 import static org.goldensun.GoldenSunVars._2004c00;
 import static org.goldensun.GoldenSunVars._2004c08;
 import static org.goldensun.GoldenSunVars._2004c0c;
@@ -445,8 +445,8 @@ public final class GoldenSun {
 
     initMemoryAllocator();
     FUN_800300c();
-    _2002090.count_00.set(0);
-    _2002090._02.set(0);
+    vblankTransferQueue_2002090.count_00.set(0);
+    vblankTransferQueue_2002090._02.set(0);
     _3001ac4.setu(0);
     debug_3001f54.set(0);
     _3001f58.set(0);
@@ -853,7 +853,7 @@ public final class GoldenSun {
       DMA.channels[3].SAD.setu(0x3001ad0);
       DMA.channels[3].DAD.setu(GPU.BG0HOFS.getAddress());
       DMA.channels[3].CNT.setu(0x84000004);
-      FUN_8003a7c();
+      performVblankTransfers();
       _3001e44.set(0);
     }
 
@@ -913,12 +913,12 @@ public final class GoldenSun {
     final int r5 = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
     INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-    final GraphicsStruct184 r4 = _2002090;
+    final VblankTransferQueue184 r4 = vblankTransferQueue_2002090;
     final int r2 = r4.count_00.get();
     if(r2 < 0x20) {
-      r4._04.get(r2 * 0xc)._00.set(r1);
-      r4._04.get(r2 * 0xc)._04.set(r0);
-      r4._04.get(r2 * 0xc)._08.set(0x20000);
+      r4.queue_04.get(r2 * 0xc).src_00.set(r1);
+      r4.queue_04.get(r2 * 0xc).dst_04.set(r0);
+      r4.queue_04.get(r2 * 0xc).cnt_08.set(0x20000);
       r4.count_00.incr();
     }
 
@@ -931,12 +931,12 @@ public final class GoldenSun {
     final int oldIme = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
     INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-    final int r2 = _2002090.count_00.get();
+    final int r2 = vblankTransferQueue_2002090.count_00.get();
     if(r2 < 32) {
-      _2002090._04.get(r2)._00.set(r1);
-      _2002090._04.get(r2)._04.set(r0);
-      _2002090._04.get(r2)._08.set(0x60000);
-      _2002090.count_00.incr();
+      vblankTransferQueue_2002090.queue_04.get(r2).src_00.set(r1);
+      vblankTransferQueue_2002090.queue_04.get(r2).dst_04.set(r0);
+      vblankTransferQueue_2002090.queue_04.get(r2).cnt_08.set(0x60000);
+      vblankTransferQueue_2002090.count_00.incr();
     }
 
     //LAB_800396a
@@ -948,12 +948,12 @@ public final class GoldenSun {
     final int oldIme = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
     INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-    final int r2 = _2002090.count_00.get();
+    final int r2 = vblankTransferQueue_2002090.count_00.get();
     if(r2 < 32) {
-      _2002090._04.get(r2)._00.set(r1);
-      _2002090._04.get(r2)._04.set(r0);
-      _2002090._04.get(r2)._08.set(0xa0000);
-      _2002090.count_00.incr();
+      vblankTransferQueue_2002090.queue_04.get(r2).src_00.set(r1);
+      vblankTransferQueue_2002090.queue_04.get(r2).dst_04.set(r0);
+      vblankTransferQueue_2002090.queue_04.get(r2).cnt_08.set(0xa0000);
+      vblankTransferQueue_2002090.count_00.incr();
     }
 
     //LAB_8003a2a
@@ -961,10 +961,10 @@ public final class GoldenSun {
   }
 
   @Method(0x8003a7c)
-  public static void FUN_8003a7c() {
+  public static void performVblankTransfers() {
     final int oldSp = CPU.sp().value;
 
-    final int count = _2002090.count_00.get();
+    final int count = vblankTransferQueue_2002090.count_00.get();
     if(count != 0) {
       final int size = 0x68;
       CPU.sp().value -= size;
@@ -974,10 +974,10 @@ public final class GoldenSun {
       DMA.channels[3].DAD.setu(CPU.sp().value);
       DMA.channels[3].CNT.setu(0x84000000 | size / 4);
 
-      MEMORY.setFunction(CPU.sp().value, StackFunction8002cf4.class, "FUN_8002cf4", GraphicsStruct184.class, int.class);
-      MEMORY.call(CPU.sp().value, _2002090, count);
+      MEMORY.setFunction(CPU.sp().value, StackFunction8002cf4.class, "performVblankTransfers_", VblankTransferQueue184.class, int.class);
+      MEMORY.call(CPU.sp().value, vblankTransferQueue_2002090, count);
 
-      _2002090.count_00.set(0);
+      vblankTransferQueue_2002090.count_00.set(0);
     }
 
     //LAB_8003abc

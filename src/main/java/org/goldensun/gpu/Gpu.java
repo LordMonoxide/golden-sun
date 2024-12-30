@@ -650,23 +650,23 @@ public class Gpu {
 
         if(data != 0) {
           if(xFlip) {
-            this.indices[0] = (int)(data >> 56 & 0xff);
-            this.indices[1] = (int)(data >> 48 & 0xff);
-            this.indices[2] = (int)(data >> 40 & 0xff);
-            this.indices[3] = (int)(data >> 32 & 0xff);
-            this.indices[4] = (int)(data >> 24 & 0xff);
-            this.indices[5] = (int)(data >> 16 & 0xff);
-            this.indices[6] = (int)(data >> 8 & 0xff);
+            this.indices[0] = (int)(data >>> 56 & 0xff);
+            this.indices[1] = (int)(data >>> 48 & 0xff);
+            this.indices[2] = (int)(data >>> 40 & 0xff);
+            this.indices[3] = (int)(data >>> 32 & 0xff);
+            this.indices[4] = (int)(data >>> 24 & 0xff);
+            this.indices[5] = (int)(data >>> 16 & 0xff);
+            this.indices[6] = (int)(data >>> 8 & 0xff);
             this.indices[7] = (int)(data & 0xff);
           } else {
             this.indices[0] = (int)(data & 0xff);
-            this.indices[1] = (int)(data >> 8 & 0xff);
-            this.indices[2] = (int)(data >> 16 & 0xff);
-            this.indices[3] = (int)(data >> 24 & 0xff);
-            this.indices[4] = (int)(data >> 32 & 0xff);
-            this.indices[5] = (int)(data >> 40 & 0xff);
-            this.indices[6] = (int)(data >> 48 & 0xff);
-            this.indices[7] = (int)(data >> 56 & 0xff);
+            this.indices[1] = (int)(data >>> 8 & 0xff);
+            this.indices[2] = (int)(data >>> 16 & 0xff);
+            this.indices[3] = (int)(data >>> 24 & 0xff);
+            this.indices[4] = (int)(data >>> 32 & 0xff);
+            this.indices[5] = (int)(data >>> 40 & 0xff);
+            this.indices[6] = (int)(data >>> 48 & 0xff);
+            this.indices[7] = (int)(data >>> 56 & 0xff);
           }
 
           this.setBgRow(lineIndex, 0, this.indices, meta, 0xff);
@@ -675,30 +675,30 @@ public class Gpu {
         pixelX += 8;
         lineIndex += 8;
       } else {
-        final int paletteRow = mapEntry >> 12 & 0xF;
+        final int paletteRow = mapEntry >>> 12 & 0xf;
         final int vramTileAddr = charBase + tileNumber * 32 + effectiveIntraTileY * 4;
 
         final int data = get(this.vram, vramTileAddr, 4);
 
         if(data != 0) {
           if(xFlip) {
-            this.indices[0] = data >> 28 & 0xf;
-            this.indices[1] = data >> 24 & 0xf;
-            this.indices[2] = data >> 20 & 0xf;
-            this.indices[3] = data >> 16 & 0xf;
-            this.indices[4] = data >> 12 & 0xf;
-            this.indices[5] = data >> 8 & 0xf;
-            this.indices[6] = data >> 4 & 0xf;
+            this.indices[0] = data >>> 28 & 0xf;
+            this.indices[1] = data >>> 24 & 0xf;
+            this.indices[2] = data >>> 20 & 0xf;
+            this.indices[3] = data >>> 16 & 0xf;
+            this.indices[4] = data >>> 12 & 0xf;
+            this.indices[5] = data >>> 8 & 0xf;
+            this.indices[6] = data >>> 4 & 0xf;
             this.indices[7] = data & 0xf;
           } else {
             this.indices[0] = data & 0xf;
-            this.indices[1] = data >> 4 & 0xf;
-            this.indices[2] = data >> 8 & 0xf;
-            this.indices[3] = data >> 12 & 0xf;
-            this.indices[4] = data >> 16 & 0xf;
-            this.indices[5] = data >> 20 & 0xf;
-            this.indices[6] = data >> 24 & 0xf;
-            this.indices[7] = data >> 28 & 0xf;
+            this.indices[1] = data >>> 4 & 0xf;
+            this.indices[2] = data >>> 8 & 0xf;
+            this.indices[3] = data >>> 12 & 0xf;
+            this.indices[4] = data >>> 16 & 0xf;
+            this.indices[5] = data >>> 20 & 0xf;
+            this.indices[6] = data >>> 24 & 0xf;
+            this.indices[7] = data >>> 28 & 0xf;
           }
 
           this.setBgRow(lineIndex, paletteRow, this.indices, meta, 0xf);
@@ -1002,8 +1002,8 @@ public class Gpu {
 
       final int hi = this.bgHi[i + 8];
       final int lo = this.bgLo[i + 8];
-      int hiColor = hi;
-      int loColor = lo;
+      int hiColor = hi & 0xffff;
+      int loColor = lo & 0xffff;
       int hiPixelFlag = hi >>> 16 & 0xff;
       int loPixelFlag = lo >>> 16 & 0xff;
       final int objPaletteIndex = objPixel.palette;
@@ -1052,20 +1052,20 @@ public class Gpu {
               final int g2 = loColor >>> 5 & 0x1f;
               final int b2 = loColor >>> 10 & 0x1f;
 
-              fr = Math.min(0x1ff, r1 * this.bldAlpha1 + r2 * this.bldAlpha2) >> 4 & 0x1f;
-              fg = Math.min(0x1ff, g1 * this.bldAlpha1 + g2 * this.bldAlpha2) >> 4 & 0x1f;
-              fb = Math.min(0x1ff, b1 * this.bldAlpha1 + b2 * this.bldAlpha2) >> 4 & 0x1f;
+              fr = Math.min(0x1ff, r1 * this.bldAlpha1 + r2 * this.bldAlpha2) >>> 4 & 0x1f;
+              fg = Math.min(0x1ff, g1 * this.bldAlpha1 + g2 * this.bldAlpha2) >>> 4 & 0x1f;
+              fb = Math.min(0x1ff, b1 * this.bldAlpha1 + b2 * this.bldAlpha2) >>> 4 & 0x1f;
             }
           }
           case ADDITIVE -> {
-            fr = r1 + ((31 - r1) * this.bldY >> 4) & 0x1f;
-            fg = g1 + ((31 - g1) * this.bldY >> 4) & 0x1f;
-            fb = b1 + ((31 - b1) * this.bldY >> 4) & 0x1f;
+            fr = r1 + ((31 - r1) * this.bldY >>> 4) & 0x1f;
+            fg = g1 + ((31 - g1) * this.bldY >>> 4) & 0x1f;
+            fb = b1 + ((31 - b1) * this.bldY >>> 4) & 0x1f;
           }
           case SUBTRACTIVE -> {
-            fr = r1 - (r1 * this.bldY >> 4) & 0x1f;
-            fg = g1 - (g1 * this.bldY >> 4) & 0x1f;
-            fb = b1 - (b1 * this.bldY >> 4) & 0x1f;
+            fr = r1 - (r1 * this.bldY >>> 4) & 0x1f;
+            fg = g1 - (g1 * this.bldY >>> 4) & 0x1f;
+            fb = b1 - (b1 * this.bldY >>> 4) & 0x1f;
           }
         }
 
@@ -1354,7 +1354,7 @@ public class Gpu {
     @Override
     public int get(final int offset, final int size) {
       if(size == 1) {
-        return Gpu.this.palette[offset];
+        return Gpu.this.palette[offset] & 0xff;
       }
 
       return MathHelper.get(Gpu.this.palette, offset, size);
@@ -1389,7 +1389,7 @@ public class Gpu {
     @Override
     public int get(final int offset, final int size) {
       if(size == 1) {
-        return Gpu.this.vram[offset];
+        return Gpu.this.vram[offset] & 0xff;
       }
 
       return MathHelper.get(Gpu.this.vram, offset, size);
@@ -1436,7 +1436,7 @@ public class Gpu {
     @Override
     public int get(final int offset, final int size) {
       if(size == 1) {
-        return this.oam[offset];
+        return this.oam[offset] & 0xff;
       }
 
       return MathHelper.get(this.oam, offset, size);

@@ -15,7 +15,7 @@ import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 import org.goldensun.types.ChoiceMenu98;
-import org.goldensun.types.GraphicsStruct184;
+import org.goldensun.types.VblankTransferQueue184;
 import org.goldensun.types.Item2c;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Menua70;
@@ -35,6 +35,8 @@ import org.goldensun.types.VramSlot04;
 import org.goldensun.types.Struct0c;
 import org.goldensun.types.Actor70;
 import org.goldensun.types.TickCallback08;
+import org.goldensun.weather.LightningStruct1f88;
+import org.goldensun.weather.PaletteStruct2a04;
 
 import static org.goldensun.Hardware.MEMORY;
 
@@ -113,7 +115,7 @@ public final class GoldenSunVars {
 
   public static final ShortRef lastSaveSlot_2002004 = MEMORY.ref(2, 0x2002004, ShortRef::new);
 
-  public static final GraphicsStruct184 _2002090 = MEMORY.ref(4, 0x2002090, GraphicsStruct184::new);
+  public static final VblankTransferQueue184 vblankTransferQueue_2002090 = MEMORY.ref(4, 0x2002090, VblankTransferQueue184::new);
 
   public static final SoundStructFb0 _2003050 = MEMORY.ref(4, 0x2003050, SoundStructFb0::new);
 
@@ -234,6 +236,8 @@ public final class GoldenSunVars {
    *   <li>8 - {@link Map194}</li>
    *   <li>15 - {@link Struct12fc}</li>
    *   <li>27 - {@link Structccc}</li>
+   *   <li>30 - {@link LightningStruct1f88}</li>
+   *   <li>32 - {@link PaletteStruct2a04}</li>
    *   <li>54 - Array of ?? {@link Unit14c}</li>
    *   <li>55 - {@link Menua70}</li>
    *   <li>58 - {@link ChoiceMenu98}</li>

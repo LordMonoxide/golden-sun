@@ -35,7 +35,7 @@ import static org.goldensun.GoldenSun.modU;
 import static org.goldensun.GoldenSun.setTickCallback;
 import static org.goldensun.GoldenSun.sleep;
 import static org.goldensun.GoldenSun.waitForFade;
-import static org.goldensun.GoldenSunVars._2002090;
+import static org.goldensun.GoldenSunVars.vblankTransferQueue_2002090;
 import static org.goldensun.GoldenSunVars._2003050;
 import static org.goldensun.GoldenSunVars._3001d18;
 import static org.goldensun.GoldenSunVars._3001d20;
@@ -480,12 +480,12 @@ public final class GoldenSun_80f {
     r4 = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
     INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-    final int r2 = _2002090.count_00.get();
+    final int r2 = vblankTransferQueue_2002090.count_00.get();
     if(r2 < 32) {
-      _2002090._04.get(r2)._00.set(0xf740);
-      _2002090._04.get(r2)._04.set(0x4000000);
-      _2002090._04.get(r2)._08.set(0x20000);
-      _2002090.count_00.incr();
+      vblankTransferQueue_2002090.queue_04.get(r2).src_00.set(0xf740);
+      vblankTransferQueue_2002090.queue_04.get(r2).dst_04.set(0x4000000);
+      vblankTransferQueue_2002090.queue_04.get(r2).cnt_08.set(0x20000);
+      vblankTransferQueue_2002090.count_00.incr();
     }
 
     //LAB_80f276e
@@ -957,21 +957,21 @@ public final class GoldenSun_80f {
       final int oldIme = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
       INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
-      r2 = _2002090.count_00.get();
+      r2 = vblankTransferQueue_2002090.count_00.get();
       if(r2 < 32) {
-        _2002090._04.get(r2)._00.set(r0 + 0x2800);
-        _2002090._04.get(r2)._04.set(0x5000000);
-        _2002090._04.get(r2)._08.set(0x84000080);
-        _2002090.count_00.incr();
+        vblankTransferQueue_2002090.queue_04.get(r2).src_00.set(r0 + 0x2800);
+        vblankTransferQueue_2002090.queue_04.get(r2).dst_04.set(0x5000000);
+        vblankTransferQueue_2002090.queue_04.get(r2).cnt_08.set(0x84000080);
+        vblankTransferQueue_2002090.count_00.incr();
       }
 
       //LAB_80f3032
-      r2 = _2002090.count_00.get();
+      r2 = vblankTransferQueue_2002090.count_00.get();
       if(r2 < 32) {
-        _2002090._04.get(r2)._00.set(r0 + 0x2a00);
-        _2002090._04.get(r2)._04.set(0x5000200);
-        _2002090._04.get(r2)._08.set(0x84000080);
-        _2002090.count_00.incr();
+        vblankTransferQueue_2002090.queue_04.get(r2).src_00.set(r0 + 0x2a00);
+        vblankTransferQueue_2002090.queue_04.get(r2).dst_04.set(0x5000200);
+        vblankTransferQueue_2002090.queue_04.get(r2).cnt_08.set(0x84000080);
+        vblankTransferQueue_2002090.count_00.incr();
       }
 
       //LAB_80f305e
@@ -1219,6 +1219,7 @@ public final class GoldenSun_80f {
     //LAB_80f3766
   }
 
+  /** Seems like this is only used during the title screen mountain/sun intro */
   @Method(0x80f377c)
   public static void FUN_80f377c() {
     final int r4 = mallocSlotBoard(32, 0x3004);

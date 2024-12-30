@@ -69,8 +69,17 @@ public class Memory {
     writeWatches.remove(address);
   }
 
-  public void dump(int address, final int size) {
+  public void dump(int address, int size) {
+    int skip = address & 0xf;
+    size += skip;
     address &= ~0xf;
+
+    System.out.println();
+    System.out.print("         ");
+    for(int i = 0; i < 16; i++) {
+      System.out.printf("%2x ", i);
+    }
+    System.out.println();
 
     for(int i = 0; i < size; i++) {
       if(i % 0x10 == 0) {
@@ -81,7 +90,12 @@ public class Memory {
         System.out.printf("%07x  ", address + i);
       }
 
-      System.out.printf("%02x ", this.get(address + i, 1) & 0xff);
+      if(skip > 0) {
+        System.out.print("   ");
+        skip--;
+      } else {
+        System.out.printf("%02x ", this.get(address + i, 1) & 0xff);
+      }
     }
 
     System.out.println();

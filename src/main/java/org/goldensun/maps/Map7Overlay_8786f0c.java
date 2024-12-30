@@ -12,6 +12,7 @@ import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.types.Actor70;
 import org.goldensun.types.Panel24;
 import org.goldensun.types.Structccc;
+import org.goldensun.weather.LightningStruct1f88;
 
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.entranceId_2000402;
@@ -281,7 +282,7 @@ public final class Map7Overlay_8786f0c {
       FUN_2009204(21, 0, 0);
       FUN_2009204(22, 0, 0);
       FUN_20092b4();
-      boardWramMallocHead_3001e50.offset(30 * 0x4).deref(4).offset(2, 0x1f84).setu(1);
+      boardWramMallocHead_3001e50.offset(30 * 0x4).deref(4).cast(LightningStruct1f88::new).quiet_1f84.set(true);
       FUN_20092c4();
       sleep(30);
       FUN_20092d4();

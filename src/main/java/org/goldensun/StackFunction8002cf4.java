@@ -1,7 +1,7 @@
 package org.goldensun;
 
-import org.goldensun.types.GraphicsStruct0c;
-import org.goldensun.types.GraphicsStruct184;
+import org.goldensun.types.VblankTransfer0c;
+import org.goldensun.types.VblankTransferQueue184;
 
 import static org.goldensun.Hardware.DMA;
 import static org.goldensun.Hardware.MEMORY;
@@ -9,13 +9,13 @@ import static org.goldensun.Hardware.MEMORY;
 public final class StackFunction8002cf4 {
   private StackFunction8002cf4() { }
 
-  public static void FUN_8002cf4(final GraphicsStruct184 r0, final int count) {
+  public static void performVblankTransfers_(final VblankTransferQueue184 r0, final int count) {
     //LAB_8002cfc
     for(int i = 0; i < count; i++) {
-      final GraphicsStruct0c r0_0 = r0._04.get(i);
-      int r2 = r0_0._00.get();
-      final int r3 = r0_0._04.get();
-      final int r4 = r0_0._08.get();
+      final VblankTransfer0c transfer = r0.queue_04.get(i);
+      int r2 = transfer.src_00.get();
+      final int r3 = transfer.dst_04.get();
+      final int r4 = transfer.cnt_08.get();
 
       final int r12 = r4 & 0x30000;
       if(r12 == 0) {
