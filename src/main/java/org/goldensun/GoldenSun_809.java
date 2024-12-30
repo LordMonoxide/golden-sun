@@ -241,7 +241,7 @@ public final class GoldenSun_809 {
     if(MEMORY.ref(1, r6 + 0x2a02).get() < MEMORY.ref(1, r6 + 0x2a01).get()) {
       //LAB_8090928
       for(int r0 = 0; r0 < 0x540; r0++) {
-        MEMORY.ref(2, r6 + 0x380 + r0 * 0x2).and(MEMORY.ref(2, r6 + 0x1880 + r0 * 0x2).getUnsigned());
+        MEMORY.ref(2, r6 + 0x380 + r0 * 0x2).add(MEMORY.ref(2, r6 + 0x1880 + r0 * 0x2).getUnsigned());
       }
     } else {
       //LAB_8090948
