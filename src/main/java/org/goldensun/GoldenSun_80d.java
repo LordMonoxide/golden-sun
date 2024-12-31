@@ -25,7 +25,7 @@ import static org.goldensun.GoldenSun.sleep;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
 import static org.goldensun.GoldenSun_80b.FUN_80b5010;
-import static org.goldensun.GoldenSun_80b.FUN_80b5040;
+import static org.goldensun.GoldenSun_80b.loadBattleBackground_;
 import static org.goldensun.GoldenSun_80b.FUN_80b5088;
 import static org.goldensun.GoldenSun_80b.FUN_80b5098;
 import static org.goldensun.GoldenSun_80b.FUN_80b50d8;
@@ -1038,7 +1038,7 @@ public final class GoldenSun_80d {
     r0 = 0x1;
     r2 = 0x18;
     CPU.sp().value -= 0x4;
-    FUN_80b5040(r0, r1, r2);
+    loadBattleBackground_(r0, r1, r2);
     r5 = 0x0;
     r4 = CPU.sp().value;
     MEMORY.ref(4, r4).setu(r5);

@@ -692,16 +692,16 @@ public final class GoldenSun_80c {
   }
 
   @Method(0x80c08ec)
-  public static void FUN_80c08ec(final int r0, final int r1, final int r2) {
+  public static void loadBattleBackground(final int r0, final int pointerTableId, final int r2) {
     final int r10 = boardWramMallocHead_3001e50.offset(44 * 0x4).get();
-    final int r8 = getPointerTableEntry(r1);
+    final int r8 = getPointerTableEntry(pointerTableId);
     final int r6 = boardWramMallocHead_3001e50.offset(9 * 0x4).get();
 
     final int addr = mallocSlotChip(49, 0x230);
     DMA.channels[3].SAD.setu(0x80b5138);
     DMA.channels[3].DAD.setu(addr);
     DMA.channels[3].CNT.setu(0x8400008c);
-    MEMORY.setFunction(addr, GoldenSun_80b.class, "FUN_80b5138", int.class, int.class);
+    MEMORY.setFunction(addr, GoldenSun_80b.class, "decompressBattleBackground", int.class, int.class);
 
     final int r3 = boardWramMallocHead_3001e50.offset(49 * 0x4).get();
     MEMORY.call(r3, r8 + 0x100, 0x6008000);

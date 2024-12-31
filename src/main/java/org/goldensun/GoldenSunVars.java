@@ -153,7 +153,7 @@ public final class GoldenSunVars {
   public static final IntRef ticks_3001800 = MEMORY.ref(4, 0x3001800, IntRef::new);
 
   public static final ArrayRef<UnsignedByteRef> _3001810 = MEMORY.ref(1, 0x3001810, ArrayRef.of(UnsignedByteRef.class, 0x200, 1, UnsignedByteRef::new));
-  public static final Value _3001a10 = MEMORY.ref(1, 0x3001a10);
+  public static final UnsignedByteRef _3001a10 = MEMORY.ref(1, 0x3001a10, UnsignedByteRef::new);
 
   public static final ArrayRef<TickCallback08> tickCallbacks_3001a20 = MEMORY.ref(4, 0x3001a20, ArrayRef.of(TickCallback08.class, 20, 0x8, TickCallback08::new));
   public static final UnsignedByteRef _3001ac0 = MEMORY.ref(1, 0x3001ac0, UnsignedByteRef::new);
@@ -250,7 +250,7 @@ public final class GoldenSunVars {
 
   public static final UnsignedByteRef _3001f58 = MEMORY.ref(1, 0x3001f58, UnsignedByteRef::new);
 
-  public static final Value _3001f64 = MEMORY.ref(2, 0x3001f64);
+  public static final UnsignedShortRef _3001f64 = MEMORY.ref(2, 0x3001f64, UnsignedShortRef::new);
 
   public static final IntRef _3007800 = MEMORY.ref(4, 0x3007800, IntRef::new);
   public static final Value _3007804 = MEMORY.ref(4, 0x3007804);

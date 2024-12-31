@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 
 import static org.goldensun.GoldenSunVars._2000404;
 import static org.goldensun.GoldenSunVars._2000406;
+import static org.goldensun.GoldenSunVars._3001f64;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.entranceId_2000402;
 import static org.goldensun.GoldenSunVars.heldButtonsLastFrame_3001ae8;
@@ -751,7 +752,7 @@ public final class Decompressed87795e8 {
                   {
                     //LAB_200888c
                     while((pressedButtons_3001c94.get() & 0x2) == 0) {
-                      if((MEMORY.ref(2, 0x3001f64).getUnsigned() & 0x3) == 0x3) {
+                      if((_3001f64.get() & 0x3) == 0x3) {
                         r3 = MEMORY.ref(4, 0x4000128).get(); // SIOCNT
                         r3 = r3 << 26 >>> 30 ^ 0x1;
                         r2 = 0x2002024 + r3 * 0x18;
@@ -783,7 +784,7 @@ public final class Decompressed87795e8 {
                     r4 = 0x1;
                     r7 = 0x0;
                     r5++;
-                    if((MEMORY.ref(2, 0x3001f64).getUnsigned() & 0x3) == 0x3) {
+                    if((_3001f64.get() & 0x3) == 0x3) {
                       r5 = 0;
                     }
 
@@ -800,7 +801,7 @@ public final class Decompressed87795e8 {
                       }
 
                       r5++;
-                      if((MEMORY.ref(2, 0x3001f64).getUnsigned() & 0x3) == 0x3) {
+                      if((_3001f64.get() & 0x3) == 0x3) {
                         r5 = 0;
                       }
 

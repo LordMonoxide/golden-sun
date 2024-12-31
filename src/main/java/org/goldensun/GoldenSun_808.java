@@ -202,7 +202,7 @@ import static org.goldensun.GoldenSun_809.FUN_809ade8;
 import static org.goldensun.GoldenSun_809.FUN_809c138;
 import static org.goldensun.GoldenSun_809.FUN_809c3a4;
 import static org.goldensun.GoldenSun_809.stopPlayerAndSetIdle;
-import static org.goldensun.GoldenSun_80b.FUN_80b50a0;
+import static org.goldensun.GoldenSun_80b.loadBattle_;
 import static org.goldensun.GoldenSun_80b.FUN_80b50f8;
 import static org.goldensun.GoldenSun_80f.FUN_80f4000;
 import static org.goldensun.GoldenSun_80f.FUN_80f6000;
@@ -961,7 +961,7 @@ public final class GoldenSun_808 {
           DMA.channels[3].CNT.setu(0x84000010);
           setMallocAddress(r5);
         } else if(mapId == 0x1fe) {
-          r6 = FUN_80b50a0(r6); // Starting battle?
+          r6 = loadBattle_(r6); // Starting battle?
         }
 
         //LAB_808aaa0

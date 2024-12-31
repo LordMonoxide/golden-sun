@@ -598,9 +598,9 @@ public final class GoldenSun {
     //LAB_800313c
     //LAB_8003144
     for(int frame = 0; frame < frames; frame++) {
-      _3001a10.setu(1);
+      _3001a10.set(1);
       runTickCallbacks(0xc80);
-      _3001a10.setu(0);
+      _3001a10.set(0);
       processRenderQueue(MEMORY.ref(4, mallocSlotChip(52, 0x400), ArrayRef.of(ObjAttributes08.class, 0x80, 0x8, ObjAttributes08::new)));
       _3001e44.set(1);
 
@@ -834,7 +834,7 @@ public final class GoldenSun {
     DMA.channels[0].CNT.offset(2, 0x2).and(0xc5ff).and(0x7fff);
 
     if(_3001cb0.get() != 0) {
-      _3001f64.setu(FUN_8006088(0x2002220, 0x2002020));
+      _3001f64.set(FUN_8006088(0x2002220, 0x2002020));
       FUN_800655c();
     }
 
@@ -1336,7 +1336,7 @@ public final class GoldenSun {
   @Method(0x80040e8)
   public static void clearTickCallbacks() {
     tickCallbacksInitialized_3001d34.set(0);
-    _3001a10.setu(0);
+    _3001a10.set(0);
 
     //LAB_80040fc
     for(int i = 0; i < 20; i++) {
@@ -1730,12 +1730,12 @@ public final class GoldenSun {
   }
 
   @Method(0x800488c)
-  public static int FUN_800488c() {
+  public static int getChipMallocDelta() {
     return 0x3007800 - chipWramMallocHead_3001e54.get();
   }
 
   @Method(0x80048a0)
-  public static int FUN_80048a0() {
+  public static int getBoardMallocDelta() {
     return 0x2040000 - boardWramMallocHead_3001e50.get();
   }
 

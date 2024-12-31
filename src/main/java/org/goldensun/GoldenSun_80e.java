@@ -20,7 +20,7 @@ import static org.goldensun.GoldenSun.setSpriteAnimation_;
 import static org.goldensun.GoldenSun.setTickCallback;
 import static org.goldensun.GoldenSun.sin;
 import static org.goldensun.GoldenSun.sleep;
-import static org.goldensun.GoldenSun_80b.FUN_80b5040;
+import static org.goldensun.GoldenSun_80b.loadBattleBackground_;
 import static org.goldensun.GoldenSun_80b.FUN_80b5088;
 import static org.goldensun.GoldenSun_80b.FUN_80b50a8;
 import static org.goldensun.GoldenSun_80b.FUN_80b50e8;
@@ -1919,7 +1919,7 @@ public final class GoldenSun_80e {
     r2 = 0x0;
     r1 = 0x3c;
     r0 = 0x1;
-    FUN_80b5040(r0, r1, r2);
+    loadBattleBackground_(r0, r1, r2);
     r0 = 0x1;
     r1 = 0x1;
     FUN_80cd104(r0, r1);
@@ -2741,7 +2741,7 @@ public final class GoldenSun_80e {
     r2 = 0x0;
     r1 = 0x3a;
     r0 = 0x1;
-    FUN_80b5040(r0, r1, r2);
+    loadBattleBackground_(r0, r1, r2);
     r0 = 0x1;
     r1 = 0x1;
     FUN_80cd104(r0, r1);
