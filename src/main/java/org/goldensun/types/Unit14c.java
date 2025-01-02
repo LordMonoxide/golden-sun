@@ -10,6 +10,8 @@ import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 
 public class Unit14c implements MemoryRef {
+  public static final int REMOVED_FROM_FIELD = 0xfe;
+
   private final Value ref;
 
   public final ArrayRef<UnsignedByteRef> name_00;
@@ -57,7 +59,7 @@ public class Unit14c implements MemoryRef {
 
   public final IntRef _120;
   public final IntRef exp_124;
-  public final UnsignedByteRef _128;
+  public final UnsignedByteRef id_128;
   public final UnsignedByteRef class_129;
   public final UnsignedByteRef _12a;
   public final UnsignedByteRef _12b;
@@ -128,7 +130,7 @@ public class Unit14c implements MemoryRef {
 
     this._120 = ref.offset(4, 0x120).cast(IntRef::new);
     this.exp_124 = ref.offset(4, 0x124).cast(IntRef::new);
-    this._128 = ref.offset(1, 0x128).cast(UnsignedByteRef::new);
+    this.id_128 = ref.offset(1, 0x128).cast(UnsignedByteRef::new);
     this.class_129 = ref.offset(1, 0x129).cast(UnsignedByteRef::new);
     this._12a = ref.offset(1, 0x12a).cast(UnsignedByteRef::new);
     this._12b = ref.offset(1, 0x12b).cast(UnsignedByteRef::new);

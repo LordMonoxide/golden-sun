@@ -14,6 +14,7 @@ import static org.goldensun.GoldenSunVars._2000404;
 import static org.goldensun.GoldenSunVars._2000406;
 import static org.goldensun.GoldenSunVars._3001f64;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
+import static org.goldensun.GoldenSunVars.debug_3001f54;
 import static org.goldensun.GoldenSunVars.entranceId_2000402;
 import static org.goldensun.GoldenSunVars.heldButtonsLastFrame_3001ae8;
 import static org.goldensun.GoldenSunVars.mapId_2000400;
@@ -356,7 +357,7 @@ public final class Decompressed87795e8 {
       while(true) {
         r6 = FUN_200940c();
         if(r6 < 0) {
-          if(MEMORY.ref(1, 0x3001f54).getUnsigned() != 0) {
+          if(debug_3001f54.get() != 0) {
             MEMORY.ref(1, 0x200046a).setu(0x1);
             MEMORY.ref(1, 0x3001d08).setu(0x1);
             FUN_20093dc(0xa, 0x1, 0x8);

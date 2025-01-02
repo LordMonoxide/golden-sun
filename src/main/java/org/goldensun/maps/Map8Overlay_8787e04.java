@@ -904,7 +904,7 @@ public final class Map8Overlay_8787e04 {
     return (int)MEMORY.call(0x80001c8, slot, size, newDataPtr);
   }
 
-  /** {@link GoldenSun#FUN_8009098} */
+  /** {@link GoldenSun#setActorSpriteScript_} */
   @Method(0x2009854)
   public static void FUN_8009098(final Actor70 r0, final int r1) {
     MEMORY.call(0x8009098, r0, r1);

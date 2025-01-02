@@ -29,7 +29,7 @@ import org.goldensun.types.Vec3;
 import static org.goldensun.GoldenSun.FUN_8003fa4;
 import static org.goldensun.GoldenSun.FUN_8004760;
 import static org.goldensun.GoldenSun.FUN_8009088;
-import static org.goldensun.GoldenSun.FUN_8009098;
+import static org.goldensun.GoldenSun.setActorSpriteScript_;
 import static org.goldensun.GoldenSun.FUN_80090a0;
 import static org.goldensun.GoldenSun.FUN_80090a8;
 import static org.goldensun.GoldenSun.FUN_80090b0;
@@ -3335,8 +3335,8 @@ public final class GoldenSun_808 {
 
           //LAB_808d722
           if(r10 == 0) {
-            r3 = r8._04.get();
-            final int r2 = r8._00.get();
+            r3 = r8.scriptPos_04.get();
+            final int r2 = r8.scriptPtr_00.get();
             if(MEMORY.ref(4, r2 + r3 * 0x4).get() == 0x10) {
               r0 = MEMORY.ref(1, r11 + 0x16).get();
               if(r0 == 3) {
@@ -3346,7 +3346,7 @@ public final class GoldenSun_808 {
                 //LAB_808d76a
               } else if(r0 == 1) {
                 r8._64.set(sp04);
-                FUN_8009098(r8, 0x809fc1c);
+                setActorSpriteScript_(r8, 0x809fc1c);
               }
             }
 
@@ -4463,7 +4463,7 @@ public final class GoldenSun_808 {
       rotVec3(rand() * 0x10, rand(), r6);
       final Actor70 r5 = FUN_8096c80(0x11d, r6.getX(), r6.getY(), r6.getZ());
       if(r5 != null) {
-        FUN_8009098(r5, 0x809e87c);
+        setActorSpriteScript_(r5, 0x809e87c);
         setActorAnimation_(r5, 0);
         r5.sprite_50.deref().packet_00.attribs_04.attrib2_04.and(~0xc00).or(0x400);
       }
@@ -4493,7 +4493,7 @@ public final class GoldenSun_808 {
       //LAB_808efd4
       for(int actorIndex = 0; actorIndex < 64; actorIndex++) {
         final Actor70 actor = actors.get(actorIndex);
-        if(actor._00.get() != 0 && (actor._6c.getPointer() == 0x808f28c || actor._00.get() == 0x809e87c)) {
+        if(actor.scriptPtr_00.get() != 0 && (actor._6c.getPointer() == 0x808f28c || actor.scriptPtr_00.get() == 0x809e87c)) {
           clearActor_(actor);
         }
 
@@ -4508,7 +4508,7 @@ public final class GoldenSun_808 {
       return null;
     }
 
-    FUN_8009098(actor, 0x809e6c0);
+    setActorSpriteScript_(actor, 0x809e6c0);
     final Sprite38 sprite = actor.sprite_50.deref();
     sprite._26.set(0);
     sprite.layerCount_27.set(0);

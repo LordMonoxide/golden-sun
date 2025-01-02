@@ -1,5 +1,7 @@
 package org.goldensun;
 
+import org.goldensun.battle.ActorProperties08;
+import org.goldensun.battle.BattleStruct82c;
 import org.goldensun.memory.Value;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.BiFunctionRef;
@@ -234,6 +236,7 @@ public final class GoldenSunVars {
    *   <li>6 - {@link Struct5c}</li>
    *   <li>7 - </li>
    *   <li>8 - {@link Map194}</li>
+   *   <li>9 - {@link BattleStruct82c}</li>
    *   <li>15 - {@link Struct12fc}</li>
    *   <li>27 - {@link Structccc}</li>
    *   <li>30 - {@link LightningStruct1f88}</li>
@@ -387,6 +390,8 @@ public final class GoldenSunVars {
   public static final UnboundedArrayRef<Struct0c> _8013784 = MEMORY.ref(4, 0x8013784, UnboundedArrayRef.of(0xc, Struct0c::new));
 
   public static final ArrayRef<Item2c> items_807b6a8 = MEMORY.ref(4, 0x807b6a8, ArrayRef.of(Item2c.class, 0x1ff, 0x2c, Item2c::new));
+
+  public static final ArrayRef<ActorProperties08> actorProperties_80c7420 = MEMORY.ref(4, 0x80c7420, ArrayRef.of(ActorProperties08.class, 170, 0x8, ActorProperties08::new));
 
   public static final ArrayRef<SoundStruct0c> _80fc624 = MEMORY.ref(4, 0x80fc624, ArrayRef.of(SoundStruct0c.class, 8, 0xc, SoundStruct0c::new));
 

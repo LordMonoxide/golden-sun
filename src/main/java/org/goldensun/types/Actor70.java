@@ -12,9 +12,8 @@ import org.goldensun.memory.types.UnsignedShortRef;
 public class Actor70 implements MemoryRef {
   private final Value ref;
 
-  /** TODO ptr */
-  public final IntRef _00;
-  public final ShortRef _04;
+  public final IntRef scriptPtr_00;
+  public final ShortRef scriptPos_04;
   public final ShortRef angle_06;
   public final Vec3 pos_08;
   public final IntRef _14;
@@ -62,8 +61,8 @@ public class Actor70 implements MemoryRef {
   public Actor70(final Value ref) {
     this.ref = ref;
 
-    this._00 = ref.offset(4, 0x00).cast(IntRef::new);
-    this._04 = ref.offset(2, 0x04).cast(ShortRef::new);
+    this.scriptPtr_00 = ref.offset(4, 0x00).cast(IntRef::new);
+    this.scriptPos_04 = ref.offset(2, 0x04).cast(ShortRef::new);
     this.angle_06 = ref.offset(2, 0x06).cast(ShortRef::new);
     this.pos_08 = ref.offset(4, 0x08).cast(Vec3::new);
     this._14 = ref.offset(4, 0x14).cast(IntRef::new);

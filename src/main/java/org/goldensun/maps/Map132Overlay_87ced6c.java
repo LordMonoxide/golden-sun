@@ -3424,7 +3424,7 @@ public final class Map132Overlay_87ced6c {
     MEMORY.call(0x8009080, actor, animationIndex);
   }
 
-  /** {@link GoldenSun#FUN_8009098} */
+  /** {@link GoldenSun#setActorSpriteScript_} */
   @Method(0x200b000)
   public static void FUN_8009098(final Actor70 r0, final int r1) {
     MEMORY.call(0x8009098, r0, r1);

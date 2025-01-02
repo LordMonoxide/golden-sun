@@ -39,8 +39,8 @@ public final class GoldenSun_807 {
 
   /** {@link GoldenSun_807#getDjinnRecoveryQueue} */
   @Method(0x8077000)
-  public static RecoveryQueue10c getDjinnRecoveryQueue_(final int inBattle) {
-    return (RecoveryQueue10c)MEMORY.call(0x8077330, inBattle);
+  public static RecoveryQueue10c getDjinnRecoveryQueue_(final int inPvp) {
+    return (RecoveryQueue10c)MEMORY.call(0x8077330, inPvp);
   }
 
   /** {@link GoldenSun_807#getCharOrMonsterData} */
@@ -311,8 +311,8 @@ public final class GoldenSun_807 {
 
   /** This is the djinn recovery queue (in a PvP battle, char slot 3 is actually replaced with the enemy's queue) */
   @Method(0x8077330)
-  public static RecoveryQueue10c getDjinnRecoveryQueue(final int inBattle) {
-    if(inBattle == 0) {
+  public static RecoveryQueue10c getDjinnRecoveryQueue(final int inPvp) {
+    if(inPvp == 0) {
       //LAB_807733e
       return djinnRecoveryQueue_200024c;
     }
@@ -607,7 +607,7 @@ public final class GoldenSun_807 {
     }
 
     if(r7.class_129.get() != 0) {
-      r0 = switch(r7._128.get()) {
+      r0 = switch(r7.id_128.get()) {
         case 0 -> readFlag(0x110);
         case 1, 5 -> readFlag(0x112);
         case 2 -> readFlag(0x113);
@@ -1175,13 +1175,13 @@ public final class GoldenSun_807 {
   @Method(0x807842c)
   public static int isEquipped(final int charId, final int itemId) {
     final Unit14c charData = getCharOrMonsterData(charId);
-    if(charData._128.get() > 7) {
+    if(charData.id_128.get() > 7) {
       return 0;
     }
 
     //LAB_807844e
     final Item2c item = getItem(itemId);
-    return item.equippable_04.get() >> charData._128.get() & 0x1;
+    return item.equippable_04.get() >> charData.id_128.get() & 0x1;
   }
 
   /** @return item slot */
@@ -1595,8 +1595,8 @@ public final class GoldenSun_807 {
     while((r0 = MEMORY.ref(4, r8).get()) != -1) {
       final Unit14c r7 = getCharOrMonsterData(r0);
       if(r7 != null) {
-        r7._128.set(MEMORY.ref(4, r8).get());
-        r10 = FUN_8078ed8(r7._128.get());
+        r7.id_128.set(MEMORY.ref(4, r8).get());
+        r10 = FUN_8078ed8(r7.id_128.get());
 
         //LAB_8078f74
         for(int r5 = 0; r5 < 15; r5++) {
@@ -1667,7 +1667,7 @@ public final class GoldenSun_807 {
       return -1;
     }
 
-    final int r3 = r2._128.get();
+    final int r3 = r2.id_128.get();
     if(r3 > 7) {
       //LAB_8079048
       return -1;
@@ -2031,12 +2031,12 @@ public final class GoldenSun_807 {
 
           r6._120.set(MEMORY.ref(4, r7 + 0x20).get());
           r6.class_129.set(0);
-          r6._128.set(CPU.r11().value);
+          r6.id_128.set(CPU.r11().value);
           FUN_80798e0(CPU.r9().value, r6.powerResist_24);
           recalcStats(CPU.r9().value);
           r6._12a.set(1);
 
-          r3 = r6._128.get();
+          r3 = r6.id_128.get();
           if(r3 >= 0x9e && r3 <= 0xab) {
             r6._12a.set(2);
           }
@@ -2197,7 +2197,7 @@ public final class GoldenSun_807 {
   public static void FUN_80798e0(int r0, final ArrayRef<Unit14c.PowerResist04> r1) {
     final Unit14c r2 = getCharOrMonsterData(r0);
     if(r2.class_129.get() == 0) {
-      r0 = MEMORY.ref(1, FUN_80773d8(r2._128.get()) + 0x34).getUnsigned();
+      r0 = MEMORY.ref(1, FUN_80773d8(r2.id_128.get()) + 0x34).getUnsigned();
       if(r0 > 43) {
         r0 = 0;
       }
@@ -2211,7 +2211,7 @@ public final class GoldenSun_807 {
     } else {
       //LAB_8079932
       final int[] r8 = new int[4];
-      FUN_80797fc(r2._128.get(), r2.djinn_f8, r8);
+      FUN_80797fc(r2.id_128.get(), r2.djinn_f8, r8);
 
       //LAB_8079950
       for(int r7 = 0; r7 < 4; r7++) {
@@ -2313,7 +2313,7 @@ public final class GoldenSun_807 {
   @Method(0x8079ae8)
   public static void FUN_8079ae8(final int r0) {
     final Unit14c r6 = getCharOrMonsterData(r0);
-    r6.class_129.set(FUN_80799b0(r6._128.get(), r6.djinn_f8));
+    r6.class_129.set(FUN_80799b0(r6.id_128.get(), r6.djinn_f8));
     FUN_8078bf0(r0);
     FUN_80798e0(r0, r6.powerResist_24);
   }

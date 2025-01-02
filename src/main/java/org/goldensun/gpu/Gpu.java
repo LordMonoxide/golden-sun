@@ -1158,7 +1158,6 @@ public class Gpu {
   }
 
   private void onDispCntWrite(final int val) {
-    LOGGER.info("DISPCNT set to 0x%x", val);
     this.dispCnt.unpack(val);
     this.backgroundSettingsDirty = true;
   }
