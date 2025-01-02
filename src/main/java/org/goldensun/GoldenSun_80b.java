@@ -1295,7 +1295,7 @@ public final class GoldenSun_80b {
     FUN_80c08a8(); // allocate struct 10
     loadBattleBackground(1, r8.backgroundPointerTableId_648.get(), 0);
     FUN_80c0a24(0xa00000, 0x500000, 0, 0, 0x20000);
-    FUN_80c0cec(0, 0, 0, 190);
+    FUN_80c0cec(0, 0, 0, 190); // camera
     noop_80b5b14(1);
     GPU.BLDCNT.setu(0);
     FUN_80c24b0();
@@ -2055,8 +2055,8 @@ public final class GoldenSun_80b {
     }
 
     //LAB_80b77b2
-    r3 = boardWramMallocHead_3001e50.offset(12 * 0x4).get();
-    if(MEMORY.ref(2, r3 + 0x36).get() >= 0) {
+    final Camera4c camera = boardWramMallocHead_3001e50.offset(12 * 0x4).deref(4).cast(Camera4c::new);
+    if(camera.rotationY_36.get() >= 0) {
       MEMORY.ref(4, CPU.sp().value + 0x8).setu(1);
       MEMORY.ref(4, CPU.sp().value + 0xc).setu(2);
     } else {

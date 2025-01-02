@@ -41,7 +41,10 @@ public class BattleStruct82c implements MemoryRef {
   public final ArrayRef<UnsignedByteRef> combatantCharIds_2dc;
   public final ArrayRef<Turn10> turns_2ec;
 
+  public final IntRef _530;
+  public final IntRef _534;
   public final IntRef _538;
+  public final ArrayRef<UnsignedShortRef> _53c;
 
   public final UnsignedShortRef backgroundPointerTableId_648;
 
@@ -77,7 +80,10 @@ public class BattleStruct82c implements MemoryRef {
     this.combatantCharIds_2dc = ref.offset(1, 0x2dc).cast(ArrayRef.of(UnsignedByteRef.class, 16, 0x1, UnsignedByteRef::new));
     this.turns_2ec = ref.offset(4, 0x2ec).cast(ArrayRef.of(Turn10.class, 20, 0x10, Turn10::new));
 
+    this._530 = ref.offset(4, 0x530).cast(IntRef::new);
+    this._534 = ref.offset(4, 0x534).cast(IntRef::new);
     this._538 = ref.offset(4, 0x538).cast(IntRef::new);
+    this._53c = ref.offset(2, 0x53c).cast(ArrayRef.of(UnsignedShortRef.class, 4, 0x2, UnsignedShortRef::new));
 
     this.backgroundPointerTableId_648 = ref.offset(2, 0x648).cast(UnsignedShortRef::new);
 

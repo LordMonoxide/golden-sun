@@ -31,6 +31,7 @@ import static org.goldensun.GoldenSun.setInterruptHandler;
 import static org.goldensun.GoldenSun.setMallocAddress;
 import static org.goldensun.GoldenSun.setTickCallback;
 import static org.goldensun.GoldenSun.sleep;
+import static org.goldensun.GoldenSunVars._200047c;
 import static org.goldensun.GoldenSunVars.actorProperties_80c7420;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.vblankTransferQueue_2002090;
@@ -247,7 +248,6 @@ public final class GoldenSun_80c {
     final int r4;
     int r5;
     final int r6;
-    final int r9;
     final int r11;
 
     CPU.sp().value -= 0x94;
@@ -310,7 +310,6 @@ public final class GoldenSun_80c {
       }
 
       r6 = 0x3001ad0;
-      r9 = 0;
       MEMORY.ref(2, r6 + 0x2).setu(32);
       MEMORY.ref(2, r6 + 0x6).setu(32);
       MEMORY.ref(2, r6 + 0x4).setu(8);
@@ -321,9 +320,9 @@ public final class GoldenSun_80c {
       GPU.WIN1V.setu(136);
       GPU.WININ.setu(0x3537);
       GPU.WINOUT.setu(0x3f21);
-      FUN_800387c(0x4000000, 0x7741);
+      FUN_800387c(GPU.DISPCNT.getAddress(), 0x7741);
       FUN_80c0cec(0, 0, 0, 180);
-      MEMORY.ref(4, r11).setu(r9);
+      MEMORY.ref(4, r11).setu(0);
       setTickCallback(getRunnable(GoldenSun_80c.class, "FUN_80c01bc"), 0xc80);
       setTickCallback(getRunnable(GoldenSun_80c.class, "FUN_80c0228"), 0x480);
       setInterruptHandler(2, 32, getRunnable(GoldenSun_80c.class, "FUN_80c0298"));
@@ -331,12 +330,12 @@ public final class GoldenSun_80c {
       sleep(1);
       FUN_8015128(boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new)._41.get());
       sleep(20);
-      FUN_80039fc(0x4000008, 2);
-      FUN_800393c(0x4000008, 0);
+      FUN_80039fc(GPU.BG0CNT.getAddress(), 2);
+      FUN_800393c(GPU.BG0CNT.getAddress(), 0);
       FUN_80b595c(r0);
       clearTickCallback(getRunnable(GoldenSun_80c.class, "FUN_80c01bc"));
       clearTickCallback(getRunnable(GoldenSun_80c.class, "FUN_80c0228"));
-      MEMORY.ref(2, r6 + 0x2).setu(r9);
+      MEMORY.ref(2, r6 + 0x2).setu(0);
       setInterruptHandler(2, 0, null);
     } else {
       //LAB_80c04c8
@@ -368,7 +367,7 @@ public final class GoldenSun_80c {
       r2 = vblankTransferQueue_2002090.count_00.get();
       if(r2 < 32) {
         vblankTransferQueue_2002090.queue_04.get(r2).src_00.set(0x6041);
-        vblankTransferQueue_2002090.queue_04.get(r2).dst_04.set(0x4000000);
+        vblankTransferQueue_2002090.queue_04.get(r2).dst_04.set(GPU.DISPCNT.getAddress());
         vblankTransferQueue_2002090.queue_04.get(r2).cnt_08.set(0x20000);
         vblankTransferQueue_2002090.count_00.incr();
       }
@@ -391,8 +390,8 @@ public final class GoldenSun_80c {
       sleep(1);
       sleep(20);
       FUN_8015128(boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new)._41.get());
-      FUN_80039fc(0x4000008, 2);
-      FUN_800393c(0x4000008, 0);
+      FUN_80039fc(GPU.BG0CNT.getAddress(), 2);
+      FUN_800393c(GPU.BG0CNT.getAddress(), 0);
       GPU.BLDCNT.setu(0x3f40);
 
       final int[] unitIds = new int[15];
@@ -518,30 +517,20 @@ public final class GoldenSun_80c {
     CPU.push(CPU.r8().value);
     CPU.sp().value -= 0x10;
     MEMORY.ref(4, CPU.sp().value + 0x4).setu(r3);
-    r3 = 0x3001f00;
     MEMORY.ref(4, CPU.sp().value + 0x8).setu(r2);
     MEMORY.ref(4, CPU.sp().value + 0xc).setu(r1);
-    r2 = r3;
-    r2 = r2 - 0x88;
-    r2 = MEMORY.ref(4, r2).get();
+    r2 = boardWramMallocHead_3001e50.offset(10 * 0x4).get();
     CPU.r10().value = r0;
     r0 = 0x80;
-    r1 = MEMORY.ref(4, r3).get();
+    r1 = boardWramMallocHead_3001e50.offset(44 * 0x4).get();
     r0 = r0 << 4;
     CPU.r9().value = r2;
-    r3 = r3 - 0x80;
     r2 = 0x0;
-    r3 = MEMORY.ref(4, r3).get();
     CPU.r11().value = r0;
     MEMORY.ref(4, CPU.sp().value).setu(r2);
-    r2 = 0x80;
-    r2 = r2 << 9;
-    if(a4 >= r2) {
-      r0 = 0x80;
-      r0 = r0 << 6;
-      MEMORY.ref(4, CPU.sp().value).setu(r0);
-      r0 = 0x36;
-      r2 = MEMORY.ref(2, r3 + r0).get();
+    if(a4 >= 0x10000) {
+      MEMORY.ref(4, CPU.sp().value).setu(0x2000);
+      r2 = boardWramMallocHead_3001e50.offset(12 * 0x4).deref(4).cast(Camera4c::new).rotationY_36.get();
       r2 = -r2;
       r3 = r2 << 1;
       r3 = r3 + r2;
@@ -1572,26 +1561,16 @@ public final class GoldenSun_80c {
 
   @Method(0x80c24b0)
   public static void FUN_80c24b0() {
-    int r0;
-    final int r1;
-    int r3;
-
-    r0 = boardWramMallocHead_3001e50.offset(9 * 0x4).get();
-    r1 = r0 + 0x530;
-    r3 = 0x200047c;
-    MEMORY.ref(2, r3).setu(0);
-    MEMORY.ref(4, r1).setu(0);
-    MEMORY.ref(4, r1 + 0x4).setu(0);
-    MEMORY.ref(4, r1 + 0x8).setu(0);
-    r3 = 0x3;
-    r0 = r0 + 0x542;
+    final BattleStruct82c r0 = boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new);
+    _200047c.set(0);
+    r0._530.set(0);
+    r0._534.set(0);
+    r0._538.set(0);
 
     //LAB_80c24d4
-    do {
-      r3 = r3 - 0x1;
-      MEMORY.ref(2, r0).setu(0);
-      r0 = r0 - 0x2;
-    } while(r3 >= 0);
+    for(int i = 0; i < 4; i++) {
+      r0._53c.get(i).set(0);
+    }
   }
 
   @Method(0x80c2724)
