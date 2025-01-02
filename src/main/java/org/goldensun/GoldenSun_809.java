@@ -21,7 +21,7 @@ import org.goldensun.types.Vec3;
 import org.goldensun.weather.LightningStruct1f88;
 import org.goldensun.weather.PaletteStruct2a04;
 
-import static org.goldensun.GoldenSun.FUN_8003fa4;
+import static org.goldensun.GoldenSun.allocateSpriteSlot;
 import static org.goldensun.GoldenSun.FUN_8005268;
 import static org.goldensun.GoldenSun.FUN_80053e8;
 import static org.goldensun.GoldenSun.FUN_8009088;
@@ -803,7 +803,7 @@ public final class GoldenSun_809 {
     DMA.channels[3].DAD.setu(r4);
     DMA.channels[3].CNT.setu(0x85000080);
 
-    FUN_8003fa4(94, 0x200, r4);
+    allocateSpriteSlot(94, 0x200, r4);
     freeSlot(14);
     setTickCallback(getRunnable(GoldenSun_809.class, "FUN_80912b8"), 0xc80);
 
@@ -1804,12 +1804,11 @@ public final class GoldenSun_809 {
       //LAB_8092cb6
       if(actor != null) {
         if(sp1c._19e.get() == 3) {
-          r5 = CPU.sp().value + 0x34;
-          FUN_8005268(actor.pos_08, r5);
-          r4 = MEMORY.ref(4, r5).get() / 8;
-          r5 = MEMORY.ref(4, r5 + 0x4).get() / 8;
+          final Vec3 sp0x34 = new Vec3();
+          FUN_8005268(actor.pos_08, sp0x34);
+          r4 = sp0x34.getX() / 8;
+          r5 = sp0x34.getY() / 8 - 2;
           r7 = 0x1;
-          r5 = r5 - 0x2;
         } else {
           //LAB_8092cde
           r5 = CPU.sp().value + 0x34;
@@ -1822,10 +1821,10 @@ public final class GoldenSun_809 {
         sp18 = r6;
         actor = getMapActor(playerMapActorIndex_2000434.get());
         if(sp1c._19e.get() == 3) {
-          r5 = CPU.sp().value + 0x34;
-          FUN_8005268(actor.pos_08, r5);
-          r4 = MEMORY.ref(4, r5).get() / 8;
-          r3 = MEMORY.ref(4, r5 + 0x4).get();
+          final Vec3 sp0x34 = new Vec3();
+          FUN_8005268(actor.pos_08, sp0x34);
+          r4 = sp0x34.getX() / 8;
+          r3 = sp0x34.getY();
           r7 = 0x1;
         } else {
           //LAB_8092d1e
@@ -2994,7 +2993,7 @@ public final class GoldenSun_809 {
 
     final int slot = getFreeVramSlot();
     MEMORY.ref(4, r5).setu(slot);
-    MEMORY.ref(4, r5 + 0x4).setu(FUN_8003fa4(slot, 0x300, r6));
+    MEMORY.ref(4, r5 + 0x4).setu(allocateSpriteSlot(slot, 0x300, r6));
     freeSlot(14);
 
     //LAB_8094b2c
@@ -3706,7 +3705,7 @@ public final class GoldenSun_809 {
 
       //LAB_80970b6
       MEMORY.ref(2, r5 + 0x46).setu(getFreeVramSlot());
-      FUN_8003fa4(MEMORY.ref(2, r5 + 0x46).get(), 0x100, 0x809c410);
+      allocateSpriteSlot(MEMORY.ref(2, r5 + 0x46).get(), 0x100, 0x809c410);
       setTickCallback(getRunnable(GoldenSun_809.class, "FUN_8096f8c"), 0xc80);
     }
 
@@ -3952,12 +3951,11 @@ public final class GoldenSun_809 {
 
   @Method(0x80974d8)
   public static void FUN_80974d8(final Vec3 r0) {
-    CPU.sp().value -= 0xc;
     if(boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._19e.get() == 3) {
-      final int r5 = CPU.sp().value;
+      final Vec3 r5 = new Vec3();
       FUN_8005268(r0, r5);
-      r0.setX(MEMORY.ref(4, r5).get() << 16);
-      r0.setZ(MEMORY.ref(4, r5 + 0x4).get() << 16);
+      r0.setX(r5.getX() << 16);
+      r0.setZ(r5.getY() << 16);
     } else {
       //LAB_8097504
       final Map194 r2 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
@@ -3967,7 +3965,6 @@ public final class GoldenSun_809 {
 
     //LAB_8097528
     r0.setY(0);
-    CPU.sp().value += 0xc;
   }
 
   @Method(0x8097540)

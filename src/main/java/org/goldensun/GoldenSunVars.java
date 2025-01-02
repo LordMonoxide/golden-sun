@@ -1,6 +1,7 @@
 package org.goldensun;
 
 import org.goldensun.battle.ActorProperties08;
+import org.goldensun.battle.Camera4c;
 import org.goldensun.battle.BattleStruct82c;
 import org.goldensun.memory.Value;
 import org.goldensun.memory.types.ArrayRef;
@@ -17,6 +18,7 @@ import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 import org.goldensun.types.ChoiceMenu98;
+import org.goldensun.types.Matrix30;
 import org.goldensun.types.VblankTransferQueue184;
 import org.goldensun.types.Item2c;
 import org.goldensun.types.Map194;
@@ -151,6 +153,8 @@ public final class GoldenSunVars {
 
   public static final UnboundedArrayRef<TileAttributes04> tileAttribs_2010000 = MEMORY.ref(4, 0x2010000, UnboundedArrayRef.of(0x4, TileAttributes04::new));
 
+  public static final Matrix30 _3000350 = MEMORY.ref(4, 0x3000350, Matrix30::new);
+
   public static final ArrayRef<Pointer<RenderPacket0c>> packets_3001400 = MEMORY.ref(4, 0x3001400, ArrayRef.of(Pointer.classFor(RenderPacket0c.class), 0x100, 0x4, Pointer.deferred(4, RenderPacket0c::new)));
   public static final IntRef ticks_3001800 = MEMORY.ref(4, 0x3001800, IntRef::new);
 
@@ -194,6 +198,7 @@ public final class GoldenSunVars {
 
   public static final Value _3001cbc = MEMORY.ref(4, 0x3001cbc);
   public static final IntRef _3001cc0 = MEMORY.ref(4, 0x3001cc0, IntRef::new);
+  public static final IntRef matrixStackDepth_3001cc4 = MEMORY.ref(4, 0x3001cc4, IntRef::new);
 
   public static final UnsignedShortRef _3001ccc = MEMORY.ref(2, 0x3001ccc, UnsignedShortRef::new);
 
@@ -223,6 +228,9 @@ public final class GoldenSunVars {
 
   public static final UnsignedShortRef vblankOccurred_3001d28 = MEMORY.ref(2, 0x3001d28, UnsignedShortRef::new);
 
+  /** TODO ptr */
+  public static final IntRef _3001d2c = MEMORY.ref(4, 0x3001d2c, IntRef::new);
+
   public static final UnsignedByteRef tickCallbacksInitialized_3001d34 = MEMORY.ref(1, 0x3001d34, UnsignedByteRef::new);
 
   public static final ArrayRef<RotationScaling08> rotationScaling_3001d40 = MEMORY.ref(2, 0x3001d40, ArrayRef.of(RotationScaling08.class, 0x20, 0x8, RotationScaling08::new));
@@ -237,6 +245,7 @@ public final class GoldenSunVars {
    *   <li>7 - </li>
    *   <li>8 - {@link Map194}</li>
    *   <li>9 - {@link BattleStruct82c}</li>
+   *   <li>12 - {@link Camera4c}</li>
    *   <li>15 - {@link Struct12fc}</li>
    *   <li>27 - {@link Structccc}</li>
    *   <li>30 - {@link LightningStruct1f88}</li>
@@ -265,6 +274,8 @@ public final class GoldenSunVars {
   public static final IntRef _3007ffc = MEMORY.ref(4, 0x3007ffc, IntRef::new);
 
   public static final ArrayRef<Pointer<SramTypeStruct>> _8007a0c = MEMORY.ref(4, 0x8007a0c, ArrayRef.of(Pointer.classFor(SramTypeStruct.class), 5, 0x4, Pointer.deferred(4, SramTypeStruct::new)));
+
+  public static final Matrix30 _8013190 = MEMORY.ref(4, 0x8013190, Matrix30::new);
 
   /**
    * <ul>
@@ -390,6 +401,8 @@ public final class GoldenSunVars {
   public static final UnboundedArrayRef<Struct0c> _8013784 = MEMORY.ref(4, 0x8013784, UnboundedArrayRef.of(0xc, Struct0c::new));
 
   public static final ArrayRef<Item2c> items_807b6a8 = MEMORY.ref(4, 0x807b6a8, ArrayRef.of(Item2c.class, 0x1ff, 0x2c, Item2c::new));
+
+  public static final Matrix30 _80c2a7c = MEMORY.ref(4, 0x80c2a7c, Matrix30::new);
 
   public static final ArrayRef<ActorProperties08> actorProperties_80c7420 = MEMORY.ref(4, 0x80c7420, ArrayRef.of(ActorProperties08.class, 170, 0x8, ActorProperties08::new));
 

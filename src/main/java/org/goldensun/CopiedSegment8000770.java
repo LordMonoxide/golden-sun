@@ -6,9 +6,11 @@ import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.memory.types.UnboundedArrayRef;
+import org.goldensun.types.Matrix30;
 import org.goldensun.types.SoundStructFb0;
 import org.goldensun.types.Vec3;
 
+import static org.goldensun.GoldenSunVars._3000350;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.INTERRUPTS;
 import static org.goldensun.Hardware.MEMORY;
@@ -195,321 +197,74 @@ public final class CopiedSegment8000770 {
     } while(r0 != CPU.r12().value);
   }
 
-  /** matrix/vec multiplication? */
+  /** matrix/vec multiplication */
   @Method(0x3000250)
-  public static void FUN_3000250(final Vec3 vec, final int r1) {
-    int address3000250 = CPU.sp().value - 0x20;
-    CPU.sp().value = address3000250;
-    address3000250 += 0x4;
-    address3000250 += 0x4;
-    address3000250 += 0x4;
-    MEMORY.ref(4, address3000250).setu(CPU.r8().value);
-    address3000250 += 0x4;
-    MEMORY.ref(4, address3000250).setu(CPU.r9().value);
-    address3000250 += 0x4;
-    MEMORY.ref(4, address3000250).setu(CPU.r10().value);
-    address3000250 += 0x4;
-    MEMORY.ref(4, address3000250).setu(CPU.r11().value);
-    address3000250 += 0x4;
-    MEMORY.ref(4, address3000250).setu(CPU.lr().value);
+  public static void FUN_3000250(final Vec3 in, final Vec3 out) {
+    final long x0 = (long)in.getX() * _3000350.get(0);
+    final long x1 = (long)in.getX() * _3000350.get(1);
+    final long x2 = (long)in.getX() * _3000350.get(2);
+    final long y0 = (long)in.getY() * _3000350.get(3);
+    final long y1 = (long)in.getY() * _3000350.get(4);
+    final long y2 = (long)in.getY() * _3000350.get(5);
+    final long z0 = (long)in.getZ() * _3000350.get(6);
+    final long z1 = (long)in.getZ() * _3000350.get(7);
+    final long z2 = (long)in.getZ() * _3000350.get(8);
 
-    final int r2 = vec.getX();
-    final int r3 = vec.getY();
-    final int r4 = vec.getZ();
-
-    int r0 = 0x3000350;
-    int address300025c = r0;
-    int r5 = MEMORY.ref(4, address300025c).getUnsigned();
-    address300025c += 0x4;
-    int r6 = MEMORY.ref(4, address300025c).getUnsigned();
-    address300025c += 0x4;
-    int r7 = MEMORY.ref(4, address300025c).getUnsigned();
-    address300025c += 0x4;
-    r0 = address300025c;
-    final long result3000260 = (long)r2 * r5;
-    CPU.r8().value = (int)result3000260;
-    CPU.r9().value = (int)(result3000260 >>> 32);
-
-    final long result3000264 = (long)r2 * r6;
-    CPU.r10().value = (int)result3000264;
-    CPU.r11().value = (int)(result3000264 >>> 32);
-
-    final long result3000268 = (long)r2 * r7;
-    CPU.r12().value = (int)result3000268;
-    CPU.lr().value = (int)(result3000268 >>> 32);
-
-    int address300026c = r0;
-    r5 = MEMORY.ref(4, address300026c).getUnsigned();
-    address300026c += 0x4;
-    r6 = MEMORY.ref(4, address300026c).getUnsigned();
-    address300026c += 0x4;
-    r7 = MEMORY.ref(4, address300026c).getUnsigned();
-    address300026c += 0x4;
-    r0 = address300026c;
-    final long result3000270 = (long)r3 * r5;
-    CPU.r8().value += (int)result3000270;
-    CPU.r9().value += (int)(result3000270 >>> 32);
-
-    final long result3000274 = (long)r3 * r6;
-    CPU.r10().value += (int)result3000274;
-    CPU.r11().value += (int)(result3000274 >>> 32);
-
-    final long result3000278 = (long)r3 * r7;
-    CPU.r12().value += (int)result3000278;
-    CPU.lr().value += (int)(result3000278 >>> 32);
-
-    int address300027c = r0;
-    r5 = MEMORY.ref(4, address300027c).getUnsigned();
-    address300027c += 0x4;
-    r6 = MEMORY.ref(4, address300027c).getUnsigned();
-    address300027c += 0x4;
-    r7 = MEMORY.ref(4, address300027c).getUnsigned();
-    address300027c += 0x4;
-    r0 = address300027c;
-    final long result3000280 = (long)r4 * r5;
-    CPU.r8().value += (int)result3000280;
-    CPU.r9().value += (int)(result3000280 >>> 32);
-
-    final long result3000284 = (long)r4 * r6;
-    CPU.r10().value += (int)result3000284;
-    CPU.r11().value += (int)(result3000284 >>> 32);
-
-    final long result3000288 = (long)r4 * r7;
-    CPU.r12().value += (int)result3000288;
-    CPU.lr().value += (int)(result3000288 >>> 32);
-
-    CPU.r8().value = CPU.r8().value >>> 16;
-    CPU.r8().value = CPU.r8().value | CPU.r9().value << 16;
-    CPU.r10().value = CPU.r10().value >>> 16;
-    CPU.r10().value = CPU.r10().value | CPU.r11().value << 16;
-    CPU.r12().value = CPU.r12().value >>> 16;
-    CPU.r12().value = CPU.r12().value | CPU.lr().value << 16;
-    int address30002a4 = r0;
-    r5 = MEMORY.ref(4, address30002a4).getUnsigned();
-    address30002a4 += 0x4;
-    r6 = MEMORY.ref(4, address30002a4).getUnsigned();
-    address30002a4 += 0x4;
-    r7 = MEMORY.ref(4, address30002a4).getUnsigned();
-    address30002a4 += 0x4;
-    r0 = address30002a4;
-    r5 = r5 + CPU.r8().value;
-    r6 = r6 + CPU.r10().value;
-    r7 = r7 + CPU.r12().value;
-    int address30002b4 = r1;
-    MEMORY.ref(4, address30002b4).setu(r5);
-    address30002b4 += 0x4;
-    MEMORY.ref(4, address30002b4).setu(r6);
-    address30002b4 += 0x4;
-    MEMORY.ref(4, address30002b4).setu(r7);
-
-    int address30002b8 = CPU.sp().value;
-    address30002b8 += 0x4;
-    address30002b8 += 0x4;
-    address30002b8 += 0x4;
-    CPU.r8().value = MEMORY.ref(4, address30002b8).getUnsigned();
-    address30002b8 += 0x4;
-    CPU.r9().value = MEMORY.ref(4, address30002b8).getUnsigned();
-    address30002b8 += 0x4;
-    CPU.r10().value = MEMORY.ref(4, address30002b8).getUnsigned();
-    address30002b8 += 0x4;
-    CPU.r11().value = MEMORY.ref(4, address30002b8).getUnsigned();
-    address30002b8 += 0x4;
-    CPU.lr().value = MEMORY.ref(4, address30002b8).getUnsigned();
-    address30002b8 += 0x4;
-    CPU.sp().value = address30002b8;
+    out.set(_3000350.get(9) + (int)(x0 + y0 + z0 >> 16), _3000350.get(10) + (int)(x1 + y1 + z1 >> 16), _3000350.get(11) + (int)(x2 + y2 + z2 >> 16));
   }
 
   @Method(0x30002c0)
-  public static void FUN_30002c0(int r0) {
-    int r1;
-    int r2;
-    int r3;
-    int r4;
-    int r5;
-    int r6;
-    int r7;
-
-    int address30002c0 = CPU.sp().value - 0x20;
-    CPU.sp().value = address30002c0;
-    address30002c0 += 0x4;
-    address30002c0 += 0x4;
-    address30002c0 += 0x4;
-    MEMORY.ref(4, address30002c0).setu(CPU.r8().value);
-    address30002c0 += 0x4;
-    MEMORY.ref(4, address30002c0).setu(CPU.r9().value);
-    address30002c0 += 0x4;
-    MEMORY.ref(4, address30002c0).setu(CPU.r10().value);
-    address30002c0 += 0x4;
-    MEMORY.ref(4, address30002c0).setu(CPU.r11().value);
-    address30002c0 += 0x4;
-    MEMORY.ref(4, address30002c0).setu(CPU.lr().value);
-    address30002c0 += 0x4;
-    CPU.sp().value = CPU.sp().value - 0x24;
-    r4 = CPU.sp().value;
-
+  public static void FUN_30002c0(final Matrix30 r0) {
     //LAB_30002cc
-    do {
-      r1 = 0x30002d4 + 0x7c;
-      int address30002d0 = r0;
-      r2 = MEMORY.ref(4, address30002d0).getUnsigned();
-      address30002d0 += 0x4;
-      r3 = MEMORY.ref(4, address30002d0).getUnsigned();
-      address30002d0 += 0x4;
-      r0 = address30002d0;
-      int address30002d4 = r1;
-      r5 = MEMORY.ref(4, address30002d4).getUnsigned();
-      address30002d4 += 0x4;
-      r6 = MEMORY.ref(4, address30002d4).getUnsigned();
-      address30002d4 += 0x4;
-      r7 = MEMORY.ref(4, address30002d4).getUnsigned();
-      address30002d4 += 0x4;
-      r1 = address30002d4;
-      final long result30002d8 = (long)r5 * r2;
-      CPU.r8().value = (int)result30002d8;
-      CPU.r9().value = (int)(result30002d8 >>> 32);
+    final long _0_0 = (long)_3000350.get(0) * r0.get(0);
+    final long _1_0 = (long)_3000350.get(1) * r0.get(0);
+    final long _2_0 = (long)_3000350.get(2) * r0.get(0);
+    final long _3_1 = (long)_3000350.get(3) * r0.get(1);
+    final long _4_1 = (long)_3000350.get(4) * r0.get(1);
+    final long _5_1 = (long)_3000350.get(5) * r0.get(1);
+    final long _6_2 = (long)_3000350.get(6) * r0.get(2);
+    final long _7_2 = (long)_3000350.get(7) * r0.get(2);
+    final long _8_2 = (long)_3000350.get(8) * r0.get(2);
+    final long _0_3 = (long)_3000350.get(0) * r0.get(3);
+    final long _1_3 = (long)_3000350.get(1) * r0.get(3);
+    final long _2_3 = (long)_3000350.get(2) * r0.get(3);
+    final long _3_4 = (long)_3000350.get(3) * r0.get(4);
+    final long _4_4 = (long)_3000350.get(4) * r0.get(4);
+    final long _5_4 = (long)_3000350.get(5) * r0.get(4);
+    final long _6_5 = (long)_3000350.get(6) * r0.get(5);
+    final long _7_5 = (long)_3000350.get(7) * r0.get(5);
+    final long _8_5 = (long)_3000350.get(8) * r0.get(5);
+    final long _0_6 = (long)_3000350.get(0) * r0.get(6);
+    final long _1_6 = (long)_3000350.get(1) * r0.get(6);
+    final long _2_6 = (long)_3000350.get(2) * r0.get(6);
+    final long _3_7 = (long)_3000350.get(3) * r0.get(7);
+    final long _4_7 = (long)_3000350.get(4) * r0.get(7);
+    final long _5_7 = (long)_3000350.get(5) * r0.get(7);
+    final long _6_8 = (long)_3000350.get(6) * r0.get(8);
+    final long _7_8 = (long)_3000350.get(7) * r0.get(8);
+    final long _8_8 = (long)_3000350.get(8) * r0.get(8);
+    final long _0_9 = (long)_3000350.get(0) * r0.get(9);
+    final long _1_9 = (long)_3000350.get(1) * r0.get(9);
+    final long _2_9 = (long)_3000350.get(2) * r0.get(9);
+    final long _3_10 = (long)_3000350.get(3) * r0.get(10);
+    final long _4_10 = (long)_3000350.get(4) * r0.get(10);
+    final long _5_10 = (long)_3000350.get(5) * r0.get(10);
+    final long _6_11 = (long)_3000350.get(6) * r0.get(11);
+    final long _7_11 = (long)_3000350.get(7) * r0.get(11);
+    final long _8_11 = (long)_3000350.get(8) * r0.get(11);
 
-      final long result30002dc = (long)r6 * r2;
-      CPU.r10().value = (int)result30002dc;
-      CPU.r11().value = (int)(result30002dc >>> 32);
-
-      final long result30002e0 = (long)r7 * r2;
-      CPU.r12().value = (int)result30002e0;
-      CPU.lr().value = (int)(result30002e0 >>> 32);
-
-      int address30002e4 = r1;
-      r5 = MEMORY.ref(4, address30002e4).getUnsigned();
-      address30002e4 += 0x4;
-      r6 = MEMORY.ref(4, address30002e4).getUnsigned();
-      address30002e4 += 0x4;
-      r7 = MEMORY.ref(4, address30002e4).getUnsigned();
-      address30002e4 += 0x4;
-      r1 = address30002e4;
-      final long result30002e8 = (long)r5 * r3;
-      CPU.r8().value += (int)result30002e8;
-      CPU.r9().value += (int)(result30002e8 >>> 32);
-
-      final long result30002ec = (long)r6 * r3;
-      CPU.r10().value += (int)result30002ec;
-      CPU.r11().value += (int)(result30002ec >>> 32);
-
-      final long result30002f0 = (long)r7 * r3;
-      CPU.r12().value += (int)result30002f0;
-      CPU.lr().value += (int)(result30002f0 >>> 32);
-
-      int address30002f4 = r1;
-      r5 = MEMORY.ref(4, address30002f4).getUnsigned();
-      address30002f4 += 0x4;
-      r6 = MEMORY.ref(4, address30002f4).getUnsigned();
-      address30002f4 += 0x4;
-      r7 = MEMORY.ref(4, address30002f4).getUnsigned();
-      address30002f4 += 0x4;
-      r1 = address30002f4;
-      final int address30002f8 = r0;
-      r2 = MEMORY.ref(4, address30002f8).getUnsigned();
-      r0 = r0 + 0x4;
-      final long result30002fc = (long)r5 * r2;
-      CPU.r8().value += (int)result30002fc;
-      CPU.r9().value += (int)(result30002fc >>> 32);
-
-      final long result3000300 = (long)r6 * r2;
-      CPU.r10().value += (int)result3000300;
-      CPU.r11().value += (int)(result3000300 >>> 32);
-
-      final long result3000304 = (long)r7 * r2;
-      CPU.r12().value += (int)result3000304;
-      CPU.lr().value += (int)(result3000304 >>> 32);
-
-      CPU.r8().value = CPU.r8().value >>> 16;
-      CPU.r8().value = CPU.r8().value | CPU.r9().value << 16;
-      CPU.r10().value = CPU.r10().value >>> 16;
-      CPU.r10().value = CPU.r10().value | CPU.r11().value << 16;
-      CPU.r12().value = CPU.r12().value >>> 16;
-      CPU.r12().value = CPU.r12().value | CPU.lr().value << 16;
-      r2 = r4 - CPU.sp().value;
-      CPU.cmpA(r2, 0x24);
-      if(!CPU.cpsr().getZero()) { // !=
-        int address3000328 = r4;
-        MEMORY.ref(4, address3000328).setu(CPU.r8().value);
-        address3000328 += 0x4;
-        MEMORY.ref(4, address3000328).setu(CPU.r10().value);
-        address3000328 += 0x4;
-        MEMORY.ref(4, address3000328).setu(CPU.r12().value);
-        address3000328 += 0x4;
-        r4 = address3000328;
-      }
-    } while(!CPU.cpsr().getZero()); // !=
-
-    int address3000330 = r1;
-    r5 = MEMORY.ref(4, address3000330).getUnsigned();
-    address3000330 += 0x4;
-    r6 = MEMORY.ref(4, address3000330).getUnsigned();
-    address3000330 += 0x4;
-    r7 = MEMORY.ref(4, address3000330).getUnsigned();
-    address3000330 += 0x4;
-    r1 = address3000330;
-    CPU.r12().value = CPU.r12().value + r7;
-    CPU.r11().value = CPU.r10().value + r6;
-    CPU.r10().value = CPU.r8().value + r5;
-    int address3000340 = CPU.sp().value;
-    r0 = MEMORY.ref(4, address3000340).getUnsigned();
-    address3000340 += 0x4;
-    r2 = MEMORY.ref(4, address3000340).getUnsigned();
-    address3000340 += 0x4;
-    r3 = MEMORY.ref(4, address3000340).getUnsigned();
-    address3000340 += 0x4;
-    r4 = MEMORY.ref(4, address3000340).getUnsigned();
-    address3000340 += 0x4;
-    r5 = MEMORY.ref(4, address3000340).getUnsigned();
-    address3000340 += 0x4;
-    r6 = MEMORY.ref(4, address3000340).getUnsigned();
-    address3000340 += 0x4;
-    r7 = MEMORY.ref(4, address3000340).getUnsigned();
-    address3000340 += 0x4;
-    CPU.r8().value = MEMORY.ref(4, address3000340).getUnsigned();
-    address3000340 += 0x4;
-    CPU.r9().value = MEMORY.ref(4, address3000340).getUnsigned();
-    address3000340 += 0x4;
-    CPU.sp().value = address3000340;
-    int address3000344 = r1 - 0x30;
-    MEMORY.ref(4, address3000344).setu(r0);
-    address3000344 += 0x4;
-    MEMORY.ref(4, address3000344).setu(r2);
-    address3000344 += 0x4;
-    MEMORY.ref(4, address3000344).setu(r3);
-    address3000344 += 0x4;
-    MEMORY.ref(4, address3000344).setu(r4);
-    address3000344 += 0x4;
-    MEMORY.ref(4, address3000344).setu(r5);
-    address3000344 += 0x4;
-    MEMORY.ref(4, address3000344).setu(r6);
-    address3000344 += 0x4;
-    MEMORY.ref(4, address3000344).setu(r7);
-    address3000344 += 0x4;
-    MEMORY.ref(4, address3000344).setu(CPU.r8().value);
-    address3000344 += 0x4;
-    MEMORY.ref(4, address3000344).setu(CPU.r9().value);
-    address3000344 += 0x4;
-    MEMORY.ref(4, address3000344).setu(CPU.r10().value);
-    address3000344 += 0x4;
-    MEMORY.ref(4, address3000344).setu(CPU.r11().value);
-    address3000344 += 0x4;
-    MEMORY.ref(4, address3000344).setu(CPU.r12().value);
-
-    int address3000348 = CPU.sp().value;
-    address3000348 += 0x4;
-    address3000348 += 0x4;
-    address3000348 += 0x4;
-    CPU.r8().value = MEMORY.ref(4, address3000348).getUnsigned();
-    address3000348 += 0x4;
-    CPU.r9().value = MEMORY.ref(4, address3000348).getUnsigned();
-    address3000348 += 0x4;
-    CPU.r10().value = MEMORY.ref(4, address3000348).getUnsigned();
-    address3000348 += 0x4;
-    CPU.r11().value = MEMORY.ref(4, address3000348).getUnsigned();
-    address3000348 += 0x4;
-    CPU.lr().value = MEMORY.ref(4, address3000348).getUnsigned();
-    address3000348 += 0x4;
-    CPU.sp().value = address3000348;
+    _3000350.set(0, (int)(_0_0 + _3_1 + _6_2 >> 16));
+    _3000350.set(1, (int)(_1_0 + _4_1 + _7_2 >> 16));
+    _3000350.set(2, (int)(_2_0 + _5_1 + _8_2 >> 16));
+    _3000350.set(3, (int)(_0_3 + _3_4 + _6_5 >> 16));
+    _3000350.set(4, (int)(_1_3 + _4_4 + _7_5 >> 16));
+    _3000350.set(5, (int)(_2_3 + _5_4 + _8_5 >> 16));
+    _3000350.set(6, (int)(_0_6 + _3_7 + _6_8 >> 16));
+    _3000350.set(7, (int)(_1_6 + _4_7 + _7_8 >> 16));
+    _3000350.set(8, (int)(_2_6 + _5_7 + _8_8 >> 16));
+    _3000350.set( 9, _3000350.get( 9) + (int)(_0_9 + _3_10 + _6_11 >> 16));
+    _3000350.set(10, _3000350.get(10) + (int)(_1_9 + _4_10 + _7_11 >> 16));
+    _3000350.set(11, _3000350.get(11) + (int)(_2_9 + _5_10 + _8_11 >> 16));
   }
 
   @Method(0x3000380)

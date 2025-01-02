@@ -31,7 +31,7 @@ public class BattleStruct82c implements MemoryRef {
   public final UnsignedByteRef _45;
 
   public final UnsignedByteRef _50;
-
+  public final UnsignedByteRef _51;
   public final UnsignedByteRef _52;
 
   public final IntRef vramSlot_54;
@@ -67,7 +67,7 @@ public class BattleStruct82c implements MemoryRef {
     this._45 = ref.offset(1, 0x45).cast(UnsignedByteRef::new);
 
     this._50 = ref.offset(1, 0x50).cast(UnsignedByteRef::new);
-
+    this._51 = ref.offset(1, 0x51).cast(UnsignedByteRef::new);
     this._52 = ref.offset(1, 0x52).cast(UnsignedByteRef::new);
 
     this.vramSlot_54 = ref.offset(4, 0x54).cast(IntRef::new);

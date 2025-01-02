@@ -848,7 +848,7 @@ public final class Map8Overlay_8787e04 {
     r6.packet_00.attribs_04.attrib2_04.and(0xfff);
     final int r5 = mallocSlotChip(17, 0x608) + 0x400;
     FUN_8015250(224);
-    FUN_80001c8(r6.slot_1c.get(), 0x80, r5);
+    allocateSpriteSlot(r6.slot_1c.get(), 0x80, r5);
     freeSlot(17);
     boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._1c0.set(0x202);
     FUN_808a360();
@@ -898,9 +898,9 @@ public final class Map8Overlay_8787e04 {
     MEMORY.call(0x8000150, slot);
   }
 
-  /** {@link GoldenSun#FUN_80001c8} */
+  /** {@link GoldenSun#allocateSpriteSlot_} */
   @Method(0x2009844)
-  public static int FUN_80001c8(final int slot, final int size, final int newDataPtr) {
+  public static int allocateSpriteSlot(final int slot, final int size, final int newDataPtr) {
     return (int)MEMORY.call(0x80001c8, slot, size, newDataPtr);
   }
 

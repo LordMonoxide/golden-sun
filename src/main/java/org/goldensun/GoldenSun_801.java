@@ -24,7 +24,7 @@ import org.goldensun.types.Vec3s;
 
 import javax.annotation.Nullable;
 
-import static org.goldensun.GoldenSun.FUN_8003fa4;
+import static org.goldensun.GoldenSun.allocateSpriteSlot;
 import static org.goldensun.GoldenSun.FUN_80045e8;
 import static org.goldensun.GoldenSun.FUN_80053e8;
 import static org.goldensun.GoldenSun.FUN_8005a78;
@@ -3361,7 +3361,7 @@ public final class GoldenSun_801 {
   @Method(0x80173f4)
   public static void FUN_80173f4() {
     final Struct12fc r5 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
-    r5._12b8.set(FUN_8003fa4(0x5f, 0x2000, 0));
+    r5._12b8.set(allocateSpriteSlot(0x5f, 0x2000, 0));
     r5._12b0.set(0x9);
     r5._ea8.set(0xa);
     r5._eac.set(0);
@@ -3374,7 +3374,7 @@ public final class GoldenSun_801 {
   public static void FUN_8017464(final int r0) {
     final Struct12fc r5 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
     if(r0 != 0) {
-      r5._12b8.set(FUN_8003fa4(95, 0x2000, 0));
+      r5._12b8.set(allocateSpriteSlot(95, 0x2000, 0));
     }
 
     //LAB_8017480
@@ -5336,7 +5336,7 @@ public final class GoldenSun_801 {
                 //LAB_8019288
                 //TODO
                 final int r2 = 0x80368d4 + (ticks_3001800.get() >>> 2 & 0x7) * 0x80;
-                r7.attribs_04.attrib2_04.and(~0x3ff).or(FUN_8003fa4(r9.vramSlot_12b6.get(), 0x80, r2) & 0x3ff);
+                r7.attribs_04.attrib2_04.and(~0x3ff).or(allocateSpriteSlot(r9.vramSlot_12b6.get(), 0x80, r2) & 0x3ff);
                 r6.slot_0e.set(r7.attribs_04.attrib2_04.get() & 0xff);
                 r5 = r7.attribs_04.flags_01.get() & ~0xc & ~0x10 | 0x20;
                 r5 = r5 & 0x3f | 0x80;
@@ -6031,7 +6031,7 @@ public final class GoldenSun_801 {
   public static int FUN_801a2a4(final int itemId, final int r1, final int vramSlot) {
     final int r5 = mallocSlotChip(17, 0x608);
     FUN_801a088(itemId, r1);
-    FUN_8003fa4(vramSlot, 0x80, r5 + 0x400);
+    allocateSpriteSlot(vramSlot, 0x80, r5 + 0x400);
     freeSlot(17);
     return 1;
   }
@@ -6089,7 +6089,7 @@ public final class GoldenSun_801 {
     }
 
     //LAB_801a556
-    MEMORY.ref(4, r3).setu(FUN_8003fa4(MEMORY.ref(4, r2).get(), 0x200, r6 + 0x400));
+    MEMORY.ref(4, r3).setu(allocateSpriteSlot(MEMORY.ref(4, r2).get(), 0x200, r6 + 0x400));
     freeSlot(17);
     DMA.channels[3].SAD.setu(r5_0);
     DMA.channels[3].DAD.setu(0x5000200 + a4 * 0x20);
@@ -6426,7 +6426,7 @@ public final class GoldenSun_801 {
     //LAB_801dac4
     r5 = getFreeVramSlot();
     if(r5 < 0x60) {
-      FUN_8003fa4(r5, 0x80, 0x80310a4);
+      allocateSpriteSlot(r5, 0x80, 0x80310a4);
       final GraphicsStruct1c r0_0 = FUN_801eadc(r5, 0x40000000, r8, 0, 0);
       MEMORY.ref(4, r11 + 0x5a4).setu(r0_0 == null ? 0 : r0_0.getAddress());
       FUN_80b0038(r11 + 0x5a4, r8.x_0c.get() * 0x8, r8.y_0e.get() * 0x8 + 0x10);

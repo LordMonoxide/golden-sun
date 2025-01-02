@@ -11,7 +11,7 @@ import org.goldensun.types.SoundStructFb0;
 
 import static org.goldensun.GoldenSun.CpuSet;
 import static org.goldensun.GoldenSun.FUN_80037d4;
-import static org.goldensun.GoldenSun.FUN_8003fa4;
+import static org.goldensun.GoldenSun.allocateSpriteSlot;
 import static org.goldensun.GoldenSun.FUN_8004760;
 import static org.goldensun.GoldenSun.FUN_80053e8;
 import static org.goldensun.GoldenSun.clearTickCallback;
@@ -630,7 +630,7 @@ public final class GoldenSun_80f {
       for(r7 = 0; r7 < 5; r7++) {
         MEMORY.ref(4, r5).setu(0);
         MEMORY.ref(4, r5 + 0x4).setu(0x40004000);
-        MEMORY.ref(4, r5 + 0x8).setu(FUN_8003fa4(getFreeVramSlot(), 0x80, r6 + (r7 * 0x100 >>> 1)));
+        MEMORY.ref(4, r5 + 0x8).setu(allocateSpriteSlot(getFreeVramSlot(), 0x80, r6 + (r7 * 0x100 >>> 1)));
         r5 = r5 + 0xc;
       }
 

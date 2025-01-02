@@ -219,10 +219,10 @@ public final class GoldenSun_807 {
     MEMORY.call(0x807a458, charId, element, djinn);
   }
 
-  /** {@link GoldenSun_807#FUN_80797d4} */
+  /** {@link GoldenSun_807#getSummon} */
   @Method(0x80771e0)
-  public static int FUN_80771e0(final int r0) {
-    return (int)MEMORY.call(0x80797d4, r0);
+  public static int getSummon_(final int index) {
+    return (int)MEMORY.call(0x80797d4, index);
   }
 
   /** {@link GoldenSun_807#FUN_807a5b0} */
@@ -2145,13 +2145,13 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x80797d4)
-  public static int FUN_80797d4(final int r0) {
-    if((r0 & 0xffff_ffffL) > (0xf & 0xffff_ffffL)) {
+  public static int getSummon(final int index) {
+    if((index & 0xffff_ffffL) > 15) {
       return 0;
     }
 
     //LAB_80797de
-    return 0x8084a9c + r0 * 0x8;
+    return 0x8084a9c + index * 0x8;
   }
 
   @Method(0x80797ec)

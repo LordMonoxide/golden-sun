@@ -3360,7 +3360,7 @@ public final class Map132Overlay_87ced6c {
     r7._61.set(0x1);
     final int r5 = mallocSlotChip(17, 0x608);
     FUN_8015250(0xb5);
-    FUN_80001c8(r6.slot_1c.get(), 0x80, r5 + 0x400);
+    allocateSpriteSlot(r6.slot_1c.get(), 0x80, r5 + 0x400);
     freeSlot(17);
     r7.dest_38.setX(r7.pos_08.getX());
     r7.dest_38.setY(r7.pos_08.getY());
@@ -3412,9 +3412,9 @@ public final class Map132Overlay_87ced6c {
     MEMORY.call(0x8000150, slot);
   }
 
-  /** {@link GoldenSun#FUN_80001c8} */
+  /** {@link GoldenSun#allocateSpriteSlot_} */
   @Method(0x200aff0)
-  public static int FUN_80001c8(final int slot, final int size, final int newDataPtr) {
+  public static int allocateSpriteSlot(final int slot, final int size, final int newDataPtr) {
     return (int)MEMORY.call(0x80001c8, slot, size, newDataPtr);
   }
 

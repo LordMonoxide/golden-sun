@@ -26,7 +26,7 @@ import org.goldensun.types.TileAttributes04;
 import org.goldensun.types.Unit14c;
 import org.goldensun.types.Vec3;
 
-import static org.goldensun.GoldenSun.FUN_8003fa4;
+import static org.goldensun.GoldenSun.allocateSpriteSlot;
 import static org.goldensun.GoldenSun.FUN_8004760;
 import static org.goldensun.GoldenSun.FUN_8009088;
 import static org.goldensun.GoldenSun.setActorSpriteScript_;
@@ -4519,7 +4519,7 @@ public final class GoldenSun_808 {
 
     final int addr = mallocSlotChip(17, 0x608);
     FUN_8015250(r1);
-    sprite.packet_00.attribs_04.attrib2_04.and(~0x3ff).or(FUN_8003fa4(sprite.slot_1c.get(), 0x80, addr + 0x400) & 0x3ff);
+    sprite.packet_00.attribs_04.attrib2_04.and(~0x3ff).or(allocateSpriteSlot(sprite.slot_1c.get(), 0x80, addr + 0x400) & 0x3ff);
     freeSlot(17);
     actor._6c.set(getConsumer(GoldenSun_808.class, "FUN_808eee4", Actor70.class));
     return actor;

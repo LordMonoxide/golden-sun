@@ -18,7 +18,7 @@ import org.goldensun.types.Unit14c;
 import javax.annotation.Nullable;
 
 import static org.goldensun.GoldenSun.FUN_800352c;
-import static org.goldensun.GoldenSun.FUN_8003fa4;
+import static org.goldensun.GoldenSun.allocateSpriteSlot;
 import static org.goldensun.GoldenSun.FUN_8009290;
 import static org.goldensun.GoldenSun.FUN_8009298;
 import static org.goldensun.GoldenSun.clearSprite_;
@@ -448,7 +448,7 @@ public final class GoldenSun_80a {
       return null;
     }
 
-    FUN_8003fa4(slot, 0x80, 0x80aea4c);
+    allocateSpriteSlot(slot, 0x80, 0x80aea4c);
     return FUN_80150c8(slot, 0x40000000, panel, x, y);
   }
 
@@ -3320,7 +3320,7 @@ public final class GoldenSun_80a {
     final int sp10 = getFreeVramSlot();
     if(sp10 != 0x60) {
       //LAB_80a4f8e
-      FUN_8003fa4(sp10, 0x100, 0);
+      allocateSpriteSlot(sp10, 0x100, 0);
       FUN_80150c8(sp10, 0x40004000, r7, 48, 32);
       final GraphicsStruct1c r0_0 = FUN_80150c8(sp10, 0x40004000, r7, 80, 32);
       final int r2_0 = (r0_0.packet_10.attribs_04.attrib2_04.get() & 0x3ff) + 4 & 0x3ff;
@@ -3343,7 +3343,7 @@ public final class GoldenSun_80a {
           FUN_80b0040(r1 + r0, 0, r10);
           FUN_80b0040(r0 + r8 + 1, 0xa, r10);
           FUN_80b0040(r0, 0x2, r10);
-          FUN_8003fa4(sp10, 0x100, r10);
+          allocateSpriteSlot(sp10, 0x100, r10);
           FUN_80150b0(r8 + 1, 0x2, r7, 0x20, 0x20);
           drawIcon(0x182 + (r9.abilityId_178.get(0).get() & 0x1ff), r7, 0x10, 0x8);
           FUN_80150b0(sp04 - r8 - 1, 0x2, r7, 0x10, 0x18);
@@ -3494,11 +3494,11 @@ public final class GoldenSun_80a {
 
     final int slot1 = getFreeVramSlot();
     MEMORY.ref(2, r5 + 0x392).setu(slot1);
-    FUN_8003fa4(slot1, 0x80, 0x80aebcc);
+    allocateSpriteSlot(slot1, 0x80, 0x80aebcc);
 
     final int slot2 = getFreeVramSlot();
     MEMORY.ref(2, r5 + 0x394).setu(slot2);
-    FUN_8003fa4(slot2, 0x80, 0x80aeb4c);
+    allocateSpriteSlot(slot2, 0x80, 0x80aeb4c);
   }
 
   @Method(0x80a5578)
