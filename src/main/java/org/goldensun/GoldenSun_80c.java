@@ -3,9 +3,12 @@ package org.goldensun;
 import org.goldensun.battle.BattleStruct82c;
 import org.goldensun.battle.Camera4c;
 import org.goldensun.memory.Method;
+import org.goldensun.memory.types.ArrayRef;
+import org.goldensun.memory.types.UnsignedShortRef;
 import org.goldensun.types.Actor70;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.Unit14c;
+import org.goldensun.types.VblankTransfer0c;
 import org.goldensun.types.Vec3;
 
 import static org.goldensun.GoldenSun.FUN_800387c;
@@ -438,6 +441,87 @@ public final class GoldenSun_80c {
     CPU.sp().value += 0x94;
   }
 
+  @Method(0x80c0774)
+  public static void FUN_80c0774(final int r0, final int r1, final int r2) {
+    int r6 = boardWramMallocHead_3001e50.offset(44 * 0x4).get();
+    if(MEMORY.ref(4, r6 + 0x8).get() == 0) {
+      setTickCallback(getRunnable(GoldenSun_80c.class, "FUN_80c0130"), 0x4ff);
+    }
+
+    //LAB_80c078c
+    MEMORY.ref(4, r6 + 0x8).setu(r0);
+
+    if(r0 == 0x1) {
+      final int r4 = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
+      INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
+
+      final int count = vblankTransferQueue_2002090.count_00.get();
+      if(count < 32) {
+        final VblankTransfer0c r3 = vblankTransferQueue_2002090.queue_04.get(count);
+        r3.src_00.set(0x1f83);
+        r3.dst_04.set(GPU.BG1CNT.getAddress());
+        r3.cnt_08.set(0x20000);
+        vblankTransferQueue_2002090.count_00.incr();
+      }
+
+      //LAB_80c07be
+      INTERRUPTS.INT_MASTER_ENABLE.setu(r4);
+    }
+
+    //LAB_80c07c0
+    DMA.channels[3].SAD.setu(0x5000200);
+    DMA.channels[3].DAD.setu(0x50000a0);
+    DMA.channels[3].CNT.setu(0x80000010);
+    MEMORY.ref(2, 0x50000bc).setu(MEMORY.ref(2, 0x50001e8).getUnsigned());
+
+    if(r2 == 0x80) {
+      DMA.channels[3].SAD.setu(boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new)._544.getAddress());
+      DMA.channels[3].DAD.setu(0x50000c0);
+      DMA.channels[3].CNT.setu(0x80000080);
+      //LAB_80c07ec
+    } else if(r2 != 0) {
+      final ArrayRef<UnsignedShortRef> r12 = boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new)._544;
+
+      //LAB_80c0802
+      for(r6 = 0; r6 < 0x80; r6++) {
+        final int r3 = r12.get(r6).get();
+        int r = r3 & 0x1f;
+        int g = r3 >>> 5 & 0x1f;
+        int b = r3 >>> 10 & 0x1f;
+
+        if(r > r2) {
+          r -= r2;
+        } else {
+          //LAB_80c0864
+          r = 0;
+        }
+
+        //LAB_80c0866
+        if(g > r2) {
+          g -= r2;
+        } else {
+          //LAB_80c086e
+          g = 0;
+        }
+
+        //LAB_80c0870
+        if(b > r2) {
+          b -= r2;
+        } else {
+          //LAB_80c0878
+          b = 0;
+        }
+
+        //LAB_80c087a
+        MEMORY.ref(2, 0x50000c0 + r6 * 0x2).setu(b << 10 | g << 5 | r);
+      }
+    }
+
+    //LAB_80c088e
+    FUN_80c0098(0x6003800);
+    FUN_80c00d8(0x600f800);
+  }
+
   @Method(0x80c08a8)
   public static void FUN_80c08a8() {
     CPU.sp().value -= 0x4;
@@ -726,6 +810,13 @@ public final class GoldenSun_80c {
     FUN_8005258(r7 * 0x1fe, (int)MEMORY.call(0x300013c, r7 * 0x1fe, 0xc000), r7 * 0x3fc);
   }
 
+  @Method(0x80c0df4)
+  public static void FUN_80c0df4(final int unitId0, final int unitId1, final int r2) {
+    final Actor70 actor0 = getCombatantForUnit(unitId0).actor_00.deref();
+    final Actor70 actor1 = getCombatantForUnit(unitId1).actor_00.deref();
+    FUN_80c0cec((actor1.pos_08.getX() + actor0.pos_08.getX()) / 2, 0, (actor1.pos_08.getZ() + actor0.pos_08.getZ()) / 2, r2);
+  }
+
   @Method(0x80c0f98)
   public static void FUN_80c0f98(final int charId, final int r1) {
     final BattleStruct82c.Combatant2c combatant = getCombatantForUnit(charId);
@@ -857,6 +948,11 @@ public final class GoldenSun_80c {
     }
 
     //LAB_80c178a
+  }
+
+  @Method(0x80c1798)
+  public static void FUN_80c1798(final int r0, final int r1, final int r2, final int r3) {
+    throw new RuntimeException("Not implemented");
   }
 
   @Method(0x80c1a34)
@@ -1559,6 +1655,42 @@ public final class GoldenSun_80c {
     return (actorProperties_80c7420.get(index)._02.get() << 31) != 0 ? 1 : 0;
   }
 
+  @Method(0x80c23e8)
+  public static int FUN_80c23e8(int r0) {
+    int r2;
+    int r3;
+
+    if((r0 & 0xffff_ffffL) > (0xab & 0xffff_ffffL)) {
+      r0 = 0x1;
+    } else {
+      //LAB_80c23f2
+      r3 = 0x80c7420;
+      r2 = r0 << 3;
+      r2 = r2 + r3;
+      r3 = MEMORY.ref(1, r2 + 0x2).getUnsigned();
+      r3 = r3 << 27;
+      r3 = r3 >>> 28;
+      r0 = r3;
+      if(r3 == 0) {
+        r0 = 0x1;
+      }
+    }
+
+    //LAB_80c2406
+    return r0;
+  }
+
+  @Method(0x80c2410)
+  public static int FUN_80c2410(final int actorId) {
+    if((actorId & 0xffff_ffffL) >= 170) {
+      return 0;
+    }
+
+    //LAB_80c241a
+    //LAB_80c242c
+    return actorProperties_80c7420.get(actorId)._02.get() >>> 5;
+  }
+
   @Method(0x80c24b0)
   public static void FUN_80c24b0() {
     final BattleStruct82c r0 = boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new);
@@ -1576,6 +1708,18 @@ public final class GoldenSun_80c {
   @Method(0x80c2724)
   public static void FUN_80c2724() {
     throw new RuntimeException("Not implemented");
+  }
+
+  /** {@link GoldenSun_80e#FUN_80e3a3c} */
+  @Method(0x80c9008)
+  public static void FUN_80c9008(final int r0) {
+    MEMORY.call(0x80e3a3c, r0);
+  }
+
+  /** {@link GoldenSun_80d#FUN_80d6660} */
+  @Method(0x80c9018)
+  public static void FUN_80c9018(final int r0) {
+    MEMORY.call(0x80d6660, r0);
   }
 
   /** {@link GoldenSun_80d#FUN_80d6578} */

@@ -62,7 +62,7 @@ public class Unit14c implements MemoryRef {
   public final UnsignedByteRef id_128;
   public final UnsignedByteRef class_129;
   public final UnsignedByteRef _12a;
-  public final UnsignedByteRef _12b;
+  public final ByteRef _12b;
   public final ArrayRef<ByteRef> summonBoosts_12c;
   public final ByteRef curse_130;
   /** 1 for poison, 2 for venom; every increase adds 10% damage in battle */
@@ -75,6 +75,7 @@ public class Unit14c implements MemoryRef {
   public final ByteRef _137;
   public final UnsignedByteRef _138;
 
+  public final UnsignedByteRef _13a;
   public final UnsignedByteRef _13b;
   public final UnsignedByteRef _13c;
   public final UnsignedByteRef _13d;
@@ -90,6 +91,7 @@ public class Unit14c implements MemoryRef {
   public final UnsignedByteRef _145;
 
   public final ByteRef _147;
+  public final UnsignedByteRef _148;
 
   public Unit14c(final Value ref) {
     this.ref = ref;
@@ -133,7 +135,7 @@ public class Unit14c implements MemoryRef {
     this.id_128 = ref.offset(1, 0x128).cast(UnsignedByteRef::new);
     this.class_129 = ref.offset(1, 0x129).cast(UnsignedByteRef::new);
     this._12a = ref.offset(1, 0x12a).cast(UnsignedByteRef::new);
-    this._12b = ref.offset(1, 0x12b).cast(UnsignedByteRef::new);
+    this._12b = ref.offset(1, 0x12b).cast(ByteRef::new);
     this.summonBoosts_12c = ref.offset(1, 0x12c).cast(ArrayRef.of(ByteRef.class, 4, 0x1, ByteRef::new));
     this.curse_130 = ref.offset(1, 0x130).cast(ByteRef::new);
     this.affliction_131 = ref.offset(1, 0x131).cast(ByteRef::new);
@@ -145,6 +147,7 @@ public class Unit14c implements MemoryRef {
     this._137 = ref.offset(1, 0x137).cast(ByteRef::new);
     this._138 = ref.offset(1, 0x138).cast(UnsignedByteRef::new);
 
+    this._13a = ref.offset(1, 0x13a).cast(UnsignedByteRef::new);
     this._13b = ref.offset(1, 0x13b).cast(UnsignedByteRef::new);
     this._13c = ref.offset(1, 0x13c).cast(UnsignedByteRef::new);
     this._13d = ref.offset(1, 0x13d).cast(UnsignedByteRef::new);
@@ -158,6 +161,7 @@ public class Unit14c implements MemoryRef {
     this._145 = ref.offset(1, 0x145).cast(UnsignedByteRef::new);
 
     this._147 = ref.offset(1, 0x147).cast(ByteRef::new);
+    this._148 = ref.offset(1, 0x148).cast(UnsignedByteRef::new);
   }
 
   @Override

@@ -3165,6 +3165,12 @@ public final class GoldenSun {
     MEMORY.call(0x800c598, r0, r1);
   }
 
+  /** {@link GoldenSun#FUN_800be20} */
+  @Method(0x8009260)
+  public static int FUN_8009260(final int spriteDataIndex, final int r1, final int r2) {
+    return (int)MEMORY.call(0x800be20, spriteDataIndex, r1, r2);
+  }
+
   /** {@link GoldenSun_801#FUN_80122c8} */
   @Method(0x8009268)
   public static int FUN_8009268(final Vec3 r0, final int r1) {
@@ -4314,6 +4320,51 @@ public final class GoldenSun {
     }
 
     //LAB_800be10
+  }
+
+  @Method(0x800be20)
+  public static int FUN_800be20(int r0, final int r1, int r2) {
+    int r3;
+    int r5;
+    final int r6;
+    int r7;
+
+    r6 = r1;
+    r5 = r2;
+    r0 = getSpriteData(r0);
+    r3 = MEMORY.ref(1, r0 + 0x5).getUnsigned();
+    r7 = 0x0;
+    if((r6 & 0xffff_ffffL) >= (r3 & 0xffff_ffffL)) {
+      return 0;
+    }
+
+    //LAB_800be36
+    r2 = MEMORY.ref(4, r0 + 0x10).get();
+    r3 = r6 << 2;
+    r0 = MEMORY.ref(4, r3 + r2).get();
+
+    //LAB_800be3c
+    do {
+      do {
+        r2 = MEMORY.ref(1, r0).getUnsigned();
+        r3 = MEMORY.ref(1, r0 + 0x1).getUnsigned();
+        r0 = r0 + 0x2;
+        if(r2 == 0xfe || r2 == 0xf1 || r2 == 0xfd || r2 == 0xef) {
+          return r7;
+        }
+        if(r2 == 0xf5 || r2 == 0xff) {
+          break;
+        }
+      } while((r2 & 0xffff_ffffL) > 0xee);
+
+      //LAB_800be5e
+      r5 = r5 - 0x1;
+      r7 = r7 + r3;
+    } while(r5 != 0);
+
+    //LAB_800be66
+    //LAB_800be68
+    return r7;
   }
 
   @Method(0x800c004)

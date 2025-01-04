@@ -125,6 +125,7 @@ public final class CopiedSegment8000770 {
     }
   }
 
+  /** sqrt? */
   @Method(0x30001d8)
   public static int FUN_30001d8(int r0) {
     final int r1;

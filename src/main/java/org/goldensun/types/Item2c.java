@@ -3,6 +3,7 @@ package org.goldensun.types;
 import org.goldensun.memory.Value;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.ByteRef;
+import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.MemoryRef;
 import org.goldensun.memory.types.ShortRef;
 import org.goldensun.memory.types.UnsignedByteRef;
@@ -43,9 +44,12 @@ public class Item2c implements MemoryRef {
   public final UnsignedShortRef icon_06;
   public final ShortRef attack_08;
   public final ByteRef defence_0a;
-  public final ByteRef unleashRate_0b;
+  public final UnsignedByteRef unleashRate_0b;
   public final UnsignedByteRef useType_0c;
 
+  public final UnsignedShortRef _0e;
+
+  public final IntRef _14;
   public final ArrayRef<EquipEffect04> equipEffect_18;
 
   public final UnsignedShortRef useAbility_28;
@@ -60,9 +64,12 @@ public class Item2c implements MemoryRef {
     this.icon_06 = ref.offset(2, 0x06).cast(UnsignedShortRef::new);
     this.attack_08 = ref.offset(2, 0x08).cast(ShortRef::new);
     this.defence_0a = ref.offset(1, 0x0a).cast(ByteRef::new);
-    this.unleashRate_0b = ref.offset(1, 0x0b).cast(ByteRef::new);
+    this.unleashRate_0b = ref.offset(1, 0x0b).cast(UnsignedByteRef::new);
     this.useType_0c = ref.offset(1, 0x0c).cast(UnsignedByteRef::new);
 
+    this._0e = ref.offset(2, 0x0e).cast(UnsignedShortRef::new);
+
+    this._14 = ref.offset(4, 0x14).cast(IntRef::new);
     this.equipEffect_18 = ref.offset(4, 0x18).cast(ArrayRef.of(EquipEffect04.class, 4, 0x4, EquipEffect04::new));
 
     this.useAbility_28 = ref.offset(2, 0x28).cast(UnsignedShortRef::new);

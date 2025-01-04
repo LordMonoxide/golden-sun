@@ -45,11 +45,24 @@ public class BattleStruct82c implements MemoryRef {
   public final IntRef _534;
   public final IntRef _538;
   public final ArrayRef<UnsignedShortRef> _53c;
-
+  public final ArrayRef<UnsignedShortRef> _544;
+  public final IntRef _644;
   public final UnsignedShortRef backgroundPointerTableId_648;
 
   public final UnsignedShortRef _64e;
   public final UnsignedShortRef _650;
+
+  public final Sub64 _654;
+  public final ArrayRef<UnsignedByteRef> _6b8;
+  public final ArrayRef<IntRef> _6f8;
+  public final IntRef _7f8;
+  public final IntRef _7fc;
+  public final IntRef _800;
+  public final IntRef _804;
+  public final IntRef _808;
+
+  public final IntRef _820;
+  public final IntRef _824;
 
   public BattleStruct82c(final Value ref) {
     this.ref = ref;
@@ -84,11 +97,24 @@ public class BattleStruct82c implements MemoryRef {
     this._534 = ref.offset(4, 0x534).cast(IntRef::new);
     this._538 = ref.offset(4, 0x538).cast(IntRef::new);
     this._53c = ref.offset(2, 0x53c).cast(ArrayRef.of(UnsignedShortRef.class, 4, 0x2, UnsignedShortRef::new));
-
+    this._544 = ref.offset(4, 0x544).cast(ArrayRef.of(UnsignedShortRef.class, 0x80, 0x2, UnsignedShortRef::new));
+    this._644 = ref.offset(4, 0x644).cast(IntRef::new);
     this.backgroundPointerTableId_648 = ref.offset(2, 0x648).cast(UnsignedShortRef::new);
 
     this._64e = ref.offset(2, 0x64e).cast(UnsignedShortRef::new);
     this._650 = ref.offset(2, 0x650).cast(UnsignedShortRef::new);
+
+    this._654 = ref.offset(4, 0x654).cast(Sub64::new);
+    this._6b8 = ref.offset(1, 0x6b8).cast(ArrayRef.of(UnsignedByteRef.class, 64, 0x1, UnsignedByteRef::new));
+    this._6f8 = ref.offset(4, 0x6f8).cast(ArrayRef.of(IntRef.class, 64, 0x4, IntRef::new));
+    this._7f8 = ref.offset(4, 0x7f8).cast(IntRef::new);
+    this._7fc = ref.offset(4, 0x7fc).cast(IntRef::new);
+    this._800 = ref.offset(4, 0x800).cast(IntRef::new);
+    this._804 = ref.offset(4, 0x804).cast(IntRef::new);
+    this._808 = ref.offset(4, 0x808).cast(IntRef::new);
+
+    this._820 = ref.offset(4, 0x820).cast(IntRef::new);
+    this._824 = ref.offset(4, 0x824).cast(IntRef::new);
   }
 
   @Override
@@ -152,6 +178,7 @@ public class BattleStruct82c implements MemoryRef {
     public final ShortRef _06;
     public final ShortRef _08;
     public final ShortRef _0a;
+    public final ShortRef _0c;
 
     public Turn10(final Value ref) {
       this.ref = ref;
@@ -162,6 +189,54 @@ public class BattleStruct82c implements MemoryRef {
       this._06 = ref.offset(2, 0x06).cast(ShortRef::new);
       this._08 = ref.offset(2, 0x08).cast(ShortRef::new);
       this._0a = ref.offset(2, 0x0a).cast(ShortRef::new);
+      this._0c = ref.offset(2, 0x0c).cast(ShortRef::new);
+    }
+
+    @Override
+    public int getAddress() {
+      return this.ref.getAddress();
+    }
+  }
+
+  public static class Sub64 implements MemoryRef {
+    private final Value ref;
+
+    public final UnsignedByteRef unitId_00;
+    public final UnsignedByteRef _01;
+    public final ArrayRef<UnsignedByteRef> _02;
+
+    public final ArrayRef<ByteRef> _1e;
+    public final ArrayRef<ByteRef> _2c;
+    public final ArrayRef<ByteRef> _3a;
+
+    public final ShortRef _48;
+
+    public final IntRef _4c;
+    public final IntRef _50;
+    public final IntRef _54;
+    public final IntRef _58;
+    public final IntRef _5c;
+    public final IntRef _60;
+
+    public Sub64(final Value ref) {
+      this.ref = ref;
+
+      this.unitId_00 = ref.offset(1, 0x00).cast(UnsignedByteRef::new);
+      this._01 = ref.offset(1, 0x01).cast(UnsignedByteRef::new);
+      this._02 = ref.offset(1, 0x02).cast(ArrayRef.of(UnsignedByteRef.class, 14, 0x1, UnsignedByteRef::new));
+
+      this._1e = ref.offset(1, 0x1e).cast(ArrayRef.of(ByteRef.class, 14, 0x1, ByteRef::new));
+      this._2c = ref.offset(1, 0x2c).cast(ArrayRef.of(ByteRef.class, 14, 0x1, ByteRef::new));
+      this._3a = ref.offset(1, 0x3a).cast(ArrayRef.of(ByteRef.class, 14, 0x1, ByteRef::new));
+
+      this._48 = ref.offset(2, 0x48).cast(ShortRef::new);
+
+      this._4c = ref.offset(4, 0x4c).cast(IntRef::new);
+      this._50 = ref.offset(4, 0x50).cast(IntRef::new);
+      this._54 = ref.offset(4, 0x54).cast(IntRef::new);
+      this._58 = ref.offset(4, 0x58).cast(IntRef::new);
+      this._5c = ref.offset(4, 0x5c).cast(IntRef::new);
+      this._60 = ref.offset(4, 0x60).cast(IntRef::new);
     }
 
     @Override

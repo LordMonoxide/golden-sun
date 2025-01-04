@@ -153,6 +153,12 @@ public final class GoldenSun_807 {
     return (int)MEMORY.call(0x80783dc, charId, amount);
   }
 
+  /** {@link GoldenSun_807#FUN_807822c} */
+  @Method(0x8077128)
+  public static void FUN_8077128(final int r0) {
+    MEMORY.call(0x807822c, r0);
+  }
+
   /** {@link GoldenSun_807#FUN_8079460} */
   @Method(0x8077140)
   public static int FUN_8077140(final int r0, final int r1, final int r2) {
@@ -177,10 +183,28 @@ public final class GoldenSun_807 {
     return (int)MEMORY.call(0x80796c4, out);
   }
 
+  /** {@link GoldenSun_807#FUN_8079d1c} */
+  @Method(0x8077160)
+  public static int FUN_8077160(final Unit14c r0) {
+    return (int)MEMORY.call(0x8079d1c, r0);
+  }
+
   /** {@link GoldenSun_807#removeChar} */
   @Method(0x8077168)
   public static int removeChar_(final int charId) {
     return (int)MEMORY.call(0x8079664, charId);
+  }
+
+  /** {@link GoldenSun_807#FUN_8079c8c} */
+  @Method(0x8077170)
+  public static int FUN_8077170(final int r0) {
+    return (int)MEMORY.call(0x8079c8c, r0);
+  }
+
+  /** {@link GoldenSun_807#FUN_8079f10} */
+  @Method(0x8077178)
+  public static int FUN_8077178(final int r0, final int r1, final int r2, final int r3, final int a4) {
+    return (int)MEMORY.call(0x8079f10, r0, r1, r2, r3, a4);
   }
 
   /** {@link GoldenSun_807#FUN_8079c5c} */
@@ -205,6 +229,12 @@ public final class GoldenSun_807 {
   @Method(0x80771b0)
   public static int setDjinn_(final int charId, final int element, final int djinn) {
     return (int)MEMORY.call(0x807a2e4, charId, element, djinn);
+  }
+
+  /** {@link GoldenSun_807#FUN_807a350} */
+  @Method(0x80771b8)
+  public static int FUN_80771b8(final int charId, final int element, final int djinn) {
+    return (int)MEMORY.call(0x807a350, charId, element, djinn);
   }
 
   /** {@link GoldenSun_807#recoverDjinn} */
@@ -301,6 +331,12 @@ public final class GoldenSun_807 {
   @Method(0x80772f0)
   public static void FUN_80772f0() {
     MEMORY.call(0x8077c10);
+  }
+
+  /** {@link GoldenSun_807#FUN_8079cbc} */
+  @Method(0x80772f8)
+  public static int FUN_80772f8(final Unit14c r0) {
+    return (int)MEMORY.call(0x8079cbc, r0);
   }
 
   /** {@link GoldenSun_807#calculateBuildDate} */
@@ -1652,6 +1688,24 @@ public final class GoldenSun_807 {
     return -1;
   }
 
+  @Method(0x807882c)
+  public static Item2c FUN_807882c(final Unit14c unit, final int itemType) {
+    //LAB_8078842
+    for(int r7 = 0; r7 < 15; r7++) {
+      if((unit.items_d8.get(r7).get() & 0x200) != 0) {
+        final Item2c item = getItem(unit.items_d8.get(r7).get());
+        if(item.type_02.get() == itemType) {
+          return item;
+        }
+      }
+
+      //LAB_8078858
+    }
+
+    //LAB_8078862
+    return null;
+  }
+
   @Method(0x8079008)
   public static int FUN_8079008(final int r0, final int r1) {
     final Unit14c r2 = getCharOrMonsterData(r0);
@@ -2193,6 +2247,17 @@ public final class GoldenSun_807 {
     return 0;
   }
 
+  @Method(0x80798b4)
+  public static int FUN_80798b4(final Unit14c r0) {
+    int r1 = MEMORY.ref(1, FUN_80773d8(r0.id_128.get()) + 0x34).getUnsigned();
+    if(r1 > 43) {
+      r1 = 0;
+    }
+
+    //LAB_80798cc
+    return MEMORY.ref(4, 0x8088e38 + r1 * 0x18).get();
+  }
+
   @Method(0x80798e0)
   public static void FUN_80798e0(int r0, final ArrayRef<Unit14c.PowerResist04> r1) {
     final Unit14c r2 = getCharOrMonsterData(r0);
@@ -2364,6 +2429,75 @@ public final class GoldenSun_807 {
   @Method(0x8079c5c)
   public static int FUN_8079c5c(final int r0, final int r1, final int r2) {
     return r2 * r0 * FUN_8079b24(r1 * 0x2 - 0xc8, 0) / 0x10000;
+  }
+
+  @Method(0x8079c8c)
+  public static int FUN_8079c8c(final int unitId) {
+    final Unit14c unit = getCharOrMonsterData(unitId);
+    if(unit.class_129.get() == 0) {
+      return FUN_80798b4(unit);
+    }
+
+    //LAB_8079ca2
+    final Item2c item = FUN_807882c(unit, 1);
+    if(item != null) {
+      return item._14.get();
+    }
+
+    //LAB_8079cb0
+    //LAB_8079cb2
+    return 4;
+  }
+
+  @Method(0x8079cbc)
+  public static int FUN_8079cbc(final Unit14c unit) {
+    int r6 = 0;
+
+    //LAB_8079cd2
+    for(int r1 = 0; r1 < 15; r1++) {
+      if((unit.items_d8.get(r1).get() & 0x200) != 0) {
+        final ArrayRef<Item2c.EquipEffect04> effects = getItem(unit.items_d8.get(r1).get()).equipEffect_18;
+
+        //LAB_8079cea
+        for(int r2 = 0; r2 < 4; r2++) {
+          if(effects.get(r2).effect_00.get() == 23) {
+            r6 += effects.get(r2).value_01.get();
+          }
+
+          //LAB_8079cf6
+        }
+      }
+
+      //LAB_8079cfe
+    }
+
+    if(r6 < 0) {
+      r6 = 0;
+    }
+
+    //LAB_8079d0c
+    return r6;
+  }
+
+  @Method(0x8079d1c)
+  public static int FUN_8079d1c(final Unit14c r0) {
+    if(r0.class_129.get() == 0) {
+      return 1;
+    }
+
+    final Item2c r6 = FUN_807882c(r0, 1);
+
+    if(r6 == null || r6._0e.get() == 0) {
+      return 1;
+    }
+
+    if(divideS(FUN_8079cbc(r0) + r6.unleashRate_0b.get() * 5 << 16, 100) <= (lcgRand() & 0xffff)) {
+      //LAB_8079d6a
+      return 1;
+    }
+
+    //LAB_8079d6c
+    return r6._0e.get();
   }
 
   @Method(0x807a0cc)
