@@ -406,6 +406,28 @@ public final class GoldenSunVars {
 
   public static final ArrayRef<ActorProperties08> actorProperties_80c7420 = MEMORY.ref(4, 0x80c7420, ArrayRef.of(ActorProperties08.class, 170, 0x8, ActorProperties08::new));
 
+  /**
+   * <ol start="0">
+   *   <li>0x1</li>
+   *   <li>0x2</li>
+   *   <li>0x4</li>
+   *   <li>0x8</li>
+   *   <li>0x10</li>
+   *   <li>0x20</li>
+   *   <li>0x40</li>
+   *   <li>0x80</li>
+   *   <li>0xc01 - 0x100</li>
+   *   <li>0xc02 - 0x200</li>
+   *   <li>0xb01 - 0x400</li>
+   *   <li>0xb02 - 0x800</li>
+   *   <li>0xa01 - 0x1000</li>
+   *   <li>0xa02 - 0x2000</li>
+   *   <li>0x901 - 0x4000</li>
+   *   <li>0x902 - 0x8000</li>
+   * </ol>
+   */
+  public static final ArrayRef<UnsignedShortRef> subOperands_80ef034 = MEMORY.ref(2, 0x80ef034, ArrayRef.of(UnsignedShortRef.class, 16, 0x2, UnsignedShortRef::new));
+
   public static final ArrayRef<SoundStruct0c> _80fc624 = MEMORY.ref(4, 0x80fc624, ArrayRef.of(SoundStruct0c.class, 8, 0xc, SoundStruct0c::new));
 
   public static final ArrayRef<IntRef> ptrTable_8320000 = MEMORY.ref(4, 0x8320000, ArrayRef.of(IntRef.class, 975, 0x4, IntRef::new));

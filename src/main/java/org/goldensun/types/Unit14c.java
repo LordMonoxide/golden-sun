@@ -67,29 +67,29 @@ public class Unit14c implements MemoryRef {
   public final ByteRef curse_130;
   /** 1 for poison, 2 for venom; every increase adds 10% damage in battle */
   public final ByteRef affliction_131;
-
+  public final ByteRef _132;
   public final ByteRef _133;
-
+  public final ByteRef _134;
   public final ByteRef _135;
-
+  public final ByteRef _136;
   public final ByteRef _137;
   public final UnsignedByteRef _138;
-
+  public final UnsignedByteRef _139;
   public final UnsignedByteRef _13a;
   public final UnsignedByteRef _13b;
   public final UnsignedByteRef _13c;
   public final UnsignedByteRef _13d;
-
+  public final UnsignedByteRef _13e;
+  public final UnsignedByteRef _13f;
   public final UnsignedByteRef haunt_140;
   public final UnsignedByteRef _141;
-
   /** Unleash/crit rate */
   public final UnsignedByteRef crit_142;
   public final UnsignedByteRef reflux_143;
   /** Starts at 2, decrements every round */
   public final UnsignedByteRef kiteTurns_144;
   public final UnsignedByteRef _145;
-
+  public final UnsignedByteRef _146;
   public final ByteRef _147;
   public final UnsignedByteRef _148;
 
@@ -139,27 +139,27 @@ public class Unit14c implements MemoryRef {
     this.summonBoosts_12c = ref.offset(1, 0x12c).cast(ArrayRef.of(ByteRef.class, 4, 0x1, ByteRef::new));
     this.curse_130 = ref.offset(1, 0x130).cast(ByteRef::new);
     this.affliction_131 = ref.offset(1, 0x131).cast(ByteRef::new);
-
+    this._132 = ref.offset(1, 0x132).cast(ByteRef::new);
     this._133 = ref.offset(1, 0x133).cast(ByteRef::new);
-
+    this._134 = ref.offset(1, 0x134).cast(ByteRef::new);
     this._135 = ref.offset(1, 0x135).cast(ByteRef::new);
-
+    this._136 = ref.offset(1, 0x136).cast(ByteRef::new);
     this._137 = ref.offset(1, 0x137).cast(ByteRef::new);
     this._138 = ref.offset(1, 0x138).cast(UnsignedByteRef::new);
-
+    this._139 = ref.offset(1, 0x139).cast(UnsignedByteRef::new);
     this._13a = ref.offset(1, 0x13a).cast(UnsignedByteRef::new);
     this._13b = ref.offset(1, 0x13b).cast(UnsignedByteRef::new);
     this._13c = ref.offset(1, 0x13c).cast(UnsignedByteRef::new);
     this._13d = ref.offset(1, 0x13d).cast(UnsignedByteRef::new);
-
+    this._13e = ref.offset(1, 0x13e).cast(UnsignedByteRef::new);
+    this._13f = ref.offset(1, 0x13f).cast(UnsignedByteRef::new);
     this.haunt_140 = ref.offset(1, 0x140).cast(UnsignedByteRef::new);
     this._141 = ref.offset(1, 0x141).cast(UnsignedByteRef::new);
-
     this.crit_142 = ref.offset(1, 0x142).cast(UnsignedByteRef::new);
     this.reflux_143 = ref.offset(1, 0x143).cast(UnsignedByteRef::new);
     this.kiteTurns_144 = ref.offset(1, 0x144).cast(UnsignedByteRef::new);
     this._145 = ref.offset(1, 0x145).cast(UnsignedByteRef::new);
-
+    this._146 = ref.offset(1, 0x146).cast(UnsignedByteRef::new);
     this._147 = ref.offset(1, 0x147).cast(ByteRef::new);
     this._148 = ref.offset(1, 0x148).cast(UnsignedByteRef::new);
   }

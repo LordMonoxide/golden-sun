@@ -16,7 +16,7 @@ public class BattleStruct82c implements MemoryRef {
   private final Value ref;
 
   public final IntRef entranceId_00;
-  public final ArrayRef<ShortRef> _04;
+  public final ArrayRef<ShortRef> unitIds_04;
   public final ArrayRef<UnsignedShortRef> _10;
   public final ArrayRef<IntRef> _1c;
   public final ArrayRef<ByteRef> _34;
@@ -68,7 +68,7 @@ public class BattleStruct82c implements MemoryRef {
     this.ref = ref;
 
     this.entranceId_00 = ref.offset(4, 0x00).cast(IntRef::new);
-    this._04 = ref.offset(2, 0x04).cast(ArrayRef.of(ShortRef.class, 6, 0x2, ShortRef::new));
+    this.unitIds_04 = ref.offset(2, 0x04).cast(ArrayRef.of(ShortRef.class, 6, 0x2, ShortRef::new));
     this._10 = ref.offset(2, 0x10).cast(ArrayRef.of(UnsignedShortRef.class, 6, 0x2, UnsignedShortRef::new));
     this._1c = ref.offset(4, 0x1c).cast(ArrayRef.of(IntRef.class, 6, 0x4, IntRef::new));
     this._34 = ref.offset(1, 0x34).cast(ArrayRef.of(ByteRef.class, 6, 0x1, ByteRef::new));

@@ -428,106 +428,30 @@ public final class GoldenSun_80d {
   }
 
   @Method(0x80d6578)
-  public static void FUN_80d6578(int r0) {
-    int r1;
-    final int r3;
-    final int r5;
+  public static void FUN_80d6578(final int r0) {
+    mallocSlotChip(41, 0x302);
+    mallocSlotChip(39, 0x782c);
+    mallocSlotChip(40, 0x4000);
 
-    r5 = r0;
-    r1 = 0x302;
-    r0 = 0x29;
-    mallocSlotChip(r0, r1);
-    r1 = 0x782c;
-    r0 = 0x27;
-    mallocSlotChip(r0, r1);
-    r1 = 0x80;
-    r1 = r1 << 7;
-    r0 = 0x28;
-    mallocSlotChip(r0, r1);
-    r3 = MEMORY.ref(4, r5).get();
-
-    switch(r3) {
-      case 1:
-        //LAB_80d65dc
-        r0 = r5;
-        FUN_80e823c(r0);
-        break;
-
-      case 2:
-        //LAB_80d65e4
-        r0 = r5;
-        FUN_80d2d98(r0);
-        break;
-
-      case 3:
-        //LAB_80d65ec
-        r0 = r5;
-        FUN_80eb754(r0);
-        break;
-
-      case 4:
-        //LAB_80d65f4
-        r0 = r5;
-        FUN_80dc968(r0);
-        break;
-
-      case 5:
-        //LAB_80d65fc
-        r0 = r5;
-        FUN_80d6970(r0);
-        break;
-
-      case 6:
-        //LAB_80d6604
-        r0 = r5;
-        FUN_80ec100(r0);
-        break;
-
-      case 7:
-        //LAB_80d660c
-        r0 = r5;
-        FUN_80d2458(r0);
-        break;
-
-      case 8:
-        //LAB_80d6614
-        r0 = r5;
-        FUN_80d1714(r0);
-        break;
-
-      case 9:
-        //LAB_80d661c
-        r0 = r5;
-        FUN_80ea0d8(r0);
-        break;
-
-      case 10:
-        //LAB_80d6624
-        r0 = r5;
-        FUN_80d765c(r0);
-        break;
-
-      case 0:
-      case 11:
-        //LAB_80d662c
-        r0 = r5;
-        FUN_80e7320(r0);
-        break;
-
-      case 12:
-        //LAB_80d6634
-        r0 = r5;
-        FUN_80e15e8(r0);
-        break;
+    switch(MEMORY.ref(4, r0).get()) {
+      case 1 -> FUN_80e823c(r0);
+      case 2 -> FUN_80d2d98(r0);
+      case 3 -> FUN_80eb754(r0);
+      case 4 -> FUN_80dc968(r0);
+      case 5 -> FUN_80d6970(r0);
+      case 6 -> FUN_80ec100(r0);
+      case 7 -> FUN_80d2458(r0);
+      case 8 -> FUN_80d1714(r0);
+      case 9 -> FUN_80ea0d8(r0);
+      case 10 -> FUN_80d765c(r0);
+      case 0, 11 -> FUN_80e7320(r0);
+      case 12 -> FUN_80e15e8(r0);
     }
 
     //LAB_80d663a
-    r0 = 0x28;
-    freeSlot(r0);
-    r0 = 0x27;
-    freeSlot(r0);
-    r0 = 0x29;
-    freeSlot(r0);
+    freeSlot(40);
+    freeSlot(39);
+    freeSlot(41);
   }
 
   @Method(0x80d6750)
@@ -1632,118 +1556,50 @@ public final class GoldenSun_80d {
     }
 
     //LAB_80d72e0
-    r3 = 0x97;
-    r2 = MEMORY.ref(4, CPU.sp().value + 0x3c).get();
-    r3 = r3 << 1;
-    if(r2 == r3) {
+    if(MEMORY.ref(4, CPU.sp().value + 0x3c).get() == 0x12e) {
       //LAB_80d72ec
-      r0 = 0x2f;
-      freeSlot(r0);
-      r0 = 0x2e;
-      freeSlot(r0);
-      r0 = 0x98;
-      r1 = CPU.r9().value;
-      r2 = 0x1;
-      r3 = 0x0;
-      FUN_80e0524(r0, r1, r2, r3);
-      r1 = 0xb4;
-      r1 = r1 << 5;
-      r0 = 0xc0;
-      r1 = r1 + CPU.r9().value;
-      r2 = 0x1;
-      r3 = 0x1;
-      FUN_80e0524(r0, r1, r2, r3);
-      r6 = 0x2;
-      r1 = 0x7;
-      r2 = 0x7;
-      r3 = 0x3;
-      r0 = 0x2e;
-      MEMORY.ref(4, CPU.sp().value).setu(r6);
-      FUN_80ed408(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get());
-      r5 = 0x3001e50;
-      r3 = r5;
-      r3 = r3 + 0xb8;
-      r3 = MEMORY.ref(4, r3).get();
-      r1 = 0x7;
+      freeSlot(47);
+      freeSlot(46);
+      FUN_80e0524(152, CPU.r9().value, 1, 0);
+      FUN_80e0524(192, CPU.r9().value + 0x1680, 1, 1);
+      FUN_80ed408(46, 7, 7, 3, 2);
+      r3 = MEMORY.ref(4, 0x3001f08).get();
       MEMORY.ref(4, CPU.sp().value + 0x44).setu(r3);
-      r2 = 0x7;
-      r3 = 0x7;
-      r0 = 0x2f;
-      MEMORY.ref(4, CPU.sp().value).setu(r6);
-      FUN_80ed408(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get());
-      r5 = r5 + 0xbc;
+      FUN_80ed408(47, 7, 7, 7, 2);
       r4 = MEMORY.ref(4, CPU.sp().value + 0x24).get();
-      r3 = MEMORY.ref(4, r5).get();
-      r2 = 0x4000050;
+      r3 = MEMORY.ref(4, 0x3001f0c).get();
       MEMORY.ref(4, r4 + 0x4).setu(r3);
-      r3 = 0x3f46;
-      MEMORY.ref(2, r2).setu(r3);
-      r3 = 0x80;
-      r2 = r2 - 0x30;
-      MEMORY.ref(2, r2).setu(r3);
-      r2 = r2 + 0x8;
-      r3 = 0x0;
-      MEMORY.ref(4, r2).setu(r3);
-      r3 = 0xef;
-      r3 = r3 << 7;
-      r2 = 0x7784;
-      r3 = r3 + CPU.r9().value;
-      MEMORY.ref(4, r3).setu(r6);
-      r2 = r2 + CPU.r9().value;
-      r3 = 0x4b;
-      r1 = 0x90;
-      MEMORY.ref(4, r2).setu(r3);
-      r1 = r1 << 3;
-      setTickCallback(getRunnable(GoldenSun_80c.class, "FUN_80cd260"), r1);
-      r2 = 0x7828;
-      r1 = CPU.r9().value;
-      r3 = MEMORY.ref(4, r1 + r2).get();
+      MEMORY.ref(2, 0x4000050).setu(0x3f46);
+      MEMORY.ref(2, 0x4000020).setu(0x80);
+      MEMORY.ref(4, 0x4000028).setu(0);
+      MEMORY.ref(4, CPU.r9().value + 0x7780).setu(2);
+      MEMORY.ref(4, CPU.r9().value + 0x7784).setu(75);
+      setTickCallback(getRunnable(GoldenSun_80c.class, "FUN_80cd260"), 0x480);
+      r3 = MEMORY.ref(4, CPU.r9().value + 0x7828).get();
       r3 = MEMORY.ref(4, r3 + 0x14).get();
-      r0 = 0x0;
-      CPU.r10().value = r0;
+      CPU.r10().value = 0;
 
       if(r3 != 0) {
         //LAB_80d73b0
         do {
-          r2 = MEMORY.ref(4, CPU.r9().value + r2).get();
+          r2 = MEMORY.ref(4, CPU.r9().value + 0x7828).get();
           final Actor70 actor = getCombatantForUnit_(MEMORY.ref(2, r2 + 0x24 + CPU.r10().value * 0x2).get()).actor_00.deref();
-          r6 = CPU.r9().value + CPU.r10().value * 0x118 + 0x7080;
-          r7 = 0x0;
+          r6 = CPU.r9().value + 0x7080 + CPU.r10().value * 0x118;
 
           //LAB_80d73da
-          do {
+          for(r7 = 0; r7 < 10; r7++) {
             MEMORY.ref(4, r6).setu(actor.pos_08.getX());
             MEMORY.ref(4, r6 + 0x4).setu(0x140000);
             MEMORY.ref(4, r6 + 0x8).setu(actor.pos_08.getZ());
-            r3 = 0x3334;
-            r5 = r7;
-            r5 = r5 * r3;
-            r0 = r5;
-            r0 = sin(r0);
-            r0 = r0 << 2;
-            MEMORY.ref(4, r6 + 0xc).setu(r0);
-            r0 = rand();
-            r3 = 0x7fff;
-            r1 = 0x80;
-            r3 = r3 & r0;
-            r1 = r1 << 9;
-            r3 = r3 + r1;
-            MEMORY.ref(4, r6 + 0x10).setu(r3);
-            r0 = r5;
-            r0 = cos(r0);
-            r7 = r7 + 0x1;
-            r0 = r0 << 2;
-            r3 = 0x0;
-            MEMORY.ref(4, r6 + 0x14).setu(r0);
-            MEMORY.ref(4, r6 + 0x18).setu(r3);
+            MEMORY.ref(4, r6 + 0xc).setu(sin(r7 * 0x3334) * 4);
+            MEMORY.ref(4, r6 + 0x10).setu((rand() & 0x7fff) + 0x10000);
+            MEMORY.ref(4, r6 + 0x14).setu(cos(r7 * 0x3334) * 4);
+            MEMORY.ref(4, r6 + 0x18).setu(0);
             r6 = r6 + 0x1c;
-          } while(r7 != 0xa);
+          }
 
-          r2 = 0x1;
-          CPU.r10().value = CPU.r10().value + r2;
-          r2 = 0x7828;
-          r4 = CPU.r9().value;
-          r3 = MEMORY.ref(4, r4 + r2).get();
+          CPU.r10().value++;
+          r3 = MEMORY.ref(4, CPU.r9().value + 0x7828).get();
           r3 = MEMORY.ref(4, r3 + 0x14).get();
         } while(CPU.r10().value != r3);
       }

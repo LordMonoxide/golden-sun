@@ -340,6 +340,57 @@ public final class GoldenSun {
     MEMORY.call(0x3000658, r0._06.get(), 0, 0, 0, r0._50);
   }
 
+  @Method(0x8001ef8)
+  public static void FUN_8001ef8(int r0, int r1, int r2) {
+    int r3;
+    int r4;
+    int r5;
+    int r6;
+
+    r2 = r2 + r0;
+    CPU.r12().value = 0x3f00;
+    CPU.r12().value = CPU.r12().value + 0x3f;
+    CPU.r12().value = CPU.r12().value | CPU.r12().value << 16;
+
+    //LAB_8001f0c
+    do {
+      int address8001f0c = r0;
+      r3 = MEMORY.ref(4, address8001f0c).getUnsigned();
+      address8001f0c += 0x4;
+      r4 = MEMORY.ref(4, address8001f0c).getUnsigned();
+      address8001f0c += 0x4;
+      r5 = MEMORY.ref(4, address8001f0c).getUnsigned();
+      address8001f0c += 0x4;
+      r6 = MEMORY.ref(4, address8001f0c).getUnsigned();
+
+      int address8001f10 = r1;
+      MEMORY.ref(4, address8001f10).setu(r3);
+      address8001f10 += 0x4;
+      MEMORY.ref(4, address8001f10).setu(r4);
+      address8001f10 += 0x4;
+      MEMORY.ref(4, address8001f10).setu(r5);
+      address8001f10 += 0x4;
+      MEMORY.ref(4, address8001f10).setu(r6);
+      address8001f10 += 0x4;
+      r1 = address8001f10;
+      r3 = CPU.r12().value & r3 >>> 1;
+      r4 = CPU.r12().value & r4 >>> 1;
+      r5 = CPU.r12().value & r5 >>> 1;
+      r6 = CPU.r12().value & r6 >>> 1;
+      int address8001f24 = r0;
+      MEMORY.ref(4, address8001f24).setu(r3);
+      address8001f24 += 0x4;
+      MEMORY.ref(4, address8001f24).setu(r4);
+      address8001f24 += 0x4;
+      MEMORY.ref(4, address8001f24).setu(r5);
+      address8001f24 += 0x4;
+      MEMORY.ref(4, address8001f24).setu(r6);
+      address8001f24 += 0x4;
+      r0 = address8001f24;
+      CPU.cmpA(r0, r2);
+    } while(!CPU.cpsr().getZero()); // !=
+  }
+
   /** Signed division */
   @Method(0x80022ec)
   public static int divideS(final int r0, final int r1) {
@@ -2152,6 +2203,51 @@ public final class GoldenSun {
     return ret;
   }
 
+  @Method(0x800543c)
+  public static void FUN_800543c(final int r0, final int r1, final int r2, final int r3) {
+    final int oldSp = CPU.sp().value;
+    CPU.sp().value -= 0x84;
+    DMA.channels[3].SAD.setu(0x8001fb8);
+    DMA.channels[3].DAD.setu(CPU.sp().value);
+    DMA.channels[3].CNT.setu(0x84000021);
+    MEMORY.call(CPU.sp().value, r0, r1, r2, r3);
+    CPU.sp().value = oldSp;
+  }
+
+  @Method(0x8005490)
+  public static void FUN_8005490(final int r0, final int r1, final int r2, final int r3) {
+    final int oldSp = CPU.sp().value;
+    CPU.sp().value -= 0x80;
+    DMA.channels[3].SAD.setu(0x8001f38);
+    DMA.channels[3].DAD.setu(CPU.sp().value);
+    DMA.channels[3].CNT.setu(0x84000020);
+    MEMORY.call(CPU.sp().value, r0, r1, r2, r3);
+    CPU.sp().value = oldSp;
+  }
+
+  @Method(0x80054e4)
+  public static void FUN_80054e4(final int r0, final int r1, final int r2) {
+    final int oldSp = CPU.sp().value;
+    CPU.sp().value -= 0x50;
+    DMA.channels[3].SAD.setu(0x8001ea8);
+    DMA.channels[3].DAD.setu(CPU.sp().value);
+    DMA.channels[3].CNT.setu(0x84000014);
+    MEMORY.call(CPU.sp().value, r0, r1, r2);
+    CPU.sp().value = oldSp;
+  }
+
+  @Method(0x8005534)
+  public static void FUN_8005534(final int r0, final int r1, final int r2) {
+    final int oldSp = CPU.sp().value;
+    CPU.sp().value -= 0x40;
+    DMA.channels[3].SAD.setu(0x8001ef8);
+    DMA.channels[3].DAD.setu(CPU.sp().value);
+    DMA.channels[3].CNT.setu(0x84000010);
+    MEMORY.setFunction(CPU.sp().value, GoldenSun.class, "FUN_8001ef8", int.class, int.class, int.class);
+    MEMORY.call(CPU.sp().value, r0, r1, r2);
+    CPU.sp().value = oldSp;
+  }
+
   /** @return 1 if it fails to initialize SRAM, 0 otherwise */
   @Method(0x80056cc)
   public static int loadSaveList() {
@@ -2982,6 +3078,12 @@ public final class GoldenSun {
   @Method(0x80090f0)
   public static void setActorPosition_(final Actor70 actor, final int x, final int y, final int z) {
     MEMORY.call(0x800d130, actor, x, y, z);
+  }
+
+  /** {@link GoldenSun#FUN_800be70} */
+  @Method(0x80090f8)
+  public static void FUN_80090f8(final int r0, final int r1) {
+    MEMORY.call(0x800be70, r0, r1);
   }
 
   /** {@link GoldenSun#loadMap} */
@@ -3874,7 +3976,6 @@ public final class GoldenSun {
     r7 = r1;
     r4 = r2;
     r8 = r3;
-    CPU.cmpT(r6, 0x7);
     if((r6 & 0xffff_ffffL) > (0x7 & 0xffff_ffffL)) {
       //LAB_800b6ce
       return 0;

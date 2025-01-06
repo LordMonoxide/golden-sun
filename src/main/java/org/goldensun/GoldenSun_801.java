@@ -1482,6 +1482,12 @@ public final class GoldenSun_801 {
     MEMORY.call(0x80175a0, r0);
   }
 
+  /** {@link GoldenSun_801#FUN_80174f8} */
+  @Method(0x80151d0)
+  public static void FUN_80151d0(final int r0) {
+    MEMORY.call(0x80174f8, r0);
+  }
+
   /** {@link GoldenSun_801#FUN_8019d2c} */
   @Method(0x80151e0)
   public static int FUN_80151e0(final int r0) {
@@ -1567,6 +1573,12 @@ public final class GoldenSun_801 {
   @Method(0x80152a8)
   public static void FUN_80152a8() {
     MEMORY.call(0x801e318);
+  }
+
+  /** {@link GoldenSun_802#FUN_802281c} */
+  @Method(0x80152b8)
+  public static void FUN_80152b8(final int r0) {
+    MEMORY.call(0x802281c, r0);
   }
 
   /** {@link GoldenSun_802#loadLoadGameMenu} */
@@ -6125,7 +6137,7 @@ public final class GoldenSun_801 {
 
     MEMORY.setFunction(boardWramMallocHead_3001e50.offset(49 * 0x4).get(), CopiedSegment_8015d74_8015e10.class, "FUN_%x".formatted(addr), int.class, int.class, int.class, int.class);
     MEMORY.call(boardWramMallocHead_3001e50.offset(49 * 0x4).get(), r0, r0 + 0x400, MEMORY.ref(2, r0 + 0x600).getUnsigned(), MEMORY.ref(2, r0 + 0x602).getUnsigned());
-    freeSlot(0x31);
+    freeSlot(49);
   }
 
   @Method(0x801bc34)
