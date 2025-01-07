@@ -207,6 +207,18 @@ public final class GoldenSun_807 {
     return (int)MEMORY.call(0x8079f10, r0, r1, r2, r3, a4);
   }
 
+  /** {@link GoldenSun_807#FUN_8079bf8} */
+  @Method(0x8077180)
+  public static int FUN_8077180(final int r0, final int r1, final int r2, final int r3) {
+    return (int)MEMORY.call(0x8079bf8, r0, r1, r2, r3);
+  }
+
+  /** {@link GoldenSun_807#FUN_8079c30} */
+  @Method(0x8077188)
+  public static int FUN_8077188(final int r0, final int r1, final int r2) {
+    return (int)MEMORY.call(0x8079c30, r0, r1, r2);
+  }
+
   /** {@link GoldenSun_807#FUN_8079c5c} */
   @Method(0x8077190)
   public static int FUN_8077190(final int r0, final int r1, final int r2) {
@@ -2247,6 +2259,20 @@ public final class GoldenSun_807 {
     return 0;
   }
 
+  @Method(0x807987c)
+  public static int FUN_807987c(final int unitId, final int r1) {
+    if(r1 > 3) {
+      return 0;
+    }
+
+    final Unit14c unit = getCharOrMonsterData(unitId);
+    final int[] sp0x00 = new int[8];
+    FUN_80797fc(unit.id_128.get(), unit.djinn_f8, sp0x00);
+
+    //LAB_80798aa
+    return divideS(sp0x00[r1], 10);
+  }
+
   @Method(0x80798b4)
   public static int FUN_80798b4(final Unit14c r0) {
     int r1 = MEMORY.ref(1, FUN_80773d8(r0.id_128.get()) + 0x34).getUnsigned();
@@ -2426,6 +2452,18 @@ public final class GoldenSun_807 {
     return r0 << 8 >>> 16;
   }
 
+  @Method(0x8079be8)
+  public static int FUN_8079be8() {
+    return lcgRand() * 100 >>> 16;
+  }
+
+  @Method(0x8079bf8)
+  public static int FUN_8079bf8(final int r0, final int r1, final int r2, final int r3) {
+    //LAB_8079c08
+    //LAB_8079c24
+    return Math.max(FUN_8079b24(r3, 1) * (Math.max(0, r0 - r1) + r2 * 2) / 0x200, 0);
+  }
+
   @Method(0x8079c5c)
   public static int FUN_8079c5c(final int r0, final int r1, final int r2) {
     return r2 * r0 * FUN_8079b24(r1 * 0x2 - 0xc8, 0) / 0x10000;
@@ -2498,6 +2536,122 @@ public final class GoldenSun_807 {
 
     //LAB_8079d6c
     return r6._0e.get();
+  }
+
+  @Method(0x8079d7c)
+  public static int FUN_8079d7c(final int r0) {
+    return switch(r0 - 8) {
+      case 4, 5 -> 70;
+      case 8, 9 -> 75;
+      case 14 -> 30;
+      case 15 -> 40;
+      case 16 -> 45;
+      case 10, 11, 17 -> 55;
+      case 18 -> 25;
+      case 19 -> 20;
+      case 12, 23 -> 65;
+      case 13, 26 -> 35;
+      case 27 -> 50;
+      case 48 -> -60;
+      case 49 -> -90;
+      case 0, 1, 20, 24 -> 60;
+      default -> -100;
+    };
+  }
+
+  @Method(0x8079e9c)
+  public static int FUN_8079e9c(final Unit14c r0, final int r1) {
+    //LAB_8079ee0
+    //LAB_8079ee4
+    final int cls;
+    if(r0.class_129.get() == 0) {
+      cls = FUN_80773d8(r0.id_128.get()) + 0x48;
+    } else {
+      //LAB_8079eca
+      cls = getClass(r0.class_129.get()) + 0x50;
+    }
+
+    //LAB_8079eba
+    //LAB_8079ed8
+    for(int r2 = 0; r2 < 3; r2++) {
+      if(MEMORY.ref(1, cls + r2).getUnsigned() == r1) {
+        return 1;
+      }
+    }
+
+    //LAB_8079eea
+    //LAB_8079eec
+    return 0;
+  }
+
+  @Method(0x8079ef8)
+  public static int FUN_8079ef8(final int r0) {
+    if(r0 == 0x5 || r0 == 0x38 || r0 == 0x39) {
+      //LAB_8079f06
+      return 1;
+    }
+
+    //LAB_8079f0a
+    return 0;
+  }
+
+  @Method(0x8079f10)
+  public static int FUN_8079f10(final int unitId, final int r1, final int r2, final int r3, final int a4) {
+    final Unit14c r6 = getCharOrMonsterData(r1);
+    if(FUN_8079ef8(r3) != 0 && r6.hp_38.get() != 0) {
+      return 0;
+    }
+
+    //LAB_8079f48
+    if(r3 == 0x3 && r6.affliction_131.get() == 0) {
+      return 0;
+    }
+
+    //LAB_8079f8a
+    if(r3 == 0x4 && r6._138.get() == 0 && r6._139.get() == 0 && r6._13a.get() == 0 && r6._13b.get() == 0 && r6._13c.get() == 0 && r6._13d.get() == 0 && r6._141.get() == 0) {
+      return 0;
+    }
+
+    //LAB_8079fb2
+    if(r3 == 0x40 && r6.affliction_131.get() == 0 && r6._138.get() == 0 && r6._139.get() == 0 && r6._13a.get() == 0 && r6._13b.get() == 0 && r6._13c.get() == 0 && r6._13d.get() == 0 && r6._141.get() == 0 && r6.haunt_140.get() == 0) {
+      return 0;
+    }
+
+    //LAB_807a022
+    if(r3 == 0x1c && r6._141.get() == 0x1) {
+      return 0;
+    }
+
+    //LAB_807a034
+    int r7 = FUN_8079d7c(r3);
+    if(r7 > 0) {
+      final int r5 = FUN_807987c(unitId, r2) - FUN_807987c(r1, r2) - (r6.luck_42.get() >>> 1);
+      r7 = r7 + r5 * 3;
+      if(FUN_8079e9c(r6, r3) != 0) {
+        r7 = r7 + 25;
+      }
+    } else {
+      //LAB_807a078
+      r7 = -r7;
+    }
+
+    //LAB_807a07a
+    int r10 = 1;
+    if(r3 == 0x43) {
+      r10 = 3;
+    }
+
+    //LAB_807a084
+    //LAB_807a08e
+    for(int i = 0; i < r10; i++) {
+      if(divideS(r7 * a4, 100) >= FUN_8079be8()) {
+        //LAB_807a074
+        return 1;
+      }
+    }
+
+    //LAB_807a0a8
+    return 0;
   }
 
   @Method(0x807a0cc)

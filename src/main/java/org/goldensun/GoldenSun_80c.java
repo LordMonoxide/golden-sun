@@ -1386,6 +1386,61 @@ public final class GoldenSun_80c {
     //LAB_80c1fa0
   }
 
+  @Method(0x80c1fa8)
+  public static int FUN_80c1fa8(int r0) {
+    int r1;
+    int r2;
+    int r3;
+    int r4;
+    int r5;
+    final int r6;
+
+    r3 = 0xbe;
+    r3 = r3 << 1;
+    CPU.sp().value -= 0x14;
+    r5 = 0x0;
+    if((r0 & 0xffff_ffffL) >= (r3 & 0xffff_ffffL)) {
+      r0 = 0x1;
+    }
+
+    //LAB_80c1fb8
+    r2 = 0x80c5c38;
+    r3 = r0 << 4;
+    r3 = r3 + r2;
+    r6 = CPU.sp().value;
+    r0 = r3;
+    r2 = r3 + 0x1;
+    r0 = r0 + 0xb;
+    r4 = r6;
+    r1 = 0x4;
+
+    //LAB_80c1fca
+    do {
+      r3 = MEMORY.ref(1, r0).getUnsigned();
+      r0 = r0 + 0x1;
+      if(r3 != 0) {
+        r3 = MEMORY.ref(1, r2).getUnsigned();
+        r3 = r3 + 0x8;
+        MEMORY.ref(4, r4).setu(r3);
+        r4 += 0x4;
+        r5 = r5 + 0x1;
+      }
+
+      //LAB_80c1fda
+      r1 = r1 - 0x1;
+      r2 = r2 + 0x1;
+    } while(r1 >= 0);
+
+    r0 = rand();
+    r3 = r5;
+    r3 = r3 * r0;
+    r3 = r3 >>> 16;
+    r3 = r3 << 2;
+    r0 = MEMORY.ref(4, r6 + r3).get();
+    CPU.sp().value += 0x14;
+    return r0;
+  }
+
   @Method(0x80c1ffc)
   public static int FUN_80c1ffc(int r0) {
     int r1;

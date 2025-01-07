@@ -30,7 +30,9 @@ import static org.goldensun.GoldenSun.FUN_8009260;
 import static org.goldensun.GoldenSun.allocateSpriteSlot;
 import static org.goldensun.GoldenSun.allocateFirstFreeSpriteSlot;
 import static org.goldensun.GoldenSun.FUN_80040d0;
+import static org.goldensun.GoldenSun.divideU;
 import static org.goldensun.GoldenSun.initMatrixStack;
+import static org.goldensun.GoldenSun.mallocChip;
 import static org.goldensun.GoldenSun.modS;
 import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.rotateMatrixX;
@@ -107,6 +109,9 @@ import static org.goldensun.GoldenSun_807.FUN_8077140;
 import static org.goldensun.GoldenSun_807.FUN_8077160;
 import static org.goldensun.GoldenSun_807.FUN_8077170;
 import static org.goldensun.GoldenSun_807.FUN_8077178;
+import static org.goldensun.GoldenSun_807.FUN_8077180;
+import static org.goldensun.GoldenSun_807.FUN_8077188;
+import static org.goldensun.GoldenSun_807.FUN_8077190;
 import static org.goldensun.GoldenSun_807.FUN_8077198;
 import static org.goldensun.GoldenSun_807.FUN_80771b8;
 import static org.goldensun.GoldenSun_807.FUN_80771c8;
@@ -115,6 +120,7 @@ import static org.goldensun.GoldenSun_807.FUN_8077208;
 import static org.goldensun.GoldenSun_807.FUN_80772b8;
 import static org.goldensun.GoldenSun_807.FUN_80772f8;
 import static org.goldensun.GoldenSun_807.addHp_;
+import static org.goldensun.GoldenSun_807.addPp_;
 import static org.goldensun.GoldenSun_807.getAbility_;
 import static org.goldensun.GoldenSun_807.getItem_;
 import static org.goldensun.GoldenSun_807.getSummon_;
@@ -150,7 +156,10 @@ import static org.goldensun.GoldenSun_80c.FUN_80c0cec;
 import static org.goldensun.GoldenSun_80c.FUN_80c0df4;
 import static org.goldensun.GoldenSun_80c.FUN_80c10e8;
 import static org.goldensun.GoldenSun_80c.FUN_80c1798;
+import static org.goldensun.GoldenSun_80c.FUN_80c1df4;
 import static org.goldensun.GoldenSun_80c.FUN_80c1ebc;
+import static org.goldensun.GoldenSun_80c.FUN_80c1f50;
+import static org.goldensun.GoldenSun_80c.FUN_80c1fa8;
 import static org.goldensun.GoldenSun_80c.FUN_80c1ffc;
 import static org.goldensun.GoldenSun_80c.FUN_80c2368;
 import static org.goldensun.GoldenSun_80c.FUN_80c23a0;
@@ -1746,7 +1755,25 @@ public final class GoldenSun_80b {
 
   @Method(0x80b6cd0)
   public static int FUN_80b6cd0(final int r0) {
-    throw new RuntimeException("Not implemented");
+    return getCombatantForUnit(r0)._14.get();
+  }
+
+  @Method(0x80b6cdc)
+  public static int FUN_80b6cdc(int r0) {
+    r0 = FUN_80c23c0(r0);
+    final BattleStruct82c r4 = boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new);
+    int r1 = 0;
+    //LAB_80b6cfc
+    while(r4.unitIds_04.get(r1).get() != 0 || r0 == 0 && (r1 > 0x4 || r4.unitIds_04.get(r1 + 1).get() != 0)) {
+      r1 = r1 + 0x1;
+      if(r1 > 0x5) {
+        break;
+      }
+    }
+
+    //LAB_80b6d1c
+    final int r3 = 0x6 ^ r1;
+    return (-r3 | r3) >>> 31;
   }
 
   @Method(0x80b6d30)
@@ -2008,6 +2035,56 @@ public final class GoldenSun_80b {
     }
 
     //LAB_80b74fe
+  }
+
+  @Method(0x80b7514)
+  public static int FUN_80b7514() {
+    //LAB_80b751c
+    for(int r5 = 0; r5 < 6; r5++) {
+      final int r6 = r5 + 0x80;
+      if(getCharOrMonsterData_(r6)._12a.get() == 0) {
+        return r6;
+      }
+
+      //LAB_80b751a
+    }
+
+    //LAB_80b7536
+    //LAB_80b7540
+    return -1;
+  }
+
+  @Method(0x80b7548)
+  public static void FUN_80b7548() {
+    final BattleStruct82c r2 = boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new);
+    final int[] r0 = new int[6];
+
+    //LAB_80b7570
+    int r6;
+    for(r6 = 0; r6 < 6 && r2.monsterIds_66.get(r6).get() != 0xff; r6++) {
+      r0[r6] = r2.monsterIds_66.get(r6).get();
+    }
+
+    //LAB_80b7588
+    CPU.sp().value -= 0x4c;
+    final int r10 = CPU.sp().value + 0x18;
+    final int r8 = CPU.sp().value;
+    FUN_80b7424(r0, r6, r10, r8);
+
+    //LAB_80b75a0
+    for(int i = 0; i < r6; i++) {
+      final int unitId = r2.monsterIds_66.get(i).get();
+      if(unitId != 0xfe) {
+        final BattleStruct82c.Combatant2c combatant = getCombatantForUnit(unitId);
+        combatant.x_0c.set(MEMORY.ref(4, r10 + i * 0x4).get() << 16);
+        combatant.z_10.set(MEMORY.ref(4, r8 + i * 0x4).get() << 16);
+      }
+
+      //LAB_80b75bc
+    }
+
+    //LAB_80b75c6
+    CPU.sp().value += 0x4c;
   }
 
   @Method(0x80b75dc)
@@ -3662,7 +3739,27 @@ public final class GoldenSun_80b {
 
   @Method(0x80ba918)
   public static void FUN_80ba918(final Actor70 r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+    //LAB_80ba95e
+    for(int r6 = 0; ; r6++) {
+      final Sprite38 sprite = getActorSprite(r0, r6);
+      if(sprite == null) {
+        break;
+      }
+
+      //LAB_80ba92c
+      SpriteLayer18 r2 = sprite.layers_28.get(0).deref();
+      r2._16.or(0xff);
+      r2._05.set(r1);
+
+      //LAB_80ba94c
+      for(int i = 0; i < sprite.layerCount_27.get() - 1; i++) {
+        r2 = sprite.layers_28.get(i + 1).deref();
+        r2._16.or(0xff);
+        r2._05.set(0);
+      }
+
+      //LAB_80ba95c
+    }
   }
 
   @Method(0x80ba978)
@@ -3965,9 +4062,3052 @@ public final class GoldenSun_80b {
     r4._7fc.incr();
   }
 
+  @Method(0x80bbae8)
+  public static int FUN_80bbae8(final int r0) {
+    if(r0 == 0x3c || r0 == 0x45 || r0 == 0x1f || r0 == 0x20) {
+      return 1;
+    }
+
+    return 0;
+  }
+
   @Method(0x80bbb0c)
-  public static void FUN_80bbb0c(final int r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+  public static void FUN_80bbb0c(int r0, int r1) {
+    int r2;
+    int r3;
+    int r4;
+    int r5;
+    int r6;
+    final int r7;
+
+    CPU.push(CPU.r11().value);
+    CPU.push(CPU.r10().value);
+    CPU.push(CPU.r9().value);
+    CPU.push(CPU.r8().value);
+    CPU.sp().value -= 0x64;
+    MEMORY.ref(4, CPU.sp().value + 0x50).setu(r0);
+    r0 = 0x0;
+    MEMORY.ref(4, CPU.sp().value + 0x3c).setu(r0);
+    r3 = 0x3001e74;
+    r5 = 0xa6;
+    r3 = MEMORY.ref(4, r3).get();
+    r5 = r5 << 1;
+    MEMORY.ref(4, CPU.sp().value + 0x34).setu(r0);
+    MEMORY.ref(4, CPU.sp().value + 0x2c).setu(r0);
+    MEMORY.ref(4, CPU.sp().value + 0x28).setu(r0);
+    MEMORY.ref(4, CPU.sp().value + 0x1c).setu(r0);
+    MEMORY.ref(4, CPU.sp().value + 0x14).setu(r0);
+    r0 = r5;
+    MEMORY.ref(4, CPU.sp().value + 0x38).setu(r3);
+    r6 = r1;
+    r0 = mallocChip(r0);
+    MEMORY.ref(4, CPU.sp().value + 0x10).setu(r0);
+    r1 = MEMORY.ref(4, CPU.sp().value + 0x50).get();
+    r1 = MEMORY.ref(1, r1).getUnsigned();
+    r2 = MEMORY.ref(4, CPU.sp().value + 0x50).get();
+    MEMORY.ref(4, CPU.sp().value + 0x44).setu(r1);
+    r4 = MEMORY.ref(4, CPU.sp().value + 0x50).get();
+    r2 = r2 + 0x2;
+    r3 = MEMORY.ref(1, r2 + r6).getUnsigned();
+    r4 = MEMORY.ref(4, r4 + 0x4c).get();
+    CPU.r10().value = r3;
+    MEMORY.ref(4, CPU.sp().value + 0x40).setu(r4);
+    r3 = r6;
+    r3 = r3 + 0x1c;
+    r3 = MEMORY.ref(1, r2 + r3).get();
+    r0 = MEMORY.ref(4, CPU.sp().value + 0x50).get();
+    r1 = MEMORY.ref(4, CPU.sp().value + 0x50).get();
+    r0 = MEMORY.ref(4, r0 + 0x50).get();
+    MEMORY.ref(4, CPU.sp().value + 0x30).setu(r3);
+    r3 = r6;
+    r3 = r3 + 0x2c;
+    r3 = MEMORY.ref(1, r1 + r3).get();
+    CPU.r9().value = r0;
+    r0 = r4;
+    MEMORY.ref(4, CPU.sp().value + 0x20).setu(r3);
+    CPU.r8().value = r2;
+    r0 = getAbility_(r0);
+    MEMORY.ref(4, CPU.sp().value + 0x4c).setu(r0);
+    MEMORY.ref(4, CPU.sp().value + 0x48).setu(getCharOrMonsterData_(MEMORY.ref(4, CPU.sp().value + 0x44).get()).getAddress());
+    r7 = getCharOrMonsterData_(CPU.r10().value).getAddress();
+    r3 = 0x3001388;
+    r2 = r5;
+    r0 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
+    r1 = r7;
+    MEMORY.call(r3, r0, r1, r2);
+    r2 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+    r3 = MEMORY.ref(1, r2 + 0x8).getUnsigned();
+    if(r3 != 0xff) {
+      r3 = r6;
+      r4 = MEMORY.ref(4, CPU.sp().value + 0x50).get();
+      r3 = r3 + 0x10;
+      r3 = MEMORY.ref(1, r4 + r3).get();
+      CPU.r11().value = r3;
+      if(r3 < 0) {
+        r5 = CPU.r11().value;
+        r5 = -r5;
+        CPU.r11().value = r5;
+      }
+    } else {
+      //LAB_80bbbb0
+      r0 = 0x0;
+      CPU.r11().value = r0;
+    }
+
+    //LAB_80bbbb4
+    r1 = CPU.r9().value;
+    if(r1 != 0x4) {
+      r3 = r1 << 2;
+      r4 = r7;
+      r3 = r3 + r7;
+      r4 = r4 + 0x24;
+      r2 = 0x26;
+      r0 = MEMORY.ref(2, r3 + r2).get();
+      r5 = 0x2;
+      r3 = MEMORY.ref(2, r4 + r5).get();
+      r1 = 0x0;
+      if(r0 >= r3) {
+        r2 = r4;
+
+        //LAB_80bbbd2
+        do {
+          r1 = r1 + 0x1;
+          r2 = r2 + 0x4;
+          if(r1 > 0x3) {
+            break;
+          }
+          r5 = 0x2;
+          r3 = MEMORY.ref(2, r2 + r5).get();
+        } while(r0 >= r3);
+      }
+
+      //LAB_80bbbe2
+      if(r1 == 0x4) {
+        r1 = 0x1;
+        r1 = -r1;
+        MEMORY.ref(4, CPU.sp().value + 0x14).setu(r1);
+      }
+
+      //LAB_80bbbec
+      r2 = 0x2;
+      r3 = MEMORY.ref(2, r4 + r2).get();
+      r1 = 0x0;
+      if(r0 <= r3) {
+        r2 = r7;
+        r2 = r2 + 0x24;
+
+        //LAB_80bbbfa
+        do {
+          r1 = r1 + 0x1;
+          r2 = r2 + 0x4;
+          if(r1 > 0x3) {
+            break;
+          }
+        } while(r0 <= MEMORY.ref(2, r2 + 0x2).get());
+      }
+
+      //LAB_80bbc0a
+      if(r1 == 0x4) {
+        r5 = 0x1;
+        MEMORY.ref(4, CPU.sp().value + 0x14).setu(r5);
+      }
+    }
+
+    //LAB_80bbc12
+    r0 = MEMORY.ref(4, CPU.sp().value + 0x50).get();
+    r2 = MEMORY.ref(4, r0 + 0x50).get();
+    if((r2 & 0xffff_ffffL) <= (0x3 & 0xffff_ffffL)) {
+      r0 = r0 + 0x48;
+      MEMORY.ref(4, CPU.sp().value + 0x4).setu(r0);
+      r1 = 0x0;
+      r3 = MEMORY.ref(2, r0 + r1).get();
+      if(r3 == 0x2) {
+        r1 = 0x64;
+        MEMORY.ref(4, CPU.sp().value + 0xc).setu(r1);
+      } else {
+        r3 = r2 << 2;
+        r4 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
+        r3 = r3 + 0x48;
+        r4 = MEMORY.ref(2, r4 + r3).get();
+        MEMORY.ref(4, CPU.sp().value + 0xc).setu(r4);
+      }
+    } else {
+      //LAB_80bbc32
+      r0 = MEMORY.ref(4, CPU.sp().value + 0x50).get();
+      r0 = r0 + 0x48;
+      MEMORY.ref(4, CPU.sp().value + 0x4).setu(r0);
+      r1 = 0x64;
+      MEMORY.ref(4, CPU.sp().value + 0xc).setu(r1);
+    }
+
+    //LAB_80bbc3c
+    r5 = MEMORY.ref(4, CPU.sp().value + 0x4).get();
+    r4 = 0x0;
+    r3 = MEMORY.ref(2, r5 + r4).get();
+    if(r3 == 0x5 && (r2 & 0xffff_ffffL) <= (0x3 & 0xffff_ffffL)) {
+      r0 = MEMORY.ref(4, CPU.sp().value + 0x14).get();
+      if(r0 > 0) {
+        r3 = r2 << 2;
+        r3 = r3 + 0x48;
+        r3 = r7 + r3;
+        r1 = 0x2;
+        r5 = MEMORY.ref(2, r3 + r1).get();
+        r2 = MEMORY.ref(4, CPU.sp().value + 0xc).get();
+        r3 = 0x28f;
+        r5 = r2 - r5;
+        r5 = r5 + 0x1e;
+        r5 = r5 * r3;
+        r0 = lcgRand_();
+        r3 = 0xffff;
+        r0 = r0 & r3;
+        if(r5 > r0) {
+          r0 = 0xd;
+          r1 = 0x5;
+          FUN_80bbabc(r0, r1);
+        }
+      }
+    }
+
+    //LAB_80bbc78
+    r4 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+    r3 = MEMORY.ref(1, r4 + 0x1).getUnsigned();
+    r5 = 0xf;
+    r5 = r5 & r3;
+    MEMORY.ref(4, CPU.sp().value + 0x18).setu(r5);
+    r3 = r6;
+    r3 = r3 + 0x38;
+    r6 = CPU.r8().value;
+    r1 = 0x1;
+    r0 = MEMORY.ref(1, r6 + r3).get();
+    r1 = -r1;
+    if(r0 == r1) {
+      r2 = 0x80c2ab8;
+      r3 = MEMORY.ref(1, r4 + 0x3).getUnsigned();
+      r4 = CPU.r11().value;
+      r2 = MEMORY.ref(1, r2 + r4).getUnsigned();
+      r0 = MEMORY.ref(4, CPU.sp().value + 0x44).get();
+      MEMORY.ref(4, CPU.sp().value).setu(r2);
+      r1 = CPU.r10().value;
+      r2 = CPU.r9().value;
+      r0 = FUN_8077178(r0, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get());
+    }
+
+    //LAB_80bbca6
+    MEMORY.ref(4, CPU.sp().value + 0x24).setu(r0);
+    r5 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+    r3 = MEMORY.ref(1, r5 + 0x3).getUnsigned();
+    r6 = 0x80;
+    r3 = r3 + 0xce;
+    r3 = r3 << 24;
+    r6 = r6 << 17;
+    CPU.cmpT(r3, r6);
+    if((r3 & 0xffff_ffffL) <= (r6 & 0xffff_ffffL)) {
+      //LAB_80bbcba
+      r0 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
+      r1 = 0x94;
+      r1 = r1 << 1;
+      r3 = r0 + r1;
+      r5 = MEMORY.ref(1, r3).getUnsigned();
+      r0 = FUN_80b7514();
+      r2 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+      r3 = MEMORY.ref(1, r2 + 0x3).getUnsigned();
+      CPU.r8().value = r0;
+      if(r3 == 0x33) {
+        r3 = MEMORY.ref(4, CPU.sp().value + 0x38).get();
+        r0 = MEMORY.ref(4, r3).get();
+        r0 = FUN_80c1fa8(r0);
+        r5 = r0;
+      }
+
+      //LAB_80bbcdc
+      r4 = MEMORY.ref(4, CPU.sp().value + 0x24).get();
+      if(r4 != 0 && FUN_80b6cdc(r5) != 0 && CPU.r8().value >= 0) {
+        r0 = r5;
+        r1 = 0x1;
+        r0 = FUN_80c1df4(r0);
+        r3 = 0x80;
+        r6 = r0;
+        r3 = r3 << 8;
+        r3 = r3 & r6;
+        if(r3 != 0) {
+          r0 = r5;
+          FUN_80c1f50(r0);
+        }
+
+        //LAB_80bbd0c
+        r2 = 0x7fff;
+        r1 = r5;
+        r2 = r2 & r6;
+        r0 = CPU.r8().value;
+        r0 = FUN_8077140(r0, r1, r2);
+        r1 = MEMORY.ref(4, CPU.sp().value + 0x38).get();
+        r2 = 0x64;
+        r1 = r1 + 0x2;
+        r3 = MEMORY.ref(2, r1 + r2).get();
+        r5 = 0x0;
+        CPU.lr().value = r5;
+        CPU.r12().value = r1;
+        r0 = 0x64;
+        r4 = 0x0;
+        if(r3 == 0xfe) {
+          r3 = CPU.r8().value;
+          MEMORY.ref(2, r1 + r2).setu(r3);
+        } else {
+          //LAB_80bbd40
+          do {
+            r6 = CPU.r12().value;
+            r2 = MEMORY.ref(2, r0 + r6).get();
+            if(r2 == 0xff) {
+              //LAB_80bbd34
+              r3 = CPU.lr().value;
+              r4 = CPU.r8().value;
+              r3 = r3 + 0x66;
+              MEMORY.ref(2, r1 + r0).setu(r4);
+              MEMORY.ref(2, r1 + r3).setu(r2);
+              break;
+            }
+            r5 = r5 + 0x1;
+            r0 = r0 + 0x2;
+            r4 = r4 + 0x2;
+            if(r5 > 0x5) {
+              break;
+            }
+            r3 = MEMORY.ref(2, r0 + r1).get();
+            CPU.lr().value = r4;
+            if(r3 == 0xfe) {
+              r2 = CPU.r8().value;
+              MEMORY.ref(2, r0 + r1).setu(r2);
+              break;
+            }
+          } while(true);
+        }
+
+        //LAB_80bbd5e
+        FUN_80b7548();
+        r0 = CPU.r8().value;
+        final BattleStruct82c.Combatant2c combatant = getCombatantForUnit(r0);
+        r2 = combatant.x_0c.get();
+        if(r2 < 0) {
+          r3 = 0xffff;
+          r2 = r2 + r3;
+        }
+
+        //LAB_80bbd72
+        r3 = combatant.z_10.get();
+        r2 = r2 >> 16;
+        if(r3 < 0) {
+          r4 = 0xffff;
+          r3 = r3 + r4;
+        }
+
+        //LAB_80bbd7e
+        r3 = r3 >> 16;
+        r1 = CPU.r8().value;
+        initCombatant(combatant, r1, r2, r3);
+        loadAllUnitSpritesAndSetAnimations();
+
+        final int[] monsterIds = new int[7];
+        final int monsterCount = getBattleMonsters(monsterIds);
+
+        //LAB_80bbd9a
+        for(int i = 0; i < monsterCount; i++) {
+          FUN_80b8000(monsterIds[i]);
+        }
+
+        //LAB_80bbda8
+        FUN_80bbabc(0, CPU.r8().value);
+
+        if(MEMORY.ref(4, CPU.sp().value + 0x40).get() != 0x1f7) {
+          r1 = 0x8f5;
+        } else {
+          //LAB_80bbdbc
+          r1 = 0x8f3;
+        }
+
+        FUN_80bbabc(4, r1);
+      } else {
+        //LAB_80bbdc0
+        r0 = MEMORY.ref(4, CPU.sp().value + 0x40).get();
+        r1 = 0x1f7;
+        if(r0 == r1) {
+          r1 = 0x8f4;
+          r0 = 0x4;
+          FUN_80bbabc(r0, r1);
+        } else {
+          //LAB_80bbdd2
+          r1 = 0x8f6;
+          r0 = 0x4;
+          FUN_80bbabc(r0, r1);
+        }
+      }
+    }
+
+    //LAB_80bbdda
+    r2 = MEMORY.ref(4, CPU.sp().value + 0x24).get();
+    if(r2 != 0) {
+      r3 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+      r2 = MEMORY.ref(1, r3 + 0x3).getUnsigned();
+      r3 = r2;
+      if(r3 != 0x35) {
+        //LAB_80bbe1e
+        r3 = r2;
+        if(r3 == 0x23) {
+          r0 = 0x1;
+          MEMORY.ref(4, CPU.sp().value + 0x34).setu(r0);
+        } else {
+          //LAB_80bbe2a
+          if(r3 == 0x22) {
+            r1 = 0x1;
+            MEMORY.ref(4, CPU.sp().value + 0x28).setu(r1);
+          } else {
+            //LAB_80bbe34
+            if(r3 == 0x1b) {
+              r2 = 0x1;
+              MEMORY.ref(4, CPU.sp().value + 0x1c).setu(r2);
+            } else {
+              //LAB_80bbe6c
+              if(r3 == 0x37) {
+                r5 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
+                r4 = 0x38;
+                r3 = MEMORY.ref(2, r5 + r4).get();
+                if(r3 != 0) {
+                  r0 = 0xc;
+                  r1 = MEMORY.ref(4, CPU.sp().value + 0x44).get();
+                  FUN_80bbabc(r0, r1);
+                }
+              } else {
+                //LAB_80bbe84
+                if(r3 == 0x20) {
+                  r6 = 0x3a;
+                  r3 = MEMORY.ref(2, r7 + r6).get();
+                  if(r3 != 0) {
+                    r0 = 0xa;
+                    MEMORY.ref(4, CPU.sp().value + 0x18).setu(r0);
+                  } else {
+                    //LAB_80bbe96
+                    r1 = 0x0;
+                    MEMORY.ref(4, CPU.sp().value + 0x24).setu(r1);
+                  }
+                }
+              }
+            }
+          }
+        }
+      } else {
+        r4 = 0x0;
+        MEMORY.ref(4, CPU.sp().value + 0x24).setu(r4);
+        r3 = 0xbb;
+        r5 = MEMORY.ref(4, CPU.sp().value + 0x38).get();
+        r3 = r3 << 2;
+        r3 = MEMORY.ref(2, r5 + r3).get();
+        r2 = 0x0;
+        if(r3 == CPU.r10().value) {
+          r0 = 0x1;
+          MEMORY.ref(4, CPU.sp().value + 0x24).setu(r0);
+        } else {
+          //LAB_80bbe02
+          do {
+            r2 = r2 + 0x1;
+            if((r2 & 0xffff_ffffL) > (0x13 & 0xffff_ffffL)) {
+              break;
+            }
+            r1 = 0xbb;
+            r3 = r2 << 4;
+            r1 = r1 << 2;
+            r4 = MEMORY.ref(4, CPU.sp().value + 0x38).get();
+            r3 = r3 + r1;
+            r3 = MEMORY.ref(2, r4 + r3).get();
+            if(r3 == CPU.r10().value) {
+              r6 = 0x1;
+              MEMORY.ref(4, CPU.sp().value + 0x24).setu(r6);
+              break;
+            }
+          } while(true);
+        }
+      }
+    }
+
+    //LAB_80bbe9a
+    r2 = MEMORY.ref(4, CPU.sp().value + 0x1c).get();
+    if(r2 == 0) {
+      //LAB_80bbea2
+      r4 = 0x38;
+      r3 = MEMORY.ref(2, r7 + r4).get();
+      if(r3 != 0 || FUN_80772b8(MEMORY.ref(1, MEMORY.ref(4, CPU.sp().value + 0x4c).get() + 0x3).getUnsigned()) != 0) {
+        //LAB_80bbeb8
+        r3 = MEMORY.ref(4, CPU.sp().value + 0x18).get();
+        r3 = r3 + 0x1;
+
+        //LAB_80bbec2
+        switch(r3) {
+          case 5: // switch 80bbecc
+          case 4: // switch 80bbecc
+            //LAB_80bbf00
+            r1 = MEMORY.ref(2, r7 + 0x3e).getUnsigned();
+            r2 = MEMORY.ref(4, CPU.sp().value + 0x34).get();
+            r0 = 0x38;
+            r6 = MEMORY.ref(2, r7 + r0).get();
+            CPU.r11().value = r1;
+            if(r2 != 0) {
+              r1 = r1 >>> 1;
+              CPU.r11().value = r1;
+            }
+
+            //LAB_80bbf12
+            r3 = 0x1;
+            CPU.r8().value = r3;
+
+            //LAB_80bbf16
+            do {
+              r4 = CPU.r9().value;
+              if(r4 != 0x4) {
+                r3 = r4 << 2;
+                r3 = r3 + 0x48;
+                r3 = r7 + r3;
+                r5 = 0x2;
+                r3 = MEMORY.ref(2, r3 + r5).get();
+                r0 = MEMORY.ref(4, CPU.sp().value + 0xc).get();
+                r3 = r0 - r3;
+                MEMORY.ref(4, CPU.sp().value + 0x3c).setu(r3);
+              }
+
+              //LAB_80bbf2c
+              r1 = CPU.r8().value;
+              if(r1 == 0) {
+                r2 = 0x0;
+                MEMORY.ref(4, CPU.sp().value + 0x3c).setu(r2);
+              }
+
+              //LAB_80bbf36
+              r3 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+              r4 = MEMORY.ref(4, CPU.sp().value + 0x18).get();
+              r5 = MEMORY.ref(2, r3 + 0xa).getUnsigned();
+              if(r4 == 0x4) {
+                r1 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
+                r2 = 0x0;
+                r0 = MEMORY.ref(2, r1 + 0x3c).getUnsigned();
+                r3 = MEMORY.ref(4, CPU.sp().value + 0x3c).get();
+                r1 = CPU.r11().value;
+                r0 = FUN_8077180(r0, r1, r2, r3);
+                r1 = 0xa;
+                r0 = r0 * r5;
+                r0 = divideS(r0, r1);
+              } else {
+                //LAB_80bbf58
+                r2 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
+                r1 = CPU.r11().value;
+                r0 = MEMORY.ref(2, r2 + 0x3c).getUnsigned();
+                r3 = MEMORY.ref(4, CPU.sp().value + 0x3c).get();
+                r2 = r5;
+                r0 = FUN_8077180(r0, r1, r2, r3);
+              }
+
+              //LAB_80bbf66
+              r5 = r0;
+              r3 = MEMORY.ref(4, CPU.sp().value + 0x30).get();
+              r4 = MEMORY.ref(4, CPU.sp().value + 0x20).get();
+              r5 = r5 * r3;
+              if(r4 != 0) {
+                if(r4 == 0x1) {
+                  r3 = r5 << 2;
+                  r0 = r3 + r5;
+                  if(r0 < 0) {
+                    r0 = r0 + 0x3;
+                  }
+
+                  //LAB_80bbf80
+                  r5 = r0 >> 2;
+                } else {
+                  //LAB_80bbf84
+                  r3 = r5 << 1;
+                  r3 = r3 + r5;
+                  r2 = r3 >>> 31;
+                  r3 = r3 + r2;
+                  r5 = r3 >> 1;
+                }
+
+                //LAB_80bbf8e
+                r0 = MEMORY.ref(1, r7 + 0xf).getUnsigned();
+                r1 = 0x5;
+                r0 = divideU(r0, r1);
+                r0 = r0 << 24;
+                r0 = r0 >>> 24;
+                r0 = r5 + r0;
+                r5 = r0 + 0x6;
+                r0 = CPU.r8().value;
+                if(r0 == 0) {
+                  r1 = 0x0;
+                  r0 = 0x6;
+                  FUN_80bbabc(r0, r1);
+                  r2 = CPU.r10().value;
+                  r1 = 0x822;
+                  if((r2 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
+                    r1 = r1 + 0x1;
+                  }
+
+                  //LAB_80bbfb6
+                  r0 = 0x5;
+                  FUN_80bbabc(r0, r1);
+                }
+              }
+
+              //LAB_80bbfbc
+              r0 = lcgRand_();
+              r3 = 0x3;
+              r4 = 0x12b;
+              r3 = r3 & r0;
+              r5 = r5 + r3;
+              r3 = r7 + r4;
+              r3 = MEMORY.ref(1, r3).getUnsigned();
+              r3 = r3 << 24;
+              r3 = r3 >> 24;
+              if(r3 != 0) {
+                if(r3 == 0x1) {
+                  r3 = r5 >>> 31;
+                  r3 = r5 + r3;
+                  r5 = r3 >> 1;
+                } else {
+                  //LAB_80bbfe0
+                  r0 = r5;
+                  r1 = 0xa;
+                  r0 = divideS(r0, r1);
+                  r5 = r0;
+                }
+              }
+
+              //LAB_80bbfea
+              if(r5 <= 0) {
+                r5 = 0x1;
+              }
+
+              //LAB_80bbff0
+              r0 = MEMORY.ref(4, CPU.sp().value + 0x28).get();
+              if(r0 != 0) {
+                r3 = r6 - 0x1;
+                if(r5 < r3) {
+                  r5 = r3;
+                  if(r5 <= 0) {
+                    r5 = 0x1;
+                  }
+                }
+              }
+
+              //LAB_80bc004
+              r0 = 0xb7;
+              r0 = r0 << 1;
+              r0 = readFlag_(r0);
+              if(r0 != 0) {
+                r2 = MEMORY.ref(4, CPU.sp().value + 0x4).get();
+                r1 = 0x0;
+                r3 = MEMORY.ref(2, r2 + r1).get();
+                if(r3 == 0x5 && r6 <= r5) {
+                  r5 = r6 - 0x1;
+                }
+              }
+
+              //LAB_80bc020
+              r3 = 0x1;
+              CPU.r8().value = CPU.r8().value + r3;
+              r4 = CPU.r8().value;
+            } while(r4 < 2);
+
+            //LAB_80bc02c
+            r1 = CPU.r10().value;
+            r0 = 0x8;
+            FUN_80bbabc(r0, r1);
+            r1 = CPU.r10().value;
+            r0 = 0x0;
+            FUN_80bbabc(r0, r1);
+            r6 = r6 - r5;
+            r1 = r5;
+            r0 = 0x1;
+            r5 = CPU.r10().value;
+            FUN_80bbabc(r0, r1);
+            if((r5 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
+              r3 = 0x834;
+              r0 = MEMORY.ref(4, CPU.sp().value + 0x14).get();
+              r1 = r0 + r3;
+            } else {
+              //LAB_80bc054
+              r3 = 0x831;
+              r2 = MEMORY.ref(4, CPU.sp().value + 0x14).get();
+              r1 = r2 + r3;
+            }
+
+            //LAB_80bc05a
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            if(r6 > 0) {
+              r0 = 0xb;
+              r1 = CPU.r10().value;
+              FUN_80bbabc(r0, r1);
+            } else {
+              //LAB_80bc066
+              r1 = CPU.r10().value;
+              r0 = 0x9;
+              FUN_80bbabc(r0, r1);
+              r0 = 0x0;
+              r1 = CPU.r10().value;
+              FUN_80bbabc(r0, r1);
+              r3 = CPU.r10().value;
+              r6 = 0x0;
+              CPU.cmpT(r3, 0x7);
+              if((r3 & 0xffff_ffffL) > (0x7 & 0xffff_ffffL)) {
+                r1 = 0x824;
+                r0 = 0x4;
+                FUN_80bbabc(r0, r1);
+              } else {
+                //LAB_80bc080
+                r1 = 0x825;
+                r0 = 0x4;
+                FUN_80bbabc(r0, r1);
+              }
+            }
+            r4 = 0x38;
+            r3 = MEMORY.ref(2, r7 + r4).get();
+            r3 = r3 - r6;
+            MEMORY.ref(4, CPU.sp().value + 0x2c).setu(r3);
+            r0 = CPU.r10().value;
+            MEMORY.ref(2, r7 + 0x38).setu(r6);
+            FUN_8077128(r0);
+            break;
+
+          case 11: // switch 80bbecc
+            //LAB_80bc084
+            r5 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+            r3 = MEMORY.ref(2, r5 + 0xa).getUnsigned();
+            if(r3 != 0) {
+              //LAB_80bc08e
+              r1 = CPU.r9().value;
+              r0 = 0x3a;
+              r6 = MEMORY.ref(2, r7 + r0).get();
+              if(r1 != 0x4) {
+                r3 = r1 << 2;
+                r3 = r3 + 0x48;
+                r3 = r7 + r3;
+                r2 = 0x2;
+                r3 = MEMORY.ref(2, r3 + r2).get();
+                r4 = MEMORY.ref(4, CPU.sp().value + 0xc).get();
+                r3 = r4 - r3;
+                MEMORY.ref(4, CPU.sp().value + 0x3c).setu(r3);
+              }
+
+              //LAB_80bc0a8
+              r0 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+              r5 = MEMORY.ref(2, r0 + 0xa).getUnsigned();
+              r2 = 0x80;
+              r1 = MEMORY.ref(4, CPU.sp().value + 0x3c).get();
+              r2 = r2 << 1;
+              r0 = r5;
+              r0 = FUN_8077188(r0, r1, r2);
+              r2 = 0x80c2ac0;
+              r1 = CPU.r11().value;
+              r3 = r1 << 2;
+              r3 = MEMORY.ref(4, r2 + r3).get();
+              r5 = r0;
+              r0 = r3;
+              r0 = r0 * r5;
+              r1 = 0x64;
+              r0 = divideS(r0, r1);
+              r4 = 0x12b;
+              r3 = r7 + r4;
+              r2 = MEMORY.ref(4, CPU.sp().value + 0x30).get();
+              r3 = MEMORY.ref(1, r3).getUnsigned();
+              r3 = r3 << 24;
+              r3 = r3 >> 24;
+              r5 = r0;
+              r5 = r5 * r2;
+              if(r3 != 0) {
+                if(r3 == 0x1) {
+                  r3 = r5 >>> 31;
+                  r3 = r5 + r3;
+                  r5 = r3 >> 1;
+                } else {
+                  //LAB_80bc0ec
+                  r0 = r5;
+                  r1 = 0xa;
+                  r0 = divideS(r0, r1);
+                  r5 = r0;
+                }
+              }
+
+              //LAB_80bc0f6
+              r0 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+              r3 = MEMORY.ref(1, r0 + 0x3).getUnsigned();
+              if(r3 == 0x20 && r5 > r6) {
+                r5 = r6;
+              }
+
+              //LAB_80bc104
+              r1 = CPU.r10().value;
+              r0 = 0x8;
+              FUN_80bbabc(r0, r1);
+              r1 = r5;
+              r0 = 0x1;
+              FUN_80bbabc(r0, r1);
+              r1 = CPU.r10().value;
+              r0 = 0x0;
+              FUN_80bbabc(r0, r1);
+              r1 = CPU.r10().value;
+              CPU.cmpT(r1, 0x7);
+              if((r1 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
+                r1 = 0x82a;
+              } else {
+                //LAB_80bc126
+                r1 = 0x829;
+              }
+
+              //LAB_80bc128
+              r0 = 0x4;
+              r6 = r6 - r5;
+              FUN_80bbabc(r0, r1);
+              if(r6 <= 0) {
+                r6 = 0x0;
+              }
+
+              //LAB_80bc136
+              r0 = 0xb;
+              r1 = CPU.r10().value;
+              FUN_80bbabc(r0, r1);
+              r2 = 0x3a;
+              r3 = MEMORY.ref(2, r7 + r2).get();
+              r3 = r3 - r6;
+              MEMORY.ref(4, CPU.sp().value + 0x2c).setu(r3);
+              r0 = CPU.r10().value;
+              MEMORY.ref(2, r7 + 0x3a).setu(r6);
+              FUN_8077128(r0);
+            }
+            break;
+
+          case 2: // switch 80bbecc
+            //LAB_80bc150
+            r4 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+            r3 = MEMORY.ref(2, r4 + 0xa).getUnsigned();
+            if(r3 != 0) {
+              //LAB_80bc15a
+              r0 = CPU.r9().value;
+              r5 = 0x38;
+              r6 = MEMORY.ref(2, r7 + r5).get();
+              r1 = MEMORY.ref(4, CPU.sp().value + 0xc).get();
+              r5 = r3;
+              if(r0 == 0x4) {
+                r1 = 0x64;
+              }
+
+              //LAB_80bc16a
+              r2 = 0x80;
+              r2 = r2 << 1;
+              r0 = r5;
+              r0 = FUN_8077190(r0, r1, r2);
+              r2 = 0x80c2ad8;
+              r1 = CPU.r11().value;
+              r3 = r1 << 2;
+              r3 = MEMORY.ref(4, r2 + r3).get();
+              r5 = r0;
+              r0 = r3;
+              r0 = r0 * r5;
+              r1 = 0x64;
+              r0 = divideS(r0, r1);
+              r2 = MEMORY.ref(4, CPU.sp().value + 0x30).get();
+              r5 = r0;
+              r5 = r5 * r2;
+              r0 = lcgRand_();
+              r3 = 0x3;
+              r3 = r3 & r0;
+              r5 = r5 + r3;
+              r4 = 0x34;
+              r3 = MEMORY.ref(2, r7 + r4).get();
+              r6 = r6 + r5;
+              if(r6 > r3) {
+                r6 = r3;
+                r5 = 0x38;
+                r3 = MEMORY.ref(2, r7 + r5).get();
+                r5 = r6 - r3;
+              }
+
+              //LAB_80bc1aa
+              r0 = 0x0;
+              r1 = CPU.r10().value;
+              FUN_80bbabc(r0, r1);
+              r0 = 0x34;
+              r3 = MEMORY.ref(2, r7 + r0).get();
+              if(r6 == r3) {
+                r1 = 0x820;
+                r0 = 0x4;
+                FUN_80bbabc(r0, r1);
+              } else {
+                //LAB_80bc1c4
+                r1 = r5;
+                r0 = 0x1;
+                FUN_80bbabc(r0, r1);
+                r1 = 0x81d;
+                r0 = 0x4;
+                FUN_80bbabc(r0, r1);
+              }
+
+              //LAB_80bc1d4
+              r1 = 0x38;
+              r3 = MEMORY.ref(2, r7 + r1).get();
+              r3 = r3 - r6;
+              MEMORY.ref(4, CPU.sp().value + 0x2c).setu(r3);
+              r0 = CPU.r10().value;
+              MEMORY.ref(2, r7 + 0x38).setu(r6);
+              FUN_8077128(r0);
+            }
+            break;
+
+          case 0: // switch 80bbecc
+            //LAB_80bc20c
+            r2 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+            r3 = MEMORY.ref(2, r2 + 0xa).getUnsigned();
+            if(r3 != 0) {
+              //LAB_80bc216
+              r4 = CPU.r9().value;
+              r3 = 0x3a;
+              r6 = MEMORY.ref(2, r7 + r3).get();
+              if(r4 != 0x4) {
+                r3 = r4 << 2;
+                r3 = r3 + 0x48;
+                r3 = r7 + r3;
+                r5 = 0x2;
+                r3 = MEMORY.ref(2, r3 + r5).get();
+                r0 = MEMORY.ref(4, CPU.sp().value + 0xc).get();
+                r3 = r0 - r3;
+                MEMORY.ref(4, CPU.sp().value + 0x3c).setu(r3);
+              }
+
+              //LAB_80bc230
+              r1 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+              r5 = MEMORY.ref(2, r1 + 0xa).getUnsigned();
+              r2 = 0x80;
+              r1 = MEMORY.ref(4, CPU.sp().value + 0x3c).get();
+              r2 = r2 << 1;
+              r0 = r5;
+              r0 = FUN_8077188(r0, r1, r2);
+              r2 = 0x80c2af0;
+              r4 = CPU.r11().value;
+              r3 = r4 << 2;
+              r3 = MEMORY.ref(4, r2 + r3).get();
+              r5 = r0;
+              r0 = r3;
+              r0 = r0 * r5;
+              r1 = 0x64;
+              r0 = divideS(r0, r1);
+              r1 = 0x12b;
+              r3 = r7 + r1;
+              r5 = r0;
+              r3 = MEMORY.ref(1, r3).getUnsigned();
+              r3 = r3 << 24;
+              r3 = r3 >> 24;
+              r0 = MEMORY.ref(4, CPU.sp().value + 0x30).get();
+              r5 = r5 * r0;
+              if(r3 != 0) {
+                if(r3 == 0x1) {
+                  r3 = r5 >>> 31;
+                  r3 = r5 + r3;
+                  r5 = r3 >> 1;
+                } else {
+                  //LAB_80bc274
+                  r0 = r5;
+                  r1 = 0xa;
+                  r0 = divideS(r0, r1);
+                  r5 = r0;
+                }
+              }
+
+              //LAB_80bc27e
+              r1 = CPU.r10().value;
+              r0 = 0x8;
+              FUN_80bbabc(r0, r1);
+              r1 = r5;
+              r0 = 0x1;
+              FUN_80bbabc(r0, r1);
+              r0 = 0x0;
+              r1 = CPU.r10().value;
+              FUN_80bbabc(r0, r1);
+              r2 = CPU.r10().value;
+              CPU.cmpT(r2, 0x7);
+              if((r2 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
+                r1 = 0x827;
+              } else {
+                //LAB_80bc2a0
+                r1 = 0x826;
+              }
+
+              //LAB_80bc2a2
+              r0 = 0x4;
+              r6 = r6 - r5;
+              FUN_80bbabc(r0, r1);
+              if(r6 <= 0) {
+                r6 = 0x0;
+              }
+
+              //LAB_80bc2b0
+              r0 = 0xb;
+              r1 = CPU.r10().value;
+              FUN_80bbabc(r0, r1);
+              MEMORY.ref(2, r7 + 0x3a).setu(r6);
+              r0 = CPU.r10().value;
+              FUN_8077128(r0);
+            }
+            break;
+
+          case 6: // switch 80bbecc
+          case 7: // switch 80bbecc
+          case 9: // switch 80bbecc
+            //LAB_80bc2ba
+            r4 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+            r3 = MEMORY.ref(2, r4 + 0xa).getUnsigned();
+            if(r3 != 0) {
+              //LAB_80bc2c4
+              r0 = 0x1;
+              r5 = 0x38;
+              r6 = MEMORY.ref(2, r7 + r5).get();
+              CPU.r8().value = r0;
+
+              //LAB_80bc2cc
+              do {
+                r1 = CPU.r9().value;
+                if(r1 != 0x4) {
+                  r3 = r1 << 2;
+                  r3 = r3 + 0x48;
+                  r3 = r7 + r3;
+                  r2 = 0x2;
+                  r3 = MEMORY.ref(2, r3 + r2).get();
+                  r4 = MEMORY.ref(4, CPU.sp().value + 0xc).get();
+                  r3 = r4 - r3;
+                  MEMORY.ref(4, CPU.sp().value + 0x3c).setu(r3);
+                }
+
+                //LAB_80bc2e2
+                r5 = CPU.r8().value;
+                if(r5 == 0) {
+                  r0 = 0x0;
+                  MEMORY.ref(4, CPU.sp().value + 0x3c).setu(r0);
+                }
+
+                //LAB_80bc2ec
+                r4 = MEMORY.ref(4, CPU.sp().value + 0x4).get();
+                r1 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+                r2 = 0x0;
+                r3 = MEMORY.ref(2, r4 + r2).get();
+                r5 = MEMORY.ref(2, r1 + 0xa).getUnsigned();
+                if(r3 == 0x6) {
+                  r0 = MEMORY.ref(4, CPU.sp().value + 0x40).get();
+                  r1 = 0xfffffe84;
+                  r3 = r0 + r1;
+
+                  switch(r3) {
+                    case 0: // switch 80bc30c
+                    case 6: // switch 80bc30c
+                    case 12: // switch 80bc30c
+                    case 18: // switch 80bc30c
+                      //LAB_80bc364
+                      r2 = 0x3;
+                      MEMORY.ref(4, CPU.sp().value + 0x8).setu(r2);
+                      break;
+
+                    case 1: // switch 80bc30c
+                    case 7: // switch 80bc30c
+                    case 13: // switch 80bc30c
+                    case 19: // switch 80bc30c
+                      //LAB_80bc36a
+                      r3 = 0x6;
+                      MEMORY.ref(4, CPU.sp().value + 0x8).setu(r3);
+                      break;
+
+                    case 2: // switch 80bc30c
+                    case 8: // switch 80bc30c
+                    case 14: // switch 80bc30c
+                    case 20: // switch 80bc30c
+                      //LAB_80bc370
+                      r4 = 0x9;
+                      MEMORY.ref(4, CPU.sp().value + 0x8).setu(r4);
+                      break;
+
+                    case 3: // switch 80bc30c
+                    case 9: // switch 80bc30c
+                    case 15: // switch 80bc30c
+                    case 21: // switch 80bc30c
+                      //LAB_80bc376
+                      r0 = 0xc;
+                      MEMORY.ref(4, CPU.sp().value + 0x8).setu(r0);
+                      break;
+                  }
+
+                  //LAB_80bc37a
+                  r1 = 0x34;
+                  r3 = MEMORY.ref(2, r7 + r1).get();
+                  r2 = MEMORY.ref(4, CPU.sp().value + 0x8).get();
+                  r1 = 0x64;
+                  r0 = r2;
+                  r0 = r0 * r3;
+                  r0 = divideS(r0, r1);
+                  r5 = r5 + r0;
+                }
+
+                //LAB_80bc38c
+                r2 = 0x80;
+                r0 = r5;
+                r2 = r2 << 1;
+                r1 = MEMORY.ref(4, CPU.sp().value + 0x3c).get();
+                r0 = FUN_8077188(r0, r1, r2);
+                r3 = MEMORY.ref(4, CPU.sp().value + 0x30).get();
+                r5 = r0;
+                r5 = r5 * r3;
+                r3 = MEMORY.ref(4, CPU.sp().value + 0x18).get();
+                if(r3 == 0x5) {
+                  //LAB_80bc3b4
+                  r2 = 0x80c2b08;
+                  r4 = CPU.r11().value;
+                  r3 = r4 << 2;
+                  r3 = MEMORY.ref(4, r2 + r3).get();
+                  r1 = 0x64;
+                  r0 = r3;
+                  r0 = r0 * r5;
+                  r0 = divideS(r0, r1);
+                  r5 = r0;
+                } else if(r3 == 0x6) {
+                  //LAB_80bc3c4
+                  r2 = 0x80c2b38;
+                  r1 = CPU.r11().value;
+                  r3 = r1 << 2;
+                  r3 = MEMORY.ref(4, r2 + r3).get();
+                  r1 = 0x64;
+                  r0 = r3;
+                  r0 = r0 * r5;
+                  r0 = divideS(r0, r1);
+                  r5 = r0;
+                } else if(r3 == 0x8) {
+                  //LAB_80bc3bc
+                  r2 = 0x80c2b20;
+                  r0 = CPU.r11().value;
+                  r3 = r0 << 2;
+                  r3 = MEMORY.ref(4, r2 + r3).get();
+                  r1 = 0x64;
+                  r0 = r3;
+                  r0 = r0 * r5;
+                  r0 = divideS(r0, r1);
+                  r5 = r0;
+                }
+
+                //LAB_80bc3d8
+                r0 = lcgRand_();
+                r3 = 0x3;
+                r2 = 0x12b;
+                r3 = r3 & r0;
+                r5 = r5 + r3;
+                r3 = r7 + r2;
+                r3 = MEMORY.ref(1, r3).getUnsigned();
+                r3 = r3 << 24;
+                r3 = r3 >> 24;
+                if(r3 != 0) {
+                  if(r3 == 0x1) {
+                    r3 = r5 >>> 31;
+                    r3 = r5 + r3;
+                    r5 = r3 >> 1;
+                  } else {
+                    //LAB_80bc3fc
+                    r0 = r5;
+                    r1 = 0xa;
+                    r0 = divideS(r0, r1);
+                    r5 = r0;
+                  }
+                }
+
+                //LAB_80bc406
+                r0 = 0xb7;
+                r0 = r0 << 1;
+                r0 = readFlag_(r0);
+                if(r0 != 0) {
+                  r0 = MEMORY.ref(4, CPU.sp().value + 0x4).get();
+                  r4 = 0x0;
+                  r3 = MEMORY.ref(2, r0 + r4).get();
+                  if(r3 == 0x6 && r6 > r5) {
+                    r5 = r6;
+                  }
+                }
+
+                //LAB_80bc422
+                r1 = 0x1;
+                CPU.r8().value = CPU.r8().value + r1;
+                r2 = CPU.r8().value;
+              } while(r2 < 2);
+
+              //LAB_80bc42e
+              r1 = CPU.r10().value;
+              r0 = 0x8;
+              FUN_80bbabc(r0, r1);
+              r1 = r5;
+              r0 = 0x1;
+              FUN_80bbabc(r0, r1);
+              r0 = 0x0;
+              r1 = CPU.r10().value;
+              FUN_80bbabc(r0, r1);
+              r3 = CPU.r10().value;
+              CPU.cmpT(r3, 0x7);
+              if((r3 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
+                r3 = 0x834;
+                r4 = MEMORY.ref(4, CPU.sp().value + 0x14).get();
+                r1 = r4 + r3;
+              } else {
+                //LAB_80bc454
+                r3 = 0x831;
+                r0 = MEMORY.ref(4, CPU.sp().value + 0x14).get();
+                r1 = r0 + r3;
+              }
+
+              //LAB_80bc45a
+              r0 = 0x4;
+              r6 = r6 - r5;
+              FUN_80bbabc(r0, r1);
+              if(r6 <= 0) {
+                r1 = CPU.r10().value;
+                r0 = 0x9;
+                FUN_80bbabc(r0, r1);
+                r1 = CPU.r10().value;
+                r0 = 0x0;
+                FUN_80bbabc(r0, r1);
+                r1 = CPU.r10().value;
+                r6 = 0x0;
+                CPU.cmpT(r1, 0x7);
+                if((r1 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
+                  r1 = 0x825;
+                } else {
+                  //LAB_80bc482
+                  r1 = 0x824;
+                }
+
+                //LAB_80bc484
+                r0 = 0x4;
+                FUN_80bbabc(r0, r1);
+              } else {
+                //LAB_80bc48c
+                r0 = 0xb;
+                r1 = CPU.r10().value;
+                FUN_80bbabc(r0, r1);
+              }
+
+              //LAB_80bc494
+              r2 = 0x38;
+              r3 = MEMORY.ref(2, r7 + r2).get();
+              r3 = r3 - r6;
+              MEMORY.ref(4, CPU.sp().value + 0x2c).setu(r3);
+              r0 = CPU.r10().value;
+              MEMORY.ref(2, r7 + 0x38).setu(r6);
+              FUN_8077128(r0);
+            }
+            break;
+
+          case 12: // switch 80bbecc
+            //LAB_80bc49a
+            r4 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+            r3 = MEMORY.ref(2, r4 + 0xa).getUnsigned();
+            if(r3 != 0) {
+              //LAB_80bc4a4
+              r0 = CPU.r9().value;
+              r5 = 0x3a;
+              r6 = MEMORY.ref(2, r7 + r5).get();
+              r1 = MEMORY.ref(4, CPU.sp().value + 0xc).get();
+              r5 = r3;
+              if(r0 == 0x4) {
+                r1 = 0x64;
+              }
+
+              //LAB_80bc4b4
+              r2 = 0x80;
+              r2 = r2 << 1;
+              r0 = r5;
+              r0 = FUN_8077190(r0, r1, r2);
+              r2 = 0x80c2b50;
+              r1 = CPU.r11().value;
+              r3 = r1 << 2;
+              r3 = MEMORY.ref(4, r2 + r3).get();
+              r5 = r0;
+              r0 = r3;
+              r0 = r0 * r5;
+              r1 = 0x64;
+              r0 = divideS(r0, r1);
+              r2 = MEMORY.ref(4, CPU.sp().value + 0x30).get();
+              r5 = r0;
+              r5 = r5 * r2;
+              r4 = 0x36;
+              r3 = MEMORY.ref(2, r7 + r4).get();
+              r6 = r6 + r5;
+              if(r6 > r3) {
+                r6 = r3;
+                r5 = 0x3a;
+                r3 = MEMORY.ref(2, r7 + r5).get();
+                r5 = r6 - r3;
+              }
+
+              //LAB_80bc4ea
+              r0 = 0x0;
+              r1 = CPU.r10().value;
+              FUN_80bbabc(r0, r1);
+              r0 = 0x36;
+              r3 = MEMORY.ref(2, r7 + r0).get();
+              if(r6 == r3) {
+                r1 = 0x821;
+                r0 = 0x4;
+                FUN_80bbabc(r0, r1);
+              } else {
+                //LAB_80bc504
+                r1 = r5;
+                r0 = 0x1;
+                FUN_80bbabc(r0, r1);
+                r1 = 0x81e;
+                r0 = 0x4;
+                FUN_80bbabc(r0, r1);
+              }
+
+              //LAB_80bc514
+              MEMORY.ref(2, r7 + 0x3a).setu(r6);
+              r0 = CPU.r10().value;
+              FUN_8077128(r0);
+            }
+            break;
+
+          case 3: // switch 80bbecc
+            //LAB_80bc51e
+            r1 = MEMORY.ref(4, CPU.sp().value + 0x24).get();
+            if(r1 != 0) {
+              //LAB_80bc526
+              r2 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+              r3 = MEMORY.ref(2, r2 + 0xa).getUnsigned();
+              if(r3 != 0) {
+                //LAB_80bc530
+                r4 = CPU.r9().value;
+                r3 = 0x38;
+                r6 = MEMORY.ref(2, r7 + r3).get();
+                if(r4 != 0x4) {
+                  r3 = r4 << 2;
+                  r3 = r3 + 0x48;
+                  r3 = r7 + r3;
+                  r5 = 0x2;
+                  r3 = MEMORY.ref(2, r3 + r5).get();
+                  r0 = MEMORY.ref(4, CPU.sp().value + 0xc).get();
+                  r3 = r0 - r3;
+                  MEMORY.ref(4, CPU.sp().value + 0x3c).setu(r3);
+                }
+
+                //LAB_80bc54a
+                r1 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+                r5 = MEMORY.ref(2, r1 + 0xa).getUnsigned();
+                r2 = 0x80;
+                r1 = MEMORY.ref(4, CPU.sp().value + 0x3c).get();
+                r2 = r2 << 1;
+                r0 = r5;
+                r0 = FUN_8077188(r0, r1, r2);
+                r2 = MEMORY.ref(4, CPU.sp().value + 0x30).get();
+                r5 = r0;
+                r5 = r5 * r2;
+                r4 = CPU.r11().value;
+                r2 = 0x80c2b68;
+                r3 = r4 << 2;
+                r3 = MEMORY.ref(4, r2 + r3).get();
+                r1 = 0x64;
+                r0 = r3;
+                r0 = r0 * r5;
+                r0 = divideS(r0, r1);
+                r5 = r0;
+                r0 = 0x12b;
+                r3 = r7 + r0;
+                r3 = MEMORY.ref(1, r3).getUnsigned();
+                r3 = r3 << 24;
+                r3 = r3 >> 24;
+                if(r3 != 0) {
+                  if(r3 == 0x1) {
+                    r3 = r5 >>> 31;
+                    r3 = r5 + r3;
+                    r5 = r3 >> 1;
+                  } else {
+                    //LAB_80bc5d4
+                    r0 = r5;
+                    r1 = 0xa;
+                    r0 = divideS(r0, r1);
+                    r5 = r0;
+                  }
+                }
+
+                //LAB_80bc5de
+                r1 = CPU.r10().value;
+                r0 = 0x8;
+                FUN_80bbabc(r0, r1);
+                r1 = r5;
+                r0 = 0x1;
+                FUN_80bbabc(r0, r1);
+                r1 = CPU.r10().value;
+                r0 = 0x0;
+                FUN_80bbabc(r0, r1);
+                r1 = CPU.r10().value;
+                CPU.cmpT(r1, 0x7);
+                if((r1 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
+                  r1 = 0x827;
+                } else {
+                  //LAB_80bc600
+                  r1 = 0x826;
+                }
+
+                //LAB_80bc602
+                r0 = 0x4;
+                r6 = r6 - r5;
+                FUN_80bbabc(r0, r1);
+                if(r6 <= 0) {
+                  r1 = CPU.r10().value;
+                  r0 = 0x9;
+                  FUN_80bbabc(r0, r1);
+                  r0 = 0x0;
+                  r1 = CPU.r10().value;
+                  FUN_80bbabc(r0, r1);
+                  r2 = CPU.r10().value;
+                  r6 = 0x0;
+                  CPU.cmpT(r2, 0x7);
+                  if((r2 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
+                    r1 = 0x825;
+                  } else {
+                    //LAB_80bc62a
+                    r1 = 0x824;
+                  }
+
+                  //LAB_80bc62c
+                  r0 = 0x4;
+                  FUN_80bbabc(r0, r1);
+                } else {
+                  //LAB_80bc634
+                  r0 = 0xb;
+                  r1 = CPU.r10().value;
+                  FUN_80bbabc(r0, r1);
+                }
+
+                //LAB_80bc63c
+                r4 = 0x38;
+                r3 = MEMORY.ref(2, r7 + r4).get();
+                r3 = r3 - r6;
+                MEMORY.ref(4, CPU.sp().value + 0x2c).setu(r3);
+                r0 = CPU.r10().value;
+                MEMORY.ref(2, r7 + 0x38).setu(r6);
+                FUN_8077128(r0);
+              }
+            } else {
+              //LAB_80bc64e
+              r1 = CPU.r10().value;
+              r0 = 0xb;
+              FUN_80bbabc(r0, r1);
+              r1 = CPU.r10().value;
+              r0 = 0x0;
+              FUN_80bbabc(r0, r1);
+              r1 = 0x854;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            }
+            break;
+        }
+      }
+    }
+
+    //LAB_80bc666
+    r0 = 0x0;
+    r1 = CPU.r10().value;
+    FUN_80bbabc(r0, r1);
+    r5 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+    r0 = MEMORY.ref(1, r5 + 0x3).getUnsigned();
+    r0 = FUN_80772b8(r0);
+    if(r0 != 0 || MEMORY.ref(2, r7 + 0x38).get() != 0 || FUN_80bbae8(MEMORY.ref(1, r5 + 0x3).getUnsigned()) != 0) {
+      //LAB_80bc690
+      r0 = MEMORY.ref(4, CPU.sp().value + 0x24).get();
+      if(r0 != 0) {
+        //LAB_80bc69a
+        r1 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+        r3 = MEMORY.ref(1, r1 + 0x3).getUnsigned();
+        r3 = r3 - 0x3;
+
+        //LAB_80bc6a8
+        switch(r3) {
+          case 61: // switch 80bc6b0
+            //LAB_80bc7bc
+            r3 = 0x9c;
+            r3 = r3 << 1;
+            r2 = r7 + r3;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            if(r3 != 0) {
+              r3 = 0x0;
+              r1 = 0x88b;
+              MEMORY.ref(1, r2).setu(r3);
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+              r0 = 0x0;
+              r1 = CPU.r10().value;
+              FUN_80bbabc(r0, r1);
+            }
+
+            //LAB_80bc7dc
+            r4 = 0x13b;
+            r2 = r7 + r4;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            if(r3 != 0) {
+              r3 = 0x0;
+              MEMORY.ref(1, r2).setu(r3);
+              r1 = 0x0;
+              r0 = 0x7;
+              FUN_80bbabc(r0, r1);
+              r1 = CPU.r10().value;
+              r0 = 0x0;
+              FUN_80bbabc(r0, r1);
+              r1 = 0x88d;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            }
+
+            //LAB_80bc802
+            r5 = 0x9e;
+            r5 = r5 << 1;
+            r3 = r7 + r5;
+            r6 = 0x0;
+            r0 = 0x13d;
+            MEMORY.ref(1, r3).setu(r6);
+            r2 = r7 + r0;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            if(r3 != 0) {
+              r1 = 0x88c;
+              MEMORY.ref(1, r2).setu(r6);
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+              r0 = 0x0;
+              r1 = CPU.r10().value;
+              FUN_80bbabc(r0, r1);
+            }
+
+            //LAB_80bc828
+            r1 = 0x141;
+            r2 = r7 + r1;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            if(r3 != 0) {
+              r1 = 0x894;
+              MEMORY.ref(1, r2).setu(r6);
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+              r0 = 0x0;
+              r1 = CPU.r10().value;
+              FUN_80bbabc(r0, r1);
+            }
+
+            //LAB_80bc844
+            r3 = 0xa0;
+            r3 = r3 << 1;
+            r2 = r7 + r3;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            if(r3 != 0) {
+              r1 = 0x88f;
+              MEMORY.ref(1, r2).setu(r6);
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+              r0 = 0x0;
+              r1 = CPU.r10().value;
+              FUN_80bbabc(r0, r1);
+            }
+
+            //LAB_80bc862
+            r4 = 0x131;
+            r5 = r7 + r4;
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r5 + r3).get();
+            if(r3 != 0) {
+              r1 = 0x884;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+              MEMORY.ref(1, r5).setu(r6);
+            }
+
+            //LAB_80bc878
+            r0 = 0x7;
+            r1 = 0x0;
+            FUN_80bbabc(r0, r1);
+            break;
+
+          case 1: // switch 80bc6b0
+            //LAB_80bc884
+            r5 = 0x9c;
+            r5 = r5 << 1;
+            r2 = r7 + r5;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            if(r3 != 0) {
+              r3 = 0x0;
+              MEMORY.ref(1, r2).setu(r3);
+              r1 = 0x0;
+              r0 = 0x7;
+              FUN_80bbabc(r0, r1);
+              r1 = CPU.r10().value;
+              r0 = 0x0;
+              FUN_80bbabc(r0, r1);
+              r1 = 0x88b;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            }
+
+            //LAB_80bc8ac
+            r6 = 0x13b;
+            r2 = r7 + r6;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            if(r3 != 0) {
+              r3 = 0x0;
+              MEMORY.ref(1, r2).setu(r3);
+              r1 = 0x0;
+              r0 = 0x7;
+              FUN_80bbabc(r0, r1);
+              r1 = CPU.r10().value;
+              r0 = 0x0;
+              FUN_80bbabc(r0, r1);
+              r1 = 0x88d;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            }
+
+            //LAB_80bc8d2
+            r0 = 0x9e;
+            r0 = r0 << 1;
+            r3 = r7 + r0;
+            r5 = 0x0;
+            r1 = 0x13d;
+            MEMORY.ref(1, r3).setu(r5);
+            r2 = r7 + r1;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            if(r3 != 0) {
+              MEMORY.ref(1, r2).setu(r5);
+              r1 = 0x0;
+              r0 = 0x7;
+              FUN_80bbabc(r0, r1);
+              r1 = CPU.r10().value;
+              r0 = 0x0;
+              FUN_80bbabc(r0, r1);
+              r1 = 0x88c;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            }
+
+            //LAB_80bc900
+            r3 = 0x141;
+            r2 = r7 + r3;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            if(r3 != 0) {
+              //LAB_80bc90e
+              MEMORY.ref(1, r2).setu(r5);
+              r1 = 0x0;
+              r0 = 0x7;
+              FUN_80bbabc(r0, r1);
+              r1 = CPU.r10().value;
+              r0 = 0x0;
+              FUN_80bbabc(r0, r1);
+              r1 = 0x894;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            }
+            break;
+
+          case 58: // switch 80bc6b0
+          case 59: // switch 80bc6b0
+            //LAB_80bc926
+            r1 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+            r4 = MEMORY.ref(2, r7 + 0x38).getUnsigned();
+            r3 = MEMORY.ref(1, r1 + 0x3).getUnsigned();
+            r6 = 0x38;
+            r5 = MEMORY.ref(2, r7 + r6).get();
+            CPU.r8().value = r4;
+            r6 = MEMORY.ref(2, r7 + 0x34).getUnsigned();
+            r0 = 0x34;
+            r2 = MEMORY.ref(2, r7 + r0).get();
+            if(r3 == 0x3d) {
+              r0 = r2 << 4;
+              r0 = r0 - r2;
+              r0 = r0 << 2;
+            } else {
+              //LAB_80bc944
+              r0 = r2 << 4;
+              r0 = r0 - r2;
+              r0 = r0 << 1;
+            }
+
+            //LAB_80bc94a
+            r1 = 0x64;
+            r0 = divideS(r0, r1);
+            r5 = r5 + r0;
+            r3 = r6 << 16;
+            r2 = r3 >> 16;
+            if(r5 > r2) {
+              r5 = r2;
+            }
+
+            //LAB_80bc95c
+            r4 = CPU.r8().value;
+            r3 = r4 << 16;
+            r3 = r3 >> 16;
+            r1 = r5 - r3;
+            if(r1 != 0 || MEMORY.ref(4, CPU.sp().value + 0x18).get() == 0x1) {
+              //LAB_80bc972
+              if(r5 == r2) {
+                r1 = 0x820;
+                r0 = 0x4;
+                FUN_80bbabc(r0, r1);
+              } else {
+                //LAB_80bc980
+                r0 = 0x1;
+                FUN_80bbabc(r0, r1);
+                r1 = 0x81d;
+                r0 = 0x4;
+                FUN_80bbabc(r0, r1);
+              }
+
+              //LAB_80bc98e
+              MEMORY.ref(2, r7 + 0x38).setu(r5);
+              r0 = CPU.r10().value;
+              FUN_8077128(r0);
+            }
+            break;
+
+          case 60: // switch 80bc6b0
+            //LAB_80bc9dc
+            r1 = 0x36;
+            r6 = MEMORY.ref(2, r7 + r1).get();
+            r0 = 0x3a;
+            r5 = MEMORY.ref(2, r7 + r0).get();
+            r0 = r6 << 3;
+            r0 = r0 - r6;
+            r1 = 0x64;
+            r0 = divideS(r0, r1);
+            CPU.r8().value = r5;
+            r5 = r5 + r0;
+            if(r5 > r6) {
+              r5 = r6;
+            }
+
+            //LAB_80bc9f8
+            r2 = CPU.r8().value;
+            r1 = r5 - r2;
+            if(r1 != 0 || MEMORY.ref(4, CPU.sp().value + 0x18).get() == 0xb) {
+              //LAB_80bca0a
+              if(r5 == r6) {
+                r1 = 0x821;
+                r0 = 0x4;
+                FUN_80bbabc(r0, r1);
+              } else {
+                //LAB_80bca18
+                r0 = 0x1;
+                FUN_80bbabc(r0, r1);
+                r1 = 0x81e;
+                r0 = 0x4;
+                FUN_80bbabc(r0, r1);
+              }
+
+              //LAB_80bca26
+              MEMORY.ref(2, r7 + 0x3a).setu(r5);
+              r0 = CPU.r10().value;
+              FUN_8077128(r0);
+            }
+            break;
+
+          case 56: // switch 80bc6b0
+            //LAB_80bca2a
+            r4 = 0x147;
+            r5 = 0xa3;
+            r2 = r7 + r4;
+            r3 = 0x8;
+            r5 = r5 << 1;
+            MEMORY.ref(1, r2).setu(r3);
+            r2 = r7 + r5;
+            r3 = 0x5;
+            MEMORY.ref(1, r2).setu(r3);
+            r0 = CPU.r10().value;
+            recalcStats_(r0);
+            r3 = r7;
+            r3 = r3 + 0x40;
+            r1 = MEMORY.ref(2, r3).getUnsigned();
+            r3 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
+            r3 = r3 + 0x40;
+            r3 = MEMORY.ref(2, r3).getUnsigned();
+            r0 = 0x1;
+            r1 = r1 - r3;
+            FUN_80bbabc(r0, r1);
+            r1 = 0x877;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            break;
+
+          case 55: // switch 80bc6b0
+            //LAB_80bca5c
+            r6 = 0x147;
+            r0 = 0xa3;
+            r2 = r7 + r6;
+            r3 = 0xfc;
+            r0 = r0 << 1;
+            MEMORY.ref(1, r2).setu(r3);
+            r2 = r7 + r0;
+            r3 = 0x5;
+            MEMORY.ref(1, r2).setu(r3);
+            r0 = CPU.r10().value;
+            recalcStats_(r0);
+            r3 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
+            r3 = r3 + 0x40;
+            r1 = MEMORY.ref(2, r3).getUnsigned();
+            r3 = r7;
+            r3 = r3 + 0x40;
+            r3 = MEMORY.ref(2, r3).getUnsigned();
+            r0 = 0x1;
+            r1 = r1 - r3;
+            FUN_80bbabc(r0, r1);
+            r1 = 0x878;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            break;
+
+          case 6: // switch 80bc6b0
+            //LAB_80bca8e
+            r1 = 0x133;
+            r2 = r7 + r1;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            r3 = r3 - 0x1;
+            MEMORY.ref(1, r2).setu(r3);
+            r4 = 0x4;
+            r3 = r3 << 24;
+            r3 = r3 >> 24;
+            r4 = -r4;
+            if(r3 < r4) {
+              r3 = 0xfc;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcaa8
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            if(r3 > 0x4) {
+              r3 = 0x4;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcab4
+            r0 = CPU.r10().value;
+            recalcStats_(r0);
+            r5 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
+            r3 = MEMORY.ref(2, r7 + 0x3c).getUnsigned();
+            r1 = MEMORY.ref(2, r5 + 0x3c).getUnsigned();
+            r0 = 0x1;
+            r1 = r1 - r3;
+            r6 = 0x99;
+            FUN_80bbabc(r0, r1);
+            r6 = r6 << 1;
+            r1 = 0x860;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r2 = r7 + r6;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 5: // switch 80bc6b0
+            //LAB_80bcad8
+            r0 = 0x133;
+            r2 = r7 + r0;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            r3 = r3 - 0x2;
+            MEMORY.ref(1, r2).setu(r3);
+            r1 = 0x4;
+            r3 = r3 << 24;
+            r3 = r3 >> 24;
+            r1 = -r1;
+            if(r3 < r1) {
+              r3 = 0xfc;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcaf2
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            if(r3 > 0x4) {
+              r3 = 0x4;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcafe
+            r0 = CPU.r10().value;
+            recalcStats_(r0);
+            r2 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
+            r3 = MEMORY.ref(2, r7 + 0x3c).getUnsigned();
+            r1 = MEMORY.ref(2, r2 + 0x3c).getUnsigned();
+            r0 = 0x1;
+            r1 = r1 - r3;
+            FUN_80bbabc(r0, r1);
+            r1 = 0x860;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r3 = 0x99;
+            r3 = r3 << 1;
+            r2 = r7 + r3;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 4: // switch 80bc6b0
+            //LAB_80bcb22
+            r4 = 0x133;
+            r2 = r7 + r4;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            r3 = r3 + 0x1;
+            MEMORY.ref(1, r2).setu(r3);
+            r5 = 0x4;
+            r3 = r3 << 24;
+            r3 = r3 >> 24;
+            r5 = -r5;
+            if(r3 < r5) {
+              r3 = 0xfc;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcb3c
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            if(r3 > 0x4) {
+              r3 = 0x4;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcb48
+            r0 = CPU.r10().value;
+            recalcStats_(r0);
+            r6 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
+            r1 = MEMORY.ref(2, r7 + 0x3c).getUnsigned();
+            r3 = MEMORY.ref(2, r6 + 0x3c).getUnsigned();
+            r0 = 0x1;
+            r1 = r1 - r3;
+            FUN_80bbabc(r0, r1);
+            r1 = 0x861;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r0 = 0x99;
+            r0 = r0 << 1;
+            r2 = r7 + r0;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 3: // switch 80bc6b0
+            //LAB_80bcb68
+            r1 = 0x133;
+            r2 = r7 + r1;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            r3 = r3 + 0x2;
+            MEMORY.ref(1, r2).setu(r3);
+            r4 = 0x4;
+            r3 = r3 << 24;
+            r3 = r3 >> 24;
+            r4 = -r4;
+            if(r3 < r4) {
+              r3 = 0xfc;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcb82
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            if(r3 > 0x4) {
+              r3 = 0x4;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcb8e
+            r0 = CPU.r10().value;
+            recalcStats_(r0);
+            r5 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
+            r1 = MEMORY.ref(2, r7 + 0x3c).getUnsigned();
+            r3 = MEMORY.ref(2, r5 + 0x3c).getUnsigned();
+            r0 = 0x1;
+            r1 = r1 - r3;
+            r6 = 0x99;
+            FUN_80bbabc(r0, r1);
+            r6 = r6 << 1;
+            r1 = 0x861;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r2 = r7 + r6;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 10: // switch 80bc6b0
+            //LAB_80bcbb2
+            r0 = 0x135;
+            r2 = r7 + r0;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            r3 = r3 - 0x1;
+            MEMORY.ref(1, r2).setu(r3);
+            r1 = 0x4;
+            r3 = r3 << 24;
+            r3 = r3 >> 24;
+            r1 = -r1;
+            if(r3 < r1) {
+              r3 = 0xfc;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcbcc
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            if(r3 > 0x4) {
+              r3 = 0x4;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcbd8
+            r0 = CPU.r10().value;
+            recalcStats_(r0);
+            r2 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
+            r3 = MEMORY.ref(2, r7 + 0x3e).getUnsigned();
+            r1 = MEMORY.ref(2, r2 + 0x3e).getUnsigned();
+            r0 = 0x1;
+            r1 = r1 - r3;
+            FUN_80bbabc(r0, r1);
+            r1 = 0x862;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r3 = 0x9a;
+            r3 = r3 << 1;
+            r2 = r7 + r3;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 9: // switch 80bc6b0
+            //LAB_80bcbfc
+            r4 = 0x135;
+            r2 = r7 + r4;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            r3 = r3 - 0x2;
+            MEMORY.ref(1, r2).setu(r3);
+            r5 = 0x4;
+            r3 = r3 << 24;
+            r3 = r3 >> 24;
+            r5 = -r5;
+            if(r3 < r5) {
+              r3 = 0xfc;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcc16
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            if(r3 > 0x4) {
+              r3 = 0x4;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcc22
+            r0 = CPU.r10().value;
+            recalcStats_(r0);
+            r6 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
+            r3 = MEMORY.ref(2, r7 + 0x3e).getUnsigned();
+            r1 = MEMORY.ref(2, r6 + 0x3e).getUnsigned();
+            r0 = 0x1;
+            r1 = r1 - r3;
+            FUN_80bbabc(r0, r1);
+            r1 = 0x862;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r0 = 0x9a;
+            r0 = r0 << 1;
+            r2 = r7 + r0;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 8: // switch 80bc6b0
+            //LAB_80bcc42
+            r1 = 0x135;
+            r2 = r7 + r1;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            r3 = r3 + 0x1;
+            MEMORY.ref(1, r2).setu(r3);
+            r4 = 0x4;
+            r3 = r3 << 24;
+            r3 = r3 >> 24;
+            r4 = -r4;
+            if(r3 < r4) {
+              r3 = 0xfc;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcc5c
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            if(r3 > 0x4) {
+              r3 = 0x4;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcc68
+            r0 = CPU.r10().value;
+            recalcStats_(r0);
+            r5 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
+            r1 = MEMORY.ref(2, r7 + 0x3e).getUnsigned();
+            r3 = MEMORY.ref(2, r5 + 0x3e).getUnsigned();
+            r0 = 0x1;
+            r1 = r1 - r3;
+            r6 = 0x9a;
+            FUN_80bbabc(r0, r1);
+            r6 = r6 << 1;
+            r1 = 0x863;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r2 = r7 + r6;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 7: // switch 80bc6b0
+            //LAB_80bcc8c
+            r0 = 0x135;
+            r2 = r7 + r0;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            r3 = r3 + 0x2;
+            MEMORY.ref(1, r2).setu(r3);
+            r1 = 0x4;
+            r3 = r3 << 24;
+            r3 = r3 >> 24;
+            r1 = -r1;
+            if(r3 < r1) {
+              r3 = 0xfc;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcca6
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            if(r3 > 0x4) {
+              r3 = 0x4;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bccb2
+            r0 = CPU.r10().value;
+            recalcStats_(r0);
+            r2 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
+            r1 = MEMORY.ref(2, r7 + 0x3e).getUnsigned();
+            r3 = MEMORY.ref(2, r2 + 0x3e).getUnsigned();
+            r0 = 0x1;
+            r1 = r1 - r3;
+            FUN_80bbabc(r0, r1);
+            r1 = 0x863;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r3 = 0x9a;
+            r3 = r3 << 1;
+            r2 = r7 + r3;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 2: // switch 80bc6b0
+            //LAB_80bccd6
+            r4 = 0x38;
+            r3 = MEMORY.ref(2, r7 + r4).get();
+            if(r3 == 0) {
+              //LAB_80bcce0
+              r1 = 0x864;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+              r3 = MEMORY.ref(2, r7 + 0x34).getUnsigned();
+              r0 = CPU.r10().value;
+              MEMORY.ref(2, r7 + 0x38).setu(r3);
+              FUN_8077128(r0);
+            }
+            break;
+
+          case 53: // switch 80bc6b0
+            //LAB_80bccf4
+            r5 = 0x38;
+            r3 = MEMORY.ref(2, r7 + r5).get();
+            if(r3 == 0) {
+              //LAB_80bccfe
+              r1 = 0x864;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+              r3 = MEMORY.ref(2, r7 + 0x34).getUnsigned();
+              r3 = r3 << 16;
+              r2 = r3 >> 16;
+              r3 = r3 >>> 31;
+              r2 = r2 + r3;
+              r2 = r2 >> 1;
+              MEMORY.ref(2, r7 + 0x38).setu(r2);
+              r0 = CPU.r10().value;
+              FUN_8077128(r0);
+            }
+            break;
+
+          case 54: // switch 80bc6b0
+            //LAB_80bcd16
+            r6 = 0x38;
+            r3 = MEMORY.ref(2, r7 + r6).get();
+            if(r3 == 0) {
+              //LAB_80bcd20
+              r1 = 0x864;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+              r1 = 0x34;
+              r0 = MEMORY.ref(2, r7 + r1).get();
+              r1 = 0xa;
+              r0 = r0 << 3;
+              r0 = divideS(r0, r1);
+              MEMORY.ref(2, r7 + 0x38).setu(r0);
+              r0 = CPU.r10().value;
+              FUN_8077128(r0);
+            }
+            break;
+
+          case 0: // switch 80bc6b0
+            //LAB_80bcd38
+            r2 = 0x131;
+            r5 = r7 + r2;
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r5 + r3).get();
+            if(r3 != 0) {
+              r1 = 0x884;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            }
+
+            //LAB_80bcd4c
+            r3 = 0x0;
+            MEMORY.ref(1, r5).setu(r3);
+            break;
+
+          case 14: // switch 80bc6b0
+            //LAB_80bcd8c
+            r3 = 0x137;
+            r2 = r7 + r3;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            r3 = r3 - 0x1;
+            MEMORY.ref(1, r2).setu(r3);
+            r4 = 0x4;
+            r3 = r3 << 24;
+            r3 = r3 >> 24;
+            r4 = -r4;
+            if(r3 < r4) {
+              r3 = 0xfc;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcda6
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            r1 = MEMORY.ref(1, r2).getUnsigned();
+            if(r3 > 0x4) {
+              r3 = 0x4;
+              MEMORY.ref(1, r2).setu(r3);
+              r1 = 0x4;
+            }
+
+            //LAB_80bcdb6
+            r5 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
+            r6 = 0x137;
+            r3 = r5 + r6;
+            r2 = 0x0;
+            r2 = MEMORY.ref(1, r3 + r2).get();
+            r3 = r1 << 24;
+            r3 = r3 >> 24;
+            r2 = r2 - r3;
+            r1 = r2 << 2;
+            r1 = r1 + r2;
+            r1 = r1 << 2;
+            r0 = 0x1;
+            FUN_80bbabc(r0, r1);
+            r1 = 0x865;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r0 = 0x9b;
+            r0 = r0 << 1;
+            r2 = r7 + r0;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 13: // switch 80bc6b0
+            //LAB_80bcdde
+            r1 = 0x137;
+            r2 = r7 + r1;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            r3 = r3 - 0x2;
+            MEMORY.ref(1, r2).setu(r3);
+            r4 = 0x4;
+            r3 = r3 << 24;
+            r3 = r3 >> 24;
+            r4 = -r4;
+            if(r3 < r4) {
+              r3 = 0xfc;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bcdf8
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            r1 = MEMORY.ref(1, r2).getUnsigned();
+            if(r3 > 0x4) {
+              r3 = 0x4;
+              MEMORY.ref(1, r2).setu(r3);
+              r1 = 0x4;
+            }
+
+            //LAB_80bce08
+            r5 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
+            r6 = 0x137;
+            r3 = r5 + r6;
+            r2 = 0x0;
+            r2 = MEMORY.ref(1, r3 + r2).get();
+            r3 = r1 << 24;
+            r3 = r3 >> 24;
+            r2 = r2 - r3;
+            r1 = r2 << 2;
+            r1 = r1 + r2;
+            r1 = r1 << 2;
+            r0 = 0x1;
+            FUN_80bbabc(r0, r1);
+            r1 = 0x865;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r0 = 0x9b;
+            r0 = r0 << 1;
+            r2 = r7 + r0;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 12: // switch 80bc6b0
+            //LAB_80bce30
+            r1 = 0x137;
+            r2 = r7 + r1;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            r3 = r3 + 0x1;
+            MEMORY.ref(1, r2).setu(r3);
+            r4 = 0x4;
+            r3 = r3 << 24;
+            r3 = r3 >> 24;
+            r4 = -r4;
+            if(r3 < r4) {
+              r3 = 0xfc;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bce4a
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            r1 = MEMORY.ref(1, r2).getUnsigned();
+            if(r3 > 0x4) {
+              r3 = 0x4;
+              MEMORY.ref(1, r2).setu(r3);
+              r1 = 0x4;
+            }
+
+            //LAB_80bce5a
+            r5 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
+            r6 = 0x137;
+            r2 = r5 + r6;
+            r2 = MEMORY.ref(1, r2).getUnsigned();
+            r2 = r2 << 24;
+            r2 = r2 >> 24;
+            r3 = r1 << 24;
+            r3 = r3 >> 24;
+            r3 = r3 - r2;
+            r1 = r3 << 2;
+            r1 = r1 + r3;
+            r1 = r1 << 2;
+            r0 = 0x1;
+            FUN_80bbabc(r0, r1);
+            r1 = 0x866;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r0 = 0x9b;
+            r0 = r0 << 1;
+            r2 = r7 + r0;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 11: // switch 80bc6b0
+            //LAB_80bce84
+            r1 = 0x137;
+            r2 = r7 + r1;
+            r3 = MEMORY.ref(1, r2).getUnsigned();
+            r3 = r3 + 0x2;
+            MEMORY.ref(1, r2).setu(r3);
+            r4 = 0x4;
+            r3 = r3 << 24;
+            r3 = r3 >> 24;
+            r4 = -r4;
+            if(r3 < r4) {
+              r3 = 0xfc;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bce9e
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            r1 = MEMORY.ref(1, r2).getUnsigned();
+            if(r3 > 0x4) {
+              r3 = 0x4;
+              MEMORY.ref(1, r2).setu(r3);
+              r1 = 0x4;
+            }
+
+            //LAB_80bceae
+            r5 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
+            r6 = 0x137;
+            r2 = r5 + r6;
+            r2 = MEMORY.ref(1, r2).getUnsigned();
+            r2 = r2 << 24;
+            r2 = r2 >> 24;
+            r3 = r1 << 24;
+            r3 = r3 >> 24;
+            r3 = r3 - r2;
+            r1 = r3 << 2;
+            r1 = r1 + r3;
+            r1 = r1 << 2;
+            r0 = 0x1;
+            FUN_80bbabc(r0, r1);
+            r1 = 0x866;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r0 = 0x9b;
+            r0 = r0 << 1;
+            r2 = r7 + r0;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 15: // switch 80bc6b0
+            //LAB_80bced8
+            r1 = 0x131;
+            r5 = r7 + r1;
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r5 + r3).get();
+            if(r3 == 0) {
+              //LAB_80bcee6
+              r1 = 0x867;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+              r3 = 0x1;
+              MEMORY.ref(1, r5).setu(r3);
+            }
+            break;
+
+          case 16: // switch 80bc6b0
+            //LAB_80bcef4
+            r2 = 0x131;
+            r5 = r7 + r2;
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r5 + r3).get();
+            if(r3 <= 0x1) {
+              //LAB_80bcf02
+              r1 = 0x874;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+              r3 = 0x2;
+              MEMORY.ref(1, r5).setu(r3);
+            }
+            break;
+
+          case 17: // switch 80bc6b0
+            //LAB_80bcf10
+            r1 = 0x868;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r3 = 0x9c;
+            r3 = r3 << 1;
+            r2 = r7 + r3;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 18: // switch 80bc6b0
+            //LAB_80bcf20
+            r1 = 0x869;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r4 = 0x139;
+            r3 = 0x7;
+            r2 = r7 + r4;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 19: // switch 80bc6b0
+            //LAB_80bcf32
+            r5 = 0x9d;
+            r1 = 0x86a;
+            r0 = 0x4;
+            r5 = r5 << 1;
+            FUN_80bbabc(r0, r1);
+            r2 = r7 + r5;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 20: // switch 80bc6b0
+            //LAB_80bcf42
+            r6 = 0x13b;
+            r1 = 0x86b;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r2 = r7 + r6;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 21: // switch 80bc6b0
+            //LAB_80bcf50
+            r1 = 0x86c;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r0 = 0x9e;
+            r0 = r0 << 1;
+            r2 = r7 + r0;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          //LAB_80bcf5c
+          case 22: // switch 80bc6b0
+            r1 = CPU.r10().value;
+            if((r1 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
+              r1 = 0x86d;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            } else {
+              //LAB_80bcf6c
+              r1 = 0x876;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            }
+
+            //LAB_80bcf74
+            r2 = 0x13d;
+            r1 = r7 + r2;
+            r2 = MEMORY.ref(1, r1).getUnsigned();
+            r3 = 0x7;
+            r3 = r3 | r2;
+            MEMORY.ref(1, r1).setu(r3);
+            break;
+
+          case 64: // switch 80bc6b0
+            //LAB_80bcf7e
+            r3 = CPU.r10().value;
+            if((r3 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
+              r1 = 0x86d;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            } else {
+              //LAB_80bcf8e
+              r1 = 0x876;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            }
+
+            //LAB_80bcf96
+            r4 = 0x13d;
+            r1 = r7 + r4;
+            r2 = MEMORY.ref(1, r1).getUnsigned();
+            r3 = 0x10;
+            r3 = r3 | r2;
+            MEMORY.ref(1, r1).setu(r3);
+            break;
+
+          case 24: // switch 80bc6b0
+            //LAB_80bcfa4
+            r5 = 0x95;
+            r0 = 0x9;
+            r1 = CPU.r10().value;
+            r5 = r5 << 1;
+            FUN_80bbabc(r0, r1);
+            r3 = r7 + r5;
+            r3 = MEMORY.ref(1, r3).getUnsigned();
+            if(r3 == 0x2) {
+              r1 = 0x84f;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            } else {
+              //LAB_80bcfbc
+              r6 = MEMORY.ref(4, CPU.sp().value + 0x40).get();
+              if(r6 == 0xdb) {
+                r1 = 0x850;
+                r0 = 0x4;
+                FUN_80bbabc(r0, r1);
+              } else {
+                //LAB_80bcfcc
+                r1 = 0x84c;
+                r0 = 0x4;
+                FUN_80bbabc(r0, r1);
+              }
+            }
+
+            //LAB_80bcfd4
+            r3 = 0x0;
+            MEMORY.ref(2, r7 + 0x38).setu(r3);
+            r0 = CPU.r10().value;
+            FUN_8077128(r0);
+            break;
+
+          case 26: // switch 80bc6b0
+            //LAB_80bcfe0
+            r1 = 0x86f;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r0 = 0x9f;
+            r0 = r0 << 1;
+            r2 = r7 + r0;
+            r3 = 0x7;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 27: // switch 80bc6b0
+            //LAB_80bcff4
+            r1 = 0x870;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r1 = 0x13f;
+            r3 = 0x7;
+            r2 = r7 + r1;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 28: // switch 80bc6b0
+          case 57: // switch 80bc6b0
+            //LAB_80bd006
+            r3 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
+            r4 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
+            r2 = 0x38;
+            r6 = MEMORY.ref(2, r3 + r2).get();
+            r3 = MEMORY.ref(1, r4 + 0x3).getUnsigned();
+            r2 = r6;
+            r5 = MEMORY.ref(4, CPU.sp().value + 0x2c).get();
+            if(r3 == 0x3c) {
+              r3 = r5 >>> 31;
+              r3 = r5 + r3;
+              r5 = r3 >> 1;
+            }
+
+            //LAB_80bd01e
+            r1 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
+            r0 = 0x34;
+            r3 = MEMORY.ref(2, r1 + r0).get();
+            r6 = r6 + r5;
+            if(r6 > r3) {
+              r6 = r3;
+              r5 = r6 - r2;
+            }
+
+            //LAB_80bd02e
+            r1 = 0x0;
+            r0 = 0x7;
+            FUN_80bbabc(r0, r1);
+            r0 = 0x0;
+            r1 = MEMORY.ref(4, CPU.sp().value + 0x44).get();
+            FUN_80bbabc(r0, r1);
+            r4 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
+            r2 = 0x34;
+            r3 = MEMORY.ref(2, r4 + r2).get();
+            if(r6 == r3) {
+              r1 = 0x820;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            } else {
+              //LAB_80bd052
+              r1 = r5;
+              r0 = 0x1;
+              FUN_80bbabc(r0, r1);
+              r1 = 0x81d;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            }
+
+            //LAB_80bd062
+            r5 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
+            MEMORY.ref(2, r5 + 0x38).setu(r6);
+            r0 = MEMORY.ref(4, CPU.sp().value + 0x44).get();
+            FUN_8077128(r0);
+            break;
+
+          case 29: // switch 80bc6b0
+            //LAB_80bd068
+            r0 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
+            r6 = 0x3a;
+            r5 = MEMORY.ref(2, r0 + r6).get();
+            r6 = MEMORY.ref(4, CPU.sp().value + 0x2c).get();
+            r1 = 0x36;
+            r3 = MEMORY.ref(2, r0 + r1).get();
+            r2 = r5;
+            r5 = r5 + r6;
+            if(r5 > r3) {
+              r5 = r3;
+              r6 = r5 - r2;
+            }
+
+            //LAB_80bd080
+            r1 = 0x0;
+            r0 = 0x7;
+            FUN_80bbabc(r0, r1);
+            r0 = 0x0;
+            r1 = MEMORY.ref(4, CPU.sp().value + 0x44).get();
+            FUN_80bbabc(r0, r1);
+            r4 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
+            r2 = 0x36;
+            r3 = MEMORY.ref(2, r4 + r2).get();
+            if(r5 == r3) {
+              r1 = 0x821;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            } else {
+              //LAB_80bd0a4
+              r1 = r6;
+              r0 = 0x1;
+              FUN_80bbabc(r0, r1);
+              r1 = 0x81e;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            }
+
+            //LAB_80bd0b4
+            r6 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
+            MEMORY.ref(2, r6 + 0x3a).setu(r5);
+            r0 = MEMORY.ref(4, CPU.sp().value + 0x44).get();
+            FUN_8077128(r0);
+            break;
+
+          case 66: // switch 80bc6b0
+            //LAB_80bd128
+            r0 = MEMORY.ref(4, CPU.sp().value + 0x2c).get();
+            r1 = 0xa;
+            r0 = divideS(r0, r1);
+            r5 = r0;
+            r0 = 0x3a;
+            r3 = MEMORY.ref(2, r7 + r0).get();
+            if(r3 < r5) {
+              r5 = r3;
+            }
+
+            //LAB_80bd13c
+            r3 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
+            r6 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
+            r2 = 0x3a;
+            r1 = MEMORY.ref(2, r3 + r2).get();
+            r4 = 0x36;
+            r2 = MEMORY.ref(2, r6 + r4).get();
+            r3 = r1 + r5;
+            if(r3 > r2) {
+              r5 = r2 - r1;
+            }
+
+            //LAB_80bd150
+            if(r5 != 0) {
+              //LAB_80bd156
+              r0 = 0x1;
+              r1 = r5;
+              FUN_80bbabc(r0, r1);
+              r0 = CPU.r10().value;
+              if((r0 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
+                r1 = 0x85f;
+                r0 = 0x4;
+                FUN_80bbabc(r0, r1);
+              } else {
+                //LAB_80bd16e
+                r1 = 0x85e;
+                r0 = 0x4;
+                FUN_80bbabc(r0, r1);
+              }
+
+              //LAB_80bd176
+              r0 = MEMORY.ref(4, CPU.sp().value + 0x44).get();
+              r1 = r5;
+              r0 = addPp_(r0, r1);
+            }
+            break;
+
+          case 30: // switch 80bc6b0
+            //LAB_80bd180
+            r1 = 0x133;
+            r2 = r7 + r1;
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            if(r3 > 0) {
+              r4 = 0x99;
+              r3 = 0x0;
+              r4 = r4 << 1;
+              MEMORY.ref(1, r2).setu(r3);
+              r2 = r7 + r4;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bd198
+            r5 = 0x135;
+            r1 = r7 + r5;
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r1 + r3).get();
+            if(r3 > 0) {
+              r6 = 0x9a;
+              r6 = r6 << 1;
+              r2 = 0x0;
+              r3 = r7 + r6;
+              MEMORY.ref(1, r1).setu(r2);
+              MEMORY.ref(1, r3).setu(r2);
+            }
+
+            //LAB_80bd1b0
+            r0 = 0x137;
+            r2 = r7 + r0;
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            if(r3 > 0) {
+              r1 = 0x9b;
+              r3 = 0x0;
+              r1 = r1 << 1;
+              MEMORY.ref(1, r2).setu(r3);
+              r2 = r7 + r1;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bd1c8
+            r3 = 0x147;
+            r2 = r7 + r3;
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            if(r3 > 0) {
+              r3 = 0x0;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+
+            //LAB_80bd1d8
+            r4 = 0x96;
+            r4 = r4 << 1;
+            r5 = 0x12d;
+            r2 = 0x0;
+            r3 = r7 + r4;
+            r6 = 0x97;
+            MEMORY.ref(1, r3).setu(r2);
+            r0 = 0x12f;
+            r3 = r7 + r5;
+            r6 = r6 << 1;
+            MEMORY.ref(1, r3).setu(r2);
+            r3 = r7 + r6;
+            MEMORY.ref(1, r3).setu(r2);
+            r3 = r7 + r0;
+            MEMORY.ref(1, r3).setu(r2);
+            r1 = 0x896;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            break;
+
+          case 23: // switch 80bc6b0
+            //LAB_80bd1fa
+            r1 = 0x872;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r1 = 0xa0;
+            r1 = r1 << 1;
+            r2 = r7 + r1;
+            r3 = 0x1;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 25: // switch 80bc6b0
+            //LAB_80bd20a
+            r2 = 0x141;
+            r5 = r7 + r2;
+            r3 = MEMORY.ref(1, r5).getUnsigned();
+            r2 = r3;
+            if(r2 == 0) {
+              r1 = 0x873;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+              r3 = 0x7;
+              MEMORY.ref(1, r5).setu(r3);
+            } else {
+              //LAB_80bd224
+              if((r2 & 0xffff_ffffL) > (0x1 & 0xffff_ffffL)) {
+                r3 = r3 + 0xff;
+                MEMORY.ref(1, r5).setu(r3);
+                r0 = 0x1;
+                r1 = MEMORY.ref(1, r5).getUnsigned();
+                FUN_80bbabc(r0, r1);
+                r1 = 0x875;
+                r0 = 0x4;
+                FUN_80bbabc(r0, r1);
+              }
+            }
+            break;
+
+          case 63: // switch 80bc6b0
+            //LAB_80bd23e
+            r1 = 0x87d;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r3 = 0xa2;
+            r3 = r3 << 1;
+            r2 = r7 + r3;
+            r3 = 0x2;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 51: // switch 80bc6b0
+            //LAB_80bd24e
+            r1 = 0x87e;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r4 = 0xa4;
+            r4 = r4 << 1;
+            r2 = r7 + r4;
+            r3 = 0x1;
+            r5 = CPU.r10().value;
+            MEMORY.ref(1, r2).setu(r3);
+            if((r5 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
+              r3 = MEMORY.ref(4, CPU.sp().value + 0x38).get();
+              r3 = r3 + 0x43;
+              r2 = MEMORY.ref(1, r3).getUnsigned();
+              r1 = 0x2;
+              r2 = r2 | r1;
+              MEMORY.ref(1, r3).setu(r2);
+            }
+            break;
+
+          case 50: // switch 80bc6b0
+            //LAB_80bd274
+            r6 = 0x145;
+            r1 = 0x87f;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r2 = r7 + r6;
+            r3 = 0x1;
+            MEMORY.ref(1, r2).setu(r3);
+            break;
+
+          case 43: // switch 80bc6b0
+            //LAB_80bd282
+            r1 = 0x881;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r0 = 0x12b;
+            r2 = r7 + r0;
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            if(r3 <= 0) {
+              //LAB_80bd296
+              r3 = 0x1;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+            break;
+
+          case 44: // switch 80bc6b0
+            //LAB_80bd29c
+            r1 = 0x882;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            r1 = 0x12b;
+            r2 = r7 + r1;
+            r3 = 0x0;
+            r3 = MEMORY.ref(1, r2 + r3).get();
+            if(r3 <= 0x1) {
+              //LAB_80bd2b0
+              r3 = 0x2;
+              MEMORY.ref(1, r2).setu(r3);
+            }
+            break;
+
+          case 42: // switch 80bc6b0
+            //LAB_80bd2b6
+            r1 = 0x1;
+            r1 = -r1;
+            r0 = 0x4;
+            FUN_80bbabc(r0, r1);
+            break;
+        }
+      }
+    }
+
+    //LAB_80bd2c0
+    r0 = 0x7;
+    r1 = 0x0;
+    FUN_80bbabc(r0, r1);
+    r2 = 0x38;
+    r3 = MEMORY.ref(2, r7 + r2).get();
+    if(r3 != 0) {
+      r3 = 0x9e;
+      r3 = r3 << 1;
+      r5 = r7 + r3;
+      r3 = MEMORY.ref(1, r5).getUnsigned();
+      if(r3 != 0) {
+        if((r3 & 0xffff_ffffL) <= (0x6 & 0xffff_ffffL)) {
+          r4 = MEMORY.ref(4, CPU.sp().value + 0x2c).get();
+          if(r4 > 0) {
+            r0 = lcgRand_();
+            r3 = 0x3;
+            r0 = r0 & r3;
+            if(r0 == 0) {
+              MEMORY.ref(1, r5).setu(r0);
+              r1 = CPU.r10().value;
+              r0 = 0x0;
+              FUN_80bbabc(r0, r1);
+              r1 = 0x883;
+              r0 = 0x4;
+              FUN_80bbabc(r0, r1);
+            }
+          }
+        }
+      }
+    }
+
+    //LAB_80bd304
+    r0 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
+    setMallocAddress(r0);
+    r0 = CPU.r10().value;
+    recalcStats_(r0);
+    r3 = 0x3001e74;
+    r3 = MEMORY.ref(4, r3).get();
+    r3 = r3 + 0x41;
+    r0 = MEMORY.ref(1, r3).getUnsigned();
+    FUN_8015130(r0);
+    r5 = 0x38;
+    r3 = MEMORY.ref(2, r7 + r5).get();
+    if(r3 != 0) {
+      r0 = 0xb;
+      r1 = CPU.r10().value;
+      FUN_80bbabc(r0, r1);
+    }
+
+    //LAB_80bd32c
+    r6 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
+    r0 = 0xa0;
+    r0 = r0 << 1;
+    r3 = r6 + r0;
+    r3 = MEMORY.ref(1, r3).getUnsigned();
+    if(r3 != 0) {
+      r0 = lcgRand_();
+      r3 = 0x3;
+      r0 = r0 & r3;
+      if(r0 == 0) {
+        r1 = MEMORY.ref(4, CPU.sp().value + 0x2c).get();
+        if(r1 > 0) {
+          r0 = r1 >> 2;
+          if(r0 == 0) {
+            r0 = 0x1;
+          }
+
+          //LAB_80bd354
+          r2 = MEMORY.ref(4, CPU.sp().value + 0x50).get();
+          r3 = MEMORY.ref(4, r2 + 0x60).get();
+          r3 = r3 + r0;
+          MEMORY.ref(4, r2 + 0x60).setu(r3);
+        }
+      }
+    }
+
+    //LAB_80bd35c
+    CPU.sp().value += 0x64;
+    CPU.r8().value = CPU.pop();
+    CPU.r9().value = CPU.pop();
+    CPU.r10().value = CPU.pop();
+    CPU.r11().value = CPU.pop();
   }
 
   @Method(0x80bd3c8)
