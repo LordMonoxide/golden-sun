@@ -4468,6 +4468,35 @@ public final class GoldenSun {
     return r7;
   }
 
+  @Method(0x800be70)
+  public static void FUN_800be70(final int r0, int r1) {
+    final int r5 = 0x6010000 + vramSlots_3001b10.get(MEMORY.ref(1, r0 + 0x1c).getUnsigned()).vramAddr_02.get();
+    final int r6 = MEMORY.ref(1, r0 + 0x21).getUnsigned() * MEMORY.ref(1, r0 + 0x20).getUnsigned() / 0x40;
+
+    //LAB_800beae
+    for(int r4 = 0; r4 < r6; r4++) {
+      if(r1 >= 64 && r1 < 128) {
+        final int r2 = MEMORY.ref(1, 0x801314c + (r1 + r4 * 0x10 & 0x3f)).getUnsigned();
+        final int r0_0 = r5 + r1 * 0x40 + (r2 & 0x3e);
+        final int r3;
+        if((r2 & 0x1) != 0) {
+          r3 = MEMORY.ref(1, r0_0).getUnsigned();
+        } else {
+          //LAB_800bed4
+          r3 = MEMORY.ref(2, r0_0).getUnsigned() & 0xff00;
+        }
+
+        //LAB_800beda
+        MEMORY.ref(2, r0_0).setu(r3);
+      }
+
+      //LAB_800bedc
+      r1 = r1 + 0x1;
+    }
+
+    //LAB_800bee6
+  }
+
   @Method(0x800c004)
   public static void initActors(final int r0) {
     final Struct5c r8 = MEMORY.ref(4, mallocSlotBoard(6, 0x5c), Struct5c::new);

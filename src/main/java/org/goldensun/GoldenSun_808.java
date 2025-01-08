@@ -864,8 +864,147 @@ public final class GoldenSun_808 {
   }
 
   @Method(0x808a6e4)
-  public static void FUN_808a6e4(final int r0) {
-    throw new RuntimeException("Not implemented");
+  public static void FUN_808a6e4(int r0) {
+    int r1;
+    int r2;
+    int r3;
+    int r5;
+
+    MEMORY.ref(2, 0x2000476).setu(r0);
+
+    if(r0 == -1) {
+      //LAB_808a6f8
+      final Unit14c r6 = getCharOrMonsterData_(playerMapActorIndex_2000434.get());
+      if(r6.hp_38.get() == 0) {
+        r6.hp_38.set(1);
+        r5 = 0x4000;
+        r0 = divideS(0x4000, r6.maxHp_34.get());
+        if(r0 <= 0x4000) {
+          r5 = 0x0;
+          if(r0 >= 0) {
+            r5 = r0;
+          }
+        }
+
+        //LAB_808a72e
+        r3 = r5 << 16;
+        r6.fractionHp_14.set(r5);
+        if(r3 == 0 && r6.hp_38.get() != 0) {
+          r6.fractionHp_14.set(1);
+        }
+
+        //LAB_808a742
+        r0 = divideS(r6.pp_3a.get() << 14, r6.maxPp_36.get());
+        r3 = 0x4000;
+        if(r0 <= 0x4000) {
+          r3 = 0x0;
+          if(r0 >= 0) {
+            r3 = r0;
+          }
+        }
+
+        //LAB_808a760
+        r6.fractionPp_16.set(r3);
+        r3 = r3 << 16;
+        if(r3 == 0 && r6.pp_3a.get() != 0) {
+          r6.fractionPp_16.set(1);
+        }
+      }
+
+      //LAB_808a774
+      if(readFlag_(0x20) != 0) {
+        r5 = 0x0;
+
+        //LAB_808a780
+        do {
+          final Unit14c r6_0 = getCharOrMonsterData_(r5);
+          r1 = r6_0.maxHp_34.get();
+          r3 = r6_0.maxPp_36.get();
+          r6_0.hp_38.set(r1);
+          r6_0.pp_3a.set(r3);
+          r1 = r1 << 16;
+          r1 = r1 >> 16;
+          r0 = r1 << 14;
+          r0 = divideS(r0, r1);
+          r3 = 0x4000;
+          if(r0 <= 0x4000) {
+            r3 = 0x0;
+            if(r0 >= 0) {
+              r3 = r0;
+            }
+          }
+
+          //LAB_808a7aa
+          r6_0.fractionHp_14.set(r3);
+          r3 = r3 << 16;
+          if(r3 == 0 && r6_0.hp_38.get() != 0) {
+            r6_0.fractionHp_14.set(1);
+          }
+
+          //LAB_808a7be
+          r0 = divideS(r6_0.pp_3a.get() << 14, r6_0.maxPp_36.get());
+          r3 = 0x4000;
+          if(r0 <= 0x4000) {
+            r3 = 0x0;
+            if(r0 >= 0) {
+              r3 = r0;
+            }
+          }
+
+          //LAB_808a7dc
+          r6_0.fractionPp_16.set(r3);
+          r3 = r3 << 16;
+          if(r3 == 0 && r6_0.pp_3a.get() != 0) {
+            r6_0.fractionPp_16.set(1);
+          }
+
+          //LAB_808a7f0
+          r5 = r5 + 0x1;
+        } while(r5 <= 0x1);
+      }
+
+      //LAB_808a7f6
+      r2 = MEMORY.ref(2, 0x2000412).get();
+      r0 = MEMORY.ref(2, 0x2000414).get();
+      if(r2 == -1) {
+        if(r0 == -1) {
+          MEMORY.ref(2, 0x2000400).setu(MEMORY.ref(2, 0x2000404).getUnsigned());
+          MEMORY.ref(2, 0x2000402).setu(MEMORY.ref(2, 0x2000406).getUnsigned());
+          return;
+        }
+
+        //LAB_808a83e
+        r2 = MEMORY.ref(2, 0x2000408).getUnsigned();
+      }
+    } else {
+      //LAB_808a846
+      r2 = MEMORY.ref(2, 0x200040e).get();
+      r0 = MEMORY.ref(2, 0x2000410).get();
+      if(r2 == -1) {
+        if(r0 == r2) {
+          //LAB_808a89e
+          MEMORY.ref(2, 0x2000400).setu(MEMORY.ref(2, 0x2000408).getUnsigned());
+          MEMORY.ref(2, 0x2000402).setu(MEMORY.ref(2, 0x200040a).getUnsigned());
+          setFlag_(0x109);
+          return;
+        }
+
+        //LAB_808a866
+        r2 = MEMORY.ref(2, 0x2000408).getUnsigned();
+      }
+    }
+
+    //LAB_808a874
+    MEMORY.ref(2, 0x2000400).setu(r2);
+
+    if(r0 != -1) {
+      MEMORY.ref(2, 0x2000402).setu(r0);
+    } else {
+      //LAB_808a88a
+      MEMORY.ref(2, 0x2000402).setu(MEMORY.ref(2, 0x200040a).getUnsigned());
+    }
+
+    //LAB_808a8c2
   }
 
   @Method(0x808a8d0)

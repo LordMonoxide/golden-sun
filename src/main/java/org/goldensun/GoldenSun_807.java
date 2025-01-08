@@ -117,6 +117,12 @@ public final class GoldenSun_807 {
     FUN_8077d38();
   }
 
+  /** {@link GoldenSun_807#FUN_80792c4} */
+  @Method(0x80770b8)
+  public static int FUN_80770b8(final int unitId, final int r1) {
+    return (int)MEMORY.call(0x80792c4, unitId, r1);
+  }
+
   /** {@link GoldenSun_807#readFlag} */
   @Method(0x80770c0)
   public static int readFlag_(final int r0) {
@@ -1958,6 +1964,23 @@ public final class GoldenSun_807 {
     //LAB_80792a4
     setMallocAddress(r9);
     return r6;
+  }
+
+  /** Level up? */
+  @Method(0x80792c4)
+  public static int FUN_80792c4(final int unitId, final int r1) {
+    final Unit14c unit = getCharOrMonsterData(unitId);
+    if((unit.exp_124.get() & 0xffff_ffffL) < (FUN_8079008(unitId, unit.level_0f.get() + 1) & 0xffff_ffffL)) {
+      return 0;
+    }
+
+    if(FUN_807905c(unitId, r1) == 0) {
+      //LAB_80792f4
+      return 0;
+    }
+
+    //LAB_80792f6
+    return r1;
   }
 
   @Method(0x80792fc)

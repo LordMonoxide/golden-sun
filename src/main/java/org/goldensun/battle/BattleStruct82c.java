@@ -10,6 +10,7 @@ import org.goldensun.memory.types.ShortRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 import org.goldensun.types.Actor70;
+import org.goldensun.types.RenderPacket0c;
 import org.goldensun.types.SpriteLayer18;
 
 public class BattleStruct82c implements MemoryRef {
@@ -54,13 +55,15 @@ public class BattleStruct82c implements MemoryRef {
 
   public final Sub64 _654;
   public final ArrayRef<UnsignedByteRef> _6b8;
-  public final ArrayRef<IntRef> _6f8;
+  public final ArrayRef<IntRef> unitIds_6f8;
   public final IntRef _7f8;
   public final IntRef _7fc;
   public final IntRef _800;
   public final IntRef _804;
   public final IntRef _808;
-
+  public final RenderPacket0c _80c;
+  public final IntRef vramSlot_818;
+  public final IntRef unitId_81c;
   public final IntRef _820;
   public final IntRef _824;
 
@@ -106,13 +109,15 @@ public class BattleStruct82c implements MemoryRef {
 
     this._654 = ref.offset(4, 0x654).cast(Sub64::new);
     this._6b8 = ref.offset(1, 0x6b8).cast(ArrayRef.of(UnsignedByteRef.class, 64, 0x1, UnsignedByteRef::new));
-    this._6f8 = ref.offset(4, 0x6f8).cast(ArrayRef.of(IntRef.class, 64, 0x4, IntRef::new));
+    this.unitIds_6f8 = ref.offset(4, 0x6f8).cast(ArrayRef.of(IntRef.class, 64, 0x4, IntRef::new));
     this._7f8 = ref.offset(4, 0x7f8).cast(IntRef::new);
     this._7fc = ref.offset(4, 0x7fc).cast(IntRef::new);
     this._800 = ref.offset(4, 0x800).cast(IntRef::new);
     this._804 = ref.offset(4, 0x804).cast(IntRef::new);
     this._808 = ref.offset(4, 0x808).cast(IntRef::new);
-
+    this._80c = ref.offset(4, 0x80c).cast(RenderPacket0c::new);
+    this.vramSlot_818 = ref.offset(4, 0x818).cast(IntRef::new);
+    this.unitId_81c = ref.offset(4, 0x81c).cast(IntRef::new);
     this._820 = ref.offset(4, 0x820).cast(IntRef::new);
     this._824 = ref.offset(4, 0x824).cast(IntRef::new);
   }
@@ -204,7 +209,7 @@ public class BattleStruct82c implements MemoryRef {
     public final UnsignedByteRef unitId_00;
     public final UnsignedByteRef _01;
     public final ArrayRef<UnsignedByteRef> _02;
-
+    public final ArrayRef<UnsignedByteRef> _10;
     public final ArrayRef<ByteRef> _1e;
     public final ArrayRef<ByteRef> _2c;
     public final ArrayRef<ByteRef> _3a;
@@ -224,7 +229,7 @@ public class BattleStruct82c implements MemoryRef {
       this.unitId_00 = ref.offset(1, 0x00).cast(UnsignedByteRef::new);
       this._01 = ref.offset(1, 0x01).cast(UnsignedByteRef::new);
       this._02 = ref.offset(1, 0x02).cast(ArrayRef.of(UnsignedByteRef.class, 14, 0x1, UnsignedByteRef::new));
-
+      this._10 = ref.offset(1, 0x10).cast(ArrayRef.of(UnsignedByteRef.class, 14, 0x1, UnsignedByteRef::new));
       this._1e = ref.offset(1, 0x1e).cast(ArrayRef.of(ByteRef.class, 14, 0x1, ByteRef::new));
       this._2c = ref.offset(1, 0x2c).cast(ArrayRef.of(ByteRef.class, 14, 0x1, ByteRef::new));
       this._3a = ref.offset(1, 0x3a).cast(ArrayRef.of(ByteRef.class, 14, 0x1, ByteRef::new));
