@@ -6,6 +6,7 @@ import org.goldensun.input.Input;
 import org.goldensun.maps.Map121Overlay_87d0e88;
 import org.goldensun.maps.Map132Overlay_87ced6c;
 import org.goldensun.maps.Map3Overlay_877dd1c;
+import org.goldensun.maps.Map5Overlay_8784360;
 import org.goldensun.maps.Map6Overlay_878603c;
 import org.goldensun.maps.Map7Overlay_8786f0c;
 import org.goldensun.maps.Map8Overlay_8787e04;
@@ -558,6 +559,12 @@ public final class GoldenSun_808 {
     MEMORY.call(0x8091f90, r0, r1);
   }
 
+  /** {@link GoldenSun_809#FUN_8091fa8} */
+  @Method(0x808a268)
+  public static void FUN_808a268(final int r0, final int r1) {
+    MEMORY.call(0x8091fa8, r0, r1);
+  }
+
   /** {@link GoldenSun_809#FUN_8094154} */
   @Method(0x808a278)
   public static void FUN_808a278(final int actorIndex, final int r1) {
@@ -726,6 +733,12 @@ public final class GoldenSun_808 {
     return (int)MEMORY.call(0x808b248);
   }
 
+  /** {@link GoldenSun_808#addPpToAll} */
+  @Method(0x808a4c0)
+  public static void addPpToAll_(final int amount) {
+    MEMORY.call(0x808c2dc, amount);
+  }
+
   /** {@link GoldenSun_808#FUN_808acc4} */
   @Method(0x808a4f0)
   public static void FUN_808a4f0() {
@@ -736,6 +749,12 @@ public final class GoldenSun_808 {
   @Method(0x808a548)
   public static void FUN_808a548() {
     MEMORY.call(0x8091858);
+  }
+
+  /** {@link GoldenSun_809#FUN_80920c0} */
+  @Method(0x808a588)
+  public static void FUN_808a588(final int mapActorIndex0, final int mapActorIndex1) {
+    MEMORY.call(0x80920c0, mapActorIndex0, mapActorIndex1);
   }
 
   /** {@link GoldenSun_808#FUN_808ba38} */
@@ -1151,6 +1170,7 @@ public final class GoldenSun_808 {
       // Title screen
       case 1 -> { }
       case 3 -> MEMORY.addFunctions(Map3Overlay_877dd1c.class);
+      case 5 -> MEMORY.addFunctions(Map5Overlay_8784360.class);
       case 6 -> MEMORY.addFunctions(Map6Overlay_878603c.class);
       case 7 -> MEMORY.addFunctions(Map7Overlay_8786f0c.class);
       case 8 -> MEMORY.addFunctions(Map8Overlay_8787e04.class);

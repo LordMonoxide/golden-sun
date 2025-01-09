@@ -5934,6 +5934,14 @@ public final class GoldenSun {
     return 0;
   }
 
+  @Method(0x800d900)
+  public static int FUN_800d900(final Actor70 r0) {
+    final int r3 = r0.scriptPtr_00.get() + r0.scriptPos_04.get() * 0x4;
+    playSound_(MEMORY.ref(4, r3 + 0x4).get());
+    r0.scriptPos_04.add(0x2);
+    return 1;
+  }
+
   @Method(0x800d924)
   public static int FUN_800d924(final Actor70 r0, final Vec3 r1) {
     final int r5_0 = boardWramMallocHead_3001e50.offset(5 * 0x4).get();
@@ -6149,6 +6157,130 @@ public final class GoldenSun {
     return 0;
   }
 
+  @Method(0x800df04)
+  public static int FUN_800df04(final Actor70 r0) {
+    int r2;
+    int r3;
+    int r4;
+    int r7;
+    int r8;
+    int r9;
+    int r10;
+    int r11;
+
+    r3 = r0.scriptPtr_00.get() + 0x4 + r0.scriptPos_04.get() * 0x4;
+    final int sp18 = MEMORY.ref(4, r3).get();
+    final int sp14 = MEMORY.ref(4, r3 + 0x4).get();
+    r3 = MEMORY.ref(4, r3 + 0x8).get() / 0x10000;
+    int sp0c = r0.angle_06.get();
+    r11 = r0.pos_08.getX() / 0x10000 - r0._64.get();
+    r9 = r0.pos_08.getZ() / 0x10000 - r0._66.get();
+    r10 = 0;
+
+    final Vec3 sp1c = new Vec3();
+    final Vec3 sp28 = new Vec3();
+
+    jmp_800e146:
+    if(r11 * r11 + r9 * r9 <= r3 * r3) {
+      //LAB_800df92
+      do {
+        do {
+          do {
+            do {
+              do {
+                do {
+                  do {
+                    do {
+                      r10++;
+                      if(r10 > 0x7) {
+                        break jmp_800e146;
+                      }
+
+                      //LAB_800df9e
+                      r8 = sp18 + mul16(rand(), sp14);
+                      r2 = sp0c << 16 >>> 16;
+                      r2 = r2 + (rand() >>> 2);
+                      r2 = r2 - (rand() >>> 2);
+                      r2 = r2 << 16;
+                      r4 = r2 >>> 16;
+                      sp28.set(r0.pos_08);
+                      rotVec3(0x80000, r4, sp28);
+                    } while(FUN_800d924(r0, sp28) != 0x0);
+
+                    sp28.set(r0.pos_08);
+                    rotVec3(r8, r4, sp28);
+                  } while(FUN_80120dc(r0, sp28) != 0x0);
+
+                  sp1c.set(r0.pos_08);
+                  r8 += 0x80000;
+                  rotVec3(r8, r4, sp1c);
+                } while(FUN_80120dc(r0, sp1c) != 0x0);
+
+                sp1c.set(r0.pos_08);
+                rotVec3(r8, r4 + 0x2000, sp1c);
+              } while(FUN_80120dc(r0, sp1c) != 0x0);
+
+              sp1c.set(r0.pos_08);
+              rotVec3(r8, r4 - 0x2000, sp1c);
+            } while(FUN_80120dc(r0, sp1c) != 0x0);
+
+            //LAB_800e098
+            sp1c.set(r0.pos_08);
+            rotVec3(r8, r4 + 0x4000, sp1c);
+          } while(FUN_80120dc(r0, sp1c) != 0x0);
+
+          //LAB_800e0c2
+          sp1c.set(r0.pos_08);
+          rotVec3(r8, r4 - 0x4000, sp1c);
+        } while(FUN_80120dc(r0, sp1c) != 0x0);
+
+        //LAB_800e0e8
+        r11 = sp28.getX() / 0x10000 - r0._64.get();
+        r9 = sp28.getZ() / 0x10000 - r0._66.get();
+      } while(r11 * r11 + r9 * r9 > r3 * r3);
+
+      //LAB_800e12e
+      r0._59.or(0x2);
+      FUN_800d14c(r0, sp28.getX(), sp28.getY(), sp28.getZ());
+      r0.scriptPos_04.add(0x4);
+      return 1;
+    }
+
+    //LAB_800e146
+    r10 = 0;
+    sp0c = (short)(atan2(r9, r11) + 0x8000);
+
+    //LAB_800e15e
+    do {
+      do {
+        r10++;
+        if(r10 > 0x7) {
+          r0.scriptPos_04.add(0x4);
+          return 1;
+        }
+
+        r8 = sp18 + mul16(rand(), sp14);
+        r2 = sp0c << 16 >>> 16;
+        r2 = r2 + (rand() >>> 2);
+        r2 = r2 - (rand() >>> 2);
+        r2 = r2 << 16;
+        r7 = r2 >>> 16;
+        sp28.set(r0.pos_08);
+        rotVec3(0x80000, r7, sp28);
+      } while(FUN_800d924(r0, sp28) != 0x0);
+
+      sp28.set(r0.pos_08);
+      rotVec3(r8, r7, sp28);
+    } while(FUN_80120dc(r0, sp28) != 0x0);
+
+    r0._59.and(~0x2);
+    FUN_800d14c(r0, sp28.getX(), sp28.getY(), sp28.getZ());
+
+    //LAB_800e1f6
+    r0.scriptPos_04.add(0x4);
+    return 1;
+  }
+
   @Method(0x800e280)
   public static void FUN_800e280(final Actor70 r0, final int r1, final int r2) {
     if(r1 == 0) {
@@ -6215,6 +6347,20 @@ public final class GoldenSun {
     //LAB_800e3b6
   }
 
+  @Method(0x800e3e8)
+  public static void FUN_800e3e8(final Actor70 r0, final int r1, final int r2) {
+    if(r1 == 0) {
+      r0.velocity_24.setY(r2);
+      //LAB_800e3f2
+    } else if(r1 == 1) {
+      r0.velocity_24.y_04.add(r2);
+    } else {
+      //LAB_800e3fe
+      //LAB_800e408
+      r0._57.set(r0.velocity_24.getY() == r2 ? 1 : 0);
+    }
+  }
+
   @Method(0x800e440)
   public static void FUN_800e440(final Actor70 r0, final int r1, final int r2) {
     if(r1 == 0) {
@@ -6227,6 +6373,20 @@ public final class GoldenSun {
       r0._57.set(1);
     } else {
       r0._57.set(0);
+    }
+  }
+
+  @Method(0x800e46c)
+  public static void FUN_800e46c(final Actor70 r0, final int r1, final int r2) {
+    if(r1 == 0) {
+      r0.acceleration_34.set(r2);
+      //LAB_800e476
+    } else if(r1 == 1) {
+      r0.acceleration_34.add(r2);
+    } else {
+      //LAB_800e482
+      //LAB_800e48c
+      r0._57.set(r0.acceleration_34.get() == r2 ? 1 : 0);
     }
   }
 
@@ -6247,12 +6407,67 @@ public final class GoldenSun {
     //LAB_800e4ea
   }
 
+  @Method(0x800e634)
+  public static void FUN_800e634(final Actor70 r0, final int r1, final int r2) {
+    if(r1 == 0) {
+      r0._55.set(r2);
+      //LAB_800e644
+    } else if(r1 == 1) {
+      r0._55.add(r2);
+    } else {
+      //LAB_800e654
+      r0._57.set(r0._55.get() == (r2 & 0xff) ? 1 : 0);
+    }
+  }
+
+  @Method(0x800e720)
+  public static void FUN_800e720(final Actor70 r0, final int r1, final int r2) {
+    if(r1 == 0) {
+      r0._59.set(r2);
+      //LAB_800e730
+    } else if(r1 == 1) {
+      r0._59.add(r2);
+    } else {
+      //LAB_800e740
+      //LAB_800e752
+      r0._57.set(r0._59.get() == (r2 & 0xff) ? 1 : 0);
+    }
+  }
+
+  @Method(0x800e850)
+  public static void FUN_800e850(final Actor70 r0, final int r1, final int r2) {
+    if(r1 == 0) {
+      r0._64.set(r2);
+      //LAB_800e860
+    } else if(r1 == 1) {
+      r0._64.add(r2);
+    } else {
+      //LAB_800e870
+      //LAB_800e884
+      r0._57.set(r0._64.get() == (short)r2 ? 1 : 0);
+    }
+  }
+
+  @Method(0x800e890)
+  public static void FUN_800e890(final Actor70 r0, final int r1, final int r2) {
+    if(r1 == 0) {
+      r0._66.set(r2);
+      //LAB_800e8a0
+    }  else if(r1 == 1) {
+      r0._66.add(r2);
+    } else {
+      //LAB_800e8b0
+      //LAB_800e8c4
+      r0._57.set(r0._66.get() == (short)r2 ? 1 : 0);
+    }
+  }
+
   @Method(0x800e9a0)
   public static int FUN_800e9a0(final Actor70 r0) {
     final int r1 = r0.scriptPtr_00.get() + 0x4 + r0.scriptPos_04.get() * 0x4;
-    final int r3 = MEMORY.ref(4, 0x80136e0 + MEMORY.ref(4, r1).get() * 0x4).get();
-    if(r3 != 0) {
-      MEMORY.call(r3, r0, 0, MEMORY.ref(4, r1 + 0x4).get());
+    final var r3 = _80136e0.get(MEMORY.ref(4, r1).get()).derefNullable();
+    if(r3 != null) {
+      r3.run(r0, 0, MEMORY.ref(4, r1 + 0x4).get());
     }
 
     //LAB_800e9ca

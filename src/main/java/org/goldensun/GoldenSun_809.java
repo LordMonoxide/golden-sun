@@ -77,6 +77,8 @@ import static org.goldensun.GoldenSun.setTickCallback;
 import static org.goldensun.GoldenSun.sin;
 import static org.goldensun.GoldenSun.sleep;
 import static org.goldensun.GoldenSun.sqrt16;
+import static org.goldensun.GoldenSunVars._2000412;
+import static org.goldensun.GoldenSunVars._2000414;
 import static org.goldensun.GoldenSunVars._200041a;
 import static org.goldensun.GoldenSunVars._200042e;
 import static org.goldensun.GoldenSunVars._2000432;
@@ -1226,6 +1228,12 @@ public final class GoldenSun_809 {
     throw new RuntimeException("Not implemented");
   }
 
+  @Method(0x8091fa8)
+  public static void FUN_8091fa8(final int r0, final int r1) {
+    _2000412.set(r0);
+    _2000414.set(r1);
+  }
+
   @Method(0x8091ff0)
   public static void FUN_8091ff0(int r0) {
     boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new).soundId_cc8.set(r0);
@@ -1285,6 +1293,18 @@ public final class GoldenSun_809 {
     }
 
     //LAB_80920ba
+  }
+
+  @Method(0x80920c0)
+  public static void FUN_80920c0(final int mapActorIndex0, final int mapActorIndex1) {
+    final Actor70 r5 = getMapActor(mapActorIndex0);
+
+    if(r5 != null) {
+      r5._68.set(getMapActor_(mapActorIndex1));
+      FUN_8093a6c(r5, 0x809ff40);
+    }
+
+    //LAB_80920de
   }
 
   @Method(0x80920e8)

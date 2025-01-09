@@ -315,6 +315,12 @@ public final class GoldenSun_807 {
     return (int)MEMORY.call(0x8078ad0, r0, r1);
   }
 
+  /** {@link GoldenSun_807#FUN_807808c} */
+  @Method(0x8077260)
+  public static void FUN_8077260(final int r0) {
+    MEMORY.call(0x807808c, r0);
+  }
+
   /** {@link GoldenSun_807#FUN_8077f40} */
   @Method(0x8077270)
   public static void FUN_8077270() {
@@ -1687,6 +1693,80 @@ public final class GoldenSun_807 {
     recalcStats(0);
     recalcStats(1);
     recalcStats(5);
+  }
+
+  @Method(0x807808c)
+  public static void FUN_807808c(int r0) {
+    int r1;
+    int r3;
+    int r6;
+    final int r7;
+
+    CPU.push(CPU.r8().value);
+    CPU.r8().value = r0;
+    r0 = getCharCount();
+    r6 = 0x0;
+    r7 = r0;
+    if(r6 < r7) {
+      //LAB_80780a0
+      do {
+        final Unit14c r5 = getCharOrMonsterData(charIds_2000438.get(r6).get());
+        r1 = r5.maxHp_34.get();
+        r3 = r5.maxPp_36.get();
+        r5.hp_38.set(r1);
+        r5.pp_3a.set(r3);
+        r0 = r1 << 14;
+        r0 = divideS(r0, r1);
+        r3 = 0x80;
+        r3 = r3 << 7;
+        if(r0 <= r3) {
+          r3 = 0x0;
+          if(r0 >= 0) {
+            r3 = r0;
+          }
+        }
+
+        //LAB_80780d2
+        r5.fractionHp_14.set(r3);
+        r3 = r3 << 16;
+        if(r3 == 0 && r5.hp_38.get() != 0) {
+          r5.fractionHp_14.set(1);
+        }
+
+        //LAB_80780e6
+        r0 = r5.pp_3a.get();
+        r1 = r5.maxPp_36.get();
+        r0 = r0 << 14;
+        r0 = divideS(r0, r1);
+        r3 = 0x80;
+        r3 = r3 << 7;
+        if(r0 <= r3) {
+          r3 = 0x0;
+          if(r0 >= 0) {
+            r3 = r0;
+          }
+        }
+
+        //LAB_8078104
+        r5.fractionPp_16.set(r3);
+        r3 = r3 << 16;
+        if(r3 == 0 && r5.pp_3a.get() != 0) {
+          r5.fractionPp_16.set(1);
+        }
+
+        //LAB_8078118
+        if(CPU.r8().value == 0x1) {
+          r5.affliction_131.set(0);
+          r5.haunt_140.set(0);
+        }
+
+        //LAB_807812c
+        r6 = r6 + 0x1;
+      } while(r6 < r7);
+    }
+
+    //LAB_8078132
+    CPU.r8().value = CPU.pop();
   }
 
   @Method(0x80787dc)
