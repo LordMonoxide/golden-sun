@@ -903,7 +903,7 @@ public final class GoldenSun_80f {
     if(r3 > 0) {
       //LAB_80f2ed8
       for(int i = 0; i < 0x600; i++) {
-        MEMORY.ref(2, r2 + i * 0x2).setu((int)MEMORY.call(0x3000380, MEMORY.ref(2, r1 + i * 0x2).get() - MEMORY.ref(2, r0 + i * 0x2).get(), r3));
+        MEMORY.ref(2, r2 + i * 0x2).setu(divideS(MEMORY.ref(2, r1 + i * 0x2).get() - MEMORY.ref(2, r0 + i * 0x2).get(), r3));
       }
     }
 

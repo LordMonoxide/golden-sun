@@ -26,6 +26,7 @@ import org.goldensun.types.TileAttributes04;
 import org.goldensun.types.Unit14c;
 import org.goldensun.types.Vec3;
 
+import static org.goldensun.CopiedSegment8000770.sqrt;
 import static org.goldensun.GoldenSun.allocateSpriteSlot;
 import static org.goldensun.GoldenSun.FUN_8004760;
 import static org.goldensun.GoldenSun.FUN_8009088;
@@ -3885,7 +3886,7 @@ public final class GoldenSun_808 {
               final int dx = (otherActor.pos_08.getX() - actor.pos_08.getX()) / 0x10000;
               final int dy = (otherActor.pos_08.getY() - actor.pos_08.getY()) / 0x10000;
               final int dz = (otherActor.pos_08.getZ() - actor.pos_08.getZ()) / 0x10000;
-              int distance = (int)MEMORY.call(0x30001d8, dx * dx + dy * dy + dz * dz);
+              int distance = sqrt(dx * dx + dy * dy + dz * dz);
               if((otherActor._59.get() & 0x4) != 0) {
                 distance = divideS(distance * 10, 13);
               }
@@ -3944,7 +3945,7 @@ public final class GoldenSun_808 {
                 //LAB_808dfba
                 final int dx = (r6.pos_08.getX() - r7.pos_08.getX()) / 0x10000;
                 final int dz = (r6.pos_08.getZ() - r7.pos_08.getZ()) / 0x10000;
-                int r5 = (int)MEMORY.call(0x30001d8, dx * dx + dz * dz);
+                int r5 = sqrt(dx * dx + dz * dz);
                 if((r6._59.get() & 0x10) != 0) {
                   r5 = divideS(r5 * 2, 3);
                 }

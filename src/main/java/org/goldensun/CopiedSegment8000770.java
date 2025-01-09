@@ -10,7 +10,7 @@ import org.goldensun.types.Matrix30;
 import org.goldensun.types.SoundStructFb0;
 import org.goldensun.types.Vec3;
 
-import static org.goldensun.GoldenSunVars._3000350;
+import static org.goldensun.GoldenSunVars.transforms_3000350;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.INTERRUPTS;
 import static org.goldensun.Hardware.MEMORY;
@@ -75,17 +75,11 @@ public final class CopiedSegment8000770 {
   }
 
   /**
-   * Multiplies r0 and r1 and returns the middle 16-48 bits (y tho) (jumps back to r12)
-   *
-   * Probably multiplying .8 numbers
+   * Jumps back to r12
    */
-  @Deprecated
   @Method(0x3000118)
-  public static int FUN_3000118(final int r0, final int r1) {
-    final long result3000118 = (long)r1 * r0;
-    final int lo = (int)result3000118;
-    final int hi = (int)(result3000118 >>> 32);
-    return hi << 16 | lo >>> 16;
+  public static int mul16(final int a, final int b) {
+    return (int)((long)b * a >> 16);
   }
 
   @Method(0x300013c)
@@ -125,9 +119,8 @@ public final class CopiedSegment8000770 {
     }
   }
 
-  /** sqrt? */
   @Method(0x30001d8)
-  public static int FUN_30001d8(int r0) {
+  public static int sqrt(int r0) {
     final int r1;
     int r2;
     int r3;
@@ -200,74 +193,75 @@ public final class CopiedSegment8000770 {
 
   /** matrix/vec multiplication */
   @Method(0x3000250)
-  public static void FUN_3000250(final Vec3 in, final Vec3 out) {
-    final long x0 = (long)in.getX() * _3000350.get(0);
-    final long x1 = (long)in.getX() * _3000350.get(1);
-    final long x2 = (long)in.getX() * _3000350.get(2);
-    final long y0 = (long)in.getY() * _3000350.get(3);
-    final long y1 = (long)in.getY() * _3000350.get(4);
-    final long y2 = (long)in.getY() * _3000350.get(5);
-    final long z0 = (long)in.getZ() * _3000350.get(6);
-    final long z1 = (long)in.getZ() * _3000350.get(7);
-    final long z2 = (long)in.getZ() * _3000350.get(8);
+  public static void transformVector(final Vec3 in, final Vec3 out) {
+    final long x0 = (long)in.getX() * transforms_3000350.get(0);
+    final long x1 = (long)in.getX() * transforms_3000350.get(1);
+    final long x2 = (long)in.getX() * transforms_3000350.get(2);
+    final long y0 = (long)in.getY() * transforms_3000350.get(3);
+    final long y1 = (long)in.getY() * transforms_3000350.get(4);
+    final long y2 = (long)in.getY() * transforms_3000350.get(5);
+    final long z0 = (long)in.getZ() * transforms_3000350.get(6);
+    final long z1 = (long)in.getZ() * transforms_3000350.get(7);
+    final long z2 = (long)in.getZ() * transforms_3000350.get(8);
 
-    out.set(_3000350.get(9) + (int)(x0 + y0 + z0 >> 16), _3000350.get(10) + (int)(x1 + y1 + z1 >> 16), _3000350.get(11) + (int)(x2 + y2 + z2 >> 16));
+    out.set(transforms_3000350.get(9) + (int)(x0 + y0 + z0 >> 16), transforms_3000350.get(10) + (int)(x1 + y1 + z1 >> 16), transforms_3000350.get(11) + (int)(x2 + y2 + z2 >> 16));
   }
 
   @Method(0x30002c0)
-  public static void FUN_30002c0(final Matrix30 r0) {
+  public static void mulTransforms(final Matrix30 r0) {
     //LAB_30002cc
-    final long _0_0 = (long)_3000350.get(0) * r0.get(0);
-    final long _1_0 = (long)_3000350.get(1) * r0.get(0);
-    final long _2_0 = (long)_3000350.get(2) * r0.get(0);
-    final long _3_1 = (long)_3000350.get(3) * r0.get(1);
-    final long _4_1 = (long)_3000350.get(4) * r0.get(1);
-    final long _5_1 = (long)_3000350.get(5) * r0.get(1);
-    final long _6_2 = (long)_3000350.get(6) * r0.get(2);
-    final long _7_2 = (long)_3000350.get(7) * r0.get(2);
-    final long _8_2 = (long)_3000350.get(8) * r0.get(2);
-    final long _0_3 = (long)_3000350.get(0) * r0.get(3);
-    final long _1_3 = (long)_3000350.get(1) * r0.get(3);
-    final long _2_3 = (long)_3000350.get(2) * r0.get(3);
-    final long _3_4 = (long)_3000350.get(3) * r0.get(4);
-    final long _4_4 = (long)_3000350.get(4) * r0.get(4);
-    final long _5_4 = (long)_3000350.get(5) * r0.get(4);
-    final long _6_5 = (long)_3000350.get(6) * r0.get(5);
-    final long _7_5 = (long)_3000350.get(7) * r0.get(5);
-    final long _8_5 = (long)_3000350.get(8) * r0.get(5);
-    final long _0_6 = (long)_3000350.get(0) * r0.get(6);
-    final long _1_6 = (long)_3000350.get(1) * r0.get(6);
-    final long _2_6 = (long)_3000350.get(2) * r0.get(6);
-    final long _3_7 = (long)_3000350.get(3) * r0.get(7);
-    final long _4_7 = (long)_3000350.get(4) * r0.get(7);
-    final long _5_7 = (long)_3000350.get(5) * r0.get(7);
-    final long _6_8 = (long)_3000350.get(6) * r0.get(8);
-    final long _7_8 = (long)_3000350.get(7) * r0.get(8);
-    final long _8_8 = (long)_3000350.get(8) * r0.get(8);
-    final long _0_9 = (long)_3000350.get(0) * r0.get(9);
-    final long _1_9 = (long)_3000350.get(1) * r0.get(9);
-    final long _2_9 = (long)_3000350.get(2) * r0.get(9);
-    final long _3_10 = (long)_3000350.get(3) * r0.get(10);
-    final long _4_10 = (long)_3000350.get(4) * r0.get(10);
-    final long _5_10 = (long)_3000350.get(5) * r0.get(10);
-    final long _6_11 = (long)_3000350.get(6) * r0.get(11);
-    final long _7_11 = (long)_3000350.get(7) * r0.get(11);
-    final long _8_11 = (long)_3000350.get(8) * r0.get(11);
+    final long _0_0 = (long)transforms_3000350.get(0) * r0.get(0);
+    final long _1_0 = (long)transforms_3000350.get(1) * r0.get(0);
+    final long _2_0 = (long)transforms_3000350.get(2) * r0.get(0);
+    final long _3_1 = (long)transforms_3000350.get(3) * r0.get(1);
+    final long _4_1 = (long)transforms_3000350.get(4) * r0.get(1);
+    final long _5_1 = (long)transforms_3000350.get(5) * r0.get(1);
+    final long _6_2 = (long)transforms_3000350.get(6) * r0.get(2);
+    final long _7_2 = (long)transforms_3000350.get(7) * r0.get(2);
+    final long _8_2 = (long)transforms_3000350.get(8) * r0.get(2);
+    final long _0_3 = (long)transforms_3000350.get(0) * r0.get(3);
+    final long _1_3 = (long)transforms_3000350.get(1) * r0.get(3);
+    final long _2_3 = (long)transforms_3000350.get(2) * r0.get(3);
+    final long _3_4 = (long)transforms_3000350.get(3) * r0.get(4);
+    final long _4_4 = (long)transforms_3000350.get(4) * r0.get(4);
+    final long _5_4 = (long)transforms_3000350.get(5) * r0.get(4);
+    final long _6_5 = (long)transforms_3000350.get(6) * r0.get(5);
+    final long _7_5 = (long)transforms_3000350.get(7) * r0.get(5);
+    final long _8_5 = (long)transforms_3000350.get(8) * r0.get(5);
+    final long _0_6 = (long)transforms_3000350.get(0) * r0.get(6);
+    final long _1_6 = (long)transforms_3000350.get(1) * r0.get(6);
+    final long _2_6 = (long)transforms_3000350.get(2) * r0.get(6);
+    final long _3_7 = (long)transforms_3000350.get(3) * r0.get(7);
+    final long _4_7 = (long)transforms_3000350.get(4) * r0.get(7);
+    final long _5_7 = (long)transforms_3000350.get(5) * r0.get(7);
+    final long _6_8 = (long)transforms_3000350.get(6) * r0.get(8);
+    final long _7_8 = (long)transforms_3000350.get(7) * r0.get(8);
+    final long _8_8 = (long)transforms_3000350.get(8) * r0.get(8);
+    final long _0_9 = (long)transforms_3000350.get(0) * r0.get(9);
+    final long _1_9 = (long)transforms_3000350.get(1) * r0.get(9);
+    final long _2_9 = (long)transforms_3000350.get(2) * r0.get(9);
+    final long _3_10 = (long)transforms_3000350.get(3) * r0.get(10);
+    final long _4_10 = (long)transforms_3000350.get(4) * r0.get(10);
+    final long _5_10 = (long)transforms_3000350.get(5) * r0.get(10);
+    final long _6_11 = (long)transforms_3000350.get(6) * r0.get(11);
+    final long _7_11 = (long)transforms_3000350.get(7) * r0.get(11);
+    final long _8_11 = (long)transforms_3000350.get(8) * r0.get(11);
 
-    _3000350.set(0, (int)(_0_0 + _3_1 + _6_2 >> 16));
-    _3000350.set(1, (int)(_1_0 + _4_1 + _7_2 >> 16));
-    _3000350.set(2, (int)(_2_0 + _5_1 + _8_2 >> 16));
-    _3000350.set(3, (int)(_0_3 + _3_4 + _6_5 >> 16));
-    _3000350.set(4, (int)(_1_3 + _4_4 + _7_5 >> 16));
-    _3000350.set(5, (int)(_2_3 + _5_4 + _8_5 >> 16));
-    _3000350.set(6, (int)(_0_6 + _3_7 + _6_8 >> 16));
-    _3000350.set(7, (int)(_1_6 + _4_7 + _7_8 >> 16));
-    _3000350.set(8, (int)(_2_6 + _5_7 + _8_8 >> 16));
-    _3000350.set( 9, _3000350.get( 9) + (int)(_0_9 + _3_10 + _6_11 >> 16));
-    _3000350.set(10, _3000350.get(10) + (int)(_1_9 + _4_10 + _7_11 >> 16));
-    _3000350.set(11, _3000350.get(11) + (int)(_2_9 + _5_10 + _8_11 >> 16));
+    transforms_3000350.set(0, (int)(_0_0 + _3_1 + _6_2 >> 16));
+    transforms_3000350.set(1, (int)(_1_0 + _4_1 + _7_2 >> 16));
+    transforms_3000350.set(2, (int)(_2_0 + _5_1 + _8_2 >> 16));
+    transforms_3000350.set(3, (int)(_0_3 + _3_4 + _6_5 >> 16));
+    transforms_3000350.set(4, (int)(_1_3 + _4_4 + _7_5 >> 16));
+    transforms_3000350.set(5, (int)(_2_3 + _5_4 + _8_5 >> 16));
+    transforms_3000350.set(6, (int)(_0_6 + _3_7 + _6_8 >> 16));
+    transforms_3000350.set(7, (int)(_1_6 + _4_7 + _7_8 >> 16));
+    transforms_3000350.set(8, (int)(_2_6 + _5_7 + _8_8 >> 16));
+    transforms_3000350.set( 9, transforms_3000350.get( 9) + (int)(_0_9 + _3_10 + _6_11 >> 16));
+    transforms_3000350.set(10, transforms_3000350.get(10) + (int)(_1_9 + _4_10 + _7_11 >> 16));
+    transforms_3000350.set(11, transforms_3000350.get(11) + (int)(_2_9 + _5_10 + _8_11 >> 16));
   }
 
+  /** {@link GoldenSun#divideS} */
   @Method(0x3000380)
   public static int FUN_3000380(int r0, int r1) {
     int r2;
@@ -347,6 +341,7 @@ public final class CopiedSegment8000770 {
     return r1ref.get();
   }
 
+  /** {@link GoldenSun#divideU} */
   @Method(0x30003f0)
   public static int FUN_30003f0(final int r0, final int r1) {
     final IntRef r0ref = new IntRef().set(0);

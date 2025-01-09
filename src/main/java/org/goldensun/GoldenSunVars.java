@@ -153,7 +153,7 @@ public final class GoldenSunVars {
 
   public static final UnboundedArrayRef<TileAttributes04> tileAttribs_2010000 = MEMORY.ref(4, 0x2010000, UnboundedArrayRef.of(0x4, TileAttributes04::new));
 
-  public static final Matrix30 _3000350 = MEMORY.ref(4, 0x3000350, Matrix30::new);
+  public static final Matrix30 transforms_3000350 = MEMORY.ref(4, 0x3000350, Matrix30::new);
 
   public static final ArrayRef<Pointer<RenderPacket0c>> packets_3001400 = MEMORY.ref(4, 0x3001400, ArrayRef.of(Pointer.classFor(RenderPacket0c.class), 0x100, 0x4, Pointer.deferred(4, RenderPacket0c::new)));
   public static final IntRef ticks_3001800 = MEMORY.ref(4, 0x3001800, IntRef::new);

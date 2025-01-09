@@ -21,6 +21,7 @@ import org.goldensun.types.Vec3;
 import org.goldensun.weather.LightningStruct1f88;
 import org.goldensun.weather.PaletteStruct2a04;
 
+import static org.goldensun.CopiedSegment8000770.sqrt;
 import static org.goldensun.GoldenSun.allocateSpriteSlot;
 import static org.goldensun.GoldenSun.FUN_8005268;
 import static org.goldensun.GoldenSun.FUN_80053e8;
@@ -75,7 +76,7 @@ import static org.goldensun.GoldenSun.setSpriteAnimation_;
 import static org.goldensun.GoldenSun.setTickCallback;
 import static org.goldensun.GoldenSun.sin;
 import static org.goldensun.GoldenSun.sleep;
-import static org.goldensun.GoldenSun.sqrt;
+import static org.goldensun.GoldenSun.sqrt16;
 import static org.goldensun.GoldenSunVars._200041a;
 import static org.goldensun.GoldenSunVars._200042e;
 import static org.goldensun.GoldenSunVars._2000432;
@@ -232,7 +233,7 @@ public final class GoldenSun_809 {
     if(steps > 0) {
       //LAB_80908a8
       for(int i = 0; i < 0x540; i++) {
-        out.get(i).set((int)MEMORY.call(0x3000380, dest.get(i).get() - original.get(i).get(), steps)); // divideS
+        out.get(i).set(divideS(dest.get(i).get() - original.get(i).get(), steps));
       }
     }
 
@@ -346,7 +347,7 @@ public final class GoldenSun_809 {
         //LAB_8090f6e
         for(int i = 0; i < count; i++) {
           r4 = MEMORY.ref(2, r10 + i * 0x2).getUnsigned();
-          r4 = (int)MEMORY.call(0x3000380, (r4 << 11 & 0xf800) + (r4 << 7 & 0x1f000) + (r4 & 0x7c00), 0x60); // divideS
+          r4 = divideS((r4 << 11 & 0xf800) + (r4 << 7 & 0x1f000) + (r4 & 0x7c00), 0x60);
           MEMORY.ref(2, r8 + i * 0x6).setu(min_7c00(r11 * r4));
           MEMORY.ref(2, r8 + i * 0x6 + 0x2).setu(min_7c00(sp1c * r4));
           MEMORY.ref(2, r8 + i * 0x6 + 0x4).setu(min_7c00(sp20 * r4));
@@ -362,7 +363,7 @@ public final class GoldenSun_809 {
         //LAB_8091028
         for(int i = 0; i < count; i++) {
           r4 = MEMORY.ref(2, r10 + i * 0x2).getUnsigned();
-          r4 = (int)MEMORY.call(0x3000380, (r4 & 0x1f) + (r4 >>> 5 & 0x1f) + (r4 >>> 10 & 0x1f) << 4, sp18 + sp14 + r11);
+          r4 = divideS((r4 & 0x1f) + (r4 >>> 5 & 0x1f) + (r4 >>> 10 & 0x1f) << 4, sp18 + sp14 + r11);
           r7 = clamp_0_1f((int)MEMORY.call(0x3000118, sp18 * r4 >>> 4 << 16, sp18 << 16 >> 4) >>> 16);
           r6 = clamp_0_1f((int)MEMORY.call(0x3000118, sp14 * r4 >>> 4 << 16, sp14 << 16 >> 4) >>> 16);
           r5 = clamp_0_1f((int)MEMORY.call(0x3000118, r11 * r4 >>> 4 << 16, r11 << 16 >> 4) >>> 16);
@@ -398,7 +399,7 @@ public final class GoldenSun_809 {
           //LAB_8090b48
           for(int i = 0; i < count; i++) {
             r4 = MEMORY.ref(2, r10 + i * 0x2).getUnsigned();
-            r4 = (int)MEMORY.call(0x3000380, (r4 << 11 & 0xf800) + (r4 << 7 & 0x1f000) + (r4 & 0x7c00), 0x7);
+            r4 = divideS((r4 << 11 & 0xf800) + (r4 << 7 & 0x1f000) + (r4 & 0x7c00), 0x7);
             MEMORY.ref(2, r8 + i * 0x6).setu(r4);
             MEMORY.ref(2, r8 + i * 0x6 + 0x2).setu(r4);
             MEMORY.ref(2, r8 + i * 0x6 + 0x4).setu(r4);
@@ -410,7 +411,7 @@ public final class GoldenSun_809 {
           //LAB_8090b98
           for(int i = 0; i < count; i++) {
             r4 = MEMORY.ref(2, r10 + i * 0x2).getUnsigned();
-            r4 = (int)MEMORY.call(0x3000380, (r4 & 0x1f) + (r4 >>> 5 & 0x1f) + (r4 >>> 10 & 0x1f), 0xa);
+            r4 = divideS((r4 & 0x1f) + (r4 >>> 5 & 0x1f) + (r4 >>> 10 & 0x1f), 0xa);
             r5 = MathHelper.clamp(r4 * 3 + 5, 8, 28);
             r7 = MathHelper.clamp(r4 * 3 + 5, 8, 28);
             r6 = MathHelper.clamp(r4 * 4 + 5, 8, 28);
@@ -2376,7 +2377,7 @@ public final class GoldenSun_809 {
             //LAB_8093b48
             final int dx = r5.pos_08.getX() - r0.pos_08.getX() / 0x10000;
             final int dz = r5.pos_08.getZ() - r0.pos_08.getZ() / 0x10000;
-            final int r6 = (int)MEMORY.call(0x30001d8, dx * dx + dz * dz);
+            final int r6 = sqrt(dx * dx + dz * dz);
             if(r6 < r9) {
               if(r6 <= 0x17) {
                 r10 = r5;
@@ -5797,7 +5798,7 @@ public final class GoldenSun_809 {
           r0 = (int)MEMORY.call(r4, r0, r1);
           r3 = CPU.addT(r3, r0);
           r0 = CPU.addT(r3, 0x0);
-          r0 = sqrt(r0);
+          r0 = sqrt16(r0);
         }
 
         //LAB_809b974

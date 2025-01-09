@@ -11,6 +11,7 @@ import org.goldensun.types.Unit14c;
 import org.goldensun.types.VblankTransfer0c;
 import org.goldensun.types.Vec3;
 
+import static org.goldensun.CopiedSegment8000770.transformVector;
 import static org.goldensun.GoldenSun.FUN_800387c;
 import static org.goldensun.GoldenSun.FUN_800393c;
 import static org.goldensun.GoldenSun.FUN_80039fc;
@@ -457,6 +458,26 @@ public final class GoldenSun_80c {
     CPU.sp().value += 0x94;
   }
 
+  @Method(0x80c0700)
+  public static void FUN_80c0700(final int r0, final int r1) {
+    final BattleStruct82c struct = boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new);
+    final int oldIme = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
+    INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
+    if(r1 == 0) {
+      DMA.channels[3].SAD.setu(struct._544.getAddress());
+      DMA.channels[3].DAD.setu(0x50000c0);
+      DMA.channels[3].CNT.setu(0x80000080);
+    } else {
+      //LAB_80c072a
+      final int r2 = 0x10000 - r1 * 0x444;
+      struct._644.set(r2);
+      multiplyColours(struct._544.getAddress(), 0x50000c0, r2, 0x80);
+    }
+
+    //LAB_80c074a
+    INTERRUPTS.INT_MASTER_ENABLE.setu(oldIme);
+  }
+
   @Method(0x80c0774)
   public static void FUN_80c0774(final int r0, final int r1, final int r2) {
     int r6 = boardWramMallocHead_3001e50.offset(44 * 0x4).get();
@@ -814,7 +835,7 @@ public final class GoldenSun_80c {
     translateMatrix(camera._0c);
     rotateMatrixY(camera.rotationY_36.get());
     rotateMatrixX(camera.rotationX_34.get());
-    MEMORY.call(0x3000250, new Vec3().set(0, 0, 0x1fe0000), camera._00);
+    transformVector(new Vec3().set(0, 0, 0x1fe0000), camera._00);
     r3 = 0x3001ce0;
     MEMORY.ref(4, r3 + 0xc).setu(120);
     MEMORY.ref(4, r3 + 0x10).setu(120);
@@ -2645,6 +2666,17 @@ public final class GoldenSun_80c {
     }
 
     //LAB_80cd32e
+  }
+
+  @Method(0x80cd4b4)
+  public static void FUN_80cd4b4() {
+    final int r2 = boardWramMallocHead_3001e50.offset(39 * 0x4).get();
+    final BattleStruct82c r0 = boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new);
+    if(MEMORY.ref(4, r2 + 0x77b4).get() > 0) {
+      MEMORY.ref(4, r2 + 0x77b8).incr();
+      multiplyColours(r0._544.getAddress(), 0x50000c0, 0x10000 - MEMORY.ref(4, r2 + 0x77b8).get() * 0x444, 0x80);
+      MEMORY.ref(4, r2 + 0x77b4).decr();
+    }
   }
 
   @Method(0x80cd508)

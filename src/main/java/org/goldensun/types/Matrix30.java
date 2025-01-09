@@ -94,6 +94,17 @@ public class Matrix30 implements MemoryRef {
     return this;
   }
 
+  public Matrix30 rotationZ(final int angle) {
+    final int sin = sin(angle);
+    final int cos = cos(angle);
+    this.identity();
+    this.set(0, cos);
+    this.set(1, sin);
+    this.set(3, -sin);
+    this.set(4, cos);
+    return this;
+  }
+
   @Override
   public int getAddress() {
     if(this.ref == null) {

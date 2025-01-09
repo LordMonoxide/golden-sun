@@ -20,6 +20,9 @@ import org.goldensun.types.Vec3;
 
 import javax.annotation.Nullable;
 
+import static org.goldensun.CopiedSegment8000770.mulTransforms;
+import static org.goldensun.CopiedSegment8000770.sqrt;
+import static org.goldensun.CopiedSegment8000770.transformVector;
 import static org.goldensun.GoldenSun.FUN_80037d4;
 import static org.goldensun.GoldenSun.FUN_800393c;
 import static org.goldensun.GoldenSun.FUN_80039fc;
@@ -608,6 +611,12 @@ public final class GoldenSun_80b {
     MEMORY.call(0x80c0cec, r0, r1, r2, r3);
   }
 
+  /** {@link GoldenSun_80c#FUN_80c0df4} */
+  @Method(0x80b5030)
+  public static void FUN_80b5030(final int unitId0, final int unitId1, final int r2) {
+    MEMORY.call(0x80c0df4, unitId0, unitId1, r2);
+  }
+
   /** {@link GoldenSun_80c#FUN_80c0774} */
   @Method(0x80b5038)
   public static void FUN_80b5038(final int r0, final int r1, final int r2) {
@@ -1006,7 +1015,7 @@ public final class GoldenSun_80b {
     translateMatrix(r5);
     rotateMatrixY(camera.rotationY_36.get());
     rotateMatrixX(camera.rotationX_34.get());
-    MEMORY.call(0x3000250, new Vec3().set(0, 0, camera._20.get()), camera._00);
+    transformVector(new Vec3().set(0, 0, camera._20.get()), camera._00);
 
     if(MEMORY.ref(4, r7 + 0x14).get() == 0) {
       FUN_80c0a24(0x780000, 0x780000, 0, 0, 0x10000);
@@ -2899,7 +2908,7 @@ public final class GoldenSun_80b {
     translateMatrix(camera._0c);
     rotateMatrixY(camera.rotationY_36.get());
     rotateMatrixX(camera.rotationX_34.get());
-    MEMORY.call(0x3000250, new Vec3().set(0, 0, camera._20.get()), camera._00);
+    transformVector(new Vec3().set(0, 0, camera._20.get()), camera._00);
   }
 
   /** {@link GoldenSun_80b#FUN_80b84c0} */
@@ -2915,7 +2924,7 @@ public final class GoldenSun_80b {
     initMatrixStack();
 
     if(readFlag_(0x16b) != 0) {
-      MEMORY.call(0x30002c0, _80c2a7c);
+      mulTransforms(_80c2a7c);
       FUN_80051e8(camera._00, camera._0c);
     } else {
       //LAB_80b7f00
@@ -2988,7 +2997,7 @@ public final class GoldenSun_80b {
     final int r6 = actor0.pos_08.getZ() + dz;
     dx = dx >> 8;
     dz = dz >> 8;
-    final int r0 = divideS((int)MEMORY.call(0x30001d8, dx * dx + dz * dz) << 8, r2);
+    final int r0 = divideS(sqrt(dx * dx + dz * dz) << 8, r2);
     actor0.acceleration_34.set(r0);
     actor0.velocityScalar_30.set(r0);
     actor0._58.set(1);
@@ -3080,7 +3089,7 @@ public final class GoldenSun_80b {
     translateMatrix(camera._0c);
     rotateMatrixY(camera.rotationY_36.get());
     rotateMatrixX(camera.rotationX_34.get());
-    MEMORY.call(0x3000250, new Vec3().set(0, 0, camera._20.get()), camera._00);
+    transformVector(new Vec3().set(0, 0, camera._20.get()), camera._00);
     FUN_8005258(0, (int)MEMORY.call(0x300013c, 0x3c90000, 0xc000), 0x7920000);
     MEMORY.ref(4, 0x3001ce0 + 0x10).setu(r0 + 120);
     MEMORY.ref(4, CPU.r8().value + 0x10).setu(1);
