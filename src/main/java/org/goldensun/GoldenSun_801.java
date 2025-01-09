@@ -5487,7 +5487,7 @@ public final class GoldenSun_801 {
 
   @Method(0x801965c)
   public static void FUN_801965c(final int r0, final ArrayRef<UnsignedShortRef> out, final int len) {
-    final Struct12fc r6 = boardWramMallocHead_3001e50.offset(15).deref(4).cast(Struct12fc::new);
+    final Struct12fc r6 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
     r6.textOffset_12b2.set(0);
     FUN_8018038(r0, 1);
 
