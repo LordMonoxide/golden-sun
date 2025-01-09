@@ -1812,6 +1812,7 @@ public final class Map5Overlay_8784360 {
     FUN_200a6a4();
   }
 
+  /** Saturos and Menardi attack */
   @Method(0x2009274)
   public static void FUN_2009274() {
     int r0;

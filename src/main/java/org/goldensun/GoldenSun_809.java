@@ -77,6 +77,8 @@ import static org.goldensun.GoldenSun.setTickCallback;
 import static org.goldensun.GoldenSun.sin;
 import static org.goldensun.GoldenSun.sleep;
 import static org.goldensun.GoldenSun.sqrt16;
+import static org.goldensun.GoldenSunVars._200040e;
+import static org.goldensun.GoldenSunVars._2000410;
 import static org.goldensun.GoldenSunVars._2000412;
 import static org.goldensun.GoldenSunVars._2000414;
 import static org.goldensun.GoldenSunVars._200041a;
@@ -1225,7 +1227,8 @@ public final class GoldenSun_809 {
 
   @Method(0x8091f90)
   public static void FUN_8091f90(final int r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+    _200040e.set(r0);
+    _2000410.set(r1);
   }
 
   @Method(0x8091fa8)
