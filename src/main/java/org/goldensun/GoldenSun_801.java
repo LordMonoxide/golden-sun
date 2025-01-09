@@ -5491,8 +5491,8 @@ public final class GoldenSun_801 {
     r6.textOffset_12b2.set(0);
     FUN_8018038(r0, 1);
 
-    //loop
-    for(int i = 0; i < len; i++) {
+    int i;
+    for(i = 0; i < len; i++) {
       final int chr = r6.text_eb0.get(i).get();
       out.get(i).set(chr);
       if(chr == 0) {
@@ -5505,7 +5505,7 @@ public final class GoldenSun_801 {
     //LAB_80196a8
     //LAB_80196ac
     //LAB_80196ae
-    out.get(r0).set(0);
+    out.get(i).set(0);
   }
 
   @Method(0x80196c4)
