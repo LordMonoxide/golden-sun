@@ -2,6 +2,7 @@ package org.goldensun;
 
 import org.goldensun.battle.BattleStruct82c;
 import org.goldensun.battle.Camera4c;
+import org.goldensun.battle.EnemyStats54;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.UnsignedShortRef;
@@ -51,7 +52,7 @@ import static org.goldensun.GoldenSun_801.FUN_80151c8;
 import static org.goldensun.GoldenSun_807.FUN_80770b8;
 import static org.goldensun.GoldenSun_807.FUN_80770e0;
 import static org.goldensun.GoldenSun_807.FUN_8077140;
-import static org.goldensun.GoldenSun_807.FUN_8077198;
+import static org.goldensun.GoldenSun_807.getEnemyStats_;
 import static org.goldensun.GoldenSun_807.FUN_8077230;
 import static org.goldensun.GoldenSun_807.clearFlag_;
 import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
@@ -1014,15 +1015,15 @@ public final class GoldenSun_80c {
     for(int i = 0; i < 5; i++) {
       if(MEMORY.ref(1, r10 + 0xb + i).getUnsigned() != 0) {
         final int r6 = MEMORY.ref(1, r10 + 0x1 + i).getUnsigned();
-        final int r5 = FUN_8077198(r6 + 0x8);
-        if(r5 != 0) {
-          if(MEMORY.ref(1, r5 + 0xf).getUnsigned() > 3 && readFlag_(0x174) == 0 && readFlag_(0x608 + r6) == 0) {
+        final EnemyStats54 enemy = getEnemyStats_(r6 + 0x8);
+        if(enemy != null) {
+          if(enemy.level_0f.get() > 3 && readFlag_(0x174) == 0 && readFlag_(0x608 + r6) == 0) {
             //LAB_80c1ad8
             return -2;
           }
 
           //LAB_80c1abe
-          r11 += MEMORY.ref(1, r5 + 0xf).getUnsigned();
+          r11 += enemy.level_0f.get();
           r9++;
         }
       }
@@ -1075,7 +1076,7 @@ public final class GoldenSun_80c {
 
     //LAB_80c1b94
     for(int i = 0; i < 20; i++) {
-      FUN_8077198(MEMORY.ref(2, r7 + i * 0x2).getUnsigned());
+      getEnemyStats_(MEMORY.ref(2, r7 + i * 0x2).getUnsigned());
       clearFlag_(MEMORY.ref(2, r7 + i * 0x2).getUnsigned() + 0x600);
     }
 
@@ -1906,6 +1907,7 @@ public final class GoldenSun_80c {
     }
   }
 
+  /** Battle rewards? */
   @Method(0x80c24f0)
   public static int FUN_80c24f0(int r0, int r1) {
     int r2;
@@ -1915,8 +1917,6 @@ public final class GoldenSun_80c {
     final int r7;
 
     CPU.push(CPU.r11().value);
-    CPU.push(CPU.r10().value);
-    CPU.push(CPU.r9().value);
     CPU.r11().value = r1;
     r5 = r0;
     final Unit14c r8 = getCharOrMonsterData_(r5);
@@ -1980,25 +1980,19 @@ public final class GoldenSun_80c {
         if(readFlag_(0x173) == 0) {
           //LAB_80c2584
           setFlag_(r8.id_128.get() + 0x600);
-          CPU.r10().value = FUN_8077198(r8.id_128.get());
+          final EnemyStats54 enemy = getEnemyStats_(r8.id_128.get());
           if(CPU.r11().value == 0) {
             //LAB_80c2646
-            r3 = CPU.r10().value;
-            r3 = r3 + 0x4c;
-            r2 = MEMORY.ref(2, r3).getUnsigned();
+            r2 = enemy.coins_4c.get();
             r3 = MEMORY.ref(4, r7).get();
             r3 = r3 + r2;
             MEMORY.ref(4, r7).setu(r3);
-            r3 = CPU.r10().value;
-            r3 = r3 + 0x52;
-            r2 = MEMORY.ref(2, r3).getUnsigned();
+            r2 = enemy.exp_52.get();
             r3 = MEMORY.ref(4, r7 + 0x4).get();
             r3 = r3 + r2;
             MEMORY.ref(4, r7 + 0x4).setu(r3);
           } else {
-            r6 = CPU.r10().value + 0x4c;
-            r3 = MEMORY.ref(2, r6).getUnsigned();
-            CPU.r9().value = r6;
+            r3 = enemy.coins_4c.get();
             if(r3 != 0) {
               r6 = 0x0;
               r5 = 0x0;
@@ -2024,7 +2018,7 @@ public final class GoldenSun_80c {
                 r5 = r5 + 0x1;
               } while(true);
 
-              r5 = MEMORY.ref(2, CPU.r9().value).getUnsigned();
+              r5 = enemy.coins_4c.get();
               r0 = divideS(r5 * 3, 10);
               if(r6 < r0) {
                 r6 = r0;
@@ -2038,9 +2032,7 @@ public final class GoldenSun_80c {
             }
 
             //LAB_80c25f8
-            r3 = CPU.r10().value + 0x52;
-            CPU.r9().value = r3;
-            r3 = MEMORY.ref(2, r3).getUnsigned();
+            r3 = enemy.exp_52.get();
             if(r3 != 0) {
               r6 = 0x0;
               r5 = 0x0;
@@ -2064,26 +2056,22 @@ public final class GoldenSun_80c {
                 r5 = r5 + 0x1;
               } while(true);
 
-              r5 = MEMORY.ref(2, CPU.r9().value).getUnsigned();
+              r5 = enemy.exp_52.get();
               r0 = divideS(r5 * 3, 10);
               if(r6 < r0) {
                 r6 = r0;
               }
 
               //LAB_80c2640
-              r3 = MEMORY.ref(4, r7 + 0x4).get();
               r2 = r6 + r5;
-              r3 = r3 + r2;
-              MEMORY.ref(4, r7 + 0x4).setu(r3);
+              MEMORY.ref(4, r7 + 0x4).addu(r2);
             }
           }
 
           //LAB_80c265e
-          r3 = CPU.r10().value + 0x4e;
-          r2 = MEMORY.ref(2, r3).get();
-          CPU.r9().value = r3;
+          r2 = enemy.item_4e.get();
           if(r2 != 0) {
-            if(MEMORY.ref(2, CPU.r10().value + 0x50).get() != 0) {
+            if(enemy.itemChance_50.get() != 0) {
               r5 = 0x0;
               if(MEMORY.ref(2, r7 + 0xc).getUnsigned() != r2) {
                 r1 = r7 + 0xc;
@@ -2096,12 +2084,12 @@ public final class GoldenSun_80c {
                   }
                   r1 = r1 + 0x2;
                   r2 = MEMORY.ref(2, r1).getUnsigned();
-                } while(r2 != MEMORY.ref(2, CPU.r9().value).get());
+                } while(r2 != enemy.item_4e.get());
               }
 
               //LAB_80c2698
               if(r5 == 0x4) {
-                r0 = MEMORY.ref(2, CPU.r10().value + 0x50).get();
+                r0 = enemy.itemChance_50.get();
                 if(CPU.r11().value != 0) {
                   r0 = r0 - 0x2;
                 }
@@ -2116,7 +2104,7 @@ public final class GoldenSun_80c {
                 if(r5 > (lcgRand_() & 0xffff)) {
                   int r8_0 = 0x40000000;
                   r6 = r7;
-                  CPU.r10().value = -1;
+                  int r10 = -1;
                   r5 = 0x0;
                   r6 = r6 + 0xc;
 
@@ -2127,20 +2115,15 @@ public final class GoldenSun_80c {
                     r0 = FUN_80c2470(r0);
                     if(r0 < r8_0) {
                       r8_0 = r0;
-                      CPU.r10().value = r5;
+                      r10 = r5;
                     }
 
                     //LAB_80c26e2
                     r5 = r5 + 0x1;
                   } while(r5 <= 0x3);
 
-                  if(FUN_80c2470(MEMORY.ref(2, CPU.r9().value).get()) > r8_0) {
-                    r6 = CPU.r10().value;
-                    r1 = CPU.r9().value;
-                    r3 = r6 << 1;
-                    r2 = MEMORY.ref(2, r1).getUnsigned();
-                    r3 = r3 + 0xc;
-                    MEMORY.ref(2, r7 + r3).setu(r2);
+                  if(FUN_80c2470(enemy.item_4e.get()) > r8_0) {
+                    MEMORY.ref(2, r7 + 0xc + r10 * 0x2).setu(enemy.item_4e.get());
                   }
                 }
               }
@@ -2154,8 +2137,6 @@ public final class GoldenSun_80c {
     }
 
     //LAB_80c2704
-    CPU.r9().value = CPU.pop();
-    CPU.r10().value = CPU.pop();
     CPU.r11().value = CPU.pop();
     return r0;
   }

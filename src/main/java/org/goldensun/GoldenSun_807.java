@@ -1,7 +1,9 @@
 package org.goldensun;
 
+import org.goldensun.battle.EnemyStats54;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.ArrayRef;
+import org.goldensun.types.Ability10;
 import org.goldensun.types.Item2c;
 import org.goldensun.types.RecoveryQueue10c;
 import org.goldensun.types.Unit14c;
@@ -14,8 +16,10 @@ import static org.goldensun.GoldenSun.mallocBoard;
 import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.setMallocAddress;
 import static org.goldensun.GoldenSunVars._2000500;
+import static org.goldensun.GoldenSunVars.abilities_807ee58;
 import static org.goldensun.GoldenSunVars.charIds_2000438;
 import static org.goldensun.GoldenSunVars.djinnRecoveryQueue_200024c;
+import static org.goldensun.GoldenSunVars.enemyStats_8080ec8;
 import static org.goldensun.GoldenSunVars.items_807b6a8;
 import static org.goldensun.GoldenSunVars.playerMapActorIndex_2000434;
 import static org.goldensun.GoldenSunVars._200044c;
@@ -102,8 +106,8 @@ public final class GoldenSun_807 {
 
   /** {@link GoldenSun_807#getAbility} */
   @Method(0x8077080)
-  public static int getAbility_(final int r0) {
-    return (int)MEMORY.call(0x8078b9c, r0);
+  public static Ability10 getAbility_(final int id) {
+    return (Ability10)MEMORY.call(0x8078b9c, id);
   }
 
   /** {@link GoldenSun_807#hasAbility} */
@@ -231,10 +235,10 @@ public final class GoldenSun_807 {
     return (int)MEMORY.call(0x8079c5c, r0, r1, r2);
   }
 
-  /** {@link GoldenSun_807#FUN_80773d8} */
+  /** {@link GoldenSun_807#getEnemyStats} */
   @Method(0x8077198)
-  public static int FUN_8077198(final int r0) {
-    return (int)MEMORY.call(0x80773d8, r0);
+  public static EnemyStats54 getEnemyStats_(final int id) {
+    return (EnemyStats54)MEMORY.call(0x80773d8, id);
   }
 
   /** {@link GoldenSun_807#lcgRand} */
@@ -422,20 +426,13 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x80773d8)
-  public static int FUN_80773d8(int r0) {
-    final int r3;
-
-    r0 = CPU.subT(r0, 0x8);
-    CPU.cmpT(r0, 0xf9);
-    if(CPU.cpsr().getCarry() && !CPU.cpsr().getZero()) { // unsigned >
-      r0 = CPU.movT(0x0);
+  public static EnemyStats54 getEnemyStats(int id) {
+    if(id < 8 || id > 257) {
+      id = 8;
     }
 
     //LAB_80773e2
-    r3 = CPU.movT(0x54);
-    r0 = CPU.mulT(r0, r3);
-    r0 = CPU.addT(r0, 0x8080ec8); //TODO
-    return r0;
+    return enemyStats_8080ec8.get(id - 8);
   }
 
   @Method(0x8077428)
@@ -1444,15 +1441,15 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x8078b9c)
-  public static int getAbility(int r0) {
-    r0 = r0 & 0x3fff;
+  public static Ability10 getAbility(int id) {
+    id = id & 0x3fff;
 
-    if(r0 >= 0x208) {
-      r0 = 0;
+    if(id >= 520) {
+      id = 0;
     }
 
     //LAB_8078bac
-    return 0x807ee58 + r0 * 0x10;
+    return abilities_807ee58.get(id);
   }
 
   @Method(0x8078bc0)
@@ -2100,21 +2097,15 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x8079460)
-  public static int FUN_8079460(int r0, int r1, final int r2) {
-    int r3;
+  public static int FUN_8079460(int r0, final int unitId, final int r2) {
+    final int r3;
     final int r4;
     int r5;
-    final int r7;
 
-    CPU.push(CPU.r11().value);
-    CPU.push(CPU.r10().value);
     CPU.push(CPU.r9().value);
-    CPU.push(CPU.r8().value);
-    CPU.r11().value = r1;
-    r5 = CPU.r11().value - 0x8;
+    r5 = unitId - 0x8;
     CPU.sp().value -= 0x24;
     CPU.r9().value = r0;
-    CPU.r8().value = r2;
     if(CPU.r9().value < 0x80) {
       r0 = 0x0;
     } else {
@@ -2131,27 +2122,24 @@ public final class GoldenSun_807 {
           }
 
           //LAB_80794aa
-          r7 = 0x8080ec8 + r5 * 0x54;
-          r6.level_0f.set(MEMORY.ref(1, r7 + 0xf).getUnsigned());
-          r3 = MEMORY.ref(2, r7 + 0x10).getUnsigned();
-          r6.baseMaxHp_10.set(r3);
-          r6.hp_38.set(r3);
-          r6.maxHp_34.set(r3);
-          r3 = MEMORY.ref(2, r7 + 0x12).getUnsigned();
-          r6.baseMaxPp_12.set(r3);
-          r6.pp_3a.set(r3);
-          r6.maxPp_36.set(r3);
+          final EnemyStats54 r7 = enemyStats_8080ec8.get(r5);
+          r6.level_0f.set(r7.level_0f.get());
+          r6.baseMaxHp_10.set(r7.hp_10.get());
+          r6.hp_38.set(r7.hp_10.get());
+          r6.maxHp_34.set(r7.hp_10.get());
+          r6.baseMaxPp_12.set(r7.pp_12.get());
+          r6.pp_3a.set(r7.pp_12.get());
+          r6.maxPp_36.set(r7.pp_12.get());
           r6.fractionHp_14.set(0x4000);
           r6.fractionPp_16.set(0x4000);
-          r6.baseAttack_18.set(MEMORY.ref(2, r7 + 0x14).getUnsigned());
-          r6.baseDefence_1a.set(MEMORY.ref(2, r7 + 0x16).getUnsigned());
-          r6.baseAgility_1c.set(MEMORY.ref(2, r7 + 0x18).getUnsigned());
-          r6.baseLuck_1e.set(MEMORY.ref(1, r7 + 0x1a).getUnsigned());
-          r6.baseTurns_1f.set(MEMORY.ref(1, r7 + 0x1b).getUnsigned());
-          r6.baseRecoveryHp_20.set(MEMORY.ref(1, r7 + 0x1c).getUnsigned());
-          r3 = MEMORY.ref(1, r7 + 0x1d).getUnsigned();
+          r6.baseAttack_18.set(r7.attack_14.get());
+          r6.baseDefence_1a.set(r7.defense_16.get());
+          r6.baseAgility_1c.set(r7.agility_18.get());
+          r6.baseLuck_1e.set(r7.luck_1a.get());
+          r6.baseTurns_1f.set(r7.turns_1b.get());
+          r6.baseRecoveryHp_20.set(r7.regenHp_1c.get());
+          r6.baseRecoveryPp_21.set(r7.regenPp_1d.get());
           r4 = CPU.sp().value + 0x4;
-          r6.baseRecoveryPp_21.set(r3);
           FUN_8015028(r5 + 0x28f, r4, 0xf);
 
           //LAB_8079514
@@ -2160,47 +2148,38 @@ public final class GoldenSun_807 {
           }
 
           //LAB_8079528
-          if(CPU.r8().value < 9) {
-            r6.name_00.get(r5).set('1' + CPU.r8().value);
+          if(r2 < 9) {
+            r6.name_00.get(r5).set('1' + r2);
             r5++;
           }
 
           //LAB_8079534
           r6.name_00.get(r5).set(0);
           r6.name_00.get(14).set(0);
-          CPU.r8().value = 0;
-          CPU.r10().value = 40;
-          CPU.lr().value = r7 + 0x28;
-          CPU.r12().value = r7 + 0x30;
+          int r8 = 0;
           r0 = 0;
 
           //LAB_8079552
           for(r5 = 0; r5 < 4; r5++) {
-            if(MEMORY.ref(2, CPU.lr().value).getUnsigned() != 0) {
-              r1 = MEMORY.ref(1, CPU.r12().value).getUnsigned();
-
+            if(r7.itemIds_28.get(r5).get() != 0) {
               //LAB_807956e
-              while(r1 != 0) {
-                if(CPU.r8().value < 15) {
-                  r6.items_d8.get(r0).set(MEMORY.ref(2, r7 + CPU.r10().value).getUnsigned());
+              for(int i = 0; i < r7.itemCounts_30.get(r5).get(); i++) {
+                if(r8 < 15) {
+                  r6.items_d8.get(r0).set(r7.itemIds_28.get(r5).get());
                   r0++;
-                  CPU.r8().value++;
+                  r8++;
                 }
 
                 //LAB_8079580
-                r1--;
               }
             }
 
             //LAB_8079586
-            CPU.lr().value += 0x2;
-            CPU.r10().value += 0x2;
-            CPU.r12().value++;
           }
 
-          r6._120.set(MEMORY.ref(4, r7 + 0x20).get());
+          r6._120.set(r7._20.get());
           r6.class_129.set(0);
-          r6.id_128.set(CPU.r11().value);
+          r6.id_128.set(unitId);
           FUN_80798e0(CPU.r9().value, r6.powerResist_24);
           recalcStats(CPU.r9().value);
           r6._12a.set(1);
@@ -2218,10 +2197,7 @@ public final class GoldenSun_807 {
 
     //LAB_80795da
     CPU.sp().value += 0x24;
-    CPU.r8().value = CPU.pop();
     CPU.r9().value = CPU.pop();
-    CPU.r10().value = CPU.pop();
-    CPU.r11().value = CPU.pop();
     return r0;
   }
 
@@ -2346,7 +2322,7 @@ public final class GoldenSun_807 {
         r2[r5] += MEMORY.ref(1, FUN_8078ed8(r0) + 0x90 + r5 + 0x2).getUnsigned();
       }
     } else {
-      int r1_0 = MEMORY.ref(1, FUN_80773d8(r0) + 0x34).getUnsigned();
+      int r1_0 = getEnemyStats(r0).elementalStatsIndex_34.get();
       if(r1_0 > 43) {
         r1_0 = 0;
       }
@@ -2378,7 +2354,7 @@ public final class GoldenSun_807 {
 
   @Method(0x80798b4)
   public static int FUN_80798b4(final Unit14c r0) {
-    int r1 = MEMORY.ref(1, FUN_80773d8(r0.id_128.get()) + 0x34).getUnsigned();
+    int r1 = getEnemyStats(r0.id_128.get()).elementalStatsIndex_34.get();
     if(r1 > 43) {
       r1 = 0;
     }
@@ -2391,7 +2367,7 @@ public final class GoldenSun_807 {
   public static void FUN_80798e0(int r0, final ArrayRef<Unit14c.PowerResist04> r1) {
     final Unit14c r2 = getCharOrMonsterData(r0);
     if(r2.class_129.get() == 0) {
-      r0 = MEMORY.ref(1, FUN_80773d8(r2.id_128.get()) + 0x34).getUnsigned();
+      r0 = getEnemyStats(r2.id_128.get()).elementalStatsIndex_34.get();
       if(r0 > 43) {
         r0 = 0;
       }
@@ -2666,18 +2642,18 @@ public final class GoldenSun_807 {
   public static int FUN_8079e9c(final Unit14c r0, final int r1) {
     //LAB_8079ee0
     //LAB_8079ee4
-    final int cls;
+    final int weaknesses;
     if(r0.class_129.get() == 0) {
-      cls = FUN_80773d8(r0.id_128.get()) + 0x48;
+      weaknesses = getEnemyStats(r0.id_128.get()).weaknesses_48.getAddress();
     } else {
       //LAB_8079eca
-      cls = getClass(r0.class_129.get()) + 0x50;
+      weaknesses = getClass(r0.class_129.get()) + 0x50;
     }
 
     //LAB_8079eba
     //LAB_8079ed8
     for(int r2 = 0; r2 < 3; r2++) {
-      if(MEMORY.ref(1, cls + r2).getUnsigned() == r1) {
+      if(MEMORY.ref(1, weaknesses + r2).getUnsigned() == r1) {
         return 1;
       }
     }

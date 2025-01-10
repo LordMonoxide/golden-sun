@@ -15,6 +15,7 @@ import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.UnboundedArrayRef;
+import org.goldensun.types.Ability10;
 import org.goldensun.types.Actor70;
 import org.goldensun.types.EventStruct0c;
 import org.goldensun.types.VblankTransfer0c;
@@ -4139,8 +4140,8 @@ public final class GoldenSun_808 {
         if(FUN_808d428(event._06.get()) != 0) {
           if((r2_0 & 0x800) == 0 || ((r2_0 & 0xf000) - playerAngle + 0x17ff & 0xffff) < 0x2fff) {
             //LAB_808e56a
-            final int ability = getAbility_(event._01.get());
-            if(MEMORY.ref(1, ability + 0xc).getUnsigned() == r1) {
+            final Ability10 ability = getAbility_(event._01.get());
+            if(ability._0c.get() == r1) {
               if(r11 != 0 || (event._00.get() & 0x7000000f) == r0) {
                 //LAB_808e58e
                 ret = event;
@@ -4174,7 +4175,7 @@ public final class GoldenSun_808 {
   public static int FUN_808e5d8(final int r0) {
     final int r8 = r0 & 0x3ff;
     final int r5 = r0 >>> 10 & 0xf;
-    final int r9 = MEMORY.ref(1, getAbility_(r8) + 0xc).getUnsigned();
+    final int r9 = getAbility_(r8)._0c.get();
 
     final Actor70 unused = getMapActor(playerMapActorIndex_2000434.get());
 
@@ -4194,7 +4195,7 @@ public final class GoldenSun_808 {
 
   @Method(0x808e680)
   public static int usePsynergy(final int r0) {
-    int r5;
+    final int r5;
     int r6;
     final int r9;
     final int r10;
@@ -4202,7 +4203,7 @@ public final class GoldenSun_808 {
 
     r9 = r0 & 0x3ff;
     r10 = MEMORY.ref(4, 0x3001ebc).get();
-    r11 = MEMORY.ref(1, getAbility_(r9) + 0xc).getUnsigned();
+    r11 = getAbility_(r9)._0c.get();
     r6 = r0 >>> 10 & 0xf;
     final Actor70 unused = getMapActor(playerMapActorIndex_2000434.get());
     int sp00 = 0;
@@ -4259,9 +4260,9 @@ public final class GoldenSun_808 {
     }
 
     //LAB_808e7a2
-    if(r6 <= 7) {
-      r5 = MEMORY.ref(1, getAbility_(r9) + 0x9).getUnsigned();
-      if(getCharOrMonsterData_(r6).pp_3a.get() < r5) {
+    if(r6 < 8) {
+      final int cost = getAbility_(r9).cost_09.get();
+      if(getCharOrMonsterData_(r6).pp_3a.get() < cost) {
         FUN_8015120(r6, 0x1);
         FUN_8015120(r9, 0x4);
         FUN_8015040(0x91e, 0x1);
@@ -4274,7 +4275,7 @@ public final class GoldenSun_808 {
       }
 
       //LAB_808e7e6
-      addPp_(r6, -r5);
+      addPp_(r6, -cost);
     }
 
     //LAB_808e7ee

@@ -4,6 +4,7 @@ import org.goldensun.battle.BattleStruct82c;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.UnsignedShortRef;
+import org.goldensun.types.Ability10;
 import org.goldensun.types.ChoiceMenu98;
 import org.goldensun.types.GraphicsStruct1c;
 import org.goldensun.types.Item2c;
@@ -2295,7 +2296,7 @@ public final class GoldenSun_802 {
     }
 
     //LAB_80251b8
-    if((MEMORY.ref(1, getAbility_(r5.useAbility_28.get()) + 0x1).getUnsigned() & 0x80) == 0) {
+    if((getAbility_(r5.useAbility_28.get()).flags_01.get() & 0x80) == 0) {
       return 2;
     }
 
@@ -2319,7 +2320,7 @@ public final class GoldenSun_802 {
     int r5;
     int r6;
     int r7;
-    int r8;
+    final int r8;
     Panel24 r9;
     int r10;
 
@@ -3310,8 +3311,8 @@ public final class GoldenSun_802 {
   }
 
   @Method(0x802706c)
-  public static int FUN_802706c(int r0) {
-    final int r2 = MEMORY.ref(1, r0 + 0x1).getUnsigned() & 0xf;
+  public static int FUN_802706c(final Ability10 ability) {
+    final int r2 = ability.flags_01.get() & 0xf;
     int r5 = 0;
     if(r2 == 0x1) {
       r5 = 0x1;
@@ -3323,7 +3324,7 @@ public final class GoldenSun_802 {
     }
 
     //LAB_8027082
-    final int r3 = MEMORY.ref(1, r0 + 0x3).getUnsigned();
+    final int r3 =  ability.effect_03.get();
     if(r3 == 0x3) {
       r5 = 0x3;
     }
@@ -3339,9 +3340,7 @@ public final class GoldenSun_802 {
     }
 
     //LAB_8027096
-    r0 = MEMORY.ref(1, r0 + 0x3).getUnsigned();
-    r0 = FUN_80772b8(r0);
-    if(r0 != 0) {
+    if(FUN_80772b8(ability.effect_03.get()) != 0) {
       r5 = 0x5;
     }
 
@@ -3750,7 +3749,7 @@ public final class GoldenSun_802 {
 
                   //LAB_80276cc
                   do {
-                    if((MEMORY.ref(1, getAbility_(r5) + 0x1).getUnsigned() & 0x80) != 0) {
+                    if((getAbility_(r5).flags_01.get() & 0x80) != 0) {
                       MEMORY.ref(1, CPU.r10().value + r4).setu(r1);
                       MEMORY.ref(2, r6).setu(r5);
                       r4 = r4 + 0x1;
@@ -3781,8 +3780,8 @@ public final class GoldenSun_802 {
                 r3 = MEMORY.ref(2, r1 + 0x58 + r3 * 0x4).getUnsigned();
                 r2 = r3 & 0x3fff;
                 MEMORY.ref(4, CPU.sp().value + 0x38).setu(r2);
-                r6 = getAbility_(r2);
-                r3 = MEMORY.ref(1, r6 + 0x8).getUnsigned();
+                final Ability10 ability = getAbility_(r2);
+                r3 = ability._08.get();
                 r5 = MEMORY.ref(4, sp24).get();
                 CPU.r8().value = r3;
                 CPU.r10().value = allocateFirstFreeSpriteSlot(0x80);
@@ -3802,7 +3801,7 @@ public final class GoldenSun_802 {
                 MEMORY.ref(1, r2).setu(1);
                 MEMORY.ref(1, r7 + 0xea7).setu(5);
                 r1 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
-                if(MEMORY.ref(1, r6 + 0x9).getUnsigned() > MEMORY.ref(2, r1 + 0x3a).get()) {
+                if(ability.cost_09.get() > MEMORY.ref(2, r1 + 0x3a).get()) {
                   FUN_801e71c(2);
                 } else {
                   //LAB_8027808
@@ -3815,12 +3814,12 @@ public final class GoldenSun_802 {
                 //LAB_802781a
                 r1 = MEMORY.ref(4, CPU.sp().value + 0x38).get();
                 FUN_801e7c0(r1 + 0x333, r11, 16, 0);
-                drawNumber(MEMORY.ref(1, r6 + 0x9).getUnsigned(), 2, r11, 104, 0);
+                drawNumber(ability.cost_09.get(), 2, r11, 104, 0);
                 MEMORY.ref(1, r7 + 0xea7).setu(15);
                 FUN_801e71c(0xf);
                 FUN_8019000(r11, 0xf01f, 13, 0, 0);
                 FUN_8019000(r11, 0xf01e, 12, 0, 0);
-                r3 = MEMORY.ref(1, r6 + 0x2).getUnsigned();
+                r3 =  ability.element_02.get();
                 if(r3 != 0x4) {
                   FUN_8019000(r11, r3 + 0x5001, 15, 0, 0);
                 }
@@ -3829,8 +3828,8 @@ public final class GoldenSun_802 {
                 r2 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
                 MEMORY.ref(2, r2 + 0xc).setu(CPU.r8().value);
                 playSound_(0x70);
-                r3 = FUN_802706c(r6);
-                r6 = FUN_8026080(MEMORY.ref(4, CPU.sp().value + 0x40).get(), MEMORY.ref(1, r6).getUnsigned(), CPU.r8().value, r3);
+                r3 = FUN_802706c(ability);
+                r6 = FUN_8026080(MEMORY.ref(4, CPU.sp().value + 0x40).get(), ability.target_00.get(), CPU.r8().value, r3);
                 r3 = MEMORY.ref(4, sp24).get();
                 r3 = r3 + 0x25;
                 MEMORY.ref(1, r3).setu(0);
@@ -3875,7 +3874,7 @@ public final class GoldenSun_802 {
                 sleep(1);
                 CPU.r8().value = MEMORY.ref(4, sp24).get() + 0xc;
                 CPU.r9().value = getSummon_(r6);
-                CPU.r10().value = getAbility_(MEMORY.ref(2, CPU.r9().value).getUnsigned());
+                final Ability10 ability = getAbility_(MEMORY.ref(2, CPU.r9().value).getUnsigned());
                 r0_0 = allocateFirstFreeSpriteSlot(0x80);
                 r1 = MEMORY.ref(4, CPU.sp().value + 0x3c).get();
                 MEMORY.ref(4, CPU.sp().value + 0x28).setu(r0_0);
@@ -3958,13 +3957,10 @@ public final class GoldenSun_802 {
                 }
 
                 //LAB_8027ace
-                r3 = FUN_802706c(CPU.r10().value);
-                r1 = MEMORY.ref(1, CPU.r10().value).getUnsigned();
-                r2 = MEMORY.ref(1, CPU.r10().value + 0x8).getUnsigned();
-                r6 = FUN_8026080(MEMORY.ref(4, CPU.sp().value + 0x40).get(), r1, r2, r3);
-                r3 = MEMORY.ref(1, CPU.r10().value + 0x8).getUnsigned();
+                r3 = FUN_802706c(ability);
+                r6 = FUN_8026080(MEMORY.ref(4, CPU.sp().value + 0x40).get(), ability.target_00.get(), ability._08.get(), r3);
                 r0_0 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
-                MEMORY.ref(2, r0_0 + 0xc).setu(r3);
+                MEMORY.ref(2, r0_0 + 0xc).setu(ability._08.get());
                 r3 = MEMORY.ref(4, sp24).get();
                 r3 = r3 + 0x25;
                 MEMORY.ref(1, r3).setu(0);
@@ -4075,8 +4071,8 @@ public final class GoldenSun_802 {
                     break;
                   }
                 } else {
-                  r5 = getAbility_(FUN_80771e8(r7, r4));
-                  r6 = MEMORY.ref(1, r5 + 0x8).getUnsigned();
+                  final Ability10 ability = getAbility_(FUN_80771e8(r7, r4));
+                  r6 = ability._08.get();
                   r11 = addPanel(11, 17, 10, 3, 6);
                   r1 = MEMORY.ref(4, sp24).get();
                   r2 = MEMORY.ref(2, r1 + 0x6).getUnsigned();
@@ -4091,8 +4087,8 @@ public final class GoldenSun_802 {
                   MEMORY.ref(2, r3 + 0xc).setu(r6);
                   sleep(1);
                   playSound_(0x70);
-                  r3 = FUN_802706c(r5);
-                  r6 = FUN_8026080(MEMORY.ref(4, CPU.sp().value + 0x40).get(), MEMORY.ref(1, r5).getUnsigned(), r6, r3);
+                  r3 = FUN_802706c(ability);
+                  r6 = FUN_8026080(MEMORY.ref(4, CPU.sp().value + 0x40).get(), ability.target_00.get(), r6, r3);
                   r3 = MEMORY.ref(4, sp24).get();
                   r3 = r3 + 0xd8;
                   r3 = MEMORY.ref(4, r3).get();
@@ -4215,8 +4211,8 @@ public final class GoldenSun_802 {
                 r3 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
                 MEMORY.ref(4, CPU.sp().value + 0x38).setu(r6);
                 r6 = 0xd8 + r6 * 0x2;
-                CPU.r8().value = getAbility_(getItem_(MEMORY.ref(2, r3 + r6).getUnsigned()).useAbility_28.get());
-                CPU.r10().value = MEMORY.ref(1, CPU.r8().value + 0x8).getUnsigned();
+                final Ability10 ability = getAbility_(getItem_(MEMORY.ref(2, r3 + r6).getUnsigned()).useAbility_28.get());
+                CPU.r10().value = ability._08.get();
                 r5 = MEMORY.ref(4, sp24).get();
                 CPU.r9().value = allocateFirstFreeSpriteSlot(0x80);
                 r11 = addPanel(9, 17, 15, 3, 6);
@@ -4239,8 +4235,8 @@ public final class GoldenSun_802 {
                 r3 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
                 MEMORY.ref(2, r3 + 0xc).setu(CPU.r10().value);
                 playSound_(0x70);
-                r3 = FUN_802706c(CPU.r8().value);
-                r6 = FUN_8026080(MEMORY.ref(4, CPU.sp().value + 0x40).get(), MEMORY.ref(1, CPU.r8().value).getUnsigned(), CPU.r10().value, r3);
+                r3 = FUN_802706c(ability);
+                r6 = FUN_8026080(MEMORY.ref(4, CPU.sp().value + 0x40).get(), ability.target_00.get(), CPU.r10().value, r3);
                 r3 = MEMORY.ref(4, sp24).get();
                 r3 = r3 + 0x25;
                 MEMORY.ref(1, r3).setu(0);

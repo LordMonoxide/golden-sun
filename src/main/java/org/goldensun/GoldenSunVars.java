@@ -3,6 +3,7 @@ package org.goldensun;
 import org.goldensun.battle.ActorProperties08;
 import org.goldensun.battle.Camera4c;
 import org.goldensun.battle.BattleStruct82c;
+import org.goldensun.battle.EnemyStats54;
 import org.goldensun.memory.Value;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.BiFunctionRef;
@@ -17,6 +18,7 @@ import org.goldensun.memory.types.TriFunctionRef;
 import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
+import org.goldensun.types.Ability10;
 import org.goldensun.types.ChoiceMenu98;
 import org.goldensun.types.Matrix30;
 import org.goldensun.types.VblankTransferQueue184;
@@ -401,6 +403,10 @@ public final class GoldenSunVars {
   public static final UnboundedArrayRef<Struct0c> _8013784 = MEMORY.ref(4, 0x8013784, UnboundedArrayRef.of(0xc, Struct0c::new));
 
   public static final ArrayRef<Item2c> items_807b6a8 = MEMORY.ref(4, 0x807b6a8, ArrayRef.of(Item2c.class, 0x1ff, 0x2c, Item2c::new));
+
+  public static final ArrayRef<Ability10> abilities_807ee58 = MEMORY.ref(4, 0x807ee58, ArrayRef.of(Ability10.class, 520, 0x10, Ability10::new));
+
+  public static final ArrayRef<EnemyStats54> enemyStats_8080ec8 = MEMORY.ref(4, 0x8080ec8, ArrayRef.of(EnemyStats54.class, 250, 0x54, EnemyStats54::new));
 
   public static final Matrix30 _80c2a7c = MEMORY.ref(4, 0x80c2a7c, Matrix30::new);
 

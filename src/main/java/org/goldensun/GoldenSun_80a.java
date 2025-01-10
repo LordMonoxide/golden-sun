@@ -5,6 +5,7 @@ import org.goldensun.memory.Method;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.UnsignedShortRef;
+import org.goldensun.types.Ability10;
 import org.goldensun.types.GraphicsStruct1c;
 import org.goldensun.types.Item2c;
 import org.goldensun.types.Menua70;
@@ -2903,7 +2904,7 @@ public final class GoldenSun_80a {
     }
 
     //LAB_80a46de
-    final int r8 = getAbility_(item.useAbility_28.get() & 0x3fff);
+    final Ability10 ability = getAbility_(item.useAbility_28.get() & 0x3fff);
     if(item.useAbility_28.get() != 0) {
       if(item.type_02.get() == 0) {
         r7 = 0x1;
@@ -2914,10 +2915,10 @@ public final class GoldenSun_80a {
 
       //LAB_80a470a
       if(r7 == 1) {
-        int r2 = MEMORY.ref(1, r8 + 0x1).getUnsigned();
+        int r2 = ability.flags_01.get();
         int r3;
         if((r2 & 0x40) != 0) {
-          r2 = MEMORY.ref(1, r8 + 0x8).getUnsigned() ^ 0xff;
+          r2 = ability._08.get() ^ 0xff;
           r7 = (-r2 | r2) >>> 31;
           r3 = 0x2;
         } else {
@@ -3938,7 +3939,7 @@ public final class GoldenSun_80a {
 
           //LAB_80a5ec2
           if(r11 != -1) {
-            addPp_(r7._21a.get(0).get(), -MEMORY.ref(1, getAbility_(r7.abilityId_178.get(0).get() & 0x3fff) + 0x9).getUnsigned());
+            addPp_(r7._21a.get(0).get(), -getAbility_(r7.abilityId_178.get(0).get() & 0x3fff).cost_09.get());
           }
 
           //LAB_80a5ee4
@@ -3995,18 +3996,18 @@ public final class GoldenSun_80a {
   @Method(0x80a5fe0)
   public static int FUN_80a5fe0() {
     int r3 = boardWramMallocHead_3001e50.offset(55 * 0x4).get() + 0x178;
-    final int r5 = getAbility_(MEMORY.ref(2, r3).getUnsigned() & 0x3fff);
+    final Ability10 ability = getAbility_(MEMORY.ref(2, r3).getUnsigned() & 0x3fff);
 
-    if(FUN_808a488(MEMORY.ref(1, r5 + 0xc).getUnsigned()) != 0) {
+    if(FUN_808a488(ability._0c.get()) != 0) {
       return 0;
     }
 
     //LAB_80a6006
-    if(MEMORY.ref(1, r5 + 0x8).getUnsigned() == 0xff) {
+    if(ability._08.get() == 0xff) {
       return 2;
     }
 
-    r3 = MEMORY.ref(1, r5).getUnsigned() ^ 0x2;
+    r3 = ability.target_00.get() ^ 0x2;
 
     //LAB_80a601e
     return 1 - ((-r3 | r3) >>> 31);
@@ -4309,7 +4310,7 @@ public final class GoldenSun_80a {
       for(int i = 0; i < 32; i++) {
         final int r2_0 = r0.psynergy_58.get(i).get();
         if(r2_0 != 0) {
-          if(MEMORY.ref(1, getAbility_(r2_0 & 0x3fff) + 0xc).getUnsigned() != 0) {
+          if(getAbility_(r2_0 & 0x3fff)._0c.get() != 0) {
             r1.get(r4).set(r0.psynergy_58.get(i).get());
             r4++;
           }
@@ -4325,8 +4326,8 @@ public final class GoldenSun_80a {
         for(int i = 0; i < 32; i++) {
           final int r2_0 = r0.psynergy_58.get(i).get();
           if(r2_0 != 0) {
-            final int ability = getAbility_(r2_0 & 0x3fff);
-            if(r7 == 0 && (MEMORY.ref(1, ability + 0xc).getUnsigned() != 0 || (MEMORY.ref(1, ability + 0x1).getUnsigned() & 0x40) != 0) || r7 == 3 && MEMORY.ref(1, ability + 0xc).getUnsigned() == 0 && (MEMORY.ref(1, ability + 0x1).getUnsigned() & 0x40) == 0) {
+            final Ability10 ability = getAbility_(r2_0 & 0x3fff);
+            if(r7 == 0 && (ability._0c.get() != 0 || (ability.flags_01.get() & 0x40) != 0) || r7 == 3 && ability._0c.get() == 0 && (ability.flags_01.get() & 0x40) == 0) {
               //LAB_80a69d4
               r1.get(r4).set(r0.psynergy_58.get(i).get());
               r4++;
@@ -4563,7 +4564,7 @@ public final class GoldenSun_80a {
   public static int FUN_80a9f10(final int abilityId, int r1, final int r2, final int r3) {
     final int sp0c = r1;
     int r10 = r2;
-    final int ability = getAbility_(abilityId);
+    final Ability10 ability = getAbility_(abilityId);
     final int sp04 = boardWramMallocHead_3001e50.offset(55 * 0x4).get();
     int r9 = 0;
     int r7 = 0;
@@ -4574,20 +4575,20 @@ public final class GoldenSun_80a {
 
     //LAB_80a9f66
     for(int sp00 = 0; sp00 < MEMORY.ref(1, sp04 + 0x219).getUnsigned(); sp00++) {
-      if(MEMORY.ref(1, ability + 0x8).getUnsigned() == 0xff) {
+      if(ability._08.get() == 0xff) {
         r10 = MEMORY.ref(2, sp04 + 0x208 + sp00 * 0x2).getUnsigned();
         r5 = getCharOrMonsterData_(r10);
       }
 
       //LAB_80a9f84
-      int r6 = MEMORY.ref(2, ability + 0xa).getUnsigned();
+      int r6 = ability.power_0a.get();
 
-      switch((MEMORY.ref(1, ability + 0x1).getUnsigned() & 0xf) - 1) {
+      switch((ability.flags_01.get() & 0xf) - 1) {
         case 0:
           //LAB_80a9fcc
           if(r3 == 0) {
-            if(MEMORY.ref(1, ability + 0x2).getUnsigned() != 0x4) {
-              r1 = getCharOrMonsterData_(sp0c).elementalPowerResist_48.get(MEMORY.ref(1, ability + 0x2).getUnsigned()).power_00.get();
+            if(ability.element_02.get() != 0x4) {
+              r1 = getCharOrMonsterData_(sp0c).elementalPowerResist_48.get(ability.element_02.get()).power_00.get();
             } else {
               //LAB_80a9fec
               r1 = 100;
@@ -4629,7 +4630,7 @@ public final class GoldenSun_80a {
               //LAB_80aa04a
               FUN_807822c(r10);
               r9 = 1;
-              if(MEMORY.ref(1, ability + 0x8).getUnsigned() == 0xff) {
+              if(ability._08.get() == 0xff) {
                 //LAB_80aa05e
                 r8 = 1;
                 r7 = 0x3;
@@ -4720,7 +4721,7 @@ public final class GoldenSun_80a {
                 //LAB_80aa160
                 FUN_807822c(r10);
                 r9 = 1;
-                if(MEMORY.ref(1, ability + 0x8).getUnsigned() == 0xff) {
+                if(ability._08.get() == 0xff) {
                   r8 = 1;
                   r7 = 8;
                 }
@@ -4740,7 +4741,7 @@ public final class GoldenSun_80a {
       //case 7: // switch 80a9fa0
       //case 9: // switch 80a9fa0
       //LAB_80aa178
-      switch(MEMORY.ref(1, ability + 0x3).getUnsigned() - 1) {
+      switch(ability.effect_03.get() - 1) {
         case 0:
           //LAB_80aa270
           if(r5.hp_38.get() <= 0) {
@@ -4870,7 +4871,7 @@ public final class GoldenSun_80a {
       }
 
       //LAB_80aa3b0
-      if(MEMORY.ref(1, ability + 0x8).getUnsigned() != 0xff) {
+      if(ability._08.get() != 0xff) {
         break;
       }
     }

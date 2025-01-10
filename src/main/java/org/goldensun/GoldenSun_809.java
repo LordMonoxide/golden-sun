@@ -3698,7 +3698,7 @@ public final class GoldenSun_809 {
 
     //LAB_8097006
     MEMORY.ref(2, r5 + 0x1c).setu(r0);
-    MEMORY.ref(2, r5 + 0x1e).setu(MEMORY.ref(1, getAbility_(r0) + 0xc).getUnsigned());
+    MEMORY.ref(2, r5 + 0x1e).setu(getAbility_(r0)._0c.get());
 
     if(r2._cc6.get() == 0) {
       MEMORY.ref(2, r5 + 0x4a).setu(0x200 - FUN_8096c24());
