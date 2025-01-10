@@ -8,9 +8,8 @@ import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.types.Actor70;
-import org.goldensun.types.Matrix30;
-import org.goldensun.types.VblankTransferQueue184;
 import org.goldensun.types.Map194;
+import org.goldensun.types.Matrix30;
 import org.goldensun.types.ObjAttributes08;
 import org.goldensun.types.PointerTableType296;
 import org.goldensun.types.RenderPacket0c;
@@ -25,30 +24,19 @@ import org.goldensun.types.Struct5c;
 import org.goldensun.types.Structccc;
 import org.goldensun.types.TickCallback08;
 import org.goldensun.types.TileAttributes04;
+import org.goldensun.types.VblankTransferQueue184;
 import org.goldensun.types.Vec3;
 import org.goldensun.types.VramSlot04;
 
 import javax.annotation.Nullable;
 
 import static org.goldensun.Bios.SvcHalt;
-import static org.goldensun.CopiedSegment8000770.mul16;
 import static org.goldensun.CopiedSegment8000770.intHandlers_30000e0;
 import static org.goldensun.CopiedSegment8000770.memzero;
+import static org.goldensun.CopiedSegment8000770.mul16;
 import static org.goldensun.CopiedSegment8000770.mulTransforms;
 import static org.goldensun.CopiedSegment8000770.sqrt;
 import static org.goldensun.CopiedSegment8000770.transformVector;
-import static org.goldensun.GoldenSunVars._2000450;
-import static org.goldensun.GoldenSunVars._2000454;
-import static org.goldensun.GoldenSunVars._2000456;
-import static org.goldensun.GoldenSunVars._2000458;
-import static org.goldensun.GoldenSunVars._200045a;
-import static org.goldensun.GoldenSunVars._2000460;
-import static org.goldensun.GoldenSunVars._2000462;
-import static org.goldensun.GoldenSunVars.transforms_3000350;
-import static org.goldensun.GoldenSunVars._3001d2c;
-import static org.goldensun.GoldenSunVars._8013190;
-import static org.goldensun.GoldenSunVars.matrixStackDepth_3001cc4;
-import static org.goldensun.GoldenSunVars.vblankTransferQueue_2002090;
 import static org.goldensun.GoldenSunVars._2004c00;
 import static org.goldensun.GoldenSunVars._2004c08;
 import static org.goldensun.GoldenSunVars._2004c0c;
@@ -83,6 +71,7 @@ import static org.goldensun.GoldenSunVars._3001d04;
 import static org.goldensun.GoldenSunVars._3001d18;
 import static org.goldensun.GoldenSunVars._3001d1c;
 import static org.goldensun.GoldenSunVars._3001d20;
+import static org.goldensun.GoldenSunVars._3001d2c;
 import static org.goldensun.GoldenSunVars._3001e40;
 import static org.goldensun.GoldenSunVars._3001e44;
 import static org.goldensun.GoldenSunVars._3001f58;
@@ -93,34 +82,45 @@ import static org.goldensun.GoldenSunVars._3007810;
 import static org.goldensun.GoldenSunVars._3007ff0;
 import static org.goldensun.GoldenSunVars._3007ffc;
 import static org.goldensun.GoldenSunVars._8007a0c;
+import static org.goldensun.GoldenSunVars._8013190;
 import static org.goldensun.GoldenSunVars._8013624;
 import static org.goldensun.GoldenSunVars._80136e0;
 import static org.goldensun.GoldenSunVars._8013784;
 import static org.goldensun.GoldenSunVars.accumulatedButtons_3001af8;
 import static org.goldensun.GoldenSunVars.blendConfig_3001cf8;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
+import static org.goldensun.GoldenSunVars.boundPsynergy1_2000460;
+import static org.goldensun.GoldenSunVars.boundPsynergy2_2000462;
 import static org.goldensun.GoldenSunVars.chipWramMallocHead_3001e54;
 import static org.goldensun.GoldenSunVars.debug_3001f54;
 import static org.goldensun.GoldenSunVars.heldButtonsLastFrame_3001ae8;
 import static org.goldensun.GoldenSunVars.heldButtons_3001d0c;
+import static org.goldensun.GoldenSunVars.interactButton_2000450;
+import static org.goldensun.GoldenSunVars.matrixStackDepth_3001cc4;
+import static org.goldensun.GoldenSunVars.menuButton_2000454;
 import static org.goldensun.GoldenSunVars.oldInterrupts_2004c2c;
 import static org.goldensun.GoldenSunVars.packets_3001400;
 import static org.goldensun.GoldenSunVars.playerMapActorIndex_2000434;
 import static org.goldensun.GoldenSunVars.pressedButtons_3001b04;
 import static org.goldensun.GoldenSunVars.pressedButtons_3001c94;
+import static org.goldensun.GoldenSunVars.psynergy1Button_2000458;
+import static org.goldensun.GoldenSunVars.psynergy2Button_200045a;
 import static org.goldensun.GoldenSunVars.ptrTable_8320000;
 import static org.goldensun.GoldenSunVars.readOneByteFromPtr_2004c1c;
 import static org.goldensun.GoldenSunVars.rotationScalingCount_3001d00;
 import static org.goldensun.GoldenSunVars.rotationScaling_3001d40;
 import static org.goldensun.GoldenSunVars.runButton_200045c;
 import static org.goldensun.GoldenSunVars.seed_3001cb4;
+import static org.goldensun.GoldenSunVars.systemMenuButton_2000456;
 import static org.goldensun.GoldenSunVars.tickCallbacksInitialized_3001d34;
 import static org.goldensun.GoldenSunVars.tickCallbacks_3001a20;
 import static org.goldensun.GoldenSunVars.ticks_3001800;
 import static org.goldensun.GoldenSunVars.tileAttribs_2010000;
 import static org.goldensun.GoldenSunVars.timerCntLPtr_2004c28;
 import static org.goldensun.GoldenSunVars.timerIndex_2004c20;
+import static org.goldensun.GoldenSunVars.transforms_3000350;
 import static org.goldensun.GoldenSunVars.vblankOccurred_3001d28;
+import static org.goldensun.GoldenSunVars.vblankTransferQueue_2002090;
 import static org.goldensun.GoldenSunVars.vramSlots_3001b10;
 import static org.goldensun.GoldenSunVars.writeSectorPtr_2004c04;
 import static org.goldensun.GoldenSun_801.FUN_8010000;
@@ -131,7 +131,7 @@ import static org.goldensun.GoldenSun_801.FUN_80120dc;
 import static org.goldensun.GoldenSun_801.FUN_801219c;
 import static org.goldensun.GoldenSun_801.getHeight;
 import static org.goldensun.GoldenSun_807.clearFlag_;
-import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
+import static org.goldensun.GoldenSun_807.getUnit_;
 import static org.goldensun.GoldenSun_807.readFlag_;
 import static org.goldensun.GoldenSun_808.FUN_808a008;
 import static org.goldensun.GoldenSun_808.FUN_808a330;
@@ -152,6 +152,7 @@ import static org.goldensun.Hardware.TIMERS;
 import static org.goldensun.MathHelper.clamp;
 import static org.goldensun.input.Input.BUTTON_B;
 import static org.goldensun.input.Input.BUTTON_L;
+import static org.goldensun.input.Input.BUTTON_R;
 import static org.goldensun.memory.MemoryHelper.getMethodAddress;
 import static org.goldensun.memory.MemoryHelper.getRunnable;
 
@@ -6489,41 +6490,41 @@ public final class GoldenSun {
   }
 
   @Method(0x800eaf8)
-  public static int FUN_800eaf8() {
+  public static int checkActionButtonInput() {
     final Structccc r1 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
     if(r1 == null) {
       return 0;
     }
 
-    final int r5;
-    if((pressedButtons_3001c94.get() & _2000454.get()) != 0) {
-      r1.shouldOpenMenu_172.set(0x1);
-      r5 = 0x1;
+    final int actionUsed;
+    if((pressedButtons_3001c94.get() & menuButton_2000454.get()) != 0) {
+      r1.menuPressed_172.set(1);
+      actionUsed = 1;
       //LAB_800eb1e
-    } else if((pressedButtons_3001c94.get() & _2000450.get()) != 0) {
-      r1._174.set(0x1);
-      r5 = 0x1;
+    } else if((pressedButtons_3001c94.get() & interactButton_2000450.get()) != 0) {
+      r1.interactPressed_174.set(1);
+      actionUsed = 1;
       //LAB_800eb32
-    } else if((pressedButtons_3001c94.get() & _2000456.get()) != 0) {
-      r1._176.set(0x1);
-      r5 = 0x1;
+    } else if((pressedButtons_3001c94.get() & systemMenuButton_2000456.get()) != 0) {
+      r1.systemMenuPressed_176.set(1);
+      actionUsed = 1;
       //LAB_800eb4e
-    } else if((pressedButtons_3001c94.get() & _2000458.get()) != 0) {
-      r5 = FUN_800ea60(_2000460.get());
+    } else if((pressedButtons_3001c94.get() & psynergy1Button_2000458.get()) != 0) {
+      actionUsed = useFieldPsynergy(boundPsynergy1_2000460.get());
       //LAB_800eb64
-    } else if((pressedButtons_3001c94.get() & _200045a.get()) != 0) {
-      r5 = FUN_800ea60(_2000462.get());
+    } else if((pressedButtons_3001c94.get() & psynergy2Button_200045a.get()) != 0) {
+      actionUsed = useFieldPsynergy(boundPsynergy2_2000462.get());
     } else {
-      r5 = 0;
+      actionUsed = 0;
     }
 
     //LAB_800eb7e
     //LAB_800eb80
-    return r5;
+    return actionUsed;
   }
 
   @Method(0x800ea60)
-  public static int FUN_800ea60(final int r0) {
+  public static int useFieldPsynergy(final int r0) {
     final int r6 = r0 >>> 14;
     final int r7 = r0 & 0x3fff;
     final Structccc r5 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
@@ -6531,10 +6532,10 @@ public final class GoldenSun {
       r5._182.set(0xfa);
       //LAB_800ea82
     } else if(r5._19e.get() == 3) {
-      if((pressedButtons_3001c94.get() & 0x100) != 0) {
+      if((pressedButtons_3001c94.get() & BUTTON_R) != 0) {
         r5._182.set(0xfc88);
         //LAB_800eaaa
-      } else if((pressedButtons_3001c94.get() & 0x200) != 0) {
+      } else if((pressedButtons_3001c94.get() & BUTTON_L) != 0) {
         r5._182.set(0xfc87);
       }
       //LAB_800eac2
@@ -6572,7 +6573,7 @@ public final class GoldenSun {
   }
 
   @Method(0x800ebec)
-  public static int FUN_800ebec(final Actor70 r0) {
+  public static int handleMovement(final Actor70 r0) {
     int r2;
     final int r5;
     int r6;
@@ -6802,7 +6803,7 @@ public final class GoldenSun {
       setActorAnimation(r0, 8);
       //LAB_800f0fe
     } else if(sp14 != 0) {
-      if(getCharOrMonsterData_(playerMapActorIndex_2000434.get()).hp_38.get() == 0) {
+      if(getUnit_(playerMapActorIndex_2000434.get()).hp_38.get() == 0) {
         r5 = 22; // Zero HP standing animation
       } else {
         r5 = 9; // Normal standing animation
@@ -6843,7 +6844,7 @@ public final class GoldenSun {
     } else {
       //LAB_800f1a4
       FUN_800d14c(r0, sp5c.getX(), sp5c.getY(), sp5c.getZ());
-      final int sqrt = sqrt16((int)MEMORY.call(0x3000118, r0.velocity_24.getX(), r0.velocity_24.getX()) + (int)MEMORY.call(0x3000118, r0.velocity_24.getZ(), r0.velocity_24.getZ()));
+      final int sqrt = sqrt16(mul16(r0.velocity_24.getX(), r0.velocity_24.getX()) + mul16(r0.velocity_24.getZ(), r0.velocity_24.getZ()));
       r0.velocity_24.setX(sp14);
       r0.velocity_24.setZ(sp14);
       rotVec3(sqrt, sp0c & 0xffff, r0.velocity_24);
@@ -6900,7 +6901,7 @@ public final class GoldenSun {
     }
 
     //LAB_800f2d8
-    FUN_800eaf8();
+    checkActionButtonInput();
     r0.scriptPos_04.incr();
 
     return 1;

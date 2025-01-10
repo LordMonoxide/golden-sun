@@ -28,7 +28,7 @@ import static org.goldensun.GoldenSun.sin;
 import static org.goldensun.GoldenSun.sleep;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.pressedButtons_3001b04;
-import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
+import static org.goldensun.GoldenSun_807.getUnit_;
 import static org.goldensun.GoldenSun_80b.loadUnitSprites_;
 import static org.goldensun.GoldenSun_80b.loadBattleBackground_;
 import static org.goldensun.GoldenSun_80b.FUN_80b5088;
@@ -464,7 +464,7 @@ public final class GoldenSun_80d {
     if(r3 > 0x7f) {
       //LAB_80d676a
       for(int r6 = 0; r6 < 6; r6++) {
-        if(getCharOrMonsterData_(r6 + 0x80).hp_38.get() > 0) {
+        if(getUnit_(r6 + 0x80).hp_38.get() > 0) {
           ids[count] = r6 + 0x80;
           count++;
         }
@@ -475,7 +475,7 @@ public final class GoldenSun_80d {
       //LAB_80d678e
       //LAB_80d679a
       for(int r6 = 0; r6 < 8; r6++) {
-        if(getCharOrMonsterData_(r6).hp_38.get() > 0) {
+        if(getUnit_(r6).hp_38.get() > 0) {
           ids[count] = r6;
           count++;
         }

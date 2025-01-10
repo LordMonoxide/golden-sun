@@ -834,7 +834,7 @@ public final class Map132Overlay_87ced6c {
     MEMORY.ref(1, r5).setu(r3);
     r0 = 0x54;
     r1 = 0x5;
-    FUN_808a250(r0, r1);
+    startEncounter(r0, r1);
     FUN_808a020();
   }
 
@@ -1146,63 +1146,63 @@ public final class Map132Overlay_87ced6c {
           //LAB_2009418
           r0 = 0x3f;
           r1 = 0x0;
-          FUN_808a250(r0, r1);
+          startEncounter(r0, r1);
           break;
 
         case 1:
           //LAB_200941c
           r0 = 0x3f;
           r1 = 0x1;
-          FUN_808a250(r0, r1);
+          startEncounter(r0, r1);
           break;
 
         case 2:
           //LAB_2009420
           r0 = 0x3f;
           r1 = 0x2;
-          FUN_808a250(r0, r1);
+          startEncounter(r0, r1);
           break;
 
         case 3:
           //LAB_2009424
           r0 = 0x3f;
           r1 = 0x3;
-          FUN_808a250(r0, r1);
+          startEncounter(r0, r1);
           break;
 
         case 4:
           //LAB_2009428
           r0 = 0x54;
           r1 = 0x0;
-          FUN_808a250(r0, r1);
+          startEncounter(r0, r1);
           break;
 
         case 5:
           //LAB_2009432
           r0 = 0x54;
           r1 = 0x1;
-          FUN_808a250(r0, r1);
+          startEncounter(r0, r1);
           break;
 
         case 6:
           //LAB_200943c
           r0 = 0x54;
           r1 = 0x2;
-          FUN_808a250(r0, r1);
+          startEncounter(r0, r1);
           break;
 
         case 7:
           //LAB_2009446
           r0 = 0x54;
           r1 = 0x3;
-          FUN_808a250(r0, r1);
+          startEncounter(r0, r1);
           break;
 
         case 8:
           //LAB_2009450
           r0 = 0x54;
           r1 = 0x4;
-          FUN_808a250(r0, r1);
+          startEncounter(r0, r1);
           break;
       }
 
@@ -3586,10 +3586,10 @@ public final class Map132Overlay_87ced6c {
     MEMORY.call(0x808a248, r0);
   }
 
-  /** {@link GoldenSun_808#FUN_808a250} */
+  /** {@link GoldenSun_808#startEncounter_} */
   @Method(0x200b0e0)
-  public static void FUN_808a250(final int r0, final int r1) {
-    MEMORY.call(0x808a250, r0, r1);
+  public static void startEncounter(final int encounterSet, final int encounterIndex) {
+    MEMORY.call(0x808a250, encounterSet, encounterIndex);
   }
 
   /** {@link GoldenSun_808#FUN_808a260} */

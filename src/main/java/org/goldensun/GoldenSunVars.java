@@ -4,6 +4,7 @@ import org.goldensun.battle.ActorProperties08;
 import org.goldensun.battle.Camera4c;
 import org.goldensun.battle.BattleStruct82c;
 import org.goldensun.battle.EnemyStats54;
+import org.goldensun.input.Input;
 import org.goldensun.memory.Value;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.BiFunctionRef;
@@ -20,6 +21,7 @@ import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.memory.types.UnsignedShortRef;
 import org.goldensun.types.Ability10;
 import org.goldensun.types.ChoiceMenu98;
+import org.goldensun.types.Class54;
 import org.goldensun.types.Matrix30;
 import org.goldensun.types.VblankTransferQueue184;
 import org.goldensun.types.Item2c;
@@ -87,16 +89,22 @@ public final class GoldenSunVars {
 
   public static final UnsignedByteRef _200044c = MEMORY.ref(1, 0x200044c, UnsignedByteRef::new);
 
-  public static final UnsignedShortRef _2000450 = MEMORY.ref(2, 0x2000450, UnsignedShortRef::new);
+  /** {@link Input#BUTTON_A} */
+  public static final UnsignedShortRef interactButton_2000450 = MEMORY.ref(2, 0x2000450, UnsignedShortRef::new);
 
-  public static final UnsignedShortRef _2000454 = MEMORY.ref(2, 0x2000454, UnsignedShortRef::new);
-  public static final UnsignedShortRef _2000456 = MEMORY.ref(2, 0x2000456, UnsignedShortRef::new);
-  public static final UnsignedShortRef _2000458 = MEMORY.ref(2, 0x2000458, UnsignedShortRef::new);
-  public static final UnsignedShortRef _200045a = MEMORY.ref(2, 0x200045a, UnsignedShortRef::new);
+  /** {@link Input#BUTTON_SELECT} */
+  public static final UnsignedShortRef menuButton_2000454 = MEMORY.ref(2, 0x2000454, UnsignedShortRef::new);
+  /** {@link Input#BUTTON_START} */
+  public static final UnsignedShortRef systemMenuButton_2000456 = MEMORY.ref(2, 0x2000456, UnsignedShortRef::new);
+  /** {@link Input#BUTTON_L} */
+  public static final UnsignedShortRef psynergy1Button_2000458 = MEMORY.ref(2, 0x2000458, UnsignedShortRef::new);
+  /** {@link Input#BUTTON_R} */
+  public static final UnsignedShortRef psynergy2Button_200045a = MEMORY.ref(2, 0x200045a, UnsignedShortRef::new);
+  /** {@link Input#BUTTON_B} */
   public static final UnsignedShortRef runButton_200045c = MEMORY.ref(2, 0x200045c, UnsignedShortRef::new);
   public static final ShortRef _200045e = MEMORY.ref(2, 0x200045e, ShortRef::new);
-  public static final UnsignedShortRef _2000460 = MEMORY.ref(2, 0x2000460, UnsignedShortRef::new);
-  public static final UnsignedShortRef _2000462 = MEMORY.ref(2, 0x2000462, UnsignedShortRef::new);
+  public static final UnsignedShortRef boundPsynergy1_2000460 = MEMORY.ref(2, 0x2000460, UnsignedShortRef::new);
+  public static final UnsignedShortRef boundPsynergy2_2000462 = MEMORY.ref(2, 0x2000462, UnsignedShortRef::new);
   public static final UnsignedByteRef _2000464 = MEMORY.ref(1, 0x2000464, UnsignedByteRef::new);
 
   public static final ShortRef _200046c = MEMORY.ref(2, 0x200046c, ShortRef::new);
@@ -117,7 +125,7 @@ public final class GoldenSunVars {
 
   public static final ShortRef _20004a4 = MEMORY.ref(2, 0x20004a4, ShortRef::new);
 
-  public static final ArrayRef<Unit14c> _2000500 = MEMORY.ref(4, 0x2000500, ArrayRef.of(Unit14c.class, 8, 0x14c, Unit14c::new));
+  public static final ArrayRef<Unit14c> units_2000500 = MEMORY.ref(4, 0x2000500, ArrayRef.of(Unit14c.class, 8, 0x14c, Unit14c::new));
 
   public static final ShortRef lastSaveSlot_2002004 = MEMORY.ref(2, 0x2002004, ShortRef::new);
 
@@ -327,7 +335,7 @@ public final class GoldenSunVars {
    *   <li>{@link GoldenSun#FUN_800e9a0}</li>
    *   <li>{@link GoldenSun#FUN_800e9dc}</li>
    *   <li>{@link GoldenSun#FUN_800ea18}</li>
-   *   <li>{@link GoldenSun#FUN_800ebec}</li>
+   *   <li>{@link GoldenSun#handleMovement}</li>
    *   <li>{@link GoldenSun#FUN_800f7f4}</li>
    *   <li>{@link GoldenSun#FUN_800f2f8}</li>
    *   <li>{@link GoldenSun#FUN_800d8e8}</li>
@@ -408,7 +416,16 @@ public final class GoldenSunVars {
 
   public static final ArrayRef<EnemyStats54> enemyStats_8080ec8 = MEMORY.ref(4, 0x8080ec8, ArrayRef.of(EnemyStats54.class, 250, 0x54, EnemyStats54::new));
 
+  public static final UnboundedArrayRef<Class54> classes_8084b1c = MEMORY.ref(4, 0x8084b1c, UnboundedArrayRef.of(0x54, Class54::new));
+
   public static final Matrix30 _80c2a7c = MEMORY.ref(4, 0x80c2a7c, Matrix30::new);
+
+  /** Selects all moves equally */
+  public static final ArrayRef<UnsignedByteRef> evenMoveSelection_80c2b80 = MEMORY.ref(1, 0x80c2b80, ArrayRef.of(UnsignedByteRef.class, 8, 0x1, UnsignedByteRef::new));
+  /** Weighted towards lower moves */
+  public static final ArrayRef<UnsignedByteRef> rareMoveSelection_80c2b88 = MEMORY.ref(1, 0x80c2b88, ArrayRef.of(UnsignedByteRef.class, 8, 0x1, UnsignedByteRef::new));
+  /** Heavily weighted towards lower moves */
+  public static final ArrayRef<UnsignedByteRef> veryRareMoveSelection_80c2b90 = MEMORY.ref(1, 0x80c2b90, ArrayRef.of(UnsignedByteRef.class, 8, 0x1, UnsignedByteRef::new));
 
   public static final ArrayRef<ActorProperties08> actorProperties_80c7420 = MEMORY.ref(4, 0x80c7420, ArrayRef.of(ActorProperties08.class, 170, 0x8, ActorProperties08::new));
 

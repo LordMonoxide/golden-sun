@@ -924,7 +924,7 @@ public final class Map6Overlay_878603c {
     r1._1c0.set(0x200);
     r1._1c8.set(64);
     setFlag(0x87d);
-    FUN_2009b94(12, 0);
+    startEncounter(12, 0);
     setFlag(0x900);
     FUN_2009a8c();
   }
@@ -939,7 +939,7 @@ public final class Map6Overlay_878603c {
     r1._1c0.set(0x200);
     r1._1c8.set(64);
     setFlag(0x87e);
-    FUN_2009b94(12, 1);
+    startEncounter(12, 1);
     setFlag(0x900);
     FUN_2009a8c();
   }
@@ -1201,10 +1201,10 @@ public final class Map6Overlay_878603c {
     MEMORY.call(0x808a248, r0);
   }
 
-  /** {@link GoldenSun_808#FUN_808a250} */
+  /** {@link GoldenSun_808#startEncounter_} */
   @Method(0x2009b94)
-  public static void FUN_2009b94(final int r0, final int r1) {
-    MEMORY.call(0x808a250, r0, r1);
+  public static void startEncounter(final int encounterSet, final int encounterIndex) {
+    MEMORY.call(0x808a250, encounterSet, encounterIndex);
   }
 
   /** {@link GoldenSun_808#FUN_808a2c0} */

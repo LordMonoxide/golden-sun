@@ -217,7 +217,7 @@ public class BattleStruct82c implements MemoryRef {
     public final ShortRef _48;
 
     public final IntRef _4c;
-    public final IntRef _50;
+    public final IntRef element_50;
     public final IntRef _54;
     public final IntRef _58;
     public final IntRef _5c;
@@ -237,7 +237,7 @@ public class BattleStruct82c implements MemoryRef {
       this._48 = ref.offset(2, 0x48).cast(ShortRef::new);
 
       this._4c = ref.offset(4, 0x4c).cast(IntRef::new);
-      this._50 = ref.offset(4, 0x50).cast(IntRef::new);
+      this.element_50 = ref.offset(4, 0x50).cast(IntRef::new);
       this._54 = ref.offset(4, 0x54).cast(IntRef::new);
       this._58 = ref.offset(4, 0x58).cast(IntRef::new);
       this._5c = ref.offset(4, 0x5c).cast(IntRef::new);

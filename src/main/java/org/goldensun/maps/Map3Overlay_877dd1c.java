@@ -2292,7 +2292,7 @@ public final class Map3Overlay_877dd1c {
     r1._1c0.set(0x200);
     r1._1c8.set(0x40);
     setFlag(0x87c);
-    FUN_808a250(12, 2);
+    startEncounter(12, 2);
     setFlag(0x900);
     FUN_808a020();
   }
@@ -2307,7 +2307,7 @@ public final class Map3Overlay_877dd1c {
     r1._1c0.set(0x200);
     r1._1c8.set(0x40);
     setFlag(0x87f);
-    FUN_808a250(12, 3);
+    startEncounter(12, 3);
     setFlag(0x900);
     FUN_808a020();
   }
@@ -2874,10 +2874,10 @@ public final class Map3Overlay_877dd1c {
     MEMORY.call(0x808a248, r0);
   }
 
-  /** {@link GoldenSun_808#FUN_808a250} */
+  /** {@link GoldenSun_808#startEncounter_} */
   @Method(0x200c844)
-  public static void FUN_808a250(final int r0, final int r1) {
-    MEMORY.call(0x808a250, r0, r1);
+  public static void startEncounter(final int encounterSet, final int encounterIndex) {
+    MEMORY.call(0x808a250, encounterSet, encounterIndex);
   }
 
   /** {@link GoldenSun_808#FUN_808a2c0} */

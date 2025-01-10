@@ -6,6 +6,7 @@ import org.goldensun.battle.EnemyStats54;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.IntRef;
+import org.goldensun.memory.types.UnsignedByteRef;
 import org.goldensun.types.Ability10;
 import org.goldensun.types.Actor70;
 import org.goldensun.types.GraphicsStruct1c;
@@ -83,6 +84,9 @@ import static org.goldensun.GoldenSunVars._3001a10;
 import static org.goldensun.GoldenSunVars._3001e40;
 import static org.goldensun.GoldenSunVars._3001f64;
 import static org.goldensun.GoldenSunVars._80c2a7c;
+import static org.goldensun.GoldenSunVars.evenMoveSelection_80c2b80;
+import static org.goldensun.GoldenSunVars.rareMoveSelection_80c2b88;
+import static org.goldensun.GoldenSunVars.veryRareMoveSelection_80c2b90;
 import static org.goldensun.GoldenSunVars.accumulatedButtons_3001af8;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.charIds_2000438;
@@ -109,12 +113,12 @@ import static org.goldensun.GoldenSun_801.FUN_80152b8;
 import static org.goldensun.GoldenSun_801.FUN_80153b0;
 import static org.goldensun.GoldenSun_801.addPanel_;
 import static org.goldensun.GoldenSun_801.drawIcon;
-import static org.goldensun.GoldenSun_807.FUN_8077078;
+import static org.goldensun.GoldenSun_807.getUnitEquippedItemIdOfType_;
 import static org.goldensun.GoldenSun_807.FUN_80770e0;
-import static org.goldensun.GoldenSun_807.FUN_8077128;
-import static org.goldensun.GoldenSun_807.FUN_8077140;
+import static org.goldensun.GoldenSun_807.calcHpPpFractions_;
+import static org.goldensun.GoldenSun_807.loadEnemyUnit_;
 import static org.goldensun.GoldenSun_807.FUN_8077160;
-import static org.goldensun.GoldenSun_807.FUN_8077170;
+import static org.goldensun.GoldenSun_807.getUnitElement_;
 import static org.goldensun.GoldenSun_807.FUN_8077178;
 import static org.goldensun.GoldenSun_807.FUN_8077180;
 import static org.goldensun.GoldenSun_807.FUN_8077188;
@@ -122,20 +126,20 @@ import static org.goldensun.GoldenSun_807.FUN_8077190;
 import static org.goldensun.GoldenSun_807.getEnemyStats_;
 import static org.goldensun.GoldenSun_807.FUN_80771b8;
 import static org.goldensun.GoldenSun_807.FUN_80771c8;
-import static org.goldensun.GoldenSun_807.FUN_80771e8;
+import static org.goldensun.GoldenSun_807.getDjinnAbility_;
 import static org.goldensun.GoldenSun_807.FUN_8077208;
 import static org.goldensun.GoldenSun_807.FUN_8077210;
-import static org.goldensun.GoldenSun_807.FUN_8077228;
-import static org.goldensun.GoldenSun_807.FUN_8077230;
-import static org.goldensun.GoldenSun_807.FUN_80772b8;
+import static org.goldensun.GoldenSun_807.getEquippedItemSlotOfType_;
+import static org.goldensun.GoldenSun_807.addCoins_;
+import static org.goldensun.GoldenSun_807.doesAbilityRevive_;
 import static org.goldensun.GoldenSun_807.FUN_80772f8;
-import static org.goldensun.GoldenSun_807.FUN_807822c;
+import static org.goldensun.GoldenSun_807.calcHpPpFractions;
 import static org.goldensun.GoldenSun_807.addHp_;
 import static org.goldensun.GoldenSun_807.addPp_;
 import static org.goldensun.GoldenSun_807.clearFlag_;
 import static org.goldensun.GoldenSun_807.getAbility_;
 import static org.goldensun.GoldenSun_807.getCharCount_;
-import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
+import static org.goldensun.GoldenSun_807.getUnit_;
 import static org.goldensun.GoldenSun_807.getDjinnRecoveryQueue_;
 import static org.goldensun.GoldenSun_807.getItem_;
 import static org.goldensun.GoldenSun_807.getPartyMemberIds_;
@@ -516,7 +520,7 @@ public final class GoldenSun_80b {
 
     //LAB_80b323e
     for(int r7 = 0; r7 < r6._3a7.get(); r7++) {
-      if(getCharOrMonsterData_(MEMORY.ref(2, r6._36c.getAddress() + r7 * 0x2 + 0x2).get()).hp_38.get() != 0) { //TODO
+      if(getUnit_(MEMORY.ref(2, r6._36c.getAddress() + r7 * 0x2 + 0x2).get()).hp_38.get() != 0) { //TODO
         r2++;
       }
     }
@@ -572,15 +576,15 @@ public final class GoldenSun_80b {
     CPU.sp().value -= 0x10;
     final int r8 = CPU.sp().value;
     final int r7 = getPartyMemberIds_(r8);
-    FUN_8077230(-r0);
+    addCoins_(-r0);
 
     //LAB_80b33c0
     for(int r5 = 0; r5 < r7; r5++) {
-      final Unit14c unit = getCharOrMonsterData_(MEMORY.ref(2, r8 + r5 * 0x2).get());
+      final Unit14c unit = getUnit_(MEMORY.ref(2, r8 + r5 * 0x2).get());
       if(unit.hp_38.get() != 0) {
         unit.hp_38.set(unit.maxHp_34.get());
         unit.pp_3a.set(unit.maxPp_36.get());
-        FUN_807822c(MEMORY.ref(2, r8 + r5 * 0x2).get());
+        calcHpPpFractions(MEMORY.ref(2, r8 + r5 * 0x2).get());
       }
     }
 
@@ -715,10 +719,10 @@ public final class GoldenSun_80b {
     MEMORY.call(0x80bd7dc, r0);
   }
 
-  /** {@link GoldenSun_80b#FUN_80bf5a8} */
+  /** {@link GoldenSun_80b#tickRecoveryQueue} */
   @Method(0x80b50f8)
-  public static int FUN_80b50f8() {
-    return (int)MEMORY.call(0x80bf5a8);
+  public static boolean tickRecoveryQueue_() {
+    return (boolean)MEMORY.call(0x80bf5a8);
   }
 
   /** {@link GoldenSun_80b#FUN_80b6cd0} */
@@ -1116,7 +1120,7 @@ public final class GoldenSun_80b {
 
     //LAB_80b5b3c
     for(int charIndex = 0; charIndex < charCount; charIndex++) {
-      final Unit14c unit = getCharOrMonsterData_(charIds[charIndex]);
+      final Unit14c unit = getUnit_(charIds[charIndex]);
 
       //LAB_80b5b4c
       for(int r1 = 0; r1 < 4; r1++) {
@@ -1170,7 +1174,7 @@ public final class GoldenSun_80b {
 
             //LAB_80b5c6a
             int r0 = 0;
-            while(r0 < r1.count_108.get() && (element != r1._08.get(r0).element_00.get() || djinn != r1._08.get(r0).djinn_01.get())) {
+            while(r0 < r1.count_108.get() && (element != r1.djinn_08.get(r0).element_00.get() || djinn != r1.djinn_08.get(r0).djinn_01.get())) {
               r0++;
             }
 
@@ -1191,8 +1195,8 @@ public final class GoldenSun_80b {
 
       //LAB_80b5ce8
       for(int r8 = 0; r8 < queue.count_108.get(); r8++) {
-        final RecoveryQueue10c.DjinnInfo04 r7 = queue._08.get(r8);
-        if(r7._03.get() == -1) {
+        final RecoveryQueue10c.DjinnInfo04 r7 = queue.djinn_08.get(r8);
+        if(r7.turnsRemaining_03.get() == -1) {
           if(getCombatantForUnit(r7.charId_02.get()) == null) {
             setDjinn_(r7.charId_02.get(), r7.element_00.get(), r7.djinn_01.get());
             recoverDjinn_(r7.charId_02.get(), r7.element_00.get(), r7.djinn_01.get());
@@ -1219,7 +1223,7 @@ public final class GoldenSun_80b {
 
       //LAB_80b5d7c
       for(int i = 0; i < charCount; i++) {
-        MEMORY.ref(1, r10 + r8).addu(getCharOrMonsterData_(charIds[i])._118.get(r8).get());
+        MEMORY.ref(1, r10 + r8).addu(getUnit_(charIds[i])._118.get(r8).get());
       }
 
       //LAB_80b5d9e
@@ -1687,7 +1691,7 @@ public final class GoldenSun_80b {
             if(r8._538.get() != 0) {
               playSound_(0x3a);
               if(r8._3e.get() < 2) {
-                FUN_8077140(0x80, r8._10.get(r8._3c.get()).get(), 0x1a);
+                loadEnemyUnit_(0x80, r8._10.get(r8._3c.get()).get(), 0x1a);
                 FUN_8015118();
                 FUN_8015120(0x80, 1);
                 FUN_80151c8(0x838 + r8._3e.get());
@@ -1763,7 +1767,7 @@ public final class GoldenSun_80b {
     //LAB_80b6a12
     FUN_80b5b18();
     FUN_80bf674();
-    FUN_80bf5a8();
+    tickRecoveryQueue();
     MEMORY.ref(1, 0x200046b).setu(0);
     clearTickCallback(getRunnable(GoldenSun_80b.class, "FUN_80b7738"));
     FUN_80c08e0();
@@ -1793,7 +1797,7 @@ public final class GoldenSun_80b {
       }
 
       //LAB_80b6aa4
-      getCharOrMonsterData_(charId)._12a.set(2);
+      getUnit_(charId)._12a.set(2);
     }
 
     //LAB_80b6abc
@@ -1822,7 +1826,7 @@ public final class GoldenSun_80b {
     //LAB_80b6b0a
     int count = 0;
     for(int r5 = 0x80; r5 < maxMonsterCount + 0x80; r5++) {
-      if(getCharOrMonsterData_(r5)._12a.get() != 0) {
+      if(getUnit_(r5)._12a.get() != 0) {
         out[count] = r5;
         count++;
       }
@@ -1854,7 +1858,7 @@ public final class GoldenSun_80b {
       //LAB_80b6b82
       for(int r5 = 0; r5 < charCount; r5++) {
         final int charId = charIds[r5];
-        if(getCharOrMonsterData_(charId).hp_38.get() > 0) {
+        if(getUnit_(charId).hp_38.get() > 0) {
           if(out != null) {
             out[count] = charId;
           }
@@ -1871,7 +1875,7 @@ public final class GoldenSun_80b {
     if((flags & 0x2) != 0) {
       //LAB_80b6bbe
       for(int r5 = 0x80; r5 < maxMonsterCount + 0x80; r5++) {
-        final Unit14c unit = getCharOrMonsterData_(r5);
+        final Unit14c unit = getUnit_(r5);
         if(unit._12a.get() != 0) {
           if(unit.hp_38.get() > 0) {
             if(out != null) {
@@ -1988,7 +1992,7 @@ public final class GoldenSun_80b {
   @Method(0x80b6d30)
   public static int FUN_80b6d30(final int charId) {
     final BattleStruct82c r6 = boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new);
-    final Unit14c r9 = getCharOrMonsterData_(charId);
+    final Unit14c r9 = getUnit_(charId);
     final int r8 = FUN_80c23c0(r9.id_128.get());
     final int r7 = getActorPropertiesSprite(r9.id_128.get());
     int r10 = 0;
@@ -2074,8 +2078,8 @@ public final class GoldenSun_80b {
 
   @Method(0x80b6eb4)
   public static int FUN_80b6eb4(final int r0) {
-    final Unit14c r6 = getCharOrMonsterData_(r0);
-    final int r0_0 = FUN_8077228(r0, 1);
+    final Unit14c r6 = getUnit_(r0);
+    final int r0_0 = getEquippedItemSlotOfType_(r0, 1);
     if(r0_0 < 0) {
       return 0;
     }
@@ -2096,7 +2100,7 @@ public final class GoldenSun_80b {
   @Method(0x80b6f44)
   public static void initCombatant(final BattleStruct82c.Combatant2c combatant, final int charId, final int x, final int z) {
     final Actor70 actor = loadActor_(0xf000, x << 16, 0, z << 16);
-    final Unit14c unit = getCharOrMonsterData_(charId);
+    final Unit14c unit = getUnit_(charId);
     final int r7 = FUN_80b6d30(charId);
     int r11 = 0;
 
@@ -2159,7 +2163,7 @@ public final class GoldenSun_80b {
     combatant._2a.set(0);
 
     if(unit.id_128.get() < 2) {
-      if(FUN_8077078(unit, 1) == 15) {
+      if(getUnitEquippedItemIdOfType_(unit, 1) == 15) {
         if(unit.id_128.get() == 0) {
           spriteIndex = 0x1e0;
         } else {
@@ -2211,7 +2215,7 @@ public final class GoldenSun_80b {
       if(r10 != 0) {
         r2 = 0x19;
         if(charIds[r10] < 0xfe || charIds[r10] > 0xff) {
-          final Unit14c r5 = getCharOrMonsterData_(charIds[r10]);
+          final Unit14c r5 = getUnit_(charIds[r10]);
 
           if(FUN_80c23c0(r5.id_128.get()) == 0) {
             r2 = 0x26;
@@ -2233,7 +2237,7 @@ public final class GoldenSun_80b {
       r2 = 0x19;
       if(charIds[r10] < 0xfe || charIds[r10] > 0xff) {
         r2 = 0x1b;
-        if(FUN_80c23c0(getCharOrMonsterData_(charIds[r10]).id_128.get()) == 0) {
+        if(FUN_80c23c0(getUnit_(charIds[r10]).id_128.get()) == 0) {
           r2 = 0x26;
         }
       }
@@ -2251,7 +2255,7 @@ public final class GoldenSun_80b {
     //LAB_80b751c
     for(int r5 = 0; r5 < 6; r5++) {
       final int r6 = r5 + 0x80;
-      if(getCharOrMonsterData_(r6)._12a.get() == 0) {
+      if(getUnit_(r6)._12a.get() == 0) {
         return r6;
       }
 
@@ -2505,7 +2509,7 @@ public final class GoldenSun_80b {
 
   @Method(0x80b78e4)
   public static void FUN_80b78e4(final int unitId, final BattleStruct82c.Combatant2c r1) {
-    final Unit14c r2 = getCharOrMonsterData_(unitId);
+    final Unit14c r2 = getUnit_(unitId);
     int r3 = r2.affliction_131.get();
     int flags = 0;
     if(r3 == 0x1) {
@@ -2643,7 +2647,7 @@ public final class GoldenSun_80b {
 
   @Method(0x80b7aac)
   public static void FUN_80b7aac(final int unitId) {
-    final Unit14c unit = getCharOrMonsterData_(unitId);
+    final Unit14c unit = getUnit_(unitId);
     int r5 = 0x1;
     if(unit.hp_38.get() == 0) {
       //LAB_80b7af6
@@ -2968,7 +2972,7 @@ public final class GoldenSun_80b {
   public static void FUN_80b8228(final int unitId, final int r1) {
     final BattleStruct82c.Combatant2c combatant = getCombatantForUnit(unitId);
     final Actor70 actor = combatant.actor_00.deref();
-    if(getCharOrMonsterData_(unitId).id_128.get() != 0x94) {
+    if(getUnit_(unitId).id_128.get() != 0x94) {
       actor.acceleration_34.set(MEMORY.ref(4, 0x80c59a4 + r1 * 0x4).get());
       actor.velocityScalar_30.set(MEMORY.ref(4, 0x80c59c4 + r1 * 0x4).get());
 
@@ -3037,7 +3041,7 @@ public final class GoldenSun_80b {
     final int r6 = (int)MEMORY.call(0x3000118, FUN_8005268(actor.pos_08, r1), sprite.scale_18.get());
 
     final int r1_0;
-    if(FUN_80c23c0(getCharOrMonsterData_(charId).id_128.get()) != 0) {
+    if(FUN_80c23c0(getUnit_(charId).id_128.get()) != 0) {
       r1_0 = 0x18;
     } else {
       //LAB_80b850e
@@ -3051,9 +3055,9 @@ public final class GoldenSun_80b {
 
   @Method(0x80b8530)
   public static int FUN_80b8530(final int r0) {
-    int r3 = FUN_80c2454(getCharOrMonsterData_(r0).id_128.get()) << 24 >>> 8;
+    int r3 = FUN_80c2454(getUnit_(r0).id_128.get()) << 24 >>> 8;
     if(r3 == 0) {
-      if(FUN_80c23c0(getCharOrMonsterData_(r0).id_128.get()) == 0) {
+      if(FUN_80c23c0(getUnit_(r0).id_128.get()) == 0) {
         r3 = 0x300000;
       } else {
         r3 = 0x180000;
@@ -3110,7 +3114,7 @@ public final class GoldenSun_80b {
 
     //LAB_80b90ca
     for(int i = 0; i < unitCount; i++) {
-      getCharOrMonsterData_(unitIds[i])._12b.set(0);
+      getUnit_(unitIds[i])._12b.set(0);
       recalcStats_(unitIds[i]);
     }
 
@@ -3132,7 +3136,7 @@ public final class GoldenSun_80b {
 
     //LAB_80b9246
     for(int i = 0; i < charCount; i++) {
-      final Unit14c unit = getCharOrMonsterData_(charIds[i]);
+      final Unit14c unit = getUnit_(charIds[i]);
 
       //LAB_80b9282
       for(int r5 = 0; r5 < unit.turns_43.get(); r5++) {
@@ -3215,7 +3219,7 @@ public final class GoldenSun_80b {
     int sp0c = turnIndex;
     for(int r4 = 0; r4 < r8; r4++) {
       final int r9 = monsterIds[r4];
-      final Unit14c unit = getCharOrMonsterData_(r9);
+      final Unit14c unit = getUnit_(r9);
 
       //LAB_80b93e8
       for(int r7 = 0; r7 < unit.turns_43.get(); r7++) {
@@ -3264,7 +3268,7 @@ public final class GoldenSun_80b {
       final BattleStruct82c.Turn10 turn = turns.get(i);
       if(turn._06.get() == 5) {
         int r2 = turn._08.get();
-        r2 = getAbility_(FUN_80771e8(r2 >> 8 & 0xf, r2 & 0xff)).effect_03.get();
+        r2 = getAbility_(getDjinnAbility_(r2 >> 8 & 0xf, r2 & 0xff)).effect_03.get();
         final int r3 = r2 + 210 << 24;
         if((r3 & 0xffff_ffffL) <= 0x1000000 || r2 == 0x35) {
           //LAB_80b94c8
@@ -3456,7 +3460,7 @@ public final class GoldenSun_80b {
       if(r3 == 0x3 || r3 == 0x7) {
         //LAB_80b99f0
         final int r2 = turn._06.get() ^ 0x3;
-        getCharOrMonsterData_(turn.unitId_00.get())._12b.set(((-r2 | r2) >>> 31) + 1);
+        getUnit_(turn.unitId_00.get())._12b.set(((-r2 | r2) >>> 31) + 1);
       }
 
       //LAB_80b9a0e
@@ -3536,7 +3540,7 @@ public final class GoldenSun_80b {
     }
 
     //LAB_80b9b50
-    final Unit14c unit = getCharOrMonsterData_(unitId);
+    final Unit14c unit = getUnit_(unitId);
     if(unit.hp_38.get() == 0) {
       return -1;
     }
@@ -3657,7 +3661,7 @@ public final class GoldenSun_80b {
 
     //LAB_80b9d68
     for(r8 = 0; r8 < r0._01.get(); r8++) {
-      if(getCharOrMonsterData_(r0._02.get(r8).get()).hp_38.get() != 0 || (r0._58.get() & 0x10000) != 0) {
+      if(getUnit_(r0._02.get(r8).get()).hp_38.get() != 0 || (r0._58.get() & 0x10000) != 0) {
         //LAB_80b9d8a
         MEMORY.ref(2, r7).setu(r0._02.get(r8).get());
         r4 = r4 + 0x1;
@@ -3757,7 +3761,7 @@ public final class GoldenSun_80b {
     }
 
     //LAB_80ba35a
-    final Unit14c r5 = getCharOrMonsterData_(MEMORY.ref(4, r7 + 0x8).get());
+    final Unit14c r5 = getUnit_(MEMORY.ref(4, r7 + 0x8).get());
     MEMORY.ref(4, CPU.sp().value + 0x8).setu(r0_0._2c.get(0).get());
     final int r6;
     if(r0_0._1e.get(0).get() == 0) {
@@ -3999,7 +4003,7 @@ public final class GoldenSun_80b {
   @Method(0x80bac6c)
   public static void FUN_80bac6c(final int unitId) {
     final BattleStruct82c r5 = boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new);
-    getCharOrMonsterData_(unitId)._12a.set(0);
+    getUnit_(unitId)._12a.set(0);
 
     //LAB_80bac8a
     for(int i = 0; ; i++) {
@@ -4232,7 +4236,7 @@ public final class GoldenSun_80b {
         do {
           r3 = MEMORY.ref(4, CPU.sp().value + 0x18).get();
           final int r9 = r3 * 0x4;
-          final Unit14c r5 = getCharOrMonsterData_(MEMORY.ref(4, r10 + r9).get());
+          final Unit14c r5 = getUnit_(MEMORY.ref(4, r10 + r9).get());
           r0 = ability.effect_03.get();
           r6 = 0x0;
 
@@ -4251,7 +4255,7 @@ public final class GoldenSun_80b {
                 //LAB_80bb0a8
                 r6 = r6 + 0x1;
               }
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4266,7 +4270,7 @@ public final class GoldenSun_80b {
                 //LAB_80bb0a8
                 r6 = r6 + 0x1;
               }
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4281,7 +4285,7 @@ public final class GoldenSun_80b {
                 //LAB_80bb0a8
                 r6 = r6 + 0x1;
               }
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4298,7 +4302,7 @@ public final class GoldenSun_80b {
                 //LAB_80bb0a8
                 r6 = r6 + 0x1;
               }
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4315,7 +4319,7 @@ public final class GoldenSun_80b {
                 //LAB_80bb0a8
                 r6 = r6 + 0x1;
               }
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4332,7 +4336,7 @@ public final class GoldenSun_80b {
                 //LAB_80bb0a8
                 r6 = r6 + 0x1;
               }
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4342,7 +4346,7 @@ public final class GoldenSun_80b {
               if(r5.affliction_131.get() != 0) {
                 r6 = 0x1;
               }
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4380,7 +4384,7 @@ public final class GoldenSun_80b {
                 r6 = r6 + 0x1;
               }
 
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4392,7 +4396,7 @@ public final class GoldenSun_80b {
                 //LAB_80bb1a8
                 r6 = 0x1;
               }
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4433,7 +4437,7 @@ public final class GoldenSun_80b {
                 r6 = r6 + 0x1;
               }
 
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4480,7 +4484,7 @@ public final class GoldenSun_80b {
                 r6 = r6 + 0x1;
               }
 
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4490,7 +4494,7 @@ public final class GoldenSun_80b {
               if(r5._141.get() == 0) {
                 r6 = 0x1;
               }
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4500,7 +4504,7 @@ public final class GoldenSun_80b {
               if(r5.affliction_131.get() == 0) {
                 r6 = 0x1;
               }
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4510,7 +4514,7 @@ public final class GoldenSun_80b {
               if(r5.affliction_131.get() <= 0x1) {
                 r6 = 0x1;
               }
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4520,7 +4524,7 @@ public final class GoldenSun_80b {
               if(r5._13b.get() == 0) {
                 r6 = 0x1;
               }
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4530,7 +4534,7 @@ public final class GoldenSun_80b {
               if(r5._13c.get() == 0) {
                 r6 = 0x1;
               }
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4541,7 +4545,7 @@ public final class GoldenSun_80b {
               if(r5.haunt_140.get() == 0) {
                 r6 = 0x1;
               }
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
@@ -4551,7 +4555,7 @@ public final class GoldenSun_80b {
             case 57: // switch 80baf84
               //LAB_80bb2c8
               if(r5.hp_38.get() == 0) {
-                if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+                if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                   r6 = 0x0;
                 } else {
                   r6 = 0x64;
@@ -4563,14 +4567,14 @@ public final class GoldenSun_80b {
             case 1: // switch 80baf84
             case 2: // switch 80baf84
               //LAB_80bb304
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               }
               break;
 
             default:
               //LAB_80bb142
-              if(r5.hp_38.get() == 0 && FUN_80772b8(r0) == 0) {
+              if(r5.hp_38.get() == 0 && doesAbilityRevive_(r0) == 0) {
                 r6 = 0x0;
               } else {
                 r6 = 0x1;
@@ -4688,7 +4692,7 @@ public final class GoldenSun_80b {
             r1 = MEMORY.ref(4, CPU.sp().value + 0x14).get() * rand() >>> 16;
           } else {
             //LAB_80bb3d8
-            r3 = getEnemyStats_(getCharOrMonsterData_(MEMORY.ref(4, CPU.sp().value + 0x1c).get()).id_128.get()).iq_35.get();
+            r3 = getEnemyStats_(getUnit_(MEMORY.ref(4, CPU.sp().value + 0x1c).get()).id_128.get()).iq_35.get();
             if(r3 == 0x2) {
               //LAB_80bb552
               r3 = CPU.sp().value;
@@ -4748,9 +4752,9 @@ public final class GoldenSun_80b {
                       do {
                         r6 = MEMORY.ref(4, CPU.sp().value + 0x10).get();
                         MEMORY.ref(4, CPU.sp().value).setu(r1);
-                        final Unit14c r8_0 = getCharOrMonsterData_(MEMORY.ref(4, r5_0 + r6).get());
-                        final Unit14c r6_0 = getCharOrMonsterData_(MEMORY.ref(4, r7_0).get());
-                        r3 = getEnemyStats_(getCharOrMonsterData_(MEMORY.ref(4, CPU.sp().value + 0x1c).get()).id_128.get()).iq_35.get();
+                        final Unit14c r8_0 = getUnit_(MEMORY.ref(4, r5_0 + r6).get());
+                        final Unit14c r6_0 = getUnit_(MEMORY.ref(4, r7_0).get());
+                        r3 = getEnemyStats_(getUnit_(MEMORY.ref(4, CPU.sp().value + 0x1c).get()).id_128.get()).iq_35.get();
                         r1 = MEMORY.ref(4, CPU.sp().value).get();
                         if(r3 == 0) {
                           r3 = r8_0.hp_38.get();
@@ -4881,7 +4885,7 @@ public final class GoldenSun_80b {
 
   @Method(0x80bb588)
   public static void FUN_80bb588(final int r0) {
-    final Unit14c r1 = getCharOrMonsterData_(r0);
+    final Unit14c r1 = getUnit_(r0);
 
     //LAB_80bb59a
     for(int i = 0; i < 4; i++) {
@@ -5256,11 +5260,11 @@ public final class GoldenSun_80b {
     CPU.r10().value = struct._02.get(r6).get();
     MEMORY.ref(4, CPU.sp().value + 0x40).setu(r4);
     MEMORY.ref(4, CPU.sp().value + 0x30).setu(struct._1e.get(r6).get());
-    CPU.r9().value = struct._50.get();
+    CPU.r9().value = struct.element_50.get();
     MEMORY.ref(4, CPU.sp().value + 0x20).setu(struct._2c.get(r6).get());
     final Ability10 ability = getAbility_(r4);
-    MEMORY.ref(4, CPU.sp().value + 0x48).setu(getCharOrMonsterData_(MEMORY.ref(4, CPU.sp().value + 0x44).get()).getAddress());
-    r7 = getCharOrMonsterData_(CPU.r10().value).getAddress();
+    MEMORY.ref(4, CPU.sp().value + 0x48).setu(getUnit_(MEMORY.ref(4, CPU.sp().value + 0x44).get()).getAddress());
+    r7 = getUnit_(CPU.r10().value).getAddress();
     MEMORY.call(0x3001388, MEMORY.ref(4, CPU.sp().value + 0x10).get(), r7, r5); // memcpy
     if(ability._08.get() != 0xff) {
       CPU.r11().value = struct._10.get(r6).get();
@@ -5299,7 +5303,7 @@ public final class GoldenSun_80b {
     }
 
     //LAB_80bbc12
-    r2 = struct._50.get();
+    r2 = struct.element_50.get();
     if((r2 & 0xffff_ffffL) < 4) {
       if(struct._48.get() == 0x2) {
         MEMORY.ref(4, CPU.sp().value + 0xc).setu(100);
@@ -5316,27 +5320,10 @@ public final class GoldenSun_80b {
     }
 
     //LAB_80bbc3c
-    r3 = struct._48.get();
-    if(r3 == 0x5 && (r2 & 0xffff_ffffL) < 4) {
-      r0 = MEMORY.ref(4, CPU.sp().value + 0x14).get();
-      if(r0 > 0) {
-        r3 = r2 << 2;
-        r3 = r3 + 0x48;
-        r3 = r7 + r3;
-        r1 = 0x2;
-        r5 = MEMORY.ref(2, r3 + r1).get();
-        r2 = MEMORY.ref(4, CPU.sp().value + 0xc).get();
-        r3 = 0x28f;
-        r5 = r2 - r5;
-        r5 = r5 + 0x1e;
-        r5 = r5 * r3;
-        r0 = lcgRand_();
-        r3 = 0xffff;
-        r0 = r0 & r3;
-        if(r5 > r0) {
-          r0 = 0xd;
-          r1 = 0x5;
-          FUN_80bbabc(r0, r1);
+    if(struct._48.get() == 0x5 && (r2 & 0xffff_ffffL) < 4) {
+      if(MEMORY.ref(4, CPU.sp().value + 0x14).get() > 0) {
+        if((MEMORY.ref(4, CPU.sp().value + 0xc).get() - MEMORY.ref(2, r7 + 0x48 + r2 * 0x4 + 0x2).get() + 0x1e) * 0x28f > (lcgRand_() & 0xffff)) {
+          FUN_80bbabc(13, 5);
         }
       }
     }
@@ -5359,22 +5346,14 @@ public final class GoldenSun_80b {
     //LAB_80bbca6
     MEMORY.ref(4, CPU.sp().value + 0x24).setu(r0);
     r3 = ability.effect_03.get();
-    r6 = 0x80;
     r3 = r3 + 0xce;
     r3 = r3 << 24;
-    r6 = r6 << 17;
-    CPU.cmpT(r3, r6);
-    if((r3 & 0xffff_ffffL) <= (r6 & 0xffff_ffffL)) {
+    if((r3 & 0xffff_ffffL) <= 0x1000000) {
       //LAB_80bbcba
       r0 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
-      r1 = 0x94;
-      r1 = r1 << 1;
-      r3 = r0 + r1;
-      r5 = MEMORY.ref(1, r3).getUnsigned();
-      r0 = FUN_80b7514();
-      r3 = ability.effect_03.get();
-      CPU.r8().value = r0;
-      if(r3 == 0x33) {
+      r5 = MEMORY.ref(1, r0 + 0x128).getUnsigned();
+      CPU.r8().value = FUN_80b7514();
+      if(ability.effect_03.get() == 0x33) {
         r5 = FUN_80c1fa8(sp38.entranceId_00.get());
       }
 
@@ -5386,7 +5365,7 @@ public final class GoldenSun_80b {
         }
 
         //LAB_80bbd0c
-        FUN_8077140(CPU.r8().value, r5, r6 & 0x7fff);
+        loadEnemyUnit_(CPU.r8().value, r5, r6 & 0x7fff);
         r5 = 0;
         if(sp38.monsterIds_66.get(0).get() == 0xfe) {
           sp38.monsterIds_66.get(0).set(CPU.r8().value);
@@ -5465,31 +5444,22 @@ public final class GoldenSun_80b {
           } else {
             //LAB_80bbe34
             if(r3 == 0x1b) {
-              r2 = 0x1;
-              MEMORY.ref(4, CPU.sp().value + 0x1c).setu(r2);
+              MEMORY.ref(4, CPU.sp().value + 0x1c).setu(1);
             } else {
               //LAB_80bbe6c
               if(r3 == 0x37) {
                 r5 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
-                r4 = 0x38;
-                r3 = MEMORY.ref(2, r5 + r4).get();
-                if(r3 != 0) {
-                  r0 = 0xc;
-                  r1 = MEMORY.ref(4, CPU.sp().value + 0x44).get();
-                  FUN_80bbabc(r0, r1);
+                if(MEMORY.ref(2, r5 + 0x38).get() != 0) {
+                  FUN_80bbabc(12, MEMORY.ref(4, CPU.sp().value + 0x44).get());
                 }
               } else {
                 //LAB_80bbe84
                 if(r3 == 0x20) {
-                  r6 = 0x3a;
-                  r3 = MEMORY.ref(2, r7 + r6).get();
-                  if(r3 != 0) {
-                    r0 = 0xa;
-                    MEMORY.ref(4, CPU.sp().value + 0x18).setu(r0);
+                  if(MEMORY.ref(2, r7 + 0x3a).get() != 0) {
+                    MEMORY.ref(4, CPU.sp().value + 0x18).setu(10);
                   } else {
                     //LAB_80bbe96
-                    r1 = 0x0;
-                    MEMORY.ref(4, CPU.sp().value + 0x24).setu(r1);
+                    MEMORY.ref(4, CPU.sp().value + 0x24).setu(0);
                   }
                 }
               }
@@ -5518,12 +5488,9 @@ public final class GoldenSun_80b {
     }
 
     //LAB_80bbe9a
-    r2 = MEMORY.ref(4, CPU.sp().value + 0x1c).get();
-    if(r2 == 0) {
+    if(MEMORY.ref(4, CPU.sp().value + 0x1c).get() == 0) {
       //LAB_80bbea2
-      r4 = 0x38;
-      r3 = MEMORY.ref(2, r7 + r4).get();
-      if(r3 != 0 || FUN_80772b8(ability.effect_03.get()) != 0) {
+      if(MEMORY.ref(2, r7 + 0x38).get() != 0 || doesAbilityRevive_(ability.effect_03.get()) != 0) {
         //LAB_80bbeb8
         r3 = MEMORY.ref(4, CPU.sp().value + 0x18).get();
         r3 = r3 + 0x1;
@@ -5535,8 +5502,7 @@ public final class GoldenSun_80b {
             //LAB_80bbf00
             r1 = MEMORY.ref(2, r7 + 0x3e).getUnsigned();
             r2 = MEMORY.ref(4, CPU.sp().value + 0x34).get();
-            r0 = 0x38;
-            r6 = MEMORY.ref(2, r7 + r0).get();
+            r6 = MEMORY.ref(2, r7 + 0x38).get();
             CPU.r11().value = r1;
             if(r2 != 0) {
               r1 = r1 >>> 1;
@@ -5544,8 +5510,7 @@ public final class GoldenSun_80b {
             }
 
             //LAB_80bbf12
-            r3 = 0x1;
-            CPU.r8().value = r3;
+            CPU.r8().value = 1;
 
             //LAB_80bbf16
             do {
@@ -5756,7 +5721,7 @@ public final class GoldenSun_80b {
             MEMORY.ref(4, CPU.sp().value + 0x2c).setu(r3);
             r0 = CPU.r10().value;
             MEMORY.ref(2, r7 + 0x38).setu(r6);
-            FUN_8077128(r0);
+            calcHpPpFractions_(r0);
             break;
 
           case 11: // switch 80bbecc
@@ -5859,7 +5824,7 @@ public final class GoldenSun_80b {
               MEMORY.ref(4, CPU.sp().value + 0x2c).setu(r3);
               r0 = CPU.r10().value;
               MEMORY.ref(2, r7 + 0x3a).setu(r6);
-              FUN_8077128(r0);
+              calcHpPpFractions_(r0);
             }
             break;
 
@@ -5935,7 +5900,7 @@ public final class GoldenSun_80b {
               MEMORY.ref(4, CPU.sp().value + 0x2c).setu(r3);
               r0 = CPU.r10().value;
               MEMORY.ref(2, r7 + 0x38).setu(r6);
-              FUN_8077128(r0);
+              calcHpPpFractions_(r0);
             }
             break;
 
@@ -6029,7 +5994,7 @@ public final class GoldenSun_80b {
               FUN_80bbabc(r0, r1);
               MEMORY.ref(2, r7 + 0x3a).setu(r6);
               r0 = CPU.r10().value;
-              FUN_8077128(r0);
+              calcHpPpFractions_(r0);
             }
             break;
 
@@ -6270,7 +6235,7 @@ public final class GoldenSun_80b {
               MEMORY.ref(4, CPU.sp().value + 0x2c).setu(r3);
               r0 = CPU.r10().value;
               MEMORY.ref(2, r7 + 0x38).setu(r6);
-              FUN_8077128(r0);
+              calcHpPpFractions_(r0);
             }
             break;
 
@@ -6338,7 +6303,7 @@ public final class GoldenSun_80b {
               //LAB_80bc514
               MEMORY.ref(2, r7 + 0x3a).setu(r6);
               r0 = CPU.r10().value;
-              FUN_8077128(r0);
+              calcHpPpFractions_(r0);
             }
             break;
 
@@ -6459,7 +6424,7 @@ public final class GoldenSun_80b {
                 MEMORY.ref(4, CPU.sp().value + 0x2c).setu(r3);
                 r0 = CPU.r10().value;
                 MEMORY.ref(2, r7 + 0x38).setu(r6);
-                FUN_8077128(r0);
+                calcHpPpFractions_(r0);
               }
             } else {
               //LAB_80bc64e
@@ -6483,7 +6448,7 @@ public final class GoldenSun_80b {
     r1 = CPU.r10().value;
     FUN_80bbabc(r0, r1);
     r0 = ability.effect_03.get();
-    r0 = FUN_80772b8(r0);
+    r0 = doesAbilityRevive_(r0);
     if(r0 != 0 || MEMORY.ref(2, r7 + 0x38).get() != 0 || FUN_80bbae8(ability.effect_03.get()) != 0) {
       //LAB_80bc690
       r0 = MEMORY.ref(4, CPU.sp().value + 0x24).get();
@@ -6729,7 +6694,7 @@ public final class GoldenSun_80b {
               //LAB_80bc98e
               MEMORY.ref(2, r7 + 0x38).setu(r5);
               r0 = CPU.r10().value;
-              FUN_8077128(r0);
+              calcHpPpFractions_(r0);
             }
             break;
 
@@ -6770,7 +6735,7 @@ public final class GoldenSun_80b {
               //LAB_80bca26
               MEMORY.ref(2, r7 + 0x3a).setu(r5);
               r0 = CPU.r10().value;
-              FUN_8077128(r0);
+              calcHpPpFractions_(r0);
             }
             break;
 
@@ -7184,7 +7149,7 @@ public final class GoldenSun_80b {
               r3 = MEMORY.ref(2, r7 + 0x34).getUnsigned();
               r0 = CPU.r10().value;
               MEMORY.ref(2, r7 + 0x38).setu(r3);
-              FUN_8077128(r0);
+              calcHpPpFractions_(r0);
             }
             break;
 
@@ -7205,7 +7170,7 @@ public final class GoldenSun_80b {
               r2 = r2 >> 1;
               MEMORY.ref(2, r7 + 0x38).setu(r2);
               r0 = CPU.r10().value;
-              FUN_8077128(r0);
+              calcHpPpFractions_(r0);
             }
             break;
 
@@ -7225,7 +7190,7 @@ public final class GoldenSun_80b {
               r0 = divideS(r0, r1);
               MEMORY.ref(2, r7 + 0x38).setu(r0);
               r0 = CPU.r10().value;
-              FUN_8077128(r0);
+              calcHpPpFractions_(r0);
             }
             break;
 
@@ -7616,7 +7581,7 @@ public final class GoldenSun_80b {
             r3 = 0x0;
             MEMORY.ref(2, r7 + 0x38).setu(r3);
             r0 = CPU.r10().value;
-            FUN_8077128(r0);
+            calcHpPpFractions_(r0);
             break;
 
           case 26: // switch 80bc6b0
@@ -7695,7 +7660,7 @@ public final class GoldenSun_80b {
             r5 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
             MEMORY.ref(2, r5 + 0x38).setu(r6);
             r0 = MEMORY.ref(4, CPU.sp().value + 0x44).get();
-            FUN_8077128(r0);
+            calcHpPpFractions_(r0);
             break;
 
           case 29: // switch 80bc6b0
@@ -7741,7 +7706,7 @@ public final class GoldenSun_80b {
             r6 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
             MEMORY.ref(2, r6 + 0x3a).setu(r5);
             r0 = MEMORY.ref(4, CPU.sp().value + 0x44).get();
-            FUN_8077128(r0);
+            calcHpPpFractions_(r0);
             break;
 
           case 66: // switch 80bc6b0
@@ -8069,33 +8034,20 @@ public final class GoldenSun_80b {
   }
 
   @Method(0x80bd3e4)
-  public static int FUN_80bd3e4(int r0) {
-    int r1;
-    int r2;
-    int r4;
+  public static int selectAttackIndex(final ArrayRef<UnsignedByteRef> table) {
+    final int rand = lcgRand_() & 0xff;
+    int r2 = 0;
 
-    final int r5 = r0;
-    r2 = MEMORY.ref(1, r5).getUnsigned();
-    r0 = lcgRand_() & 0xff;
-    r4 = 0x0;
-    r1 = 0x0;
-    if(r0 >= r2) {
-      //LAB_80bd404
-      do {
-        r1 = r1 + 0x1;
-        if(r1 > 0x7) {
-          break;
-        }
-        r2 = r2 + MEMORY.ref(1, r5 + r1).getUnsigned();
-        if(r0 < r2) {
-          r4 = r1;
-          break;
-        }
-      } while(true);
+    //LAB_80bd404
+    for(int r1 = 0; r1 < 8; r1++) {
+      r2 = r2 + table.get(r1).get();
+      if(r2 > rand) {
+        return r1;
+      }
     }
 
     //LAB_80bd414
-    return r4;
+    return 0;
   }
 
   @Method(0x80bd424)
@@ -8106,7 +8058,7 @@ public final class GoldenSun_80b {
     int r6;
     int r9;
 
-    final Unit14c r11 = getCharOrMonsterData_(turn.unitId_00.get());
+    final Unit14c r11 = getUnit_(turn.unitId_00.get());
     int sp0c = 0;
     int sp10 = 1;
     int sp08 = 1;
@@ -8122,17 +8074,17 @@ public final class GoldenSun_80b {
           switch(enemy.attackPattern_36.get()) {
             case 0: // switch 80bd4a0
               //LAB_80bd4bc
-              selectedAttack = FUN_80bd3e4(0x80c2b80);
+              selectedAttack = selectAttackIndex(evenMoveSelection_80c2b80);
               break;
 
             case 1: // switch 80bd4a0
               //LAB_80bd4c4
-              selectedAttack = FUN_80bd3e4(0x80c2b88);
+              selectedAttack = selectAttackIndex(rareMoveSelection_80c2b88);
               break;
 
             case 2: // switch 80bd4a0
               //LAB_80bd4cc
-              selectedAttack = FUN_80bd3e4(0x80c2b90);
+              selectedAttack = selectAttackIndex(veryRareMoveSelection_80c2b90);
               break;
 
             case 3: // switch 80bd4a0
@@ -8531,7 +8483,7 @@ public final class GoldenSun_80b {
                         sp08.unitId_81c.set(r0);
                         FUN_80c24f0(r0, sp08._824.get());
                         FUN_80bb588(sp08.unitId_81c.get());
-                        final Unit14c unit = getCharOrMonsterData_(sp08.unitId_81c.get());
+                        final Unit14c unit = getUnit_(sp08.unitId_81c.get());
 
                         //LAB_80bdaca
                         for(r5 = 0; ; r5++) {
@@ -8701,7 +8653,7 @@ public final class GoldenSun_80b {
         //LAB_80bddd2
         r10 = 6;
         if(r3 == 0 && sp08._824.get() != 0) {
-          r0 = FUN_80c2368(getCharOrMonsterData_(sp08.unitId_81c.get()).id_128.get());
+          r0 = FUN_80c2368(getUnit_(sp08.unitId_81c.get()).id_128.get());
           if(r0 >= 0) {
             r0 = r0 - 0x1;
             if(r0 < 0) {
@@ -8723,7 +8675,7 @@ public final class GoldenSun_80b {
 
         //LAB_80bde2e
         if(sp08._808.get() == 0) {
-          r0 = FUN_80c2368(getCharOrMonsterData_(sp08.unitId_81c.get()).id_128.get());
+          r0 = FUN_80c2368(getUnit_(sp08.unitId_81c.get()).id_128.get());
           if(r0 >= 0) {
             playSound_(r0 + 0x92);
           }
@@ -8894,17 +8846,17 @@ public final class GoldenSun_80b {
     //LAB_80be11c
     int r11 = 0;
     for(int r10 = 0; r10 < r8.count_108.get(); r10++) {
-      if(r8._08.get(r10)._03.get() == -1) {
+      if(r8.djinn_08.get(r10).turnsRemaining_03.get() == -1) {
         //LAB_80be13c
         int r4;
-        for(r4 = 0; r4 < unitCount && unitIds[r4] != r8._08.get(r10).charId_02.get(); r4++) {
+        for(r4 = 0; r4 < unitCount && unitIds[r4] != r8.djinn_08.get(r10).charId_02.get(); r4++) {
           //
         }
 
         //LAB_80be14c
         if(r4 != unitCount) {
           if(out != 0) {
-            MEMORY.ref(1, out + r8._08.get(r10).element_00.get()).incr();
+            MEMORY.ref(1, out + r8.djinn_08.get(r10).element_00.get()).incr();
           }
 
           //LAB_80be160
@@ -9036,7 +8988,7 @@ public final class GoldenSun_80b {
                 r5 = MEMORY.ref(2, r3 + r7).get();
                 if(r5 != 0xfe) {
                   r2 = MEMORY.ref(4, CPU.sp().value + 0x14).get();
-                  if(r2 != 0 || getCharOrMonsterData_(r5).hp_38.get() != 0) {
+                  if(r2 != 0 || getUnit_(r5).hp_38.get() != 0) {
                     //LAB_80be2a6
                     r2 = CPU.r8().value;
                     r0 = MEMORY.ref(4, r2).get();
@@ -9066,7 +9018,7 @@ public final class GoldenSun_80b {
                 r5 = MEMORY.ref(2, r2 + r3).get();
                 if(r5 != 0xfe) {
                   r1 = MEMORY.ref(4, CPU.sp().value + 0x14).get();
-                  if(r1 != 0 || getCharOrMonsterData_(r5).hp_38.get() != 0) {
+                  if(r1 != 0 || getUnit_(r5).hp_38.get() != 0) {
                     //LAB_80be2f0
                     r3 = CPU.r8().value;
                     r0 = MEMORY.ref(4, r3).get();
@@ -9154,7 +9106,7 @@ public final class GoldenSun_80b {
     int r11;
 
     CPU.sp().value -= 0x30;
-    final Unit14c sp1c = getCharOrMonsterData_(turn.unitId_00.get());
+    final Unit14c sp1c = getUnit_(turn.unitId_00.get());
     final int sp24 = boardWramMallocHead_3001e50.offset(9 * 0x4).get();
 
     //TODO this is really dumb, sp+0x30 is passed into 80be18c via r9 and that function does a negative offsets on it to access these
@@ -9168,7 +9120,7 @@ public final class GoldenSun_80b {
     r5 = 0x4;
     r1_0.unitId_00.set(turn.unitId_00.get());
     r1_0._01.set(0);
-    r1_0._50.set(4);
+    r1_0.element_50.set(4);
     r1_0._58.set(0);
     r1_0._5c.set(0);
     r1_0._60.set(0);
@@ -9323,7 +9275,7 @@ public final class GoldenSun_80b {
         if(r11 != 0x1) {
           //LAB_80be794
           FUN_8015120(turn.unitId_00.get(), 1);
-          FUN_8015120(FUN_8077078(sp1c, 1), 2);
+          FUN_8015120(getUnitEquippedItemIdOfType_(sp1c, 1), 2);
           r5 = 0x819;
           FUN_80151c8(0x819);
           r5 = r5 + 0x1;
@@ -9368,7 +9320,7 @@ public final class GoldenSun_80b {
           r5 = 0x0;
           r1_0._5c.set(0);
           sp1c.pp_3a.sub(ability.cost_09.get());
-          FUN_8077128(turn.unitId_00.get());
+          calcHpPpFractions_(turn.unitId_00.get());
 
           if(sp1c.pp_3a.get() < 0) {
             sp1c.pp_3a.set(0);
@@ -9600,7 +9552,7 @@ public final class GoldenSun_80b {
         r1 = r5;
         r1 = r1 & r3;
         r0 = r0 & r6;
-        r0 = FUN_80771e8(r0, r1);
+        r0 = getDjinnAbility_(r0, r1);
         r11 = r0;
         r0 = turn.unitId_00.get();
         r3 = turn._08.get();
@@ -9635,7 +9587,7 @@ public final class GoldenSun_80b {
           r0 = 0x83f;
           FUN_80151c8(r0);
           r3 = ability.element_02.get();
-          r1_0._50.set(r3);
+          r1_0.element_50.set(r3);
           break;
         }
 
@@ -9813,13 +9765,13 @@ public final class GoldenSun_80b {
 
         //LAB_80bedc4
         for(r7 = 0; r7 < sp04.count_108.get(); r7++) {
-          final RecoveryQueue10c.DjinnInfo04 djinnInfo = sp04._08.get(r7);
-          if(djinnInfo._03.get() == r9) {
+          final RecoveryQueue10c.DjinnInfo04 djinnInfo = sp04.djinn_08.get(r7);
+          if(djinnInfo.turnsRemaining_03.get() == r9) {
             if(FUN_80be070(djinnInfo.charId_02.get()) != 0) {
               r1 = djinnInfo.element_00.get();
               r2 = MEMORY.ref(1, r8 + r1).getUnsigned();
               if(r2 != 0) {
-                djinnInfo._03.set(0xfe);
+                djinnInfo.turnsRemaining_03.set(0xfe);
                 MEMORY.ref(1, r8 + r1).setu(r2 + 0xff);
               }
             }
@@ -9833,10 +9785,9 @@ public final class GoldenSun_80b {
     //LAB_80bee00
     if(r11 == 0x1) {
       //LAB_80bee08
-      final Unit14c unit = getCharOrMonsterData_(r1_0._02.get(0).get());
+      final Unit14c unit = getUnit_(r1_0._02.get(0).get());
       r1_0._4c.set(1);
-      r0 = FUN_8077170(turn.unitId_00.get());
-      r1_0._50.set(r0);
+      r1_0.element_50.set(getUnitElement_(turn.unitId_00.get()));
       r1_0._54.set(2);
 
       if(sp1c.class_129.get() == 0) {
@@ -9910,7 +9861,7 @@ public final class GoldenSun_80b {
     } else {
       //LAB_80befb4
       final Ability10 ability = getAbility_(r11);
-      r1_0._50.set(ability.element_02.get());
+      r1_0.element_50.set(ability.element_02.get());
       r1_0._58.set(0);
       r1_0._4c.set(r11);
       r3 = ability.effect_03.get();
@@ -10010,7 +9961,7 @@ public final class GoldenSun_80b {
       //LAB_80bf16c
       r1_0._54.set(r3);
 
-      if(FUN_80772b8(ability.effect_03.get()) != 0) {
+      if(doesAbilityRevive_(ability.effect_03.get()) != 0) {
         r1_0._58.or(0x10000);
       }
 
@@ -10039,7 +9990,7 @@ public final class GoldenSun_80b {
 
   @Method(0x80bf208)
   public static int FUN_80bf208(final int unitId, final int r1, final int r2) {
-    if(r1 <= 0x5 && (getCharOrMonsterData_(unitId).luck_42.get() * 3 - r1 * 5 + r2) * 655 >= (lcgRand_() & 0xffff)) {
+    if(r1 <= 0x5 && (getUnit_(unitId).luck_42.get() * 3 - r1 * 5 + r2) * 655 >= (lcgRand_() & 0xffff)) {
       return 1;
     }
 
@@ -10049,7 +10000,7 @@ public final class GoldenSun_80b {
 
   @Method(0x80bf250)
   public static int FUN_80bf250(final int unitId) {
-    final Unit14c unit = getCharOrMonsterData_(unitId);
+    final Unit14c unit = getUnit_(unitId);
     final int r0;
     if(unit._132.get() == 0) {
       r0 = 0x0;
@@ -10075,7 +10026,7 @@ public final class GoldenSun_80b {
 
   @Method(0x80bf574)
   public static int FUN_80bf574(final int unitId) {
-    final Unit14c unit = getCharOrMonsterData_(unitId);
+    final Unit14c unit = getUnit_(unitId);
     if(unit._146.get() != 0) {
       unit._146.decr();
       if(unit._146.get() == 0) {
@@ -10090,7 +10041,7 @@ public final class GoldenSun_80b {
 
   @Method(0x80bf2b4)
   public static int FUN_80bf2b4(final int unitId) {
-    final Unit14c unit = getCharOrMonsterData_(unitId);
+    final Unit14c unit = getUnit_(unitId);
     final int ret;
     if(unit._134.get() == 0) {
       ret = 0x0;
@@ -10116,7 +10067,7 @@ public final class GoldenSun_80b {
 
   @Method(0x80bf318)
   public static int FUN_80bf318(final int unitId) {
-    final Unit14c unit = getCharOrMonsterData_(unitId);
+    final Unit14c unit = getUnit_(unitId);
     final int ret;
     if(unit._136.get() == 0) {
       ret = 0x0;
@@ -10142,7 +10093,7 @@ public final class GoldenSun_80b {
 
   @Method(0x80bf37c)
   public static int FUN_80bf37c(final int unitId) {
-    final Unit14c unit = getCharOrMonsterData_(unitId);
+    final Unit14c unit = getUnit_(unitId);
     final int ret;
     if(unit._138.get() == 0) {
       ret = 0x0;
@@ -10167,7 +10118,7 @@ public final class GoldenSun_80b {
 
   @Method(0x80bf3bc)
   public static int FUN_80bf3bc(final int unitId) {
-    final Unit14c unit = getCharOrMonsterData_(unitId);
+    final Unit14c unit = getUnit_(unitId);
     final int ret;
     if(unit._139.get() == 0) {
       ret = 0x0;
@@ -10192,7 +10143,7 @@ public final class GoldenSun_80b {
 
   @Method(0x80bf400)
   public static int FUN_80bf400(final int unitId) {
-    final Unit14c unit = getCharOrMonsterData_(unitId);
+    final Unit14c unit = getUnit_(unitId);
     final int ret;
     if(unit._13a.get() == 0) {
       ret = 0x0;
@@ -10217,7 +10168,7 @@ public final class GoldenSun_80b {
 
   @Method(0x80bf440)
   public static int FUN_80bf440(final int unitId) {
-    final Unit14c unit = getCharOrMonsterData_(unitId);
+    final Unit14c unit = getUnit_(unitId);
     final int ret;
     if(unit._13b.get() == 0) {
       ret = 0x0;
@@ -10242,7 +10193,7 @@ public final class GoldenSun_80b {
 
   @Method(0x80bf484)
   public static int FUN_80bf484(final int unitId) {
-    final Unit14c unit = getCharOrMonsterData_(unitId);
+    final Unit14c unit = getUnit_(unitId);
     final int ret;
     if(unit._13c.get() == 0) {
       ret = 0;
@@ -10267,7 +10218,7 @@ public final class GoldenSun_80b {
 
   @Method(0x80bf4c4)
   public static int FUN_80bf4c4(final int unitId) {
-    final Unit14c unit = getCharOrMonsterData_(unitId);
+    final Unit14c unit = getUnit_(unitId);
     final int ret;
     if(unit._13d.get() == 0) {
       ret = 0x0;
@@ -10301,7 +10252,7 @@ public final class GoldenSun_80b {
 
   @Method(0x80bf524)
   public static int FUN_80bf524(final int unitId) {
-    final Unit14c unit = getCharOrMonsterData_(unitId);
+    final Unit14c unit = getUnit_(unitId);
     final int ret;
     if(unit._13e.get() == 0) {
       ret = 0x0;
@@ -10321,7 +10272,7 @@ public final class GoldenSun_80b {
 
   @Method(0x80bf54c)
   public static int FUN_80bf54c(final int unitId) {
-    final Unit14c unit = getCharOrMonsterData_(unitId);
+    final Unit14c unit = getUnit_(unitId);
     final int ret;
     if(unit._13f.get() == 0) {
       ret = 0x0;
@@ -10340,16 +10291,15 @@ public final class GoldenSun_80b {
   }
 
   @Method(0x80bf5a8)
-  public static int FUN_80bf5a8() {
+  public static boolean tickRecoveryQueue() {
     final RecoveryQueue10c queue = getDjinnRecoveryQueue_(0);
-    int r2 = 0;
 
     //LAB_80bf5ce
-    for(int r8 = 0; r8 < queue.count_108.get(); r8++) {
-      if(queue._08.get(r8)._03.get() > 0) {
-        final Unit14c r0 = getCharOrMonsterData_(queue._08.get(r8).charId_02.get());
+    for(int queueIndex = 0; queueIndex < queue.count_108.get(); queueIndex++) {
+      if(queue.djinn_08.get(queueIndex).turnsRemaining_03.get() > 0) {
+        final Unit14c r0 = getUnit_(queue.djinn_08.get(queueIndex).charId_02.get());
         if(r0.hp_38.get() != 0) {
-          queue._08.get(r8)._03.decr();
+          queue.djinn_08.get(queueIndex).turnsRemaining_03.decr();
         }
       }
 
@@ -10358,23 +10308,24 @@ public final class GoldenSun_80b {
 
     //LAB_80bf600
     //LAB_80bf612
-    for(int r8 = 0; r8 < queue.count_108.get(); ) {
-      if(queue._08.get(r8)._03.get() == 0) {
-        final int charId = queue._08.get(r8).charId_02.get();
-        setDjinn_(charId, queue._08.get(r8).element_00.get(), queue._08.get(r8).djinn_01.get());
-        recoverDjinn_(charId, queue._08.get(r8).element_00.get(), queue._08.get(r8).djinn_01.get());
+    boolean recovered = false;
+    for(int queueIndex = 0; queueIndex < queue.count_108.get(); ) {
+      if(queue.djinn_08.get(queueIndex).turnsRemaining_03.get() == 0) {
+        final int charId = queue.djinn_08.get(queueIndex).charId_02.get();
+        setDjinn_(charId, queue.djinn_08.get(queueIndex).element_00.get(), queue.djinn_08.get(queueIndex).djinn_01.get());
+        recoverDjinn_(charId, queue.djinn_08.get(queueIndex).element_00.get(), queue.djinn_08.get(queueIndex).djinn_01.get());
         recalcStats_(charId);
-        r2 = 1;
+        recovered = true;
       } else {
         //LAB_80bf63a
-        r8++;
+        queueIndex++;
       }
 
       //LAB_80bf640
     }
 
     //LAB_80bf64c
-    return r2;
+    return recovered;
   }
 
   @Method(0x80bf674)
@@ -10405,10 +10356,10 @@ public final class GoldenSun_80b {
 
       //LAB_80bf6ca
       for(r8 = 0; r8 < queue.count_108.get(); r8++) {
-        if(queue._08.get(r8)._03.get() > 0) {
-          if(getCombatantForUnit(queue._08.get(r8).charId_02.get()) != null) {
-            if(getCharOrMonsterData_(queue._08.get(r8).charId_02.get()).hp_38.get() != 0) {
-              queue._08.get(r8)._03.decr();
+        if(queue.djinn_08.get(r8).turnsRemaining_03.get() > 0) {
+          if(getCombatantForUnit(queue.djinn_08.get(r8).charId_02.get()) != null) {
+            if(getUnit_(queue.djinn_08.get(r8).charId_02.get()).hp_38.get() != 0) {
+              queue.djinn_08.get(r8).turnsRemaining_03.decr();
             }
           }
         }
@@ -10419,13 +10370,13 @@ public final class GoldenSun_80b {
       //LAB_80bf700
       //LAB_80bf712
       for(r8 = 0; r8 < queue.count_108.get(); ) {
-        if(queue._08.get(r8)._03.get() == 0) {
-          final int unitId = queue._08.get(r8).charId_02.get();
+        if(queue.djinn_08.get(r8).turnsRemaining_03.get() == 0) {
+          final int unitId = queue.djinn_08.get(r8).charId_02.get();
           if(getCombatantForUnit(unitId) != null) {
             FUN_80bdfec();
             FUN_80bd808(30);
             FUN_80bbabc(0, unitId);
-            FUN_80bbabc(3, queue._08.get(r8).element_00.get() * 20 + queue._08.get(r8).djinn_01.get() + 300);
+            FUN_80bbabc(3, queue.djinn_08.get(r8).element_00.get() * 20 + queue.djinn_08.get(r8).djinn_01.get() + 300);
             FUN_80bbabc(14, 175);
             FUN_80bbabc(10, 0);
             FUN_80bbabc(4, 2199);
@@ -10433,10 +10384,10 @@ public final class GoldenSun_80b {
             playSound_(0xd4);
             setActorAnimation_(getCombatantForUnit(unitId).actor_00.deref(), 3);
             FUN_8009088(getCombatantForUnit(unitId).actor_00.deref(), 0x20);
-            setDjinn_(unitId, queue._08.get(r8).element_00.get(), queue._08.get(r8).djinn_01.get());
-            recoverDjinn_(unitId, queue._08.get(r8).element_00.get(), queue._08.get(r8).djinn_01.get());
+            setDjinn_(unitId, queue.djinn_08.get(r8).element_00.get(), queue.djinn_08.get(r8).djinn_01.get());
+            recoverDjinn_(unitId, queue.djinn_08.get(r8).element_00.get(), queue.djinn_08.get(r8).djinn_01.get());
             recalcStats_(unitId);
-            FUN_80c1798(unitId, queue._08.get(r8).element_00.get(), 3, 0);
+            FUN_80c1798(unitId, queue.djinn_08.get(r8).element_00.get(), 3, 0);
             FUN_80be02c();
           }
         } else {
@@ -10485,7 +10436,7 @@ public final class GoldenSun_80b {
       //LAB_80bf84e
       while(r8 < r10) {
         final int unitId = unitIds[r8];
-        final Unit14c r7 = getCharOrMonsterData_(unitId);
+        final Unit14c r7 = getUnit_(unitId);
         if(r7.kiteTurns_144.get() != 0) {
           r7.kiteTurns_144.decr();
         }
@@ -10673,13 +10624,13 @@ public final class GoldenSun_80b {
     CPU.sp().value -= 0x20;
     final int charId = r0.unitId_00.get();
     int sp04 = 0;
-    final Unit14c sp08 = getCharOrMonsterData_(charId);
+    final Unit14c sp08 = getUnit_(charId);
     final RecoveryQueue10c r6 = getDjinnRecoveryQueue_(charId > 7 ? 1 : 0);
 
     //LAB_80bfbf0
     for(r7 = 0; r7 < r6.count_108.get(); r7++) {
-      if(r6._08.get(r7).charId_02.get() == charId && r6._08.get(r7)._03.get() == -1) {
-        FUN_80771b8(charId, r6._08.get(r7).element_00.get(), r6._08.get(r7).djinn_01.get());
+      if(r6.djinn_08.get(r7).charId_02.get() == charId && r6.djinn_08.get(r7).turnsRemaining_03.get() == -1) {
+        FUN_80771b8(charId, r6.djinn_08.get(r7).element_00.get(), r6.djinn_08.get(r7).djinn_01.get());
       }
 
       //LAB_80bfc08
@@ -10707,8 +10658,8 @@ public final class GoldenSun_80b {
 
       //LAB_80bfc86
       for(r4 = 0; r4 < r6.count_108.get(); r4++) {
-        if(r6._08.get(r4)._03.get() == -2) {
-          r12 = r6._08.get(r4).charId_02.get();
+        if(r6.djinn_08.get(r4).turnsRemaining_03.get() == -2) {
+          r12 = r6.djinn_08.get(r4).charId_02.get();
           break;
         }
       }
@@ -10722,8 +10673,8 @@ public final class GoldenSun_80b {
 
       //LAB_80bfcb4
       for(r4 = 0; r4 < r6.count_108.get(); r4++) {
-        if(r6._08.get(r4).charId_02.get() == r12) {
-          r3 = r6._08.get(r4)._03.get();
+        if(r6.djinn_08.get(r4).charId_02.get() == r12) {
+          r3 = r6.djinn_08.get(r4).turnsRemaining_03.get();
           if(r5 < r3) {
             r5 = r3;
           }
@@ -10741,9 +10692,9 @@ public final class GoldenSun_80b {
       //LAB_80bfcd4
       //LAB_80bfcee
       for(r4 = 0; r4 < r6.count_108.get(); r4++) {
-        if(r6._08.get(r4).charId_02.get() == r12 && r6._08.get(r4)._03.get() == -2) {
-          r2 = r6._08.get(r4).element_00.get();
-          r6._08.get(r4)._03.set(r5);
+        if(r6.djinn_08.get(r4).charId_02.get() == r12 && r6.djinn_08.get(r4).turnsRemaining_03.get() == -2) {
+          r2 = r6.djinn_08.get(r4).element_00.get();
+          r6.djinn_08.get(r4).turnsRemaining_03.set(r5);
           MEMORY.ref(4, sp00 + r2 * 0x4).incr();
           r5++;
         }

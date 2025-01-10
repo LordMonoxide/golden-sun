@@ -2096,7 +2096,7 @@ public final class Map5Overlay_8784360 {
     FUN_200a7e4(r0, r1);
     r0 = 0xc;
     r1 = 0x4;
-    FUN_200a7d4(r0, r1);
+    startEncounter(r0, r1);
     r0 = 0x8d;
     r0 = r0 << 1;
     setFlag(r0);
@@ -2278,9 +2278,8 @@ public final class Map5Overlay_8784360 {
     CPU.push(r5);
     r7 = CPU.r8().value;
     CPU.push(r7);
-    r0 = 0x1;
     CPU.sp().value -= 0x8;
-    FUN_200a68c(r0);
+    restorePlayer(1);
     FUN_200a69c();
     r3 = 0x3;
     r2 = 0x1;
@@ -3585,10 +3584,10 @@ public final class Map5Overlay_8784360 {
     MEMORY.call(0x80770d0, r0);
   }
 
-  /** {@link GoldenSun_807#FUN_8077260} */
+  /** {@link GoldenSun_807#restorePlayer_} */
   @Method(0x200a68c)
-  public static void FUN_200a68c(final int r0) {
-    MEMORY.call(0x8077260, r0);
+  public static void restorePlayer(final int restoreStatus) {
+    MEMORY.call(0x8077260, restoreStatus);
   }
 
   /** {@link GoldenSun_808#FUN_808a010} */
@@ -3831,10 +3830,10 @@ public final class Map5Overlay_8784360 {
     MEMORY.call(0x808a248, r0);
   }
 
-  /** {@link GoldenSun_808#FUN_808a250} */
+  /** {@link GoldenSun_808#startEncounter_} */
   @Method(0x200a7d4)
-  public static void FUN_200a7d4(final int r0, final int r1) {
-    MEMORY.call(0x808a250, r0, r1);
+  public static void startEncounter(final int encounterSet, final int encounterIndex) {
+    MEMORY.call(0x808a250, encounterSet, encounterIndex);
   }
 
   /** {@link GoldenSun_808#FUN_808a260} */

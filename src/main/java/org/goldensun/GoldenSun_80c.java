@@ -49,13 +49,13 @@ import static org.goldensun.GoldenSun_801.FUN_8015118;
 import static org.goldensun.GoldenSun_801.FUN_8015120;
 import static org.goldensun.GoldenSun_801.FUN_8015128;
 import static org.goldensun.GoldenSun_801.FUN_80151c8;
-import static org.goldensun.GoldenSun_807.FUN_80770b8;
+import static org.goldensun.GoldenSun_807.checkLevelUp_;
 import static org.goldensun.GoldenSun_807.FUN_80770e0;
-import static org.goldensun.GoldenSun_807.FUN_8077140;
+import static org.goldensun.GoldenSun_807.loadEnemyUnit_;
 import static org.goldensun.GoldenSun_807.getEnemyStats_;
-import static org.goldensun.GoldenSun_807.FUN_8077230;
+import static org.goldensun.GoldenSun_807.addCoins_;
 import static org.goldensun.GoldenSun_807.clearFlag_;
-import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
+import static org.goldensun.GoldenSun_807.getUnit_;
 import static org.goldensun.GoldenSun_807.getItem_;
 import static org.goldensun.GoldenSun_807.giveItem_;
 import static org.goldensun.GoldenSun_807.lcgRand_;
@@ -374,7 +374,7 @@ public final class GoldenSun_80c {
         }
 
         //LAB_80c04f2
-        if(getCharOrMonsterData_(r5).id_128.get() != 0x94) {
+        if(getUnit_(r5).id_128.get() != 0x94) {
           getCombatantForUnit(r5).scale_18.set(0xb333);
         }
 
@@ -1061,7 +1061,7 @@ public final class GoldenSun_80c {
 
     //LAB_80c1b30
     for(int i = 0; i < charCount; i++) {
-      CPU.r8().value += getCharOrMonsterData_(charIds[i]).level_0f.get();
+      CPU.r8().value += getUnit_(charIds[i]).level_0f.get();
     }
 
     //LAB_80c1b42
@@ -1158,7 +1158,7 @@ public final class GoldenSun_80c {
     CPU.r10().value = r1;
     CPU.r9().value = mallocBoard(0x24);
     r0 = MEMORY.ref(4, CPU.sp().value + 0x8).get();
-    final Unit14c r7 = getCharOrMonsterData_(r0);
+    final Unit14c r7 = getUnit_(r0);
     MEMORY.call(0x3001388, CPU.r9().value, r7.baseMaxHp_10.getAddress(), 0x24); // memcpy
     r1 = CPU.r10().value;
     r3 = r1 << 1;
@@ -1390,7 +1390,7 @@ public final class GoldenSun_80c {
   public static void FUN_80c1ebc(final int unitId) {
     final BattleStruct82c r6 = boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new);
     final int r5 = r6._40.get();
-    final Unit14c r12 = getCharOrMonsterData_(unitId);
+    final Unit14c r12 = getUnit_(unitId);
     if(r12.class_129.get() == 0) {
       //LAB_80c1ef0
       int r1;
@@ -1428,7 +1428,7 @@ public final class GoldenSun_80c {
   public static void FUN_80c1f50(final int r0) {
     //LAB_80c1f58
     for(int r5 = 0; r5 < 6; r5++) {
-      final Unit14c r2 = getCharOrMonsterData_(r5 + 0x80);
+      final Unit14c r2 = getUnit_(r5 + 0x80);
       if(r2._12a.get() == 1) {
         if(r2.id_128.get() == r0) {
           //LAB_80c1f86
@@ -1730,7 +1730,7 @@ public final class GoldenSun_80c {
 
     //LAB_80c22d8
     for(r7 = 128; r7 < 134; r7++) {
-      MEMORY.call(0x3000164, getCharOrMonsterData_(r7).getAddress(), 0x14c); // memzero
+      MEMORY.call(0x3000164, getUnit_(r7).getAddress(), 0x14c); // memzero
     }
 
     //LAB_80c22f8
@@ -1741,7 +1741,7 @@ public final class GoldenSun_80c {
       }
 
       //LAB_80c231a
-      FUN_8077140(r7 + 0x80, MEMORY.ref(2, sp1c + r7 * 0x2).getUnsigned(), r4 & 0x7fff);
+      loadEnemyUnit_(r7 + 0x80, MEMORY.ref(2, sp1c + r7 * 0x2).getUnsigned(), r4 & 0x7fff);
 
       r1 = MEMORY.ref(4, CPU.sp().value + 0x20).get();
       if(r1 != 0) {
@@ -1919,7 +1919,7 @@ public final class GoldenSun_80c {
     CPU.push(CPU.r11().value);
     CPU.r11().value = r1;
     r5 = r0;
-    final Unit14c r8 = getCharOrMonsterData_(r5);
+    final Unit14c r8 = getUnit_(r5);
     r0 = boardWramMallocHead_3001e50.offset(9 * 0x4).get();
     r7 = r0 + 0x530;
     if((r5 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
@@ -2164,14 +2164,14 @@ public final class GoldenSun_80c {
     //LAB_80c2782
     for(int sp08 = 0; sp08 < unitCount; sp08++) {
       final int unitId = unitIds[sp08];
-      final Unit14c r10 = getCharOrMonsterData_(unitId);
+      final Unit14c r10 = getUnit_(unitId);
       r10.exp_124.add(MEMORY.ref(4, sp14 + 0x4).get());
 
       //LAB_80c28ee
       do {
         MEMORY.call(0x3001388, r11, r10.getAddress(), 0x14c); // memcpy
 
-        if(FUN_80770b8(unitId, r8) == 0) {
+        if(checkLevelUp_(unitId, r8) == 0) {
           break;
         }
 
@@ -2266,7 +2266,7 @@ public final class GoldenSun_80c {
     if(r0 != 0) {
       FUN_8015120(r0, 5);
       FUN_80151c8(0x83b);
-      FUN_8077230(MEMORY.ref(4, sp14).get());
+      addCoins_(MEMORY.ref(4, sp14).get());
       FUN_80bb65c();
     }
 

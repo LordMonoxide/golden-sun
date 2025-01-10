@@ -29,14 +29,17 @@ public class Structccc implements MemoryRef {
   public final ShortRef _16c;
   public final ShortRef _16e;
   public final ShortRef _170;
-  public final ShortRef shouldOpenMenu_172;
-  public final ShortRef _174;
-  public final ShortRef _176;
+  public final ShortRef menuPressed_172;
+  public final ShortRef interactPressed_174;
+  public final ShortRef systemMenuPressed_176;
   public final ShortRef interactedActor_178;
   public final ShortRef interactedTileType_17a;
-  public final ShortRef _17c;
+  public final ShortRef encounterId_17c;
+  /** Something related to using psynergy in the field */
   public final ShortRef _17e;
+  /** Something related to using psynergy in the field */
   public final ShortRef _180;
+  /** Something related to using psynergy in the field */
   public final ShortRef _182;
   public final ShortRef _184;
   public final ShortRef _186;
@@ -49,7 +52,8 @@ public class Structccc implements MemoryRef {
   public final IntRef _1a8;
   public final IntRef _1ac;
   public final IntRef _1b0;
-  public final IntRef _1b4;
+  /** Counts up while walking and recovers PP+djinn/applies poison+venom when it reaches a threshold */
+  public final IntRef movementEffectCounter_1b4;
   public final Pointer<UnboundedArrayRef<TileAttributes04>> tiles_1b8;
   public final Pointer<UnboundedArrayRef<TileAttributes04>> oldTiles_1bc;
   public final IntRef _1c0;
@@ -99,12 +103,12 @@ public class Structccc implements MemoryRef {
     this._16c = ref.offset(2, 0x16c).cast(ShortRef::new);
     this._16e = ref.offset(2, 0x16e).cast(ShortRef::new);
     this._170 = ref.offset(2, 0x170).cast(ShortRef::new);
-    this.shouldOpenMenu_172 = ref.offset(2, 0x172).cast(ShortRef::new);
-    this._174 = ref.offset(2, 0x174).cast(ShortRef::new);
-    this._176 = ref.offset(2, 0x176).cast(ShortRef::new);
+    this.menuPressed_172 = ref.offset(2, 0x172).cast(ShortRef::new);
+    this.interactPressed_174 = ref.offset(2, 0x174).cast(ShortRef::new);
+    this.systemMenuPressed_176 = ref.offset(2, 0x176).cast(ShortRef::new);
     this.interactedActor_178 = ref.offset(2, 0x178).cast(ShortRef::new);
     this.interactedTileType_17a = ref.offset(2, 0x17a).cast(ShortRef::new);
-    this._17c = ref.offset(2, 0x17c).cast(ShortRef::new);
+    this.encounterId_17c = ref.offset(2, 0x17c).cast(ShortRef::new);
     this._17e = ref.offset(2, 0x17e).cast(ShortRef::new);
     this._180 = ref.offset(2, 0x180).cast(ShortRef::new);
     this._182 = ref.offset(2, 0x182).cast(ShortRef::new);
@@ -119,7 +123,7 @@ public class Structccc implements MemoryRef {
     this._1a8 = ref.offset(4, 0x1a8).cast(IntRef::new);
     this._1ac = ref.offset(4, 0x1ac).cast(IntRef::new);
     this._1b0 = ref.offset(4, 0x1b0).cast(IntRef::new);
-    this._1b4 = ref.offset(4, 0x1b4).cast(IntRef::new);
+    this.movementEffectCounter_1b4 = ref.offset(4, 0x1b4).cast(IntRef::new);
     this.tiles_1b8 = ref.offset(4, 0x1b8).cast(Pointer.deferred(4, UnboundedArrayRef.of(0x4, TileAttributes04::new)));
     this.oldTiles_1bc = ref.offset(4, 0x1bc).cast(Pointer.deferred(4, UnboundedArrayRef.of(0x4, TileAttributes04::new)));
     this._1c0 = ref.offset(4, 0x1c0).cast(IntRef::new);

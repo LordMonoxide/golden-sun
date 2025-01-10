@@ -49,7 +49,7 @@ public class Item2c implements MemoryRef {
 
   public final UnsignedShortRef _0e;
 
-  public final IntRef _14;
+  public final IntRef element_14;
   public final ArrayRef<EquipEffect04> equipEffect_18;
 
   public final UnsignedShortRef useAbility_28;
@@ -69,7 +69,7 @@ public class Item2c implements MemoryRef {
 
     this._0e = ref.offset(2, 0x0e).cast(UnsignedShortRef::new);
 
-    this._14 = ref.offset(4, 0x14).cast(IntRef::new);
+    this.element_14 = ref.offset(4, 0x14).cast(IntRef::new);
     this.equipEffect_18 = ref.offset(4, 0x18).cast(ArrayRef.of(EquipEffect04.class, 4, 0x4, EquipEffect04::new));
 
     this.useAbility_28 = ref.offset(2, 0x28).cast(UnsignedShortRef::new);

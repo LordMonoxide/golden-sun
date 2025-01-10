@@ -36,7 +36,7 @@ import static org.goldensun.GoldenSun.sin;
 import static org.goldensun.GoldenSun.sleep;
 import static org.goldensun.GoldenSunVars.subOperands_80ef034;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
-import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
+import static org.goldensun.GoldenSun_807.getUnit_;
 import static org.goldensun.GoldenSun_80b.FUN_80b5030;
 import static org.goldensun.GoldenSun_80b.FUN_80b5048;
 import static org.goldensun.GoldenSun_80b.FUN_80b5058;
@@ -323,7 +323,7 @@ public final class GoldenSun_80e {
     final Camera4c sp20 = boardWramMallocHead_3001e50.offset(12 * 0x4).deref(4).cast(Camera4c::new);
     final int sp1c = MEMORY.ref(4, r0).get();
     MEMORY.ref(4, r11 + 0x7828).setu(r0);
-    final Unit14c sp18 = getCharOrMonsterData_(MEMORY.ref(4, r0 + 0x8).get());
+    final Unit14c sp18 = getUnit_(MEMORY.ref(4, r0 + 0x8).get());
     sleep(1);
     FUN_80c9048();
     FUN_80cdd58();
@@ -874,6 +874,7 @@ public final class GoldenSun_80e {
     CPU.sp().value += 0x70;
   }
 
+  /** Enemy using a healing potion */
   @Method(0x80e47b8)
   public static void FUN_80e47b8(final int r0, final int r1) {
     throw new RuntimeException("Not implemented");

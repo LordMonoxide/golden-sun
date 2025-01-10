@@ -3,7 +3,7 @@ package org.goldensun;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.MEMORY;
 
-/** Copied by {@link GoldenSun_801#FUN_80196c4} from 8015430 */
+/** Copied by {@link GoldenSun_801#decompressString} from 8015430 */
 public final class CopiedSegment8015430 {
   private CopiedSegment8015430() { }
 

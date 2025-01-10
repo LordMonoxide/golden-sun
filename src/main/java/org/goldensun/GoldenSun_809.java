@@ -81,16 +81,18 @@ import static org.goldensun.GoldenSunVars._200040e;
 import static org.goldensun.GoldenSunVars._2000410;
 import static org.goldensun.GoldenSunVars._2000412;
 import static org.goldensun.GoldenSunVars._2000414;
+import static org.goldensun.GoldenSunVars._2000416;
 import static org.goldensun.GoldenSunVars._200041a;
 import static org.goldensun.GoldenSunVars._200042e;
 import static org.goldensun.GoldenSunVars._2000432;
 import static org.goldensun.GoldenSunVars._200044a;
 import static org.goldensun.GoldenSunVars._200044c;
-import static org.goldensun.GoldenSunVars._2000460;
-import static org.goldensun.GoldenSunVars._2000462;
+import static org.goldensun.GoldenSunVars.boundPsynergy1_2000460;
+import static org.goldensun.GoldenSunVars.boundPsynergy2_2000462;
 import static org.goldensun.GoldenSunVars._2000474;
 import static org.goldensun.GoldenSunVars._2000476;
 import static org.goldensun.GoldenSunVars._200048a;
+import static org.goldensun.GoldenSunVars._200048c;
 import static org.goldensun.GoldenSunVars._20004a4;
 import static org.goldensun.GoldenSunVars._3001810;
 import static org.goldensun.GoldenSunVars._3001e40;
@@ -120,18 +122,18 @@ import static org.goldensun.GoldenSun_801.FUN_8015208;
 import static org.goldensun.GoldenSun_801.FUN_8015360;
 import static org.goldensun.GoldenSun_801.FUN_8015390;
 import static org.goldensun.GoldenSun_801.FUN_8015420;
-import static org.goldensun.GoldenSun_807.FUN_80772f0;
+import static org.goldensun.GoldenSun_807.cacheEncounterRateBoost_;
 import static org.goldensun.GoldenSun_807.addChar_;
 import static org.goldensun.GoldenSun_807.clearFlag_;
 import static org.goldensun.GoldenSun_807.getAbility_;
 import static org.goldensun.GoldenSun_807.getCharCount_;
-import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
+import static org.goldensun.GoldenSun_807.getUnit_;
 import static org.goldensun.GoldenSun_807.hasAbility_;
 import static org.goldensun.GoldenSun_807.readFlag_;
 import static org.goldensun.GoldenSun_807.removeChar_;
 import static org.goldensun.GoldenSun_807.setFlag_;
 import static org.goldensun.GoldenSun_808.FUN_808adf0;
-import static org.goldensun.GoldenSun_808.FUN_808b05c;
+import static org.goldensun.GoldenSun_808.getEncounterId;
 import static org.goldensun.GoldenSun_808.FUN_808b320;
 import static org.goldensun.GoldenSun_808.FUN_808b3ec;
 import static org.goldensun.GoldenSun_808.FUN_808b824;
@@ -970,7 +972,7 @@ public final class GoldenSun_809 {
   public static void FUN_8091750() {
     clearTickCallback(getRunnable(GoldenSun_809.class, "FUN_80915ec"));
     FUN_809335c(MEMORY.ref(4, 0x2000240 + 0x1f4).get(), 0x1);
-    FUN_80772f0();
+    cacheEncounterRateBoost_();
   }
 
   @Method(0x80917ac)
@@ -1012,13 +1014,13 @@ public final class GoldenSun_809 {
 
   @Method(0x8091858)
   public static void FUN_8091858() {
-    if(FUN_8091814(_2000460.get()) != 0) {
-      _2000460.set(0);
+    if(FUN_8091814(boundPsynergy1_2000460.get()) != 0) {
+      boundPsynergy1_2000460.set(0);
     }
 
     //LAB_8091870
-    if(FUN_8091814(_2000462.get()) != 0) {
-      _2000462.set(0);
+    if(FUN_8091814(boundPsynergy2_2000462.get()) != 0) {
+      boundPsynergy2_2000462.set(0);
     }
 
     //LAB_8091882
@@ -1028,7 +1030,7 @@ public final class GoldenSun_809 {
   public static void removeCharAndHealRemainingChars(final int charId) {
     removeChar_(charId);
     FUN_8091858();
-    final Unit14c r6 = getCharOrMonsterData_(charId);
+    final Unit14c r6 = getUnit_(charId);
     r6.hp_38.set(r6.maxHp_34.get());
     r6.pp_3a.set(r6.maxPp_36.get());
     r6.fractionHp_14.set(MathHelper.clamp(divideS(r6.hp_38.get() << 14, r6.hp_38.get()), 0, 0x4000));
@@ -1050,7 +1052,7 @@ public final class GoldenSun_809 {
     //LAB_809192c
     int r8 = 0;
     for(int r5 = 0; r5 < getCharCount_(); r5++) {
-      if(getCharOrMonsterData_(charIds_2000438.get(r5).get()).hp_38.get() != 0) {
+      if(getUnit_(charIds_2000438.get(r5).get()).hp_38.get() != 0) {
         r8++;
       }
 
@@ -1059,7 +1061,7 @@ public final class GoldenSun_809 {
 
     //LAB_8091948
     if(r8 == 0) {
-      final Unit14c charData = getCharOrMonsterData_(playerMapActorIndex_2000434.get());
+      final Unit14c charData = getUnit_(playerMapActorIndex_2000434.get());
       charData.hp_38.set(1);
       charData.fractionHp_14.set(MathHelper.clamp(divideS(0x4000, charData.maxHp_34.get()), 0, 0x4000));
 
@@ -1208,12 +1210,12 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8091eb0)
-  public static void FUN_8091eb0(final int r0, final int r1) {
+  public static void startEncounter(final int encounterSet, final int encounterIndex) {
     final Structccc r7 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
-    r7._17c.set(FUN_808b05c(r0, r1));
+    r7.encounterId_17c.set(getEncounterId(encounterSet, encounterIndex));
 
-    if(r0 == 0x62 && r1 == 0) {
-      MEMORY.ref(2, 0x2000416).setu(33);
+    if(encounterSet == 0x62 && encounterIndex == 0) {
+      _2000416.set(33);
     }
 
     //LAB_8091ed8
@@ -1222,7 +1224,7 @@ public final class GoldenSun_809 {
     }
 
     //LAB_8091ef8
-    FUN_808b320(r0, r1);
+    FUN_808b320(encounterSet, encounterIndex);
   }
 
   @Method(0x8091f90)
@@ -4832,7 +4834,7 @@ public final class GoldenSun_809 {
 
   @Method(0x8099810)
   public static void FUN_8099810() {
-    if(MEMORY.ref(2, 0x200048c).get() != 0) {
+    if(_200048c.get() != 0) {
       setTickCallback(getRunnable(GoldenSun_809.class, "FUN_8099678"), 0xc80);
     }
 

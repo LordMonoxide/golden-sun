@@ -12,7 +12,7 @@ public class RecoveryQueue10c implements MemoryRef {
 
   public final IntRef _00;
 
-  public final UnboundedArrayRef<DjinnInfo04> _08;
+  public final UnboundedArrayRef<DjinnInfo04> djinn_08;
 
   public final IntRef count_108;
 
@@ -23,7 +23,7 @@ public class RecoveryQueue10c implements MemoryRef {
 
     this.count_108 = ref.offset(4, 0x108).cast(IntRef::new);
 
-    this._08 = ref.offset(1, 0x08).cast(UnboundedArrayRef.of(0x4, DjinnInfo04::new, this.count_108::get));
+    this.djinn_08 = ref.offset(1, 0x08).cast(UnboundedArrayRef.of(0x4, DjinnInfo04::new, this.count_108::get));
   }
 
   @Override
@@ -37,7 +37,7 @@ public class RecoveryQueue10c implements MemoryRef {
     public final UnsignedByteRef element_00;
     public final UnsignedByteRef djinn_01;
     public final UnsignedByteRef charId_02;
-    public final ByteRef _03;
+    public final ByteRef turnsRemaining_03;
 
     public DjinnInfo04(final Value ref) {
       this.ref = ref;
@@ -45,7 +45,7 @@ public class RecoveryQueue10c implements MemoryRef {
       this.element_00 = ref.offset(1, 0x00).cast(UnsignedByteRef::new);
       this.djinn_01 = ref.offset(1, 0x01).cast(UnsignedByteRef::new);
       this.charId_02 = ref.offset(1, 0x02).cast(UnsignedByteRef::new);
-      this._03 = ref.offset(1, 0x03).cast(ByteRef::new);
+      this.turnsRemaining_03 = ref.offset(1, 0x03).cast(ByteRef::new);
     }
 
     @Override

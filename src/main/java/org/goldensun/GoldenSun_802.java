@@ -114,12 +114,12 @@ import static org.goldensun.GoldenSun_801.drawPanelBackground;
 import static org.goldensun.GoldenSun_801.loadCharacterSprites;
 import static org.goldensun.GoldenSun_801.loadDjinnSprites;
 import static org.goldensun.GoldenSun_807.getSummon_;
-import static org.goldensun.GoldenSun_807.FUN_80771e8;
+import static org.goldensun.GoldenSun_807.getDjinnAbility_;
 import static org.goldensun.GoldenSun_807.FUN_8077208;
-import static org.goldensun.GoldenSun_807.FUN_80772b8;
+import static org.goldensun.GoldenSun_807.doesAbilityRevive_;
 import static org.goldensun.GoldenSun_807.calculateBuildDate_;
 import static org.goldensun.GoldenSun_807.getAbility_;
-import static org.goldensun.GoldenSun_807.getCharOrMonsterData_;
+import static org.goldensun.GoldenSun_807.getUnit_;
 import static org.goldensun.GoldenSun_807.getDjinnCount_;
 import static org.goldensun.GoldenSun_807.getDjinnRecoveryQueue_;
 import static org.goldensun.GoldenSun_807.getItem_;
@@ -762,7 +762,7 @@ public final class GoldenSun_802 {
     int sp1c = 0;
     final int sp18 = CPU.sp().value + 0x51;
     final int sp2c = r0;
-    final Unit14c charData = getCharOrMonsterData_(r0);
+    final Unit14c charData = getUnit_(r0);
     final Struct12fc sp10 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
     int sp0c = 0x1;
     r9 = 0x1;
@@ -2399,7 +2399,7 @@ public final class GoldenSun_802 {
           do {
             r3 = MEMORY.ref(2, sp1c + r6).getUnsigned();
             if(r3 != 0xfe) {
-              final Unit14c unit = getCharOrMonsterData_(r3);
+              final Unit14c unit = getUnit_(r3);
               if(sp50 != 0x4) {
                 if((sp50 & 0xffff_ffffL) <= (0x4 & 0xffff_ffffL)) {
                   if(sp50 == 0x3) {
@@ -2460,7 +2460,7 @@ public final class GoldenSun_802 {
     }
 
     //LAB_8026308
-    while(MEMORY.ref(2, sp1c + sp44 * 0x2).getUnsigned() == 0xfe || (readFlag_(0x16c) != 0 && r8 == 0x1 && getCharOrMonsterData_(MEMORY.ref(2, sp1c + sp44 * 0x2).getUnsigned()).hp_38.get() == 0)) {
+    while(MEMORY.ref(2, sp1c + sp44 * 0x2).getUnsigned() == 0xfe || (readFlag_(0x16c) != 0 && r8 == 0x1 && getUnit_(MEMORY.ref(2, sp1c + sp44 * 0x2).getUnsigned()).hp_38.get() == 0)) {
       //LAB_80262f4
       sp44 = modS(sp44 + sp40 - 1, sp40);
     }
@@ -2664,7 +2664,7 @@ public final class GoldenSun_802 {
           //LAB_8026a84
           if(sp54 != 0xff) {
             //LAB_8026a8c
-            final Unit14c unit = getCharOrMonsterData_(MEMORY.ref(2, sp1c + sp44 * 0x2).getUnsigned());
+            final Unit14c unit = getUnit_(MEMORY.ref(2, sp1c + sp44 * 0x2).getUnsigned());
             final Vec3 sp0x6c = new Vec3();
             FUN_80b50b8(MEMORY.ref(2, sp1c + sp44 * 0x2).getUnsigned(), sp0x6c);
             sp0x6c.y_04.add(sin(_3001e40.get() << 12) / 0x8000);
@@ -2716,7 +2716,7 @@ public final class GoldenSun_802 {
             //LAB_802663a
             if(sp50 != 0) {
               //LAB_8026642
-              final Unit14c unit = getCharOrMonsterData_(r3);
+              final Unit14c unit = getUnit_(r3);
               FUN_80b50b8(MEMORY.ref(2, sp1c + sp44 * 0x2).getUnsigned(), r11);
 
               if(r9 != null) {
@@ -3340,7 +3340,7 @@ public final class GoldenSun_802 {
     }
 
     //LAB_8027096
-    if(FUN_80772b8(ability.effect_03.get()) != 0) {
+    if(doesAbilityRevive_(ability.effect_03.get()) != 0) {
       r5 = 0x5;
     }
 
@@ -3598,7 +3598,7 @@ public final class GoldenSun_802 {
         r1 = MEMORY.ref(4, CPU.sp().value + 0x54).get();
         r0_0 = MEMORY.ref(2, r0_0 + r1).getUnsigned();
         MEMORY.ref(4, CPU.sp().value + 0x40).setu(r0_0);
-        MEMORY.ref(4, CPU.sp().value + 0x48).setu(getCharOrMonsterData_(r0_0).getAddress());
+        MEMORY.ref(4, CPU.sp().value + 0x48).setu(getUnit_(r0_0).getAddress());
         r5 = MEMORY.ref(4, 0x3001f34).get();
         r2 = MEMORY.ref(4, CPU.sp().value + 0x40).get();
         MEMORY.ref(4, r5 + 0xe0).setu(r2);
@@ -4071,7 +4071,7 @@ public final class GoldenSun_802 {
                     break;
                   }
                 } else {
-                  final Ability10 ability = getAbility_(FUN_80771e8(r7, r4));
+                  final Ability10 ability = getAbility_(getDjinnAbility_(r7, r4));
                   r6 = ability._08.get();
                   r11 = addPanel(11, 17, 10, 3, 6);
                   r1 = MEMORY.ref(4, sp24).get();
