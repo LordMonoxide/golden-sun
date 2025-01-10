@@ -3201,15 +3201,14 @@ public final class GoldenSun_80c {
     int r1;
     int r2;
     int r4;
-    final int r5;
     int r6;
 
     CPU.push(CPU.r8().value);
     CPU.r8().value = MEMORY.ref(4, 0x3001ef0).get();
-    r5 = MEMORY.ref(4, 0x3001e74).get();
+    final BattleStruct82c r5 = boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new);
     r6 = MEMORY.ref(4, 0x3001f00).get();
     FUN_80cd508();
-    FUN_80b5038(2, MEMORY.ref(2, r5 + 0x648).getUnsigned(), 0);
+    FUN_80b5038(2, r5.backgroundPointerTableId_648.get(), 0);
     r2 = 0x3001ad0;
     MEMORY.ref(2, r2 + 0x6).setu(32);
     MEMORY.ref(4, r6 + 0xc).setu(0);

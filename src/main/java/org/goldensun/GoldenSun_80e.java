@@ -1,6 +1,7 @@
 package org.goldensun;
 
 import org.goldensun.battle.AssembledFunction;
+import org.goldensun.battle.BattleStruct82c;
 import org.goldensun.battle.Camera4c;
 import org.goldensun.memory.Method;
 import org.goldensun.types.Actor70;
@@ -861,11 +862,11 @@ public final class GoldenSun_80e {
     freeSlot(47);
     freeSlot(46);
     MEMORY.ref(2, 0x3001ad0 + 0x6).setu(r9);
-    r3 = boardWramMallocHead_3001e50.offset(9 * 0x4).get();
+    final BattleStruct82c struct = boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new);
 
     //LAB_80e469c
     for(r9 = 0; r9 < 7; r9++) {
-      FUN_80b5048(MEMORY.ref(2, r3 + 0x648).getUnsigned(), 6 - r9);
+      FUN_80b5048(struct.backgroundPointerTableId_648.get(), 6 - r9);
       sleep(1);
     }
 
