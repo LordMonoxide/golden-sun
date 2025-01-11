@@ -2136,25 +2136,13 @@ public final class GoldenSun_802 {
   @Method(0x8022768)
   public static void FUN_8022768(int r0, int r1, int r2, int r3, final int a4) {
     int r4;
-    int r5;
-    int r6;
     int r7;
 
-    CPU.push(CPU.r10().value);
-    CPU.push(CPU.r9().value);
-    CPU.push(CPU.r8().value);
     r4 = r0;
     r0 = r3;
-    r3 = 0x3001e8c;
     r7 = r2;
-    r3 = MEMORY.ref(4, r3).get();
-    CPU.r12().value = a4;
-    r5 = CPU.r12().value;
-    CPU.r8().value = r3;
-    r3 = 0x1;
-    r5 = r5 & r3;
-    r5 = r5 << 12;
-    CPU.r12().value = r5;
+    final Struct12fc r8 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
+
     if(r4 < 0) {
       r7 = r7 + r4;
       r4 = 0x0;
@@ -2163,8 +2151,7 @@ public final class GoldenSun_802 {
     //LAB_8022794
     r3 = r4 + r7;
     if(r3 > 0x1d) {
-      r3 = 0x1e;
-      r7 = r3 - r4;
+      r7 = 30 - r4;
     }
 
     //LAB_802279e
@@ -2175,62 +2162,26 @@ public final class GoldenSun_802 {
 
     //LAB_80227a6
     r3 = r1 + r0;
-    if(r3 > 0x1d) {
-      r3 = 0x14;
-      r0 = r3 - r1;
+    if(r3 > 29) {
+      r0 = 20 - r1;
     }
 
     //LAB_80227b0
     if(r7 > 0 && r0 > 0) {
-      r2 = 0xea3;
-      r2 = r2 + CPU.r8().value;
-      r3 = r4 << 1;
-      CPU.lr().value = r2;
-      r2 = r1 << 6;
-      r6 = r2 + r3;
-      r3 = 0x2;
-      CPU.r10().value = r3;
-
       //LAB_80227c8
-      do {
-        r5 = CPU.r8().value;
-        r2 = r7;
-        r4 = r6 + r5;
-        if(r2 != 0) {
-          r3 = 0xffffefff;
-          CPU.r9().value = r3;
-
-          //LAB_80227d6
-          do {
-            r3 = MEMORY.ref(2, r4).getUnsigned();
-            r5 = CPU.r9().value;
-            r3 = r3 & r5;
-            r5 = CPU.r12().value;
-            r3 = r3 | r5;
-            r2 = r2 - 0x1;
-            MEMORY.ref(2, r4).setu(r3);
-            r4 = r4 + 0x2;
-          } while(r2 != 0);
+      for(int i = 0; i < r0; i++) {
+        //LAB_80227d6
+        for(r2 = 0; r2 < r7; r2++) {
+          MEMORY.ref(2, r8._00.getAddress() + (r1 + i) * 0x40 + (r4 + r2) * 0x2).and(~0x1000).or((a4 & 0x1) << 12);
         }
 
         //LAB_80227ea
-        r3 = r1 >>> 2;
-        r4 = CPU.lr().value;
-        r2 = CPU.r10().value;
-        r2 = r2 << r3;
-        r3 = MEMORY.ref(1, r4).getUnsigned();
-        r2 = r2 | r3;
-        MEMORY.ref(1, r4).setu(r2);
-        r0 = r0 - 0x1;
-        r6 = r6 + 0x40;
-        r1 = r1 + 0x1;
-      } while(r0 != 0);
+        r3 = (r1 + i) >>> 2;
+        r8._ea3.or(0x2 << r3);
+      }
     }
 
     //LAB_8022802
-    CPU.r8().value = CPU.pop();
-    CPU.r9().value = CPU.pop();
-    CPU.r10().value = CPU.pop();
   }
 
   @Method(0x802281c)

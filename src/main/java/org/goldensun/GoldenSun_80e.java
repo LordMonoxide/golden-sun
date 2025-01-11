@@ -874,7 +874,7 @@ public final class GoldenSun_80e {
     CPU.sp().value += 0x70;
   }
 
-  /** Enemy using a healing potion */
+  /** Saturos using heat flash in first battle */
   @Method(0x80e47b8)
   public static void FUN_80e47b8(final int r0, final int r1) {
     throw new RuntimeException("Not implemented");
