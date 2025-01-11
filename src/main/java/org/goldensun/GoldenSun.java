@@ -1962,6 +1962,28 @@ public final class GoldenSun {
     transforms_3000350.identity();
   }
 
+  @Method(0x80049e8)
+  public static void pushMatrix() {
+    if(matrixStackDepth_3001cc4.get() < 1) {
+      DMA.channels[3].SAD.setu(0x3000350);
+      DMA.channels[3].DAD.setu(_3001d2c.get());
+      DMA.channels[3].CNT.setu(0x8400000c);
+      matrixStackDepth_3001cc4.incr();
+      _3001d2c.add(0x30);
+    }
+  }
+
+  @Method(0x8004a5c)
+  public static void popMatrix() {
+    if(matrixStackDepth_3001cc4.get() > 0) {
+      matrixStackDepth_3001cc4.decr();
+      _3001d2c.sub(0x30);
+      DMA.channels[3].SAD.setu(_3001d2c.get());
+      DMA.channels[3].DAD.setu(transforms_3000350.getAddress());
+      DMA.channels[3].CNT.setu(0x8400000c);
+    }
+  }
+
   @Method(0x8004bd4)
   public static void rotateMatrixX(final int angle) {
     mulTransforms(new Matrix30().rotationX(angle));

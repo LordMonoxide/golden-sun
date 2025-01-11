@@ -2969,7 +2969,7 @@ public final class GoldenSun_808 {
     // Subtract 0x18 so we don't have to jump over the initial increment
     r5 -= 0x18;
 
-    // LAB_808cfa8;
+    //LAB_808cfa8;
     //LAB_808cfa6
     jmp_808cfc8:
     {

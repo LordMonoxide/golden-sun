@@ -653,6 +653,12 @@ public final class GoldenSun_80b {
     return (int)MEMORY.call(0x80b8530, unitId);
   }
 
+  /** {@link GoldenSun_80b#FUN_80b82c4} */
+  @Method(0x80b5078)
+  public static void FUN_80b5078(final int unitId0, final int unitId1, final int r2, final int r3) {
+    MEMORY.call(0x80b82c4, unitId0, unitId1, r2, r3);
+  }
+
   /** {@link GoldenSun_80b#FUN_80b8228} */
   @Method(0x80b5088)
   public static void FUN_80b5088(final int unitId, final int r1) {

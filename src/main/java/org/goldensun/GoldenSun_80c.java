@@ -3028,6 +3028,44 @@ public final class GoldenSun_80c {
     CPU.r11().value = CPU.pop();
   }
 
+  @Method(0x80cdb24)
+  public static void FUN_80cdb24(int r0) {
+    int r1;
+    int r4;
+    int r5;
+    int r6;
+    int r7;
+
+    FUN_80cd594(r0);
+    GPU.BG2CNT.setu(r0 | 0x6784);
+    r5 = 0x0;
+    r7 = 0x0;
+    r6 = 0x0;
+
+    //LAB_80cdb4c
+    for(int r12 = 0; r12 < 16; r12++) {
+      r0 = r6 + 0x100;
+      r1 = r7 << 1;
+
+      //LAB_80cdb64
+      for(r4 = 0; r4 < 8; r4++) {
+        MEMORY.ref(2, 0x6003800 + r5).setu((short)(r0 | r1));
+        r0 = r0 + 0x200;
+        r1 = r1 + 0x2;
+        r5 = r5 + 0x2;
+      }
+
+      //LAB_80cdb94
+      for(r4 = 0; r4 < 8; r4++) {
+        MEMORY.ref(2, 0x6003800 + r5).setu(0);
+        r5 = r5 + 0x2;
+      }
+
+      r6 = r6 + 0x1000;
+      r7 = r7 + 0x8;
+    }
+  }
+
   @Method(0x80cdbc0)
   public static void FUN_80cdbc0() {
     int r0;
