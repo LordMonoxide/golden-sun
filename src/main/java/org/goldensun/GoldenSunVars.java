@@ -8,6 +8,7 @@ import org.goldensun.input.Input;
 import org.goldensun.memory.Value;
 import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.BiFunctionRef;
+import org.goldensun.memory.types.ConsumerRef;
 import org.goldensun.memory.types.FunctionRef;
 import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.Pointer;
@@ -428,6 +429,419 @@ public final class GoldenSunVars {
   public static final ArrayRef<UnsignedByteRef> veryRareMoveSelection_80c2b90 = MEMORY.ref(1, 0x80c2b90, ArrayRef.of(UnsignedByteRef.class, 8, 0x1, UnsignedByteRef::new));
 
   public static final ArrayRef<ActorProperties08> actorProperties_80c7420 = MEMORY.ref(4, 0x80c7420, ArrayRef.of(ActorProperties08.class, 170, 0x8, ActorProperties08::new));
+
+  /**
+   * <ul start="0">
+   *   <li>{@link GoldenSun_80d#FUN_80da2ac}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e2538}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e302c}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dd2ac}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dd9c0}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dab74}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80c91dc}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d3c80}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80c972c}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d33c0}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d9fc8}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80da6cc}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d4ce8}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80db6d4}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d45ec}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80ddde0}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80db264}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d41a4}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80de974}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d3854}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d8960}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d8948}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d8954}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d896c}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80cf2a0}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d9194}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d9ab8}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d91a0}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d9ac4}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d91ac}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d9ad0}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d5258}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d5280}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ce85c}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d5298}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d528c}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d59b0}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d05fc}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ce4e8}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80cfef4}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d5c48}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d85d0}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d82b0}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d8954}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d8954}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d9194}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d9ac4}</li>
+   *   <li>null</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e89ec}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ceb30}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e698c}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80ecedc}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80cb1a4}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80de980}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e90a8}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dd2b8}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80de9bc}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e94b8}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80de9f0}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ce034}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e99c0}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d1350}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dea3c}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d52b0}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80ecee8}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d52bc}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d0ad4}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d0ee0}</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d91b8}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80cf2a0}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dd77c}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e1040}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d8948}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dea24}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d8954}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e0c84}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d8994}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80cf2ac}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d9194}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d91a0}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d89a0}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d91c4}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e6638}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d91ac}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d91d0}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e6948}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d05fc}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e28f4}</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e0564}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dfe2c}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e08c0}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e01e4}</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>{@link GoldenSun_80c#FUN_80c9c60}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80c9c6c}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80c9c78}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80de98c}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80c9c84}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80c9c90}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80de9b0}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80de998}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ceb3c}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80cf8a4}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e28f4}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dfa18}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d52a4}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ca57c}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dfa24}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80cf8b0}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ca588}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e291c}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ca594}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e294c}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80ed104}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e2928}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80cf8c8}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ca594}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ca5ac}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ca5b8}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dfa30}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ca5c4}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e2934}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e294c}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80cf8d4}</li>
+   *   <li>null</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ca5d0}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ca5dc}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e2940}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ca5e8}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ca5a0}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ca5f4}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d45f8}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dfa3c}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80cf8bc}</li>
+   *   <li>null</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e291c}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e2928}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ca1f0}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ccebc}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d5298}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80cf88c}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80cefe0}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ca1e4}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80cf898}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ceb48}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d8960}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80cefd4}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d5c48}</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>{@link GoldenSun_80d#FUN_80db6c8}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80de9a4}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ccc20}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ccc2c}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80e732c}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80d244c}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80ca600}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80eceac}</li>
+   *   <li>{@link GoldenSun_80e#FUN_80ece7c}</li>
+   *   <li>{@link GoldenSun_80c#FUN_80cefec}</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>null</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dbbdc}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dbbe8}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dea30}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dbbf4}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dbc00}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dbc0c}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dbc18}</li>
+   *   <li>{@link GoldenSun_80d#FUN_80dbc24}</li>
+   * </ul>
+   */
+  public static final ArrayRef<Pointer<ConsumerRef<Integer>>> _80ee2b4 = MEMORY.ref(4, 0x80ee2b4, ArrayRef.of(Pointer.classFor(ConsumerRef.classFor(Integer.class)), 407, 0x4, Pointer.deferred(4, ConsumerRef::new)));
 
   /**
    * <ol start="0">
