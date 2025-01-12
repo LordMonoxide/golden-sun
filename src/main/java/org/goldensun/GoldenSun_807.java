@@ -2479,6 +2479,11 @@ public final class GoldenSun_807 {
     return Math.max(FUN_8079b24(r3, 1) * (Math.max(0, r0 - r1) + r2 * 2) / 0x200, 0);
   }
 
+  @Method(0x8079c30)
+  public static int FUN_8079c30(final int r0, final int r1, final int r2) {
+    return r2 * r0 * FUN_8079b24(r1, 0) / 0x10000;
+  }
+
   @Method(0x8079c5c)
   public static int FUN_8079c5c(final int r0, final int r1, final int r2) {
     return r2 * r0 * FUN_8079b24(r1 * 0x2 - 0xc8, 0) / 0x10000;

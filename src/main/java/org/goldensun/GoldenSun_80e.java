@@ -892,22 +892,24 @@ public final class GoldenSun_80e {
     int r4;
     int r5;
     int r6;
+    int r8;
+    int r12;
+    int lr;
 
-    CPU.push(CPU.r8().value);
     CPU.sp().value -= 0x80;
-    CPU.r8().value = 0x5000000;
+    r8 = 0x5000000;
     MEMORY.memcpy(CPU.sp().value, getPointerTableEntry(pointerTableEntryIndex), 0x80);
     r2 = CPU.sp().value;
     MEMORY.ref(2, r2).setu(0);
-    CPU.r12().value = 0;
-    CPU.lr().value = r2;
+    r12 = 0;
+    lr = r2;
     r6 = 0x0;
 
     //LAB_80e472c
     do {
-      r1 = CPU.r8().value;
+      r1 = r8;
       r3 = MEMORY.ref(2, r1).getUnsigned();
-      r1 = CPU.lr().value;
+      r1 = lr;
       r5 = r3 & 0x1f;
       r3 = r3 << 16;
       r2 = r3 >>> 21;
@@ -949,16 +951,15 @@ public final class GoldenSun_80e {
       r3 = r0 << 10;
       r3 = r3 | r2;
       r3 = r3 | r5;
-      r2 = CPU.lr().value;
+      r2 = lr;
       MEMORY.ref(2, r6 + r2).setu(r3);
-      CPU.r12().value++;
+      r12++;
       r6 = r6 + 0x2;
-      CPU.r8().value += 2;
-    } while(CPU.r12().value != 0x40);
+      r8 += 2;
+    } while(r12 != 0x40);
 
     MEMORY.memcpy(0x5000000, CPU.sp().value, 0x80);
     CPU.sp().value += 0x80;
-    CPU.r8().value = CPU.pop();
   }
 
   /** Saturos using heat flash in first battle */
