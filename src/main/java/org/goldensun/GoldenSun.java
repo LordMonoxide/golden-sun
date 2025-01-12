@@ -1034,17 +1034,18 @@ public final class GoldenSun {
     return 0;
   }
 
+  /** NANDs the 16-bit value at dst with val during the next vblank */
   @Method(0x800387c)
-  public static void FUN_800387c(final int r0, final int r1) {
+  public static void queueVblankNand16(final int dst, final int val) {
     final int r5 = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
     INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
     final VblankTransferQueue184 r4 = vblankTransferQueue_2002090;
     final int r2 = r4.count_00.get();
     if(r2 < 0x20) {
-      r4.queue_04.get(r2 * 0xc).src_00.set(r1);
-      r4.queue_04.get(r2 * 0xc).dst_04.set(r0);
-      r4.queue_04.get(r2 * 0xc).cnt_08.set(0x20000);
+      r4.queue_04.get(r2).src_00.set(val);
+      r4.queue_04.get(r2).dst_04.set(dst);
+      r4.queue_04.get(r2).cnt_08.set(0x20000);
       r4.count_00.incr();
     }
 
@@ -1052,16 +1053,17 @@ public final class GoldenSun {
     INTERRUPTS.INT_MASTER_ENABLE.setu(r5);
   }
 
+  /** ORs the 16-bit value at dst with val during the next vblank */
   @Method(0x800393c)
-  public static void FUN_800393c(final int r0, final int r1) {
+  public static void queueVblankOr16(final int dst, final int val) {
     final int oldIme = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
     INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
     final int r2 = vblankTransferQueue_2002090.count_00.get();
     if(r2 < 32) {
-      vblankTransferQueue_2002090.queue_04.get(r2).src_00.set(r1);
-      vblankTransferQueue_2002090.queue_04.get(r2).dst_04.set(r0);
-      vblankTransferQueue_2002090.queue_04.get(r2).cnt_08.set(0x60000);
+      vblankTransferQueue_2002090.queue_04.get(r2).src_00.set(val);
+      vblankTransferQueue_2002090.queue_04.get(r2).dst_04.set(dst);
+      vblankTransferQueue_2002090.queue_04.get(r2).cnt_08.set(0x40000 | 0x20000);
       vblankTransferQueue_2002090.count_00.incr();
     }
 
@@ -1069,16 +1071,17 @@ public final class GoldenSun {
     INTERRUPTS.INT_MASTER_ENABLE.setu(oldIme);
   }
 
+  /** NANDs the 16-bit value at dst with val during the next vblank. Same as {@link #queueVblankNand16} but passes unused flag 0x80000. */
   @Method(0x80039fc)
-  public static void FUN_80039fc(final int r0, final int r1) {
+  public static void queueVblankNand16_80000(final int dst, final int val) {
     final int oldIme = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
     INTERRUPTS.INT_MASTER_ENABLE.setu(0x208);
 
     final int r2 = vblankTransferQueue_2002090.count_00.get();
     if(r2 < 32) {
-      vblankTransferQueue_2002090.queue_04.get(r2).src_00.set(r1);
-      vblankTransferQueue_2002090.queue_04.get(r2).dst_04.set(r0);
-      vblankTransferQueue_2002090.queue_04.get(r2).cnt_08.set(0xa0000);
+      vblankTransferQueue_2002090.queue_04.get(r2).src_00.set(val);
+      vblankTransferQueue_2002090.queue_04.get(r2).dst_04.set(dst);
+      vblankTransferQueue_2002090.queue_04.get(r2).cnt_08.set(0x80000 | 0x20000);
       vblankTransferQueue_2002090.count_00.incr();
     }
 

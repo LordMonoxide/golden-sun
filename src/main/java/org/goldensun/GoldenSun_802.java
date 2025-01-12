@@ -18,7 +18,7 @@ import org.goldensun.types.Vec3;
 
 import javax.annotation.Nullable;
 
-import static org.goldensun.GoldenSun.FUN_800387c;
+import static org.goldensun.GoldenSun.queueVblankNand16;
 import static org.goldensun.GoldenSun.allocateSpriteSlot;
 import static org.goldensun.GoldenSun.allocateFirstFreeSpriteSlot;
 import static org.goldensun.GoldenSun.FUN_80040d0;
@@ -2050,7 +2050,7 @@ public final class GoldenSun_802 {
       }
 
       //LAB_80225f0
-      FUN_800387c(0x4000000, 0x1741);
+      queueVblankNand16(GPU.DISPCNT.getAddress(), 0x1741);
       sp30._ea6.set(0);
       sleep(1);
     } while(true);

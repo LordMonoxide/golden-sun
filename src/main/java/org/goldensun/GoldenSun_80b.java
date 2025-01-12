@@ -27,8 +27,8 @@ import static org.goldensun.CopiedSegment8000770.mulTransforms;
 import static org.goldensun.CopiedSegment8000770.sqrt;
 import static org.goldensun.CopiedSegment8000770.transformVector;
 import static org.goldensun.GoldenSun.FUN_80037d4;
-import static org.goldensun.GoldenSun.FUN_800393c;
-import static org.goldensun.GoldenSun.FUN_80039fc;
+import static org.goldensun.GoldenSun.queueVblankOr16;
+import static org.goldensun.GoldenSun.queueVblankNand16_80000;
 import static org.goldensun.GoldenSun.FUN_80040d0;
 import static org.goldensun.GoldenSun.FUN_80051d8;
 import static org.goldensun.GoldenSun.FUN_80051e8;
@@ -167,6 +167,7 @@ import static org.goldensun.GoldenSun_80c.FUN_80c0cec;
 import static org.goldensun.GoldenSun_80c.FUN_80c0df4;
 import static org.goldensun.GoldenSun_80c.FUN_80c10e8;
 import static org.goldensun.GoldenSun_80c.FUN_80c1798;
+import static org.goldensun.GoldenSun_80c.FUN_80c1a14;
 import static org.goldensun.GoldenSun_80c.FUN_80c1df4;
 import static org.goldensun.GoldenSun_80c.FUN_80c1ebc;
 import static org.goldensun.GoldenSun_80c.FUN_80c1f50;
@@ -3976,8 +3977,242 @@ public final class GoldenSun_80b {
   }
 
   @Method(0x80ba978)
-  public static void FUN_80ba978(final BattleStruct82c.Sub64 r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+  public static int FUN_80ba978(final BattleStruct82c.Sub64 r0, int r1) {
+    int r2;
+    int r3;
+    int r4;
+    int r5;
+    int r6;
+
+    CPU.push(CPU.r10().value);
+    r3 = 0x3001f00;
+    r5 = MEMORY.ref(4, r3).get();
+    r2 = 0x80;
+    r3 = r0._58.get();
+    r2 = r2 << 11;
+    r3 = r3 & r2;
+    CPU.sp().value -= 0x58;
+    CPU.r10().value = r1;
+    if(r3 != 0) {
+      r3 = r0.unitId_00.get();
+      r2 = 0xffffe000;
+      if((r3 & 0xffff_ffffL) > (0x7 & 0xffff_ffffL)) {
+        r2 = 0xa0;
+        r2 = r2 << 7;
+      }
+
+      //LAB_80ba9a2
+      MEMORY.ref(4, r5).setu(r2);
+      MEMORY.ref(4, r5 + 0x4).setu(60);
+    } else {
+      //LAB_80ba9aa
+      final Actor70 actor = getCombatantForUnit(r0.unitId_00.get()).actor_00.deref();
+      final int angle = atan2(actor.pos_08.getX(), actor.pos_08.getZ()) & 0xffff;
+      r4 = r0.unitId_00.get();
+      if((r4 & 0xffff_ffffL) > (0x7 & 0xffff_ffffL)) {
+        r1 = angle + 0x1800;
+      } else {
+        r1 = angle - 0x1800;
+      }
+
+      //LAB_80ba9d0
+      r3 = r1 << 16;
+      r1 = r3 >> 16;
+      r3 = r4;
+      if((r3 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
+        r3 = 0x2000;
+      } else {
+        //LAB_80ba9e0
+        r3 = -0x2000;
+      }
+
+      //LAB_80ba9e2
+      r3 = r3 - r1;
+      r2 = r3 << 1;
+      r2 = r2 + r3;
+      if(r2 < 0) {
+        r2 = r2 + 0x3;
+      }
+
+      //LAB_80ba9ee
+      r3 = r2 >> 2;
+      r1 = r1 + r3;
+      r3 = r0._02.get(0).get();
+      r2 = r4;
+      if((r3 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
+        r3 = 0x0;
+        if((r2 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
+          r3 = 0x1;
+        }
+
+        //LAB_80baa02
+        if(r3 != 0) {
+          r1 = 0x90;
+          r3 = r4;
+          r1 = r1 << 6;
+          if((r3 & 0xffff_ffffL) > (0x7 & 0xffff_ffffL)) {
+            r1 = 0xffffdc00;
+          }
+        }
+      } else {
+        //LAB_80baa08
+        r3 = 0x0;
+        if((r2 & 0xffff_ffffL) > (0x7 & 0xffff_ffffL)) {
+          r3 = 0x1;
+        }
+
+        //LAB_80baa10
+        if(r3 != 0) {
+          //LAB_80baa14
+          r1 = 0x90;
+          r3 = r4;
+          r1 = r1 << 6;
+          if((r3 & 0xffff_ffffL) > (0x7 & 0xffff_ffffL)) {
+            r1 = 0xffffdc00;
+          }
+        }
+      }
+
+      //LAB_80baa20
+      r3 = MEMORY.ref(4, r5).get();
+      if(r3 != r1) {
+        MEMORY.ref(4, r5).setu(r1);
+      }
+    }
+
+    //LAB_80baa28
+    r3 = r0._58.get();
+    r2 = 0x80;
+    r2 = r2 << 12;
+    r3 = r3 & r2;
+    if(r3 != 0) {
+      r3 = r0.unitId_00.get();
+      r2 = 0xffffe000;
+      if((r3 & 0xffff_ffffL) > (0x7 & 0xffff_ffffL)) {
+        r2 = 0x2000;
+      }
+
+      //LAB_80baa40
+      MEMORY.ref(4, r5).setu(r2);
+      MEMORY.ref(4, r5 + 0x4).setu(60);
+    }
+
+    //LAB_80baa46
+    r5 = CPU.sp().value + 0x4;
+    FUN_80b9d34(r0, r5);
+    r6 = CPU.r10().value;
+    r3 = 0x1;
+    r6 = r6 & r3;
+    if(r6 != 0) {
+      MEMORY.ref(4, r5 + 0x1c).setu(r3);
+    }
+
+    //LAB_80baa5c
+    FUN_80c10e8(0, 0);
+    FUN_8015130(boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new)._41.get() & ~0x1);
+    final Actor70 r8 = getCombatantForUnit(MEMORY.ref(4, r5 + 0x8).get()).actor_00.deref();
+    setActorAnimation_(r8, 3);
+    FUN_8009088(r8, 16);
+    playSound_(0x9a);
+
+    if((CPU.r10().value & 0x2) != 0) {
+      FUN_80c1798(MEMORY.ref(4, r5 + 0x8).get(), r0.element_50.get(), 1, 0);
+      //LAB_80baaac
+    } else if(r6 == 0) {
+      FUN_80c1798(MEMORY.ref(4, r5 + 0x8).get(), r0.element_50.get(), 0, 0);
+    }
+
+    //LAB_80baabc
+    r3 = r0._02.get(0).get();
+    if((r3 & 0xffff_ffffL) <= (0x7 & 0xffff_ffffL)) {
+      r3 = 0x1;
+    } else {
+      //LAB_80baac6
+      r3 = 0x0;
+    }
+
+    //LAB_80baac8
+    MEMORY.ref(4, r5 + 0x4).setu(r3);
+    r3 = MEMORY.ref(4, r5 + 0x14).get();
+    r4 = 0x0;
+    r2 = r5;
+    if(r3 != 0) {
+      r6 = 0x0;
+
+      //LAB_80baad6
+      do {
+        r3 = r4 << 1;
+        r3 = r3 + 0x24;
+        final Sprite38 sprite = getActorSprite(getCombatantForUnit(MEMORY.ref(2, r2 + r3).get()).actor_00.deref(), 0);
+        r3 = sprite.layerCount_27.get();
+        r3 = r3 - 0x1;
+        r1 = 0x0;
+        if(r3 != 0) {
+          CPU.r12().value = r3;
+          r3 = r6 + r5;
+          r2 = r3;
+          r2 = r2 + 0x34;
+
+          //LAB_80bab04
+          do {
+            MEMORY.ref(1, r2).setu(sprite.layers_28.get(r1).deref()._05.get());
+            r2 = r2 + 0x1;
+            r1 = r1 + 0x1;
+          } while(r1 != CPU.r12().value);
+        }
+
+        //LAB_80bab12
+        r3 = MEMORY.ref(4, r5 + 0x14).get();
+        r4 = r4 + 0x1;
+        r6 = r6 + 0x4;
+        r2 = r5;
+      } while(r4 != r3);
+    }
+
+    //LAB_80bab1e
+    r3 = r0._5c.get();
+    if(r3 != 0) {
+      if(r3 == 1) {
+        FUN_80bbabc(0, r0.unitId_00.get());
+        FUN_80bbabc(4, 0x856);
+      } else {
+        //LAB_80bab3a
+        FUN_80bbabc(4, 0x855);
+      }
+
+      //LAB_80bab42
+      FUN_80bb938();
+      FUN_80c1a14();
+    } else {
+      //LAB_80bab4c
+      setTickCallback(getRunnable(GoldenSun_80b.class, "FUN_80bd898"), 0xc80);
+
+      if(MEMORY.ref(4, r5).get() != 0) {
+        if((r0._58.get() & 0x4000) != 0) {
+          FUN_80c9008(r5);
+        } else {
+          //LAB_80bab70
+          FUN_80c9018(r5);
+        }
+      } else {
+        //LAB_80bab78
+        FUN_80c1a14();
+      }
+
+      //LAB_80bab7c
+      FUN_80be02c();
+      setActorAnimation_(r8, 1);
+
+      //LAB_80bab94
+      for(r4 = 0; r4 < MEMORY.ref(4, r5 + 0x14).get(); r4++) {
+        FUN_80b8000(MEMORY.ref(2, r5 + 0x24 + r4 * 0x2).get());
+      }
+    }
+
+    //LAB_80babaa
+    CPU.sp().value += 0x58;
+    CPU.r10().value = CPU.pop();
+    return 0;
   }
 
   @Method(0x80babdc)
@@ -4967,26 +5202,16 @@ public final class GoldenSun_80b {
       r5 = r5 + r3;
       r3 = 0x3001ee4;
       r3 = MEMORY.ref(4, r3).get();
-      r6 = 0x400004a;
       r1 = MEMORY.ref(4, r3).get();
       r3 = MEMORY.ref(4, r3 + 0x4).get();
-      r0 = r6;
       CPU.r10().value = r1;
-      r1 = 0x4;
       CPU.r8().value = r2;
       CPU.r9().value = r3;
-      FUN_80039fc(r0, r1);
-      r0 = r6;
-      r1 = 0x10;
-      FUN_800393c(r0, r1);
-      r2 = 0x10;
-      r3 = 0x4000052;
-      MEMORY.ref(2, r3).setu(r2);
-      r3 = 0xa4;
-      r3 = r3 << 8;
-      MEMORY.ref(4, r7 + 0x4).setu(r3);
-      r3 = 0x0;
-      MEMORY.ref(4, r7 + 0x8).setu(r3);
+      queueVblankNand16_80000(GPU.WINOUT.getAddress(), 4);
+      queueVblankOr16(GPU.WINOUT.getAddress(), 0x10);
+      GPU.BLDALPHA.setu(0x10);
+      MEMORY.ref(4, r7 + 0x4).setu(0xa400);
+      MEMORY.ref(4, r7 + 0x8).setu(0);
       r1 = r5;
       r0 = CPU.r11().value;
       r0 = FUN_80040d0(r0, r1);
@@ -8588,8 +8813,8 @@ public final class GoldenSun_80b {
 
             //LAB_80bdc26
             FUN_8015118();
-            FUN_80039fc(GPU.WINOUT.getAddress(), 0x4);
-            FUN_800393c(GPU.WINOUT.getAddress(), 0x10);
+            queueVblankNand16_80000(GPU.WINOUT.getAddress(), 0x4);
+            queueVblankOr16(GPU.WINOUT.getAddress(), 0x10);
             sp08._80c.attribs_04.attrib0_00.set(0xa000);
             sp08._80c.attribs_04.attrib1_02.set(0);
             sp08._80c.attribs_04.attrib2_04.set(0);
