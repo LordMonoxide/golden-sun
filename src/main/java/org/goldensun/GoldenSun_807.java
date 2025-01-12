@@ -334,6 +334,12 @@ public final class GoldenSun_807 {
     MEMORY.call(0x8077f40);
   }
 
+  /** {@link GoldenSun_807#FUN_8077f70} */
+  @Method(0x8077278)
+  public static void FUN_8077278() {
+    MEMORY.call(0x8077f70);
+  }
+
   /** {@link GoldenSun_807#getDjinnCount} */
   @Method(0x8077290)
   public static int getDjinnCount_(final int r0) {
@@ -1145,6 +1151,57 @@ public final class GoldenSun_807 {
     CPU.sp().value += 0x8;
   }
 
+  @Method(0x8077f70)
+  public static void FUN_8077f70() {
+    clearFlag(0x20);
+    clearFlag(0x21);
+    setFlag(0x901);
+    FUN_8079ae8(5);
+    recalcStats(5);
+    clearFlag(0x11b);
+    setFlag(0x11a);
+
+    //LAB_8077fa0
+    for(int r6 = 0; r6 < 2; r6++) {
+      final Unit14c r5 = getUnit(r6);
+      r5.hp_38.set(r5.maxHp_34.get());
+      r5.pp_3a.set(r5.maxPp_36.get());
+
+      r5.fractionHp_14.set(MathHelper.clamp(divideS(r5.hp_38.get() << 14, r5.maxHp_34.get()), 0, 0x4000));
+      if(r5.fractionHp_14.get() == 0 && r5.hp_38.get() != 0) {
+        r5.fractionHp_14.set(1);
+      }
+
+      //LAB_8077fde
+      r5.fractionPp_16.set(MathHelper.clamp(divideS(r5.pp_3a.get() << 14, r5.maxPp_36.get()), 0, 0x4000));
+      if(r5.fractionPp_16.get() == 0 && r5.pp_3a.get() != 0) {
+        r5.fractionPp_16.set(1);
+      }
+
+      //LAB_8078010
+      //LAB_8078028
+      for(int r1 = 0; r1 < 15; r1++) {
+        if((r5.items_d8.get(r1).get() & 0x1ff) == 0xf) {
+          r5.items_d8.get(r1).set(0x10);
+          equipItem(r6, r1);
+          break;
+        }
+
+        //LAB_8078024
+      }
+
+      //LAB_8078044
+      FUN_8079ae8(r6);
+      recalcStats(r6);
+    }
+
+    FUN_8078e28(0, 0x8c);
+    FUN_8078e28(0, 0x95);
+    FUN_8078e28(1, 0x8c);
+    FUN_8078e28(2, 0x8d);
+    MEMORY.ref(4, 0x2000250).addu(300);
+  }
+
   @Method(0x807822c)
   public static void calcHpPpFractions(int r0) {
     int r1;
@@ -1752,6 +1809,73 @@ public final class GoldenSun_807 {
 
     //LAB_8078862
     return null;
+  }
+
+  @Method(0x8078e28)
+  public static int FUN_8078e28(final int r0, int r1) {
+    final Unit14c r5 = getUnit(r0);
+    final int r6 = r1 & 0x3fff;
+    int r4 = -1;
+    if((r5.psynergy_58.get(0).get() & 0x3fff) == r6) {
+      r5.psynergy_58.get(0).set(r6);
+      r4 = 0x0;
+    } else {
+      //LAB_8078e52
+      r1 = 0x0;
+      do {
+        r1 = r1 + 0x1;
+        if(r1 > 0x1e) {
+          break;
+        }
+        if((r5.psynergy_58.get(r1).get() & 0x3fff) == r6) {
+          r5.psynergy_58.get(r1).set(r6);
+          r4 = r1;
+          break;
+        }
+      } while(true);
+    }
+
+    //LAB_8078e68
+    if(r4 < 0x0) {
+      r1 = 0x0;
+      if(r5.psynergy_58.get(0).get() == 0) {
+        r5.psynergy_58.get(0).set(r6);
+        r4 = 0x0;
+      } else {
+        //LAB_8078e7c
+        do {
+          r1 = r1 + 0x1;
+          if(r1 > 0x1e) {
+            break;
+          }
+          if(r5.psynergy_58.get(r1).get() == 0) {
+            r5.psynergy_58.get(r1).set(r6);
+            r4 = r1;
+            break;
+          }
+        } while(true);
+      }
+
+      //LAB_8078e92
+      if(r4 < 0x0) {
+        return -1;
+      }
+    }
+
+    //LAB_8078e9c
+    FUN_8078bf0(r0);
+    r1 = 0x0;
+    //LAB_8078eb0
+    while(r5.psynergy_58.get(r1).get() != r6) {
+      r1 = r1 + 0x1;
+      if(r1 > 0x1f) {
+        break;
+      }
+    }
+
+    //LAB_8078ebe
+    //LAB_8078ec0
+    return r1;
   }
 
   @Method(0x8079008)

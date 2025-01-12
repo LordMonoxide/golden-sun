@@ -1292,8 +1292,8 @@ public final class GoldenSun_80f {
 
   /** {@link GoldenSun_80f#playSound} */
   @Method(0x80f9010)
-  public static void playSound_(final int r0) {
-    MEMORY.call(0x80f9080, r0);
+  public static void playSound_(final int soundId) {
+    MEMORY.call(0x80f9080, soundId);
   }
 
   @Method(0x80f9018)
@@ -1313,12 +1313,12 @@ public final class GoldenSun_80f {
   }
 
   @Method(0x80f9080)
-  public static void playSound(final int r0) {
+  public static void playSound(final int soundId) {
     int r2;
     int r3;
 
-    final int r5 = r0 & 0xf000;
-    final int r6 = r0 & 0xfff;
+    final int r5 = soundId & 0xf000;
+    final int r6 = soundId & 0xfff;
     if(r6 == 0x11) {
       if(MEMORY.ref(1, 0x2003014).getUnsigned() != 0) {
         return;

@@ -55,12 +55,12 @@ public final class Decompressed8779188 {
       r1 = CPU.lslT(r1, 1);
       r3 = CPU.addT(r2, r1);
       r0 = MEMORY.ref(4, r3).get();
-      r0 = FUN_20085b0(r0);
+      r0 = getMapActor(r0);
       r3 = CPU.movT(0x0);
       r0 = CPU.addT(r0, 0x55);
       MEMORY.ref(1, r0).setu(r3);
       r0 = CPU.movT(0x4b);
-      FUN_20085f0(r0);
+      playSound(r0);
       r0 = CPU.movT(0x0);
       FUN_20082e8();
       r0 = CPU.movT(0x78);
@@ -90,27 +90,27 @@ public final class Decompressed8779188 {
       //LAB_20080aa
       r0 = MEMORY.ref(4, 0x20081ac).get();
       r1 = CPU.movT(0x2);
-      FUN_20085b8(r0, r1);
+      setMapAndEntranceId(r0, r1);
     } else {
       //LAB_20080b4
       CPU.cmpT(r3, 0x9);
       if(CPU.cpsr().getZero()) { // ==
         r0 = CPU.movT(0x43);
-        FUN_20085f0(r0);
+        playSound(r0);
         r0 = CPU.movT(0x0);
         r0 = FUN_20085d0();
         r0 = CPU.movT(0x11);
-        FUN_20085f0(r0);
+        playSound(r0);
         r0 = CPU.movT(0x3c);
         fadeOutBrightness(r0);
         waitForFade();
         r0 = CPU.movT(0xf0);
         FUN_20085a8(r0);
         r0 = CPU.movT(0x13);
-        FUN_20085f0(r0);
+        playSound(r0);
         r0 = MEMORY.ref(4, 0x20081b0).get();
         r1 = CPU.movT(0x2);
-        FUN_20085b8(r0, r1);
+        setMapAndEntranceId(r0, r1);
       } else {
         //LAB_20080ea
         r0 = MEMORY.ref(4, 0x20081b4).get();
@@ -122,7 +122,7 @@ public final class Decompressed8779188 {
           //LAB_20080f8
           do {
             r0 = CPU.movT(0x13);
-            FUN_20085f0(r0);
+            playSound(r0);
             r0 = CPU.movT(0x0);
             r0 = FUN_20085e0(r0);
             r0 = CPU.movT(0x0);
@@ -133,7 +133,7 @@ public final class Decompressed8779188 {
               break;
             }
             r0 = CPU.movT(0x46);
-            FUN_20085f0(r0);
+            playSound(r0);
             r0 = CPU.movT(0x1);
             r0 = FUN_20085d8(r0);
             CPU.cmpT(r0, 0x0);
@@ -141,7 +141,7 @@ public final class Decompressed8779188 {
               break;
             }
             r0 = CPU.movT(0x11);
-            FUN_20085f0(r0);
+            playSound(r0);
             r0 = CPU.movT(0x1e);
             fadeOutBrightness(r0);
             waitForFade();
@@ -170,31 +170,31 @@ public final class Decompressed8779188 {
           //LAB_2008152
           r0 = MEMORY.ref(4, 0x20081b0).get();
           r1 = CPU.movT(0x1);
-          FUN_20085b8(r0, r1);
+          setMapAndEntranceId(r0, r1);
         } else {
           //LAB_200815c
           r0 = CPU.movT(0x40);
-          FUN_20085f0(r0);
+          playSound(r0);
           r0 = CPU.movT(0x0);
           r0 = FUN_20085d8(r0);
           FUN_20085a0();
           r0 = MEMORY.ref(4, 0x20081bc).get();
           r1 = CPU.movT(0x10);
-          FUN_20085b8(r0, r1);
+          setMapAndEntranceId(r0, r1);
           r0 = CPU.movT(0x11);
-          FUN_20085f0(r0);
+          playSound(r0);
         }
 
         //LAB_200817a
         r0 = CPU.movT(0x11);
-        FUN_20085f0(r0);
+        playSound(r0);
         r0 = CPU.movT(0x1e);
         fadeOutBrightness(r0);
         waitForFade();
         r0 = CPU.movT(0x3c);
         FUN_20085a8(r0);
         r0 = CPU.movT(0x13);
-        FUN_20085f0(r0);
+        playSound(r0);
       }
     }
 
@@ -613,36 +613,43 @@ public final class Decompressed8779188 {
     return (int)MEMORY.call(0x8015318);
   }
 
+  /** {@link GoldenSun_807#FUN_8077278} */
   @Method(0x20085a0)
   public static void FUN_20085a0() {
-    MEMORY.call(0x8077279);
+    MEMORY.call(0x8077278);
   }
 
+  /** {@link GoldenSun_808#FUN_808a010} */
   @Method(0x20085a8)
   public static void FUN_20085a8(final int r0) {
     MEMORY.call(0x808a011, r0);
   }
 
+  /** {@link GoldenSun_808#getMapActor_} */
   @Method(0x20085b0)
-  public static int FUN_20085b0(final int r0) {
-    return (int)MEMORY.call(0x808a081, r0);
+  public static int getMapActor(final int mapActorIndex) {
+    return (int)MEMORY.call(0x808a081, mapActorIndex);
   }
 
+  /** {@link GoldenSun_808#setMapAndEntranceId_} */
   @Method(0x20085b8)
-  public static void FUN_20085b8(final int r0, final int r1) {
-    MEMORY.call(0x808a239, r0, r1);
+  public static void setMapAndEntranceId(final int mapId, final int entranceId) {
+    MEMORY.call(0x808a239, mapId, entranceId);
   }
 
+  /** {@link GoldenSun_808#FUN_808a360} */
   @Method(0x20085c0)
   public static void FUN_20085c0() {
     MEMORY.call(0x808a361);
   }
 
+  /** {@link GoldenSun_808#FUN_808a370} */
   @Method(0x20085c8)
   public static void FUN_20085c8() {
     MEMORY.call(0x808a371);
   }
 
+  /** {@link GoldenSun_80f#FUN_80f0000} */
   @Method(0x20085d0)
   public static int FUN_20085d0() {
     return (int)MEMORY.call(0x80f0001);
@@ -654,18 +661,21 @@ public final class Decompressed8779188 {
     return (int)MEMORY.call(0x80f2000, r0);
   }
 
+  /** {@link GoldenSun_80f#FUN_80f2018} */
   @Method(0x20085e0)
   public static int FUN_20085e0(final int r0) {
     return (int)MEMORY.call(0x80f2019, r0);
   }
 
+  /** {@link GoldenSun_80f#FUN_80f2020} */
   @Method(0x20085e8)
   public static int FUN_20085e8() {
     return (int)MEMORY.call(0x80f2021);
   }
 
+  /** {@link GoldenSun_80f#playSound_} */
   @Method(0x20085f0)
-  public static void FUN_20085f0(final int r0) {
-    MEMORY.call(0x80f9011, r0);
+  public static void playSound(final int soundId) {
+    MEMORY.call(0x80f9011, soundId);
   }
 }

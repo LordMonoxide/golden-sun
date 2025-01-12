@@ -288,8 +288,8 @@ public final class GoldenSun_808 {
 
   /** {@link GoldenSun_809#getMapActor_} */
   @Method(0x808a080)
-  public static Actor70 getMapActor_(final int actorIndex) {
-    return (Actor70)MEMORY.call(0x8092054, actorIndex);
+  public static Actor70 getMapActor_(final int mapActorIndex) {
+    return (Actor70)MEMORY.call(0x8092054, mapActorIndex);
   }
 
   /** {@link GoldenSun_809#FUN_8092924} */
