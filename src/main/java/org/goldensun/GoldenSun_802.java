@@ -1074,6 +1074,61 @@ public final class GoldenSun_802 {
     CPU.sp().value += 0x1c;
   }
 
+  @Method(0x8021488)
+  public static void FUN_8021488(final int r0, final int r1) {
+    final Panel24 r9 = addPanel(1, 1, 28, 5, 0);
+
+    if(r9 != null) {
+      CPU.sp().value -= 0x30;
+
+      FUN_801e41c(r9, 8, 0, 4, 4);
+
+      final Struct12fc r8 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
+      r8._ea3.set(1);
+
+      FUN_801a4fc(FUN_8019d2c(FUN_8021360(r0)), 0, CPU.sp().value + 0x14, CPU.sp().value + 0x10, 14, 0);
+
+      final int r10 = CPU.sp().value + 0x18;
+      MEMORY.ref(4, r10).setu(0);
+      MEMORY.ref(4, r10 + 0x4).setu(0x800c000c);
+      MEMORY.ref(4, r10 + 0x8).setu(MEMORY.ref(4, CPU.sp().value + 0x10).get() | 0xe000);
+
+      FUN_801a4fc(FUN_8019d2c(FUN_8021360(r1)), 0, CPU.sp().value + 0xc, CPU.sp().value + 0x10, 15, 0);
+
+      final int r7 = CPU.sp().value + 0x24;
+      MEMORY.ref(4, r7).setu(0);
+      MEMORY.ref(4, r7 + 0x4).setu(0x802c000c);
+      MEMORY.ref(4, r7 + 0x8).setu(MEMORY.ref(4, CPU.sp().value + 0x10).get() | 0xf000);
+
+      r8._12f4.set(0);
+      r8._12f6.set(0);
+      FUN_8019908(r0, 1);
+      FUN_8019908(r1, 1);
+      FUN_80165d8(r9, FUN_8019ba0(29), 68, 2, 0, 0);
+      playSound_(0x51);
+
+      //LAB_8021566
+      do {
+        insertIntoRenderQueue(MEMORY.ref(4, r10, RenderPacket0c::new), 250);
+        insertIntoRenderQueue(MEMORY.ref(4, r7, RenderPacket0c::new), 250);
+        sleep(1);
+        if(FUN_80f9048() == 0) {
+          break;
+        }
+      } while((pressedButtons_3001c94.get() & 0x303) == 0);
+
+      //LAB_8021590
+      FUN_8016418(r9, 2);
+      sleep(1);
+      clearVramSlot(MEMORY.ref(4, CPU.sp().value + 0x14).get());
+      clearVramSlot(MEMORY.ref(4, CPU.sp().value + 0xc).get());
+
+      CPU.sp().value += 0x30;
+    }
+
+    //LAB_80215aa
+  }
+
   @Method(0x80215e0)
   public static void FUN_80215e0(final int textureIndex, final int slot) {
     final int dest = mallocSlotBoard(14, 0x400);

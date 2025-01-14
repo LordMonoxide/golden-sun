@@ -122,6 +122,7 @@ import static org.goldensun.GoldenSun_801.FUN_8015208;
 import static org.goldensun.GoldenSun_801.FUN_8015360;
 import static org.goldensun.GoldenSun_801.FUN_8015390;
 import static org.goldensun.GoldenSun_801.FUN_8015420;
+import static org.goldensun.GoldenSun_801.FUN_8015428;
 import static org.goldensun.GoldenSun_807.cacheEncounterRateBoost_;
 import static org.goldensun.GoldenSun_807.addChar_;
 import static org.goldensun.GoldenSun_807.clearFlag_;
@@ -987,6 +988,13 @@ public final class GoldenSun_809 {
     if(r1 != 0) {
       FUN_8015420(charId);
     }
+  }
+
+  @Method(0x80917f4)
+  public static void FUN_80917f4(final int r0, final int r1) {
+    addChar_(r0);
+    addChar_(r1);
+    FUN_8015428(r0, r1);
   }
 
   @Method(0x8091814)
@@ -5318,7 +5326,7 @@ public final class GoldenSun_809 {
 
         //LAB_809a60a
         if((a6 & 0x400000) != 0x0) {
-          r8.rotation_1e.set(MEMORY.ref(2, a7 + 0x20).getUnsigned());
+          r8.rotation_1e.set(MEMORY.ref(2, a7 + 0x20).get());
         }
 
         //LAB_809a61c

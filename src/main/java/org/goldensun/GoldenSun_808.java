@@ -6,6 +6,7 @@ import org.goldensun.input.Input;
 import org.goldensun.maps.Map121Overlay_87d0e88;
 import org.goldensun.maps.Map132Overlay_87ced6c;
 import org.goldensun.maps.Map3Overlay_877dd1c;
+import org.goldensun.maps.Map4Overlay_8780898;
 import org.goldensun.maps.Map5Overlay_8784360;
 import org.goldensun.maps.Map6Overlay_878603c;
 import org.goldensun.maps.Map7Overlay_8786f0c;
@@ -266,6 +267,12 @@ public final class GoldenSun_808 {
   @Method(0x808a048)
   public static void FUN_808a048(final int charId, final int r1) {
     MEMORY.call(0x80917d0, charId, r1);
+  }
+
+  /** {@link GoldenSun_809#FUN_80917f4} */
+  @Method(0x808a050)
+  public static void FUN_808a050(final int r0, final int r1) {
+    MEMORY.call(0x80917f4, r0, r1);
   }
 
   /** {@link GoldenSun_809#removeCharAndHealRemainingChars} */
@@ -1173,6 +1180,7 @@ public final class GoldenSun_808 {
       // Title screen
       case 1 -> { }
       case 3 -> MEMORY.addFunctions(Map3Overlay_877dd1c.class);
+      case 4 -> MEMORY.addFunctions(Map4Overlay_8780898.class);
       case 5 -> MEMORY.addFunctions(Map5Overlay_8784360.class);
       case 6 -> MEMORY.addFunctions(Map6Overlay_878603c.class);
       case 7 -> MEMORY.addFunctions(Map7Overlay_8786f0c.class);

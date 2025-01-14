@@ -5,9 +5,9 @@ import org.goldensun.memory.types.ByteRef;
 import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.MemoryRef;
 import org.goldensun.memory.types.Pointer;
+import org.goldensun.memory.types.ShortRef;
 import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.memory.types.UnsignedByteRef;
-import org.goldensun.memory.types.UnsignedShortRef;
 
 public class Sprite38 implements MemoryRef {
   private final Value ref;
@@ -17,7 +17,7 @@ public class Sprite38 implements MemoryRef {
   public final IntRef scale_18;
   public final UnsignedByteRef slot_1c;
   public final UnsignedByteRef _1d;
-  public final UnsignedShortRef rotation_1e;
+  public final ShortRef rotation_1e;
   public final UnsignedByteRef width_20;
   public final UnsignedByteRef height_21;
   public final ByteRef x_22;
@@ -37,7 +37,7 @@ public class Sprite38 implements MemoryRef {
     this.scale_18 = ref.offset(4, 0x18).cast(IntRef::new);
     this.slot_1c = ref.offset(1, 0x1c).cast(UnsignedByteRef::new);
     this._1d = ref.offset(1, 0x1d).cast(UnsignedByteRef::new);
-    this.rotation_1e = ref.offset(2, 0x1e).cast(UnsignedShortRef::new);
+    this.rotation_1e = ref.offset(2, 0x1e).cast(ShortRef::new);
     this.width_20 = ref.offset(1, 0x20).cast(UnsignedByteRef::new);
     this.height_21 = ref.offset(1, 0x21).cast(UnsignedByteRef::new);
     this.x_22 = ref.offset(1, 0x22).cast(ByteRef::new);

@@ -88,6 +88,7 @@ import static org.goldensun.GoldenSun_802.FUN_80217a4;
 import static org.goldensun.GoldenSun_802.drawSaveMenu;
 import static org.goldensun.GoldenSun_802.handleAMenu;
 import static org.goldensun.GoldenSun_807.calculateBuildDate_;
+import static org.goldensun.GoldenSun_807.getAbility_;
 import static org.goldensun.GoldenSun_807.getCharCount_;
 import static org.goldensun.GoldenSun_807.getUnit_;
 import static org.goldensun.GoldenSun_807.getDjinnCount_;
@@ -1663,6 +1664,12 @@ public final class GoldenSun_801 {
   @Method(0x8015420)
   public static void FUN_8015420(final int charId) {
     MEMORY.call(0x8021390, charId);
+  }
+
+  /** {@link GoldenSun_802#FUN_8021488} */
+  @Method(0x8015428)
+  public static void FUN_8015428(final int r0, final int r1) {
+    MEMORY.call(0x8021488, r0, r1);
   }
 
   /** {@link GoldenSun_801#FUN_801a370} */
@@ -5949,6 +5956,11 @@ public final class GoldenSun_801 {
     //LAB_8019ea4
   }
 
+  @Method(0x8019ed0)
+  public static int FUN_8019ed0() {
+    return (0x802e108 - 0x802de88) / 0x4;
+  }
+
   @Method(0x8019ee4)
   public static void FUN_8019ee4(final int itemId, final int r1, final int r2, final int r3, final int a4) {
     throw new RuntimeException("Not implemented");
@@ -6078,7 +6090,44 @@ public final class GoldenSun_801 {
 
   @Method(0x801a3d0)
   public static void FUN_801a3d0(final int itemId, final int r1, final int r2, final int r3, final int a4) {
-    throw new RuntimeException("Not implemented");
+    FUN_801a404(getAbility_(itemId)._04.get(), r1, r2, r3, a4);
+  }
+
+  @Method(0x801a404)
+  public static void FUN_801a404(final int r0, final int r1, final int r2, final int r3, final int a4) {
+    final int r5 = mallocSlotChip(17, 0x608);
+    final int r6;
+    if(r0 >= FUN_8019ed0()) {
+      r6 = 0;
+    } else {
+      r6 = r0;
+    }
+
+    //LAB_801a430
+    final int r8;
+    if(r1 != 0) {
+      MEMORY.ref(4, r5 + 0x604).setu(MEMORY.ref(4, 0x8029a10 + 0x8).get());
+      MEMORY.ref(2, r5 + 0x600).setu(2);
+      MEMORY.ref(2, r5 + 0x602).setu(2);
+      FUN_801a5a4(r5, 0);
+      r8 = 1;
+    } else {
+      r8 = 0;
+    }
+
+    //LAB_801a45a
+    MEMORY.ref(4, r5 + 0x604).setu(MEMORY.ref(4, 0x802de88 + r6 * 0x4).get());
+    MEMORY.ref(2, r5 + 0x600).setu(2);
+    MEMORY.ref(2, r5 + 0x602).setu(2);
+    FUN_801a5a4(r5, r8);
+
+    if(a4 == 0) {
+      MEMORY.ref(4, r2).setu(getFreeVramSlot());
+    }
+
+    //LAB_801a48c
+    MEMORY.ref(4, r3).setu(allocateSpriteSlot(MEMORY.ref(4, r2).get(), 0x80, r5 + 0x400));
+    freeSlot(17);
   }
 
   @Method(0x801a4fc)

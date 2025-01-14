@@ -21,6 +21,7 @@ public class Ability10 implements MemoryRef {
   public final UnsignedByteRef flags_01;
   public final UnsignedByteRef element_02;
   public final UnsignedByteRef effect_03;
+  public final UnsignedByteRef _04;
 
   public final UnsignedByteRef _08;
   public final UnsignedByteRef cost_09;
@@ -34,6 +35,7 @@ public class Ability10 implements MemoryRef {
     this.flags_01 = ref.offset(1, 0x01).cast(UnsignedByteRef::new);
     this.element_02 = ref.offset(1, 0x02).cast(UnsignedByteRef::new);
     this.effect_03 = ref.offset(1, 0x03).cast(UnsignedByteRef::new);
+    this._04 = ref.offset(1, 0x04).cast(UnsignedByteRef::new);
 
     this._08 = ref.offset(1, 0x08).cast(UnsignedByteRef::new);
     this.cost_09 = ref.offset(1, 0x09).cast(UnsignedByteRef::new);
