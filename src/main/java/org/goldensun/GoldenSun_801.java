@@ -1351,10 +1351,10 @@ public final class GoldenSun_801 {
     MEMORY.call(0x801e74c, r0, panel, x, y);
   }
 
-  /** {@link GoldenSun_801#FUN_801e7c0} */
+  /** {@link GoldenSun_801#drawIcon} */
   @Method(0x8015080)
-  public static void drawIcon(final int r0, final Panel24 panel, final int x, final int y) {
-    MEMORY.call(0x801e7c0, r0, panel, x, y);
+  public static void drawIcon_(final int iconId, final Panel24 panel, final int x, final int y) {
+    MEMORY.call(0x801e7c0, iconId, panel, x, y);
   }
 
   /** {@link GoldenSun_801#FUN_801e8b0} */
@@ -6296,7 +6296,7 @@ public final class GoldenSun_801 {
           return;
 
         case 1:
-          if(handlePsynergyMenu_() == -1) {
+          if(handlePsynergyMenu_() != -1) {
             return;
           }
           break;
@@ -7192,10 +7192,10 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x801e7c0)
-  public static void FUN_801e7c0(final int r0, final Panel24 panel, final int x, final int y) {
+  public static void drawIcon(final int iconId, final Panel24 panel, final int x, final int y) {
     final Struct12fc r7 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
     r7.textOffset_12b2.set(0);
-    FUN_8018038(r0, 0x1);
+    FUN_8018038(iconId, 0x1);
     r7.text_eb0.get(r7.textOffset_12b2.get()).set(0);
     r7.textOffset_12b2.incr().and(0x1ff);
 

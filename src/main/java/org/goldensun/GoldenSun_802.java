@@ -95,7 +95,7 @@ import static org.goldensun.GoldenSun_801.FUN_801e318;
 import static org.goldensun.GoldenSun_801.FUN_801e41c;
 import static org.goldensun.GoldenSun_801.FUN_801e71c;
 import static org.goldensun.GoldenSun_801.FUN_801e74c;
-import static org.goldensun.GoldenSun_801.FUN_801e7c0;
+import static org.goldensun.GoldenSun_801.drawIcon;
 import static org.goldensun.GoldenSun_801.FUN_801e858;
 import static org.goldensun.GoldenSun_801.FUN_801e8b0;
 import static org.goldensun.GoldenSun_801.FUN_801e940;
@@ -223,11 +223,11 @@ public final class GoldenSun_802 {
       FUN_801e8b0(preview.name_10.getAddress(), panel, 0, 0); // name
       FUN_801e940(0x80371e0, panel, 72, 0); // "L" for level
       drawNumber(preview.level_1c.get(), 2, panel, 80, 0); // level
-      FUN_801e7c0(preview.class_1d.get() + 0x741, panel, 0, 16); // class
-      FUN_801e7c0(9, panel, 0, 32); // "Play Time:"
+      drawIcon(preview.class_1d.get() + 0x741, panel, 0, 16); // class
+      drawIcon(9, panel, 0, 32); // "Play Time:"
       FUN_801e940(decodeTime(preview.time_20.get(), CPU.sp().value + 0x4), panel, 48, 40); // time
       FUN_801ea08(preview.coins_24.get(), 0x6, panel, 0, 48); // coins
-      FUN_801e7c0(0xc88, panel, 48, 48); // "Coins"
+      drawIcon(0xc88, panel, 48, 48); // "Coins"
     }
 
     //LAB_802022c
@@ -1905,7 +1905,7 @@ public final class GoldenSun_802 {
       if(MEMORY.ref(4, r9 + 0x1c4).get() != MEMORY.ref(4, r9 + 0x1c0).get()) {
         FUN_8016478(MEMORY.ref(4, r9 + 0x1ac).deref(4).cast(Panel24::new));
         r2 = MEMORY.ref(4, r9 + 0x1c0).get();
-        FUN_801e7c0(MEMORY.ref(4, r9 + 0x11c + r2 * 0x1c).get() + 0x1f, MEMORY.ref(4, r9 + 0x1ac).deref(4).cast(Panel24::new), 0, 0);
+        drawIcon(MEMORY.ref(4, r9 + 0x11c + r2 * 0x1c).get() + 0x1f, MEMORY.ref(4, r9 + 0x1ac).deref(4).cast(Panel24::new), 0, 0);
         MEMORY.ref(4, r9 + 0x1c4).setu(MEMORY.ref(4, r9 + 0x1c0).get());
         r1 = MEMORY.ref(4, r9 + 0x1c0).get();
         FUN_8021d88(r9, r1, MEMORY.ref(4, r9 + 0x1c8 + r1 * 0x4).get());
@@ -2739,7 +2739,7 @@ public final class GoldenSun_802 {
                     r3 = r11.getX() / 8;
                     r9 = addPanel(r3 > 25 ? 22 : r3 - 4, 8, 9, 3, 0x6);
                     FUN_801e71c(2);
-                    FUN_801e7c0(0x8ac, r9, 0, 0);
+                    drawIcon(0x8ac, r9, 0, 0);
                     FUN_801e71c(15);
                   }
 
@@ -2769,11 +2769,11 @@ public final class GoldenSun_802 {
                     r9 = addPanel(r3 > 24 ? 18 : r3 - 7, 8, 12, 3, 0x6);
                     if(unit.hp_38.get() != 0) {
                       FUN_801e71c(2);
-                      FUN_801e7c0(0x8a3, r9, 0, 0);
+                      drawIcon(0x8a3, r9, 0, 0);
                       FUN_801e71c(15);
                     } else {
                       //LAB_80267b0
-                      FUN_801e7c0(0x8ab, r9, 0, 0);
+                      drawIcon(0x8ab, r9, 0, 0);
                     }
                   }
 
@@ -2783,11 +2783,11 @@ public final class GoldenSun_802 {
                     r9 = addPanel(r3 > 24 ? 18 : r3 - 7, 8, 12, 3, 0x6);
                     if(unit.affliction_131.get() == 0) {
                       FUN_801e71c(2);
-                      FUN_801e7c0(0x8a3, r9, 0, 0);
+                      drawIcon(0x8a3, r9, 0, 0);
                       FUN_801e71c(15);
                     } else {
                       //LAB_80267ea
-                      FUN_801e7c0(0x8a4, r9, 0, 0);
+                      drawIcon(0x8a4, r9, 0, 0);
                     }
                   }
 
@@ -2835,39 +2835,39 @@ public final class GoldenSun_802 {
                     r9 = addPanel(r3 > 20 ? 14 : r3 - 7, r1, 16, r5 + 2, 0x6);
                     r5 = 0;
                     if(unit._138.get() != 0) {
-                      FUN_801e7c0(0x8a5, r9, 0, 0);
+                      drawIcon(0x8a5, r9, 0, 0);
                       r5++;
                     }
 
                     //LAB_802688a
                     if(unit._13b.get() != 0) {
-                      FUN_801e7c0(0x8a6, r9, 0, r5 * 8);
+                      drawIcon(0x8a6, r9, 0, r5 * 8);
                       r5++;
                     }
 
                     //LAB_80268a0
                     if(unit._13c.get() != 0) {
-                      FUN_801e7c0(0x8a7, r9, 0, r5 * 8);
+                      drawIcon(0x8a7, r9, 0, r5 * 8);
                       r5++;
                     }
 
                     //LAB_80268b6
                     if(unit._13d.get() != 0) {
-                      FUN_801e7c0(0x8a8, r9, 0, r5 * 8);
+                      drawIcon(0x8a8, r9, 0, r5 * 8);
                       r5++;
                     }
 
                     //LAB_80268cc
                     if(unit._141.get() != 0) {
                       //LAB_80268d4
-                      FUN_801e7c0(0x8a9, r9, 0, r5 * 8);
+                      drawIcon(0x8a9, r9, 0, r5 * 8);
                       r5++;
                     }
 
                     if(r5 == 0) {
                       //LAB_8026a6a
                       FUN_801e71c(2);
-                      FUN_801e7c0(0x8a3, r9, 0, 0);
+                      drawIcon(0x8a3, r9, 0, 0);
                       FUN_801e71c(15);
                     }
                   }
@@ -2926,43 +2926,43 @@ public final class GoldenSun_802 {
                     r9 = addPanel(r3 > 20 ? 14 : r3 - 7, r1, 16, r5 + 2, 0x6);
                     r5 = 0;
                     if(unit.affliction_131.get() != 0) {
-                      FUN_801e7c0(0x8a4, r9, 0, 0);
+                      drawIcon(0x8a4, r9, 0, 0);
                       r5++;
                     }
 
                     //LAB_80269ce
                     if(unit._138.get() != 0) {
-                      FUN_801e7c0(0x8a5, r9, 0, r5 * 8);
+                      drawIcon(0x8a5, r9, 0, r5 * 8);
                       r5++;
                     }
 
                     //LAB_80269e8
                     if(unit._13b.get() != 0) {
-                      FUN_801e7c0(0x8a6, r9, 0, r5 * 8);
+                      drawIcon(0x8a6, r9, 0, r5 * 8);
                       r5++;
                     }
 
                     //LAB_8026a00
                     if(unit._13c.get() != 0) {
-                      FUN_801e7c0(0x8a7, r9, 0, r5 * 8);
+                      drawIcon(0x8a7, r9, 0, r5 * 8);
                       r5++;
                     }
 
                     //LAB_8026a1a
                     if(unit._13d.get() != 0) {
-                      FUN_801e7c0(0x8a8, r9, 0, r5 * 8);
+                      drawIcon(0x8a8, r9, 0, r5 * 8);
                       r5++;
                     }
 
                     //LAB_8026a32
                     if(unit._141.get() != 0) {
-                      FUN_801e7c0(0x8a9, r9, 0, r5 * 8);
+                      drawIcon(0x8a9, r9, 0, r5 * 8);
                       r5++;
                     }
 
                     //LAB_8026a4a
                     if(unit.haunt_140.get() != 0) {
-                      FUN_801e7c0(0x8aa, r9, 0, r5 * 8);
+                      drawIcon(0x8aa, r9, 0, r5 * 8);
                       r5++;
                     }
 
@@ -2970,7 +2970,7 @@ public final class GoldenSun_802 {
                     if(r5 == 0) {
                       //LAB_8026a6a
                       FUN_801e71c(2);
-                      FUN_801e7c0(0x8a3, r9, 0, 0);
+                      drawIcon(0x8a3, r9, 0, 0);
                       FUN_801e71c(15);
                     }
                   }
@@ -3711,7 +3711,7 @@ public final class GoldenSun_802 {
             case 0: // selecting "attack" from "fight" menu?
               //LAB_80275fc
               r11 = addPanel(11, 17, 11, 3, 0x6);
-              FUN_801e7c0(0x1f, r11, 16, 0);
+              drawIcon(0x1f, r11, 16, 0);
               r1 = MEMORY.ref(4, sp24).get();
               MEMORY.ref(2, r1 + 0x6).and(~0x1ff).or(0x40);
               playSound_(0x70);
@@ -3819,7 +3819,7 @@ public final class GoldenSun_802 {
 
                 //LAB_802781a
                 r1 = MEMORY.ref(4, CPU.sp().value + 0x38).get();
-                FUN_801e7c0(r1 + 0x333, r11, 16, 0);
+                drawIcon(r1 + 0x333, r11, 16, 0);
                 drawNumber(ability.cost_09.get(), 2, r11, 104, 0);
                 MEMORY.ref(1, r7 + 0xea7).setu(15);
                 FUN_801e71c(0xf);
@@ -3932,7 +3932,7 @@ public final class GoldenSun_802 {
 
                 //LAB_8027a42
                 getSummon_(r6);
-                FUN_801e7c0(MEMORY.ref(2, r6).getUnsigned() + 0x333, r11, 16, 0);
+                drawIcon(MEMORY.ref(2, r6).getUnsigned() + 0x333, r11, 16, 0);
                 r2 = 0x0;
                 r3 = r2 << 1;
                 r6 = CPU.r9().value;
@@ -4065,7 +4065,7 @@ public final class GoldenSun_802 {
                   MEMORY.ref(2, r1 + 0x6).setu(r3);
                   FUN_801e71c(2);
                   FUN_8019000(r11, r7 + 0x5001, 0, 0, 0);
-                  FUN_801e7c0(r4 + r7 * 0x14 + 0x45f, r11, 16, 0);
+                  drawIcon(r4 + r7 * 0x14 + 0x45f, r11, 16, 0);
                   FUN_801e71c(15);
                   r0_0 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
                   MEMORY.ref(2, r0_0 + 0xc).setu(1);
@@ -4088,7 +4088,7 @@ public final class GoldenSun_802 {
                   r3 = r3 | r2;
                   MEMORY.ref(2, r1 + 0x6).setu(r3);
                   FUN_8019000(r11, r7 + 0x5001, CPU.r8().value, 0, CPU.r8().value);
-                  FUN_801e7c0(r4 + r7 * 0x14 + 0x45f, r11, 16, 0);
+                  drawIcon(r4 + r7 * 0x14 + 0x45f, r11, 16, 0);
                   r3 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
                   MEMORY.ref(2, r3 + 0xc).setu(r6);
                   sleep(1);
@@ -4237,7 +4237,7 @@ public final class GoldenSun_802 {
                 r1 = MEMORY.ref(4, CPU.sp().value + 0x48).get();
                 r0_0 = MEMORY.ref(2, r1 + r6).getUnsigned() & 0x1ff;
                 r0_0 = r0_0 + 0x182;
-                FUN_801e7c0(r0_0, r11, 24, 0);
+                drawIcon(r0_0, r11, 24, 0);
                 r3 = MEMORY.ref(4, CPU.sp().value + 0x4c).get();
                 MEMORY.ref(2, r3 + 0xc).setu(CPU.r10().value);
                 playSound_(0x70);
@@ -4673,7 +4673,7 @@ public final class GoldenSun_802 {
       }
 
       //LAB_80285d0
-      FUN_801e7c0(textId, menu.panel_78.deref(), 0, 0);
+      drawIcon(textId, menu.panel_78.deref(), 0, 0);
 
       //LAB_80285e6
       do {

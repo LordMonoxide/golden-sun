@@ -112,7 +112,7 @@ import static org.goldensun.GoldenSun_801.FUN_8015218;
 import static org.goldensun.GoldenSun_801.FUN_80152b8;
 import static org.goldensun.GoldenSun_801.FUN_80153b0;
 import static org.goldensun.GoldenSun_801.addPanel_;
-import static org.goldensun.GoldenSun_801.drawIcon;
+import static org.goldensun.GoldenSun_801.drawIcon_;
 import static org.goldensun.GoldenSun_807.getUnitEquippedItemIdOfType_;
 import static org.goldensun.GoldenSun_807.FUN_80770e0;
 import static org.goldensun.GoldenSun_807.calcHpPpFractions_;
@@ -506,7 +506,7 @@ public final class GoldenSun_80b {
     final Panel24 r5 = r3.panel_0c.derefNullable();
 
     if(r5 != null) {
-      drawIcon(0xc8a, r5, 0, 0);
+      drawIcon_(0xc8a, r5, 0, 0);
       FUN_80150b0(MEMORY.ref(4, 0x2000250).get(), 6, r5, 32, 8);
     }
 

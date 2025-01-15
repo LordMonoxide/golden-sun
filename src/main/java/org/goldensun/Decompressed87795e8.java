@@ -1362,7 +1362,7 @@ public final class Decompressed87795e8 {
     MEMORY.call(0x8015078, r0, r1, r2, r3);
   }
 
-  /** {@link GoldenSun_801#drawIcon} */
+  /** {@link GoldenSun_801#drawIcon_} */
   @Method(0x20093b4)
   public static void FUN_20093b4(final int r0, final int r1, final int r2, final int r3) {
     MEMORY.call(0x8015080, r0, r1, r2, r3);
