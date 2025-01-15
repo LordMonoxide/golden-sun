@@ -36,7 +36,7 @@ public class Structccc implements MemoryRef {
   public final ShortRef interactedTileType_17a;
   public final ShortRef encounterId_17c;
   /** Something related to using psynergy in the field */
-  public final ShortRef _17e;
+  public final ShortRef usedAbility_17e;
   /** Something related to using psynergy in the field */
   public final ShortRef _180;
   /** Something related to using psynergy in the field */
@@ -88,7 +88,7 @@ public class Structccc implements MemoryRef {
   public final ShortRef _cc0;
   public final ShortRef _cc2;
   public final ShortRef _cc4;
-  public final ByteRef _cc6;
+  public final ByteRef fieldPsynergyInUse_cc6;
   public final ByteRef _cc7;
   /** -1 for none */
   public final ShortRef soundId_cc8;
@@ -109,7 +109,7 @@ public class Structccc implements MemoryRef {
     this.interactedActor_178 = ref.offset(2, 0x178).cast(ShortRef::new);
     this.interactedTileType_17a = ref.offset(2, 0x17a).cast(ShortRef::new);
     this.encounterId_17c = ref.offset(2, 0x17c).cast(ShortRef::new);
-    this._17e = ref.offset(2, 0x17e).cast(ShortRef::new);
+    this.usedAbility_17e = ref.offset(2, 0x17e).cast(ShortRef::new);
     this._180 = ref.offset(2, 0x180).cast(ShortRef::new);
     this._182 = ref.offset(2, 0x182).cast(ShortRef::new);
     this._184 = ref.offset(2, 0x184).cast(ShortRef::new);
@@ -156,7 +156,7 @@ public class Structccc implements MemoryRef {
     this._cc0 = ref.offset(2, 0xcc0).cast(ShortRef::new);
     this._cc2 = ref.offset(2, 0xcc2).cast(ShortRef::new);
     this._cc4 = ref.offset(2, 0xcc4).cast(ShortRef::new);
-    this._cc6 = ref.offset(1, 0xcc6).cast(ByteRef::new);
+    this.fieldPsynergyInUse_cc6 = ref.offset(1, 0xcc6).cast(ByteRef::new);
     this._cc7 = ref.offset(1, 0xcc7).cast(ByteRef::new);
     this.soundId_cc8 = ref.offset(2, 0xcc8).cast(ShortRef::new);
   }

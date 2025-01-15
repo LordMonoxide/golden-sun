@@ -10,6 +10,7 @@ import org.goldensun.GoldenSun_80f;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.types.Actor70;
+import org.goldensun.types.FieldPsynergy720;
 import org.goldensun.types.Panel24;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.Structccc;
@@ -2384,7 +2385,7 @@ public final class Map3Overlay_877dd1c {
 
   @Method(0x200c41c)
   public static void FUN_200c41c(final Actor70 r0) {
-    final int r11 = boardWramMallocHead_3001e50.offset(56 * 0x4).get();
+    final FieldPsynergy720 r11 = boardWramMallocHead_3001e50.offset(56 * 0x4).deref(4).cast(FieldPsynergy720::new);
     playSound(0x98);
     final Actor70[] r10 = new Actor70[2];
 
@@ -2402,7 +2403,7 @@ public final class Map3Overlay_877dd1c {
           setSpriteAnimation(r5, 0);
           r5._26.set(0);
           clearVramSlot(r5.slot_1c.get());
-          r5.slot_1c.set(MEMORY.ref(2, r11 + 0x46).getUnsigned());
+          r5.slot_1c.set(r11.vramSlot_46.get());
           r5._1d.or(0x1);
           r5.packet_00.attribs_04.flags_01.and(~0x2).and(0x3f).or(0x40);
           r5.packet_00.attribs_04.attrib1_02.and(0x3fff).or(0x8000);

@@ -3803,7 +3803,7 @@ public final class GoldenSun_80a {
     if(r7 == 1) {
       final Structccc r5 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
       getAbility_(r6.abilityId_178.get(0).get() & 0x3fff);
-      r5._17e.set(MEMORY.ref(4, CPU.sp().value + 0xc).get() << 10 | MEMORY.ref(4, CPU.sp().value + 0x4).get());
+      r5.usedAbility_17e.set(MEMORY.ref(4, CPU.sp().value + 0xc).get() << 10 | MEMORY.ref(4, CPU.sp().value + 0x4).get());
     }
 
     //LAB_80a5c46
@@ -3998,7 +3998,7 @@ public final class GoldenSun_80a {
     int r3 = boardWramMallocHead_3001e50.offset(55 * 0x4).get() + 0x178;
     final Ability10 ability = getAbility_(MEMORY.ref(2, r3).getUnsigned() & 0x3fff);
 
-    if(FUN_808a488(ability._0c.get()) != 0) {
+    if(FUN_808a488(ability.fieldPsynergyId_0c.get()) != 0) {
       return 0;
     }
 
@@ -4394,7 +4394,7 @@ public final class GoldenSun_80a {
       for(int i = 0; i < 32; i++) {
         final int r2_0 = r0.psynergy_58.get(i).get();
         if(r2_0 != 0) {
-          if(getAbility_(r2_0 & 0x3fff)._0c.get() != 0) {
+          if(getAbility_(r2_0 & 0x3fff).fieldPsynergyId_0c.get() != 0) {
             r1.get(r4).set(r0.psynergy_58.get(i).get());
             r4++;
           }
@@ -4411,7 +4411,7 @@ public final class GoldenSun_80a {
           final int r2_0 = r0.psynergy_58.get(i).get();
           if(r2_0 != 0) {
             final Ability10 ability = getAbility_(r2_0 & 0x3fff);
-            if(r7 == 0 && (ability._0c.get() != 0 || (ability.flags_01.get() & 0x40) != 0) || r7 == 3 && ability._0c.get() == 0 && (ability.flags_01.get() & 0x40) == 0) {
+            if(r7 == 0 && (ability.fieldPsynergyId_0c.get() != 0 || (ability.flags_01.get() & 0x40) != 0) || r7 == 3 && ability.fieldPsynergyId_0c.get() == 0 && (ability.flags_01.get() & 0x40) == 0) {
               //LAB_80a69d4
               r1.get(r4).set(r0.psynergy_58.get(i).get());
               r4++;
@@ -4665,7 +4665,7 @@ public final class GoldenSun_80a {
             if((pressedButtons_3001c94.get() & 0x4) != 0x0) {
               if(MEMORY.ref(4, CPU.sp().value + 0x18).get() == 0x0) {
                 r3 = MEMORY.ref(4, r4 + 0x18).get();
-                if(getAbility_(r7.items_1c8.get(r3).get() & 0x3fff)._0c.get() == 0x0) {
+                if(getAbility_(r7.items_1c8.get(r3).get() & 0x3fff).fieldPsynergyId_0c.get() == 0x0) {
                   playSound_(0x72);
                 } else {
                   //LAB_80a6f78
@@ -4784,7 +4784,7 @@ public final class GoldenSun_80a {
 
           //LAB_80a71c8
           if((pressedButtons_3001c94.get() & 0x200) != 0x0 && (heldButtonsLastFrame_3001ae8.get() & 0x4) != 0x0) {
-            if(getAbility_(r7.items_1c8.get(MEMORY.ref(4, r4 + 0x18).get()).get() & 0x3fff)._0c.get() == 0x0) {
+            if(getAbility_(r7.items_1c8.get(MEMORY.ref(4, r4 + 0x18).get()).get() & 0x3fff).fieldPsynergyId_0c.get() == 0x0) {
               playSound_(0x72);
             } else {
               //LAB_80a7214
@@ -4802,7 +4802,7 @@ public final class GoldenSun_80a {
 
           //LAB_80a7244
           if((pressedButtons_3001c94.get() & 0x100) != 0x0 && (heldButtonsLastFrame_3001ae8.get() & 0x4) != 0x0) {
-            if(getAbility_(r7.items_1c8.get(MEMORY.ref(4, r4 + 0x18).get()).get() & 0x3fff)._0c.get() == 0x0) {
+            if(getAbility_(r7.items_1c8.get(MEMORY.ref(4, r4 + 0x18).get()).get() & 0x3fff).fieldPsynergyId_0c.get() == 0x0) {
               //LAB_80a727c
               playSound_(0x72);
               //LAB_80a7290
@@ -4843,7 +4843,7 @@ public final class GoldenSun_80a {
   public static int FUN_80a735c(final int r0) {
     final Ability10 ability = getAbility_(r0 & 0x3fff);
 
-    if(ability._0c.get() != 0 || (ability.flags_01.get() & 0xc0) == 0xc0) {
+    if(ability.fieldPsynergyId_0c.get() != 0 || (ability.flags_01.get() & 0xc0) == 0xc0) {
       return 0;
     }
 

@@ -23,6 +23,8 @@ import org.goldensun.memory.types.UnsignedShortRef;
 import org.goldensun.types.Ability10;
 import org.goldensun.types.ChoiceMenu98;
 import org.goldensun.types.Class54;
+import org.goldensun.types.FieldPsynergy720;
+import org.goldensun.types.FieldPsynergyRange04;
 import org.goldensun.types.Matrix30;
 import org.goldensun.types.VblankTransferQueue184;
 import org.goldensun.types.Item2c;
@@ -263,6 +265,7 @@ public final class GoldenSunVars {
    *   <li>32 - {@link PaletteStruct2a04}</li>
    *   <li>54 - Array of ?? {@link Unit14c}</li>
    *   <li>55 - {@link Menua70}</li>
+   *   <li>56 - {@link FieldPsynergy720}</li>
    *   <li>58 - {@link ChoiceMenu98}</li>
    * </ul>
    */
@@ -418,6 +421,8 @@ public final class GoldenSunVars {
   public static final ArrayRef<EnemyStats54> enemyStats_8080ec8 = MEMORY.ref(4, 0x8080ec8, ArrayRef.of(EnemyStats54.class, 250, 0x54, EnemyStats54::new));
 
   public static final UnboundedArrayRef<Class54> classes_8084b1c = MEMORY.ref(4, 0x8084b1c, UnboundedArrayRef.of(0x54, Class54::new));
+
+  public static final ArrayRef<FieldPsynergyRange04> fieldPsynergyRanges_809e686 = MEMORY.ref(2, 0x809e686, ArrayRef.of(FieldPsynergyRange04.class, 12, 0x2, 0x4, FieldPsynergyRange04::new));
 
   public static final Matrix30 _80c2a7c = MEMORY.ref(4, 0x80c2a7c, Matrix30::new);
 

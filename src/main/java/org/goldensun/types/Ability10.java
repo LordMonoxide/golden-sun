@@ -26,7 +26,7 @@ public class Ability10 implements MemoryRef {
   public final UnsignedByteRef _08;
   public final UnsignedByteRef cost_09;
   public final UnsignedShortRef power_0a;
-  public final UnsignedByteRef _0c;
+  public final UnsignedByteRef fieldPsynergyId_0c;
 
   public Ability10(final Value ref) {
     this.ref = ref;
@@ -40,7 +40,7 @@ public class Ability10 implements MemoryRef {
     this._08 = ref.offset(1, 0x08).cast(UnsignedByteRef::new);
     this.cost_09 = ref.offset(1, 0x09).cast(UnsignedByteRef::new);
     this.power_0a = ref.offset(2, 0x0a).cast(UnsignedShortRef::new);
-    this._0c = ref.offset(1, 0x0c).cast(UnsignedByteRef::new);
+    this.fieldPsynergyId_0c = ref.offset(1, 0x0c).cast(UnsignedByteRef::new);
   }
 
   @Override

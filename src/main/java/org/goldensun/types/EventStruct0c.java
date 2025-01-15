@@ -14,6 +14,7 @@ public class EventStruct0c implements MemoryRef {
 
   public final IntRef _00;
   public final UnsignedByteRef _01;
+  /** This seems to be actor index, at least for movable pillars */
   public final UnsignedShortRef _04_s;
   public final UnsignedByteRef _04_b;
   public final ShortRef _06;

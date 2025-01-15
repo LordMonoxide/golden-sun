@@ -13,6 +13,7 @@ import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.types.Actor70;
+import org.goldensun.types.FieldPsynergy720;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.Structccc;
@@ -1878,7 +1879,7 @@ public final class Map121Overlay_87d0e88 {
   public static void FUN_200a15c() {
     final Actor70 r5 = getMapActor(0);
     final Actor70 r0 = getMapActor(13);
-    final int r6 = boardWramMallocHead_3001e50.offset(56 * 0x4).get();
+    final FieldPsynergy720 r6 = boardWramMallocHead_3001e50.offset(56 * 0x4).deref(4).cast(FieldPsynergy720::new);
     if(r0.pos_08.getX() >> 20 != r5.pos_08.getX() >> 20) {
       clearFlag(0x203);
     } else if(r0.pos_08.getZ() >> 20 != r5.pos_08.getZ() >> 20) {
@@ -1886,7 +1887,7 @@ public final class Map121Overlay_87d0e88 {
       clearFlag(0x203);
     } else {
       setFlag(0x203);
-      MEMORY.ref(1, r6 + 0x35).setu(0x1);
+      r6._35.set(0x1);
     }
   }
 

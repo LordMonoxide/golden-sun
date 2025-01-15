@@ -19,6 +19,7 @@ import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.types.Ability10;
 import org.goldensun.types.Actor70;
 import org.goldensun.types.EventStruct0c;
+import org.goldensun.types.FieldPsynergyRange04;
 import org.goldensun.types.VblankTransfer0c;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Panel24;
@@ -115,6 +116,7 @@ import static org.goldensun.GoldenSunVars._2000480;
 import static org.goldensun.GoldenSunVars._2000482;
 import static org.goldensun.GoldenSunVars._200048a;
 import static org.goldensun.GoldenSunVars._200048c;
+import static org.goldensun.GoldenSunVars.fieldPsynergyRanges_809e686;
 import static org.goldensun.GoldenSunVars.vblankTransferQueue_2002090;
 import static org.goldensun.GoldenSunVars._3001810;
 import static org.goldensun.GoldenSunVars._3001e40;
@@ -198,7 +200,7 @@ import static org.goldensun.GoldenSun_809.FUN_8096ab0;
 import static org.goldensun.GoldenSun_809.FUN_8096af0;
 import static org.goldensun.GoldenSun_809.FUN_8096b28;
 import static org.goldensun.GoldenSun_809.FUN_8096c80;
-import static org.goldensun.GoldenSun_809.FUN_8096fb0;
+import static org.goldensun.GoldenSun_809.initFieldPsynergy;
 import static org.goldensun.GoldenSun_809.FUN_80970f8;
 import static org.goldensun.GoldenSun_809.FUN_8097174;
 import static org.goldensun.GoldenSun_809.FUN_8097194;
@@ -695,7 +697,7 @@ public final class GoldenSun_808 {
     MEMORY.call(0x80967e4, r0);
   }
 
-  /** {@link GoldenSun_809#FUN_8096fb0} */
+  /** {@link GoldenSun_809#initFieldPsynergy} */
   @Method(0x808a428)
   public static void FUN_808a428(final int r0, final int r1) {
     MEMORY.call(0x8096fb0, r0, r1);
@@ -727,8 +729,8 @@ public final class GoldenSun_808 {
 
   /** {@link GoldenSun_808#FUN_808e96c} */
   @Method(0x808a488)
-  public static int FUN_808a488(final int r0) {
-    return (int)MEMORY.call(0x808e96c, r0);
+  public static int FUN_808a488(final int fieldPsynergyId) {
+    return (int)MEMORY.call(0x808e96c, fieldPsynergyId);
   }
 
   /** {@link GoldenSun_808#FUN_808e990} */
@@ -2126,7 +2128,7 @@ public final class GoldenSun_808 {
     r1.interactedActor_178.set(0);
     r1.interactedTileType_17a.set(0);
     r1.encounterId_17c.set(0);
-    r1._17e.set(0);
+    r1.usedAbility_17e.set(0);
     r1._180.set(0);
     r1._182.set(0);
   }
@@ -2134,7 +2136,7 @@ public final class GoldenSun_808 {
   @Method(0x808bc9c)
   public static int wasActionPerformed() {
     final Structccc r1 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
-    return r1._16c.get() + r1._16e.get() + r1._170.get() + r1.menuPressed_172.get() + r1.interactPressed_174.get() + r1.systemMenuPressed_176.get() + r1.interactedActor_178.get() * 2 + r1.interactedTileType_17a.get() + r1.encounterId_17c.get() + r1._17e.get() + r1._180.get() + r1._182.get();
+    return r1._16c.get() + r1._16e.get() + r1._170.get() + r1.menuPressed_172.get() + r1.interactPressed_174.get() + r1.systemMenuPressed_176.get() + r1.interactedActor_178.get() * 2 + r1.interactedTileType_17a.get() + r1.encounterId_17c.get() + r1.usedAbility_17e.get() + r1._180.get() + r1._182.get();
   }
 
   @Method(0x808bd24)
@@ -2320,8 +2322,8 @@ public final class GoldenSun_808 {
               MEMORY.ref(4, r4 + 0x244).subu(player.velocityScalar_30.get());
               if(MEMORY.ref(4, r4 + 0x244).get() <= 0) {
                 MEMORY.ref(4, r4 + 0x244).setu(0x1);
-                if(r8._17e.get() == 0) {
-                  r8._17e.set(0x2096);
+                if(r8.usedAbility_17e.get() == 0) {
+                  r8.usedAbility_17e.set(0x2096);
                 }
               }
             }
@@ -2807,12 +2809,12 @@ public final class GoldenSun_808 {
             FUN_808c4c0();
             r8.interactedTileType_17a.set(0);
             //LAB_808cc24
-          } else if(r8._17e.get() != 0) {
+          } else if(r8.usedAbility_17e.get() != 0) {
             FUN_8015208();
             FUN_808c44c();
-            usePsynergy(r8._17e.get());
+            usePsynergy(r8.usedAbility_17e.get());
             FUN_808c4c0();
-            r8._17e.set(0);
+            r8.usedAbility_17e.set(0);
             //LAB_808cc4a
           } else if(r8._180.get() != 0) {
             FUN_808c44c();
@@ -3662,32 +3664,16 @@ public final class GoldenSun_808 {
   }
 
   @Method(0x808ddb8)
-  public static int FUN_808ddb8(final int r0) {
-    int r2;
-    int r3;
+  public static int getFieldPsynergyRange(final int fieldPsynergyId) {
+    for(int i = 0; i < fieldPsynergyRanges_809e686.length(); i++) {
+      final FieldPsynergyRange04 range = fieldPsynergyRanges_809e686.get(i);
 
-    r2 = 0x809e686;
-    r3 = MEMORY.ref(2, r2).get();
-    r2 += 0x2;
-
-    if(r3 == -1) {
-      return 0x10;
-    }
-
-    //LAB_808ddc8
-    while(r3 != r0) {
-      r2 += 0x2;
-      r3 = MEMORY.ref(2, r2).get();
-
-      //LAB_808ddd2
-      if(r3 == -1) {
-        return 0x10;
+      if(range.fieldPsynergyId_00.get() == fieldPsynergyId) {
+        return range.range_02.get();
       }
-      r2 += 0x2;
     }
 
-    //LAB_808dde0
-    return MEMORY.ref(2, r2).get();
+    return 16;
   }
 
   /** Gets the closest actor that is in front of the passed in actor */
@@ -3734,67 +3720,63 @@ public final class GoldenSun_808 {
   }
 
   @Method(0x808df1c)
-  public static int FUN_808df1c(final int r0, final int r1) {
-    int sp04 = -1;
-    int sp00 = FUN_808ddb8(r1);
+  public static int findFieldPsynergyTarget(final int mapActorIndex, final int fieldPsynergyId) {
+    int closestMapActorIndex = -1;
+    int closestDistance = getFieldPsynergyRange(fieldPsynergyId); // get max distance
 
-    final Actor70 r7 = getMapActor(r0);
-    if(r7 != null) {
+    final Actor70 actor = getMapActor(mapActorIndex);
+    if(actor != null) {
       //LAB_808df4c
-      final int r11 = r7.angle_06.get() + 0x2000 & 0xc000;
+      final int r11 = actor.angle_06.get() + 0x2000 & 0xc000;
 
       //LAB_808df60
-      for(int r9 = 0; r9 <= 0x42; r9++) {
-        if(r9 != r0) {
-          final Actor70 r6 = getMapActor(r9);
-          if(r6 != null) {
-            if((r6._59.get() & 0x8) == 0) {
-              final int r0_0;
-              if(r1 == 13) {
-                r0_0 = 0x300000;
-              } else if(r1 == 5) {
-                r0_0 = 0x400000;
-              } else if(r1 == 2) {
-                r0_0 = 0x100000;
-              } else {
-                r0_0 = 0x80000;
-              }
+      for(int otherMapActorIndex = 0; otherMapActorIndex < 67; otherMapActorIndex++) {
+        if(otherMapActorIndex != mapActorIndex) {
+          final Actor70 otherActor = getMapActor(otherMapActorIndex);
+          if(otherActor != null) {
+            if((otherActor._59.get() & 0x8) == 0) {
+              final int maxHeightDifference = switch(fieldPsynergyId) {
+                case 13 -> 0x300000;
+                case 5 -> 0x400000;
+                case 2 -> 0x100000;
+                default -> 0x80000;
+              };
 
               //LAB_808dfa4
               //LAB_808dfb4
-              if(Math.abs(r7.pos_08.getY() - r6.pos_08.getY()) <= r0_0) {
+              if(Math.abs(actor.pos_08.getY() - otherActor.pos_08.getY()) <= maxHeightDifference) {
                 //LAB_808dfba
-                final int dx = (r6.pos_08.getX() - r7.pos_08.getX()) / 0x10000;
-                final int dz = (r6.pos_08.getZ() - r7.pos_08.getZ()) / 0x10000;
-                int r5 = sqrt(dx * dx + dz * dz);
-                if((r6._59.get() & 0x10) != 0) {
-                  r5 = divideS(r5 * 2, 3);
+                final int dx = (otherActor.pos_08.getX() - actor.pos_08.getX()) / 0x10000;
+                final int dz = (otherActor.pos_08.getZ() - actor.pos_08.getZ()) / 0x10000;
+                int distance = sqrt(dx * dx + dz * dz);
+                if((otherActor._59.get() & 0x10) != 0) {
+                  distance = divideS(distance * 2, 3);
                 }
 
                 //LAB_808e006
-                if(r5 < sp00) {
-                  final int angle = atan2(r6.pos_08.getZ() - r7.pos_08.getZ(), r6.pos_08.getX() - r7.pos_08.getX()) & 0xffff;
+                if(distance < closestDistance) {
+                  final int angle = atan2(otherActor.pos_08.getZ() - actor.pos_08.getZ(), otherActor.pos_08.getX() - actor.pos_08.getX()) & 0xffff;
 
-                  int r2;
-                  if(r5 > 0x13) {
-                    r2 = 0x1000;
+                  int maxAngleDelta;
+                  if(distance > 19) {
+                    maxAngleDelta = 0x1000;
                   } else {
-                    r2 = 0x1800;
+                    maxAngleDelta = 0x1800;
                   }
 
                   //LAB_808e02c
-                  if(r1 == 2) {
-                    r2 = 0x2000;
+                  if(fieldPsynergyId == 2) {
+                    maxAngleDelta = 0x2000;
                   }
 
                   //LAB_808e036
-                  if(r5 <= 0xb) {
-                    sp04 = r9;
-                    sp00 = r5;
-                  } else if(Math.abs((short)(angle - r11)) < r2) {
+                  if(distance < 12) {
+                    closestMapActorIndex = otherMapActorIndex;
+                    closestDistance = distance;
+                  } else if(Math.abs((short)(angle - r11)) < maxAngleDelta) {
                     //LAB_808e04c
-                    sp04 = r9;
-                    sp00 = r5;
+                    closestMapActorIndex = otherMapActorIndex;
+                    closestDistance = distance;
                   }
                 }
               }
@@ -3807,7 +3789,7 @@ public final class GoldenSun_808 {
     }
 
     //LAB_808e05c
-    return sp04;
+    return closestMapActorIndex;
   }
 
   @Method(0x808e0b0)
@@ -3912,13 +3894,13 @@ public final class GoldenSun_808 {
   }
 
   @Method(0x808e4b4)
-  public static EventStruct0c FUN_808e4b4(final int r0, final int r1, final IntRef r2) {
+  public static EventStruct0c FUN_808e4b4(final int r0, final int fieldPsynergyId, final IntRef targetOut) {
     final UnboundedArrayRef<EventStruct0c> events = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new).events_10.deref();
     final int playerAngle = getMapActor(playerMapActorIndex_2000434.get()).angle_06.get();
-    final int r8 = FUN_808df1c(playerMapActorIndex_2000434.get(), r1);
+    final int target = findFieldPsynergyTarget(playerMapActorIndex_2000434.get(), fieldPsynergyId);
 
-    if(r2 != null) {
-      r2.set(r8);
+    if(targetOut != null) {
+      targetOut.set(target);
     }
 
     final int sp04 = getTileTypeInFrontOfPlayer();
@@ -3941,7 +3923,7 @@ public final class GoldenSun_808 {
           if((r2_0 & 0x800) == 0 || ((r2_0 & 0xf000) - playerAngle + 0x17ff & 0xffff) < 0x2fff) {
             //LAB_808e56a
             final Ability10 ability = getAbility_(event._01.get());
-            if(ability._0c.get() == r1) {
+            if(ability.fieldPsynergyId_0c.get() == fieldPsynergyId) {
               if(r11 != 0 || (event._00.get() & 0x7000000f) == r0) {
                 //LAB_808e58e
                 ret = event;
@@ -3949,7 +3931,7 @@ public final class GoldenSun_808 {
                   break;
                 }
                 if((event._00.get() & 0x10) != 0) {
-                  if((r2_0 & 0xff) == r8) {
+                  if((r2_0 & 0xff) == target) {
                     break;
                   }
                 } else {
@@ -3975,19 +3957,19 @@ public final class GoldenSun_808 {
   public static int FUN_808e5d8(final int r0) {
     final int r8 = r0 & 0x3ff;
     final int r5 = r0 >>> 10 & 0xf;
-    final int r9 = getAbility_(r8)._0c.get();
+    final int fieldPsynergyId = getAbility_(r8).fieldPsynergyId_0c.get();
 
     final Actor70 unused = getMapActor(playerMapActorIndex_2000434.get());
 
-    final IntRef sp0x00 = new IntRef();
-    final EventStruct0c r11 = FUN_808e4b4(0x30000005, r9, sp0x00);
-    final EventStruct0c r10 = FUN_808e4b4(0x20000005, r9, sp0x00);
-    FUN_8096fb0(r8, 0);
-    FUN_80970f8(playerMapActorIndex_2000434.get(), sp0x00.get());
-    FUN_8096b28(r11, r5, sp0x00.get());
+    final IntRef target = new IntRef();
+    final EventStruct0c r11 = FUN_808e4b4(0x30000005, fieldPsynergyId, target);
+    final EventStruct0c r10 = FUN_808e4b4(0x20000005, fieldPsynergyId, target);
+    initFieldPsynergy(r8, 0);
+    FUN_80970f8(playerMapActorIndex_2000434.get(), target.get());
+    FUN_8096b28(r11, r5, target.get());
     FUN_8096af0();
     FUN_8097174();
-    FUN_8096b28(r10, r5, sp0x00.get());
+    FUN_8096b28(r10, r5, target.get());
     FUN_8097194();
 
     return 0;
@@ -3995,16 +3977,10 @@ public final class GoldenSun_808 {
 
   @Method(0x808e680)
   public static int usePsynergy(final int r0) {
-    final int r5;
-    int r6;
-    final int r9;
-    final int r10;
-    final int r11;
-
-    r9 = r0 & 0x3ff;
-    r10 = MEMORY.ref(4, 0x3001ebc).get();
-    r11 = getAbility_(r9)._0c.get();
-    r6 = r0 >>> 10 & 0xf;
+    final int abilityId = r0 & 0x3ff;
+    final Structccc r10 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
+    final int fieldPsynergyId = getAbility_(abilityId).fieldPsynergyId_0c.get();
+    int r6 = r0 >>> 10 & 0xf;
     final Actor70 unused = getMapActor(playerMapActorIndex_2000434.get());
     int sp00 = 0;
     stopPlayerAndSetIdle();
@@ -4016,13 +3992,13 @@ public final class GoldenSun_808 {
     //LAB_808e6d4
     if(readFlag_(0x17e) != 0x0) {
       FUN_8015120(r6, 0x1);
-      FUN_8015120(r9, 0x4);
+      FUN_8015120(abilityId, 0x4);
       FUN_8015040(0x91f, 0x1);
       return 0;
     }
 
     //LAB_808e6fa
-    if(MEMORY.ref(2, r10 + 0x19e).get() == 0x3 && r9 == 0x90) {
+    if(r10._19e.get() == 0x3 && abilityId == 0x90) {
       FUN_8015120(r6, 0x1);
       FUN_8015120(0x90, 0x4);
       FUN_8015040(0x91f, 0x1);
@@ -4030,7 +4006,7 @@ public final class GoldenSun_808 {
     }
 
     //LAB_808e71a
-    if(r9 == 0x95) {
+    if(abilityId == 0x95) {
       if(readFlag_(0x144) != 0) {
         FUN_8015120(r6, 0x1);
         FUN_8015120(0x95, 0x4);
@@ -4041,16 +4017,16 @@ public final class GoldenSun_808 {
       //LAB_808e740
       FUN_8015120(0x95, 0x4);
       FUN_8015040(0x920, 0xd);
-      r5 = FUN_8091d84(0x1);
+      final int r5 = FUN_8091d84(0x1);
       FUN_8015140();
       if(r5 != 0) {
         return 0;
       }
 
       //LAB_808e764
-      MEMORY.ref(2, 0x2000400).setu(MEMORY.ref(2, 0x2000480).getUnsigned());
-      MEMORY.ref(2, 0x2000402).setu(MEMORY.ref(2, 0x2000482).getUnsigned());
-      MEMORY.ref(2, r10 + 0x170).setu(999);
+      mapId_2000400.set(_2000480.get());
+      entranceId_2000402.set(_2000482.get());
+      r10._170.set(999);
       sp00 = 1;
     }
 
@@ -4061,15 +4037,15 @@ public final class GoldenSun_808 {
 
     //LAB_808e7a2
     if(r6 < 8) {
-      final int cost = getAbility_(r9).cost_09.get();
+      final int cost = getAbility_(abilityId).cost_09.get();
       if(getUnit_(r6).pp_3a.get() < cost) {
         FUN_8015120(r6, 0x1);
-        FUN_8015120(r9, 0x4);
+        FUN_8015120(abilityId, 0x4);
         FUN_8015040(0x91e, 0x1);
 
         if(sp00 != 0x0) {
           //LAB_808e7dc
-          MEMORY.ref(2, r10 + 0x170).setu(0);
+          r10._170.set(0);
         }
         return 0;
       }
@@ -4079,15 +4055,15 @@ public final class GoldenSun_808 {
     }
 
     //LAB_808e7ee
-    final EventStruct0c sp04 = FUN_808e4b4(0x10000005, r11, null);
-    final EventStruct0c r8 = FUN_808e4b4(5, r11, null);
-    final EventStruct0c r7 = FUN_808e4b4(0x50000005, r11, null);
+    final EventStruct0c sp04 = FUN_808e4b4(0x10000005, fieldPsynergyId, null);
+    final EventStruct0c r8 = FUN_808e4b4(5, fieldPsynergyId, null);
+    final EventStruct0c r7 = FUN_808e4b4(0x50000005, fieldPsynergyId, null);
     int sp08 = -1;
     setFlag_(0x140);
     setFlag_(0x141);
     if(sp04 != null || r8 != null || r7 != null) {
       //LAB_808e83a
-      sp08 = FUN_808df1c(playerMapActorIndex_2000434.get(), r11);
+      sp08 = findFieldPsynergyTarget(playerMapActorIndex_2000434.get(), fieldPsynergyId);
       if(r8 != null && (r8._04_s.get() & 0x400) != 0x0) {
         clearFlag_(0x140);
         clearFlag_(0x141);
@@ -4098,13 +4074,13 @@ public final class GoldenSun_808 {
     }
 
     //LAB_808e874
-    if(MEMORY.ref(2, r10 + 0x19e).get() == 0x3) {
+    if(r10._19e.get() == 0x3) {
       FUN_808b8e8();
     }
 
     //LAB_808e886
-    FUN_8096fb0(r9, 0);
-    MEMORY.ref(1, r10 + 0xcc6).setu(1);
+    initFieldPsynergy(abilityId, 0);
+    r10.fieldPsynergyInUse_cc6.set(1);
     FUN_80970f8(playerMapActorIndex_2000434.get(), sp08);
     FUN_809728c();
     FUN_8096b28(sp04, r6, sp08);
@@ -4129,10 +4105,10 @@ public final class GoldenSun_808 {
     //LAB_808e8f4
     clearFlag_(0x140);
     clearFlag_(0x141);
-    MEMORY.ref(1, r10 + 0xcc6).setu(0);
+    r10.fieldPsynergyInUse_cc6.set(0);
     FUN_8097194();
 
-    if(MEMORY.ref(2, r10 + 0x19e).get() == 0x3) {
+    if(r10._19e.get() == 0x3) {
       FUN_808b98c();
     }
 
@@ -4141,8 +4117,8 @@ public final class GoldenSun_808 {
   }
 
   @Method(0x808e96c)
-  public static int FUN_808e96c(final int r0) {
-    return FUN_808e4b4(0x70000005, r0 & 0xffff, null) != null ? 1 : 0;
+  public static int FUN_808e96c(final int fieldPsynergyId) {
+    return FUN_808e4b4(0x70000005, fieldPsynergyId & 0xffff, null) != null ? 1 : 0;
   }
 
   @Method(0x808e990)

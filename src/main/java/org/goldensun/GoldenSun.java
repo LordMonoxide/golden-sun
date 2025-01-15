@@ -31,6 +31,7 @@ import org.goldensun.types.VramSlot04;
 import javax.annotation.Nullable;
 
 import static org.goldensun.Bios.SvcHalt;
+import static org.goldensun.CopiedSegment8000770.FUN_300013c;
 import static org.goldensun.CopiedSegment8000770.intHandlers_30000e0;
 import static org.goldensun.CopiedSegment8000770.memzero;
 import static org.goldensun.CopiedSegment8000770.mul16;
@@ -5409,7 +5410,7 @@ public final class GoldenSun {
       r1_0 = x1 - r0.pos_08.getX();
       r5 = y1 - r0.pos_08.getY();
       r6 = z1 - r0.pos_08.getZ();
-      r5 = sqrt16((int)MEMORY.call(0x3000118, r1_0, r1_0) + (int)MEMORY.call(0x3000118, r5, r5) + (int)MEMORY.call(0x3000118, r6, r6));
+      r5 = sqrt16(mul16(r1_0, r1_0) + mul16(r5, r5) + mul16(r6, r6));
     }
 
     //LAB_800d1ec
@@ -5420,8 +5421,7 @@ public final class GoldenSun {
       //LAB_800d20c
       if(r0._58.get() == 0) {
         r1_0 = r0.velocityScalar_30.get();
-        r1_0 = (int)MEMORY.call(0x3000118, r1_0, r1_0);
-        r1_0 = (int)MEMORY.call(0x300013c, r0.acceleration_34.get(), r1_0);
+        r1_0 = FUN_300013c(r0.acceleration_34.get(), mul16(r1_0, r1_0));
         if(r5 > r1_0) {
           r1_0 = r5 - r1_0 / 2;
         } else {
@@ -5430,17 +5430,15 @@ public final class GoldenSun {
         }
 
         //LAB_800d240
-        r5 = (int)MEMORY.call(0x300013c, r5, r1_0);
-        int r4 = r0.pos_08.getX();
-        x1 = r4 + (int)MEMORY.call(0x3000118, x1 - r4, r5);
-        r4 = r0.pos_08.getY();
-        y1 = r4 + (int)MEMORY.call(0x3000118, y1 - r4, r5);
-        r4 = r0.pos_08.getZ();
-        z1 = r4 + (int)MEMORY.call(0x3000118, z1 - r4, r5);
+        r5 = FUN_300013c(r5, r1_0);
+        x1 = r0.pos_08.getX() + mul16(x1 - r0.pos_08.getX(), r5);
+        y1 = r0.pos_08.getY() + mul16(y1 - r0.pos_08.getY(), r5);
+        z1 = r0.pos_08.getZ() + mul16(z1 - r0.pos_08.getZ(), r5);
       }
 
       //LAB_800d27c
       r0.dest_38.set(x1, y1, z1);
+
       r1_0 = x1 - r0.pos_08.getX();
       r5 = y1 - r0.pos_08.getY();
       r6 = z1 - r0.pos_08.getZ();
@@ -5994,7 +5992,7 @@ public final class GoldenSun {
 
   @Method(0x800d98c)
   public static Actor70 FUN_800d98c(final Actor70 r0, final Vec3 r1) {
-    final ArrayRef<Actor70> actors = boardWramMallocHead_3001e50.offset(5 * 0x8).deref(4).cast(ArrayRef.of(Actor70.class, 64, 0x4, Actor70::new));
+    final ArrayRef<Actor70> actors = boardWramMallocHead_3001e50.offset(5 * 0x4).deref(4).cast(ArrayRef.of(Actor70.class, 64, 0x4, Actor70::new));
 
     //LAB_800d9a2
     for(int r4 = 0; r4 < 0x40; r4++) {
@@ -6566,7 +6564,7 @@ public final class GoldenSun {
       //LAB_800eac2
     } else if(r6 == 0) {
       //LAB_800eacc
-      r5._17e.set(r7);
+      r5.usedAbility_17e.set(r7);
     } else if(r6 == 1) {
       //LAB_800ead0
       r5._180.set(r7);
