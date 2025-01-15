@@ -4725,7 +4725,7 @@ public final class GoldenSun {
       r0.velocityScalar_30.set(0x40000);
       r0.acceleration_34.set(0x8000);
       r0._64.set(0);
-      r0._68.set(r1);
+      r0.parent_68.set(r1);
     }
 
     //LAB_800c4e2
@@ -5992,7 +5992,7 @@ public final class GoldenSun {
 
   @Method(0x800d98c)
   public static Actor70 FUN_800d98c(final Actor70 r0, final Vec3 r1) {
-    final ArrayRef<Actor70> actors = boardWramMallocHead_3001e50.offset(5 * 0x4).deref(4).cast(ArrayRef.of(Actor70.class, 64, 0x4, Actor70::new));
+    final ArrayRef<Actor70> actors = boardWramMallocHead_3001e50.offset(5 * 0x4).deref(4).cast(ArrayRef.of(Actor70.class, 64, 0x70, Actor70::new));
 
     //LAB_800d9a2
     for(int r4 = 0; r4 < 0x40; r4++) {
@@ -6034,7 +6034,7 @@ public final class GoldenSun {
 
   @Method(0x800da78)
   public static int FUN_800da78(final Actor70 r0) {
-    final Actor70 r2 = r0._68.deref();
+    final Actor70 r2 = r0.parent_68.deref();
     r0.angle_06.set(atan2(r2.pos_08.getZ() - r0.pos_08.getZ(), r2.pos_08.getX() - r0.pos_08.getX()));
     r0.scriptPos_04.incr();
     return 1;
@@ -6054,7 +6054,7 @@ public final class GoldenSun {
 
     final Map194 struct = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
     r7 = struct._ec.get() + 0x780000;
-    final Actor70 r0 = r0_0._68.deref();
+    final Actor70 r0 = r0_0.parent_68.deref();
     r6 = struct._f0.get() + r0.pos_08.getY() + 0x600000;
     r4 = struct._f4.get() - 0x780000;
     r1 = struct._f8.get() + r0.pos_08.getY() - 0x400000;
@@ -6158,7 +6158,7 @@ public final class GoldenSun {
 
   @Method(0x800dcdc)
   public static int FUN_800dcdc(final Actor70 r0) {
-    final Actor70 r2 = r0._68.deref();
+    final Actor70 r2 = r0.parent_68.deref();
     r0.velocityScalar_30.set(r2.velocityScalar_30.get());
     r0.acceleration_34.set(r2.acceleration_34.get());
     final int dx = r2.pos_08.getX() - r0.pos_08.getX();

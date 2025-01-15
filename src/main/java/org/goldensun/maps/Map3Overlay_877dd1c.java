@@ -2350,7 +2350,7 @@ public final class Map3Overlay_877dd1c {
   @Method(0x200c378)
   public static void FUN_200c378(final Actor70 r0) {
     r0._64.incr();
-    final Actor70 r6 = r0._68.deref();
+    final Actor70 r6 = r0.parent_68.deref();
     final int angle = r0._64.get();
     if(angle > 0x1f) {
       clearActor(r0);
@@ -2368,7 +2368,7 @@ public final class Map3Overlay_877dd1c {
   @Method(0x200c3c8)
   public static void FUN_200c3c8(final Actor70 r0) {
     r0._64.incr();
-    final Actor70 r6 = r0._68.deref();
+    final Actor70 r6 = r0.parent_68.deref();
     final int angle = r0._64.get();
     if(angle > 0x1f) {
       clearActor(r0);
@@ -2398,7 +2398,7 @@ public final class Map3Overlay_877dd1c {
         final Sprite38 r5 = actor.sprite_50.derefNullable();
         actor._55.set(0);
         actor._64.set(0);
-        actor._68.set(r0);
+        actor.parent_68.set(r0);
         if(r5 != null) {
           setSpriteAnimation(r5, 0);
           r5._26.set(0);

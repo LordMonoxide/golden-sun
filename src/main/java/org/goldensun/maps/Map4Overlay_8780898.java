@@ -9,11 +9,13 @@ import org.goldensun.GoldenSun_80f;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.types.Actor70;
+import org.goldensun.types.FieldPsynergy720;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Panel24;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.Structccc;
 import org.goldensun.types.Vec3;
+import org.goldensun.types.VramSlot04;
 
 import javax.annotation.Nullable;
 
@@ -25,6 +27,7 @@ import static org.goldensun.GoldenSun.cos;
 import static org.goldensun.GoldenSun.sin;
 import static org.goldensun.GoldenSunVars._3001e40;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
+import static org.goldensun.GoldenSunVars.vramSlots_3001b10;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.MEMORY;
 import static org.goldensun.memory.MemoryHelper.getConsumer;
@@ -3934,7 +3937,7 @@ public final class Map4Overlay_8780898 {
 
   @Method(0x200dcc4)
   public static void FUN_200dcc4(final Actor70 r0) {
-    final Actor70 r6 = r0._68.deref();
+    final Actor70 r6 = r0.parent_68.deref();
     r0._64.incr();
     final int r0_0 = r0._64.get();
     if(r0_0 > 0x1f) {
@@ -3952,7 +3955,7 @@ public final class Map4Overlay_8780898 {
 
   @Method(0x200dd14)
   public static void FUN_200dd14(final Actor70 r0) {
-    final Actor70 r6 = r0._68.deref();
+    final Actor70 r6 = r0.parent_68.deref();
     r0._64.incr();
     final int r0_0 = r0._64.get();
     if(r0_0 > 0x1f) {
@@ -3970,7 +3973,7 @@ public final class Map4Overlay_8780898 {
 
   @Method(0x200dd68)
   public static void FUN_200dd68(final Actor70 r0) {
-    final int r11 = MEMORY.ref(4, 0x3001f30).get();
+    final FieldPsynergy720 r11 = boardWramMallocHead_3001e50.offset(56 * 0x4).deref(4).cast(FieldPsynergy720::new);
     final Actor70[] r10 = new Actor70[2];
 
     //LAB_200dd88
@@ -3982,19 +3985,17 @@ public final class Map4Overlay_8780898 {
         actor._14.set(r0._14.get());
         actor._55.set(0);
         actor._64.set(0);
-        actor._68.set(r0);
+        actor.parent_68.set(r0);
 
         final Sprite38 r5 = actor.sprite_50.deref();
         if(r5 != null) {
           setSpriteAnimation(r5, 0);
           r5._26.set(0);
           clearVramSlot(r5.slot_1c.get());
-          r5.slot_1c.set(MEMORY.ref(2, r11 + 0x46).getUnsigned());
+          r5.slot_1c.set(r11.vramSlot_46.get());
           r5._1d.or(0x1);
-          final int r3 = 0x3001b10 + r5.slot_1c.get() * 0x4;
-          int r1 = MEMORY.ref(2, r3 + 0x2).getUnsigned();
-          r1 = r1 << 17 >>> 22;
-          r5.packet_00.attribs_04.attrib2_04.and(~0x3ff).or(r1);
+          final VramSlot04 r3 = vramSlots_3001b10.get(r5.slot_1c.get());
+          r5.packet_00.attribs_04.attrib2_04.and(~0x3ff).or(r3.vramAddr_02.get() << 17 >>> 22);
           r5.packet_00.attribs_04.flags_01.and(~0x20).and(0x3f).or(0x40);
           r5.packet_00.attribs_04.attrib1_02.and(0x3fff).or(0x8000);
           r5.layers_28.get(0).deref()._16.set(0);

@@ -6090,7 +6090,7 @@ public final class GoldenSun_801 {
 
   @Method(0x801a3d0)
   public static void FUN_801a3d0(final int itemId, final int r1, final int r2, final int r3, final int a4) {
-    FUN_801a404(getAbility_(itemId)._04.get(), r1, r2, r3, a4);
+    FUN_801a404(getAbility_(itemId).icon_04.get(), r1, r2, r3, a4);
   }
 
   @Method(0x801a404)

@@ -55,7 +55,7 @@ public class Actor70 implements MemoryRef {
   public final UnsignedByteRef _63;
   public final ShortRef _64;
   public final ShortRef _66;
-  public final Pointer<Actor70> _68;
+  public final Pointer<Actor70> parent_68;
   public final Pointer<ConsumerRef<Actor70>> _6c;
 
   public Actor70(final Value ref) {
@@ -96,7 +96,7 @@ public class Actor70 implements MemoryRef {
     this._63 = ref.offset(1, 0x63).cast(UnsignedByteRef::new);
     this._64 = ref.offset(2, 0x64).cast(ShortRef::new);
     this._66 = ref.offset(2, 0x66).cast(ShortRef::new);
-    this._68 = ref.offset(4, 0x68).cast(Pointer.deferred(4, Actor70::new));
+    this.parent_68 = ref.offset(4, 0x68).cast(Pointer.deferred(4, Actor70::new));
     this._6c = ref.offset(4, 0x6c).cast(Pointer.deferred(4, ConsumerRef::new));
   }
 

@@ -16,11 +16,9 @@ import org.goldensun.memory.types.ArrayRef;
 import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.UnboundedArrayRef;
-import org.goldensun.types.Ability10;
 import org.goldensun.types.Actor70;
 import org.goldensun.types.EventStruct0c;
 import org.goldensun.types.FieldPsynergyRange04;
-import org.goldensun.types.VblankTransfer0c;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Panel24;
 import org.goldensun.types.Sprite38;
@@ -28,15 +26,14 @@ import org.goldensun.types.SpriteLayer18;
 import org.goldensun.types.Structccc;
 import org.goldensun.types.TileAttributes04;
 import org.goldensun.types.Unit14c;
+import org.goldensun.types.VblankTransfer0c;
 import org.goldensun.types.Vec3;
 
 import static org.goldensun.CopiedSegment8000770.FUN_300013c;
 import static org.goldensun.CopiedSegment8000770.mul16;
 import static org.goldensun.CopiedSegment8000770.sqrt;
-import static org.goldensun.GoldenSun.allocateSpriteSlot;
 import static org.goldensun.GoldenSun.FUN_8004760;
 import static org.goldensun.GoldenSun.FUN_8009088;
-import static org.goldensun.GoldenSun.setActorSpriteScript_;
 import static org.goldensun.GoldenSun.FUN_80090a0;
 import static org.goldensun.GoldenSun.FUN_80090a8;
 import static org.goldensun.GoldenSun.FUN_80090b0;
@@ -54,6 +51,7 @@ import static org.goldensun.GoldenSun.FUN_8009238;
 import static org.goldensun.GoldenSun.FUN_8009268;
 import static org.goldensun.GoldenSun.addLayerToSpriteIfRegularSprite_;
 import static org.goldensun.GoldenSun.addLayerToSprite_;
+import static org.goldensun.GoldenSun.allocateSpriteSlot;
 import static org.goldensun.GoldenSun.atan2;
 import static org.goldensun.GoldenSun.clearActor_;
 import static org.goldensun.GoldenSun.clearTickCallback;
@@ -78,6 +76,7 @@ import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.rotVec3;
 import static org.goldensun.GoldenSun.setActorAnimation_;
 import static org.goldensun.GoldenSun.setActorPosition_;
+import static org.goldensun.GoldenSun.setActorSpriteScript_;
 import static org.goldensun.GoldenSun.setInterruptHandler;
 import static org.goldensun.GoldenSun.setMallocAddress;
 import static org.goldensun.GoldenSun.setTickCallback;
@@ -116,14 +115,13 @@ import static org.goldensun.GoldenSunVars._2000480;
 import static org.goldensun.GoldenSunVars._2000482;
 import static org.goldensun.GoldenSunVars._200048a;
 import static org.goldensun.GoldenSunVars._200048c;
-import static org.goldensun.GoldenSunVars.fieldPsynergyRanges_809e686;
-import static org.goldensun.GoldenSunVars.vblankTransferQueue_2002090;
 import static org.goldensun.GoldenSunVars._3001810;
 import static org.goldensun.GoldenSunVars._3001e40;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.charIds_2000438;
 import static org.goldensun.GoldenSunVars.debug_3001f54;
 import static org.goldensun.GoldenSunVars.entranceId_2000402;
+import static org.goldensun.GoldenSunVars.fieldPsynergyRanges_809e686;
 import static org.goldensun.GoldenSunVars.getActors_200801c;
 import static org.goldensun.GoldenSunVars.getEvents_2008024;
 import static org.goldensun.GoldenSunVars.getLadders_200802c;
@@ -134,6 +132,7 @@ import static org.goldensun.GoldenSunVars.init_2008004;
 import static org.goldensun.GoldenSunVars.mapId_2000400;
 import static org.goldensun.GoldenSunVars.playerMapActorIndex_2000434;
 import static org.goldensun.GoldenSunVars.tileAttribs_2010000;
+import static org.goldensun.GoldenSunVars.vblankTransferQueue_2002090;
 import static org.goldensun.GoldenSun_801.FUN_8015000;
 import static org.goldensun.GoldenSun_801.FUN_8015040;
 import static org.goldensun.GoldenSun_801.FUN_8015058;
@@ -152,12 +151,12 @@ import static org.goldensun.GoldenSun_801.FUN_8015370;
 import static org.goldensun.GoldenSun_801.handleIngameMenus_;
 import static org.goldensun.GoldenSun_807.FUN_8077098;
 import static org.goldensun.GoldenSun_807.addCoins_;
-import static org.goldensun.GoldenSun_807.getAverageCharLevel_;
-import static org.goldensun.GoldenSun_807.cacheEncounterRateBoost_;
 import static org.goldensun.GoldenSun_807.addHp_;
 import static org.goldensun.GoldenSun_807.addPp_;
+import static org.goldensun.GoldenSun_807.cacheEncounterRateBoost_;
 import static org.goldensun.GoldenSun_807.clearFlag_;
 import static org.goldensun.GoldenSun_807.getAbility_;
+import static org.goldensun.GoldenSun_807.getAverageCharLevel_;
 import static org.goldensun.GoldenSun_807.getCharCount_;
 import static org.goldensun.GoldenSun_807.getUnit_;
 import static org.goldensun.GoldenSun_807.giveItem_;
@@ -165,11 +164,9 @@ import static org.goldensun.GoldenSun_807.readFlag_;
 import static org.goldensun.GoldenSun_807.setFlag_;
 import static org.goldensun.GoldenSun_809.FUN_80901c0;
 import static org.goldensun.GoldenSun_809.FUN_80907b0;
-import static org.goldensun.GoldenSun_809.allocatePaletteModifier;
 import static org.goldensun.GoldenSun_809.FUN_8091200;
 import static org.goldensun.GoldenSun_809.FUN_8091220;
 import static org.goldensun.GoldenSun_809.FUN_8091240;
-import static org.goldensun.GoldenSun_809.calculatePaletteModificationSteps;
 import static org.goldensun.GoldenSun_809.FUN_80915dc;
 import static org.goldensun.GoldenSun_809.FUN_809163c;
 import static org.goldensun.GoldenSun_809.FUN_80916b0;
@@ -200,8 +197,6 @@ import static org.goldensun.GoldenSun_809.FUN_8096ab0;
 import static org.goldensun.GoldenSun_809.FUN_8096af0;
 import static org.goldensun.GoldenSun_809.FUN_8096b28;
 import static org.goldensun.GoldenSun_809.FUN_8096c80;
-import static org.goldensun.GoldenSun_809.initFieldPsynergy;
-import static org.goldensun.GoldenSun_809.FUN_80970f8;
 import static org.goldensun.GoldenSun_809.FUN_8097174;
 import static org.goldensun.GoldenSun_809.FUN_8097194;
 import static org.goldensun.GoldenSun_809.FUN_809728c;
@@ -209,6 +204,10 @@ import static org.goldensun.GoldenSun_809.FUN_8099810;
 import static org.goldensun.GoldenSun_809.FUN_809ade8;
 import static org.goldensun.GoldenSun_809.FUN_809c138;
 import static org.goldensun.GoldenSun_809.FUN_809c3a4;
+import static org.goldensun.GoldenSun_809.allocatePaletteModifier;
+import static org.goldensun.GoldenSun_809.calculatePaletteModificationSteps;
+import static org.goldensun.GoldenSun_809.initFieldPsynergy;
+import static org.goldensun.GoldenSun_809.setFieldPsynergyTargetAndCaster;
 import static org.goldensun.GoldenSun_809.stopPlayerAndSetIdle;
 import static org.goldensun.GoldenSun_80b.loadBattle_;
 import static org.goldensun.GoldenSun_80b.tickRecoveryQueue_;
@@ -703,10 +702,10 @@ public final class GoldenSun_808 {
     MEMORY.call(0x8096fb0, r0, r1);
   }
 
-  /** {@link GoldenSun_809#FUN_80970f8} */
+  /** {@link GoldenSun_809#setFieldPsynergyTargetAndCaster} */
   @Method(0x808a430)
-  public static void FUN_808a430(final int actorIndex1, final int actorIndex2) {
-    MEMORY.call(0x80970f8, actorIndex1, actorIndex2);
+  public static void setFieldPsynergyTargetAndCaster_(final int casterMapActorIndex, final int targetMapActorIndex) {
+    MEMORY.call(0x80970f8, casterMapActorIndex, targetMapActorIndex);
   }
 
   /** {@link GoldenSun_809#FUN_8097174} */
@@ -3303,7 +3302,7 @@ public final class GoldenSun_808 {
             if(MEMORY.ref(4, r2 + r3 * 0x4).get() == 0x10) {
               r0 = MEMORY.ref(1, r11 + 0x16).get();
               if(r0 == 3) {
-                r8._68.set(getMapActor_(playerMapActorIndex_2000434.get()));
+                r8.parent_68.set(getMapActor_(playerMapActorIndex_2000434.get()));
                 r8._5a.or(0x1);
                 FUN_8093a6c(r8, 0x809ff40);
                 //LAB_808d76a
@@ -3896,7 +3895,7 @@ public final class GoldenSun_808 {
   @Method(0x808e4b4)
   public static EventStruct0c FUN_808e4b4(final int r0, final int fieldPsynergyId, final IntRef targetOut) {
     final UnboundedArrayRef<EventStruct0c> events = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new).events_10.deref();
-    final int playerAngle = getMapActor(playerMapActorIndex_2000434.get()).angle_06.get();
+    final int playerAngle = getMapActor(playerMapActorIndex_2000434.get()).angle_06.get() & 0xffff;
     final int target = findFieldPsynergyTarget(playerMapActorIndex_2000434.get(), fieldPsynergyId);
 
     if(targetOut != null) {
@@ -3911,8 +3910,6 @@ public final class GoldenSun_808 {
       r11 = 0;
     }
 
-    EventStruct0c ret = null;
-
     //LAB_808e502
     //LAB_808e50c
     for(int i = 0; events.get(i)._00.get() != -1; i++) {
@@ -3922,22 +3919,20 @@ public final class GoldenSun_808 {
         if(FUN_808d428(event._06.get()) != 0) {
           if((r2_0 & 0x800) == 0 || ((r2_0 & 0xf000) - playerAngle + 0x17ff & 0xffff) < 0x2fff) {
             //LAB_808e56a
-            final Ability10 ability = getAbility_(event._01.get());
-            if(ability.fieldPsynergyId_0c.get() == fieldPsynergyId) {
+            if(getAbility_(event._01.get()).fieldPsynergyId_0c.get() == fieldPsynergyId) {
               if(r11 != 0 || (event._00.get() & 0x7000000f) == r0) {
                 //LAB_808e58e
-                ret = event;
                 if((event._00.get() & 0x80) != 0) {
-                  break;
+                  return event;
                 }
                 if((event._00.get() & 0x10) != 0) {
                   if((r2_0 & 0xff) == target) {
-                    break;
+                    return event;
                   }
                 } else {
                   //LAB_808e5a6
                   if((r2_0 & 0xff) == sp04) {
-                    break;
+                    return event;
                   }
                 }
               }
@@ -3949,8 +3944,8 @@ public final class GoldenSun_808 {
       //LAB_808e5ae
     }
 
-    //LAB_808e5be
-    return ret;
+    //LAB_808e5bc
+    return null;
   }
 
   @Method(0x808e5d8)
@@ -3965,7 +3960,7 @@ public final class GoldenSun_808 {
     final EventStruct0c r11 = FUN_808e4b4(0x30000005, fieldPsynergyId, target);
     final EventStruct0c r10 = FUN_808e4b4(0x20000005, fieldPsynergyId, target);
     initFieldPsynergy(r8, 0);
-    FUN_80970f8(playerMapActorIndex_2000434.get(), target.get());
+    setFieldPsynergyTargetAndCaster(playerMapActorIndex_2000434.get(), target.get());
     FUN_8096b28(r11, r5, target.get());
     FUN_8096af0();
     FUN_8097174();
@@ -4058,12 +4053,12 @@ public final class GoldenSun_808 {
     final EventStruct0c sp04 = FUN_808e4b4(0x10000005, fieldPsynergyId, null);
     final EventStruct0c r8 = FUN_808e4b4(5, fieldPsynergyId, null);
     final EventStruct0c r7 = FUN_808e4b4(0x50000005, fieldPsynergyId, null);
-    int sp08 = -1;
+    int targetMapActorId = -1;
     setFlag_(0x140);
     setFlag_(0x141);
     if(sp04 != null || r8 != null || r7 != null) {
       //LAB_808e83a
-      sp08 = findFieldPsynergyTarget(playerMapActorIndex_2000434.get(), fieldPsynergyId);
+      targetMapActorId = findFieldPsynergyTarget(playerMapActorIndex_2000434.get(), fieldPsynergyId);
       if(r8 != null && (r8._04_s.get() & 0x400) != 0x0) {
         clearFlag_(0x140);
         clearFlag_(0x141);
@@ -4081,9 +4076,9 @@ public final class GoldenSun_808 {
     //LAB_808e886
     initFieldPsynergy(abilityId, 0);
     r10.fieldPsynergyInUse_cc6.set(1);
-    FUN_80970f8(playerMapActorIndex_2000434.get(), sp08);
+    setFieldPsynergyTargetAndCaster(playerMapActorIndex_2000434.get(), targetMapActorId);
     FUN_809728c();
-    FUN_8096b28(sp04, r6, sp08);
+    FUN_8096b28(sp04, r6, targetMapActorId);
 
     if(readFlag_(0x140) != 0) {
       if(readFlag_(0x141) != 0) {
@@ -4096,7 +4091,7 @@ public final class GoldenSun_808 {
 
     //LAB_808e8d4
     FUN_8097174();
-    FUN_8096b28(r8, r6, sp08);
+    FUN_8096b28(r8, r6, targetMapActorId);
 
     if(readFlag_(0x140) != 0x0) {
       FUN_8096ab0();

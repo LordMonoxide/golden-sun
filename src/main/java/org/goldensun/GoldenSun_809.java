@@ -910,7 +910,7 @@ public final class GoldenSun_809 {
       }
 
       //LAB_8091612
-      if((pressedButtons_3001c94.get() & 0x100) != 0) {
+      if((pressedButtons_3001c94.get() & Input.BUTTON_R) != 0) {
         r1._1cc.set(-1);
       }
     }
@@ -1315,7 +1315,7 @@ public final class GoldenSun_809 {
     final Actor70 r5 = getMapActor(mapActorIndex0);
 
     if(r5 != null) {
-      r5._68.set(getMapActor_(mapActorIndex1));
+      r5.parent_68.set(getMapActor_(mapActorIndex1));
       FUN_8093a6c(r5, 0x809ff40);
     }
 
@@ -1719,7 +1719,7 @@ public final class GoldenSun_809 {
     final Actor70 actor1 = getMapActor(mapActorIndex1);
     final Actor70 actor2 = getMapActor(mapActorIndex2AndFlags & 0xff);
     if(actor1 != null && actor2 != null) {
-      actor1._68.set(actor2);
+      actor1.parent_68.set(actor2);
 
       if((mapActorIndex2AndFlags & 0x10000) == 0) {
         actor1._64.set(0x28);
@@ -2265,7 +2265,7 @@ public final class GoldenSun_809 {
 
   @Method(0x809376c)
   public static int FUN_809376c(final Actor70 r0) {
-    final Actor70 r6 = r0._68.derefNullable();
+    final Actor70 r6 = r0.parent_68.derefNullable();
     if(r6 != null) {
       r0._55.set(0);
       r0.pos_08.setX(r6.pos_08.getX());
@@ -2295,7 +2295,7 @@ public final class GoldenSun_809 {
         r5._64.set(0);
         r5._66.set(actorIndex);
         r5._6c.set(getConsumer(GoldenSun_809.class, "FUN_809376c", Actor70.class));
-        r5._68.set(r6);
+        r5.parent_68.set(r6);
 
         final Sprite38 sprite = r5.sprite_50.deref();
         sprite._26.set(0);
@@ -2321,7 +2321,7 @@ public final class GoldenSun_809 {
     Actor70 r5 = null;
     if(r7 != null) {
       if((r1 & 0x3) != 0) {
-        if((r1 & 0x3) == 2 || r7._68.isNull()) {
+        if((r1 & 0x3) == 2 || r7.parent_68.isNull()) {
           //LAB_80938a2
           r5 = loadActor_(209, r7.pos_08.getX(), r7.pos_08.getY(), r7.pos_08.getZ());
         }
@@ -2331,7 +2331,7 @@ public final class GoldenSun_809 {
           if((r1 & 0x3) == 1) {
             //LAB_80938d6
             setActorAnimation_(r5, 0x1);
-            r7._68.set(r5);
+            r7.parent_68.set(r5);
             r5._64.set(0x1);
           } else if((r1 & 0x3) == 2) {
             //LAB_80938e8
@@ -2344,7 +2344,7 @@ public final class GoldenSun_809 {
           r5._66.set(actorIndex);
           r5._55.set(0);
           r5._6c.set(getConsumer(GoldenSun_809.class, "FUN_809376c", Actor70.class));
-          r5._68.set(r7);
+          r5.parent_68.set(r7);
 
           final Sprite38 r6 = r5.sprite_50.deref();
           r6._26.set(0);
@@ -2358,10 +2358,10 @@ public final class GoldenSun_809 {
         }
       } else {
         //LAB_80938b2
-        r5 = r7._68.derefNullable();
+        r5 = r7.parent_68.derefNullable();
         if(r5 != null) {
           clearActor_(r5);
-          r7._68.clear();
+          r7.parent_68.clear();
         }
       }
     }
@@ -2385,7 +2385,7 @@ public final class GoldenSun_809 {
       case 4 -> r1 = 0x809fecc;
       case 5 -> r1 = 0x809ff18;
       case 6 -> {
-        r0._68.set(getMapActor_(playerMapActorIndex_2000434.get()));
+        r0.parent_68.set(getMapActor_(playerMapActorIndex_2000434.get()));
         r1 = 0x809ff2c;
       }
       case 7 -> r1 = 0x809fe04;
@@ -2709,28 +2709,23 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8094154)
-  public static int FUN_8094154(final int actorIndex, int r1) {
-    int r3;
-    final int r5;
-    final int r6;
-
-    r5 = r1;
+  public static int FUN_8094154(final int actorIndex, final int r1) {
     final Actor70 r4 = getMapActor(actorIndex);
     if(r4 == null) {
       return -1;
     }
 
     //LAB_8094168
-    r3 = boardWramMallocHead_3001e50.offset(8 * 0x4).get() + 0xe4;
-    r1 = r4.pos_08.getX() - (MEMORY.ref(4, r3).get() & 0xffff0000);
-    r3 = r4.pos_08.getZ() - (MEMORY.ref(4, r3 + 0x4).get() & 0xffff0000);
-    r6 = r3 - r4.pos_08.getY();
-    MEMORY.ref(4, r5).setu(r1 / 0x10000);
-    MEMORY.ref(4, r5 + 0x4).setu(r6 / 0x10000);
+    final Map194 r3 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
+    final int dx = r4.pos_08.getX() - (r3._e4.get() & 0xffff0000);
+    final int dz = r4.pos_08.getZ() - (r3._e8.get() & 0xffff0000);
+    final int r6 = dz - r4.pos_08.getY();
+    MEMORY.ref(4, r1).setu(dx / 0x10000);
+    MEMORY.ref(4, r1 + 0x4).setu(r6 / 0x10000);
 
     if((r4.spriteType_54.get() & 0xf) == 1) {
       final int spriteData = getSpriteData(r4.sprite_50.deref().layers_28.get(0).deref().spriteDataIndex_00.get());
-      MEMORY.ref(4, r5 + 0x4).subu(MEMORY.ref(1, spriteData + 0x8).get());
+      MEMORY.ref(4, r1 + 0x4).subu(MEMORY.ref(1, spriteData + 0x8).get());
     }
 
     //LAB_80941c6
@@ -3202,58 +3197,58 @@ public final class GoldenSun_809 {
     final Structccc r1 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
 
     //LAB_809682e
-    switch(fieldPsynergyId - 1) {
-      case 0: // switch 8096838
+    switch(fieldPsynergyId) {
+      case 1: // switch 8096838
         //LAB_8096878
         FUN_809802c();
         break;
 
-      case 6: // switch 8096838
+      case 7: // switch 8096838
         //LAB_809687e
         FUN_8098954();
         break;
 
-      case 10: // switch 8096838
+      case 11: // switch 8096838
         //LAB_8096884
         FUN_809a294();
         break;
 
-      case 3: // switch 8096838
+      case 4: // switch 8096838
         //LAB_809688a
         FUN_8098cd8();
         break;
 
-      case 4: // switch 8096838
+      case 5: // switch 8096838
         //LAB_8096890
         FUN_80999f0();
         break;
 
-      case 13: // switch 8096838
+      case 14: // switch 8096838
         //LAB_8096896
         FUN_809a8c4();
         break;
 
-      case 5: // switch 8096838
+      case 6: // switch 8096838
         //LAB_809689c
         FUN_8099160();
         break;
 
-      case 2: // switch 8096838
+      case 3: // switch 8096838
         //LAB_80968a2
         FUN_80994d0();
         break;
 
-      case 11: // switch 8096838
+      case 12: // switch 8096838
         //LAB_80968a8
         FUN_80985fc();
         break;
 
-      case 12: // switch 8096838
+      case 13: // switch 8096838
         //LAB_80968ae
         FUN_809ae64();
         break;
 
-      case 8: // switch 8096838
+      case 9: // switch 8096838
         //LAB_80968b4
         if(_200048a.get() != -1) {
           FUN_809ade8(_200048a.get());
@@ -3263,7 +3258,7 @@ public final class GoldenSun_809 {
         //LAB_80968ce
         final int mapActorIndex = FUN_809ae3c(findFieldPsynergyTarget(playerMapActorIndex_2000434.get(), fieldPsynergyId));
         if(FUN_808d5a4(mapActorIndex) != null) {
-          FUN_80970f8(playerMapActorIndex_2000434.get(), mapActorIndex);
+          setFieldPsynergyTargetAndCaster(playerMapActorIndex_2000434.get(), mapActorIndex);
           FUN_809ab98(mapActorIndex);
           FUN_809ad90(mapActorIndex);
           _200048a.set(mapActorIndex);
@@ -3273,7 +3268,7 @@ public final class GoldenSun_809 {
         }
         break;
 
-      case 1: // switch 8096838
+      case 2: // switch 8096838
         //LAB_809690c
         if(r1._cb8.get() != 0) {
           FUN_80984c0();
@@ -3283,22 +3278,22 @@ public final class GoldenSun_809 {
         FUN_8097540(r5.casterMapActorIndex_18.get(), r7);
         break;
 
-      case 7: // switch 8096838
+      case 8: // switch 8096838
         //LAB_8096928
         FUN_80983a0();
         break;
 
-      case 9: // switch 8096838
+      case 10: // switch 8096838
         //LAB_809692e
         FUN_8099838();
         break;
 
-      case 14: // switch 8096838
+      case 15: // switch 8096838
         //LAB_8096934
         FUN_809b208();
         break;
 
-      case 15: // switch 8096838
+      case 16: // switch 8096838
         //LAB_809693a
         FUN_809b698();
         break;
@@ -3543,11 +3538,11 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8096cdc)
-  public static void FUN_8096cdc(final Actor70 r0, final int r1, final int r2) {
+  public static void FUN_8096cdc(final Actor70 caster, final int r1, final int r2) {
     //LAB_8096cf0
     for(int mapActorIndex = 0; mapActorIndex < 67; mapActorIndex++) {
       final Actor70 actor = getMapActor(mapActorIndex);
-      if(mapActorIndex != _200048a.get() && actor != null && actor.getAddress() != r0.getAddress()) {
+      if(mapActorIndex != _200048a.get() && actor != null && actor.getAddress() != caster.getAddress()) {
         actor._5b.set(r1);
         FUN_8009088(actor, r2);
       }
@@ -3559,7 +3554,7 @@ public final class GoldenSun_809 {
   @Method(0x8096d2c)
   public static void FUN_8096d2c(final Actor70 r0) {
     r0._64.incr();
-    final Actor70 r6 = r0._68.deref();
+    final Actor70 r6 = r0.parent_68.deref();
     final int angle = r0._64.get();
     if(angle > 0x1f) {
       setActorSpriteScript_(r0, 0x809f0b0);
@@ -3579,7 +3574,7 @@ public final class GoldenSun_809 {
   @Method(0x8096d84)
   public static void FUN_8096d84(final Actor70 r0) {
     r0._64.incr();
-    final Actor70 r6 = r0._68.deref();
+    final Actor70 r6 = r0.parent_68.deref();
     final int r0_0 = r0._64.get();
     if(r0_0 > 0x1f) {
       setActorSpriteScript_(r0, 0x809f0b0);
@@ -3613,7 +3608,7 @@ public final class GoldenSun_809 {
         final Sprite38 r5 = r0_0.sprite_50.deref();
         r0_0._55.set(0);
         r0_0._64.set(0);
-        r0_0._68.set(r0);
+        r0_0.parent_68.set(r0);
         r0_0._1c.set(0x1999);
         r0_0.scale_18.set(0x1999);
         if(r5 != null) {
@@ -3729,7 +3724,7 @@ public final class GoldenSun_809 {
       }
 
       //LAB_8097096
-      FUN_80970f8(playerMapActorIndex_2000434.get(), -1);
+      setFieldPsynergyTargetAndCaster(playerMapActorIndex_2000434.get(), -1);
 
       if(r5.fieldPsynergyId_1e.get() != 8) {
         r2._cc0.set(0);
@@ -3745,7 +3740,7 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x80970f8)
-  public static void FUN_80970f8(final int casterMapActorIndex, final int targetMapActorIndex) {
+  public static void setFieldPsynergyTargetAndCaster(final int casterMapActorIndex, final int targetMapActorIndex) {
     final FieldPsynergy720 r6 = boardWramMallocHead_3001e50.offset(56 * 0x4).deref(4).cast(FieldPsynergy720::new);
     final Actor70 caster = getMapActor(casterMapActorIndex);
     final Actor70 target = getMapActor(targetMapActorIndex);
@@ -3794,8 +3789,8 @@ public final class GoldenSun_809 {
     }
 
     if(r11.fieldPsynergyInUse_cc6.get() == 0) {
-      final ConsumerRef<Actor70> r7 = getConsumer(GoldenSun_809.class, "FUN_8096d2c", Actor70.class);
-      final ConsumerRef<Actor70> r10 = getConsumer(GoldenSun_809.class, "FUN_8096d84", Actor70.class);
+      final int r7 = getConsumer(GoldenSun_809.class, "FUN_8096d2c", Actor70.class).getAddress();
+      final int r10 = getConsumer(GoldenSun_809.class, "FUN_8096d84", Actor70.class).getAddress();
 
       //LAB_80971ee
       for(int r6 = 0; r6 < 0x1e; r6++) {
@@ -3804,12 +3799,12 @@ public final class GoldenSun_809 {
         int r5 = 0;
 
         //LAB_80971f6
-        ConsumerRef<Actor70> r2;
+        int r2;
         do {
           if(r5 > 0x3f) {
             break;
           }
-          r2 = r3.get(r5)._6c.derefNullable();
+          r2 = r3.get(r5)._6c.getPointer();
           if(r2 == r10) {
             //LAB_8097208
             r1 = 1;
@@ -3849,34 +3844,36 @@ public final class GoldenSun_809 {
   @Method(0x809728c)
   public static void FUN_809728c() {
     final FieldPsynergy720 r6 = boardWramMallocHead_3001e50.offset(56 * 0x4).deref(4).cast(FieldPsynergy720::new);
-    final Actor70 r5 = r6.caster_10.deref();
     final Structccc r3 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
-    final int r7 = r6.abilityId_1c.get();
-    setActorAnimation_(r5, 0x14);
-    r5.dest_38.set(r5.pos_08);
-    r5.velocity_24.zero();
+
+    final Actor70 caster = r6.caster_10.deref();
+    final int abilityId = r6.abilityId_1c.get();
+
+    setActorAnimation_(caster, 0x14);
+    caster.dest_38.set(caster.pos_08);
+    caster.velocity_24.zero();
 
     if(r6._22.get() != 0) {
       playSound_(0xd4);
-      r5._6c.set(getConsumer(GoldenSun_809.class, "FUN_8096f14", Actor70.class));
+      caster._6c.set(getConsumer(GoldenSun_809.class, "FUN_8096f14", Actor70.class));
     }
 
     //LAB_80972da
     if(r6._23.get() != 0) {
-      FUN_8096cdc(r5, 1, 0);
-      FUN_8015120(r7, 4);
+      FUN_8096cdc(caster, 1, 0);
+      FUN_8015120(abilityId, 4);
       FUN_8015040(0x926, r6._71c.get());
-      FUN_8096cdc(r5, 0, 0x10);
+      FUN_8096cdc(caster, 0, 0x10);
     }
 
     //LAB_8097330
     if(readFlag_(0x140) != 0) {
       if(r6._22.get() != 0) {
-        r5._6c.set(getConsumer(GoldenSun_809.class, "FUN_8096f50", Actor70.class));
+        caster._6c.set(getConsumer(GoldenSun_809.class, "FUN_8096f50", Actor70.class));
       }
 
       //LAB_809734a
-      setActorAnimation_(r5, 0x15);
+      setActorAnimation_(caster, 21);
     } else {
       //LAB_8097354
       FUN_8097174();
@@ -4016,13 +4013,13 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x8097b54)
-  public static int FUN_8097b54() {
+  public static int getAngleForHeldDirectionalButtons() {
     return MEMORY.ref(2, 0x809f0f8 + (heldButtonsLastFrame_3001ae8.get() >>> 4 & 0xf) * 0x2).getUnsigned();
   }
 
   @Method(0x8097b70)
   public static void FUN_8097b70(final Actor70 hand) {
-    final Actor70 r0_0 = hand._68.derefNullable();
+    final Actor70 r0_0 = hand.parent_68.derefNullable();
     if(r0_0 != null) {
       final int dx = r0_0.pos_08.getX() - hand.pos_08.getX();
       final int dz = r0_0.pos_08.getZ() - hand.pos_08.getZ();
@@ -4057,35 +4054,32 @@ public final class GoldenSun_809 {
 
   @Method(0x8097c3c)
   public static void useMoveInField(final int r0) {
-    int r3;
-    int r8;
-
     final FieldPsynergy720 sp18 = boardWramMallocHead_3001e50.offset(56 * 0x4).deref(4).cast(FieldPsynergy720::new);
     final Actor70 caster = sp18.caster_10.deref();
-    final Actor70 target = sp18.target_14.deref();
+    final Actor70 target = sp18.target_14.derefNullable();
     final int sp08 = sp18.angle_00.get() + 0x8000;
     int sp04 = 0;
     if(target != null) {
       //LAB_8097c6c
       FUN_8097384();
-      caster._68.set(target);
+      caster.parent_68.set(target);
       setActorSpriteScript_(caster, 0x809f0bc);
-      final Actor70 r10 = allocateMoveHand(caster);
-      if(r10 == null) {
+      final Actor70 moveHand = allocateMoveHand(caster);
+      if(moveHand == null) {
         FUN_809748c();
       } else {
         //LAB_8097c8e
-        r10._68.set(target);
-        final Vec3 r9 = new Vec3();
-        r9.setX(target.pos_08.getX());
-        r9.setY(target.pos_08.getY() + 0x100000);
-        r9.setZ(target.pos_08.getZ());
-        rotVec3(0x100000, sp08, r9);
-        FUN_8009150(r10, r9.getX(), r9.getY(), r9.getZ());
-        FUN_8098184(r10);
-        r10.velocityScalar_30.set(0x40000);
-        r10.acceleration_34.set(0x8000);
-        r10._55.set(0x4);
+        moveHand.parent_68.set(target);
+        final Vec3 vec = new Vec3();
+        vec.setX(target.pos_08.getX());
+        vec.setY(target.pos_08.getY() + 0x100000);
+        vec.setZ(target.pos_08.getZ());
+        rotVec3(0x100000, sp08, vec);
+        FUN_8009150(moveHand, vec.getX(), vec.getY(), vec.getZ());
+        FUN_8098184(moveHand);
+        moveHand.velocityScalar_30.set(0x40000);
+        moveHand.acceleration_34.set(0x8000);
+        moveHand._55.set(0x4);
         target._6c.set(getConsumer(GoldenSun_809.class, "FUN_8096b88", Actor70.class));
         target.velocityScalar_30.set(0x6666);
         target.acceleration_34.set(0x3333);
@@ -4096,6 +4090,7 @@ public final class GoldenSun_809 {
         jmp_8097ef8:
         {
           final Vec3 r5 = new Vec3();
+          int moveAngle;
           jmp_8097e36:
           {
             do {
@@ -4106,45 +4101,45 @@ public final class GoldenSun_809 {
                   break jmp_8097ef8;
                 }
 
-                r8 = FUN_8097b54();
-                if(r8 != 0xffff) {
+                moveAngle = getAngleForHeldDirectionalButtons();
+                if(moveAngle != 0xffff) {
                   break;
                 }
 
-                r9.setX(target.pos_08.getX());
-                r9.setY(target.pos_08.getY() + 0x100000);
-                r9.setZ(target.pos_08.getZ());
-                rotVec3(0x100000, sp08, r9);
-                FUN_8009150(r10, r9.getX(), r9.getY(), r9.getZ());
-                setActorAnimation_(r10, 1);
-                r10.velocity_24.zero();
+                vec.setX(target.pos_08.getX());
+                vec.setY(target.pos_08.getY() + 0x100000);
+                vec.setZ(target.pos_08.getZ());
+                rotVec3(0x100000, sp08, vec);
+                FUN_8009150(moveHand, vec.getX(), vec.getY(), vec.getZ());
+                setActorAnimation_(moveHand, 1);
+                moveHand.velocity_24.zero();
               } while(true);
 
               //LAB_8097d4a
-              r9.setX(target.pos_08.getX());
-              r9.setY(target.pos_08.getY() + 0x100000);
-              r9.setZ(target.pos_08.getZ());
-              rotVec3(0x100000, sp08, r9);
-              rotVec3(0x20000, r8, r9);
-              FUN_8009150(r10, r9.getX(), r9.getY(), r9.getZ());
-              FUN_8009158(r10);
-              r9.setX(target.pos_08.getX());
-              r9.setY(target.pos_08.getY());
-              r9.setZ(target.pos_08.getZ());
-              rotVec3(0x100000, r8, r9);
+              vec.setX(target.pos_08.getX());
+              vec.setY(target.pos_08.getY() + 0x100000);
+              vec.setZ(target.pos_08.getZ());
+              rotVec3(0x100000, sp08, vec);
+              rotVec3(0x20000, moveAngle, vec);
+              FUN_8009150(moveHand, vec.getX(), vec.getY(), vec.getZ());
+              FUN_8009158(moveHand);
+              vec.setX(target.pos_08.getX());
+              vec.setY(target.pos_08.getY());
+              vec.setZ(target.pos_08.getZ());
+              rotVec3(0x100000, moveAngle, vec);
               r5.setX(target.pos_08.getX());
               r5.setY(target.pos_08.getY());
               r5.setZ(target.pos_08.getZ());
-              rotVec3(0x200000, r8, r5);
+              rotVec3(0x200000, moveAngle, r5);
 
-              if(FUN_80091d8(target, r9) <= 0) {
-                final Actor70 actor = FUN_80092a0(target, r9);
+              if(FUN_80091d8(target, vec) <= 0) {
+                final Actor70 actor = FUN_80092a0(target, vec);
                 if(actor == null) {
                   break jmp_8097e36;
                 }
 
                 if(actor.getAddress() == caster.getAddress()) {
-                  if((caster.pos_08.getX() & 0xfff00000) != (r9.getX() & 0xfff00000) || (caster.pos_08.getZ() & 0xfff00000) != (r9.getZ() & 0xfff00000)) {
+                  if((caster.pos_08.getX() & 0xfff00000) != (vec.getX() & 0xfff00000) || (caster.pos_08.getZ() & 0xfff00000) != (vec.getZ() & 0xfff00000)) {
                     //LAB_8097dee
                     if((caster.pos_08.getX() & 0xfff00000) != (r5.getX() & 0xfff00000) || (caster.pos_08.getZ() & 0xfff00000) != (r5.getZ() & 0xfff00000)) {
                       break jmp_8097e36;
@@ -4158,7 +4153,7 @@ public final class GoldenSun_809 {
               }
 
               //LAB_8097e16
-              setActorAnimation_(r10, 4);
+              setActorAnimation_(moveHand, 4);
 
               if((_3001e40.get() & 0xf) == 0x0) {
                 playSound_(0x72);
@@ -4171,22 +4166,20 @@ public final class GoldenSun_809 {
 
           //LAB_8097e36
           playSound_(0xaf);
-          final int sp10 = r9.getX();
-          final int sp0c = r9.getZ();
-          r3 = sp08 - r8;
-          r3 = r3 << 16;
-          r3 = r3 >>> 30;
-          setActorAnimation_(r10, MEMORY.ref(1, 0x809f118 + r3).getUnsigned());
+          final int sp10 = vec.getX();
+          final int sp0c = vec.getZ();
+          final int r3 = sp08 - moveAngle << 16 >>> 30;
+          setActorAnimation_(moveHand, MEMORY.ref(1, 0x809f118 + r3).getUnsigned());
           sleep(15);
           target._5b.set(0);
           target.velocityScalar_30.set(0x3333);
           target.acceleration_34.set(0x3333);
-          FUN_8009150(target, r9.getX(), r9.getY(), r9.getZ());
-          r10._55.set(0);
-          r10.velocityScalar_30.set(0x3333);
-          r10.acceleration_34.set(0x3333);
-          rotVec3(0x100000, r8, r9);
-          FUN_8009150(r10, r9.getX(), r9.getY() + 0x100000, r9.getZ());
+          FUN_8009150(target, vec.getX(), vec.getY(), vec.getZ());
+          moveHand._55.set(0);
+          moveHand.velocityScalar_30.set(0x3333);
+          moveHand.acceleration_34.set(0x3333);
+          rotVec3(0x100000, moveAngle, vec);
+          FUN_8009150(moveHand, vec.getX(), vec.getY() + 0x100000, vec.getZ());
 
           if(sp04 == 0x1) {
             getMapActor_(sp18.casterMapActorIndex_18.get())._5a.and(~0x1);
@@ -4215,7 +4208,7 @@ public final class GoldenSun_809 {
 
         //LAB_8097f32
         FUN_809748c();
-        FUN_80981b0(r10);
+        FUN_80981b0(moveHand);
       }
     }
 
@@ -5042,7 +5035,7 @@ public final class GoldenSun_809 {
     if(r7 != null) {
       //LAB_8099dc6
       FUN_8097384();
-      sp1c._68.set(r7);
+      sp1c.parent_68.set(r7);
       setActorSpriteScript_(sp1c, 0x809f0bc);
       final Vec3 r10 = new Vec3();
       r10.setX(r11.pos_04.getX());
@@ -5105,7 +5098,7 @@ public final class GoldenSun_809 {
           r10.setY(r7.pos_08.getY() + 0x100000);
           r10.setZ(r7.pos_08.getZ());
 
-          final int r6 = FUN_8097b54() & 0xffff;
+          final int r6 = getAngleForHeldDirectionalButtons() & 0xffff;
           if(r6 == 0xffff) {
             FUN_8009150(sp14, r10.getX() + 0x100000, r10.getY(), r10.getZ());
             FUN_8009150(sp18, r10.getX() - 0x100000, r10.getY(), r10.getZ());
@@ -5535,7 +5528,7 @@ public final class GoldenSun_809 {
           final Actor70 actor = FUN_8096c80(0xf9, sp0x18.getX(), sp0x18.getY(), sp0x18.getZ());
           if(actor != null) {
             actor._6c.set(getConsumer(GoldenSun_809.class, "FUN_809a7f4", Actor70.class));
-            actor._68.set(r7);
+            actor.parent_68.set(r7);
             actor._64.set(0);
             actor._66.set(0);
             actor.angle_06.set(rand());

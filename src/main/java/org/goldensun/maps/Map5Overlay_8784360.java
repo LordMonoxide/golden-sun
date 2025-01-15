@@ -10,10 +10,12 @@ import org.goldensun.GoldenSun_80f;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.RunnableRef;
 import org.goldensun.types.Actor70;
+import org.goldensun.types.FieldPsynergy720;
 import org.goldensun.types.Panel24;
 import org.goldensun.types.Sprite38;
 
 import static org.goldensun.GoldenSunVars._3001e40;
+import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.vramSlots_3001b10;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.MEMORY;
@@ -25,7 +27,7 @@ public final class Map5Overlay_8784360 {
 
   @Method(0x2008030)
   public static int FUN_2008030(final Actor70 r0) {
-    final Actor70 r1 = r0._68.derefNullable();
+    final Actor70 r1 = r0.parent_68.derefNullable();
     if(r1 != null) {
       r0._5a.and(~0x1);
 
@@ -3335,7 +3337,7 @@ public final class Map5Overlay_8784360 {
       final int sin = sin(angle << 10);
       r0.scale_18.set(sin);
       r0._1c.set(sin);
-      r0.pos_08.setX(r0._68.deref().pos_08.getX());
+      r0.pos_08.setX(r0.parent_68.deref().pos_08.getX());
       r0.pos_08.y_04.add(0x10000);
       r0.pos_08.z_08.add(0x80000 + (0x10000 - sin) * 5);
     }
@@ -3353,7 +3355,7 @@ public final class Map5Overlay_8784360 {
       final int sin = sin(angle << 10);
       r0.scale_18.set(sin);
       r0._1c.set(-sin);
-      r0.pos_08.setX(r0._68.deref().pos_08.getX());
+      r0.pos_08.setX(r0.parent_68.deref().pos_08.getX());
       r0.pos_08.y_04.add(0x10000);
       r0.pos_08.z_08.sub((0x10000 - sin) * 5).add(0x100000);
     }
@@ -3361,38 +3363,32 @@ public final class Map5Overlay_8784360 {
 
   @Method(0x200a440)
   public static void FUN_200a440(final Actor70 r0) {
-    int r7;
-
-    CPU.push(CPU.r11().value);
-    CPU.push(CPU.r8().value);
-    CPU.sp().value -= 0x8;
-    CPU.r11().value = MEMORY.ref(4, 0x3001f30).get();
+    final FieldPsynergy720 r11 = boardWramMallocHead_3001e50.offset(56 * 0x4).deref(4).cast(FieldPsynergy720::new);
     playSound(0x83);
     final Actor70[] actors = new Actor70[2];
 
     //LAB_200a466
-    for(r7 = 0; r7 < 2; r7++) {
+    for(int r7 = 0; r7 < 2; r7++) {
       final Actor70 actor = loadActor(26, r0.pos_08.getX(), r0.pos_08.getY(), r0.pos_08.getZ());
       actors[r7] = actor;
       if(actor != null) {
         actor._14.set(r0._14.get());
         actor._55.set(0);
         actor._64.set(0);
-        CPU.r8().value = 0;
-        actor._68.set(r0);
+        actor.parent_68.set(r0);
 
         final Sprite38 r5 = actor.sprite_50.derefNullable();
         if(r5 != null) {
           //LAB_200a4a4
           setSpriteAnimation(r5, 0);
-          r5._26.set(CPU.r8().value);
+          r5._26.set(0);
           clearVramSlot(r5.slot_1c.get());
-          r5.slot_1c.set(MEMORY.ref(2, CPU.r11().value + 0x46).getUnsigned());
+          r5.slot_1c.set(r11.vramSlot_46.get());
           r5._1d.or(0x1);
           r5.packet_00.attribs_04.attrib2_04.and(~0x3ff).or(vramSlots_3001b10.get(r5.slot_1c.get()).vramAddr_02.get() << 17 >>> 22);
           r5.packet_00.attribs_04.flags_01.and(0x3f).and(~0x20).or(0x40);
           r5.packet_00.attribs_04.attrib1_02.and(0x3fff).or(0x8000);
-          r5.layers_28.get(0).deref()._16.set(CPU.r8().value);
+          r5.layers_28.get(0).deref()._16.set(0);
         }
       }
 
@@ -3406,9 +3402,6 @@ public final class Map5Overlay_8784360 {
     r1._6c.set(getConsumer(Map5Overlay_8784360.class, "FUN_200a39c", Actor70.class));
     r1.sprite_50.deref().packet_00.attribs_04.attrib2_04.and(~0xc00).or(0x800);
     r1.flags_23.set(2);
-    CPU.sp().value += 0x8;
-    CPU.r8().value = CPU.pop();
-    CPU.r11().value = CPU.pop();
   }
 
   @Method(0x200a564)

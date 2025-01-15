@@ -20,7 +20,7 @@ public final class Map6Overlay_878603c {
 
   @Method(0x2008030)
   public static int FUN_2008030(final Actor70 r0) {
-    final Actor70 r1 = r0._68.derefNullable();
+    final Actor70 r1 = r0.parent_68.derefNullable();
     if(r1 != null) {
       r0._5a.and(~0x1);
 

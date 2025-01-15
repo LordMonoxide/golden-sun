@@ -4924,7 +4924,7 @@ public final class GoldenSun_80b {
           r1 = MEMORY.ref(4, CPU.sp().value + 0x14).get() * rand() >>> 16;
         } else {
           //LAB_80bb3d0
-          r3 = ability._08.get();
+          r3 = ability.range_08.get();
           if(r3 != 0x1) {
             //LAB_80bb54a
             r2 = CPU.sp().value;
@@ -5497,7 +5497,7 @@ public final class GoldenSun_80b {
     MEMORY.ref(4, CPU.sp().value + 0x48).setu(getUnit_(MEMORY.ref(4, CPU.sp().value + 0x44).get()).getAddress());
     r7 = getUnit_(CPU.r10().value).getAddress();
     MEMORY.call(0x3001388, MEMORY.ref(4, CPU.sp().value + 0x10).get(), r7, r5); // memcpy
-    if(ability._08.get() != 0xff) {
+    if(ability.range_08.get() != 0xff) {
       CPU.r11().value = struct._10.get(r6).get();
       if(CPU.r11().value < 0) {
         CPU.r11().value = -CPU.r11().value;
@@ -8452,7 +8452,7 @@ public final class GoldenSun_80b {
                 }
 
                 //LAB_80bd6d6
-                turn._0c.set(ability._08.get());
+                turn._0c.set(ability.range_08.get());
                 r3 = ability.target_00.get();
 
                 //LAB_80bd6ea

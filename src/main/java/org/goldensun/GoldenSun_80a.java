@@ -2918,7 +2918,7 @@ public final class GoldenSun_80a {
         int r2 = ability.flags_01.get();
         int r3;
         if((r2 & 0x40) != 0) {
-          r2 = ability._08.get() ^ 0xff;
+          r2 = ability.range_08.get() ^ 0xff;
           r7 = (-r2 | r2) >>> 31;
           r3 = 0x2;
         } else {
@@ -4003,7 +4003,7 @@ public final class GoldenSun_80a {
     }
 
     //LAB_80a6006
-    if(ability._08.get() == 0xff) {
+    if(ability.range_08.get() == 0xff) {
       return 2;
     }
 
@@ -5077,7 +5077,7 @@ public final class GoldenSun_80a {
 
     //LAB_80a9f66
     for(int sp00 = 0; sp00 < MEMORY.ref(1, sp04 + 0x219).getUnsigned(); sp00++) {
-      if(ability._08.get() == 0xff) {
+      if(ability.range_08.get() == 0xff) {
         r10 = MEMORY.ref(2, sp04 + 0x208 + sp00 * 0x2).getUnsigned();
         r5 = getUnit_(r10);
       }
@@ -5132,7 +5132,7 @@ public final class GoldenSun_80a {
               //LAB_80aa04a
               calcHpPpFractions(r10);
               r9 = 1;
-              if(ability._08.get() == 0xff) {
+              if(ability.range_08.get() == 0xff) {
                 //LAB_80aa05e
                 r8 = 1;
                 r7 = 0x3;
@@ -5223,7 +5223,7 @@ public final class GoldenSun_80a {
                 //LAB_80aa160
                 calcHpPpFractions(r10);
                 r9 = 1;
-                if(ability._08.get() == 0xff) {
+                if(ability.range_08.get() == 0xff) {
                   r8 = 1;
                   r7 = 8;
                 }
@@ -5373,7 +5373,7 @@ public final class GoldenSun_80a {
       }
 
       //LAB_80aa3b0
-      if(ability._08.get() != 0xff) {
+      if(ability.range_08.get() != 0xff) {
         break;
       }
     }

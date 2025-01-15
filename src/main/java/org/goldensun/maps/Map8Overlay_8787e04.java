@@ -873,7 +873,7 @@ public final class Map8Overlay_8787e04 {
   @Method(0x20097e4)
   public static void FUN_20097e4() {
     FUN_808a428(148, 1);
-    FUN_808a430(8, 17);
+    setFieldPsynergyTargetAndCaster(8, 17);
     FUN_808a448();
     FUN_808a420(1);
     FUN_808a438();
@@ -1318,10 +1318,10 @@ public final class Map8Overlay_8787e04 {
     MEMORY.call(0x808a428, r0, r1);
   }
 
-  /** {@link GoldenSun_808#FUN_808a430} */
+  /** {@link GoldenSun_808#setFieldPsynergyTargetAndCaster_} */
   @Method(0x2009a84)
-  public static void FUN_808a430(final int actorIndex1, final int actorIndex2) {
-    MEMORY.call(0x808a430, actorIndex1, actorIndex2);
+  public static void setFieldPsynergyTargetAndCaster(final int casterMapActorIndex, final int targetMapActorIndex) {
+    MEMORY.call(0x808a430, casterMapActorIndex, targetMapActorIndex);
   }
 
   /** {@link GoldenSun_808#FUN_808a438} */
