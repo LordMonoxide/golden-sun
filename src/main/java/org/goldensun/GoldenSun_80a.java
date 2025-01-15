@@ -3898,7 +3898,7 @@ public final class GoldenSun_80a {
           }
           break;
 
-        case 3:
+        case 3: // psynergy character select (e.g. heal)
           FUN_80a3cf8(0, 0xaeb);
           r10 = FUN_80a63e4(0);
           if(r10 == -1) {
@@ -4194,7 +4194,91 @@ public final class GoldenSun_80a {
 
   @Method(0x80a63e4)
   public static int FUN_80a63e4(final int r0) {
-    throw new RuntimeException("Not implemented");
+    final Menua70 r6 = boardWramMallocHead_3001e50.offset(55 * 0x4).deref(4).cast(Menua70::new);
+    int r8 = r6._1c.get(1).get();
+    final int r11 = r6.partyMemberCount_219.get();
+    int sp04 = 0;
+    int sp00 = 0;
+    int r9 = 1;
+    FUN_80a1ac0(r8 * 24 - 10, 16);
+
+    //LAB_80a6582
+    //LAB_80a6590
+    while(readFlag_(0x150) == 0) {
+
+      //LAB_80a6440
+      if(r9 != 0) {
+        r9 = 0;
+        r8 = modS(r8 + r11, r11);
+
+        final GraphicsStruct1c r5 = r6._14.get(1).derefNullable();
+        if(r5 != null) { //BUGFIX: NPE
+          r5.x_06.set(r6.panel_10.deref().x_0c.get() * 8 + r8 * 24 - 2);
+          r5.packet_10.attribs_04.attrib1_02.and(~0x1ff).or(r5.x_06.get() & 0x1ff);
+        }
+
+        if(r0 != 0) {
+          //LAB_80a64a0
+          drawCharInfoPanel(r6.panel_24.deref(), r6.partyMemberIds_208.get(r8).get(), 0, 0);
+          FUN_80a1804(r6, r6.partyMemberIds_208.get(r8).get());
+
+          if(readFlag_(0x151) == 0 && sp00 == 0) {
+            drawPanelBackground_(r6.panel_2c.deref());
+            drawIcon_(0x53a + (r6.abilityId_178.get(0).get() & 0x3fff), r6.panel_2c.deref(), 0, 0);
+            sp00 = 1;
+          } else {
+            //LAB_80a64ea
+            clearFlag_(0x151);
+          }
+        }
+      }
+
+      //LAB_80a6506
+      FUN_80a1a40(r8 * 24 - 10, 16);
+      sleep(1);
+
+      if((pressedButtons_3001c94.get() & 0x1) != 0) {
+        playSound_(0x70);
+        sp04 = r6.partyMemberIds_208.get(r8).get();
+        break;
+      }
+
+      //LAB_80a6538
+      if((pressedButtons_3001c94.get() & 0x2) != 0) {
+        playSound_(0x71);
+        sp04 = -1;
+        break;
+      }
+
+      //LAB_80a6550
+      if((pressedButtons_3001b04.get() & 0x20) != 0) {
+        playSound_(0x6f);
+        r8--;
+        r9 = 1;
+      }
+
+      //LAB_80a656c
+      if((pressedButtons_3001b04.get() & 0x10) != 0) {
+        playSound_(0x6f);
+        r8++;
+        r9 = 1;
+      }
+    }
+
+    //LAB_80a6596
+    final GraphicsStruct1c r5 = r6._14.get(1).derefNullable();
+    r6._1c.get(1).set(r8);
+    FUN_80a17c4(r5);
+
+    if(r5 != null) { //BUGFIX: NPE
+      r5._05.set(13);
+    }
+
+    sleep(1);
+    r6._1c.get(1).set(r8);
+    r6._08.set(r6.partyMemberIds_208.get(r8).get());
+    r6._21a.get(1).set(r6.partyMemberIds_208.get(r8).get());
+    return sp04;
   }
 
   @Method(0x80a65e4)
