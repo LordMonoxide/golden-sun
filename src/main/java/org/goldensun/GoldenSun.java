@@ -3226,6 +3226,12 @@ public final class GoldenSun {
     MEMORY.call(0x800c598, r0, r1);
   }
 
+  /** {@link GoldenSun#FUN_800b684} */
+  @Method(0x8009248)
+  public static void FUN_8009248(final Sprite38 r0, final int r1) {
+    MEMORY.call(0x800b684, r0, r1);
+  }
+
   /** {@link GoldenSun#FUN_800be20} */
   @Method(0x8009260)
   public static int FUN_8009260(final int spriteDataIndex, final int r1, final int r2) {
@@ -3248,6 +3254,12 @@ public final class GoldenSun {
   @Method(0x8009278)
   public static void FUN_8009278(final int r0, final int r1, final int r2, final int r3) {
     MEMORY.call(0x8012078, r0, r1, r2, r3);
+  }
+
+  /** {@link GoldenSun#FUN_800baf8} */
+  @Method(0x8009280)
+  public static void FUN_8009280(final Sprite38 sprite, final int r1) {
+    MEMORY.call(0x800baf8, sprite, r1);
   }
 
   /** {@link GoldenSun#FUN_800f9cc} */

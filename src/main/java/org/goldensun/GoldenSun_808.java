@@ -11,13 +11,16 @@ import org.goldensun.maps.Map5Overlay_8784360;
 import org.goldensun.maps.Map6Overlay_878603c;
 import org.goldensun.maps.Map7Overlay_8786f0c;
 import org.goldensun.maps.Map8Overlay_8787e04;
+import org.goldensun.maps.Map9Overlay_87892c8;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.ArrayRef;
+import org.goldensun.memory.types.ConsumerRef;
 import org.goldensun.memory.types.IntRef;
 import org.goldensun.memory.types.Pointer;
 import org.goldensun.memory.types.UnboundedArrayRef;
 import org.goldensun.types.Actor70;
 import org.goldensun.types.EventStruct0c;
+import org.goldensun.types.FieldPsynergy720;
 import org.goldensun.types.FieldPsynergyRange04;
 import org.goldensun.types.Map194;
 import org.goldensun.types.Panel24;
@@ -44,7 +47,6 @@ import static org.goldensun.GoldenSun.FUN_8009128;
 import static org.goldensun.GoldenSun.FUN_8009130;
 import static org.goldensun.GoldenSun.FUN_8009138;
 import static org.goldensun.GoldenSun.FUN_8009140;
-import static org.goldensun.GoldenSun.moveActorTo_;
 import static org.goldensun.GoldenSun.FUN_80091e0;
 import static org.goldensun.GoldenSun.FUN_8009230;
 import static org.goldensun.GoldenSun.FUN_8009238;
@@ -72,6 +74,7 @@ import static org.goldensun.GoldenSun.mallocChip;
 import static org.goldensun.GoldenSun.mallocSlotBoard;
 import static org.goldensun.GoldenSun.mallocSlotChip;
 import static org.goldensun.GoldenSun.modU;
+import static org.goldensun.GoldenSun.moveActorTo_;
 import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.rotVec3;
 import static org.goldensun.GoldenSun.setActorAnimation_;
@@ -540,6 +543,12 @@ public final class GoldenSun_808 {
     MEMORY.call(0x8093530);
   }
 
+  /** {@link GoldenSun_809#FUN_8093500} */
+  @Method(0x808a220)
+  public static void FUN_808a220(final int mapActorIndex, final int r1) {
+    MEMORY.call(0x8093500, mapActorIndex, r1);
+  }
+
   /** {@link GoldenSun_809#FUN_8093554} */
   @Method(0x808a228)
   public static Actor70 FUN_808a228() {
@@ -754,6 +763,48 @@ public final class GoldenSun_808 {
   @Method(0x808a4f0)
   public static void FUN_808a4f0() {
     MEMORY.call(0x808acc4);
+  }
+
+  /** {@link GoldenSun_809#FUN_809b804} */
+  @Method(0x808a500)
+  public static void FUN_808a500(final FieldPsynergy720.Sub48 r0) {
+    MEMORY.call(0x809b804, r0);
+  }
+
+  /** {@link GoldenSun_809#FUN_809ba34} */
+  @Method(0x808a508)
+  public static int FUN_808a508(final FieldPsynergy720.Sub48 r0) {
+    return (int)MEMORY.call(0x809ba34, r0);
+  }
+
+  /** {@link GoldenSun_809#FUN_809ba5c} */
+  @Method(0x808a510)
+  public static void FUN_808a510(final FieldPsynergy720.Sub48 r0, final int r1, final int r2) {
+    MEMORY.call(0x809ba5c, r0, r1, r2);
+  }
+
+  /** {@link GoldenSun_809#FUN_809ba7c} */
+  @Method(0x808a520)
+  public static void FUN_808a520(final FieldPsynergy720.Sub48 r0, final ConsumerRef<FieldPsynergy720.Sub48> r1) {
+    MEMORY.call(0x809ba7c, r0, r1);
+  }
+
+  /** {@link GoldenSun_809#FUN_809ba90} */
+  @Method(0x808a528)
+  public static void FUN_808a528(final FieldPsynergy720.Sub48 inst, final int r1, final int r2, final int r3) {
+    MEMORY.call(0x809ba90, inst, r1, r2, r3);
+  }
+
+  /** {@link GoldenSun_809#clearFieldPsynergyInstance} */
+  @Method(0x808a530)
+  public static void clearFieldPsynergyInstance(final FieldPsynergy720.Sub48 r0) {
+    MEMORY.call(0x809bb34, r0);
+  }
+
+  /** {@link GoldenSun_809#FUN_80915ac} */
+  @Method(0x808a540)
+  public static int FUN_808a540(final int r0) {
+    return (int)MEMORY.call(0x80915ac, r0);
   }
 
   /** {@link GoldenSun_809#FUN_8091858} */
@@ -1186,6 +1237,7 @@ public final class GoldenSun_808 {
       case 6 -> MEMORY.addFunctions(Map6Overlay_878603c.class);
       case 7 -> MEMORY.addFunctions(Map7Overlay_8786f0c.class);
       case 8 -> MEMORY.addFunctions(Map8Overlay_8787e04.class);
+      case 9 -> MEMORY.addFunctions(Map9Overlay_87892c8.class);
       case 121 -> MEMORY.addFunctions(Map121Overlay_87d0e88.class);
       case 132 -> MEMORY.addFunctions(Map132Overlay_87ced6c.class);
       default -> throw new RuntimeException("Unimplemented map " + mapId_2000400.get());

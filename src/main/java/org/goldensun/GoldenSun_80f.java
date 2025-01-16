@@ -1312,6 +1312,12 @@ public final class GoldenSun_80f {
     return (int)MEMORY.call(0x80f9594);
   }
 
+  /** {@link GoldenSun_80f#FUN_80f95a0} */
+  @Method(0x80f9078)
+  public static void FUN_80f9078() {
+    MEMORY.call(0x80f95a0);
+  }
+
   @Method(0x80f9080)
   public static void playSound(final int soundId) {
     int r2;
@@ -1524,6 +1530,18 @@ public final class GoldenSun_80f {
   @Method(0x80f9594)
   public static int FUN_80f9594() {
     return MEMORY.ref(1, 0x200303c).getUnsigned();
+  }
+
+  @Method(0x80f95a0)
+  public static void FUN_80f95a0() {
+    //LAB_80f95a6
+    for(int r5 = 0; r5 < 300; r5++) {
+      if(MEMORY.ref(1, 0x2003000).getUnsigned() == 0) {
+        break;
+      }
+
+      sleep(1);
+    }
   }
 
   @Method(0x80f95e0)

@@ -125,6 +125,18 @@ public final class GoldenSun_80a {
     return (int)MEMORY.call(0x80a7478);
   }
 
+  /** {@link GoldenSun_80a#FUN_80a1870} */
+  @Method(0x80a1028)
+  public static void FUN_80a1028(final Panel24 r0, final int x, final int y, final int r3) {
+    MEMORY.call(0x80a1870, r0, x, y, r3);
+  }
+
+  /** {@link GoldenSun_80a#FUN_80a195c} */
+  @Method(0x80a1030)
+  public static void FUN_80a1030() {
+    MEMORY.call(0x80a195c);
+  }
+
   /** {@link GoldenSun_80a#FUN_80a17c4} */
   @Method(0x80a1038)
   public static void FUN_80a1038(@Nullable final GraphicsStruct1c r0) {

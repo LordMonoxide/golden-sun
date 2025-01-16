@@ -2256,6 +2256,16 @@ public final class GoldenSun_809 {
     //LAB_80934dc
   }
 
+  @Method(0x8093500)
+  public static void FUN_8093500(final int mapActorIndex, final int r1) {
+    final Actor70 r5 = getMapActor(mapActorIndex);
+    mallocSlotBoard(27, 0xccc);
+
+    if(r5 != null) {
+      FUN_80933f8(r5.pos_08.getX(), -1, r5.pos_08.getZ(), r1);
+    }
+  }
+
   @Method(0x8093530)
   public static void FUN_8093530() {
     FUN_8009158(MEMORY.ref(4, mallocSlotBoard(27, 0xccc), Structccc::new).actor_1e0.deref());
@@ -3526,8 +3536,11 @@ public final class GoldenSun_809 {
       }
 
       //LAB_8096ca2
-      final Actor70 r3 = r6.caster_10.deref();
-      r5._14.set(r3._14.get());
+      //BUGFIX: uninitialized pointer
+      if(r6 != null) {
+        r5._14.set(r6.caster_10.deref()._14.get());
+      }
+
       r5._55.set(0x4);
       r5.flags_23.set(0x4);
       r5.sprite_50.deref().packet_00.attribs_04.attrib2_04.and(~0xc00);
@@ -4537,13 +4550,13 @@ public final class GoldenSun_809 {
     //LAB_8098d0a
     for(r8 = 0; r8 < 12; r8++) {
       final Actor70 r2 = r9.caster_10.deref();
-      final FieldPsynergy720.Sub58 r5 = r9._58.get(r8);
+      final FieldPsynergy720.Sub48 r5 = r9._58.get(r8);
       r10.setX(r2.pos_08.getX());
       r10.setY(r2.pos_08.getY() + 0x100000);
       r10.setZ(r2.pos_08.getZ());
       FUN_80974d8(r10);
       FUN_809ba90(r5, 0x11c, r10.getX(), r10.getZ());
-      FUN_809ba7c(r5, getConsumer(GoldenSun_809.class, "FUN_8098b10", FieldPsynergy720.Sub58.class));
+      FUN_809ba7c(r5, getConsumer(GoldenSun_809.class, "FUN_8098b10", FieldPsynergy720.Sub48.class));
       setFieldPsynergyInstanceSpriteIndex(r5, 7);
       FUN_800b684(r5.sprite_00.deref(), 9);
       r5._2c.set(0xb333);
@@ -5429,9 +5442,9 @@ public final class GoldenSun_809 {
         FUN_80974d8(r8);
         rotVec3(0x40000, rand(), r8);
 
-        final FieldPsynergy720.Sub58 r5_0 = r9._58.get(r10);
+        final FieldPsynergy720.Sub48 r5_0 = r9._58.get(r10);
         FUN_809ba90(r5_0, 0x11d, r8.getX(), r8.getZ());
-        FUN_809ba7c(r5_0, getConsumer(GoldenSun_809.class, "FUN_809aa98", FieldPsynergy720.Sub58.class));
+        FUN_809ba7c(r5_0, getConsumer(GoldenSun_809.class, "FUN_809aa98", FieldPsynergy720.Sub48.class));
         FUN_800b684(r5_0.sprite_00.deref(), 7);
       }
 
@@ -5697,7 +5710,7 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x809b804)
-  public static void FUN_809b804(final FieldPsynergy720.Sub58 r0) {
+  public static void FUN_809b804(final FieldPsynergy720.Sub48 r0) {
     if(r0._45.get() != 0) {
       r0._38.incr();
 
@@ -5725,7 +5738,7 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x809b86c)
-  public static void FUN_809b86c(final FieldPsynergy720.Sub58 r0) {
+  public static void FUN_809b86c(final FieldPsynergy720.Sub48 r0) {
     CPU.sp().value -= 0x18;
 
     final Sprite38 r5 = r0.sprite_00.deref();
@@ -5757,7 +5770,7 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x809b8f4)
-  public static void FUN_809b8f4(final FieldPsynergy720.Sub58 r6) {
+  public static void FUN_809b8f4(final FieldPsynergy720.Sub48 r6) {
     int r0;
     final int r1;
     int r2;
@@ -5839,8 +5852,19 @@ public final class GoldenSun_809 {
     //LAB_809ba1e
   }
 
+  @Method(0x809ba34)
+  public static int FUN_809ba34(final FieldPsynergy720.Sub48 r0) {
+    if(r0._41.get() == 0) {
+      return 0;
+    }
+
+    //LAB_809ba48
+    final int r3 = r0._0c.get() ^ 0x80000000;
+    return (-r3 | r3) >>> 31;
+  }
+
   @Method(0x809ba5c)
-  public static void FUN_809ba5c(final FieldPsynergy720.Sub58 r0, final int r1, final int r2) {
+  public static void FUN_809ba5c(final FieldPsynergy720.Sub48 r0, final int r1, final int r2) {
     r0._04.set(r1);
     r0._08.set(r2);
     r0._0c.set(0x80000000);
@@ -5849,12 +5873,12 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x809ba70)
-  public static void setFieldPsynergyInstanceSpriteIndex(final FieldPsynergy720.Sub58 inst, final int spriteAnimation) {
+  public static void setFieldPsynergyInstanceSpriteIndex(final FieldPsynergy720.Sub48 inst, final int spriteAnimation) {
     setSpriteAnimation_(inst.sprite_00.deref(), spriteAnimation);
   }
 
   @Method(0x809ba7c)
-  public static void FUN_809ba7c(final FieldPsynergy720.Sub58 r0, final ConsumerRef<FieldPsynergy720.Sub58> r1) {
+  public static void FUN_809ba7c(final FieldPsynergy720.Sub48 r0, final ConsumerRef<FieldPsynergy720.Sub48> r1) {
     r0._34.set(r1);
     r0._38.set(0);
     r0._3a.set(0);
@@ -5862,7 +5886,7 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x809ba90)
-  public static void FUN_809ba90(final FieldPsynergy720.Sub58 inst, final int r1, final int r2, final int r3) {
+  public static void FUN_809ba90(final FieldPsynergy720.Sub48 inst, final int r1, final int r2, final int r3) {
     MEMORY.memfill(inst.getAddress(), 0x48, 0);
 
     final Sprite38 sprite = loadSprite_(r1);
@@ -5892,7 +5916,7 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x809bb34)
-  public static void clearFieldPsynergyInstance(final FieldPsynergy720.Sub58 r0) {
+  public static void clearFieldPsynergyInstance(final FieldPsynergy720.Sub48 r0) {
     CPU.sp().value -= 0x4;
 
     if(!r0.sprite_00.isNull()) {

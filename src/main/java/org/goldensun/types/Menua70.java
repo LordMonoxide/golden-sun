@@ -66,16 +66,20 @@ public class Menua70 implements MemoryRef {
 
   public final Pointer<GraphicsStruct1c> _380;
 
+  public final UnsignedShortRef vramSlot_390;
   public final UnsignedShortRef downArrow_392;
   public final UnsignedShortRef upArrow_394;
 
-  public final UnsignedShortRef _3a4;
+  public final UnsignedShortRef spriteDataIndex_3a4;
 
   public final ByteRef _3a7;
-
+  public final ByteRef _3a8;
   public final ByteRef _3a9;
-
+  public final ByteRef _3aa;
+  public final ByteRef _3ab;
   public final ByteRef _3ac;
+
+  public final ArrayRef<FieldPsynergy720.Sub48> _3b0;
 
   public Menua70(final Value ref) {
     this.ref = ref;
@@ -132,16 +136,20 @@ public class Menua70 implements MemoryRef {
 
     this._380 = ref.offset(4, 0x380).cast(Pointer.deferred(4, GraphicsStruct1c::new));
 
+    this.vramSlot_390 = ref.offset(2, 0x390).cast(UnsignedShortRef::new);
     this.downArrow_392 = ref.offset(2, 0x392).cast(UnsignedShortRef::new);
     this.upArrow_394 = ref.offset(2, 0x394).cast(UnsignedShortRef::new);
 
-    this._3a4 = ref.offset(2, 0x3a4).cast(UnsignedShortRef::new);
+    this.spriteDataIndex_3a4 = ref.offset(2, 0x3a4).cast(UnsignedShortRef::new);
 
     this._3a7 = ref.offset(1, 0x3a7).cast(ByteRef::new);
-
+    this._3a8 = ref.offset(1, 0x3a8).cast(ByteRef::new);
     this._3a9 = ref.offset(1, 0x3a9).cast(ByteRef::new);
-
+    this._3aa = ref.offset(1, 0x3aa).cast(ByteRef::new);
+    this._3ab = ref.offset(1, 0x3ab).cast(ByteRef::new);
     this._3ac = ref.offset(1, 0x3ac).cast(ByteRef::new);
+
+    this._3b0 = ref.offset(4, 0x3b0).cast(ArrayRef.of(FieldPsynergy720.Sub48.class, 18, 0x48, FieldPsynergy720.Sub48::new));
   }
 
   @Override

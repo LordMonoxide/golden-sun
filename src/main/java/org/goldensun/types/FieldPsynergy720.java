@@ -45,7 +45,7 @@ public class FieldPsynergy720 implements MemoryRef {
   public final IntRef _4c;
   public final IntRef _50;
   public final IntRef _54;
-  public final ArrayRef<Sub58> _58;
+  public final ArrayRef<Sub48> _58;
 
   public final ByteRef _71c;
 
@@ -81,7 +81,7 @@ public class FieldPsynergy720 implements MemoryRef {
     this._4c = ref.offset(4, 0x4c).cast(IntRef::new);
     this._50 = ref.offset(4, 0x50).cast(IntRef::new);
     this._54 = ref.offset(4, 0x54).cast(IntRef::new);
-    this._58 = ref.offset(4, 0x58).cast(ArrayRef.of(Sub58.class, 24, 0x48, Sub58::new));
+    this._58 = ref.offset(4, 0x58).cast(ArrayRef.of(Sub48.class, 24, 0x48, Sub48::new));
 
     this._71c = ref.offset(1, 0x71c).cast(ByteRef::new);
   }
@@ -91,7 +91,7 @@ public class FieldPsynergy720 implements MemoryRef {
     return this.ref.getAddress();
   }
 
-  public static class Sub58 implements MemoryRef {
+  public static class Sub48 implements MemoryRef {
     private final Value ref;
 
     public final Pointer<Sprite38> sprite_00;
@@ -108,7 +108,7 @@ public class FieldPsynergy720 implements MemoryRef {
     public final IntRef _2c;
     public final UnsignedShortRef _30;
     public final ShortRef _32;
-    public final Pointer<ConsumerRef<Sub58>> _34;
+    public final Pointer<ConsumerRef<Sub48>> _34;
     public final ShortRef _38;
     public final ShortRef _3a;
 
@@ -121,7 +121,7 @@ public class FieldPsynergy720 implements MemoryRef {
     public final ByteRef _46;
     public final UnsignedByteRef _47;
 
-    public Sub58(final Value ref) {
+    public Sub48(final Value ref) {
       this.ref = ref;
 
       this.sprite_00 = ref.offset(4, 0x00).cast(Pointer.deferred(4, Sprite38::new));

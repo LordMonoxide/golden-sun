@@ -4907,6 +4907,19 @@ public final class GoldenSun_802 {
     return MEMORY.ref(1, 0x803740f + choice + r6 * 0x6).get();
   }
 
+  @Method(0x8028db4)
+  public static int FUN_8028db4(final int defaultOption) {
+    allocateChoiceMenu();
+    addChoiceMenuOption(25);
+    addChoiceMenuOption(26);
+    addChoiceMenuOption(27);
+    addChoiceMenuOption(28);
+    updateChoiceMenuLayout(17, 10, 0);
+    final int selectedOption = handleChoiceMenu(defaultOption);
+    deallocateChoiceMenu();
+    return selectedOption;
+  }
+
   @Method(0x8028df4)
   public static int FUN_8028df4(final int r0, final int r1, final int r2, final int r3) {
     int r5 = r2;
