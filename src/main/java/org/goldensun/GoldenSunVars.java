@@ -26,6 +26,7 @@ import org.goldensun.types.Class54;
 import org.goldensun.types.FieldPsynergy720;
 import org.goldensun.types.FieldPsynergyRange04;
 import org.goldensun.types.Matrix30;
+import org.goldensun.types.SaveStruct1100;
 import org.goldensun.types.VblankTransferQueue184;
 import org.goldensun.types.Item2c;
 import org.goldensun.types.Map194;
@@ -263,6 +264,7 @@ public final class GoldenSunVars {
    *   <li>27 - {@link Structccc}</li>
    *   <li>30 - {@link LightningStruct1f88}</li>
    *   <li>32 - {@link PaletteStruct2a04}</li>
+   *   <li>51 - {@link SaveStruct1100}</li>
    *   <li>54 - Array of ?? {@link Unit14c}</li>
    *   <li>55 - {@link Menua70}</li>
    *   <li>56 - {@link FieldPsynergy720}</li>

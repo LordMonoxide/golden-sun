@@ -2402,6 +2402,17 @@ public final class GoldenSun {
     return 0;
   }
 
+  @Method(0x8005ac0)
+  public static int FUN_8005ac0(final int r0) {
+    final int slot = getSaveSlot(r0);
+    if(slot > 15) {
+      return 1;
+    }
+
+    //LAB_8005ace
+    return FUN_8005b64(slot) != 0 ? 1 : 0;
+  }
+
   @Method(0x8005ae0)
   public static int calcSaveChecksum() {
     int r0 = 0;

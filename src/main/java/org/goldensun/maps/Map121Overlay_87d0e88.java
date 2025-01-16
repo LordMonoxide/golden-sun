@@ -1264,7 +1264,7 @@ public final class Map121Overlay_87d0e88 {
       r2 = r2 << 17;
       r0 = 0x10;
       r1 = r1 << 17;
-      FUN_808a0f0(r0, r1, r2);
+      moveActorToPosition(r0, r1, r2);
       r0 = 0x10;
       r1 = 0x1;
       setActorAnimationIfLoaded(r0, r1);
@@ -1333,7 +1333,7 @@ public final class Map121Overlay_87d0e88 {
       r2 = r2 << 17;
       r0 = 0x10;
       r1 = r1 << 17;
-      FUN_808a0f0(r0, r1, r2);
+      moveActorToPosition(r0, r1, r2);
       r0 = 0x10;
       r1 = 0x2;
       setActorAnimationIfLoaded(r0, r1);
@@ -2538,9 +2538,9 @@ public final class Map121Overlay_87d0e88 {
     MEMORY.call(0x808a0e8, mapActorIndex);
   }
 
-  /** {@link GoldenSun_808#FUN_808a0f0} */
+  /** {@link GoldenSun_808#moveActorToPosition_} */
   @Method(0x200ab4c)
-  public static void FUN_808a0f0(final int mapActorIndex, final int x, final int z) {
+  public static void moveActorToPosition(final int mapActorIndex, final int x, final int z) {
     MEMORY.call(0x808a0f0, mapActorIndex, x, z);
   }
 

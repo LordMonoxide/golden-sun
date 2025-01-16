@@ -266,21 +266,21 @@ public final class Map7Overlay_8786f0c {
     boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._1c0.set(0x209);
 
     if(readFlag(0x834) != 0) {
-      FUN_2009204(8, 0, 0);
-      FUN_2009204(9, 0, 0);
-      FUN_2009204(10, 0, 0);
-      FUN_2009204(11, 0, 0);
-      FUN_2009204(12, 0, 0);
-      FUN_2009204(13, 0, 0);
-      FUN_2009204(14, 0, 0);
-      FUN_2009204(15, 0, 0);
-      FUN_2009204(16, 0, 0);
-      FUN_2009204(17, 0, 0);
-      FUN_2009204(18, 0, 0);
-      FUN_2009204(19, 0, 0);
-      FUN_2009204(20, 0, 0);
-      FUN_2009204(21, 0, 0);
-      FUN_2009204(22, 0, 0);
+      moveActorToPosition(8, 0, 0);
+      moveActorToPosition(9, 0, 0);
+      moveActorToPosition(10, 0, 0);
+      moveActorToPosition(11, 0, 0);
+      moveActorToPosition(12, 0, 0);
+      moveActorToPosition(13, 0, 0);
+      moveActorToPosition(14, 0, 0);
+      moveActorToPosition(15, 0, 0);
+      moveActorToPosition(16, 0, 0);
+      moveActorToPosition(17, 0, 0);
+      moveActorToPosition(18, 0, 0);
+      moveActorToPosition(19, 0, 0);
+      moveActorToPosition(20, 0, 0);
+      moveActorToPosition(21, 0, 0);
+      moveActorToPosition(22, 0, 0);
       FUN_20092b4();
       boardWramMallocHead_3001e50.offset(30 * 0x4).deref(4).cast(LightningStruct1f88::new).quiet_1f84.set(true);
       FUN_20092c4();
@@ -302,7 +302,7 @@ public final class Map7Overlay_8786f0c {
 
     //LAB_2008474
     if(entranceId_2000402.get() == 2 && readFlag(0x815) != 0) {
-      FUN_2009204(13, 0x1c60000, 0x960000);
+      moveActorToPosition(13, 0x1c60000, 0x960000);
       FUN_2009174(getMapActor(13), 0);
       setActorAnimationIfLoaded(13, 5);
       FUN_200916c(4);
@@ -425,9 +425,9 @@ public final class Map7Overlay_8786f0c {
 
     final Actor70 r0 = getMapActor(0);
     if(r0 != null) {
-      FUN_2009204(1, r0.pos_08.getX(), r0.pos_08.getZ());
-      FUN_2009204(2, r0.pos_08.getX(), r0.pos_08.getZ());
-      FUN_2009204(3, r0.pos_08.getX(), r0.pos_08.getZ());
+      moveActorToPosition(1, r0.pos_08.getX(), r0.pos_08.getZ());
+      moveActorToPosition(2, r0.pos_08.getX(), r0.pos_08.getZ());
+      moveActorToPosition(3, r0.pos_08.getX(), r0.pos_08.getZ());
     }
 
     //LAB_200877a
@@ -798,9 +798,9 @@ public final class Map7Overlay_8786f0c {
     MEMORY.call(0x808a0e8, mapActorIndex);
   }
 
-  /** {@link GoldenSun_808#FUN_808a0f0} */
+  /** {@link GoldenSun_808#moveActorToPosition_} */
   @Method(0x2009204)
-  public static void FUN_2009204(final int mapActorIndex, final int x, final int z) {
+  public static void moveActorToPosition(final int mapActorIndex, final int x, final int z) {
     MEMORY.call(0x808a0f0, mapActorIndex, x, z);
   }
 

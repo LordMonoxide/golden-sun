@@ -282,7 +282,7 @@ public final class Map3Overlay_877dd1c {
   @Method(0x2008434)
   public static int init() {
     FUN_808a5e0(0xaa);
-    FUN_808a0f0(23, 0, 0);
+    moveActorToPosition(23, 0, 0);
 
     if(readFlag(0x109) != 0) {
       clearFlag(0x205);
@@ -291,25 +291,25 @@ public final class Map3Overlay_877dd1c {
 
     //LAB_2008462
     if(readFlag(0x830) != 0) {
-      FUN_808a0f0(11, 0x14e0000, 0x3a40000);
+      moveActorToPosition(11, 0x14e0000, 0x3a40000);
       FUN_2008ec4();
     }
 
     //LAB_2008480
     if(readFlag(0x831) != 0) {
-      FUN_808a0f0(12, 0xe00000, 0x3680000);
+      moveActorToPosition(12, 0xe00000, 0x3680000);
       FUN_20090a4();
     }
 
     //LAB_200849c
     if(readFlag(0x832) != 0) {
-      FUN_808a0f0(13, 0x400000, 0x2bf0000);
+      moveActorToPosition(13, 0x400000, 0x2bf0000);
       FUN_20092f0();
     }
 
     //LAB_20084b6
     if(readFlag(0x833) != 0) {
-      FUN_808a0f0(14, 0x1b00000, 0x47b0000);
+      moveActorToPosition(14, 0x1b00000, 0x47b0000);
       FUN_2009498();
     }
 
@@ -324,7 +324,7 @@ public final class Map3Overlay_877dd1c {
     getMapActor(18)._59.or(0x4);
 
     if(readFlag(0x837) != 0) {
-      FUN_808a0f0(22, 0, 0);
+      moveActorToPosition(22, 0, 0);
     }
 
     //LAB_2008556
@@ -333,7 +333,7 @@ public final class Map3Overlay_877dd1c {
     actor19._1c.set(0x20000);
 
     if(readFlag(0x838) != 0) {
-      FUN_808a0f0(19, 0x720000, 0x14d0000);
+      moveActorToPosition(19, 0x720000, 0x14d0000);
     } else {
       //LAB_200857c
       FUN_808a098(19, 0x200c9f4);
@@ -343,25 +343,25 @@ public final class Map3Overlay_877dd1c {
     if(readFlag(0x841) != 0) {
       //LAB_2008590
       FUN_200c0f0();
-      FUN_808a0f0(9, 0xa50000, 0x4cd0000);
+      moveActorToPosition(9, 0xa50000, 0x4cd0000);
       final Actor70 actor9 = getMapActor(9);
       actor9.angle_06.set(0xe000);
       actor9._64.set(FUN_200c634(rand(), 90) + 60);
       actor9._66.set(1);
       FUN_808a098(9, 0x200cec8);
-      FUN_808a0f0(26, 0xa50000, 0x4e60000);
+      moveActorToPosition(26, 0xa50000, 0x4e60000);
       final Actor70 actor26 = getMapActor(26);
       actor26.angle_06.set(0xe000);
       actor26._64.set(FUN_200c634(rand(), 90) + 60);
       actor26._66.set(2);
       FUN_808a098(26, 0x200cec8);
-      FUN_808a0f0(22, 0x980000, 0x5050000);
+      moveActorToPosition(22, 0x980000, 0x5050000);
       final Actor70 actor22 = getMapActor(22);
       actor22.angle_06.set(0xe000);
       actor22._64.set(FUN_200c634(rand(), 90) + 60);
       actor22._66.set(3);
       FUN_808a098(22, 0x200cec8);
-      FUN_808a0f0(8, 0xb80000, 0x5180000);
+      moveActorToPosition(8, 0xb80000, 0x5180000);
       final Actor70 actor8 = getMapActor(8);
       actor8.angle_06.set(0xe000);
       actor8._64.set(FUN_200c634(rand(), 90) + 60);
@@ -371,42 +371,42 @@ public final class Map3Overlay_877dd1c {
       getMapActor(22).flags_23.and(~0x1);
       getMapActor(8).flags_23.and(~0x1);
       setTickCallback(getRunnable(Map3Overlay_877dd1c.class, "FUN_200c5b8"), 0xc80);
-      FUN_808a0f0(24, 0, 0);
-      FUN_808a0f0(25, 0, 0);
-      FUN_808a0f0(23, 0, 0);
-      FUN_808a0f0(19, 0, 0);
+      moveActorToPosition(24, 0, 0);
+      moveActorToPosition(25, 0, 0);
+      moveActorToPosition(23, 0, 0);
+      moveActorToPosition(19, 0, 0);
 
       if(readFlag(0x842) != 0) {
         //LAB_20086dc
-        FUN_808a0f0(22, 0, 0);
+        moveActorToPosition(22, 0, 0);
       }
       //LAB_20086e0
     } else if(readFlag(0x83a) == 0) {
       //LAB_20086ec
-      FUN_808a0f0(10, 0xc00000, 0x4be0000);
+      moveActorToPosition(10, 0xc00000, 0x4be0000);
       FUN_808a1b8(10, 0x2000, 0);
       setActorAnimationIfLoaded(10, 5);
       getMapActor(10)._64.set(FUN_200c634(rand(), 90) + 60);
       FUN_808a098(10, 0x200cec8);
-      FUN_808a0f0(24, 0xe30000, 0x4be0000);
+      moveActorToPosition(24, 0xe30000, 0x4be0000);
       FUN_808a1b8(24, 0x4000, 0);
       setActorAnimationIfLoaded(24, 6);
       getMapActor(24)._64.set(FUN_200c634(rand(), 90) + 60);
       FUN_808a098(24, 0x200cec8);
-      FUN_808a0f0(25, 0xf70000, 0x4be0000);
+      moveActorToPosition(25, 0xf70000, 0x4be0000);
       FUN_808a1b8(25, 0x4000, 0);
       setActorAnimationIfLoaded(25, 6);
       getMapActor(25)._64.set(FUN_200c634(rand(), 90) + 0x3c);
       FUN_808a098(25, 0x200cec8);
-      FUN_808a0f0(23, 0xf30000, 0x4fd0000);
+      moveActorToPosition(23, 0xf30000, 0x4fd0000);
       FUN_808a1b8(23, 0xc000, 0);
       FUN_80091e0(getMapActor(23), 0);
-      FUN_808a0f0(17, 0, 0);
-      FUN_808a0f0(18, 0, 0);
+      moveActorToPosition(17, 0, 0);
+      moveActorToPosition(18, 0, 0);
     } else {
       //LAB_2008840
-      FUN_808a0f0(17, 0, 0);
-      FUN_808a0f0(18, 0, 0);
+      moveActorToPosition(17, 0, 0);
+      moveActorToPosition(18, 0, 0);
     }
 
     //LAB_2008854
@@ -442,8 +442,8 @@ public final class Map3Overlay_877dd1c {
       if(readFlag(0x837) == 0) {
         FUN_808a018();
         FUN_808a1f0(22, 0x101);
-        FUN_808a0f0(22, 0x1900000, 0x2630000);
-        FUN_808a0f0(21, 0x1a80000, 0x2730000);
+        moveActorToPosition(22, 0x1900000, 0x2630000);
+        moveActorToPosition(21, 0x1a80000, 0x2730000);
         FUN_808a0c8(22, 0x190, 0x26b);
         FUN_808a0d0(21, 0x1a8, 0x26b);
         setActorAnimationIfLoaded(21, 2);
@@ -452,7 +452,7 @@ public final class Map3Overlay_877dd1c {
       } else {
         //LAB_2008994
         FUN_808a018();
-        FUN_808a0f0(21, 0x1a80000, 0x2730000);
+        moveActorToPosition(21, 0x1a80000, 0x2730000);
         FUN_808a0d0(21, 0x1a8, 0x26b);
         setActorAnimationIfLoaded(21, 3);
         FUN_808a020();
@@ -482,8 +482,8 @@ public final class Map3Overlay_877dd1c {
     sleep(60);
     FUN_808a208(0x4000, 0x800);
     FUN_808a210(0x13c0000, 0xa00000, 0x3700000, 1);
-    FUN_808a0f0(10, 0x1260000, 0x3640000);
-    FUN_808a0f0(0, 0, 0);
+    moveActorToPosition(10, 0x1260000, 0x3640000);
+    moveActorToPosition(0, 0, 0);
     final Structccc r1 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
     r1._1c0.set(0x100);
     r1._1c8.set(0x10);
@@ -496,11 +496,11 @@ public final class Map3Overlay_877dd1c {
     setActorVelocityScalerAndAcceleration(9, 0xcccc, 0x6666);
     setActorVelocityScalerAndAcceleration(0, 0xcccc, 0x6666);
     setActorVelocityScalerAndAcceleration(10, 0xcccc, 0x6666);
-    FUN_808a0f0(0x9, 0x1560000, 0x37a0000);
+    moveActorToPosition(0x9, 0x1560000, 0x37a0000);
     FUN_808a0d0(9, 342, 905);
     FUN_808a5e8();
     FUN_808a0c8(9, 296, 905);
-    FUN_808a0f0(0, 0x1560000, 0x37a0000);
+    moveActorToPosition(0, 0x1560000, 0x37a0000);
     FUN_808a0c8(0, 342, 890);
     FUN_808a0d0(0, 342, 905);
     FUN_808a0d0(0, 318, 905);
@@ -556,8 +556,8 @@ public final class Map3Overlay_877dd1c {
     FUN_808a0c8(10, 297, 750);
     FUN_808a010(10);
     FUN_808a0d0(9, 297, 750);
-    FUN_808a0f0(9, 0, 0);
-    FUN_808a0f0(10, 0, 0);
+    moveActorToPosition(9, 0, 0);
+    moveActorToPosition(10, 0, 0);
     setActorAnimationIfLoaded(10, 1);
     setActorAnimationIfLoaded(21, 2);
     setActorAnimationIfLoaded(22, 5);
@@ -585,7 +585,7 @@ public final class Map3Overlay_877dd1c {
         playSound(0x91);
         r5.flags_23.and(~0x1);
         r6.packet_00.attribs_04.attrib2_04.and(~0xc00).or(0x400);
-        FUN_808a0f0(11, 0x1d90000, 0x3a40000);
+        moveActorToPosition(11, 0x1d90000, 0x3a40000);
         r5.velocityScalar_30.set(0x18000);
         r5.acceleration_34.set(0x18000);
         r5.pos_08.y_04.add(0xf00000);
@@ -648,7 +648,7 @@ public final class Map3Overlay_877dd1c {
         playSound(0x8d);
         sleep(40);
         playSound(0x91);
-        FUN_808a0f0(12, 0x17d0000, 0x3280000);
+        moveActorToPosition(12, 0x17d0000, 0x3280000);
         r5.velocityScalar_30.set(0x18000);
         r5.acceleration_34.set(0x18000);
         r5.pos_08.y_04.add(0x1000000);
@@ -724,7 +724,7 @@ public final class Map3Overlay_877dd1c {
         playSound(0x91);
         setActorPriority(0, 3);
         getMapActor(0).flags_23.or(0x2);
-        FUN_808a0f0(13, 0, 0x2bf0000);
+        moveActorToPosition(13, 0, 0x2bf0000);
         r6.velocityScalar_30.set(0x18000);
         r6.acceleration_34.set(0x18000);
         r6.pos_08.y_04.add(0x500000);
@@ -790,7 +790,7 @@ public final class Map3Overlay_877dd1c {
         playSound(0x8d);
         sleep(40);
         playSound(0x91);
-        FUN_808a0f0(14, 0x1da0000, 0x47b0000);
+        moveActorToPosition(14, 0x1da0000, 0x47b0000);
         r5.velocityScalar_30.set(0x10000);
         r5.acceleration_34.set(0x10000);
         r5.pos_08.y_04.add(0x480000);
@@ -841,7 +841,7 @@ public final class Map3Overlay_877dd1c {
   public static void FUN_200950c() {
     FUN_808a018();
     FUN_808a0d0(0, 262, 810);
-    FUN_808a0f0(20, 0x1060000, 0x3250000);
+    moveActorToPosition(20, 0x1060000, 0x3250000);
     FUN_808a0c8(20, 262, 825);
     setActorVelocityScalerAndAcceleration(0, 0x20000, 0x10000);
     FUN_808a128(0, 2, 0);
@@ -966,7 +966,7 @@ public final class Map3Overlay_877dd1c {
 
     //LAB_20097f0
     FUN_808a0e8(22);
-    FUN_808a0f0(22, 0, 0);
+    moveActorToPosition(22, 0, 0);
     FUN_200c714(1, 1);
     setFlag(0x837);
   }
@@ -1013,7 +1013,7 @@ public final class Map3Overlay_877dd1c {
 
       //LAB_2009942
       FUN_808a0e8(22);
-      FUN_808a0f0(22, 0, 0);
+      moveActorToPosition(22, 0, 0);
       FUN_200c714(1, 1);
       setActorAnimationIfLoaded(21, 3);
       setFlag(0x837);
@@ -1030,7 +1030,7 @@ public final class Map3Overlay_877dd1c {
 
     final Actor70 r0 = getMapActor(0);
     if(r0 != null) {
-      FUN_808a0f0(22, r0.pos_08.getX(), r0.pos_08.getZ());
+      moveActorToPosition(22, r0.pos_08.getX(), r0.pos_08.getZ());
     }
 
     //LAB_20099a6
@@ -1054,7 +1054,7 @@ public final class Map3Overlay_877dd1c {
 
     //LAB_2009a2e
     FUN_808a0e8(22);
-    FUN_808a0f0(22, 0, 0);
+    moveActorToPosition(22, 0, 0);
     FUN_808a0d0(0, 256, 517);
     FUN_808a020();
   }
@@ -1063,7 +1063,7 @@ public final class Map3Overlay_877dd1c {
   public static void FUN_2009a64(final int r0, final int r1) {
     final Actor70 actor = getMapActor(0);
     if(actor != null) {
-      FUN_808a0f0(22, actor.pos_08.getX(), actor.pos_08.getZ());
+      moveActorToPosition(22, actor.pos_08.getX(), actor.pos_08.getZ());
     }
 
     //LAB_2009a7e
@@ -1086,7 +1086,7 @@ public final class Map3Overlay_877dd1c {
 
     //LAB_2009afc
     FUN_808a0e8(22);
-    FUN_808a0f0(22, 0, 0);
+    moveActorToPosition(22, 0, 0);
   }
 
   /**
@@ -1109,7 +1109,7 @@ public final class Map3Overlay_877dd1c {
 
       final Actor70 r0 = getMapActor(0);
       if(r0 != null) {
-        FUN_808a0f0(22, r0.pos_08.getX(), r0.pos_08.getZ());
+        moveActorToPosition(22, r0.pos_08.getX(), r0.pos_08.getZ());
       }
 
       //LAB_2009b92
@@ -1162,7 +1162,7 @@ public final class Map3Overlay_877dd1c {
       FUN_808a010(40);
       MEMORY.ref(4, 0x200d7fc).setu(1);
       FUN_808a010(30);
-      FUN_808a0f0(19, 0x720000, 0x1220000);
+      moveActorToPosition(19, 0x720000, 0x1220000);
       final Actor70 actor19 = getMapActor(19);
       actor19.pos_08.y_04.add(0x400000);
       actor19.dest_38.setY(actor19.pos_08.getY());
@@ -1249,7 +1249,7 @@ public final class Map3Overlay_877dd1c {
 
       //LAB_200a040
       FUN_808a0e8(22);
-      FUN_808a0f0(22, 0, 0);
+      moveActorToPosition(22, 0, 0);
       FUN_200c734(31);
       FUN_200c734(28);
       FUN_200c734(30);
@@ -1271,26 +1271,26 @@ public final class Map3Overlay_877dd1c {
     if(readFlag(0x83a) == 0) {
       //LAB_200a18e
       FUN_808a018();
-      FUN_808a0f0(10, 0xc00000, 0x4be0000);
+      moveActorToPosition(10, 0xc00000, 0x4be0000);
       FUN_808a1b8(10, 0x2000, 0);
       setActorAnimationIfLoaded(10, 5);
       getMapActor(10)._64.set(FUN_200c634(rand(), 90) + 60);
       FUN_808a098(10, 0x200cec8);
-      FUN_808a0f0(9, 0xc00000, 0x4a50000);
+      moveActorToPosition(9, 0xc00000, 0x4a50000);
       FUN_808a1b8(9, 0x2000, 0);
-      FUN_808a0f0(24, 0xe30000, 0x4be0000);
+      moveActorToPosition(24, 0xe30000, 0x4be0000);
       FUN_808a1b8(24, 0x4000, 0);
       setActorAnimationIfLoaded(24, 6);
       getMapActor(24)._64.set(FUN_200c634(rand(), 90) + 60);
       FUN_808a098(24, 0x200cec8);
-      FUN_808a0f0(25, 0xfa0000, 0x4be0000);
+      moveActorToPosition(25, 0xfa0000, 0x4be0000);
       FUN_808a1b8(25, 0x4000, 0);
       setActorAnimationIfLoaded(25, 6);
       getMapActor(25)._64.set(FUN_200c634(rand(), 90) + 60);
       FUN_808a098(25, 0x200cec8);
-      FUN_808a0f0(26, 0xe30000, 0x4a50000);
+      moveActorToPosition(26, 0xe30000, 0x4a50000);
       FUN_808a1b8(26, 0x3000, 0);
-      FUN_808a0f0(23, 0xf30000, 0x4fd0000);
+      moveActorToPosition(23, 0xf30000, 0x4fd0000);
       FUN_808a1b8(23, 0xc000, 0);
       FUN_80091e0(getMapActor(23), 0);
       sleep(3);
@@ -1301,7 +1301,7 @@ public final class Map3Overlay_877dd1c {
 
       final Actor70 actor0 = getMapActor(0);
       if(actor0 != null) {
-        FUN_808a0f0(22, actor0.pos_08.getX(), actor0.pos_08.getZ());
+        moveActorToPosition(22, actor0.pos_08.getX(), actor0.pos_08.getZ());
       }
 
       //LAB_200a2e6
@@ -1329,7 +1329,7 @@ public final class Map3Overlay_877dd1c {
       FUN_808a128(23, 4, 0);
       setActorAnimationIfLoaded(23, 6);
       FUN_808a010(10);
-      FUN_808a0f0(23, 0, 0);
+      moveActorToPosition(23, 0, 0);
       FUN_808a010(60);
       FUN_808a5e8();
       setActorAnimationIfLoaded(10, 1);
@@ -1365,7 +1365,7 @@ public final class Map3Overlay_877dd1c {
       FUN_808a010(90);
       FUN_808a210(0xe80000, -1, 0x4e50000, 1);
       FUN_808a218();
-      FUN_808a0f0(23, 0xf30000, 0x4fd0000);
+      moveActorToPosition(23, 0xf30000, 0x4fd0000);
       sleep(1);
       playSound(0x6a);
       getMapActor(23).velocity_24.setY(0x20000);
@@ -1483,7 +1483,7 @@ public final class Map3Overlay_877dd1c {
     FUN_8009178(0x200d7a0, 38, 72);
     FUN_808a010(10);
     FUN_808a0d0(9, 149, 1175);
-    FUN_808a0f0(9, 0, 0);
+    moveActorToPosition(9, 0, 0);
     FUN_808a0d0(25, 250, 1214);
     FUN_808a5e8();
     FUN_808a1b8(10, 0x3000, 0);
@@ -1592,7 +1592,7 @@ public final class Map3Overlay_877dd1c {
 
     //LAB_200aca8
     FUN_808a0e8(22);
-    FUN_808a0f0(22, 0, 0);
+    moveActorToPosition(22, 0, 0);
   }
 
   /**
@@ -1643,7 +1643,7 @@ public final class Map3Overlay_877dd1c {
 
       final Actor70 r0 = getMapActor(0);
       if(r0 != null) {
-        FUN_808a0f0(22, r0.pos_08.getX(), r0.pos_08.getZ());
+        moveActorToPosition(22, r0.pos_08.getX(), r0.pos_08.getZ());
       }
 
       //LAB_200ae62
@@ -1651,13 +1651,13 @@ public final class Map3Overlay_877dd1c {
       FUN_808a1b8(22, 0xb000, 0);
 
       if(r0 != null) {
-        FUN_808a0f0(26, r0.pos_08.getX(), r0.pos_08.getZ());
+        moveActorToPosition(26, r0.pos_08.getX(), r0.pos_08.getZ());
       }
 
       //LAB_200ae8c
       FUN_808a0d0(26, 199, 1367);
       FUN_808a1b8(26, 0xd000, 0);
-      FUN_808a0f0(25, 0xf70000, 0x4ba0000);
+      moveActorToPosition(25, 0xf70000, 0x4ba0000);
       FUN_808a1b8(25, 0x6000, 0);
       final Actor70 actor8 = getMapActor(8);
       final Sprite38 sprite8 = actor8.sprite_50.deref();
@@ -1667,7 +1667,7 @@ public final class Map3Overlay_877dd1c {
 
       if(r0 != null) {
         r0.flags_23.and(~0x1);
-        FUN_808a0f0(8, r0.pos_08.getX(), r0.pos_08.getZ());
+        moveActorToPosition(8, r0.pos_08.getX(), r0.pos_08.getZ());
       }
 
       //LAB_200af10
@@ -1676,7 +1676,7 @@ public final class Map3Overlay_877dd1c {
       FUN_808a138(26, 2);
       FUN_808a170(0xec6);
       FUN_808a188(26, 0, 40);
-      FUN_808a0f0(9, 0x650000, 0x4ad0000);
+      moveActorToPosition(9, 0x650000, 0x4ad0000);
       FUN_808a1b8(9, 0x2000, 0);
       FUN_808a188(0x1009, 0, 10);
       FUN_808a1b8(26, 0xa000, 0);
@@ -1881,19 +1881,19 @@ public final class Map3Overlay_877dd1c {
     r7.dest_38.setZ(0);
     sleep(1);
     setActorAnimationIfLoaded(23, 8);
-    FUN_808a0f0(9, 0xa90000, 0x4f00000);
+    moveActorToPosition(9, 0xa90000, 0x4f00000);
     FUN_808a1b8(9, 0xc000, 0);
     setActorAnimationIfLoaded(9, 9);
-    FUN_808a0f0(26, 0x970000, 0x50c0000);
+    moveActorToPosition(26, 0x970000, 0x50c0000);
     FUN_808a1b8(26, 0x8000, 0);
     setActorAnimationIfLoaded(26, 5);
-    FUN_808a0f0(8, 0xaa0000, 0x5210000);
+    moveActorToPosition(8, 0xaa0000, 0x5210000);
     FUN_808a1b8(8, 0x6000, 0);
     setActorAnimationIfLoaded(8, 5);
-    FUN_808a0f0(0, 0xb90000, 0x5350000);
+    moveActorToPosition(0, 0xb90000, 0x5350000);
     FUN_808a1b8(0, 0x2000, 0);
     setActorAnimationIfLoaded(0, 17);
-    FUN_808a0f0(22, 0xa90000, 0x5680000);
+    moveActorToPosition(22, 0xa90000, 0x5680000);
     FUN_808a1b8(22, 0x4000, 0);
     setActorAnimationIfLoaded(22, 0);
     FUN_808a210(0xa60000, 0, 0x5390000, 0);
@@ -1901,7 +1901,7 @@ public final class Map3Overlay_877dd1c {
     r7._55.set(0);
     r7.dest_38.set(0x80000000, 0x80000000, 0x80000000);
     FUN_200bc48();
-    FUN_808a0f0(27, 0xda0000, 0x4980000);
+    moveActorToPosition(27, 0xda0000, 0x4980000);
     FUN_808a210(0xd20000, 0, 0x4ac0000, 0);
     FUN_8009128();
     r6.scale_18.set(0x20000);
@@ -1937,7 +1937,7 @@ public final class Map3Overlay_877dd1c {
     r7.pos_08.set(0xd60000, 0x300000, 0x4c00000);
     r7.dest_38.set(0x80000000, 0x80000000, 0x80000000);
     actor27.sprite_50.deref().packet_00.attribs_04.attrib2_04.and(~0xc00).or(0x400);
-    FUN_808a0f0(27, 0xd60000, 0x4c00000);
+    moveActorToPosition(27, 0xd60000, 0x4c00000);
     FUN_808a1b8(24, 0xc000, 0);
     FUN_808a1b8(25, 0xc000, 20);
     setFlag(0x166);
@@ -1966,28 +1966,28 @@ public final class Map3Overlay_877dd1c {
     FUN_8009188(4);
     FUN_8009188(5);
     FUN_200c0f0();
-    FUN_808a0f0(9, 0xa50000, 0x4cd0000);
+    moveActorToPosition(9, 0xa50000, 0x4cd0000);
     setActorAnimationIfLoaded(9, 1);
     final Actor70 actor9 = getMapActor(9);
     actor9.angle_06.set(0xe000);
     actor9._64.set(FUN_200c634(rand(), 90) + 60);
     actor9._66.set(1);
     FUN_808a098(9, 0x200cec8);
-    FUN_808a0f0(26, 0xa50000, 0x4e60000);
+    moveActorToPosition(26, 0xa50000, 0x4e60000);
     setActorAnimationIfLoaded(26, 1);
     final Actor70 actor26 = getMapActor(26);
     actor26.angle_06.set(0xe000);
     actor26._64.set(FUN_200c634(rand(), 90) + 60);
     actor26._66.set(2);
     FUN_808a098(26, 0x200cec8);
-    FUN_808a0f0(22, 0x980000, 0x5050000);
+    moveActorToPosition(22, 0x980000, 0x5050000);
     setActorAnimationIfLoaded(22, 1);
     final Actor70 actor22 = getMapActor(22);
     actor22.angle_06.set(0xe000);
     actor22._64.set(FUN_200c634(rand(), 90) + 60);
     actor22._66.set(3);
     FUN_808a098(22, 0x200cec8);
-    FUN_808a0f0(8, 0xb40000, 0x51f0000);
+    moveActorToPosition(8, 0xb40000, 0x51f0000);
     final Actor70 actor8 = getMapActor(8);
     actor8.angle_06.set(0xe000);
     actor8._64.set(FUN_200c634(rand(), 90) + 60);
@@ -1997,19 +1997,19 @@ public final class Map3Overlay_877dd1c {
     getMapActor(22).flags_23.and(~0x1);
     getMapActor(8).flags_23.and(~0x1);
     setTickCallback(getRunnable(Map3Overlay_877dd1c.class, "FUN_200c5b8"), 0xc80);
-    FUN_808a0f0(0, 0xb50000, 0x4f90000);
+    moveActorToPosition(0, 0xb50000, 0x4f90000);
     getMapActor(0).angle_06.set(0xe000);
     setActorAnimationIfLoaded(0, 1);
     FUN_808a210(0xb50000, 0, 0x4f90000, 0);
     FUN_8009128();
-    FUN_808a0f0(10, 0, 0);
-    FUN_808a0f0(19, 0, 0);
-    FUN_808a0f0(24, 0, 0);
-    FUN_808a0f0(25, 0, 0);
-    FUN_808a0f0(23, 0, 0);
-    FUN_808a0f0(27, 0, 0);
-    FUN_808a0f0(17, 0x900000, 0x42e0000);
-    FUN_808a0f0(18, 0x1140000, 0x4f60000);
+    moveActorToPosition(10, 0, 0);
+    moveActorToPosition(19, 0, 0);
+    moveActorToPosition(24, 0, 0);
+    moveActorToPosition(25, 0, 0);
+    moveActorToPosition(23, 0, 0);
+    moveActorToPosition(27, 0, 0);
+    moveActorToPosition(17, 0x900000, 0x42e0000);
+    moveActorToPosition(18, 0x1140000, 0x4f60000);
     sleep(60);
     FUN_808a330(0x10003, 1);
     FUN_808a330(0x10000, 2);
@@ -2237,14 +2237,14 @@ public final class Map3Overlay_877dd1c {
     FUN_808a0a8(22);
     clearTickCallback(getRunnable(Map3Overlay_877dd1c.class, "FUN_200c5b8"));
     FUN_808a0d0(0, 480, 1392);
-    FUN_808a0f0(0, 0, 0);
+    moveActorToPosition(0, 0, 0);
     FUN_808a1b8(22, 0x3000, 20);
     getMapActor(22).flags_23.or(0x1);
-    FUN_808a0f0(22, 0xf90000, 0x4d80000);
+    moveActorToPosition(22, 0xf90000, 0x4d80000);
     sleep(1);
     FUN_808a170(0xed3);
     FUN_808a180(0x1016, 0);
-    FUN_808a0f0(22, 0xac0000, 0x4fe0000);
+    moveActorToPosition(22, 0xac0000, 0x4fe0000);
     sleep(1);
     FUN_808a208(0x40000, 0x8000);
     FUN_808a210(0xa20000, 0, 0x5050000, 1);
@@ -2737,9 +2737,9 @@ public final class Map3Overlay_877dd1c {
     MEMORY.call(0x808a0e8, mapActorIndex);
   }
 
-  /** {@link GoldenSun_808#FUN_808a0f0} */
+  /** {@link GoldenSun_808#moveActorToPosition_} */
   @Method(0x200c78c)
-  public static void FUN_808a0f0(final int mapActorIndex, final int x, final int z) {
+  public static void moveActorToPosition(final int mapActorIndex, final int x, final int z) {
     MEMORY.call(0x808a0f0, mapActorIndex, x, z);
   }
 

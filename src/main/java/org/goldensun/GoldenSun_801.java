@@ -24,6 +24,7 @@ import org.goldensun.types.Vec3s;
 
 import javax.annotation.Nullable;
 
+import static org.goldensun.GoldenSun.FUN_8005ac0;
 import static org.goldensun.GoldenSun.allocateSpriteSlot;
 import static org.goldensun.GoldenSun.FUN_80045e8;
 import static org.goldensun.GoldenSun.FUN_80053e8;
@@ -85,6 +86,7 @@ import static org.goldensun.GoldenSun_802.FUN_80216b4;
 import static org.goldensun.GoldenSun_802.FUN_80216e8;
 import static org.goldensun.GoldenSun_802.FUN_8021750;
 import static org.goldensun.GoldenSun_802.FUN_80217a4;
+import static org.goldensun.GoldenSun_802.FUN_8028df4;
 import static org.goldensun.GoldenSun_802.drawSaveMenu;
 import static org.goldensun.GoldenSun_802.handleAMenu;
 import static org.goldensun.GoldenSun_807.calculateBuildDate_;
@@ -1676,6 +1678,12 @@ public final class GoldenSun_801 {
   @Method(0x8015250)
   public static void FUN_8015250(final int itemId) {
     MEMORY.call(0x801a370, itemId);
+  }
+
+  /** {@link GoldenSun_801#FUN_801fc84} */
+  @Method(0x8015300)
+  public static int FUN_8015300() {
+    return (int)MEMORY.call(0x801fc84);
   }
 
   @Method(0x80155d0)
@@ -8408,6 +8416,50 @@ public final class GoldenSun_801 {
     //LAB_801fc5a
     unloadSaveList();
     return r8;
+  }
+
+  @Method(0x801fc84)
+  public static int FUN_801fc84() {
+    int r7 = 0;
+    if(loadSaveList() != 0) {
+      FUN_801776c(10, 1);
+      r7 = -9;
+    } else {
+      //LAB_801fc9e
+      loadSavePreview();
+      final int r6 = drawSaveMenu(0, 3);
+      if(r6 == -1) {
+        r7 = -1;
+      } else {
+        //LAB_801fcb8
+        FUN_8017658(22, 8, 1, 2);
+
+        //LAB_801fccc
+        while(FUN_8017364() == 0) {
+          //LAB_801fcc6
+          sleep(1);
+        }
+
+        if(FUN_8028df4(1, 0, 3, 1) != 0) {
+          FUN_8019a54();
+        } else {
+          //LAB_801fcea
+          FUN_8019a54();
+
+          if((FUN_8005ac0(r6) | FUN_8005ac0(r6 + 0x3)) != 0) {
+            FUN_801776c(13, 1);
+            r7 = -4;
+          } else {
+            //LAB_801fd10
+            FUN_801776c(24, 1);
+          }
+        }
+      }
+    }
+
+    //LAB_801fd18
+    unloadSaveList();
+    return r7;
   }
 
   @Method(0x801fd34)

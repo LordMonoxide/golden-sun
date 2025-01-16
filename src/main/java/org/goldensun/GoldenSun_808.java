@@ -378,9 +378,9 @@ public final class GoldenSun_808 {
     MEMORY.call(0x80923c4, mapActorIndex);
   }
 
-  /** {@link GoldenSun_809#FUN_80923e4} */
+  /** {@link GoldenSun_809#moveActorToPosition} */
   @Method(0x808a0f0)
-  public static void FUN_808a0f0(final int mapActorIndex, final int x, final int z) {
+  public static void moveActorToPosition_(final int mapActorIndex, final int x, final int z) {
     MEMORY.call(0x80923e4, mapActorIndex, x, z);
   }
 
@@ -2230,7 +2230,7 @@ public final class GoldenSun_808 {
 
       //LAB_808bf9e
       r8.oldTiles_1bc.setNullable(r8.tiles_1b8.derefNullable());
-      r8.tiles_1b8.set(tiles);
+      r8.tiles_1b8.set(tiles); // called every frame
 
       final int tileType = tiles.get(0).getType();
 
@@ -3292,6 +3292,7 @@ public final class GoldenSun_808 {
           } else {
             //LAB_808d716
             stopPlayerAndSetIdle();
+            LOGGER.info("Calling event %s param %x", r6.callback_08, r7);
             MEMORY.call(r6.callback_08.get(), r7);
           }
 
@@ -3360,6 +3361,7 @@ public final class GoldenSun_808 {
         FUN_8091750();
       } else {
         //LAB_808d886
+        LOGGER.info("Calling event %07x param %x", r1, r0);
         MEMORY.call(r1, r0); // call event function
       }
       r7 = 0;
@@ -3483,6 +3485,7 @@ public final class GoldenSun_808 {
         if((r2 & 0xf000000) != 0) {
           //LAB_808da4e
           if(FUN_808d428(r10) != 0) {
+            LOGGER.info("Calling event %07x param %x", r2, playerMapActorIndex_2000434.get());
             MEMORY.call(r2, playerMapActorIndex_2000434.get());
           }
 

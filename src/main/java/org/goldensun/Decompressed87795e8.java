@@ -481,7 +481,7 @@ public final class Decompressed87795e8 {
             }
 
             //LAB_20086aa
-            if(r6 == 3) {
+            if(r6 == 3) { // Erase game
               r0 = FUN_2009404();
               continue jmp_20084a8;
             }
@@ -1417,6 +1417,7 @@ public final class Decompressed87795e8 {
     return (int)MEMORY.call(0x80152f8);
   }
 
+  /** {@link GoldenSun_801#FUN_8015300} */
   @Method(0x2009404)
   public static int FUN_2009404() {
     return (int)MEMORY.call(0x8015300);

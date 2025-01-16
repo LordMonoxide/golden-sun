@@ -141,8 +141,8 @@ public final class Map6Overlay_878603c {
       final Actor70 r0 = getMapActor(0);
       final int r5 = r0.pos_08.getX() & ~0xffff;
       final int r6 = r0.pos_08.getZ() & ~0xffff;
-      FUN_2009ae4(5, r5, r6);
-      FUN_2009ae4(1, r5, r6);
+      moveActorToPosition(5, r5, r6);
+      moveActorToPosition(1, r5, r6);
       setActorVelocityScalerAndAcceleration(5, 0x8000, 0x4000);
       setActorVelocityScalerAndAcceleration(1, 0x8000, 0x4000);
       FUN_2009acc(5, 248, 264);
@@ -356,7 +356,7 @@ public final class Map6Overlay_878603c {
       FUN_2009a54(0x200a0ac, 43, 8);
       setActorVelocityScalerAndAcceleration(13, 0x10000, 0x8000);
       FUN_2009ad4(13, 232, 218);
-      FUN_2009ae4(13, 0, 0);
+      moveActorToPosition(13, 0, 0);
       FUN_2009b5c(0, 0x101, 0);
       FUN_2009b5c(1, 0x101, 0);
       FUN_2009b5c(5, 0x101, 60);
@@ -371,9 +371,9 @@ public final class Map6Overlay_878603c {
   @Method(0x2008964)
   public static void FUN_2008964() {
     FUN_2009a84();
-    FUN_2009ae4(13, 0, 0);
-    FUN_2009ae4(1, 0xd80000, 0x1080000);
-    FUN_2009ae4(5, 0xf80000, 0x1080000);
+    moveActorToPosition(13, 0, 0);
+    moveActorToPosition(1, 0xd80000, 0x1080000);
+    moveActorToPosition(5, 0xf80000, 0x1080000);
     getMapActor(1).angle_06.set(0xc000);
     getMapActor(5).angle_06.set(0xc000);
     FUN_2009a54(0x200a0ac, 43, 8);
@@ -382,7 +382,7 @@ public final class Map6Overlay_878603c {
     FUN_2009bc4();
     FUN_2009a7c(40);
     setActorVelocityScalerAndAcceleration(13, 0xcccc, 0x6666);
-    FUN_2009ae4(13, 0xe60000, 0xdc0000);
+    moveActorToPosition(13, 0xe60000, 0xdc0000);
     FUN_2009ad4(13, 230, 232);
     FUN_2009a7c(20);
     setActorAnimationAndWaitUntilFinished(13, 3);
@@ -430,15 +430,15 @@ public final class Map6Overlay_878603c {
 
     //LAB_2008b08
     FUN_2009adc(1);
-    FUN_2009ae4(1, 0, 0);
-    FUN_2009ae4(5, 0, 0);
+    moveActorToPosition(1, 0, 0);
+    moveActorToPosition(5, 0, 0);
     FUN_2009adc(13);
-    FUN_2009ae4(13, 0, 0);
+    moveActorToPosition(13, 0, 0);
     setActorAnimationIfLoaded(1, 1);
     setActorAnimationIfLoaded(5, 1);
     setActorAnimationIfLoaded(13, 1);
-    FUN_2009ae4(14, 0, 0);
-    FUN_2009ae4(15, 0, 0);
+    moveActorToPosition(14, 0, 0);
+    moveActorToPosition(15, 0, 0);
     setFlag(0x801);
     boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._1c0.set(0x100);
     FUN_2009bac(0x10000, 0);
@@ -480,8 +480,8 @@ public final class Map6Overlay_878603c {
       Actor70 r0 = getMapActor(0);
       final int r5 = r0.pos_08.getX() & ~0xffff;
       final int r6 = r0.pos_08.getZ() & ~0xffff;
-      FUN_2009ae4(5, r5, r6);
-      FUN_2009ae4(1, r5, r6);
+      moveActorToPosition(5, r5, r6);
+      moveActorToPosition(1, r5, r6);
       setActorVelocityScalerAndAcceleration(5, 0x13333, 0x9999);
       setActorVelocityScalerAndAcceleration(1, 0x13333, 0x9999);
       FUN_2009acc(5, 376, 328);
@@ -642,7 +642,7 @@ public final class Map6Overlay_878603c {
 
       //LAB_200921e
       FUN_2009adc(1);
-      FUN_2009ae4(1, 0, 0);
+      moveActorToPosition(1, 0, 0);
       setActorAnimationIfLoaded(5, 2);
 
       r0 = getMapActor(0);
@@ -652,7 +652,7 @@ public final class Map6Overlay_878603c {
 
       //LAB_200924e
       FUN_2009adc(5);
-      FUN_2009ae4(5, 0, 0);
+      moveActorToPosition(5, 0, 0);
       FUN_2009b24(14, 0x10000, 0x2009ce0);
       FUN_2009b24(15, 0x10000, 0x2009ce0);
       FUN_2009bcc();
@@ -674,8 +674,8 @@ public final class Map6Overlay_878603c {
       Actor70 r0 = getMapActor(0);
       final int r5 = r0.pos_08.getX() & ~0xffff;
       final int r6 = r0.pos_08.getZ() & ~0xffff;
-      FUN_2009ae4(5, r5, r6);
-      FUN_2009ae4(1, r5, r6);
+      moveActorToPosition(5, r5, r6);
+      moveActorToPosition(1, r5, r6);
       setActorVelocityScalerAndAcceleration(5, 0xcccc, 0x6666);
       setActorVelocityScalerAndAcceleration(1, 0xcccc, 0x6666);
       FUN_2009acc(5, 296, 328);
@@ -728,7 +728,7 @@ public final class Map6Overlay_878603c {
 
       //LAB_20094a0
       FUN_2009adc(1);
-      FUN_2009ae4(1, 0, 0);
+      moveActorToPosition(1, 0, 0);
       setActorAnimationIfLoaded(5, 2);
 
       r0 = getMapActor(0);
@@ -738,7 +738,7 @@ public final class Map6Overlay_878603c {
 
       //LAB_20094d0
       FUN_2009adc(5);
-      FUN_2009ae4(5, 0, 0);
+      moveActorToPosition(5, 0, 0);
       setFlag(0x800);
       FUN_2009a8c();
     }
@@ -764,20 +764,20 @@ public final class Map6Overlay_878603c {
       FUN_2009b9c();
       FUN_2009ba4();
       FUN_2009a84();
-      FUN_2009ae4(12, 0, 0);
-      FUN_2009ae4(13, 0, 0);
-      FUN_2009ae4(14, 0, 0);
-      FUN_2009ae4(15, 0, 0);
-      FUN_2009ae4(5, 0, 0);
+      moveActorToPosition(12, 0, 0);
+      moveActorToPosition(13, 0, 0);
+      moveActorToPosition(14, 0, 0);
+      moveActorToPosition(15, 0, 0);
+      moveActorToPosition(5, 0, 0);
       getMapActor(8)._59.or(0x8);
-      FUN_2009ae4(11, 0x530000, 0x1090000);
+      moveActorToPosition(11, 0x530000, 0x1090000);
       FUN_2009ad4(11, 83, 273);
       setActorAnimationIfLoaded(11, 5);
       getMapActor(11).radius_20.set(12);
       FUN_2009aac(11, 0x2009c34);
 
       if(readFlag(0x839) != 0) {
-        FUN_2009ae4(11, 0, 0);
+        moveActorToPosition(11, 0, 0);
       }
 
       //LAB_20095de
@@ -790,10 +790,10 @@ public final class Map6Overlay_878603c {
       FUN_2009a5c(9, 24, 1, 1, 24, 20);
     } else {
       //LAB_2009656
-      FUN_2009ae4(9, 0, 0);
-      FUN_2009ae4(10, 0, 0);
-      FUN_2009ae4(1, 0, 0);
-      FUN_2009ae4(11, 0, 0);
+      moveActorToPosition(9, 0, 0);
+      moveActorToPosition(10, 0, 0);
+      moveActorToPosition(1, 0, 0);
+      moveActorToPosition(11, 0, 0);
       FUN_2009a84();
 
       if(readFlag(0x109) == 0 && entranceId_2000402.get() == 10) {
@@ -802,20 +802,20 @@ public final class Map6Overlay_878603c {
 
       //LAB_2009698
       if(readFlag(0x801) != 0) {
-        FUN_2009ae4(13, 0, 0);
-        FUN_2009ae4(14, 0, 0);
-        FUN_2009ae4(15, 0, 0);
+        moveActorToPosition(13, 0, 0);
+        moveActorToPosition(14, 0, 0);
+        moveActorToPosition(15, 0, 0);
         //LAB_20096c2
       } else if(readFlag(0x808) != 0) {
-        FUN_2009ae4(14, 0x1880000, 0x1780000);
-        FUN_2009ae4(15, 0x1780000, 0x1780000);
+        moveActorToPosition(14, 0x1880000, 0x1780000);
+        moveActorToPosition(15, 0x1780000, 0x1780000);
         FUN_2009b24(14, 0x10000, 0x2009ce0);
         FUN_2009b24(15, 0x10000, 0x2009ce0);
       }
 
       //LAB_2009702
       if(readFlag(0x87a) != 0) {
-        FUN_2009ae4(16, 0x840000, 0x1080000);
+        moveActorToPosition(16, 0x840000, 0x1080000);
       }
 
       //LAB_200971a
@@ -853,7 +853,7 @@ public final class Map6Overlay_878603c {
 
         Actor70 r0 = getMapActor(0);
         if(r0 != null) {
-          FUN_2009ae4(1, r0.pos_08.getX(), r0.pos_08.getZ());
+          moveActorToPosition(1, r0.pos_08.getX(), r0.pos_08.getZ());
         }
 
         //LAB_2009802
@@ -908,7 +908,7 @@ public final class Map6Overlay_878603c {
 
         //LAB_2009958
         FUN_2009adc(1);
-        FUN_2009ae4(1, 0, 0);
+        moveActorToPosition(1, 0, 0);
         FUN_2009a8c();
       }
     }
@@ -1069,9 +1069,9 @@ public final class Map6Overlay_878603c {
     MEMORY.call(0x808a0e8, mapActorIndex);
   }
 
-  /** {@link GoldenSun_808#FUN_808a0f0} */
+  /** {@link GoldenSun_808#moveActorToPosition_} */
   @Method(0x2009ae4)
-  public static void FUN_2009ae4(final int mapActorIndex, final int x, final int z) {
+  public static void moveActorToPosition(final int mapActorIndex, final int x, final int z) {
     MEMORY.call(0x808a0f0, mapActorIndex, x, z);
   }
 

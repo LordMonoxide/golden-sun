@@ -899,7 +899,7 @@ public final class Map132Overlay_87ced6c {
     r2 = 0x0;
     r1 = 0x0;
     r0 = 0x8;
-    FUN_808a0f0(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     r0 = 0xfd7;
     setFlag(r0);
     r0 = 0xb5;
@@ -1035,7 +1035,7 @@ public final class Map132Overlay_87ced6c {
     final Actor70 r6 = getMapActor(8);
     final int r5 = readFlag(0x8d2 + MEMORY.ref(2, 0x2000400).get() - 0x7e);
     if(r5 != 0) {
-      FUN_808a0f0(8, 0x28a0000, 0xa80000);
+      moveActorToPosition(8, 0x28a0000, 0xa80000);
       r6.pos_08.setY(0xffe00000);
       FUN_80091e0(getMapActor(8), 0);
       setActorPriority(8, 3);
@@ -1400,7 +1400,7 @@ public final class Map132Overlay_87ced6c {
       r0 = 0xf;
       r1 = r1 << 18;
       r2 = r2 << 18;
-      FUN_808a0f0(r0, r1, r2);
+      moveActorToPosition(r0, r1, r2);
     } else {
       //LAB_20096ae
       getMapActor(15)._1c.set(0x19999);
@@ -1416,7 +1416,7 @@ public final class Map132Overlay_87ced6c {
       r0 = 0x10;
       r1 = r1 << 18;
       r2 = r2 << 18;
-      FUN_808a0f0(r0, r1, r2);
+      moveActorToPosition(r0, r1, r2);
     } else {
       //LAB_20096d2
       getMapActor(16)._1c.set(0x19999);
@@ -1432,7 +1432,7 @@ public final class Map132Overlay_87ced6c {
       r0 = 0x11;
       r1 = r1 << 18;
       r2 = r2 << 18;
-      FUN_808a0f0(r0, r1, r2);
+      moveActorToPosition(r0, r1, r2);
     } else {
       //LAB_20096f6
       getMapActor(17)._1c.set(0x19999);
@@ -1448,7 +1448,7 @@ public final class Map132Overlay_87ced6c {
       r0 = 0x12;
       r1 = r1 << 18;
       r2 = r2 << 18;
-      FUN_808a0f0(r0, r1, r2);
+      moveActorToPosition(r0, r1, r2);
     } else {
       //LAB_200971a
       getMapActor(18)._1c.set(0x19999);
@@ -3556,9 +3556,9 @@ public final class Map132Overlay_87ced6c {
     MEMORY.call(0x808a0e8, mapActorIndex);
   }
 
-  /** {@link GoldenSun_808#FUN_808a0f0} */
+  /** {@link GoldenSun_808#moveActorToPosition_} */
   @Method(0x200b0b8)
-  public static void FUN_808a0f0(final int mapActorIndex, final int x, final int z) {
+  public static void moveActorToPosition(final int mapActorIndex, final int x, final int z) {
     MEMORY.call(0x808a0f0, mapActorIndex, x, z);
   }
 

@@ -1,5 +1,7 @@
 package org.goldensun;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.goldensun.input.Input;
 import org.goldensun.memory.Method;
 import org.goldensun.memory.types.ArrayRef;
@@ -161,6 +163,8 @@ import static org.goldensun.memory.MemoryHelper.getRunnable;
 
 public final class GoldenSun_809 {
   private GoldenSun_809() { }
+
+  private static final Logger LOGGER = LogManager.getFormatterLogger(GoldenSun_809.class);
 
   @Method(0x80901c0)
   public static void FUN_80901c0(final int r0, final int r1) {
@@ -1419,7 +1423,7 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x80923e4)
-  public static void FUN_80923e4(final int mapActorIndex, final int x, final int z) {
+  public static void moveActorToPosition(final int mapActorIndex, final int x, final int z) {
     final Actor70 r5 = getMapActor(mapActorIndex);
     if(r5 != null) {
       FUN_8009140(r5);
@@ -3427,6 +3431,7 @@ public final class GoldenSun_809 {
           FUN_8091750();
         } else {
           //LAB_8096b5a
+          LOGGER.info("Calling event %07x params %x %x", r3, r1, r2);
           MEMORY.call(r3, r1, r2);
         }
       }

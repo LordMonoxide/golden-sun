@@ -205,7 +205,7 @@ public final class Map4Overlay_8780898 {
     r2 = 0x0;
     r1 = 0x0;
     r0 = 0x1a;
-    FUN_200e03c(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     r0 = 0xfd;
     r0 = r0 << 4;
     setFlag(r0);
@@ -231,7 +231,7 @@ public final class Map4Overlay_8780898 {
     r2 = 0x0;
     r1 = 0x0;
     r0 = 0x14;
-    FUN_200e03c(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     r0 = 0xfd;
     r0 = r0 << 4;
     setFlag(r0);
@@ -909,7 +909,7 @@ public final class Map4Overlay_8780898 {
 
     //LAB_200909e
     FUN_200e034(5);
-    FUN_200e03c(5, 0, 0);
+    moveActorToPosition(5, 0, 0);
     FUN_200e024(0, 110, 303);
     FUN_200dfc4();
   }
@@ -1087,7 +1087,7 @@ public final class Map4Overlay_8780898 {
     FUN_200e054(0, 5, 0);
     FUN_200e01c(0, 215, 403);
     r5._5a.or(0x1);
-    FUN_200e03c(22, 0xa60000, 0x1770000);
+    moveActorToPosition(22, 0xa60000, 0x1770000);
     FUN_200e0ac(22, 0x2000, 20);
     r5._5a.xor(0x1);
     setActorVelocityScalerAndAcceleration(22, 0x28000, 0x28000);
@@ -1316,16 +1316,16 @@ public final class Map4Overlay_8780898 {
 
         //LAB_200ab5e
         if(readFlag(0x808) != 0) {
-          FUN_200e03c(15, 0, 0);
-          FUN_200e03c(16, 0, 0);
-          FUN_200e03c(17, 0, 0);
+          moveActorToPosition(15, 0, 0);
+          moveActorToPosition(16, 0, 0);
+          moveActorToPosition(17, 0, 0);
         }
 
         //LAB_200ab86
         if(readFlag(0x815) == 0) {
           if(readFlag(0x109) == 0) {
             if(readFlag(0x823) != 0) {
-              FUN_200e03c(22, 0x1000000, 0x1c80000);
+              moveActorToPosition(22, 0x1000000, 0x1c80000);
               getMapActor(22)._6c.set(getConsumer(Map4Overlay_8780898.class, "FUN_200d72c", Actor70.class));
               FUN_200dff4(22, 0x200e248);
             }
@@ -1391,7 +1391,7 @@ public final class Map4Overlay_8780898 {
 
     final Actor70 actor0 = getMapActor(0);
     if(actor0 != null) {
-      FUN_200e03c(1, actor0.pos_08.getX(), actor0.pos_08.getZ());
+      moveActorToPosition(1, actor0.pos_08.getX(), actor0.pos_08.getZ());
     }
 
     //LAB_200ad4c
@@ -1446,7 +1446,7 @@ public final class Map4Overlay_8780898 {
 
     //LAB_200aed0
     FUN_200e034(1);
-    FUN_200e03c(1, 0, 0);
+    moveActorToPosition(1, 0, 0);
     setFlag(0x303);
     FUN_200dfc4();
   }
@@ -1468,7 +1468,7 @@ public final class Map4Overlay_8780898 {
 
     final Actor70 actor0 = getMapActor(0);
     if(actor0 != null) {
-      FUN_200e03c(1, actor0.pos_08.getX(), actor0.pos_08.getZ());
+      moveActorToPosition(1, actor0.pos_08.getX(), actor0.pos_08.getZ());
     }
 
     //LAB_200af52
@@ -1693,7 +1693,7 @@ public final class Map4Overlay_8780898 {
     r1 = 0x0;
     r2 = 0x0;
     r0 = 0x1;
-    FUN_200e03c(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     r0 = 0xc1;
     r0 = r0 << 2;
     setFlag(r0);
@@ -1791,7 +1791,7 @@ public final class Map4Overlay_8780898 {
     sleep(1);
     FUN_200e0dc(0x547a, 2703);
     FUN_200e0e4(0x1280000, 0xa00000, 0x3990000, 1);
-    FUN_200e03c(5, 0x1990000, 0x46e0000);
+    moveActorToPosition(5, 0x1990000, 0x46e0000);
     sleep(1);
     setActorVelocityScalerAndAcceleration(5, 0xb333, 22937);
     FUN_200e01c(5, 420, 1068);
@@ -2055,11 +2055,11 @@ public final class Map4Overlay_8780898 {
     FUN_200df34(2, 102, 84, 41, 2, 1);
     FUN_200df34(1, 102, 83, 41, 1, 1);
     FUN_200df34(0, 103, 82, 42, 1, 1);
-    FUN_200e03c(21, 0x1880000, 0x3800000);
+    moveActorToPosition(21, 0x1880000, 0x3800000);
     getMapActor(21).angle_06.set(0xc000);
-    FUN_200e03c(1, 0x12a0000, 0x2e00000);
+    moveActorToPosition(1, 0x12a0000, 0x2e00000);
     getMapActor(1).angle_06.set(0x4000);
-    FUN_200e03c(5, 0x12a0000, 0x2f80000);
+    moveActorToPosition(5, 0x12a0000, 0x2f80000);
     getMapActor(5).angle_06.set(0x4000);
     setActorAnimationIfLoaded(0, 11);
     FUN_200dff4(0, 0x200e590);
@@ -2127,7 +2127,7 @@ public final class Map4Overlay_8780898 {
     sleep(1);
     FUN_200e07c(0, 0);
     FUN_200e07c(23, 0);
-    FUN_200e03c(23, 0, 0);
+    moveActorToPosition(23, 0, 0);
     FUN_200dfb4(20);
     setActorAnimationIfLoaded(0, 11);
     FUN_200dff4(0, 0x200e590);
@@ -2167,7 +2167,7 @@ public final class Map4Overlay_8780898 {
     sleep(1);
     FUN_200e07c(0, 0);
     FUN_200e07c(24, 0);
-    FUN_200e03c(24, 0, 0);
+    moveActorToPosition(24, 0, 0);
     FUN_200dfb4(20);
     setActorAnimationIfLoaded(0, 11);
     FUN_200dff4(0, 0x200e590);
@@ -2208,7 +2208,7 @@ public final class Map4Overlay_8780898 {
     sleep(1);
     FUN_200e07c(0, 0);
     FUN_200e07c(25, 0);
-    FUN_200e03c(25, 0, 0);
+    moveActorToPosition(25, 0, 0);
     FUN_200dfb4(20);
     setActorAnimationIfLoaded(0, 11);
     FUN_200dff4(0, 0x200e590);
@@ -2948,7 +2948,7 @@ public final class Map4Overlay_8780898 {
     r0 = 0x15;
     r1 = 0x0;
     r2 = 0x0;
-    FUN_200e03c(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     r1 = 0xc0;
     r2 = 0xc0;
     r0 = 0x1;
@@ -3039,7 +3039,7 @@ public final class Map4Overlay_8780898 {
     r0 = 0x15;
     r1 = r1 << 17;
     r2 = 0x32b0000;
-    FUN_200e03c(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     r5 = 0x0;
 
     //LAB_200ce9c
@@ -3516,7 +3516,7 @@ public final class Map4Overlay_8780898 {
     r2 = 0x0;
     r0 = 0x5;
     r1 = 0x0;
-    FUN_200e03c(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     r1 = r7.pos_08.getX() >> 16;
     r0 = 0x1;
     r2 = r7.pos_08.getZ() >> 16;
@@ -3524,7 +3524,7 @@ public final class Map4Overlay_8780898 {
     r2 = 0x0;
     r0 = 0x1;
     r1 = 0x0;
-    FUN_200e03c(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     r0 = 0x1;
     r1 = 0x5;
     FUN_200dfcc(r0, r1);
@@ -4307,9 +4307,9 @@ public final class Map4Overlay_8780898 {
     MEMORY.call(0x808a0e8, mapActorIndex);
   }
 
-  /** {@link GoldenSun_808#FUN_808a0f0} */
+  /** {@link GoldenSun_808#moveActorToPosition_} */
   @Method(0x200e03c)
-  public static void FUN_200e03c(final int mapActorIndex, final int x, final int z) {
+  public static void moveActorToPosition(final int mapActorIndex, final int x, final int z) {
     MEMORY.call(0x808a0f0, mapActorIndex, x, z);
   }
 

@@ -1088,7 +1088,7 @@ public final class Map5Overlay_8784360 {
       r0 = 0x8;
       r1 = 0x0;
       r2 = 0x0;
-      FUN_200a714(r0, r1, r2);
+      moveActorToPosition(r0, r1, r2);
     }
 
     //LAB_2008958
@@ -1098,7 +1098,7 @@ public final class Map5Overlay_8784360 {
       r0 = 0x9;
       r1 = 0x0;
       r2 = 0x0;
-      FUN_200a714(r0, r1, r2);
+      moveActorToPosition(r0, r1, r2);
     }
 
     //LAB_200896c
@@ -1108,7 +1108,7 @@ public final class Map5Overlay_8784360 {
       r0 = 0xa;
       r1 = 0x0;
       r2 = 0x0;
-      FUN_200a714(r0, r1, r2);
+      moveActorToPosition(r0, r1, r2);
     }
 
     //LAB_2008980
@@ -1180,11 +1180,11 @@ public final class Map5Overlay_8784360 {
             r0 = 0x11;
             r1 = 0x0;
             r2 = 0x0;
-            FUN_200a714(r0, r1, r2);
+            moveActorToPosition(r0, r1, r2);
             r0 = 0x12;
             r1 = 0x0;
             r2 = 0x0;
-            FUN_200a714(r0, r1, r2);
+            moveActorToPosition(r0, r1, r2);
             r1 = 0x80;
             r2 = 0x200ac00;
             r0 = 0x13;
@@ -1201,7 +1201,7 @@ public final class Map5Overlay_8784360 {
             r0 = 0x10;
             r1 = r1 << 16;
             r2 = r2 << 18;
-            FUN_200a714(r0, r1, r2);
+            moveActorToPosition(r0, r1, r2);
             r3 = 0x2;
             MEMORY.ref(4, CPU.sp().value).setu(r3);
             MEMORY.ref(4, CPU.sp().value + 0x4).setu(r3);
@@ -1247,7 +1247,7 @@ public final class Map5Overlay_8784360 {
             setActorAnimationIfLoaded(13, 5);
             //LAB_2008af8
           } else if(readFlag(0x815) != 0x0) {
-            FUN_200a714(21, 0x14b0000, 0xf90000);
+            moveActorToPosition(21, 0x14b0000, 0xf90000);
             FUN_200a654(getMapActor(21), 0);
           }
 
@@ -1259,11 +1259,11 @@ public final class Map5Overlay_8784360 {
             r0 = 0x1a;
             r1 = 0x0;
             r2 = 0x0;
-            FUN_200a714(r0, r1, r2);
+            moveActorToPosition(r0, r1, r2);
             r0 = 0x16;
             r1 = 0x0;
             r2 = 0x0;
-            FUN_200a714(r0, r1, r2);
+            moveActorToPosition(r0, r1, r2);
           }
 
           //LAB_2008b3a
@@ -1365,7 +1365,7 @@ public final class Map5Overlay_8784360 {
         FUN_200a704(r0, r1, r2);
         final Actor70 actor0 = getMapActor(0);
         if(actor0 != null) {
-          FUN_200a714(25, actor0.pos_08.getX(), actor0.pos_08.getZ());
+          moveActorToPosition(25, actor0.pos_08.getX(), actor0.pos_08.getZ());
         }
 
         //LAB_2008c4e
@@ -1713,7 +1713,7 @@ public final class Map5Overlay_8784360 {
         r0 = 0x19;
         r1 = 0x0;
         r2 = 0x0;
-        FUN_200a714(r0, r1, r2);
+        moveActorToPosition(r0, r1, r2);
         r0 = 0x1a;
         r1 = 0x2;
         setActorAnimationIfLoaded(r0, r1);
@@ -1728,7 +1728,7 @@ public final class Map5Overlay_8784360 {
         r0 = 0x1a;
         r1 = 0x0;
         r2 = 0x0;
-        FUN_200a714(r0, r1, r2);
+        moveActorToPosition(r0, r1, r2);
         r0 = 0x16;
         r1 = 0x2;
         setActorAnimationIfLoaded(r0, r1);
@@ -1743,7 +1743,7 @@ public final class Map5Overlay_8784360 {
         r0 = 0x16;
         r1 = 0x0;
         r2 = 0x0;
-        FUN_200a714(r0, r1, r2);
+        moveActorToPosition(r0, r1, r2);
         r1 = 0x80;
         r2 = 0x200ac00;
         r0 = 0x13;
@@ -1772,7 +1772,7 @@ public final class Map5Overlay_8784360 {
     FUN_200a814();
     playSound(0x11);
     FUN_200a80c();
-    FUN_200a714(23, 0x690000, 0x10b0000);
+    moveActorToPosition(23, 0x690000, 0x10b0000);
     sleep(1);
     setActorVelocityScalerAndAcceleration(0, 0x13333, 0x9999);
     FUN_200a704(0, 93, 343);
@@ -1784,7 +1784,7 @@ public final class Map5Overlay_8784360 {
     FUN_200a7b4(0x6d0000, 0xb00000, 0x1190000, 1);
     FUN_200a7bc();
     FUN_200a694(40);
-    FUN_200a714(24, 0x870000, 0xb10000);
+    moveActorToPosition(24, 0x870000, 0xb10000);
     setActorVelocityScalerAndAcceleration(24, 0xcccc, 0x6666);
     FUN_200a6fc(24, 126, 258);
     FUN_200a694(40);
@@ -1833,7 +1833,7 @@ public final class Map5Overlay_8784360 {
     r2 = 0x14b0000;
     r1 = 0x0;
     r0 = 0x19;
-    FUN_200a714(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     r0 = 0x1;
     sleep(r0);
     r0 = 0x1019;
@@ -1852,7 +1852,7 @@ public final class Map5Overlay_8784360 {
     r0 = 0x19;
     r1 = 0x0;
     r2 = 0x0;
-    FUN_200a714(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     r1 = 0xa0;
     r0 = 0x17;
     r1 = r1 << 7;
@@ -1947,7 +1947,7 @@ public final class Map5Overlay_8784360 {
     r0 = 0x19;
     r1 = 0x0;
     r2 = 0x14b0000;
-    FUN_200a714(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     r0 = 0x19;
     r1 = 0x13333;
     r2 = 0x9999;
@@ -2143,25 +2143,25 @@ public final class Map5Overlay_8784360 {
     r0 = 0x0;
     r1 = r1 << 14;
     r2 = r2 << 17;
-    FUN_200a714(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     r1 = 0x9c;
     r2 = 0xb3;
     r0 = 0x19;
     r1 = r1 << 15;
     r2 = r2 << 17;
-    FUN_200a714(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     r1 = 0xce;
     r2 = 0xab;
     r0 = 0x17;
     r1 = r1 << 15;
     r2 = r2 << 17;
-    FUN_200a714(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     r1 = 0xe0;
     r2 = 0xb4;
     r0 = 0x18;
     r1 = r1 << 15;
     r2 = r2 << 17;
-    FUN_200a714(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     r1 = 0x80;
     r0 = 0x17;
     r1 = r1 << 8;
@@ -2326,7 +2326,7 @@ public final class Map5Overlay_8784360 {
     r1 = r1 << 16;
     r2 = 0x32e0000;
     r0 = 0x0;
-    FUN_200a714(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     FUN_200a814();
     FUN_200a824();
     r0 = 0x50;
@@ -2437,7 +2437,7 @@ public final class Map5Overlay_8784360 {
     r2 = r2 << 18;
     r1 = r1 << 15;
     r0 = 0x1e;
-    FUN_200a714(r0, r1, r2);
+    moveActorToPosition(r0, r1, r2);
     r0 = 0x2;
     sleep(r0);
     r0 = 0x1e;
@@ -2608,7 +2608,7 @@ public final class Map5Overlay_8784360 {
 
     final Actor70 actor30 = getMapActor(30);
     if(actor30 != null) {
-      FUN_200a714(31, actor30.pos_08.getX(), actor30.pos_08.getZ());
+      moveActorToPosition(31, actor30.pos_08.getX(), actor30.pos_08.getZ());
     }
 
     //LAB_2009b66
@@ -3679,9 +3679,9 @@ public final class Map5Overlay_8784360 {
     MEMORY.call(0x808a0e8, mapActorIndex);
   }
 
-  /** {@link GoldenSun_808#FUN_808a0f0} */
+  /** {@link GoldenSun_808#moveActorToPosition_} */
   @Method(0x200a714)
-  public static void FUN_200a714(final int mapActorIndex, final int x, final int z) {
+  public static void moveActorToPosition(final int mapActorIndex, final int x, final int z) {
     MEMORY.call(0x808a0f0, mapActorIndex, x, z);
   }
 

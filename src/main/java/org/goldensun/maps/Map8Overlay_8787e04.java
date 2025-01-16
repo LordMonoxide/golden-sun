@@ -299,12 +299,12 @@ public final class Map8Overlay_8787e04 {
     } else {
       //LAB_2008420
       if(readFlag(0x834) != 0) {
-        FUN_808a0f0(11, 0, 0);
-        FUN_808a0f0(12, 0, 0);
-        FUN_808a0f0(13, 0, 0);
-        FUN_808a0f0(14, 0, 0);
-        FUN_808a0f0(15, 0, 0);
-        FUN_808a0f0(16, 0, 0);
+        moveActorToPosition(11, 0, 0);
+        moveActorToPosition(12, 0, 0);
+        moveActorToPosition(13, 0, 0);
+        moveActorToPosition(14, 0, 0);
+        moveActorToPosition(15, 0, 0);
+        moveActorToPosition(16, 0, 0);
       } else {
         //LAB_2008468
         FUN_20093b4();
@@ -368,20 +368,20 @@ public final class Map8Overlay_8787e04 {
     final Actor70 r6 = r1.actor_1e0.deref();
     final Sprite38 r8 = getMapActor(17).sprite_50.deref();
     FUN_808a018();
-    FUN_808a0f0(11, 0, 0);
-    FUN_808a0f0(12, 0, 0);
-    FUN_808a0f0(13, 0, 0);
-    FUN_808a0f0(14, 0, 0);
-    FUN_808a0f0(15, 0, 0);
-    FUN_808a0f0(16, 0, 0);
+    moveActorToPosition(11, 0, 0);
+    moveActorToPosition(12, 0, 0);
+    moveActorToPosition(13, 0, 0);
+    moveActorToPosition(14, 0, 0);
+    moveActorToPosition(15, 0, 0);
+    moveActorToPosition(16, 0, 0);
     FUN_80091e0(getMapActor(0), 0);
     setActorAnimationIfLoaded(0, 18);
     r8.rotation_1e.set(0x555);
     getMapActor(17)._55.set(0);
     FUN_80091e0(getMapActor(17), 0);
-    FUN_808a0f0(17, 0x2400000, 0x28a0000);
+    moveActorToPosition(17, 0x2400000, 0x28a0000);
     FUN_8009188(7);
-    FUN_808a0f0(8, 0x2160000, 0x2b00000);
+    moveActorToPosition(8, 0x2160000, 0x2b00000);
     FUN_8009208();
     FUN_808a1d8(8);
     FUN_8015210(0xe52, 1, 0);
@@ -497,14 +497,14 @@ public final class Map8Overlay_8787e04 {
     final Actor70 r5 = getMapActor(10);
     final Sprite38 r6 = r5.sprite_50.deref();
     FUN_808a018();
-    FUN_808a0f0(11, 0, 0);
-    FUN_808a0f0(12, 0, 0);
-    FUN_808a0f0(13, 0, 0);
-    FUN_808a0f0(14, 0, 0);
-    FUN_808a0f0(15, 0, 0);
-    FUN_808a0f0(16, 0, 0);
-    FUN_808a0f0(8, 0x1af0000, 0x1870000);
-    FUN_808a0f0(10, 0x1cf0000, 0x1940000);
+    moveActorToPosition(11, 0, 0);
+    moveActorToPosition(12, 0, 0);
+    moveActorToPosition(13, 0, 0);
+    moveActorToPosition(14, 0, 0);
+    moveActorToPosition(15, 0, 0);
+    moveActorToPosition(16, 0, 0);
+    moveActorToPosition(8, 0x1af0000, 0x1870000);
+    moveActorToPosition(10, 0x1cf0000, 0x1940000);
     FUN_80091e0(getMapActor(10), 0);
     r5.flags_23.and(~0x1);
     r5._55.set(0);
@@ -541,7 +541,7 @@ public final class Map8Overlay_8787e04 {
     FUN_808a1b8(8, 0x4000, 10);
     FUN_808a208(0x40000, 0x8000);
     FUN_808a210(0x19e0000, -1, 0x2120000, 1);
-    FUN_808a0f0(9, 0x19e0000, 0x2120000);
+    moveActorToPosition(9, 0x19e0000, 0x2120000);
     FUN_808a0d0(9, 427, 483);
     FUN_808a218();
     FUN_808a170(0xe5b);
@@ -587,7 +587,7 @@ public final class Map8Overlay_8787e04 {
     FUN_808a1f0(8, 0x102);
     FUN_808a1f0(0, 0x102);
     FUN_808a010(80);
-    FUN_808a0f0(9, 0, 0);
+    moveActorToPosition(9, 0, 0);
     FUN_808a150(8, 0, 20);
     setActorAnimationIfLoaded(8, 3);
     setActorAnimationAndWaitUntilFinished(0, 3);
@@ -835,8 +835,8 @@ public final class Map8Overlay_8787e04 {
     FUN_808a018();
     FUN_808a210(-1, -1, -1, 0);
     sleep(1);
-    FUN_808a0f0(0, 0, 0);
-    FUN_808a0f0(18, 0x1e00000, 0xca0000);
+    moveActorToPosition(0, 0, 0);
+    moveActorToPosition(18, 0x1e00000, 0xca0000);
     sleep(1);
     FUN_808a200(18, 1);
     final Actor70 r8 = loadActor(22, 0x1480000, 0x20000, 0xc30000);
@@ -1114,9 +1114,9 @@ public final class Map8Overlay_8787e04 {
     MEMORY.call(0x808a0d0, actorIndex, x, z);
   }
 
-  /** {@link GoldenSun_808#FUN_808a0f0} */
+  /** {@link GoldenSun_808#moveActorToPosition_} */
   @Method(0x2009974)
-  public static void FUN_808a0f0(final int mapActorIndex, final int x, final int z) {
+  public static void moveActorToPosition(final int mapActorIndex, final int x, final int z) {
     MEMORY.call(0x808a0f0, mapActorIndex, x, z);
   }
 
