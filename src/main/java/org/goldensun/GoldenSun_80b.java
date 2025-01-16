@@ -39,7 +39,7 @@ import static org.goldensun.GoldenSun.FUN_8009070;
 import static org.goldensun.GoldenSun.FUN_8009088;
 import static org.goldensun.GoldenSun.FUN_80090f8;
 import static org.goldensun.GoldenSun.FUN_8009140;
-import static org.goldensun.GoldenSun.FUN_8009150;
+import static org.goldensun.GoldenSun.moveActorTo_;
 import static org.goldensun.GoldenSun.FUN_8009260;
 import static org.goldensun.GoldenSun.FUN_8009270;
 import static org.goldensun.GoldenSun.addLayerToSprite_;
@@ -2957,7 +2957,7 @@ public final class GoldenSun_80b {
     r5._58.set(1);
     r5._5a.set(0);
     FUN_8009140(r5);
-    FUN_8009150(r5, r6.x_0c.get(), 0, r6.z_10.get());
+    moveActorTo_(r5, r6.x_0c.get(), 0, r6.z_10.get());
     r5.angle_06.set(atan2(r6.z_10.get() / 8, r6.x_0c.get()) + 0x8000);
   }
 
@@ -2972,7 +2972,7 @@ public final class GoldenSun_80b {
     actor._44.set(0);
     actor._5a.set(0);
     FUN_8009140(actor);
-    FUN_8009150(actor, combatant.x_0c.get() * 3 / 2, 0, combatant.z_10.get());
+    moveActorTo_(actor, combatant.x_0c.get() * 3 / 2, 0, combatant.z_10.get());
   }
 
   @Method(0x80b8228)
@@ -2993,7 +2993,7 @@ public final class GoldenSun_80b {
       actor._48.set(0x9999);
       actor._5a.set(0);
       FUN_8009140(actor);
-      FUN_8009150(actor, divideS(MEMORY.ref(4, 0x80c5a04 + r1 * 0x4).get() * combatant.x_0c.get(), 100), 0, combatant.z_10.get());
+      moveActorTo_(actor, divideS(MEMORY.ref(4, 0x80c5a04 + r1 * 0x4).get() * combatant.x_0c.get(), 100), 0, combatant.z_10.get());
     }
 
     //LAB_80b829c
@@ -3024,7 +3024,7 @@ public final class GoldenSun_80b {
     actor0._48.set(0xab85);
     actor0._5a.set(1);
     FUN_8009140(actor0);
-    FUN_8009150(actor0, r8, 0, r6);
+    moveActorTo_(actor0, r8, 0, r6);
     setActorAnimation_(actor0, 2);
   }
 

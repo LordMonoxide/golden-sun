@@ -319,10 +319,10 @@ public final class GoldenSunVars {
    * <ul>
    *   <li>{@link GoldenSun#FUN_800d654}</li>
    *   <li>{@link GoldenSun#FUN_800d674}</li>
-   *   <li>{@link GoldenSun#FUN_800d9f0}</li>
-   *   <li>{@link GoldenSun#FUN_800da18}</li>
+   *   <li>{@link GoldenSun#spriteScriptSetPosition}</li>
+   *   <li>{@link GoldenSun#spriteScriptMoveTo}</li>
    *   <li>{@link GoldenSun#FUN_800da40}</li>
-   *   <li>{@link GoldenSun#FUN_800da78}</li>
+   *   <li>{@link GoldenSun#spriteScriptFaceParent}</li>
    *   <li>{@link GoldenSun#FUN_800daa0}</li>
    *   <li>{@link GoldenSun#FUN_800dac0}</li>
    *   <li>{@link GoldenSun#FUN_800dd70}</li>
@@ -344,10 +344,10 @@ public final class GoldenSunVars {
    *   <li>{@link GoldenSun#handleMovement}</li>
    *   <li>{@link GoldenSun#FUN_800f7f4}</li>
    *   <li>{@link GoldenSun#FUN_800f2f8}</li>
-   *   <li>{@link GoldenSun#FUN_800d8e8}</li>
-   *   <li>{@link GoldenSun#FUN_800d8c4}</li>
+   *   <li>{@link GoldenSun#spriteScriptClearActor}</li>
+   *   <li>{@link GoldenSun#spriteScriptSetAnimation}</li>
    *   <li>{@link GoldenSun#FUN_800d8f4}</li>
-   *   <li>{@link GoldenSun#FUN_800d900}</li>
+   *   <li>{@link GoldenSun#spriteScriptPlaySound}</li>
    *   <li>{@link GoldenSun#FUN_800ca2c}</li>
    *   <li>{@link GoldenSun#FUN_800ca44}</li>
    *   <li>{@link GoldenSun#FUN_800ca58}</li>

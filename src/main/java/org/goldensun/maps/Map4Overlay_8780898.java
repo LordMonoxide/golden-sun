@@ -94,10 +94,10 @@ public final class Map4Overlay_8780898 {
               playSound(0xb9);
               r6.velocityScalar_30.set(0x3333);
               r6.acceleration_34.set(0x3333);
-              FUN_200df1c(r6, r7.getX(), r7.getY(), r7.getZ());
+              moveActorTo(r6, r7.getX(), r7.getY(), r7.getZ());
               r8.velocityScalar_30.set(0x3333);
               r8.acceleration_34.set(0x3333);
-              FUN_200df1c(r8, r7.getX(), r7.getY(), r7.getZ());
+              moveActorTo(r8, r7.getX(), r7.getY(), r7.getZ());
               FUN_200df24(r6);
               FUN_200e144();
               r6.pos_08.setX(r7.getX());
@@ -1890,11 +1890,11 @@ public final class Map4Overlay_8780898 {
     r6._6c.set(getConsumer(Map4Overlay_8780898.class, "FUN_200d75c", Actor70.class));
     FUN_200dfb4(4);
     setActorVelocityScalerAndAcceleration(14, 0x20000, 0x20000);
-    FUN_200df1c(r6, 0x1980000, 0xd00000, 0x2480000);
+    moveActorTo(r6, 0x1980000, 0xd00000, 0x2480000);
     FUN_200dfb4(40);
     setActorVelocityScalerAndAcceleration(9, 0x2666, 0x1333);
     setActorVelocityScalerAndAcceleration(14, 0x2666, 0x1333);
-    FUN_200df1c(r6, 0x1880000, 0xd00000, 0x2480000);
+    moveActorTo(r6, 0x1880000, 0xd00000, 0x2480000);
     FUN_200e014(9, 378, 584);
     FUN_200dfb4(20);
     FUN_200e09c(0x2005, 0, 10);
@@ -3755,7 +3755,7 @@ public final class Map4Overlay_8780898 {
       final Vec3 r5 = new Vec3();
       r5.set(r0.pos_08);
       retVec3(r1, r2, r5);
-      FUN_200df1c(r0, r5.getX(), r5.getY(), r5.getZ());
+      moveActorTo(r0, r5.getX(), r5.getY(), r5.getZ());
     }
 
     //LAB_200d91e
@@ -4097,9 +4097,9 @@ public final class Map4Overlay_8780898 {
     MEMORY.call(0x8009128);
   }
 
-  /** {@link GoldenSun#FUN_8009150} */
+  /** {@link GoldenSun#moveActorTo_} */
   @Method(0x200df1c)
-  public static void FUN_200df1c(final Actor70 actor, final int x, final int y, final int z) {
+  public static void moveActorTo(final Actor70 actor, final int x, final int y, final int z) {
     MEMORY.call(0x8009150, actor, x, y, z);
   }
 

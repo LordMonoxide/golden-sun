@@ -123,10 +123,10 @@ public final class Map121Overlay_87d0e88 {
             playSound(0xb9);
             r6.velocityScalar_30.set(0x3333);
             r6.acceleration_34.set(0x3333);
-            FUN_8009150(r6, r7.getX(), r7.getY(), r7.getZ());
+            moveActorTo(r6, r7.getX(), r7.getY(), r7.getZ());
             r8.velocityScalar_30.set(0x3333);
             r8.acceleration_34.set(0x3333);
-            FUN_8009150(r8, r7.getX(), r7.getY(), r7.getZ());
+            moveActorTo(r8, r7.getX(), r7.getY(), r7.getZ());
             FUN_8009158(r6);
             FUN_808a5e8();
             r6.pos_08.setX(r7.getX());
@@ -360,7 +360,7 @@ public final class Map121Overlay_87d0e88 {
 
     //LAB_2008a10
     playSound(0xef);
-    FUN_8009150(r7, MEMORY.ref(4, CPU.sp().value + 0x50).get(), MEMORY.ref(4, CPU.sp().value + 0x54).get(), MEMORY.ref(4, CPU.sp().value + 0x58).get());
+    moveActorTo(r7, MEMORY.ref(4, CPU.sp().value + 0x50).get(), MEMORY.ref(4, CPU.sp().value + 0x54).get(), MEMORY.ref(4, CPU.sp().value + 0x58).get());
     FUN_808a0e8(0);
     setActorAnimationIfLoaded(0, 2);
     setActorVelocityScalerAndAcceleration(0, 0x4ccc, 0x1999);
@@ -1904,7 +1904,7 @@ public final class Map121Overlay_87d0e88 {
     r1.packet_00.attribs_04.attrib2_04.and(~0xc00).or(0x800);
     r6.velocityScalar_30.set(0xcccc);
     r6.acceleration_34.set(0x6666);
-    FUN_8009150(r6, r6.pos_08.getX(), 0x200000, r6.pos_08.getZ());
+    moveActorTo(r6, r6.pos_08.getX(), 0x200000, r6.pos_08.getZ());
     FUN_808a0e8(14);
     FUN_80091c0(20, 14, 1, 1, 0x16, 0x10);
   }
@@ -2394,9 +2394,9 @@ public final class Map121Overlay_87d0e88 {
     MEMORY.call(0x8009128);
   }
 
-  /** {@link GoldenSun#FUN_8009150} */
+  /** {@link GoldenSun#moveActorTo_} */
   @Method(0x200aa8c)
-  public static void FUN_8009150(final Actor70 actor, final int x, final int y, final int z) {
+  public static void moveActorTo(final Actor70 actor, final int x, final int y, final int z) {
     MEMORY.call(0x8009150, actor, x, y, z);
   }
 

@@ -44,7 +44,7 @@ import static org.goldensun.GoldenSun.FUN_8009128;
 import static org.goldensun.GoldenSun.FUN_8009130;
 import static org.goldensun.GoldenSun.FUN_8009138;
 import static org.goldensun.GoldenSun.FUN_8009140;
-import static org.goldensun.GoldenSun.FUN_8009150;
+import static org.goldensun.GoldenSun.moveActorTo_;
 import static org.goldensun.GoldenSun.FUN_80091e0;
 import static org.goldensun.GoldenSun.FUN_8009230;
 import static org.goldensun.GoldenSun.FUN_8009238;
@@ -4476,7 +4476,7 @@ public final class GoldenSun_808 {
       r0.velocityScalar_30.set(0x20000);
       r0.acceleration_34.set(0x10000);
       r0._55.set(0);
-      FUN_8009150(r0, r5.pos_08.getX(), r5.pos_08.getY() + 0x240000, r5.pos_08.getZ());
+      moveActorTo_(r0, r5.pos_08.getX(), r5.pos_08.getY() + 0x240000, r5.pos_08.getZ());
       sleep(3);
       setActorAnimation_(r5, 28);
       r5.angle_06.set(0x4000);

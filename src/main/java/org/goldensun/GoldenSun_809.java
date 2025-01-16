@@ -35,7 +35,7 @@ import static org.goldensun.GoldenSun.FUN_80090e0;
 import static org.goldensun.GoldenSun.FUN_8009128;
 import static org.goldensun.GoldenSun.FUN_8009140;
 import static org.goldensun.GoldenSun.FUN_8009148;
-import static org.goldensun.GoldenSun.FUN_8009150;
+import static org.goldensun.GoldenSun.moveActorTo_;
 import static org.goldensun.GoldenSun.FUN_8009158;
 import static org.goldensun.GoldenSun.FUN_80091d8;
 import static org.goldensun.GoldenSun.FUN_80091e0;
@@ -45,7 +45,7 @@ import static org.goldensun.GoldenSun.FUN_80092a0;
 import static org.goldensun.GoldenSun.FUN_80092a8;
 import static org.goldensun.GoldenSun.FUN_800b684;
 import static org.goldensun.GoldenSun.FUN_800ca6c;
-import static org.goldensun.GoldenSun.FUN_800d14c;
+import static org.goldensun.GoldenSun.moveActorTo;
 import static org.goldensun.GoldenSun.FUN_800d924;
 import static org.goldensun.GoldenSun.addLayerToSprite;
 import static org.goldensun.GoldenSun.addLayerToSprite_;
@@ -1354,7 +1354,7 @@ public final class GoldenSun_809 {
     if(r5 != null) {
       r5._5b.set(0);
       FUN_8009140(r5);
-      FUN_8009150(r5, x << 16, r5.pos_08.getY(), z << 16);
+      moveActorTo_(r5, x << 16, r5.pos_08.getY(), z << 16);
     }
 
     //LAB_8092150
@@ -1366,7 +1366,7 @@ public final class GoldenSun_809 {
     if(r5 != null) {
       r5._5b.set(0);
       FUN_8009140(r5);
-      FUN_8009150(r5, x << 16, r5.pos_08.getY(), z << 16);
+      moveActorTo_(r5, x << 16, r5.pos_08.getY(), z << 16);
       FUN_8009158(r5);
     }
 
@@ -1380,7 +1380,7 @@ public final class GoldenSun_809 {
       r5._5b.set(0);
       FUN_8009140(r5);
       setActorAnimation_(r5, 0x2);
-      FUN_8009150(r5, x << 16, r5.pos_08.getY(), z << 16);
+      moveActorTo_(r5, x << 16, r5.pos_08.getY(), z << 16);
     }
 
     //LAB_80921bc
@@ -1393,7 +1393,7 @@ public final class GoldenSun_809 {
       r5._5b.set(0);
       FUN_8009140(r5);
       setActorAnimation_(r5, 0x2);
-      FUN_8009150(r5, x << 16, r5.pos_08.getY(), z << 16);
+      moveActorTo_(r5, x << 16, r5.pos_08.getY(), z << 16);
       FUN_8009158(r5);
       setActorAnimation_(r5, 0x1);
     }
@@ -1568,7 +1568,7 @@ public final class GoldenSun_809 {
       setActorAnimation_(r6, 1);
       r6._55.or(0x2);
       r6.velocity_24.setY(0x40000);
-      FUN_8009150(r6, r6.pos_08.getX(), r6.pos_08.getY(), r6.pos_08.getZ() + 0xc0000);
+      moveActorTo_(r6, r6.pos_08.getX(), r6.pos_08.getY(), r6.pos_08.getZ() + 0xc0000);
       sleep(6);
       playSound_(0xd9);
       FUN_8092adc(r0, 0x5000, 0);
@@ -1590,7 +1590,7 @@ public final class GoldenSun_809 {
 
       r6._55.set(0x3);
       r6.velocity_24.setY(0x30000);
-      FUN_8009150(r6, r6.pos_08.getX(), r6.pos_08.getY(), r6.pos_08.getZ() + 0x100000);
+      moveActorTo_(r6, r6.pos_08.getX(), r6.pos_08.getY(), r6.pos_08.getZ() + 0x100000);
       FUN_8009158(r6);
 
       //LAB_80927d8
@@ -2250,7 +2250,7 @@ public final class GoldenSun_809 {
       }
     } else {
       //LAB_80934d0
-      FUN_8009150(r5, r6, r10, r7);
+      moveActorTo_(r5, r6, r10, r7);
     }
 
     //LAB_80934dc
@@ -2597,7 +2597,7 @@ public final class GoldenSun_809 {
       r6._55.set(r7);
       FUN_80091e0(r6, 0);
       setActorAnimation_(r6, 13);
-      FUN_8009150(r6, r10 << 16, r6.pos_08.getY() - 0x100000, (r9 << 16) + 0x100000);
+      moveActorTo_(r6, r10 << 16, r6.pos_08.getY() - 0x100000, (r9 << 16) + 0x100000);
       FUN_80923c4(playerMapActorIndex_2000434.get());
       _2000432.set(0x1);
     } else {
@@ -2695,7 +2695,7 @@ public final class GoldenSun_809 {
       //LAB_80940b8
       r7._55.set(0);
       setActorAnimation_(r7, 11);
-      FUN_8009150(r7, r8 << 16, r7.pos_08.getY() + 0x80000, (r10 << 16) - 0x100000);
+      moveActorTo_(r7, r8 << 16, r7.pos_08.getY() + 0x80000, (r10 << 16) - 0x100000);
       FUN_80923c4(playerMapActorIndex_2000434.get());
       r7._55.set(0x3);
       r7._14.set(r7.pos_08.getY());
@@ -2848,7 +2848,7 @@ public final class GoldenSun_809 {
     r2 = r5.pos_08.getY();
     r3 = r5.pos_08.getZ();
     r3 = r3 + 0x80000;
-    FUN_800d14c(r5, r1, r2, r3);
+    moveActorTo(r5, r1, r2, r3);
     FUN_800ca6c(r5);
   }
 
@@ -2856,8 +2856,6 @@ public final class GoldenSun_809 {
   @Method(0x8094428)
   public static int FUN_8094428() {
     int r0;
-    int r1;
-    final int r3;
     int r6;
 
     r6 = 0x0;
@@ -3477,7 +3475,7 @@ public final class GoldenSun_809 {
       final Vec3 r5 = new Vec3();
       r5.set(actor.pos_08);
       rotVec3(distance, angle, r5);
-      FUN_8009150(actor, r5.getX(), r5.getY(), r5.getZ());
+      moveActorTo_(actor, r5.getX(), r5.getY(), r5.getZ());
     }
 
     //LAB_8096c1a
@@ -4080,7 +4078,7 @@ public final class GoldenSun_809 {
         vec.setY(target.pos_08.getY() + 0x100000);
         vec.setZ(target.pos_08.getZ());
         rotVec3(0x100000, sp08, vec);
-        FUN_8009150(moveHand, vec.getX(), vec.getY(), vec.getZ());
+        moveActorTo_(moveHand, vec.getX(), vec.getY(), vec.getZ());
         FUN_8098184(moveHand);
         moveHand.velocityScalar_30.set(0x40000);
         moveHand.acceleration_34.set(0x8000);
@@ -4115,7 +4113,7 @@ public final class GoldenSun_809 {
                 vec.setY(target.pos_08.getY() + 0x100000);
                 vec.setZ(target.pos_08.getZ());
                 rotVec3(0x100000, sp08, vec);
-                FUN_8009150(moveHand, vec.getX(), vec.getY(), vec.getZ());
+                moveActorTo_(moveHand, vec.getX(), vec.getY(), vec.getZ());
                 setActorAnimation_(moveHand, 1);
                 moveHand.velocity_24.zero();
               } while(true);
@@ -4126,7 +4124,7 @@ public final class GoldenSun_809 {
               vec.setZ(target.pos_08.getZ());
               rotVec3(0x100000, sp08, vec);
               rotVec3(0x20000, moveAngle, vec);
-              FUN_8009150(moveHand, vec.getX(), vec.getY(), vec.getZ());
+              moveActorTo_(moveHand, vec.getX(), vec.getY(), vec.getZ());
               FUN_8009158(moveHand);
               vec.setX(target.pos_08.getX());
               vec.setY(target.pos_08.getY());
@@ -4179,18 +4177,18 @@ public final class GoldenSun_809 {
           target._5b.set(0);
           target.velocityScalar_30.set(0x3333);
           target.acceleration_34.set(0x3333);
-          FUN_8009150(target, vec.getX(), vec.getY(), vec.getZ());
+          moveActorTo_(target, vec.getX(), vec.getY(), vec.getZ());
           moveHand._55.set(0);
           moveHand.velocityScalar_30.set(0x3333);
           moveHand.acceleration_34.set(0x3333);
           rotVec3(0x100000, moveAngle, vec);
-          FUN_8009150(moveHand, vec.getX(), vec.getY() + 0x100000, vec.getZ());
+          moveActorTo_(moveHand, vec.getX(), vec.getY() + 0x100000, vec.getZ());
 
           if(sp04 == 0x1) {
             getMapActor_(sp18.casterMapActorIndex_18.get())._5a.and(~0x1);
             caster.velocityScalar_30.set(0x3333);
             caster.acceleration_34.set(0x3333);
-            FUN_8009150(caster, r5.getX(), r5.getY(), r5.getZ());
+            moveActorTo_(caster, r5.getX(), r5.getY(), r5.getZ());
           }
 
           //LAB_8097ece
@@ -4430,7 +4428,7 @@ public final class GoldenSun_809 {
 
         //LAB_80987e4
         rotVec3(rand() * 6 + 0x40000, rand(), r8);
-        FUN_8009150(r6, r8.getX(), r8.getY(), r8.getZ());
+        moveActorTo_(r6, r8.getX(), r8.getY(), r8.getZ());
       }
 
       //LAB_8098812
@@ -4618,7 +4616,7 @@ public final class GoldenSun_809 {
       }
 
       //LAB_8098ece
-      FUN_8009150(r6, r10.getX(), r10.getY(), r10.getZ());
+      moveActorTo_(r6, r10.getX(), r10.getY(), r10.getZ());
       setActorSpriteScript_(r6, 0x809f12c);
 
       //LAB_8098eee
@@ -4626,7 +4624,7 @@ public final class GoldenSun_809 {
         final Actor70 r5 = sp04[r8];
         if(r5 != null) {
           sleep(3);
-          FUN_8009150(r5, r10.getX(), r10.getY(), r10.getZ());
+          moveActorTo_(r5, r10.getX(), r10.getY(), r10.getZ());
           setActorSpriteScript_(r5, 0x809f0b4);
         }
 
@@ -4651,7 +4649,7 @@ public final class GoldenSun_809 {
         if(FUN_80091d8(sp08, r10) == 0 && FUN_800d924(sp08, r10) == 0) {
           sp08.velocityScalar_30.set(0x10000);
           sp08.acceleration_34.set(0x10000);
-          FUN_8009150(sp08, r10.getX(), r10.getY(), r10.getZ());
+          moveActorTo_(sp08, r10.getX(), r10.getY(), r10.getZ());
         }
       }
 
@@ -5057,8 +5055,8 @@ public final class GoldenSun_809 {
         r10.setX(r7.pos_08.getX());
         r10.setY(r7.pos_08.getY() + 0x100000);
         r10.setZ(r7.pos_08.getZ());
-        FUN_8009150(sp14, r10.getX() + 0x100000, r10.getY(), r10.getZ());
-        FUN_8009150(sp18, r10.getX() - 0x100000, r10.getY(), r10.getZ());
+        moveActorTo_(sp14, r10.getX() + 0x100000, r10.getY(), r10.getZ());
+        moveActorTo_(sp18, r10.getX() - 0x100000, r10.getY(), r10.getZ());
         FUN_8009158(sp14);
         FUN_8009158(sp18);
         sp14.pos_08.setX(r10.getX() + 0x100000);
@@ -5105,15 +5103,15 @@ public final class GoldenSun_809 {
 
           final int r6 = getAngleForHeldDirectionalButtons() & 0xffff;
           if(r6 == 0xffff) {
-            FUN_8009150(sp14, r10.getX() + 0x100000, r10.getY(), r10.getZ());
-            FUN_8009150(sp18, r10.getX() - 0x100000, r10.getY(), r10.getZ());
+            moveActorTo_(sp14, r10.getX() + 0x100000, r10.getY(), r10.getZ());
+            moveActorTo_(sp18, r10.getX() - 0x100000, r10.getY(), r10.getZ());
             setActorAnimation_(sp14, 1);
             setActorAnimation_(sp18, 1);
           } else {
             //LAB_8099f84
             rotVec3(0x20000, r6, r10);
-            FUN_8009150(sp14, r10.getX() + 0x100000, r10.getY(), r10.getZ());
-            FUN_8009150(sp18, r10.getX() - 0x100000, r10.getY(), r10.getZ());
+            moveActorTo_(sp14, r10.getX() + 0x100000, r10.getY(), r10.getZ());
+            moveActorTo_(sp18, r10.getX() - 0x100000, r10.getY(), r10.getZ());
             FUN_8009158(sp14);
             FUN_8009158(sp18);
             r10.setX(r7.pos_08.getX());
@@ -5135,13 +5133,13 @@ public final class GoldenSun_809 {
                 r7._5b.set(0);
                 r7.velocityScalar_30.set(0x3333);
                 r7.acceleration_34.set(0x3333);
-                FUN_8009150(r7, r10.getX(), r10.getY(), r10.getZ());
+                moveActorTo_(r7, r10.getX(), r10.getY(), r10.getZ());
                 sp14.velocityScalar_30.set(0x3333);
                 sp14.acceleration_34.set(0x3333);
                 sp18.velocityScalar_30.set(0x3333);
                 sp18.acceleration_34.set(0x3333);
-                FUN_8009150(sp14, r10.getX() + 0x100000, r10.getY(), r10.getZ());
-                FUN_8009150(sp18, r10.getX() - 0x100000, r10.getY(), r10.getZ());
+                moveActorTo_(sp14, r10.getX() + 0x100000, r10.getY(), r10.getZ());
+                moveActorTo_(sp18, r10.getX() - 0x100000, r10.getY(), r10.getZ());
                 FUN_8009158(r7);
                 r7.pos_08.setX(r10.getX());
                 r7.pos_08.setZ(r10.getZ());

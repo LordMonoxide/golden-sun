@@ -82,10 +82,10 @@ public final class Map132Overlay_87ced6c {
             playSound(0xb9);
             r6.velocityScalar_30.set(0x3333);
             r6.acceleration_34.set(0x3333);
-            FUN_8009150(r6, r7.getX(), r7.getY(), r7.getZ());
+            moveActorTo(r6, r7.getX(), r7.getY(), r7.getZ());
             r8.velocityScalar_30.set(0x3333);
             r8.acceleration_34.set(0x3333);
-            FUN_8009150(r8, r7.getX(), r7.getY(), r7.getZ());
+            moveActorTo(r8, r7.getX(), r7.getY(), r7.getZ());
             FUN_8009158(r6);
             FUN_808a5e8();
             r6.pos_08.setX(r7.getX());
@@ -403,7 +403,7 @@ public final class Map132Overlay_87ced6c {
     playSound(r0);
     r1 = MEMORY.ref(4, CPU.sp().value + 0x50).get();
     r2 = MEMORY.ref(4, CPU.sp().value + 0x54).get();
-    FUN_8009150(r7, r1, r2, a4);
+    moveActorTo(r7, r1, r2, a4);
     r0 = 0x0;
     FUN_808a0e8(r0);
     r0 = 0x0;
@@ -1483,11 +1483,11 @@ public final class Map132Overlay_87ced6c {
     FUN_808a018();
     r6.velocityScalar_30.set(0x10000);
     r6.acceleration_34.set(0x8000);
-    FUN_8009150(r6, (r6.pos_08.getX() + (x << 16) & 0xfff00000) + 0x80000, r6.pos_08.getY(), (r6.pos_08.getZ() + (z << 16) & 0xfff00000) + 0x80000);
+    moveActorTo(r6, (r6.pos_08.getX() + (x << 16) & 0xfff00000) + 0x80000, r6.pos_08.getY(), (r6.pos_08.getZ() + (z << 16) & 0xfff00000) + 0x80000);
     setActorAnimation(r6, 27);
     r7.velocityScalar_30.set(0x10000);
     r7.acceleration_34.set(0x8000);
-    FUN_8009150(r7, (r7.pos_08.getX() + (x << 16) & 0xfff00000) + 0x80000, r7.pos_08.getY(), (r7.pos_08.getZ() + (z << 16) & 0xfff00000) + 0x80000);
+    moveActorTo(r7, (r7.pos_08.getX() + (x << 16) & 0xfff00000) + 0x80000, r7.pos_08.getY(), (r7.pos_08.getZ() + (z << 16) & 0xfff00000) + 0x80000);
 
     if(x < 0 || z < 0) {
       //LAB_2009818
@@ -3436,9 +3436,9 @@ public final class Map132Overlay_87ced6c {
     return (Actor70)MEMORY.call(0x80090c8, spriteTypeAndDataIndex, x, y, z);
   }
 
-  /** {@link GoldenSun#FUN_8009150} */
+  /** {@link GoldenSun#moveActorTo_} */
   @Method(0x200b010)
-  public static void FUN_8009150(final Actor70 actor, final int x, final int y, final int z) {
+  public static void moveActorTo(final Actor70 actor, final int x, final int y, final int z) {
     MEMORY.call(0x8009150, actor, x, y, z);
   }
 
