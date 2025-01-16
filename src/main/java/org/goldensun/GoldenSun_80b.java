@@ -232,7 +232,7 @@ public final class GoldenSun_80b {
   /** {@link GoldenSun_80b#FUN_80b29a8} */
   @Method(0x80b0010)
   public static int FUN_80b0010(final int mapActorIndex) {
-    return (int)MEMORY.call(0x80b29a8);
+    return (int)MEMORY.call(0x80b29a8, mapActorIndex);
   }
 
   /** {@link GoldenSun_80b#FUN_80b3284} */
