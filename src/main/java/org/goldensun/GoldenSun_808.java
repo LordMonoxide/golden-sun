@@ -3742,7 +3742,7 @@ public final class GoldenSun_808 {
         if(otherMapActorIndex != mapActorIndex) {
           final Actor70 otherActor = getMapActor(otherMapActorIndex);
           if(otherActor != null) {
-            if((otherActor._59.get() & 0x8) == 0 && Math.abs(otherActor.pos_08.getY() - actor.pos_08.getY()) <= 0x2fffff) {
+            if((otherActor._59.get() & 0x8) == 0 && Math.abs(otherActor.pos_08.getY() - actor.pos_08.getY()) < 0x300000) {
               //LAB_808de50
               final int dx = (otherActor.pos_08.getX() - actor.pos_08.getX()) / 0x10000;
               final int dy = (otherActor.pos_08.getY() - actor.pos_08.getY()) / 0x10000;
@@ -3755,7 +3755,8 @@ public final class GoldenSun_808 {
               //LAB_808deb2
               if(distance < closestDistance) {
                 final int angle = atan2(otherActor.pos_08.getZ() - actor.pos_08.getZ(), otherActor.pos_08.getX() - actor.pos_08.getX());
-                if(distance < 0xc || angle - actor.angle_06.get() >= -0x2fff && angle - actor.angle_06.get() <= 0x2fff) {
+
+                if(distance < 0xc || Math.abs((short)(angle - actor.angle_06.get())) < 0x3000) {
                   //LAB_808dee2
                   closestActor = otherMapActorIndex;
                   closestDistance = distance;
