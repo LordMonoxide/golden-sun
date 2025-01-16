@@ -2510,8 +2510,8 @@ public final class Map121Overlay_87d0e88 {
 
   /** {@link GoldenSun_808#setActorVelocityScalerAndAcceleration_} */
   @Method(0x200ab24)
-  public static void setActorVelocityScalerAndAcceleration(final int actorIndex, final int velocityScaler, final int acceleration) {
-    MEMORY.call(0x808a090, actorIndex, velocityScaler, acceleration);
+  public static void setActorVelocityScalerAndAcceleration(final int mapActorIndex, final int velocityScaler, final int acceleration) {
+    MEMORY.call(0x808a090, mapActorIndex, velocityScaler, acceleration);
   }
 
   /** {@link GoldenSun_808#FUN_808a098} */
@@ -2522,8 +2522,8 @@ public final class Map121Overlay_87d0e88 {
 
   /** {@link GoldenSun_808#FUN_808a0c0} */
   @Method(0x200ab34)
-  public static void FUN_808a0c0(final int actorIndex, final int r1, final int r2) {
-    MEMORY.call(0x808a0c0, actorIndex, r1, r2);
+  public static void FUN_808a0c0(final int mapActorIndex, final int x, final int z) {
+    MEMORY.call(0x808a0c0, mapActorIndex, x, z);
   }
 
   /** {@link GoldenSun_808#FUN_808a0e0} */
@@ -2546,8 +2546,8 @@ public final class Map121Overlay_87d0e88 {
 
   /** {@link GoldenSun_808#setActorAnimationIfLoaded_} */
   @Method(0x200ab54)
-  public static void setActorAnimationIfLoaded(final int actorIndex, final int animationIndex) {
-    MEMORY.call(0x808a100, actorIndex, animationIndex);
+  public static void setActorAnimationIfLoaded(final int mapActorIndex, final int animationIndex) {
+    MEMORY.call(0x808a100, mapActorIndex, animationIndex);
   }
 
   /** {@link GoldenSun_808#waitForActorAnimationToChange_} */
@@ -2558,8 +2558,8 @@ public final class Map121Overlay_87d0e88 {
 
   /** {@link GoldenSun_808#FUN_808a158} */
   @Method(0x200ab64)
-  public static void FUN_808a158(final int actorIndex, final int r1) {
-    MEMORY.call(0x808a158, actorIndex, r1);
+  public static void FUN_808a158(final int mapActorIndex, final int r1) {
+    MEMORY.call(0x808a158, mapActorIndex, r1);
   }
 
   /** {@link GoldenSun_808#FUN_808a160} */

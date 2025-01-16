@@ -290,8 +290,8 @@ public final class GoldenSun_808 {
 
   /** {@link GoldenSun_809#FUN_8091c7c} */
   @Method(0x808a070)
-  public static int FUN_808a070(final int r0, final int r1) {
-    return (int)MEMORY.call(0x8091c7c, r0, r1);
+  public static int FUN_808a070(final int mapActorIndex, final int r1) {
+    return (int)MEMORY.call(0x8091c7c, mapActorIndex, r1);
   }
 
   /** {@link GoldenSun_809#getMapActor_} */
@@ -308,14 +308,14 @@ public final class GoldenSun_808 {
 
   /** {@link GoldenSun_809#setActorVelocityScalerAndAcceleration} */
   @Method(0x808a090)
-  public static void setActorVelocityScalerAndAcceleration_(final int actorIndex, final int velocityScaler, final int acceleration) {
-    MEMORY.call(0x8092064, actorIndex, velocityScaler, acceleration);
+  public static void setActorVelocityScalerAndAcceleration_(final int mapActorIndex, final int velocityScaler, final int acceleration) {
+    MEMORY.call(0x8092064, mapActorIndex, velocityScaler, acceleration);
   }
 
   /** {@link GoldenSun_809#FUN_809207c} */
   @Method(0x808a098)
-  public static void FUN_808a098(final int actorIndex, final int r1) {
-    MEMORY.call(0x809207c, actorIndex, r1);
+  public static void FUN_808a098(final int mapActorIndex, final int spriteScript) {
+    MEMORY.call(0x809207c, mapActorIndex, spriteScript);
   }
 
   /** {@link GoldenSun_809#FUN_80920e8} */
@@ -332,8 +332,8 @@ public final class GoldenSun_808 {
 
   /** {@link GoldenSun_809#FUN_80920fc} */
   @Method(0x808a0b0)
-  public static void FUN_808a0b0(final int mapActorIndex, final int r1) {
-    MEMORY.call(0x80920fc, mapActorIndex, r1);
+  public static void FUN_808a0b0(final int mapActorIndex, final int spriteScript) {
+    MEMORY.call(0x80920fc, mapActorIndex, spriteScript);
   }
 
   /** {@link GoldenSun_809#FUN_8092128} */
@@ -344,20 +344,20 @@ public final class GoldenSun_808 {
 
   /** {@link GoldenSun_809#FUN_8092158} */
   @Method(0x808a0c0)
-  public static void FUN_808a0c0(final int actorIndex, final int x, final int z) {
-    MEMORY.call(0x8092158, actorIndex, x, z);
+  public static void FUN_808a0c0(final int mapActorIndex, final int x, final int z) {
+    MEMORY.call(0x8092158, mapActorIndex, x, z);
   }
 
   /** {@link GoldenSun_809#FUN_809218c} */
   @Method(0x808a0c8)
-  public static void FUN_808a0c8(final int actorIndex, final int x, final int z) {
-    MEMORY.call(0x809218c, actorIndex, x, z);
+  public static void FUN_808a0c8(final int mapActorIndex, final int x, final int z) {
+    MEMORY.call(0x809218c, mapActorIndex, x, z);
   }
 
   /** {@link GoldenSun_809#FUN_80921c4} */
   @Method(0x808a0d0)
-  public static void FUN_808a0d0(final int actorIndex, final int x, final int z) {
-    MEMORY.call(0x80921c4, actorIndex, x, z);
+  public static void FUN_808a0d0(final int mapActorIndex, final int x, final int z) {
+    MEMORY.call(0x80921c4, mapActorIndex, x, z);
   }
 
   /** {@link GoldenSun_809#FUN_8092208} */
@@ -386,14 +386,14 @@ public final class GoldenSun_808 {
 
   /** {@link GoldenSun_809#setActorAnimationIfLoaded} */
   @Method(0x808a100)
-  public static void setActorAnimationIfLoaded_(final int actorIndex, final int animationIndex) {
-    MEMORY.call(0x80924d4, actorIndex, animationIndex);
+  public static void setActorAnimationIfLoaded_(final int mapActorIndex, final int animationIndex) {
+    MEMORY.call(0x80924d4, mapActorIndex, animationIndex);
   }
 
   /** {@link GoldenSun_809#setActorAnimationAndWaitUntilFinished} */
   @Method(0x808a110)
-  public static void setActorAnimationAndWaitUntilFinished_(final int actorIndex, final int animationIndex) {
-    MEMORY.call(0x8092548, actorIndex, animationIndex);
+  public static void setActorAnimationAndWaitUntilFinished_(final int mapActorIndex, final int animationIndex) {
+    MEMORY.call(0x8092548, mapActorIndex, animationIndex);
   }
 
   /** {@link GoldenSun_809#waitForActorAnimationToChange} */
@@ -404,8 +404,8 @@ public final class GoldenSun_808 {
 
   /** {@link GoldenSun_809#FUN_8092560} */
   @Method(0x808a128)
-  public static void FUN_808a128(final int actorIndex, final int r1, final int r2) {
-    MEMORY.call(0x8092560, actorIndex, r1, r2);
+  public static void FUN_808a128(final int mapActorIndex, final int velocityY, final int sleepFrames) {
+    MEMORY.call(0x8092560, mapActorIndex, velocityY, sleepFrames);
   }
 
   /** {@link GoldenSun_809#FUN_809259c} */
@@ -416,8 +416,8 @@ public final class GoldenSun_808 {
 
   /** {@link GoldenSun_809#FUN_80925cc} */
   @Method(0x808a138)
-  public static void FUN_808a138(final int actorIndex, final int r1) {
-    MEMORY.call(0x80925cc, actorIndex, r1);
+  public static void FUN_808a138(final int mapActorIndex, final int r1) {
+    MEMORY.call(0x80925cc, mapActorIndex, r1);
   }
 
   /** {@link GoldenSun_809#FUN_809280c} */
@@ -434,8 +434,8 @@ public final class GoldenSun_808 {
 
   /** {@link GoldenSun_809#FUN_8092950} */
   @Method(0x808a158)
-  public static void FUN_808a158(final int actorIndex, final int r1) {
-    MEMORY.call(0x8092950, actorIndex, r1);
+  public static void FUN_808a158(final int mapActorIndex, final int r1) {
+    MEMORY.call(0x8092950, mapActorIndex, r1);
   }
 
   /** {@link GoldenSun_809#FUN_80929d8} */
@@ -458,32 +458,32 @@ public final class GoldenSun_808 {
 
   /** {@link GoldenSun_809#FUN_8092c40} */
   @Method(0x808a178)
-  public static Panel24 FUN_808a178(final int r0) {
-    return (Panel24)MEMORY.call(0x8092c40, r0);
+  public static Panel24 FUN_808a178(final int mapActorIndex) {
+    return (Panel24)MEMORY.call(0x8092c40, mapActorIndex);
   }
 
   /** {@link GoldenSun_809#FUN_8092f84} */
   @Method(0x808a180)
-  public static void FUN_808a180(final int r0, final int r1) {
-    MEMORY.call(0x8092f84, r0, r1);
+  public static void FUN_808a180(final int mapActorIndex, final int r1) {
+    MEMORY.call(0x8092f84, mapActorIndex, r1);
   }
 
   /** {@link GoldenSun_809#FUN_8093040} */
   @Method(0x808a188)
-  public static void FUN_808a188(final int r0, final int r1, final int sleepFrames) {
-    MEMORY.call(0x8093040, r0, r1, sleepFrames);
+  public static void FUN_808a188(final int mapActorIndex, final int r1, final int sleepFrames) {
+    MEMORY.call(0x8093040, mapActorIndex, r1, sleepFrames);
   }
 
   /** {@link GoldenSun_809#FUN_8093054} */
   @Method(0x808a190)
-  public static int FUN_808a190(final int r0, final int r1) {
-    return (int)MEMORY.call(0x8093054, r0, r1);
+  public static int FUN_808a190(final int mapActorIndex, final int r1) {
+    return (int)MEMORY.call(0x8093054, mapActorIndex, r1);
   }
 
   /** {@link GoldenSun_809#FUN_8092adc} */
   @Method(0x808a1b8)
-  public static void FUN_808a1b8(final int r0, final int r1, final int r2) {
-    MEMORY.call(0x8092adc, r0, r1, r2);
+  public static void FUN_808a1b8(final int mapActorIndex, final int r1, final int sleepFrames) {
+    MEMORY.call(0x8092adc, mapActorIndex, r1, sleepFrames);
   }
 
   /** {@link GoldenSun_809#FUN_80931ec} */
@@ -506,14 +506,14 @@ public final class GoldenSun_808 {
 
   /** {@link GoldenSun_809#FUN_80937b8} */
   @Method(0x808a1e8)
-  public static void FUN_808a1e8(final int actorIndex, final int r1, final int r2) {
-    MEMORY.call(0x80937b8, actorIndex, r1, r2);
+  public static void FUN_808a1e8(final int mapActorIndex, final int animationAndFlags, final int sleepFrames) {
+    MEMORY.call(0x80937b8, mapActorIndex, animationAndFlags, sleepFrames);
   }
 
   /** {@link GoldenSun_809#FUN_8093874} */
   @Method(0x808a1f0)
-  public static void FUN_808a1f0(final int actorIndex, final int r1) {
-    MEMORY.call(0x8093874, actorIndex, r1);
+  public static void FUN_808a1f0(final int mapActorIndex, final int r1) {
+    MEMORY.call(0x8093874, mapActorIndex, r1);
   }
 
   /** {@link GoldenSun_809#FUN_809335c} */
