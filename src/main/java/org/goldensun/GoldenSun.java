@@ -5416,7 +5416,7 @@ public final class GoldenSun {
     int r1_0 = (x1 - r0.pos_08.getX()) / 0x10000;
     int r5 = (y1 - r0.pos_08.getY()) / 0x10000;
     int r6 = (z1 - r0.pos_08.getZ()) / 0x10000;
-    r5 = sqrt(r1_0 * r1_0 + r5 * r5 + r6 * r6) >> 16;
+    r5 = sqrt(r1_0 * r1_0 + r5 * r5 + r6 * r6) << 16;
     if(r5 < 0x100000) {
       r1_0 = x1 - r0.pos_08.getX();
       r5 = y1 - r0.pos_08.getY();
