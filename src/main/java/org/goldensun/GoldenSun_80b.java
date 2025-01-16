@@ -271,6 +271,11 @@ public final class GoldenSun_80b {
     MEMORY.call(0x80b06c0, r0, r1, r2);
   }
 
+  @Method(0x80b00f4)
+  public static void FUN_80b00f4() {
+    FUN_80b08b8(boardWramMallocHead_3001e50.offset(55 * 0x4).deref(4).cast(Menua70::new)._380.getAddress());
+  }
+
   @Method(0x80b010c)
   public static void FUN_80b010c() {
     int r0;
@@ -549,16 +554,20 @@ public final class GoldenSun_80b {
   @Method(0x80b0a20)
   public static void FUN_80b0a20(final int r0, final int r1, final int r2) {
     final int r5 = MEMORY.ref(4, r0).get();
-    MEMORY.ref(2, r5 + 0x6).setu(r1);
-    MEMORY.ref(2, r5 + 0x8).setu(r2);
-    MEMORY.ref(1, r5 + 0x14).setu(r2 & 0xffff);
-    MEMORY.ref(2, r5 + 0x16).and(0xfffffe00).oru(r1 & 0x1ff);
-    MEMORY.ref(1, r0 + 0xd).setu(0x1);
-    MEMORY.ref(2, r0 + 0x8).setu(r1);
-    MEMORY.ref(2, r0 + 0x4).setu(r1);
-    MEMORY.ref(1, r0 + 0xc).setu(0);
-    MEMORY.ref(2, r0 + 0xa).setu(r2);
-    MEMORY.ref(2, r0 + 0x6).setu(r2);
+
+    //BUGFIX: NPE
+    if(r5 != 0) {
+      MEMORY.ref(2, r5 + 0x6).setu(r1);
+      MEMORY.ref(2, r5 + 0x8).setu(r2);
+      MEMORY.ref(1, r5 + 0x14).setu(r2 & 0xffff);
+      MEMORY.ref(2, r5 + 0x16).and(0xfffffe00).oru(r1 & 0x1ff);
+      MEMORY.ref(1, r0 + 0xd).setu(0x1);
+      MEMORY.ref(2, r0 + 0x8).setu(r1);
+      MEMORY.ref(2, r0 + 0x4).setu(r1);
+      MEMORY.ref(1, r0 + 0xc).setu(0);
+      MEMORY.ref(2, r0 + 0xa).setu(r2);
+      MEMORY.ref(2, r0 + 0x6).setu(r2);
+    }
   }
 
   @Method(0x80b0a6c)
