@@ -140,7 +140,7 @@ import static org.goldensun.GoldenSun_807.setFlag_;
 import static org.goldensun.GoldenSun_808.FUN_808adf0;
 import static org.goldensun.GoldenSun_808.getEncounterId;
 import static org.goldensun.GoldenSun_808.FUN_808b320;
-import static org.goldensun.GoldenSun_808.FUN_808b3ec;
+import static org.goldensun.GoldenSun_808.loadActorSet;
 import static org.goldensun.GoldenSun_808.FUN_808b824;
 import static org.goldensun.GoldenSun_808.FUN_808d394;
 import static org.goldensun.GoldenSun_808.FUN_808d5a4;
@@ -984,7 +984,7 @@ public final class GoldenSun_809 {
 
   @Method(0x80917ac)
   public static void FUN_80917ac(final int r0) {
-    FUN_808b3ec(r0, FUN_808b824());
+    loadActorSet(r0, FUN_808b824());
   }
 
   @Method(0x80917d0)

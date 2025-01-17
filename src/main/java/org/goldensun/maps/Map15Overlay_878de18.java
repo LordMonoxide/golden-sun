@@ -5,7 +5,9 @@ import org.goldensun.GoldenSunVars;
 import org.goldensun.GoldenSun_807;
 import org.goldensun.GoldenSun_808;
 import org.goldensun.memory.Method;
+import org.goldensun.types.Structccc;
 
+import static org.goldensun.GoldenSunVars.*;
 import static org.goldensun.Hardware.MEMORY;
 
 /** Third/fourth rooms in Sol Sanctum */
@@ -17,10 +19,7 @@ public final class Map15Overlay_878de18 {
    */
   @Method(0x2008030)
   public static int getRooms() {
-    final int r0;
-
-    r0 = 0x20080c0;
-    return r0;
+    return 0x20080c0;
   }
 
   /**
@@ -28,10 +27,7 @@ public final class Map15Overlay_878de18 {
    */
   @Method(0x2008038)
   public static int getLadders() {
-    final int r0;
-
-    r0 = 0x0;
-    return r0;
+    return 0;
   }
 
   /**
@@ -39,10 +35,7 @@ public final class Map15Overlay_878de18 {
    */
   @Method(0x200803c)
   public static int getTransitions() {
-    final int r0;
-
-    r0 = 0x2008120;
-    return r0;
+    return 0x2008120;
   }
 
   /**
@@ -50,10 +43,7 @@ public final class Map15Overlay_878de18 {
    */
   @Method(0x2008044)
   public static int getActors() {
-    final int r0;
-
-    r0 = 0x2008130;
-    return r0;
+    return 0x2008130;
   }
 
   /**
@@ -61,10 +51,7 @@ public final class Map15Overlay_878de18 {
    */
   @Method(0x200804c)
   public static int getEvents() {
-    final int r0;
-
-    r0 = 0x2008148;
-    return r0;
+    return 0x2008148;
   }
 
   /**
@@ -72,40 +59,18 @@ public final class Map15Overlay_878de18 {
    */
   @Method(0x2008054)
   public static int init() {
-    int r0;
-    int r1;
-    int r2;
-    int r3;
+    final Structccc r1 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
+    r1._1c0.set(0x204);
+    r1._1c8.set(0x10);
 
-    r3 = 0x3001ebc;
-    r1 = MEMORY.ref(4, r3).get();
-    r3 = 0xe0;
-    r3 = r3 << 1;
-    r2 = r1 + r3;
-    r3 = r3 + 0x44;
-    MEMORY.ref(4, r2).setu(r3);
-    r3 = r3 - 0x3c;
-    r2 = r1 + r3;
-    r3 = 0x10;
-    MEMORY.ref(4, r2).setu(r3);
-    r0 = 0x814;
-    r0 = readFlag(r0);
-    if(r0 != 0x0) {
-      r0 = 0x8d;
-      FUN_20080b8(r0);
-      r0 = 0x80;
-      r1 = 0x80;
-      r2 = 0x80;
-      r0 = r0 << 9;
-      r1 = r1 << 9;
-      r2 = r2 << 9;
-      FUN_20080a0(r0, r1, r2);
+    if(readFlag(0x814) != 0) {
+      FUN_20080b8(0x8d);
+      FUN_20080a0(0x10000, 0x10000, 0x10000);
       FUN_20080b0();
     }
 
     //LAB_2008090
-    r0 = 0x0;
-    return r0;
+    return 0;
   }
 
   /** {@link GoldenSun#FUN_80091f0} */

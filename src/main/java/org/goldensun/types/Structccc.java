@@ -14,8 +14,8 @@ import org.goldensun.memory.types.UnsignedShortRef;
 public class Structccc implements MemoryRef {
   private final Value ref;
 
-  /** TODO ptrs */
-  public final ArrayRef<IntRef> _00;
+  /** The loaded actor sets TODO ptrs */
+  public final ArrayRef<IntRef> actorSets_00;
   public final Pointer<UnboundedArrayRef<EventStruct0c>> events_10;
   /**
    * This array is janky
@@ -96,7 +96,7 @@ public class Structccc implements MemoryRef {
   public Structccc(final Value ref) {
     this.ref = ref;
 
-    this._00 = ref.offset(4, 0x00).cast(ArrayRef.of(IntRef.class, 4, 0x4, IntRef::new));
+    this.actorSets_00 = ref.offset(4, 0x00).cast(ArrayRef.of(IntRef.class, 4, 0x4, IntRef::new));
     this.events_10 = ref.offset(4, 0x10).cast(Pointer.deferred(4, UnboundedArrayRef.of(0xc, EventStruct0c::new)));
     this.actors_14 = ref.offset(4, 0x14).cast(ArrayRef.of(Pointer.classFor(Actor70.class), 67, 0x4, Pointer.deferred(4, Actor70::new)));
     this._11c = ref.offset(4, 0x11c).cast(ArrayRef.of(Sub08.class, 10, 0x8, Sub08::new));

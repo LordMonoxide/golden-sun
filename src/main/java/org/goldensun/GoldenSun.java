@@ -3029,8 +3029,8 @@ public final class GoldenSun {
 
   /** {@link GoldenSun#FUN_800c4bc} */
   @Method(0x80090e0)
-  public static void FUN_80090e0(final Actor70 r0, final Actor70 r1) {
-    MEMORY.call(0x800c4bc, r0, r1);
+  public static void FUN_80090e0(final Actor70 r0, final Actor70 parent) {
+    MEMORY.call(0x800c4bc, r0, parent);
   }
 
   /** {@link GoldenSun#setActorPosition} */
@@ -4741,14 +4741,14 @@ public final class GoldenSun {
   }
 
   @Method(0x800c4bc)
-  public static void FUN_800c4bc(final Actor70 r0, @Nullable final Actor70 r1) {
+  public static void FUN_800c4bc(final Actor70 r0, @Nullable final Actor70 parent) {
     setActorSpriteScript(r0, 0x80135f0); //TODO
 
-    if(r1 != null) {
+    if(parent != null) {
       r0.velocityScalar_30.set(0x40000);
       r0.acceleration_34.set(0x8000);
       r0._64.set(0);
-      r0.parent_68.set(r1);
+      r0.parent_68.set(parent);
     }
 
     //LAB_800c4e2
