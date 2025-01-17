@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.goldensun.input.Input;
 import org.goldensun.maps.Map121Overlay_87d0e88;
 import org.goldensun.maps.Map132Overlay_87ced6c;
+import org.goldensun.maps.Map14Overlay_878dd40;
 import org.goldensun.maps.Map15Overlay_878de18;
 import org.goldensun.maps.Map19Overlay_878dee8;
 import org.goldensun.maps.Map3Overlay_877dd1c;
@@ -1255,6 +1256,7 @@ public final class GoldenSun_808 {
       case 7 -> MEMORY.addFunctions(Map7Overlay_8786f0c.class);
       case 8 -> MEMORY.addFunctions(Map8Overlay_8787e04.class);
       case 9 -> MEMORY.addFunctions(Map9Overlay_87892c8.class);
+      case 14 -> MEMORY.addFunctions(Map14Overlay_878dd40.class);
       case 15 -> MEMORY.addFunctions(Map15Overlay_878de18.class);
       case 16, 19 -> MEMORY.addFunctions(Map19Overlay_878dee8.class);
       case 121 -> MEMORY.addFunctions(Map121Overlay_87d0e88.class);
