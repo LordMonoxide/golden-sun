@@ -4255,7 +4255,7 @@ public final class GoldenSun_80b {
       switch(r6._654._54.get() - 1) {
         case 0 ->
           //LAB_80b9c28
-          FUN_80ba27c(r6._654, 0);
+          FUN_80ba27c(r6._654);
         case 1 ->
           //LAB_80b9c34
           FUN_80ba2c0(r6._654, 0);
@@ -4359,9 +4359,24 @@ public final class GoldenSun_80b {
     throw new RuntimeException("Not implemented");
   }
 
+  /** While fighting mushrooms in Sol Sanctum */
   @Method(0x80ba27c)
-  public static void FUN_80ba27c(final BattleStruct82c.Sub64 r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+  public static void FUN_80ba27c(final BattleStruct82c.Sub64 r0) {
+    FUN_80c10e8(0, 0);
+
+    if(r0._01.get() == 0) {
+      FUN_80bb65c();
+    } else {
+      //LAB_80ba296
+      //LAB_80ba29c
+      for(int r5 = 0; r5 < r0._01.get(); r5++) {
+        FUN_80bbb0c(r0, r5);
+        FUN_80bb938();
+      }
+    }
+
+    //LAB_80ba2b2
+    sleep(1);
   }
 
   @Method(0x80ba2c0)

@@ -3867,7 +3867,7 @@ public final class GoldenSun {
 
         //LAB_800b54a
         sprite.packet_00.attribs_04.attrib1_02.and(~0x1ff).or(r10.getX() - r11 + r8 & 0x1ff);
-        sprite.packet_00.attribs_04.y_00.set(r10.getY() - sp08 + r6);
+        sprite.packet_00.attribs_04.y_00.set(r10.getY() - sp08 + r6 & 0xff);
         sprite.packet_00.attribs_04.flags_01.and(~0x3).or(sp00);
         sprite.packet_00.attribs_04.attrib1_02.and(~0x3e00).or((r5 & 0x1f) << 9);
 
