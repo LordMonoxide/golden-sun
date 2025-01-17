@@ -1197,7 +1197,7 @@ public final class GoldenSun_80a {
 
     if(CPU.r10().value == 1) {
       final Structccc r0 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
-      r0._180.set(MEMORY.ref(4, CPU.sp().value + 0xc).get() << 10 | MEMORY.ref(4, CPU.sp().value + 0x4).get() & 0x1ff);
+      r0.usedItem_180.set(MEMORY.ref(4, CPU.sp().value + 0xc).get() << 10 | MEMORY.ref(4, CPU.sp().value + 0x4).get() & 0x1ff);
       r0._19a.set(MEMORY.ref(2, r5 + 0x174).getUnsigned());
     }
 

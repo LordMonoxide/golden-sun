@@ -6592,7 +6592,7 @@ public final class GoldenSun {
       r5.usedAbility_17e.set(r7);
     } else if(r6 == 1) {
       //LAB_800ead0
-      r5._180.set(r7);
+      r5.usedItem_180.set(r7);
     }
 
     //LAB_800ead8

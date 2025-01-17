@@ -37,8 +37,7 @@ public class Structccc implements MemoryRef {
   public final ShortRef encounterId_17c;
   /** Something related to using psynergy in the field */
   public final ShortRef usedAbility_17e;
-  /** Something related to using psynergy in the field */
-  public final ShortRef _180;
+  public final ShortRef usedItem_180;
   /** Something related to using psynergy in the field */
   public final ShortRef _182;
   public final ShortRef _184;
@@ -110,7 +109,7 @@ public class Structccc implements MemoryRef {
     this.interactedTileType_17a = ref.offset(2, 0x17a).cast(ShortRef::new);
     this.encounterId_17c = ref.offset(2, 0x17c).cast(ShortRef::new);
     this.usedAbility_17e = ref.offset(2, 0x17e).cast(ShortRef::new);
-    this._180 = ref.offset(2, 0x180).cast(ShortRef::new);
+    this.usedItem_180 = ref.offset(2, 0x180).cast(ShortRef::new);
     this._182 = ref.offset(2, 0x182).cast(ShortRef::new);
     this._184 = ref.offset(2, 0x184).cast(ShortRef::new);
     this._186 = ref.offset(2, 0x186).cast(ShortRef::new);

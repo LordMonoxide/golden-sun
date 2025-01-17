@@ -5302,8 +5302,68 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x8019000)
-  public static void FUN_8019000(final Panel24 r0, final int r1, final int r2, final int r3, final int a4) {
-    throw new RuntimeException("Not implemented");
+  public static void FUN_8019000(final Panel24 r0, int r1, int r2, int r3, final int a4) {
+    int r4;
+    int r5;
+    final int r7;
+
+    r4 = r3;
+    final Struct12fc r6 = boardWramMallocHead_3001e50.offset(15 * 0x4).deref(4).cast(Struct12fc::new);
+    r3 = r0.h_0a.get();
+    r7 = r1;
+    r4 = r4 + 0x1;
+    r1 = r2;
+    r3 = r3 - 0x1;
+    r2 = a4;
+    r1 = r1 + 0x1;
+    if((r4 & 0xffff_ffffL) <= (r3 & 0xffff_ffffL)) {
+      r3 = r0.w_08.get();
+      r3 = r3 - 0x1;
+      if((r1 & 0xffff_ffffL) <= (r3 & 0xffff_ffffL)) {
+        r5 = 0xf000;
+        if(r2 != 0x3) {
+          if((r2 & 0xffff_ffffL) > (0x3 & 0xffff_ffffL)) {
+            //LAB_8019038
+            r5 = 0x1000;
+            if(r2 != 0x4) {
+              //LAB_8019040
+              r5 = 0x0;
+            }
+          } else {
+            r5 = 0xe000;
+            if(r2 != 0x2) {
+              r5 = 0x0;
+            }
+          }
+        }
+
+        //LAB_8019042
+        if(r2 != 0x1) {
+          if((r2 & 0xffff_ffffL) >= (0x1 & 0xffff_ffffL) && (r2 & 0xffff_ffffL) <= (0x4 & 0xffff_ffffL)) {
+            r2 = r0.y_0e.get() + r4;
+            r3 = r0.x_0c.get() + r1;
+            r2 = r2 << 5;
+            final int r0_0 = r2 + r3;
+            if((r0_0 & 0xffff_ffffL) < 640) {
+              MEMORY.ref(2, r6._00.getAddress() + r0_0 * 0x2).setu(r5 | r7);
+            }
+          } else {
+            //LAB_801906a
+            r2 = r0.y_0e.get();
+            r3 = r0.x_0c.get();
+            r2 = r2 + r4;
+            r3 = r3 + r1;
+            r2 = r2 << 5;
+            final int r0_0 = r2 + r3;
+            if((r0_0 & 0xffff_ffffL) < 640) {
+              MEMORY.ref(2, r6._00.getAddress() + r0_0 * 0x2).setu(r7);
+            }
+          }
+        }
+      }
+    }
+
+    //LAB_8019082
   }
 
   @Method(0x801908c)
