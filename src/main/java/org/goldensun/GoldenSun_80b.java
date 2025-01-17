@@ -3634,6 +3634,21 @@ public final class GoldenSun_80b {
     moveActorTo_(actor, combatant.x_0c.get() * 3 / 2, 0, combatant.z_10.get());
   }
 
+  @Method(0x80b8064)
+  public static void FUN_80b8064(final int unitId) {
+    final BattleStruct82c.Combatant2c r6 = getCombatantForUnit(unitId);
+    final Actor70 r5 = r6.actor_00.deref();
+    r5.velocityScalar_30.set(0x80000);
+    r5.acceleration_34.set(0x20000);
+    r5.velocity_24.setY(0x50000);
+    r5._44.set(0);
+    r5._48.set(0x7851);
+    r5._5a.set(0);
+    FUN_8009140(r5);
+    moveActorTo_(r5, r6.x_0c.get() * 3, 0, r6.z_10.get());
+    setActorAnimation_(r5, 1);
+  }
+
   @Method(0x80b8228)
   public static void FUN_80b8228(final int unitId, final int r1) {
     final BattleStruct82c.Combatant2c combatant = getCombatantForUnit(unitId);
@@ -4351,7 +4366,53 @@ public final class GoldenSun_80b {
 
   @Method(0x80b9dc4)
   public static int FUN_80b9dc4(final BattleStruct82c.Sub64 r0) {
-    throw new RuntimeException("Not implemented");
+    final int r1 = boardWramMallocHead_3001e50.offset(44 * 0x4).get();
+    final BattleStruct82c r6 = boardWramMallocHead_3001e50.offset(9 * 0x4).deref(4).cast(BattleStruct82c::new);
+    MEMORY.ref(4, r1).setu(0x2000);
+    MEMORY.ref(4, r1 + 0x10).setu(1);
+    FUN_80c10e8(0, 0);
+    int r7 = 0;
+    if(r0.unitId_00.get() < 8) {
+      //LAB_80b9e00
+      if(r6._45.get() == 2) {
+        FUN_80151c8(0x847);
+        FUN_80bb65c();
+      } else {
+        //LAB_80b9e10
+        final int[] unitIds = new int[5];
+        int unitSlot = getLivingUnitIds(0x1, unitIds) - 1;
+
+        //LAB_80b9e26
+        while(unitSlot >= 0) {
+          final Unit14c unit = getUnit_(unitIds[unitSlot]);
+          if(unit._13b.get() == 0 && unit._13c.get() == 0) {
+            FUN_80b8064(unitIds[unitSlot]);
+            sleep(8);
+          }
+
+          //LAB_80b9e4e
+          unitSlot--;
+        }
+
+        //LAB_80b9e5a
+        sleep(22);
+        r7 = 0x1;
+      }
+      //LAB_80b9e64
+    } else if(rand() * 10 >>> 16 < 7) {
+      FUN_80b8064(r0.unitId_00.get());
+      sleep(8);
+      FUN_80bac6c(r0.unitId_00.get());
+      FUN_80b7e60(r0.unitId_00.get());
+    } else {
+      //LAB_80b9e96
+      FUN_80151c8(0x847);
+      FUN_80bb65c();
+    }
+
+    //LAB_80b9ea0
+    MEMORY.ref(4, r1 + 0x10).setu(0);
+    return r7;
   }
 
   @Method(0x80b9ec0)
