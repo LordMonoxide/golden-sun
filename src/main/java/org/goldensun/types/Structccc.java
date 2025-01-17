@@ -22,10 +22,10 @@ public class Structccc implements MemoryRef {
    * - There's room for 66 elements
    * - getMapActors has a check for 0xc0 elements
    * - 8096cdc iterates over 67 elements
-   * TODO WARNING I'm making this array 67 elements long, but the last element will run into {@link #_11c} (which just so happens to start with an Actor)
+   * TODO WARNING I'm making this array 67 elements long, but the last element will run into {@link #chests_11c} (which just so happens to start with an Actor)
    */
   public final ArrayRef<Pointer<Actor70>> actors_14;
-  public final ArrayRef<Sub08> _11c;
+  public final ArrayRef<Chest08> chests_11c;
   public final ShortRef _16c;
   public final ShortRef _16e;
   public final ShortRef _170;
@@ -99,7 +99,7 @@ public class Structccc implements MemoryRef {
     this.actorSets_00 = ref.offset(4, 0x00).cast(ArrayRef.of(IntRef.class, 4, 0x4, IntRef::new));
     this.events_10 = ref.offset(4, 0x10).cast(Pointer.deferred(4, UnboundedArrayRef.of(0xc, EventStruct0c::new)));
     this.actors_14 = ref.offset(4, 0x14).cast(ArrayRef.of(Pointer.classFor(Actor70.class), 67, 0x4, Pointer.deferred(4, Actor70::new)));
-    this._11c = ref.offset(4, 0x11c).cast(ArrayRef.of(Sub08.class, 10, 0x8, Sub08::new));
+    this.chests_11c = ref.offset(4, 0x11c).cast(ArrayRef.of(Chest08.class, 10, 0x8, Chest08::new));
     this._16c = ref.offset(2, 0x16c).cast(ShortRef::new);
     this._16e = ref.offset(2, 0x16e).cast(ShortRef::new);
     this._170 = ref.offset(2, 0x170).cast(ShortRef::new);
@@ -166,7 +166,7 @@ public class Structccc implements MemoryRef {
     return this.ref.getAddress();
   }
 
-  public static class Sub08 implements MemoryRef {
+  public static class Chest08 implements MemoryRef {
     private final Value ref;
 
     public final Pointer<Actor70> actor_00;
@@ -175,7 +175,7 @@ public class Structccc implements MemoryRef {
     public final ByteRef x_06;
     public final ByteRef z_07;
 
-    public Sub08(final Value ref) {
+    public Chest08(final Value ref) {
       this.ref = ref;
 
       this.actor_00 = ref.offset(4, 0x00).cast(Pointer.deferred(4, Actor70::new));

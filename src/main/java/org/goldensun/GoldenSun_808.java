@@ -2588,7 +2588,7 @@ public final class GoldenSun_808 {
     }
 
     //LAB_808c618
-    FUN_808e9c0();
+    loadChests();
     allocatePaletteModifier();
     FUN_8091200(0x10000, 0);
     r8._1c0.set(0x100);
@@ -4183,21 +4183,21 @@ public final class GoldenSun_808 {
   }
 
   @Method(0x808e9c0)
-  public static void FUN_808e9c0() {
+  public static void loadChests() {
     int r2;
-    int r3;
     int r5;
     int r6;
     int r7;
     int r10;
     int r11;
 
+    final Structccc r3 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
     int sp00 = 0;
     r10 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new)._10.get();
-    final ArrayRef<Structccc.Sub08> r8 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._11c;
-    MEMORY.memfill(r8.getAddress(), 0x50, 0);
+    MEMORY.memfill(r3.chests_11c.getAddress(), 0x50, 0);
 
-    if(r10 != 0) {
+    jmp_808ebe2:
+    if(r10 != 0x0) {
       //LAB_808e9fc
       r7 = MEMORY.ref(1, r10).getUnsigned();
       r10++;
@@ -4205,104 +4205,86 @@ public final class GoldenSun_808 {
       r10++;
 
       //LAB_808ea12
-      jmp_808ebe2:
       while(r7 != 0xff || r5 != 0xff) {
-        r2 = MEMORY.ref(1, r10).getUnsigned();
+        final int sp04 = MEMORY.ref(1, r10).getUnsigned();
         r10++;
-        r3 = r2 - 100;
-        final int sp04 = r2;
-        CPU.cmpT(r3, 0x8b);
-        if(!CPU.cpsr().getCarry() || CPU.cpsr().getZero()) { // unsigned <=
+
+        if(sp04 >= 100 && sp04 < 240) {
           //LAB_808ea26
           r6 = getEvents_2008024.deref().run();
-          r2 = MEMORY.ref(4, r6).get();
-          if(r2 != -1) {
+          if(MEMORY.ref(4, r6).get() != -1) {
             //LAB_808ea3c
             r11 = r7 << 20;
             r7 = r5 << 20;
 
             //LAB_808ea48
-            do {
-              jmp_808ebb8:
-              if(MEMORY.ref(2, r6 + 0x4).get() == sp04) {
-                //LAB_808ea54
-                r3 = r2 & 0x1ff;
-                if(r3 != 0x13) {
-                  //LAB_808eb02
-                  if(r3 == 0x3) {
-                    if((MEMORY.ref(4, r6 + 0x8).get() & 0xfff00000) == 0x300000) {
-                      if(readFlag_(MEMORY.ref(2, r6 + 0x6).get()) == 0) {
-                        final Actor70 r5_0 = loadActor_(28, r11 + 0x80000, 0, r7 + 0x80000);
-                        if(r5_0 != null) {
-                          FUN_808e9a8(r5_0);
-                          FUN_80091e0(r5_0, 0);
-                          FUN_8009140(r5_0);
-                          setActorAnimation_(r5_0, 0x1);
-
-                          r5_0._64.set(r5_0.pos_08.getX() / 0x10000);
-                          r5_0._66.set(r5_0.pos_08.getZ() / 0x10000);
-                          r5_0.flags_23.set(0x1);
-                          r5_0._59.set(0x1);
-                          final Structccc.Sub08 r8_0 = r8.get(sp00);
-                          r8_0.actor_00.set(r5_0);
-                          r8_0._04.set(MEMORY.ref(2, r6 + 0x4).getUnsigned());
-                          r8_0.x_06.set(r5_0.pos_08.getX() / 0x100000);
-                          r8_0.z_07.set(r5_0.pos_08.getZ() / 0x100000);
-                          sp00++;
-                          if(sp00 > 9) {
-                            break;
-                          }
-                          break jmp_808ebe2;
-                        }
-                      }
-                    }
-                  }
-                } else {
-                  final Actor70 r5_0 = loadActor_(20, r11 + 0x80000, 0, r7 + 0x80000);
-
-                  if(r5_0 != null) {
-                    //LAB_808ea74
-                    FUN_808e9a8(r5_0);
-                    FUN_80091e0(r5_0, 0);
-
-                    if(readFlag_(MEMORY.ref(2, r6 + 0x6).get()) != 0) {
-                      if((MEMORY.ref(4, r6 + 0x8).get() & 0xfff00000) == 0x500000) {
-                        clearActor_(r5_0);
-                        break jmp_808ebb8;
-                      }
-
-                      //LAB_808eaa2
-                      setActorAnimation_(r5_0, 0x2);
-                    }
-
-                    //LAB_808eaaa
-                    FUN_8009140(r5_0);
-
-                    r5_0._64.set(r5_0.pos_08.getX() / 0x10000);
-                    r5_0._66.set(r5_0.pos_08.getZ() / 0x10000);
-                    r5_0.flags_23.set(0x1);
-                    r5_0._59.set(0x1);
-                    final Structccc.Sub08 r8_0 = r8.get(sp00);
-                    r8_0.actor_00.set(r5_0);
-                    r8_0._04.set(MEMORY.ref(2, r6 + 0x4).getUnsigned());
-                    r8_0.x_06.set(r5_0.pos_08.getX() / 0x100000);
-                    r8_0.z_07.set(r5_0.pos_08.getZ() / 0x100000);
-                    sp00++;
-                    if(sp00 > 9) {
-                      break;
-                    }
-                    break jmp_808ebe2;
-                  }
-                }
+            for(; (r2 = MEMORY.ref(4, r6).get()) != -1; r6 += 0xc) {
+              if(MEMORY.ref(2, r6 + 0x4).get() != sp04) {
+                continue;
               }
 
-              //LAB_808ebb8
-              r6 += 0xc;
-              r2 = MEMORY.ref(4, r6 + 0xc).get();
-              if(r2 == -1) {
+              //LAB_808ea54
+              final Actor70 r5_0;
+              if((r2 & 0x1ff) == 0x13) {
+                r5_0 = loadActor_(20, r11 + 0x80000, 0, r7 + 0x80000);
+                if(r5_0 == null) {
+                  continue;
+                }
+
+                //LAB_808ea74
+                FUN_808e9a8(r5_0);
+                FUN_80091e0(r5_0, 0);
+
+                if(readFlag_(MEMORY.ref(2, r6 + 0x6).get()) != 0) {
+                  if((MEMORY.ref(4, r6 + 0x8).get() & 0xfff00000) == 0x500000) {
+                    clearActor_(r5_0);
+                    continue;
+                  }
+
+                  //LAB_808eaa2
+                  setActorAnimation_(r5_0, 2);
+                }
+
+                //LAB_808eaaa
+                FUN_8009140(r5_0);
+              } else {
+                //LAB_808eb02
+                if((r2 & 0x1ff) != 0x3) {
+                  continue;
+                }
+                if((MEMORY.ref(4, r6 + 0x8).get() & 0xfff00000) != 0x300000) {
+                  continue;
+                }
+                if(readFlag_(MEMORY.ref(2, r6 + 0x6).get()) != 0) {
+                  continue;
+                }
+                r5_0 = loadActor_(28, r11 + 0x80000, 0, r7 + 0x80000);
+                if(r5_0 == null) {
+                  continue;
+                }
+                FUN_808e9a8(r5_0);
+                FUN_80091e0(r5_0, 0);
+                FUN_8009140(r5_0);
+                setActorAnimation_(r5_0, 1);
+              }
+
+              r5_0._64.set(r5_0.pos_08.getX() / 0x10000);
+              r5_0._66.set(r5_0.pos_08.getZ() / 0x10000);
+              r5_0.flags_23.set(1);
+              r5_0._59.set(1);
+              final Structccc.Chest08 chest = r3.chests_11c.get(sp00);
+              chest.actor_00.set(r5_0);
+              chest._04.set(MEMORY.ref(2, r6 + 0x4).getUnsigned());
+              chest.x_06.set(r5_0.pos_08.getX() / 0x100000);
+              chest.z_07.set(r5_0.pos_08.getZ() / 0x100000);
+              sp00++;
+              if(sp00 < 10) {
                 break;
               }
-            } while(true);
+              break jmp_808ebe2;
+
+              //LAB_808ebb8
+            }
           }
         }
 
@@ -4319,7 +4301,7 @@ public final class GoldenSun_808 {
 
   @Method(0x808ec14)
   public static int FUN_808ec14(final int r0) {
-    final ArrayRef<Structccc.Sub08> r2 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._11c;
+    final ArrayRef<Structccc.Chest08> r2 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new).chests_11c;
 
     for(int r1 = 0; r1 < 10; r1++) {
       if(r2.get(r1)._04.get() == r0) {
@@ -4335,7 +4317,7 @@ public final class GoldenSun_808 {
   public static void FUN_808ec50(final int r0) {
     final int r0_0 = FUN_808ec14(r0);
     if(r0_0 != -1) {
-      final Actor70 actor = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._11c.get(r0_0).actor_00.derefNullable();
+      final Actor70 actor = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new).chests_11c.get(r0_0).actor_00.derefNullable();
       if(actor != null) {
         setActorAnimation_(actor, 0x5);
       }
@@ -4352,7 +4334,7 @@ public final class GoldenSun_808 {
   public static void FUN_808ec8c(final int r0) {
     final int r0_0 = FUN_808ec14(r0);
     if(r0_0 != -1) {
-      final Actor70 r5 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._11c.get(r0_0).actor_00.derefNullable();
+      final Actor70 r5 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new).chests_11c.get(r0_0).actor_00.derefNullable();
 
       sleep(18);
 
@@ -4376,7 +4358,7 @@ public final class GoldenSun_808 {
   public static void FUN_808ece0(final int r0) {
     final int r0_0 = FUN_808ec14(r0);
     if(r0_0 != -1) {
-      final Actor70 actor = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._11c.get(r0_0).actor_00.derefNullable();
+      final Actor70 actor = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new).chests_11c.get(r0_0).actor_00.derefNullable();
       if(actor != null) {
         setActorAnimation_(actor, 0x4);
       }
@@ -4393,7 +4375,7 @@ public final class GoldenSun_808 {
   public static void FUN_808ed1c(final int r0) {
     final int r0_0 = FUN_808ec14(r0);
     if(r0_0 != -1) {
-      final Actor70 actor = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._11c.get(r0_0).actor_00.derefNullable();
+      final Actor70 actor = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new).chests_11c.get(r0_0).actor_00.derefNullable();
       if(actor != null) {
         setActorAnimation_(actor, 2);
       }
@@ -4411,14 +4393,14 @@ public final class GoldenSun_808 {
 
     //LAB_808ed5e
     //LAB_808ed6e
-    return boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._11c.get(r0_0).actor_00.derefNullable();
+    return boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new).chests_11c.get(r0_0).actor_00.derefNullable();
   }
 
   @Method(0x808ed78)
   public static void FUN_808ed78(final int r0) {
     final int r0_0 = FUN_808ec14(r0);
     if(r0_0 != -1) {
-      final Actor70 actor = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._11c.get(r0_0).actor_00.derefNullable();
+      final Actor70 actor = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new).chests_11c.get(r0_0).actor_00.derefNullable();
       if(actor != null) {
         actor.spriteType_54.set(0);
       }
