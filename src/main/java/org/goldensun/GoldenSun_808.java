@@ -4342,7 +4342,7 @@ public final class GoldenSun_808 {
     final ArrayRef<Structccc.Sub08> r2 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new)._11c;
 
     for(int r1 = 0; r1 < 10; r1++) {
-      if(r2.get(r1 * 0x8)._04.get() == r0) {
+      if(r2.get(r1)._04.get() == r0) {
         return r1;
       }
     }
