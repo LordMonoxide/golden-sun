@@ -1407,8 +1407,13 @@ public final class GoldenSun_809 {
   }
 
   @Method(0x809228c)
-  public static void FUN_809228c(final int r0, final int r1, final int r2) {
-    throw new RuntimeException("Not implemented");
+  public static void FUN_809228c(final int mapActorIndex, final int x, final int z) {
+    final Actor70 r5 = getMapActor(mapActorIndex);
+    if(r5 != null) {
+      r5._5b.set(0);
+      FUN_8009140(r5);
+      moveActorTo_(r5, r5.pos_08.getX() + (x << 16), r5.pos_08.getY(), r5.pos_08.getZ() + (z << 16));
+    }
   }
 
   @Method(0x80923c4)
@@ -3058,6 +3063,41 @@ public final class GoldenSun_809 {
     GPU.BLDY.setu(0);
     setTickCallback(getRunnable(GoldenSun_809.class, "FUN_8094820"), 0xc80);
 
+    CPU.sp().value += 0x4;
+  }
+
+  @Method(0x809509c)
+  public static void FUN_809509c() {
+    CPU.sp().value -= 0x4;
+    final int r5 = mallocSlotBoard(29, 0x410);
+    int r0 = CPU.sp().value;
+    MEMORY.ref(4, r0).setu(0);
+    int r7 = r5 + 0x8;
+    DMA.channels[3].SAD.setu(r0);
+    DMA.channels[3].DAD.setu(r5);
+    DMA.channels[3].CNT.setu(0x85000104);
+    final int r6 = mallocSlotBoard(14, 0x400);
+    FUN_80053e8(0x80a00b8, r6);
+    r0 = getFreeVramSlot();
+    MEMORY.ref(4, r5).setu(r0);
+    MEMORY.ref(4, r5 + 0x4).setu(allocateSpriteSlot(r0, 0x200, r6));
+    freeSlot(14);
+
+    //LAB_80950f0
+    for(int i = 0; i < 32; i++) {
+      final int r3 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
+      final int r2 = MEMORY.ref(4, r3).get();
+      MEMORY.ref(4, r7).setu(0);
+      MEMORY.ref(4, r7 + 0x4).setu(0x40000400);
+      MEMORY.ref(4, r7 + 0x8).setu(0xd400);
+      MEMORY.ref(4, r7 + 0xc).setu(0);
+      MEMORY.ref(4, r7 + 0x14).setu(0);
+      MEMORY.ref(4, r7 + 0x10).setu(getHeight_(0, MEMORY.ref(4, r2).get() >> 16, MEMORY.ref(4, r2 + 0x8).get() >> 16) << 16);
+      MEMORY.ref(2, r7 + 0x1c).setu((i & 0xf) + 1);
+      r7 = r7 + 0x20;
+    }
+
+    setTickCallback(getRunnable(GoldenSun_809.class, "FUN_0x8094e7c"), 0xc80);
     CPU.sp().value += 0x4;
   }
 

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.goldensun.input.Input;
 import org.goldensun.maps.Map121Overlay_87d0e88;
 import org.goldensun.maps.Map132Overlay_87ced6c;
+import org.goldensun.maps.Map19Overlay_878dee8;
 import org.goldensun.maps.Map3Overlay_877dd1c;
 import org.goldensun.maps.Map4Overlay_8780898;
 import org.goldensun.maps.Map5Overlay_8784360;
@@ -646,6 +647,12 @@ public final class GoldenSun_808 {
     MEMORY.call(0x8095268);
   }
 
+  /** {@link GoldenSun_809#FUN_809509c} */
+  @Method(0x808a2f8)
+  public static void FUN_808a2f8() {
+    MEMORY.call(0x809509c);
+  }
+
   /** {@link GoldenSun_809#FUN_8091200} */
   @Method(0x808a330)
   public static void FUN_808a330(final int r0, final int r1) {
@@ -734,6 +741,12 @@ public final class GoldenSun_808 {
   @Method(0x808a448)
   public static void FUN_808a448() {
     MEMORY.call(0x809728c);
+  }
+
+  /** {@link GoldenSun_808#FUN_808e118} */
+  @Method(0x808a460)
+  public static void FUN_808a460() {
+    MEMORY.call(0x808e118);
   }
 
   /** {@link GoldenSun_808#FUN_808e96c} */
@@ -1239,6 +1252,7 @@ public final class GoldenSun_808 {
       case 7 -> MEMORY.addFunctions(Map7Overlay_8786f0c.class);
       case 8 -> MEMORY.addFunctions(Map8Overlay_8787e04.class);
       case 9 -> MEMORY.addFunctions(Map9Overlay_87892c8.class);
+      case 19 -> MEMORY.addFunctions(Map19Overlay_878dee8.class);
       case 121 -> MEMORY.addFunctions(Map121Overlay_87d0e88.class);
       case 132 -> MEMORY.addFunctions(Map132Overlay_87ced6c.class);
       default -> throw new RuntimeException("Unimplemented map " + mapId_2000400.get());
@@ -2644,7 +2658,7 @@ public final class GoldenSun_808 {
         //LAB_808c72e
         if(readFlag_(0x12f) != 0) {
           clearFlag_(0x12f);
-          FUN_8015200(mapId_2000400.get());
+          FUN_8015200();
         }
 
         //LAB_808c750

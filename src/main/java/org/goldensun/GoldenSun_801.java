@@ -1509,9 +1509,10 @@ public final class GoldenSun_801 {
     return (int)MEMORY.call(0x80289e8);
   }
 
+  /** {@link GoldenSun_801#FUN_801c34c} */
   @Method(0x8015200)
-  public static void FUN_8015200(final int r0) {
-    throw new RuntimeException("Not implemented");
+  public static void FUN_8015200() {
+    MEMORY.call(0x801c34c);
   }
 
   /** {@link GoldenSun_801#FUN_801c428} */
@@ -6413,6 +6414,50 @@ public final class GoldenSun_801 {
   @Method(0x801c2e4)
   public static void FUN_801c2e4() {
     FUN_801f5d4();
+  }
+
+  @Method(0x801c34c)
+  public static void FUN_801c34c() {
+    int r0;
+    int r1;
+    int r2;
+    int r3;
+    final int r5;
+
+    CPU.sp().value -= 0x14;
+    final Structccc r6 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
+    MEMORY.ref(4, CPU.sp().value + 0x10).setu(8);
+    MEMORY.ref(4, CPU.sp().value + 0xc).setu(8);
+    r0 = getRoomNameStringId_(mapId_2000400.get(), entranceId_2000402.get());
+    r5 = r0 + 0x99b;
+    r0 = CPU.sp().value + 0x4;
+    r1 = CPU.sp().value + 0x10;
+    r2 = CPU.sp().value + 0xc;
+    r3 = CPU.sp().value + 0x8;
+    MEMORY.ref(4, CPU.sp().value).setu(r0);
+    FUN_80187ac(r5, r1, r2, r3, MEMORY.ref(4, CPU.sp().value).get());
+    r2 = MEMORY.ref(4, CPU.sp().value + 0x8).get();
+    r3 = MEMORY.ref(4, CPU.sp().value + 0x4).get();
+    r0 = 30 - r2 >> 1;
+    r1 = 10 - r3 >> 1;
+    MEMORY.ref(4, CPU.sp().value + 0xc).setu(r1);
+    MEMORY.ref(4, CPU.sp().value + 0x10).setu(r0);
+    r6.panel_230.set(addPanel(r0, r1, r2, r3, 0x2));
+    FUN_801e74c(r5, r6.panel_230.deref(), 0, 0);
+    r6._234.set(90);
+    setTickCallback(getRunnable(GoldenSun_801.class, "FUN_801c3e8"), 0xc80);
+    CPU.sp().value += 0x14;
+  }
+
+  @Method(0x801c3e8)
+  public static void FUN_801c3e8() {
+    final Structccc r1 = boardWramMallocHead_3001e50.offset(27 * 0x4).deref(4).cast(Structccc::new);
+    r1._234.decr();
+
+    if(r1._234.get() == 0) {
+      FUN_8016418(r1.panel_230.deref(), 2);
+      clearTickCallback(getRunnable(GoldenSun_801.class, "FUN_801c3e8"));
+    }
   }
 
   @Method(0x801c428)

@@ -75,7 +75,7 @@ public class Structccc implements MemoryRef {
   public final Value _218;
 
   public final Pointer<Panel24> panel_230;
-
+  public final ShortRef _234;
   /** Related to psynergy flashes */
   public final Value _236;
 
@@ -145,7 +145,7 @@ public class Structccc implements MemoryRef {
     this._218 = ref.offset(4, 0x218);
 
     this.panel_230 = ref.offset(4, 0x230).cast(Pointer.deferred(4, Panel24::new));
-
+    this._234 = ref.offset(2, 0x236).cast(ShortRef::new);
     this._236 = ref.offset(2, 0x236);
 
     this._776 = ref.offset(2, 0x776);
