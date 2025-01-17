@@ -18,7 +18,13 @@ import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.MEMORY;
 import static org.goldensun.memory.MemoryHelper.getRunnable;
 
-/** Sol Sanctum Approach */
+/**
+ * Used for multiple maps
+ * <ul>
+ *   <li>16 - Sol Sanctum Inside (first two rooms)</li>
+ *   <li>19 - Sol Sanctum Approach</li>
+ * </ul>
+ */
 public final class Map19Overlay_878dee8 {
   private Map19Overlay_878dee8() { }
 
