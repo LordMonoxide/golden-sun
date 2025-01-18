@@ -1085,8 +1085,11 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x8012078)
-  public static void FUN_8012078(final int r0, final int r1, final int r2, final int r3) {
-    throw new RuntimeException("Not implemented");
+  public static void setTileType(final int layer, final int x, final int z, final int type) {
+    final Map194 map = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
+    if(map != null) {
+      map.layers_104.get(layer & 0x3).tiles_2c.deref().get((z >> 20) * 0x80 + (x >> 20)).setType(type);
+    }
   }
 
   @Method(0x80120dc)

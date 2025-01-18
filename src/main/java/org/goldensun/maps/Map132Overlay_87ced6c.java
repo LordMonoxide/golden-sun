@@ -962,7 +962,7 @@ public final class Map132Overlay_87ced6c {
         }
 
         //LAB_200908a
-        FUN_8009278(0, 0x1300000, 0x1700000, 0xfd);
+        setTileType(0, 0x1300000, 0x1700000, 0xfd);
       }
 
       //LAB_200909a
@@ -975,7 +975,7 @@ public final class Map132Overlay_87ced6c {
         }
 
         //LAB_20090c6
-        FUN_8009278(0, 0x500000, 0x1700000, 0xfd);
+        setTileType(0, 0x500000, 0x1700000, 0xfd);
       }
 
       //LAB_20090d6
@@ -988,7 +988,7 @@ public final class Map132Overlay_87ced6c {
         }
 
         //LAB_2009102
-        FUN_8009278(0, 0x600000, 0x1500000, 0xfd);
+        setTileType(0, 0x600000, 0x1500000, 0xfd);
       }
 
       //LAB_2009112
@@ -1001,8 +1001,8 @@ public final class Map132Overlay_87ced6c {
         }
 
         //LAB_200913e
-        FUN_8009278(0, 0x900000, 0x1400000, 0xfd);
-        FUN_8009278(0, 0x2f00000, 0x1400000, 0xfd);
+        setTileType(0, 0x900000, 0x1400000, 0xfd);
+        setTileType(0, 0x2f00000, 0x1400000, 0xfd);
       }
 
       //LAB_200915e
@@ -1274,7 +1274,7 @@ public final class Map132Overlay_87ced6c {
 
     //LAB_200951e
     FUN_80091e0(getMapActor(r0), 0);
-    FUN_8009278(0, 0x1300000, 0x1700000, 0xfd);
+    setTileType(0, 0x1300000, 0x1700000, 0xfd);
     setFlag(0x240);
   }
 
@@ -1290,7 +1290,7 @@ public final class Map132Overlay_87ced6c {
 
     //LAB_200955e
     FUN_80091e0(getMapActor(r0), 0);
-    FUN_8009278(0, 0x500000, 0x1700000, 0xfd);
+    setTileType(0, 0x500000, 0x1700000, 0xfd);
     setFlag(0x241);
   }
 
@@ -1306,7 +1306,7 @@ public final class Map132Overlay_87ced6c {
 
     //LAB_20095a2
     FUN_80091e0(getMapActor(r0), 0);
-    FUN_8009278(0, 0x600000, 0x1500000, 0xfd);
+    setTileType(0, 0x600000, 0x1500000, 0xfd);
     setFlag(0x242);
   }
 
@@ -1322,8 +1322,8 @@ public final class Map132Overlay_87ced6c {
 
     //LAB_20095e6
     FUN_80091e0(getMapActor(r0), 0);
-    FUN_8009278(0, 0x900000, 0x1400000, 0xfd);
-    FUN_8009278(0, 0x2f00000, 0x1400000, 0xfd);
+    setTileType(0, 0x900000, 0x1400000, 0xfd);
+    setTileType(0, 0x2f00000, 0x1400000, 0xfd);
     setFlag(0x243);
   }
 
@@ -3472,10 +3472,10 @@ public final class Map132Overlay_87ced6c {
     MEMORY.call(0x80091e0, actor, r1);
   }
 
-  /** {@link GoldenSun#FUN_8009278} */
+  /** {@link GoldenSun#setTileType_} */
   @Method(0x200b048)
-  public static void FUN_8009278(final int r0, final int r1, final int r2, final int r3) {
-    MEMORY.call(0x8009278, r0, r1, r2, r3);
+  public static void setTileType(final int layer, final int x, final int z, final int type) {
+    MEMORY.call(0x8009278, layer, x, z, type);
   }
 
   /** {@link GoldenSun_801#FUN_8015250} */

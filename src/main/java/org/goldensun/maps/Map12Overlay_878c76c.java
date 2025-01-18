@@ -2359,7 +2359,7 @@ public final class Map12Overlay_878c76c {
     r1 = r1 << 16;
     r2 = r2 << 15;
     r3 = 0x0;
-    FUN_200a424(r0, r1, r2, r3);
+    setTileType(r0, r1, r2, r3);
     r0 = 0xa;
     r1 = 0xe;
     r2 = 0x7;
@@ -2385,7 +2385,7 @@ public final class Map12Overlay_878c76c {
     r1 = r1 << 17;
     r2 = r2 << 15;
     r3 = 0x0;
-    FUN_200a424(r0, r1, r2, r3);
+    setTileType(r0, r1, r2, r3);
     r0 = 0xc;
     r1 = 0x15;
     r2 = 0x7;
@@ -2419,13 +2419,13 @@ public final class Map12Overlay_878c76c {
         r1 = r1 << 17;
         r2 = r2 << 16;
         r3 = 0xff;
-        FUN_200a424(2, r1, r2, r3);
+        setTileType(2, r1, r2, r3);
         r1 = 0x90;
         r2 = 0x80;
         r1 = r1 << 17;
         r2 = r2 << 16;
         r3 = 0xff;
-        FUN_200a424(2, r1, r2, r3);
+        setTileType(2, r1, r2, r3);
       }
     }
   }
@@ -2454,7 +2454,7 @@ public final class Map12Overlay_878c76c {
         r1 = r1 << 16;
         r2 = r2 << 15;
         r3 = 0xff;
-        FUN_200a424(2, r1, r2, r3);
+        setTileType(2, r1, r2, r3);
       }
     }
 
@@ -2470,7 +2470,7 @@ public final class Map12Overlay_878c76c {
     if(r0.pos_08.getZ() >> 20 == 7) {
       final int r5 = r0.pos_08.getX() >> 20;
       if(r5 >= 21 && r5 < 23) {
-        FUN_200a424(2, 0x1600000, 0x700000, 0xff);
+        setTileType(2, 0x1600000, 0x700000, 0xff);
       }
     }
 
@@ -2496,14 +2496,14 @@ public final class Map12Overlay_878c76c {
     r0 = 0x2;
     r2 = r2 << 16;
     r3 = 0x0;
-    FUN_200a424(r0, r1, r2, r3);
+    setTileType(r0, r1, r2, r3);
     r1 = 0x90;
     r2 = 0x80;
     r0 = 0x2;
     r1 = r1 << 17;
     r2 = r2 << 16;
     r3 = 0x0;
-    FUN_200a424(r0, r1, r2, r3);
+    setTileType(r0, r1, r2, r3);
     if(r6 != null) {
       //LAB_200970e
       r5 = r6.pos_08.getZ();
@@ -4023,10 +4023,10 @@ public final class Map12Overlay_878c76c {
     MEMORY.call(0x80091f0, r0, r1, r2);
   }
 
-  /** {@link GoldenSun#FUN_8009278} */
+  /** {@link GoldenSun#setTileType_} */
   @Method(0x200a424)
-  public static void FUN_200a424(final int r0, final int r1, final int r2, final int r3) {
-    MEMORY.call(0x8009278, r0, r1, r2, r3);
+  public static void setTileType(final int layer, final int x, final int z, final int type) {
+    MEMORY.call(0x8009278, layer, x, z, type);
   }
 
   /** {@link GoldenSun_801#FUN_8015040} */

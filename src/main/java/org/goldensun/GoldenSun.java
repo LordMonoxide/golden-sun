@@ -3268,10 +3268,10 @@ public final class GoldenSun {
     return (int)MEMORY.call(0x800b6b8, r0, r1, r2, r3);
   }
 
-  /** {@link GoldenSun_801#FUN_8012078} */
+  /** {@link GoldenSun_801#setTileType} */
   @Method(0x8009278)
-  public static void FUN_8009278(final int r0, final int r1, final int r2, final int r3) {
-    MEMORY.call(0x8012078, r0, r1, r2, r3);
+  public static void setTileType_(final int layer, final int x, final int z, final int type) {
+    MEMORY.call(0x8012078, layer, x, z, type);
   }
 
   /** {@link GoldenSun#FUN_800baf8} */
