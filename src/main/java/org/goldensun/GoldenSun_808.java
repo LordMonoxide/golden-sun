@@ -7,6 +7,7 @@ import org.goldensun.maps.Map11Overlay_878b2ac;
 import org.goldensun.maps.Map121Overlay_87d0e88;
 import org.goldensun.maps.Map12Overlay_878c76c;
 import org.goldensun.maps.Map132Overlay_87ced6c;
+import org.goldensun.maps.Map13Overlay_878dc80;
 import org.goldensun.maps.Map14Overlay_878dd40;
 import org.goldensun.maps.Map15Overlay_878de18;
 import org.goldensun.maps.Map19Overlay_878dee8;
@@ -1266,6 +1267,7 @@ public final class GoldenSun_808 {
       case 9 -> MEMORY.addFunctions(Map9Overlay_87892c8.class);
       case 11 -> MEMORY.addFunctions(Map11Overlay_878b2ac.class);
       case 12 -> MEMORY.addFunctions(Map12Overlay_878c76c.class);
+      case 13 -> MEMORY.addFunctions(Map13Overlay_878dc80.class);
       case 14 -> MEMORY.addFunctions(Map14Overlay_878dd40.class);
       case 15 -> MEMORY.addFunctions(Map15Overlay_878de18.class);
       case 16, 19 -> MEMORY.addFunctions(Map19Overlay_878dee8.class);
