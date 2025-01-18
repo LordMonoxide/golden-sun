@@ -246,6 +246,12 @@ public final class GoldenSun {
     MEMORY.call(0x8002dd8, slot);
   }
 
+  /** {@link GoldenSun#FUN_80053e8} */
+  @Method(0x80001a0)
+  public static int FUN_80001a0(final int src, final int dest) {
+    return (int)MEMORY.call(0x80053e8, src, dest);
+  }
+
   /** {@link #decompress} */
   @Method(0x80001a8)
   public static int decompress_(final int src, final int dest) {
@@ -262,6 +268,18 @@ public final class GoldenSun {
   @Method(0x80001c8)
   public static int allocateSpriteSlot_(final int slot, final int size, final int newDataPtr) {
     return (int)MEMORY.call(0x8003fa4, slot, size, newDataPtr);
+  }
+
+  /** {@link GoldenSun#getFreeVramSlot} */
+  @Method(0x80001d0)
+  public static int getFreeVramSlot_() {
+    return (int)MEMORY.call(0x8004080);
+  }
+
+  /** {@link GoldenSun#insertIntoRenderQueue} */
+  @Method(0x80001e8)
+  public static void insertIntoRenderQueue_(final RenderPacket0c packet, final int z) {
+    MEMORY.call(0x8003dec, packet, z);
   }
 
   /** {@link #getPointerTableEntry} */
