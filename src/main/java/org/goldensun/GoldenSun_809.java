@@ -1684,6 +1684,7 @@ public final class GoldenSun_809 {
     }
   }
 
+  /** Something to do with going through the portal in the Sol Sanctum */
   @Method(0x8092950)
   public static void FUN_8092950(final int mapActorIndex, final int r1) {
     final Actor70 actor = getMapActor(mapActorIndex);
@@ -1698,6 +1699,27 @@ public final class GoldenSun_809 {
     }
 
     //LAB_8092974
+  }
+
+  @Method(0x8092980)
+  public static void FUN_8092980(final Actor70 actor) {
+    if((actor.spriteType_54.get() & 0xf) == 1) {
+      final Sprite38 r0 = actor.sprite_50.deref();
+      final int r4 = MEMORY.ref(1, 0x809ed80 + (_3001e40.get() >>> 1 & 0x3)).getUnsigned();
+
+      //LAB_80929b0
+      for(int i = 0; i < r0.layerCount_27.get(); i++) {
+        final SpriteLayer18 r2 = r0.layers_28.get(i).derefNullable();
+        if(r2 != null && r2.dataPtr_10.get() != 0) {
+          r2._05.set(r4);
+        }
+
+        //LAB_80929be
+      }
+
+      //LAB_80929c4
+      r0._25.set(1);
+    }
   }
 
   @Method(0x80929d8)
