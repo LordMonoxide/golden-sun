@@ -1142,6 +1142,12 @@ public final class GoldenSun_80a {
     //LAB_80a2404
   }
 
+  @Method(0x80a2438)
+  public static int FUN_80a2438(final int soundId) {
+    playSound_(soundId);
+    return 1;
+  }
+
   @Method(0x80a2444)
   public static void FUN_80a2444() {
     if((pressedButtons_3001c94.get() & Input.BUTTON_START) != 0) {
@@ -5410,8 +5416,38 @@ public final class GoldenSun_80a {
   }
 
   @Method(0x80aa460)
-  public static void FUN_80aa460(final int r0) {
-    throw new RuntimeException("Not implemented");
+  public static void FUN_80aa460(final int abilityId) {
+    final Ability10 r0 = getAbility_(abilityId);
+    final int r3 = r0.flags_01.get();
+    final int r2 = r3 & 0xf;
+    if(r2 == 0x1) {
+      //LAB_80aa476
+      FUN_80a2438(0x7e);
+      FUN_80a2438(0x7e);
+    } else if(r2 == 0xb) {
+      //LAB_80aa47c
+      FUN_80a2438(0x7e);
+    } else {
+      //LAB_80aa484
+      switch(r0.effect_03.get()) {
+        case 5: // switch 80aa494
+          //LAB_80aa514
+          FUN_80a2438(0x52);
+          break;
+
+        case 3: // switch 80aa494
+          //LAB_80aa51c
+          FUN_80a2438(0x54);
+          break;
+
+        default: // switch 80aa494
+          //LAB_80aa524
+          FUN_80a2438(0x5b);
+          break;
+      }
+    }
+
+    //LAB_80aa52a
   }
 
   @Method(0x80aa56c)
