@@ -1606,6 +1606,12 @@ public final class GoldenSun_801 {
     MEMORY.call(0x802281c, r0);
   }
 
+  /** {@link GoldenSun_801#FUN_801eb90} */
+  @Method(0x80152d0)
+  public static GraphicsStruct1c FUN_80152d0(final int r0, final int r1, final Panel24 r2, final int r3, final int a4) {
+    return (GraphicsStruct1c)MEMORY.call(0x801eb90, r0, r1, r2, r3, a4);
+  }
+
   /** {@link GoldenSun_802#loadLoadGameMenu} */
   @Method(0x80152f0)
   public static int loadLoadGameMenu_(final int mode) {
@@ -7529,6 +7535,17 @@ public final class GoldenSun_801 {
     //LAB_801eb78
     //LAB_801eb88
     return FUN_801eadc(r0_0, 0x40000000, r2, r3, a4);
+  }
+
+  @Method(0x801eb90)
+  public static GraphicsStruct1c FUN_801eb90(final int r0, final int r1, final Panel24 r2, final int r3, final int a4) {
+    final int r5 = getFreeVramSlot();
+    if(r5 == 0x60) {
+      return null;
+    }
+
+    FUN_801a2a4(r0, r1, r5);
+    return FUN_801eadc(r5, 0x40000000, r2, r3, a4);
   }
 
   @Method(0x801ec6c)

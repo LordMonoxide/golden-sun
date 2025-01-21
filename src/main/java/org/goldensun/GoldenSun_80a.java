@@ -577,7 +577,7 @@ public final class GoldenSun_80a {
     for(int charSlot = 0; charSlot < charCount; charSlot++) {
       final int r1 = 0x1e20000 - (r5._144.get(charSlot).get() << 16);
 
-      final Sprite38 r0 = r5.charSpriteIds_114.get(charSlot).derefNullable();
+      final Sprite38 r0 = r5.charSprites_114.get(charSlot).derefNullable();
       if(r0 != null) {
         r0.packet_00.attribs_04.attrib2_04.and(~0xc00);
         MEMORY.ref(4, r8).setu(r5._154.get(charSlot).get());
@@ -2299,10 +2299,10 @@ public final class GoldenSun_80a {
       //LAB_80a3c26
       for(int r7 = 0; r7 < r6.partyMemberCount_219.get(); r7++) {
         if(isEquipped_(r6.partyMemberIds_208.get(r7).get(), r6.abilityId_178.get(0).get() & 0x1ff) != 0) {
-          setSpriteAnimation_(r6.charSpriteIds_114.get(r7).deref(), 3);
+          setSpriteAnimation_(r6.charSprites_114.get(r7).deref(), 3);
         } else {
           //LAB_80a3c68
-          setSpriteAnimation_(r6.charSpriteIds_114.get(r7).deref(), 1);
+          setSpriteAnimation_(r6.charSprites_114.get(r7).deref(), 1);
         }
 
         //LAB_80a3c78
@@ -2318,7 +2318,7 @@ public final class GoldenSun_80a {
 
     //LAB_80a3caa
     for(int r5 = 0; r5 < menu.partyMemberCount_219.get(); r5++) {
-      setSpriteAnimation_(menu.charSpriteIds_114.get(r5).deref(), 1);
+      setSpriteAnimation_(menu.charSprites_114.get(r5).deref(), 1);
     }
 
     //LAB_80a3ccc
@@ -3677,7 +3677,7 @@ public final class GoldenSun_80a {
               //LAB_80a58c2
               //LAB_80a58d0
               for(r5 = 0; r5 < r7.partyMemberCount_219.get(); r5++) {
-                setSpriteAnimation_(r7.charSpriteIds_114.get(r5).deref(), 1);
+                setSpriteAnimation_(r7.charSprites_114.get(r5).deref(), 1);
               }
             }
 
@@ -3690,7 +3690,7 @@ public final class GoldenSun_80a {
                 r0 = isEquipped_(r0, r3 & 0x1ff);
                 CPU.cmpT(r0, 0x0);
                 if(!CPU.cpsr().getZero()) { // !=
-                  setSpriteAnimation_(r7.charSpriteIds_114.get(r5).deref(), 0x3);
+                  setSpriteAnimation_(r7.charSprites_114.get(r5).deref(), 0x3);
                 }
 
                 //LAB_80a5938
@@ -4644,7 +4644,7 @@ public final class GoldenSun_80a {
           //LAB_80a6ea0
           //LAB_80a6eae
           for(r5 = 0; r5 < r7.partyMemberCount_219.get(); r5++) {
-            setSpriteAnimation_(r7.charSpriteIds_114.get(r5).deref(), 1);
+            setSpriteAnimation_(r7.charSprites_114.get(r5).deref(), 1);
           }
         }
 

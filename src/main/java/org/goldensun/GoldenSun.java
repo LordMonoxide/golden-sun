@@ -5915,7 +5915,7 @@ public final class GoldenSun {
   }
 
   @Method(0x800d6a4)
-  public static int FUN_800d6a4(final Actor70 r0) {
+  public static int spriteScriptExecuteFunction(final Actor70 r0) {
     final int r6 = r0.scriptPos_04.get();
     final int r2 = r0.scriptPtr_00.get();
 

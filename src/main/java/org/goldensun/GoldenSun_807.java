@@ -35,6 +35,7 @@ import static org.goldensun.GoldenSunVars.debug_3001f54;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSun_801.FUN_8015020;
 import static org.goldensun.GoldenSun_801.decompressString_;
+import static org.goldensun.GoldenSun_808.FUN_808a548;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.DMA;
 import static org.goldensun.Hardware.MEMORY;
@@ -81,6 +82,18 @@ public final class GoldenSun_807 {
   @Method(0x8077030)
   public static int giveItem_(final int itemId) {
     return (int)MEMORY.call(0x8078618, itemId);
+  }
+
+  /** {@link GoldenSun_807#getUnitItemSlotForItemId} */
+  @Method(0x8077038)
+  public static int getUnitItemSlotForItemId_(final int unitId, final int itemId) {
+    return (int)MEMORY.call(0x8078664, unitId, itemId);
+  }
+
+  /** {@link GoldenSun_807#getCharUnitIdWhoHasItemId} */
+  @Method(0x8077040)
+  public static int getCharUnitIdWhoHasItemId_(final int itemId) {
+    return (int)MEMORY.call(0x8078698, itemId);
   }
 
   /** {@link GoldenSun_807#equipItem} */
@@ -304,6 +317,12 @@ public final class GoldenSun_807 {
     return (int)MEMORY.call(0x807842c, charId, itemId);
   }
 
+  /** {@link GoldenSun_807#FUN_807845c} */
+  @Method(0x8077220)
+  public static int FUN_8077220(final int charId, final int itemId) {
+    return (int)MEMORY.call(0x807845c, charId, itemId);
+  }
+
   /** {@link GoldenSun_807#getEquippedItemSlotOfType} */
   @Method(0x8077228)
   public static int getEquippedItemSlotOfType_(final int charId, final int itemType) {
@@ -320,6 +339,12 @@ public final class GoldenSun_807 {
   @Method(0x8077240)
   public static int addArtifact_(final int r0, final int r1) {
     return (int)MEMORY.call(0x8078ad0, r0, r1);
+  }
+
+  /** {@link GoldenSun_807#getUnitItemCount} */
+  @Method(0x8077248)
+  public static int getUnitItemCount_(final int unitId) {
+    return (int)MEMORY.call(0x80784d8, unitId);
   }
 
   /** {@link GoldenSun_807#restorePlayer} */
@@ -346,6 +371,18 @@ public final class GoldenSun_807 {
     return (int)MEMORY.call(0x807a5bc, r0);
   }
 
+  /** {@link GoldenSun_807#FUN_8078980} */
+  @Method(0x80772a8)
+  public static int FUN_80772a8(final int unitId, final int itemSlot) {
+    return (int)MEMORY.call(0x8078980, unitId, itemSlot);
+  }
+
+  /** {@link GoldenSun_807#FUN_8078948} */
+  @Method(0x80772b0)
+  public static int FUN_80772b0(final int unitId, final int itemSlot) {
+    return (int)MEMORY.call(0x8078948, unitId, itemSlot);
+  }
+
   /** {@link GoldenSun_807#doesAbilityRevive} */
   @Method(0x80772b8)
   public static int doesAbilityRevive_(final int abilityId) {
@@ -362,6 +399,12 @@ public final class GoldenSun_807 {
   @Method(0x80772c8)
   public static int getAverageCharLevel_() {
     return (int)MEMORY.call(0x8077348);
+  }
+
+  /** {@link GoldenSun_807#FUN_8078a08} */
+  @Method(0x80772e8)
+  public static void FUN_80772e8(final int itemId) {
+    MEMORY.call(0x8078a08, itemId);
   }
 
   /** {@link GoldenSun_807#cacheEncounterRateBoost} */
@@ -1301,6 +1344,35 @@ public final class GoldenSun_807 {
     return item.equippable_04.get() >> charData.id_128.get() & 0x1;
   }
 
+  @Method(0x807845c)
+  public static int FUN_807845c(final int charId, final int itemId) {
+    if(FUN_8078480(itemId) == 0) {
+      return 1;
+    }
+
+    //LAB_8078470
+    return isEquipped(charId, itemId);
+  }
+
+  @Method(0x8078480)
+  public static int FUN_8078480(final int itemId) {
+    final Item2c item = getItem(itemId);
+    final int r3 = item.type_02.get();
+    final int r2;
+    if(r3 == 0x1) {
+      r2 = 0x1;
+      //LAB_8078492
+    } else if(r3 == 0x2 || r3 == 0x3 || r3 == 0x4 || r3 == 0x5 || r3 == 0x9) {
+      //LAB_80784a6
+      r2 = 0x2;
+    } else {
+      r2 = 0x0;
+    }
+
+    //LAB_80784a8
+    return r2;
+  }
+
   /** @return item slot */
   @Method(0x8078588)
   public static int addItem(final int charId, final int itemId) {
@@ -1361,6 +1433,52 @@ public final class GoldenSun_807 {
 
     //LAB_8078654
     //LAB_8078658
+    CPU.sp().value += 0x18;
+    return -1;
+  }
+
+  @Method(0x8078664)
+  public static int getUnitItemSlotForItemId(final int unitId, final int itemId) {
+    final Unit14c unit = getUnit(unitId);
+
+    //LAB_8078672
+    for(int itemSlot = 0; itemSlot < 15; itemSlot++) {
+      if((unit.items_d8.get(itemSlot).get() & 0x1ff) == itemId) {
+        return itemSlot;
+      }
+
+      //LAB_8078682
+    }
+
+    return -1;
+  }
+
+  @Method(0x8078698)
+  public static int getCharUnitIdWhoHasItemId(final int itemId) {
+    CPU.sp().value -= 0x18;
+
+    if(getUnitItemSlotForItemId(playerMapActorIndex_2000434.get(), itemId) != -1) {
+      CPU.sp().value += 0x18;
+      return playerMapActorIndex_2000434.get();
+    }
+
+    //LAB_80786c2
+    final int r5 = CPU.sp().value + 0x4;
+    final int r7 = getPartyMemberIds(r5);
+
+    //LAB_80786d4
+    for(int r6 = 0; r6 < r7; r6++) {
+      final int unitId = MEMORY.ref(2, r5 + r6 * 0x2).get();
+
+      if(getUnitItemSlotForItemId(unitId, itemId) != -1) {
+        //LAB_80786be
+        CPU.sp().value += 0x18;
+        return unitId;
+      }
+    }
+
+    //LAB_80786f4
+    //LAB_80786f8
     CPU.sp().value += 0x18;
     return -1;
   }
@@ -1461,6 +1579,53 @@ public final class GoldenSun_807 {
     //LAB_807893a
     recalcStats(charId);
     return r6;
+  }
+
+  @Method(0x8078948)
+  public static int FUN_8078948(final int unitId, final int itemSlot) {
+    final Unit14c unit = getUnit(unitId);
+    final int itemId = unit.items_d8.get(itemSlot).get();
+    final int r5 = takeItem(unitId, itemSlot);
+
+    if(r5 != -1) {
+      addArtifact(itemId, 1);
+      FUN_808a548();
+    }
+
+    //LAB_8078976
+    return r5;
+  }
+
+  @Method(0x8078980)
+  public static int FUN_8078980(final int unitId, final int itemSlot) {
+    final Unit14c unit = getUnit(unitId);
+    final int itemId = unit.items_d8.get(itemSlot).get() & 0x1ff;
+    if(itemId == 0) {
+      return -1;
+    }
+
+    //LAB_80789a6
+    final Item2c item = getItem(itemId);
+    if((item.flags_03.get() & 0x8) != 0) {
+      return -4;
+    }
+
+    //LAB_80789b6
+    if((unit.items_d8.get(itemSlot).get() & 0x200) != 0 && (item.flags_03.get() & 0x2) != 0) {
+      return -3;
+    }
+
+    //LAB_80789d0
+    return 0;
+  }
+
+  @Method(0x8078a08)
+  public static void FUN_8078a08(final int itemId) {
+    final int unitId = getCharUnitIdWhoHasItemId(itemId);
+
+    if(unitId != -1) {
+      FUN_8078948(unitId, getUnitItemSlotForItemId(unitId, itemId));
+    }
   }
 
   @Method(0x8078a34)
@@ -1774,6 +1939,20 @@ public final class GoldenSun_807 {
     }
 
     //LAB_8078132
+  }
+
+  @Method(0x80784d8)
+  public static int getUnitItemCount(final int unitId) {
+    final Unit14c unit = getUnit(unitId);
+
+    //LAB_80784ea
+    int itemSlot;
+    for(itemSlot = 0; itemSlot < 15 && unit.items_d8.get(itemSlot).get() != 0; itemSlot++) {
+      //
+    }
+
+    //LAB_80784f8
+    return itemSlot;
   }
 
   @Method(0x80787dc)

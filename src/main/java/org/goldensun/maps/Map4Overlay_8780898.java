@@ -4477,8 +4477,8 @@ public final class Map4Overlay_8780898 {
 
   /** {@link GoldenSun_808#FUN_808a398} */
   @Method(0x200e11c)
-  public static void FUN_200e11c(final int r0, final int r1) {
-    MEMORY.call(0x808a398, r0, r1);
+  public static void FUN_200e11c(final int itemId, final int flags) {
+    MEMORY.call(0x808a398, itemId, flags);
   }
 
   /** {@link GoldenSun_808#FUN_808a428} */

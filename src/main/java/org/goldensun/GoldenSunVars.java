@@ -351,7 +351,7 @@ public final class GoldenSunVars {
    *   <li>{@link GoldenSun#FUN_800ca2c}</li>
    *   <li>{@link GoldenSun#FUN_800ca44}</li>
    *   <li>{@link GoldenSun#FUN_800ca58}</li>
-   *   <li>{@link GoldenSun#FUN_800d6a4}</li>
+   *   <li>{@link GoldenSun#spriteScriptExecuteFunction}</li>
    *   <li>{@link GoldenSun#FUN_800f7dc}</li>
    *   <li>{@link GoldenSun#FUN_800d7e8}</li>
    *   <li>{@link GoldenSun#FUN_800d7e8}</li>

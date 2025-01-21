@@ -10,6 +10,8 @@ import org.goldensun.maps.Map132Overlay_87ced6c;
 import org.goldensun.maps.Map13Overlay_878dc80;
 import org.goldensun.maps.Map14Overlay_878dd40;
 import org.goldensun.maps.Map15Overlay_878de18;
+import org.goldensun.maps.Map17Overlay_878ef88;
+import org.goldensun.maps.Map18Overlay_8791794;
 import org.goldensun.maps.Map19Overlay_878dee8;
 import org.goldensun.maps.Map3Overlay_877dd1c;
 import org.goldensun.maps.Map4Overlay_8780898;
@@ -702,10 +704,16 @@ public final class GoldenSun_808 {
     MEMORY.call(0x8091e20);
   }
 
+  /** {@link GoldenSun_808#FUN_808f140} */
+  @Method(0x808a390)
+  public static void FUN_808a390(final Actor70 r0, final int r1) {
+    MEMORY.call(0x808f140, r0, r1);
+  }
+
   /** {@link GoldenSun_808#FUN_808f1c0} */
   @Method(0x808a398)
-  public static void FUN_808a398(final int r0, final int r1) {
-    MEMORY.call(0x808f1c0, r0, r1);
+  public static void FUN_808a398(final int itemId, final int flags) {
+    MEMORY.call(0x808f1c0, itemId, flags);
   }
 
   /** {@link GoldenSun_808#FUN_808edac} */
@@ -1271,6 +1279,8 @@ public final class GoldenSun_808 {
       case 14 -> MEMORY.addFunctions(Map14Overlay_878dd40.class);
       case 15 -> MEMORY.addFunctions(Map15Overlay_878de18.class);
       case 16, 19 -> MEMORY.addFunctions(Map19Overlay_878dee8.class);
+      case 17 -> MEMORY.addFunctions(Map17Overlay_878ef88.class);
+      case 18 -> MEMORY.addFunctions(Map18Overlay_8791794.class);
       case 121 -> MEMORY.addFunctions(Map121Overlay_87d0e88.class);
       case 132 -> MEMORY.addFunctions(Map132Overlay_87ced6c.class);
       default -> throw new RuntimeException("Unimplemented map " + mapId_2000400.get());
@@ -4661,9 +4671,71 @@ public final class GoldenSun_808 {
     //LAB_808f132
   }
 
+  @Method(0x808f140)
+  public static void FUN_808f140(final Actor70 r0, final int r1) {
+    if(r0 != null) {
+      final Actor70 r7 = getMapActor(playerMapActorIndex_2000434.get());
+      if((r1 & 0x1) != 0) {
+        FUN_80091e0(r0, 0);
+        setActorSpriteScript_(r0, 0x809e6c0);
+        r0.velocity_24.setY(0x20000);
+        r0._48.set(0x4000);
+        r0._6c.set(getConsumer(GoldenSun_808.class, "FUN_808eee4", Actor70.class));
+      }
+
+      //LAB_808f182
+      if(r1 == 0x3) {
+        sleep(60);
+      }
+
+      //LAB_808f18c
+      if((r1 & 0x2) != 0) {
+        FUN_808f0d8(r0);
+      }
+
+      //LAB_808f19a
+      if(r1 == 0x3) {
+        sleep(80);
+      }
+
+      //LAB_808f1a4
+      setActorAnimation_(r7, 1);
+    }
+  }
+
+  /** This probably allocates the floating item after getting an item. Not used for chests but used for getting mythril bags from Kraden in Sol Sanctum */
   @Method(0x808f1c0)
-  public static void FUN_808f1c0(final int r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+  public static void FUN_808f1c0(final int itemId, final int flags) {
+    final Actor70 r7 = getMapActor(playerMapActorIndex_2000434.get());
+    final int r8 = mallocSlotChip(17, 0x608);
+    final Actor70 r6 = loadActor_(22, r7.pos_08.getX(), r7.pos_08.getY() + 0x240000, r7.pos_08.getZ());
+
+    if(r6 != null) {
+      final Sprite38 r5 = r6.sprite_50.deref();
+      r5._26.set(0);
+      r5.layerCount_27.set(0);
+      r5.packet_00.attribs_04.flags_01.and(~0x20);
+      r5.packet_00.attribs_04.attrib2_04.and(0xfff).and(~0xc00).or(0x400);
+      FUN_8015250(itemId);
+      allocateSpriteSlot(r5.slot_1c.get(), 0x80, r8 + 0x400);
+      freeSlot(17);
+
+      if((flags & 0x1) != 0) {
+        r6._6c.set(getConsumer(GoldenSun_808.class, "FUN_808eee4", Actor70.class));
+      }
+
+      //LAB_808f252
+      if((flags & 0x2) != 0) {
+        FUN_808f0d8(r6);
+      }
+
+      //LAB_808f262
+      sleep(80);
+      setActorAnimation_(r7, 1);
+      clearActor_(r6);
+    }
+
+    //LAB_808f276
   }
 
   @Method(0x808f498)

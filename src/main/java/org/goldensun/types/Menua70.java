@@ -37,7 +37,7 @@ public class Menua70 implements MemoryRef {
   public final UnsignedByteRef _111;
   public final UnsignedByteRef _112;
   public final UnsignedByteRef _113;
-  public final ArrayRef<Pointer<Sprite38>> charSpriteIds_114;
+  public final ArrayRef<Pointer<Sprite38>> charSprites_114;
   public final ArrayRef<ShortRef> _134;
   public final ArrayRef<ShortRef> _144;
   public final ArrayRef<IntRef> _154;
@@ -108,7 +108,7 @@ public class Menua70 implements MemoryRef {
     this._111 = ref.offset(1, 0x111).cast(UnsignedByteRef::new);
     this._112 = ref.offset(1, 0x112).cast(UnsignedByteRef::new);
     this._113 = ref.offset(1, 0x113).cast(UnsignedByteRef::new);
-    this.charSpriteIds_114 = ref.offset(4, 0x114).cast(ArrayRef.of(Pointer.classFor(Sprite38.class), 8, 0x4, Pointer.deferred(4, Sprite38::new)));
+    this.charSprites_114 = ref.offset(4, 0x114).cast(ArrayRef.of(Pointer.classFor(Sprite38.class), 8, 0x4, Pointer.deferred(4, Sprite38::new)));
     this._134 = ref.offset(2, 0x134).cast(ArrayRef.of(ShortRef.class, 8, 0x2, ShortRef::new));
     this._144 = ref.offset(2, 0x144).cast(ArrayRef.of(ShortRef.class, 8, 0x2, ShortRef::new));
     this._154 = ref.offset(4, 0x154).cast(ArrayRef.of(IntRef.class, 8, 0x4, IntRef::new));
