@@ -16,6 +16,7 @@ import org.goldensun.types.Sprite38;
 
 import static org.goldensun.GoldenSunVars._3001e40;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
+import static org.goldensun.GoldenSunVars.entranceId_2000402;
 import static org.goldensun.GoldenSunVars.vramSlots_3001b10;
 import static org.goldensun.Hardware.CPU;
 import static org.goldensun.Hardware.MEMORY;
@@ -1226,13 +1227,7 @@ public final class Map5Overlay_8784360 {
         }
 
         //LAB_2008aaa
-        r3 = 0x2000240;
-        r2 = 0xe1;
-        r2 = r2 << 1;
-        r3 = r3 + r2;
-        r2 = 0x0;
-        r3 = MEMORY.ref(2, r3 + r2).get();
-        if(r3 == 0xc) {
+        if(entranceId_2000402.get() == 12) {
           FUN_20097c8();
         } else {
           //LAB_2008ac0
@@ -2262,6 +2257,7 @@ public final class Map5Overlay_8784360 {
     CPU.r8().value = CPU.pop();
   }
 
+  /** Cutscene when leaving the village */
   @Method(0x20097c8)
   public static void FUN_20097c8() {
     int r0;

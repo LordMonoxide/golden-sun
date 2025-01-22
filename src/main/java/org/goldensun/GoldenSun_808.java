@@ -3,6 +3,7 @@ package org.goldensun;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.goldensun.input.Input;
+import org.goldensun.maps.Map10Overlay_878ac38;
 import org.goldensun.maps.Map11Overlay_878b2ac;
 import org.goldensun.maps.Map121Overlay_87d0e88;
 import org.goldensun.maps.Map12Overlay_878c76c;
@@ -662,6 +663,12 @@ public final class GoldenSun_808 {
     MEMORY.call(0x8095268);
   }
 
+  /** {@link GoldenSun_809#FUN_8095290} */
+  @Method(0x808a2e8)
+  public static void FUN_808a2e8(final int r0, final int r1) {
+    MEMORY.call(0x8095290, r0, r1);
+  }
+
   /** {@link GoldenSun_809#FUN_809509c} */
   @Method(0x808a2f8)
   public static void FUN_808a2f8() {
@@ -1273,6 +1280,7 @@ public final class GoldenSun_808 {
       case 7 -> MEMORY.addFunctions(Map7Overlay_8786f0c.class);
       case 8 -> MEMORY.addFunctions(Map8Overlay_8787e04.class);
       case 9 -> MEMORY.addFunctions(Map9Overlay_87892c8.class);
+      case 10 -> MEMORY.addFunctions(Map10Overlay_878ac38.class);
       case 11 -> MEMORY.addFunctions(Map11Overlay_878b2ac.class);
       case 12 -> MEMORY.addFunctions(Map12Overlay_878c76c.class);
       case 13 -> MEMORY.addFunctions(Map13Overlay_878dc80.class);

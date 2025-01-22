@@ -3420,6 +3420,21 @@ public final class GoldenSun_809 {
     lightning.repeat_1f82.set(true);
   }
 
+  /** Lightning effect on map 10 */
+  @Method(0x8095290)
+  public static void FUN_8095290(final int r0, final int r1) {
+    final LightningStruct1f88 r5 = MEMORY.ref(4, mallocSlotBoard(30, 0x1f88), LightningStruct1f88::new);
+    final PaletteStruct2a04 r8 = boardWramMallocHead_3001e50.offset(32 * 0x4).deref(4).cast(PaletteStruct2a04::new);
+    MEMORY.memfill(r5.getAddress(), 0x1f88, 0);
+    FUN_8090a5c(r0, r8.backgroundPaletteBackup_0000.getAddress(), r5.dest_0000.getAddress(), 1);
+    FUN_8090a5c(r1, r8.backgroundPaletteBackup_0000.getAddress(), r5.current_0a80.getAddress(), 1);
+    calculatePaletteModificationSteps(r5.current_0a80, r5.dest_0000, r5.step_1500, 12);
+    FUN_8090a5c(r5.dest_0000.getAddress(), 0, r8.dest_0e00.getAddress(), 1);
+    r5.ticksRemaining_1f80.set(120);
+    r5.repeat_1f82.set(false);
+    setTickCallback(getRunnable(GoldenSun_809.class, "tickLightning"), 0xc80);
+  }
+
   @Method(0x80955b0)
   public static void FUN_80955b0(final int r0, final int r1, final int r2) {
     throw new RuntimeException("Not implemented");
