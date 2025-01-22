@@ -246,6 +246,18 @@ public final class GoldenSun {
     MEMORY.call(0x8002dd8, slot);
   }
 
+  /** {@link GoldenSun#mallocBoard} */
+  @Method(0x8000170)
+  public static int mallocBoard_(final int size) {
+    return (int)MEMORY.call(0x8004970, size);
+  }
+
+  /** {@link GoldenSun#setMallocAddress} */
+  @Method(0x8000178)
+  public static void setMallocAddress_(final int addr) {
+    MEMORY.call(0x8002df0, addr);
+  }
+
   /** {@link GoldenSun#FUN_80053e8} */
   @Method(0x80001a0)
   public static int FUN_80001a0(final int src, final int dest) {
@@ -304,6 +316,12 @@ public final class GoldenSun {
   @Method(0x80002d0)
   public static void waitForFade_() {
     MEMORY.call(0x8003ce0);
+  }
+
+  /** {@link GoldenSun#queueVblankNand16} */
+  @Method(0x8000318)
+  public static void queueVblankNand16_(final int dst, final int val) {
+    MEMORY.call(0x800387c, dst, val);
   }
 
   @Method(0x80003c0)
@@ -3115,6 +3133,12 @@ public final class GoldenSun {
     MEMORY.call(0x800ca6c, r0);
   }
 
+  /** {@link GoldenSun_801#FUN_801173c} */
+  @Method(0x8009170)
+  public static void FUN_8009170() {
+    MEMORY.call(0x801173c);
+  }
+
   /** {@link GoldenSun_801#FUN_8010560} */
   @Method(0x8009178)
   public static void FUN_8009178(final int r0, final int r1, final int r2) {
@@ -3167,6 +3191,12 @@ public final class GoldenSun {
   @Method(0x80091c0)
   public static void FUN_80091c0(final int r0, final int r1, final int r2, final int r3, final int a4, final int a5) {
     MEMORY.call(0x8010704, r0, r1, r2, r3, a4, a5);
+  }
+
+  /** {@link GoldenSun_801#FUN_8010d48} */
+  @Method(0x80091d0)
+  public static void FUN_80091d0(final int r0, final int r1, final int r2, final int r3) {
+    MEMORY.call(0x8010d48, r0, r1, r2, r3);
   }
 
   /** {@link GoldenSun_801#FUN_80120dc} */

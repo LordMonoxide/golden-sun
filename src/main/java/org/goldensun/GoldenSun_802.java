@@ -89,6 +89,8 @@ import static org.goldensun.GoldenSun_801.FUN_8019e48;
 import static org.goldensun.GoldenSun_801.FUN_801a088;
 import static org.goldensun.GoldenSun_801.FUN_801a3d0;
 import static org.goldensun.GoldenSun_801.FUN_801a4fc;
+import static org.goldensun.GoldenSun_801.FUN_801c2d0;
+import static org.goldensun.GoldenSun_801.FUN_801c2e4;
 import static org.goldensun.GoldenSun_801.FUN_801ccc0;
 import static org.goldensun.GoldenSun_801.FUN_801d4cc;
 import static org.goldensun.GoldenSun_801.FUN_801db70;
@@ -5199,6 +5201,59 @@ public final class GoldenSun_802 {
     return menu.selectedOption_8c.get();
   }
 
+  @Method(0x80286a0)
+  public static int FUN_80286a0(int r0, final int r1) {
+    CPU.push(CPU.r10().value);
+    CPU.push(CPU.r9().value);
+    CPU.push(CPU.r8().value);
+    final ChoiceMenu98 r6 = boardWramMallocHead_3001e50.offset(58 * 0x4).deref(4).cast(ChoiceMenu98::new);
+    CPU.r9().value = 1;
+    CPU.r10().value = 12;
+    r6.selectedOption_8c.set(r0);
+
+    if(r1 < r0) {
+      CPU.r9().value = -1;
+    }
+
+    //LAB_80286ca
+    CPU.r8().value = r0;
+
+    //LAB_80286e6
+    do {
+      FUN_8016478(r6.panel_78.deref());
+
+      r0 = r6.textIdGroup_92.get();
+      if(r0 != 0) {
+        r0 = r0 + r6.selectedOption_8c.get();
+      } else {
+        //LAB_80286fe
+        r0 = r6.icons_84.get(r6.selectedOption_8c.get()).get() + 0x1f;
+      }
+
+      //LAB_802870a
+      drawIcon(r0, r6.panel_78.deref(), 0, 0);
+      final int r2 = Math.abs(r6.selectedOption_8c.get() - r1);
+      sleep(MEMORY.ref(1, 0x80373ef + r2).getUnsigned() + CPU.r10().value);
+
+      if(CPU.r8().value == r1) {
+        break;
+      }
+
+      //LAB_80286d4
+      r6.selectedOption_8c.add(CPU.r9().value);
+      playSound_(0x6f);
+      CPU.r10().value = 0;
+      CPU.r8().value = CPU.r8().value + CPU.r9().value;
+    } while(true);
+
+    sleep(48);
+    playSound_(0x70);
+    CPU.r8().value = CPU.pop();
+    CPU.r9().value = CPU.pop();
+    CPU.r10().value = CPU.pop();
+    return r1;
+  }
+
   @Method(0x802875c)
   public static void loadChoiceMenuIconIntoVram(final int slot, final int icon) {
     final int dest = mallocChip(0x400);
@@ -5306,6 +5361,21 @@ public final class GoldenSun_802 {
 
     //LAB_802898a
     return r5;
+  }
+
+  @Method(0x802899c)
+  public static int FUN_802899c(final int initialSelection, final int r1) {
+    FUN_801c2d0();
+    allocateChoiceMenu();
+    addChoiceMenuOption(1);
+    addChoiceMenuOption(15);
+    addChoiceMenuOption(2);
+    addChoiceMenuOption(7);
+    updateChoiceMenuLayout(17, 7, 0);
+    final int r6 = FUN_80286a0(initialSelection, r1 - 1);
+    deallocateChoiceMenu();
+    FUN_801c2e4();
+    return r6;
   }
 
   @Method(0x80289e8)

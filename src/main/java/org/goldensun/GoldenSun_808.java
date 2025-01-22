@@ -14,6 +14,7 @@ import org.goldensun.maps.Map15Overlay_878de18;
 import org.goldensun.maps.Map17Overlay_878ef88;
 import org.goldensun.maps.Map18Overlay_8791794;
 import org.goldensun.maps.Map19Overlay_878dee8;
+import org.goldensun.maps.Map2Overlay_877a7c8;
 import org.goldensun.maps.Map3Overlay_877dd1c;
 import org.goldensun.maps.Map4Overlay_8780898;
 import org.goldensun.maps.Map5Overlay_8784360;
@@ -585,6 +586,12 @@ public final class GoldenSun_808 {
     MEMORY.call(0x8091eb0, encounterSet, encounterId);
   }
 
+  /** {@link GoldenSun_809#FUN_8091f14} */
+  @Method(0x808a258)
+  public static void FUN_808a258(final int r0, final int r1) {
+    MEMORY.call(0x8091f14, r0, r1);
+  }
+
   /** {@link GoldenSun_809#FUN_8091f90} */
   @Method(0x808a260)
   public static void FUN_808a260(final int r0, final int r1) {
@@ -729,6 +736,24 @@ public final class GoldenSun_808 {
     MEMORY.call(0x808edac, r0, r1, r2);
   }
 
+  /** {@link GoldenSun_808#FUN_808c44c} */
+  @Method(0x808a3d8)
+  public static void FUN_808a3d8() {
+    MEMORY.call(0x808c44c);
+  }
+
+  /** {@link GoldenSun_808#FUN_808c4c0} */
+  @Method(0x808a3e0)
+  public static void FUN_808a3e0() {
+    MEMORY.call(0x808c4c0);
+  }
+
+  /** {@link GoldenSun_808#getMapActor} */
+  @Method(0x808a400)
+  public static Actor70 getMapActor2_(final int index) {
+    return (Actor70)MEMORY.call(0x808ba1c, index);
+  }
+
   /** {@link GoldenSun_809#FUN_8091494} */
   @Method(0x808a408)
   public static void FUN_808a408(final Actor70 r0) {
@@ -807,6 +832,12 @@ public final class GoldenSun_808 {
     MEMORY.call(0x808acc4);
   }
 
+  /** {@link GoldenSun_809#FUN_80955b0} */
+  @Method(0x808a4f8)
+  public static void FUN_808a4f8(final int r0, final int r1, final int r2) {
+    MEMORY.call(0x80955b0, r0, r1, r2);
+  }
+
   /** {@link GoldenSun_809#FUN_809b804} */
   @Method(0x808a500)
   public static void FUN_808a500(final FieldPsynergy720.Sub48 r0) {
@@ -865,6 +896,18 @@ public final class GoldenSun_808 {
   @Method(0x808a5b0)
   public static void FUN_808a5b0() {
     MEMORY.call(0x808ba38);
+  }
+
+  /** {@link GoldenSun_809#FUN_80936a0} */
+  @Method(0x808a5c0)
+  public static void FUN_808a5c0(final int r0, final int r1) {
+    MEMORY.call(0x80936a0, r0, r1);
+  }
+
+  /** {@link GoldenSun_809#FUN_8093710} */
+  @Method(0x808a5c8)
+  public static void FUN_808a5c8() {
+    MEMORY.call(0x8093710);
   }
 
   /** {@link GoldenSun_808#getRoomNameStringId} */
@@ -1273,6 +1316,7 @@ public final class GoldenSun_808 {
       case 0 -> { }
       // Title screen
       case 1 -> { }
+      case 2 -> MEMORY.addFunctions(Map2Overlay_877a7c8.class);
       case 3 -> MEMORY.addFunctions(Map3Overlay_877dd1c.class);
       case 4 -> MEMORY.addFunctions(Map4Overlay_8780898.class);
       case 5 -> MEMORY.addFunctions(Map5Overlay_8784360.class);
@@ -1531,6 +1575,12 @@ public final class GoldenSun_808 {
   @Method(0x808b05c)
   public static int getEncounterId(final int encounterSet, final int encounterIndex) {
     return MEMORY.ref(2, 0x809c610 + encounterSet * 0x1c + 0x4 + encounterIndex * 0x2).getUnsigned();
+  }
+
+  @Method(0x808b074)
+  public static int FUN_808b074(int r0) {
+    r0 = 0x809d8b0 + r0 * 0x4;
+    return getEncounterId(MEMORY.ref(2, r0).getUnsigned(), MEMORY.ref(2, r0 + 0x2).getUnsigned());
   }
 
   @Method(0x808b090)

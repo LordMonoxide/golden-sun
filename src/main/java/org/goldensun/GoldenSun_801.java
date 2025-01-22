@@ -506,9 +506,55 @@ public final class GoldenSun_801 {
     return 1;
   }
 
+  /** On world map immediately after leaving Vale for the first time */
   @Method(0x80109e8)
   public static void FUN_80109e8() {
     throw new RuntimeException("Not implemented");
+  }
+
+  @Method(0x8010d48)
+  public static void FUN_8010d48(int r0, final int r1, int r2, final int r3) {
+    final int r4;
+    int r5;
+    int r6;
+    final int r7;
+    final int r8;
+    int r12;
+
+    r5 = r0;
+    r8 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
+    final int r3_0 = MEMORY.ref(4, r8).get();
+    if(r3_0 != 0) {
+      r6 = MEMORY.ref(4, r3_0).get();
+      r12 = MEMORY.ref(4, r3_0 + 0x8).get();
+    } else {
+      r6 = 0;
+      r12 = 0;
+    }
+
+    //LAB_8010d6c
+    r0 = r3 >> 3;
+    r4 = r2 >> 3;
+    r7 = r1 / 0x10 * 0x10 + r5 / 0x10;
+    r12 = r12 >> 24;
+    r2 = 0x138 + ((r0 / 2 & 0xf) * 0x10 + (r4 / 2 & 0xf)) * 0x2;
+    r6 = r6 >> 24;
+    MEMORY.ref(2, r8 + r2).setu(r7);
+
+    //LAB_8010db4
+    if(Math.abs(r4 - r6) < 2) {
+      //LAB_8010dba
+      //LAB_8010dc8
+      if(Math.abs(r0 - r12) < 2) {
+        //LAB_8010dd0
+        r6 = r4 / 2;
+        r5 = r0 / 2;
+        FUN_80108e4(0, r6, r5, r7, 1);
+        FUN_80108e4(1, r6, r5, r7 + 0x140, 1);
+      }
+    }
+
+    //LAB_8010e04
   }
 
   @Method(0x80113e4)
@@ -658,6 +704,19 @@ public final class GoldenSun_801 {
     decompress(getPointerTableEntry(213), 0x2010000);
     FUN_80113e4();
     r7._fc.set(0);
+    enableTickCallback(getRunnable(GoldenSun_801.class, "FUN_801179c"));
+    sleep(1);
+  }
+
+  @Method(0x801173c)
+  public static void FUN_801173c() {
+    final int r1 = MEMORY.ref(4, 0x3001e70).get();
+    MEMORY.ref(4, 0x3001cfc).setu(0x801161d);
+    MEMORY.ref(2, r1 + 0x100).setu(0);
+    MEMORY.ref(2, r1 + 0x102).setu(0x9f);
+    sleep(1);
+    decompress(getPointerTableEntry(213), 0x2010000);
+    FUN_80113e4();
     enableTickCallback(getRunnable(GoldenSun_801.class, "FUN_801179c"));
     sleep(1);
   }
@@ -1670,6 +1729,12 @@ public final class GoldenSun_801 {
   @Method(0x80153e0)
   public static void FUN_80153e0(final int r0) {
     MEMORY.call(0x801e3c8, r0);
+  }
+
+  /** {@link GoldenSun_802#FUN_802899c} */
+  @Method(0x80153e8)
+  public static int FUN_80153e8(final int initialSelection, final int r1) {
+    return (int)MEMORY.call(0x802899c, initialSelection, r1);
   }
 
   /** {@link GoldenSun_802#FUN_8021bc8} */

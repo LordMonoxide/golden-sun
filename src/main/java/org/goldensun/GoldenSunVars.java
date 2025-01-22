@@ -257,7 +257,7 @@ public final class GoldenSunVars {
    *   <li>5 - Array of 64 {@link Actor70}</li>
    *   <li>6 - {@link Struct5c}</li>
    *   <li>7 - </li>
-   *   <li>8 - {@link Map194}</li>
+   *   <li>8 - {@link Map194}, maybe something else on the world map? Accessed with offsets in the 0x300's</li>
    *   <li>9 - {@link BattleStruct82c}</li>
    *   <li>12 - {@link Camera4c}</li>
    *   <li>15 - {@link Struct12fc}</li>

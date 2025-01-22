@@ -69,6 +69,12 @@ public final class GoldenSun_807 {
     return (Item2c)MEMORY.call(0x8078414, itemId);
   }
 
+  /** {@link GoldenSun_807#getItemCount} */
+  @Method(0x8077020)
+  public static int getItemCount_(final int unitId, final int itemSlot) {
+    return (int)MEMORY.call(0x80784b0, unitId, itemSlot);
+  }
+
   /**
    * {@link GoldenSun_807#addItem}
    * @return item slot
@@ -167,6 +173,12 @@ public final class GoldenSun_807 {
     return (int)MEMORY.call(0x80793b8, r0);
   }
 
+  /** {@link GoldenSun_807#FUN_80793c8} */
+  @Method(0x80770e8)
+  public static void FUN_80770e8(final int r0, final int r1) {
+    MEMORY.call(0x80793c8, r0, r1);
+  }
+
   /** {@link GoldenSun_807#addHp} */
   @Method(0x8077118)
   public static int addHp_(final int charId, final int amount) {
@@ -261,6 +273,12 @@ public final class GoldenSun_807 {
   @Method(0x80771a0)
   public static int lcgRand_() {
     return (int)MEMORY.call(0x8079bc4);
+  }
+
+  /** {@link GoldenSun_807#FUN_807a1b4} */
+  @Method(0x80771a8)
+  public static int FUN_80771a8(final int unitId, final int r1, final int r2) {
+    return (int)MEMORY.call(0x807a1b4, unitId, r1, r2);
   }
 
   /** {@link GoldenSun_807#setDjinn} */
@@ -1373,6 +1391,18 @@ public final class GoldenSun_807 {
     return r2;
   }
 
+  @Method(0x80784b0)
+  public static int getItemCount(final int unitId, final int itemSlot) {
+    final Unit14c unit = getUnit(unitId);
+    final int itemId = unit.items_d8.get(itemSlot).get();
+
+    if((itemId & 0x1ff) == 0) {
+      return 0;
+    }
+
+    return (itemId >>> 11) + 1;
+  }
+
   /** @return item slot */
   @Method(0x8078588)
   public static int addItem(final int charId, final int itemId) {
@@ -2349,6 +2379,11 @@ public final class GoldenSun_807 {
     throw new RuntimeException("Not implemented");
   }
 
+  @Method(0x80793c8)
+  public static void FUN_80793c8(final int r0, final int r1) {
+    MEMORY.ref(1, 0x2000040 + (r0 << 20 >>> 23)).setu(r1);
+  }
+
   @Method(0x8079460)
   public static int loadEnemyUnit(final int unitSlot, final int unitId, final int duplicateCount) {
     CPU.sp().value -= 0x24;
@@ -2980,6 +3015,21 @@ public final class GoldenSun_807 {
   @Method(0x807a0cc)
   public static int getDjinn(final int r0, final int r1) {
     throw new RuntimeException("Not implemented");
+  }
+
+  @Method(0x807a1b4)
+  public static int FUN_807a1b4(final int unitId, final int r1, final int r2) {
+    final Unit14c r0 = getUnit(unitId);
+    final int r4 = r0._118.get(r1).get();
+    if(r4 > 9 || (r0.djinn_f8.djinn_00.get(r1).get() & 0x1 << r2) != 0) {
+      //LAB_807a1de
+      return -1;
+    }
+
+    //LAB_807a1e4
+    r0._118.get(r1).set(r4 + 1);
+    r0.djinn_f8.djinn_00.get(r1).or(0x1 << r2);
+    return 0;
   }
 
   @Method(0x807a1f8)
