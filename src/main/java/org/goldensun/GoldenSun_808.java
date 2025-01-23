@@ -3080,7 +3080,7 @@ public final class GoldenSun_808 {
 
     //LAB_808cf1a
     final int r6_0 = tile.getType();
-    if(r6_0 <= 0xf7) {
+    if(r6_0 >= 0xf2 && r6_0 <= 0xf7) {
       final int height = getHeight_(player.layer_22.get(), reach.getX(), reach.getZ());
       if(height < player.pos_08.getY() || height > player.pos_08.getY() + 0x400000) {
         return 0;
