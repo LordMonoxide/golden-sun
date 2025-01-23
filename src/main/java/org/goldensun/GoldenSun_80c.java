@@ -57,7 +57,7 @@ import static org.goldensun.GoldenSun_801.FUN_8015120;
 import static org.goldensun.GoldenSun_801.FUN_8015128;
 import static org.goldensun.GoldenSun_801.FUN_80151c8;
 import static org.goldensun.GoldenSun_807.checkLevelUp_;
-import static org.goldensun.GoldenSun_807.FUN_80770e0;
+import static org.goldensun.GoldenSun_807.readFlagsByte_;
 import static org.goldensun.GoldenSun_807.loadEnemyUnit_;
 import static org.goldensun.GoldenSun_807.getEnemyStats_;
 import static org.goldensun.GoldenSun_807.addCoins_;
@@ -1604,7 +1604,7 @@ public final class GoldenSun_80c {
     }
 
     //LAB_80c1b42
-    CPU.r8().value = MathHelper.clamp(divideS(CPU.r8().value, charCount) + FUN_80770e0(0x3f8), 1, 99);
+    CPU.r8().value = MathHelper.clamp(divideS(CPU.r8().value, charCount) + readFlagsByte_(0x3f8), 1, 99);
 
     //LAB_80c1b74
     for(int i = 0; i < 32; i++) {

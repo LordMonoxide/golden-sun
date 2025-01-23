@@ -130,7 +130,7 @@ import static org.goldensun.GoldenSun_801.drawPanelBackground_;
 import static org.goldensun.GoldenSun_807.FUN_8077220;
 import static org.goldensun.GoldenSun_807.FUN_80772a8;
 import static org.goldensun.GoldenSun_807.getUnitEquippedItemIdOfType_;
-import static org.goldensun.GoldenSun_807.FUN_80770e0;
+import static org.goldensun.GoldenSun_807.readFlagsByte_;
 import static org.goldensun.GoldenSun_807.calcHpPpFractions_;
 import static org.goldensun.GoldenSun_807.getUnitItemCount_;
 import static org.goldensun.GoldenSun_807.loadEnemyUnit_;
@@ -2544,7 +2544,7 @@ public final class GoldenSun_80b {
         MEMORY.ref(1, r2 + i).setu(MEMORY.ref(1, 0x2018000 + i).getUnsigned());
       }
 
-      r6 = FUN_80770e0(0x3f0);
+      r6 = readFlagsByte_(0x3f0);
       FUN_80b6378();
       r8._42.set(0);
     }

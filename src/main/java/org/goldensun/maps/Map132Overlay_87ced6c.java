@@ -1742,7 +1742,7 @@ public final class Map132Overlay_87ced6c {
     r6.setX((r0.pos_08.getX() & 0xfff00000) + 0x80000);
     r6.setY(r0.pos_08.getY());
     r6.setZ((r0.pos_08.getZ() & 0xfff00000) + 0x80000);
-    retVec3(0x200000, r0.angle_06.get() + 0x2000 & 0xc000, r6);
+    rotVec3(0x200000, r0.angle_06.get() + 0x2000 & 0xc000, r6);
 
     if(FUN_80091d8(r0, r6) != 0) {
       //LAB_2009b02
@@ -3394,9 +3394,9 @@ public final class Map132Overlay_87ced6c {
     return (int)MEMORY.call(0x8000120, angle);
   }
 
-  /** {@link GoldenSun#retVec3} */
+  /** {@link GoldenSun#rotVec3_} */
   @Method(0x200afd8)
-  public static void retVec3(final int distance, final int angle, final Vec3 vec) {
+  public static void rotVec3(final int distance, final int angle, final Vec3 vec) {
     MEMORY.call(0x8000128, distance, angle, vec);
   }
 

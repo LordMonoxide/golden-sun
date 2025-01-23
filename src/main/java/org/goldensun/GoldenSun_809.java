@@ -243,6 +243,81 @@ public final class GoldenSun_809 {
     //LAB_8090352
   }
 
+  @Method(0x80903bc)
+  public static void FUN_80903bc() {
+    final int r6 = boardWramMallocHead_3001e50.offset(31 * 0x4).get();
+    final int r7 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
+    int r2 = MEMORY.ref(1, r6 + 0x53c).get();
+    if(r2 != 0) {
+      if(MEMORY.ref(1, r6 + 0x53d).get() >= r2) {
+        MEMORY.ref(1, r6 + 0x53c).setu(0);
+        clearTickCallback(getRunnable(GoldenSun_809.class, "FUN_80903bc"));
+        setInterruptHandler(1, 0, null);
+        return;
+      }
+
+      //LAB_80903f6
+      MEMORY.ref(1, r6 + 0x53d).incr();
+      MEMORY.ref(2, r6 + 0x52a).setu(MEMORY.ref(1, r6 + 0x53a).get() + divideS(MEMORY.ref(1, r6 + 0x53d).get() * (MEMORY.ref(1, r6 + 0x53b).get() - MEMORY.ref(1, r6 + 0x53a).get()), MEMORY.ref(1, r6 + 0x53c).get()));
+    }
+
+    //LAB_809042a
+    r2 = MEMORY.ref(2, r6 + 0x52a).getUnsigned();
+    if(r2 > 79) {
+      MEMORY.ref(2, r7 + 0x100).setu(0xc8);
+      MEMORY.ref(2, r7 + 0x102).setu(0xfa);
+    } else {
+      //LAB_809044a
+      MEMORY.ref(2, r7 + 0x100).setu(r2);
+      MEMORY.ref(2, r7 + 0x102).setu(0x9f - r2);
+    }
+  }
+
+  @Method(0x8090584)
+  public static void FUN_8090584() {
+    final int r12 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
+
+    //LAB_8090592
+    while(true) {
+      final int r3 = MEMORY.ref(2, r12 + 0x108).getUnsigned();
+
+      if(r3 == 0) {
+        //LAB_8090648
+        if(GPU.VCOUNT.getUnsigned() < 159) {
+          MEMORY.ref(2, r12 + 0x108).incr();
+          continue;
+        }
+      } else if(r3 == 1) {
+        //LAB_80905fc
+        if(GPU.VCOUNT.getUnsigned() >= MEMORY.ref(2, r12 + 0x104).getUnsigned()) {
+          GPU.DISPCNT.and(~0x7).or(0x2); // Change to BG mode 2
+          MEMORY.ref(2, r12 + 0x108).incr();
+          continue;
+        }
+        //LAB_8090620
+        if(GPU.VCOUNT.getUnsigned() >= MEMORY.ref(2, r12 + 0x106).getUnsigned()) {
+          GPU.DISPCNT.and(~0x7); // Change to BG mode 0
+          MEMORY.ref(2, r12 + 0x108).setu(3);
+          continue;
+        }
+      } else if(r3 == 2) {
+        //LAB_80905cc
+        if(GPU.VCOUNT.getUnsigned() >= MEMORY.ref(2, r12 + 0x106).getUnsigned()) {
+          GPU.DISPCNT.and(~0x7); // Change to BG mode 0
+          MEMORY.ref(2, r12 + 0x108).setu(9);
+        }
+      } else if(r3 == 3) {
+        if(GPU.VCOUNT.getUnsigned() >= MEMORY.ref(2, r12 + 0x104).getUnsigned()) {
+          GPU.DISPCNT.and(~0x7).or(0x2); // Change to BG mode 2
+          MEMORY.ref(2, r12 + 0x108).setu(9);
+        }
+      }
+      break;
+    }
+
+    //LAB_8090652
+  }
+
   @Method(0x80907b0)
   public static void FUN_80907b0(final int r0) {
     throw new RuntimeException("Not implemented");

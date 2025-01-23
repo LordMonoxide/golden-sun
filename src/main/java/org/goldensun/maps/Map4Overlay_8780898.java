@@ -3696,7 +3696,7 @@ public final class Map4Overlay_8780898 {
     r5.setX(r0.pos_08.getX());
     r5.setY(r0.pos_08.getY() - rand() * 0x10 - 0x80000);
     r5.setZ(r0.pos_08.getZ());
-    retVec3(rand() * 0x30, rand(), r5);
+    rotVec3(rand() * 0x30, rand(), r5);
 
     final Actor70 actor = loadActor(0x11d, r5.getX(), r5.getY(), r5.getZ());
     if(actor != null) {
@@ -3754,7 +3754,7 @@ public final class Map4Overlay_8780898 {
     if(r0 != null) {
       final Vec3 r5 = new Vec3();
       r5.set(r0.pos_08);
-      retVec3(r1, r2, r5);
+      rotVec3(r1, r2, r5);
       moveActorTo(r0, r5.getX(), r5.getY(), r5.getZ());
     }
 
@@ -4037,9 +4037,9 @@ public final class Map4Overlay_8780898 {
     return (int)MEMORY.call(0x80000f8);
   }
 
-  /** {@link GoldenSun#retVec3} */
+  /** {@link GoldenSun#rotVec3_} */
   @Method(0x200dec4)
-  public static void retVec3(final int distance, final int angle, final Vec3 vec) {
+  public static void rotVec3(final int distance, final int angle, final Vec3 vec) {
     MEMORY.call(0x8000128, distance, angle, vec);
   }
 

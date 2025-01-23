@@ -936,13 +936,13 @@ public final class Map121Overlay_87d0e88 {
       r6.setX((r5.pos_08.getX() & 0xfff00000) + 0x80000);
       r6.setY(r5.pos_08.getY());
       r6.setZ((r5.pos_08.getZ() & 0xfff00000) + 0x80000);
-      retVec3(0x100000, r7, r6);
+      rotVec3(0x100000, r7, r6);
 
       if(FUN_80091d8(r5, r6) != 0x1 && FUN_2008350(r6) == null) {
         r6.x_00.set((r5.pos_08.getX() & 0xfff00000) + 0x80000);
         r6.setY(r5.pos_08.getY());
         r6.setZ((r5.pos_08.getZ() & 0xfff00000) + 0x80000);
-        retVec3(0x200000, r7, r6);
+        rotVec3(0x200000, r7, r6);
         if(FUN_2008350(r6) == null && FUN_80091d8(r5, r6) == 0x0) {
           FUN_808a018();
           setActorAnimation(r5, 6);
@@ -2358,9 +2358,9 @@ public final class Map121Overlay_87d0e88 {
     return (int)MEMORY.call(0x80000d8, r0);
   }
 
-  /** {@link GoldenSun#retVec3} */
+  /** {@link GoldenSun#rotVec3_} */
   @Method(0x200aa54)
-  public static void retVec3(final int distance, final int angle, final Vec3 vec) {
+  public static void rotVec3(final int distance, final int angle, final Vec3 vec) {
     MEMORY.call(0x8000128, distance, angle, vec);
   }
 

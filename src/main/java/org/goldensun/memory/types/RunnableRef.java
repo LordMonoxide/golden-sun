@@ -21,4 +21,9 @@ public class RunnableRef implements MemoryRef {
   public int getAddress() {
     return this.ref.getAddress();
   }
+
+  @Override
+  public String toString() {
+    return "RunnableRef @ " + Integer.toHexString(this.getAddress());
+  }
 }

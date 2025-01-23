@@ -29,46 +29,51 @@ public final class CopiedSegment8000770 {
     final int oldMasterEnable = INTERRUPTS.INT_MASTER_ENABLE.getUnsigned();
 
     INTERRUPTS.INT_MASTER_ENABLE.setu(0x1);
+    INTERRUPTS.INT_ENABLE.setu(intEnable & 0x20c0);
 
-    final RunnableRef handler;
-    final int currentInterrupts = intFlags & intEnable;
-    final int handledInterrupt;
-    if((currentInterrupts & 0x2) != 0) { // LCD HBLANK
-      handledInterrupt = 0x2;
-      handler = intHandlers_30000e0.get(1).deref();
-    } else if((currentInterrupts & 0x1) != 0) { // LCD VBLANK
-      handledInterrupt = 0x1;
-      handler = intHandlers_30000e0.get(0).deref();
-    } else if((currentInterrupts & 0x4) != 0) { // LCD VCOUNT
-      handledInterrupt = 0x4;
-      handler = intHandlers_30000e0.get(2).deref();
-    } else if((currentInterrupts & 0x40) != 0) { // Timer 3 overflow
-      handledInterrupt = 0x40;
-      handler = intHandlers_30000e0.get(6).deref();
-    } else if((currentInterrupts & 0x80) != 0) { // Serial comm
-      handledInterrupt = 0x80;
-      handler = intHandlers_30000e0.get(7).deref();
-    } else if((currentInterrupts & 0x10) != 0) { // Timer 1 overflow
-      handledInterrupt = 0x10;
-      handler = intHandlers_30000e0.get(4).deref();
-    } else if((currentInterrupts & 0x20) != 0) { // Timer 2 overflow
-      handledInterrupt = 0x20;
-      handler = intHandlers_30000e0.get(5).deref();
-    } else if((currentInterrupts & 0x1000) != 0) { // Keypad
-      handledInterrupt = 0x1000;
-      handler = intHandlers_30000e0.get(12).deref();
-    } else {
-      handledInterrupt = currentInterrupts & 0x2000; // Gamepak
-      handler = intHandlers_30000e0.get(13).deref();
+    int currentInterrupts = intFlags & intEnable;
+
+    while(currentInterrupts != 0) {
+      final RunnableRef handler;
+      final int handledInterrupt;
+      if((currentInterrupts & 0x2) != 0) { // LCD HBLANK
+        handledInterrupt = 0x2;
+        handler = intHandlers_30000e0.get(1).deref();
+      } else if((currentInterrupts & 0x1) != 0) { // LCD VBLANK
+        handledInterrupt = 0x1;
+        handler = intHandlers_30000e0.get(0).deref();
+      } else if((currentInterrupts & 0x4) != 0) { // LCD VCOUNT
+        handledInterrupt = 0x4;
+        handler = intHandlers_30000e0.get(2).deref();
+      } else if((currentInterrupts & 0x40) != 0) { // Timer 3 overflow
+        handledInterrupt = 0x40;
+        handler = intHandlers_30000e0.get(6).deref();
+      } else if((currentInterrupts & 0x80) != 0) { // Serial comm
+        handledInterrupt = 0x80;
+        handler = intHandlers_30000e0.get(7).deref();
+      } else if((currentInterrupts & 0x10) != 0) { // Timer 1 overflow
+        handledInterrupt = 0x10;
+        handler = intHandlers_30000e0.get(4).deref();
+      } else if((currentInterrupts & 0x20) != 0) { // Timer 2 overflow
+        handledInterrupt = 0x20;
+        handler = intHandlers_30000e0.get(5).deref();
+      } else if((currentInterrupts & 0x1000) != 0) { // Keypad
+        handledInterrupt = 0x1000;
+        handler = intHandlers_30000e0.get(12).deref();
+      } else {
+        handledInterrupt = currentInterrupts & 0x2000; // Gamepak
+        handler = intHandlers_30000e0.get(13).deref();
+      }
+
+      //LAB_3000088
+      CPU.cpsr().msr(CPU.cpsr().get() & ~0xdf | 0x1f, true, false, false, true);
+      handler.run();
+      CPU.cpsr().msr(CPU.cpsr().get() & ~0xdf | 0x92, true, false, false, true);
+
+      currentInterrupts &= ~handledInterrupt;
     }
 
-    //LAB_3000088
-    INTERRUPTS.INT_FLAGS.setu(handledInterrupt);
-    INTERRUPTS.INT_ENABLE.setu(intEnable & ~handledInterrupt & 0x20c0);
-    CPU.cpsr().msr(CPU.cpsr().get() & ~0xdf | 0x1f, true, false, false, true);
-    handler.run();
-    CPU.cpsr().msr(CPU.cpsr().get() & ~0xdf | 0x92, true, false, false, true);
-
+    INTERRUPTS.INT_FLAGS.setu(intFlags);
     INTERRUPTS.INT_ENABLE.setu(intEnable);
     INTERRUPTS.INT_MASTER_ENABLE.setu(oldMasterEnable);
     CPU.spsr().msr(oldSpsr, true, false, false, true);

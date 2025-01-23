@@ -15,7 +15,9 @@ import org.goldensun.types.FieldPsynergy720;
 import org.goldensun.types.Panel24;
 import org.goldensun.types.Sprite38;
 import org.goldensun.types.Structccc;
+import org.goldensun.types.Vec3;
 
+import static org.goldensun.CopiedSegment8000770.mul16;
 import static org.goldensun.GoldenSunVars._2000432;
 import static org.goldensun.GoldenSunVars._3001e40;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
@@ -194,6 +196,41 @@ public final class Map2Overlay_877a7c8 {
     }
   }
 
+  @Method(0x20081c4)
+  public static void FUN_20081c4(final Actor70 r0) {
+    if((_3001e40.get() & 0x2) != 0) {
+      FUN_200c25c(r0, 10);
+    } else {
+      //LAB_20081dc
+      FUN_200c25c(r0, 7);
+    }
+
+    //LAB_20081e4
+    if(r0._66.get() == 0) {
+      r0.pos_08.setX(0x15d00000);
+      r0.pos_08.setY(mul16(sin(r0._64.get() * 8), 0x40000) + 0x100000);
+      r0.pos_08.setZ(0x5300000);
+      rotVec3(0x100000, r0._64.get(), r0.pos_08);
+      r0.angle_06.set(r0._64.get() + 0x4000);
+      r0._64.add(0x400);
+    }
+  }
+
+  @Method(0x2008250)
+  public static int FUN_2008250(final Actor70 r0) {
+    if(readFlag(0x30) == 0 && readFlag(0x16e) == 0) {
+      r0.scale_18.set(0x8000);
+      r0._1c.set(0x8000);
+      r0._55.set(0);
+      r0._64.set(0);
+      r0._66.set(0);
+      r0._6c.set(getConsumer(Map2Overlay_877a7c8.class, "FUN_20081c4", Actor70.class));
+    }
+
+    //LAB_2008284
+    return 0;
+  }
+
   /**
    * {@link GoldenSunVars#getRooms_200800c}
    */
@@ -225,6 +262,61 @@ public final class Map2Overlay_877a7c8 {
 
     r0 = 0x200da2c;
     return r0;
+  }
+
+  @Method(0x20082a4)
+  public static int FUN_20082a4(final Actor70 r0) {
+    FUN_20082cc(r0);
+
+    if(readFlag(0x847) != 0) {
+      setActorAnimation(r0, 2);
+    }
+
+    //LAB_20082be
+    return 1;
+  }
+
+  @Method(0x20082cc)
+  public static int FUN_20082cc(final Actor70 r0) {
+    final int r2 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
+    final Sprite38 r3 = r0.sprite_50.deref();
+    r3.rotation_1e.set(MEMORY.ref(2, r2 + 0x11a).getUnsigned());
+    r3._26.set(0);
+    return 1;
+  }
+
+  @Method(0x20082f0)
+  public static int FUN_20082f0(final Actor70 r0) {
+    r0._59.or(0x1);
+    final int r1 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
+    r0.sprite_50.deref().rotation_1e.set(MEMORY.ref(2, r1 + 0x11a).getUnsigned());
+    return 1;
+  }
+
+  @Method(0x2008314)
+  public static int FUN_2008314(final Actor70 r0) {
+    FUN_200c244(r0, 0);
+    FUN_200c25c(r0, 10);
+    r0._59.set(0);
+
+    if(readFlag(0x8a0) != 0) {
+      setFlag(0x2f1);
+      r0.pos_08.setX(0);
+      r0.pos_08.setY(0);
+    }
+
+    //LAB_2008344
+    return 0;
+  }
+
+  @Method(0x2008350)
+  public static int FUN_2008350(final Actor70 r0) {
+    if((r0.spriteType_54.get() & 0x1) != 0 && (_3001e40.get() & 0x1) != 0) {
+      r0.spriteType_54.xor(0x1);
+    }
+
+    //LAB_2008370
+    return 1;
   }
 
   /**
@@ -742,7 +834,7 @@ public final class Map2Overlay_877a7c8 {
           setFlag(r0);
           r0 = 0xbe;
           r0 = r0 << 2;
-          r0 = FUN_200c2a4(r0);
+          r0 = readFlagsByte(r0);
           if(r0 != 0x0) {
             _2000432.set(2);
             setTickCallback(getRunnable(Map2Overlay_877a7c8.class, "FUN_200b678"), 0xc80);
@@ -4725,7 +4817,7 @@ public final class Map2Overlay_877a7c8 {
     final int r6 = MEMORY.ref(4, 0x3001ebc).get();
     r0.angle_06.set(_3001e40.get() << 12);
 
-    int r5 = FUN_200c2a4(0x2f8);
+    int r5 = readFlagsByte(0x2f8);
     if(r5 != 0) {
       if(r5 == 1) {
         MEMORY.ref(2, r6 + 0x182).setu(99);
@@ -4736,7 +4828,7 @@ public final class Map2Overlay_877a7c8 {
     }
 
     //LAB_200b6c0
-    FUN_200c2ac(0x2f8, r5);
+    setFlagsByte(0x2f8, r5);
   }
 
   @Method(0x200b6dc)
@@ -4809,7 +4901,7 @@ public final class Map2Overlay_877a7c8 {
       r0 = 0xbe;
       r0 = r0 << 2;
       r1 = 0xb4;
-      FUN_200c2ac(r0, r1);
+      setFlagsByte(r0, r1);
       FUN_200c2e4();
       r3 = 0x3001ebc;
       r2 = 0xbe;
@@ -4883,7 +4975,7 @@ public final class Map2Overlay_877a7c8 {
     r0 = 0xbe;
     r0 = r0 << 2;
     r1 = 0x0;
-    FUN_200c2ac(r0, r1);
+    setFlagsByte(r0, r1);
     r0 = 0x62;
     r1 = 0x5;
     startEncounter(r0, r1);
@@ -5690,6 +5782,12 @@ public final class Map2Overlay_877a7c8 {
     return (int)MEMORY.call(0x8000118, angle);
   }
 
+  /** {@link GoldenSun#rotVec3_} */
+  @Method(0x200c1ac)
+  public static void rotVec3(final int distance, final int angle, final Vec3 vec) {
+    MEMORY.call(0x8000128, distance, angle, vec);
+  }
+
   /** {@link GoldenSun#mallocSlotChip_} */
   @Method(0x200c1b4)
   public static int mallocSlotChip(final int slot, final int size) {
@@ -5870,16 +5968,16 @@ public final class Map2Overlay_877a7c8 {
     MEMORY.call(0x80770d0, r0);
   }
 
-  /** {@link GoldenSun_807#FUN_80770e0} */
+  /** {@link GoldenSun_807#readFlagsByte_} */
   @Method(0x200c2a4)
-  public static int FUN_200c2a4(final int r0) {
-    return (int)MEMORY.call(0x80770e0, r0);
+  public static int readFlagsByte(final int flag) {
+    return (int)MEMORY.call(0x80770e0, flag);
   }
 
-  /** {@link GoldenSun_807#FUN_80770e8} */
+  /** {@link GoldenSun_807#setFlagsByte_} */
   @Method(0x200c2ac)
-  public static void FUN_200c2ac(final int r0, final int r1) {
-    MEMORY.call(0x80770e8, r0, r1);
+  public static void setFlagsByte(final int flag, final int val) {
+    MEMORY.call(0x80770e8, flag, val);
   }
 
   /** {@link GoldenSun_807#FUN_80771a8} */

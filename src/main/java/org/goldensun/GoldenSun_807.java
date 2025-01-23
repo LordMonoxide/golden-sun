@@ -167,16 +167,16 @@ public final class GoldenSun_807 {
     MEMORY.call(0x8079374, r0);
   }
 
-  /** {@link GoldenSun_807#FUN_80793b8} */
+  /** {@link GoldenSun_807#readFlagsByte} */
   @Method(0x80770e0)
-  public static int FUN_80770e0(final int r0) {
-    return (int)MEMORY.call(0x80793b8, r0);
+  public static int readFlagsByte_(final int flag) {
+    return (int)MEMORY.call(0x80793b8, flag);
   }
 
-  /** {@link GoldenSun_807#FUN_80793c8} */
+  /** {@link GoldenSun_807#setFlagsByte} */
   @Method(0x80770e8)
-  public static void FUN_80770e8(final int r0, final int r1) {
-    MEMORY.call(0x80793c8, r0, r1);
+  public static void setFlagsByte_(final int flag, final int val) {
+    MEMORY.call(0x80793c8, flag, val);
   }
 
   /** {@link GoldenSun_807#addHp} */
@@ -2375,13 +2375,13 @@ public final class GoldenSun_807 {
   }
 
   @Method(0x80793b8)
-  public static int FUN_80793b8(final int r0) {
-    throw new RuntimeException("Not implemented");
+  public static int readFlagsByte(final int flag) {
+    return MEMORY.ref(1, 0x2000040 + (flag << 20 >>> 23)).getUnsigned();
   }
 
   @Method(0x80793c8)
-  public static void FUN_80793c8(final int r0, final int r1) {
-    MEMORY.ref(1, 0x2000040 + (r0 << 20 >>> 23)).setu(r1);
+  public static void setFlagsByte(final int flag, final int val) {
+    MEMORY.ref(1, 0x2000040 + (flag << 20 >>> 23)).setu(val);
   }
 
   @Method(0x8079460)
