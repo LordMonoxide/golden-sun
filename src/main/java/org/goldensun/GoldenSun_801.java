@@ -25,7 +25,7 @@ import org.goldensun.types.Vec3s;
 
 import javax.annotation.Nullable;
 
-import static org.goldensun.CopiedSegment8000770.FUN_300013c;
+import static org.goldensun.CopiedSegment8000770.div16;
 import static org.goldensun.CopiedSegment8000770.mul16;
 import static org.goldensun.CopiedSegment8000770.sqrt;
 import static org.goldensun.CopiedSegment8000770.transformVector;
@@ -464,50 +464,50 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x80108e4)
-  public static int FUN_80108e4(int r0, int r1, final int r2, int r3, final int a4) {
-    final Map194 r2_1 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new); //TODO this should be the world map struct
-    int r6 = r2_1.layers_104.get(0)._0c.get();
+  public static int FUN_80108e4(final int r0, int r1, int r2, int r3, final int a4) {
     final int r10 = r1 & 0x1;
-    r0 = r0 * 2;
-    final int r9 = r0;
+    final int r9 = r0 * 0x2;
     final int r8 = r2 & 0x1;
-    final int r2_0 = r2_1.getAddress() + 0x338 + ((r9 + r8) * 0x2 + r10) * 0x2; //TODO huh?
+    r2 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
+    int r6 = MEMORY.ref(4, r2 + 0x110).get();
+    r2 = r2 + 0x338 + ((r9 + r8) * 0x2 + r10) * 0x2;
 
-    if(a4 == 0) {
-      r0 = 0;
-    }
-
-    if(a4 == 0 && r3 == MEMORY.ref(2, r2_0).getUnsigned()) {
-      return r0;
+    if(a4 == 0x0 && r3 == MEMORY.ref(2, r2).getUnsigned()) {
+      return 0;
     }
 
     //LAB_8010932
-    MEMORY.ref(2, r2_0).setu(r3);
+    MEMORY.ref(2, r2).setu(r3);
     final int r7 = mallocSlotChip(14, 0x400);
     FUN_80053e8(r6 + MEMORY.ref(4, r6 + r3 * 0x4).get(), r7);
-    final int r5 = 0x2020000 + ((r9 + r8) * 0x20 + r10) * 0x40;
+    int r5 = 0x2020000 + ((r9 + r8) * 0x20 + r10) * 0x40;
+    int r4 = r7;
 
     //LAB_801095e
-    for(r6 = 0; r6 < 0x10; r6++) {
-      DMA.channels[3].SAD.setu(r7 + r6 * 0x40);
-      DMA.channels[3].DAD.setu(r5 + r6 * 0x80);
+    for(r6 = 0; r6 < 16; r6++) {
+      DMA.channels[3].SAD.setu(r4);
+      DMA.channels[3].DAD.setu(r5);
       DMA.channels[3].CNT.setu(0x84000010);
+      r4 = r4 + 0x40;
+      r5 = r5 + 0x80;
     }
 
-    if(a4 != 0) {
+    if(a4 != 0x0) {
       r1 = 0x6004000 + ((r9 + r8) * 0x40 + r10) * 0x20;
+      r4 = r7;
 
       //LAB_801098e
-      for(r6 = 0; r6 < 0x10; r6++) {
+      for(r6 = 0; r6 < 16; r6++) {
         //LAB_8010990
-        for(int i = 0; i < 0x10; i++) {
-          r3 = MEMORY.ref(2, r7 + i * 0x4).getUnsigned();
-          MEMORY.ref(2, r1).setu(tileAttribs_2010000.get(r3).val_00.get() & 0xffff);
-          MEMORY.ref(2, r1 + 0x40).setu(tileAttribs_2010000.get(r3).val_00.get() >>> 16);
-          r1 += 0x2;
+        for(int i = 0; i < 16; i++) {
+          r3 = MEMORY.ref(2, r4).getUnsigned();
+          MEMORY.ref(2, r1).setu(MEMORY.ref(2, 0x2010000 + r3 * 0x4).getUnsigned());
+          MEMORY.ref(2, r1 + 0x40).setu(MEMORY.ref(2, 0x2010002 + r3 * 0x4).getUnsigned());
+          r1 = r1 + 0x2;
+          r4 = r4 + 0x4;
         }
 
-        r1 += 0x60;
+        r1 = r1 + 0x60;
       }
     }
 
@@ -587,7 +587,7 @@ public final class GoldenSun_801 {
     DMA.channels[3].CNT.setu(0x840000a1);
     MEMORY.setFunction(addr, GoldenSun.class, "FUN_800a0f8", Vec3.class, Vec3.class, int.class, int.class);
 
-    FUN_80123f4(FUN_300013c(cos(MEMORY.ref(2, r7 + 0x118).getUnsigned()), sin(MEMORY.ref(2, r7 + 0x118).getUnsigned())), r9._0c, sp0c);
+    FUN_80123f4(div16(cos(MEMORY.ref(2, r7 + 0x118).getUnsigned()), sin(MEMORY.ref(2, r7 + 0x118).getUnsigned())), r9._0c, sp0c);
     MEMORY.ref(4, 0x3001f60).setu(0);
     MEMORY.ref(4, 0x3001af4).setu(MEMORY.ref(2, r7 + 0x118).getUnsigned());
     final int r4 = boardWramMallocHead_3001e50.offset(46 * 0x4).get();
@@ -992,7 +992,7 @@ public final class GoldenSun_801 {
     }
   }
 
-  @Method(0x80111b4)
+  @Method(0x80111b4) //TODO causes the slight camera movement when moving on the world map
   public static void FUN_80111b4() {
     int r1;
     final int r2;
@@ -1070,7 +1070,7 @@ public final class GoldenSun_801 {
 
     r8 = 0x3001af4;
     if(MEMORY.ref(4, r8).get() != MEMORY.ref(2, r6 + 0x118).getUnsigned()) {
-      FUN_80123f4(FUN_300013c(cos(MEMORY.ref(2, r6 + 0x118).getUnsigned()), sin(MEMORY.ref(2, r6 + 0x118).getUnsigned())), sp14._0c, sp10);
+      FUN_80123f4(div16(cos(MEMORY.ref(2, r6 + 0x118).getUnsigned()), sin(MEMORY.ref(2, r6 + 0x118).getUnsigned())), sp14._0c, sp10);
       MEMORY.ref(4, 0x3001f60).setu(0);
       MEMORY.ref(4, r8).setu(MEMORY.ref(2, r6 + 0x118).getUnsigned());
     }
@@ -1932,7 +1932,7 @@ public final class GoldenSun_801 {
     //LAB_801244c
     r7 = r2;
     do {
-      r0 = FUN_300013c(sp04, MEMORY.ref(4, r9 + 0x10).get() - r11 << 16);
+      r0 = div16(sp04, MEMORY.ref(4, r9 + 0x10).get() - r11 << 16);
       r8 = r0;
       r0 = r0 - sp0c;
       if(r0 == 0x0) {
@@ -1940,9 +1940,9 @@ public final class GoldenSun_801 {
       }
 
       //LAB_801246c
-      r5 = FUN_300013c(r0, sp08);
+      r5 = div16(r0, sp08);
       if(r5 < 0x0) {
-        MEMORY.ref(4, r7).setu(FUN_300013c(MEMORY.ref(4, r9).get(), mul16(-r5, 0x8000)));
+        MEMORY.ref(4, r7).setu(div16(MEMORY.ref(4, r9).get(), mul16(-r5, 0x8000)));
         r0 = mul16(r5, r8);
         final int r1_0 = sp0x10.getZ() - r5 >> 4;
         r5 = r0 - sp0x10.getY() >> 4;

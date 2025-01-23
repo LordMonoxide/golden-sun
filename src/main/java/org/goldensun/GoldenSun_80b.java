@@ -1624,8 +1624,8 @@ public final class GoldenSun_80b {
 
   /** {@link GoldenSun_80c#FUN_80c0cec} */
   @Method(0x80b5028)
-  public static void FUN_80b5028(final int r0, final int r1, final int r2, final int r3) {
-    MEMORY.call(0x80c0cec, r0, r1, r2, r3);
+  public static void FUN_80b5028(final int x, final int y, final int z, final int r3) {
+    MEMORY.call(0x80c0cec, x, y, z, r3);
   }
 
   /** {@link GoldenSun_80c#FUN_80c0df4} */

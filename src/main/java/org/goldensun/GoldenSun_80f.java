@@ -9,6 +9,7 @@ import org.goldensun.types.SoundStruct0c;
 import org.goldensun.types.SoundStruct50;
 import org.goldensun.types.SoundStructFb0;
 
+import static org.goldensun.CopiedSegment8000770.mul16;
 import static org.goldensun.GoldenSun.CpuSet;
 import static org.goldensun.GoldenSun.FUN_80037d4;
 import static org.goldensun.GoldenSun.allocateSpriteSlot;
@@ -447,7 +448,7 @@ public final class GoldenSun_80f {
     MEMORY.ref(4, r7 + 0x14).setu(0);
     MEMORY.ref(4, r7 + 0x10).setu(0);
     DMA.channels[3].SAD.setu(0x3001ad0);
-    DMA.channels[3].DAD.setu(0x4000010);
+    DMA.channels[3].DAD.setu(GPU.BG0HOFS.getAddress());
     DMA.channels[3].CNT.setu(0x84000004);
     GPU.BLDCNT.setu(0x3fbf);
     GPU.BLDALPHA.setu(0x1010);
@@ -483,7 +484,7 @@ public final class GoldenSun_80f {
     final int r2 = vblankTransferQueue_2002090.count_00.get();
     if(r2 < 32) {
       vblankTransferQueue_2002090.queue_04.get(r2).src_00.set(0xf740);
-      vblankTransferQueue_2002090.queue_04.get(r2).dst_04.set(0x4000000);
+      vblankTransferQueue_2002090.queue_04.get(r2).dst_04.set(GPU.DISPCNT.getAddress());
       vblankTransferQueue_2002090.queue_04.get(r2).cnt_08.set(0x20000);
       vblankTransferQueue_2002090.count_00.incr();
     }
@@ -1050,9 +1051,9 @@ public final class GoldenSun_80f {
           for(r9 = 0; r9 < (sp24 & 0xffff_ffffL); r9++) {
             r4 = MEMORY.ref(2, r10 + r9 * 0x2).getUnsigned();
             r4 = divideS(((r4 & 0x1f) + (r4 >>> 5 & 0x1f) + (r4 >>> 10 & 0x1f)) * 16, sp04 + r11);
-            r7 = FUN_80f3898((int)MEMORY.call(0x3000118, sp18 * r4 >>> 4 << 16, sp10 >> 4) >>> 16);
-            r6 = FUN_80f3898((int)MEMORY.call(0x3000118, sp14 * r4 >>> 4 << 16, sp0c >> 4) >>> 16);
-            r5 = FUN_80f3898((int)MEMORY.call(0x3000118, r11 * r4 >>> 4 << 16, sp08 >> 4) >>> 16);
+            r7 = FUN_80f3898(mul16(sp18 * r4 >>> 4 << 16, sp10 >> 4) >>> 16);
+            r6 = FUN_80f3898(mul16(sp14 * r4 >>> 4 << 16, sp0c >> 4) >>> 16);
+            r5 = FUN_80f3898(mul16(r11 * r4 >>> 4 << 16, sp08 >> 4) >>> 16);
             MEMORY.ref(2, r8 + r9 * 0x6).setu(MEMORY.ref(2, 0x80f39ee + r5 * 0x2).getUnsigned());
             MEMORY.ref(2, r8 + r9 * 0x6 + 0x2).setu(MEMORY.ref(2, 0x80f39ee + r6 * 0x2).getUnsigned());
             MEMORY.ref(2, r8 + r9 * 0x6 + 0x4).setu(MEMORY.ref(2, 0x80f39ee + r7 * 0x2).getUnsigned());

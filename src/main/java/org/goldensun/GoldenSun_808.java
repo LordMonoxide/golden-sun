@@ -42,7 +42,7 @@ import org.goldensun.types.Unit14c;
 import org.goldensun.types.VblankTransfer0c;
 import org.goldensun.types.Vec3;
 
-import static org.goldensun.CopiedSegment8000770.FUN_300013c;
+import static org.goldensun.CopiedSegment8000770.div16;
 import static org.goldensun.CopiedSegment8000770.FUN_3000380;
 import static org.goldensun.CopiedSegment8000770.mul16;
 import static org.goldensun.CopiedSegment8000770.sqrt;
@@ -1526,7 +1526,7 @@ public final class GoldenSun_808 {
       }
 
       //LAB_808af66
-      _2000478.add(mul16(FUN_300013c((r7 << 20) + (r7 - 1) * 0x10 * r11._1a8.get(), 0x100000), encounterRate));
+      _2000478.add(mul16(div16((r7 << 20) + (r7 - 1) * 0x10 * r11._1a8.get(), 0x100000), encounterRate));
 
       if(_2000478.get() < r11._1ac.get()) {
         return 0;

@@ -24,7 +24,7 @@ import org.goldensun.types.Vec3;
 import org.goldensun.weather.LightningStruct1f88;
 import org.goldensun.weather.PaletteStruct2a04;
 
-import static org.goldensun.CopiedSegment8000770.FUN_300013c;
+import static org.goldensun.CopiedSegment8000770.div16;
 import static org.goldensun.CopiedSegment8000770.mul16;
 import static org.goldensun.CopiedSegment8000770.sqrt;
 import static org.goldensun.GoldenSun.allocateSpriteSlot;
@@ -2623,7 +2623,7 @@ public final class GoldenSun_809 {
     final int r5 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
     final int r0_0 = mallocSlotBoard(27, 0xccc);
     if(MEMORY.ref(2, r0_0 + 0x19e).get() == 3) {
-      final int r0_1 = FUN_300013c(r0, 0x10000);
+      final int r0_1 = div16(r0, 0x10000);
       MEMORY.ref(4, r5 + 0x350).setu(MEMORY.ref(4, r5 + 0x354).get());
       MEMORY.ref(4, r5 + 0x354).setu(r0_1);
       MEMORY.ref(2, r5 + 0x358).setu(r1);

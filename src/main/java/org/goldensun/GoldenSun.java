@@ -31,7 +31,7 @@ import org.goldensun.types.VramSlot04;
 import javax.annotation.Nullable;
 
 import static org.goldensun.Bios.SvcHalt;
-import static org.goldensun.CopiedSegment8000770.FUN_300013c;
+import static org.goldensun.CopiedSegment8000770.div16;
 import static org.goldensun.CopiedSegment8000770.intHandlers_30000e0;
 import static org.goldensun.CopiedSegment8000770.memzero;
 import static org.goldensun.CopiedSegment8000770.mul16;
@@ -6126,7 +6126,7 @@ public final class GoldenSun {
     } else {
       //LAB_800d20c
       if(actor._58.get() == 0) {
-        int r1_1 = FUN_300013c(actor.acceleration_34.get(), mul16(actor.velocityScalar_30.get(), actor.velocityScalar_30.get()));
+        int r1_1 = div16(actor.acceleration_34.get(), mul16(actor.velocityScalar_30.get(), actor.velocityScalar_30.get()));
         if(distance > r1_1) {
           r1_1 = distance - r1_1 / 2;
         } else {
@@ -6135,7 +6135,7 @@ public final class GoldenSun {
         }
 
         //LAB_800d240
-        final int r5 = FUN_300013c(distance, r1_1);
+        final int r5 = div16(distance, r1_1);
         x1 = actor.pos_08.getX() + mul16(x1 - actor.pos_08.getX(), r5);
         y1 = actor.pos_08.getY() + mul16(y1 - actor.pos_08.getY(), r5);
         z1 = actor.pos_08.getZ() + mul16(z1 - actor.pos_08.getZ(), r5);

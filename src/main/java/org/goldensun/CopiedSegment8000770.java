@@ -87,29 +87,12 @@ public final class CopiedSegment8000770 {
     return (int)((long)b * a >> 16);
   }
 
+  /** Divides two .0 numbers and returns a .16 fraction */
   @Method(0x300013c)
-  public static int FUN_300013c(int r0, int r1) {
-    final int r3;
-    final int r4;
-    int address300013c = CPU.sp().value - 0x4;
-    CPU.sp().value = address300013c;
-    MEMORY.ref(4, address300013c).setu(CPU.lr().value);
-    address300013c += 0x4;
-    r4 = r1;
-    r1 = r0;
-    r0 = 0x40000000;
-    r0 = FUN_3000380(r0, r1);
-    final long result3000150 = (long)r4 * r0;
-    r3 = (int)result3000150;
-    r0 = (int)(result3000150 >>> 32);
-
-    int address3000154 = CPU.sp().value;
-    CPU.lr().value = MEMORY.ref(4, address3000154).getUnsigned();
-    address3000154 += 0x4;
-    CPU.sp().value = address3000154;
-    r0 = r0 << 18;
-    r0 = r0 | r3 >>> 14;
-    return r0;
+  public static int div16(final int divisor, final int numerator) {
+    //NOTE: current implementation is more accurate than original (e.g. 100/10 = 10 in the current implementation, but in the original it's 9.9\)
+//    return (int)((long)numerator * FUN_3000380(0x40000000, divisor) >> 14);
+    return (int)(((long)numerator << 16) / divisor);
   }
 
   @Method(0x3000164)
