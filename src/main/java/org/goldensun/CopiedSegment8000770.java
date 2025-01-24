@@ -90,9 +90,9 @@ public final class CopiedSegment8000770 {
   /** Divides two .0 numbers and returns a .16 fraction */
   @Method(0x300013c)
   public static int div16(final int divisor, final int numerator) {
-    //NOTE: current implementation is more accurate than original (e.g. 100/10 = 10 in the current implementation, but in the original it's 9.9\)
-//    return (int)((long)numerator * FUN_3000380(0x40000000, divisor) >> 14);
-    return (int)(((long)numerator << 16) / divisor);
+    //NOTE: bottom implementation is more accurate than original (e.g. 100/10 = 10 in the bottom implementation, but in the original it's 9.9\)
+    return (int)((long)numerator * FUN_3000380(0x40000000, divisor) >> 14);
+//    return (int)(((long)numerator << 16) / divisor);
   }
 
   @Method(0x3000164)

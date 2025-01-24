@@ -731,8 +731,8 @@ public class Gpu {
       int pixelX = posX >> 8 & 0x7ffff;
       int pixelY = posY >> 8 & 0x7ffff;
 
-      posX += bg.affineA;
-      posY += bg.affineC;
+      posX += (short)bg.affineA;
+      posY += (short)bg.affineC;
 
       if(!bg.overflowWrap && (pixelX >= size || pixelY >= size)) {
         continue;
@@ -757,12 +757,12 @@ public class Gpu {
       final int vramValue = this.vram[vramAddr] & 0xff;
 
       if(vramValue != 0) {
-        this.setBgPixel(p + 8, this.readPalette(vramValue), meta);
+        this.setBgPixel(p + 8, this.readPalette(vramValue * 2), meta);
       }
     }
 
-    bg.affinePosX += bg.affineB;
-    bg.affinePosY += bg.affineD;
+    bg.affinePosX += (short)bg.affineB;
+    bg.affinePosY += (short)bg.affineD;
   }
 
   private void setBgPixel(final int lineIndex, final int color, final int meta) {

@@ -2,6 +2,7 @@ package org.goldensun.memory;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import org.goldensun.MathHelper;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Method;
@@ -47,7 +48,13 @@ public abstract class Segment {
   }
 
   public void setBytes(final int offset, final byte[] data, final int dataOffset, final int dataLength) {
-    throw new UnsupportedOperationException("This memory segment does not support direct writes (address: " + Integer.toHexString(this.getAddress() + offset) + ')');
+    for(int i = 0; i < (dataLength & ~0x3); i += 4) {
+      this.set(offset + i, 0x4, MathHelper.get(data, dataOffset + i, 0x4));
+    }
+
+    for(int i = 0; i < (dataLength & 0x3); i++) {
+      this.set(offset + (dataLength & ~0x3) + i, 0x1, data[dataOffset + (dataLength & ~0x3) + i] & 0xff);
+    }
   }
 
   public void memcpy(final int dest, final int src, final int length) {

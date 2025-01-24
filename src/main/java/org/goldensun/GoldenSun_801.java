@@ -22,6 +22,7 @@ import org.goldensun.types.TileAttributes04;
 import org.goldensun.types.Unit14c;
 import org.goldensun.types.Vec3;
 import org.goldensun.types.Vec3s;
+import org.goldensun.types.WorldMapPerspective3484;
 
 import javax.annotation.Nullable;
 
@@ -29,16 +30,16 @@ import static org.goldensun.CopiedSegment8000770.div16;
 import static org.goldensun.CopiedSegment8000770.mul16;
 import static org.goldensun.CopiedSegment8000770.sqrt;
 import static org.goldensun.CopiedSegment8000770.transformVector;
+import static org.goldensun.GoldenSun.FUN_80045e8;
 import static org.goldensun.GoldenSun.FUN_80051d8;
 import static org.goldensun.GoldenSun.FUN_8005258;
-import static org.goldensun.GoldenSun.FUN_8005ac0;
-import static org.goldensun.GoldenSun.allocateSpriteSlot;
-import static org.goldensun.GoldenSun.FUN_80045e8;
 import static org.goldensun.GoldenSun.FUN_80053e8;
 import static org.goldensun.GoldenSun.FUN_8005a78;
+import static org.goldensun.GoldenSun.FUN_8005ac0;
 import static org.goldensun.GoldenSun.FUN_800fec8;
 import static org.goldensun.GoldenSun.FUN_800ff54;
 import static org.goldensun.GoldenSun.addRotScaleParams;
+import static org.goldensun.GoldenSun.allocateSpriteSlot;
 import static org.goldensun.GoldenSun.clearSprite_;
 import static org.goldensun.GoldenSun.clearTickCallback;
 import static org.goldensun.GoldenSun.clearVramSlot;
@@ -104,10 +105,10 @@ import static org.goldensun.GoldenSun_802.handleAMenu;
 import static org.goldensun.GoldenSun_807.calculateBuildDate_;
 import static org.goldensun.GoldenSun_807.getAbility_;
 import static org.goldensun.GoldenSun_807.getCharCount_;
-import static org.goldensun.GoldenSun_807.getUnit_;
 import static org.goldensun.GoldenSun_807.getDjinnCount_;
 import static org.goldensun.GoldenSun_807.getItem_;
 import static org.goldensun.GoldenSun_807.getPartyMemberIds_;
+import static org.goldensun.GoldenSun_807.getUnit_;
 import static org.goldensun.GoldenSun_807.readFlag_;
 import static org.goldensun.GoldenSun_808.FUN_808a278;
 import static org.goldensun.GoldenSun_808.FUN_808a5f0;
@@ -121,8 +122,8 @@ import static org.goldensun.GoldenSun_80a.handleStatusMenu_;
 import static org.goldensun.GoldenSun_80b.FUN_80b0020;
 import static org.goldensun.GoldenSun_80b.FUN_80b0030;
 import static org.goldensun.GoldenSun_80b.FUN_80b0038;
-import static org.goldensun.GoldenSun_80b.getBattleChars_;
 import static org.goldensun.GoldenSun_80b.FUN_80b5130;
+import static org.goldensun.GoldenSun_80b.getBattleChars_;
 import static org.goldensun.GoldenSun_80f.FUN_80f9048;
 import static org.goldensun.GoldenSun_80f.playSound_;
 import static org.goldensun.Hardware.CPU;
@@ -558,7 +559,7 @@ public final class GoldenSun_801 {
     GPU.BG3X.setu(0);
     GPU.BG3Y.setu(0);
     final Camera4c r9 = MEMORY.ref(4, mallocSlotBoard(12, 0x4c), Camera4c::new);
-    final int sp0c = mallocSlotChip(7, 0x3484);
+    final WorldMapPerspective3484 sp0c = MEMORY.ref(4, mallocSlotChip(7, 0x3484), WorldMapPerspective3484::new);
     MEMORY.ref(4, r7 + 0x348).setu(0x1fe0000);
     MEMORY.ref(4, r7 + 0x34c).setu(0x1fe0000);
     MEMORY.ref(4, r7 + 0x354).setu(0x10000);
@@ -585,13 +586,13 @@ public final class GoldenSun_801 {
     DMA.channels[3].SAD.setu(0x800a0f8);
     DMA.channels[3].DAD.setu(addr);
     DMA.channels[3].CNT.setu(0x840000a1);
-    MEMORY.setFunction(addr, GoldenSun.class, "FUN_800a0f8", Vec3.class, Vec3.class, int.class, int.class);
+    MEMORY.setFunction(addr, GoldenSun.class, "FUN_800a0f8", Vec3.class, Vec3.class, ArrayRef.classFor(WorldMapPerspective3484.Sub14.class), ArrayRef.classFor(WorldMapPerspective3484.Sub20.class));
 
     FUN_80123f4(div16(cos(MEMORY.ref(2, r7 + 0x118).getUnsigned()), sin(MEMORY.ref(2, r7 + 0x118).getUnsigned())), r9._0c, sp0c);
     MEMORY.ref(4, 0x3001f60).setu(0);
     MEMORY.ref(4, 0x3001af4).setu(MEMORY.ref(2, r7 + 0x118).getUnsigned());
     final int r4 = boardWramMallocHead_3001e50.offset(46 * 0x4).get();
-    MEMORY.call(r4, r9._00, r9._0c, sp0c, sp0c + 0xc80 + (_3001e40.get() & 0x1) * 0x1400);
+    MEMORY.call(r4, r9._00, r9._0c, sp0c._000, sp0c._c80.get(_3001e40.get() & 0x1));
     r9._0c.zero();
     initMatrixStack();
     MEMORY.ref(2, r7 + 0x118).setu(0xe000);
@@ -843,58 +844,32 @@ public final class GoldenSun_801 {
     CPU.r10().value = CPU.pop();
   }
 
+  /** Setting up continual hblank transfers for BG2 params */
   @Method(0x8010ff0)
   public static void FUN_8010ff0() {
-    int r0;
-    final int r1;
-    final int r3;
-    int r4;
-    final int r5;
-
-    r3 = MEMORY.ref(4, 0x3001e6c).get();
-    final int r2 = GPU.DISPCNT.getUnsigned();
-    CPU.r12().value = MEMORY.ref(4, 0x3001e70).get();
-    r5 = (short)(r2 & ~0x7);
+    final WorldMapPerspective3484 r3 = boardWramMallocHead_3001e50.offset(7 * 0x4).deref(4).cast(WorldMapPerspective3484::new);
+    final int r12 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
+    final int r5 = GPU.DISPCNT.getUnsigned() & ~0x7;
     DMA.channels[0].CNT.offset(2, 0x2).and(0xc5ff).and(0x7fff);
-    r4 = GPU.BG2PA.getAddress();
-    r0 = r3 + 0xc80 + (_3001e40.get() & 0x1) * 0x1400;
-    MEMORY.ref(4, r4).setu(MEMORY.ref(4, r0).get());
-    r0 += 0x4;
-    r4 += 0x4;
-    MEMORY.ref(4, r4).setu(MEMORY.ref(4, r0).get());
-    r0 += 0x4;
-    r4 += 0x4;
-    MEMORY.ref(4, r4).setu(MEMORY.ref(4, r0).get());
-    r0 += 0x4;
-    r4 += 0x4;
-    MEMORY.ref(4, r4).setu(MEMORY.ref(4, r0).get());
-    r0 += 0x4;
-    r4 += 0x4;
-    MEMORY.ref(4, r4).setu(MEMORY.ref(4, r0).get());
-    r0 += 0x4;
-    r4 += 0x4;
-    MEMORY.ref(4, r4).setu(MEMORY.ref(4, r0).get());
-    r0 += 0x4;
-    r4 += 0x4;
-    MEMORY.ref(4, r4).setu(MEMORY.ref(4, r0).get());
-    r0 += 0x4;
-    r4 += 0x4;
-    MEMORY.ref(4, r4).setu(MEMORY.ref(4, r0).get());
-    r0 += 0x4;
-    DMA.channels[0].SAD.setu(r0);
+
+    WorldMapPerspective3484.Sub20 r0 = r3._c80.get(_3001e40.get() & 0x1).get(0);
+    MEMORY.memcpy(GPU.BG2PA.getAddress(), r0.bg2_00.getAddress(), 0x20);
+
+    r0 = r3._c80.get(_3001e40.get() & 0x1).get(1);
+    DMA.channels[0].SAD.setu(r0.getAddress());
     DMA.channels[0].DAD.setu(GPU.BG2PA.getAddress());
     DMA.channels[0].CNT.setu(0xa6600008);
 
     //LAB_8011064
-    MEMORY.ref(2, CPU.r12().value + 0x104).setu(MEMORY.ref(2, CPU.r12().value + 0x100).getUnsigned());
-    MEMORY.ref(2, CPU.r12().value + 0x106).setu(MEMORY.ref(2, CPU.r12().value + 0x102).getUnsigned());
-    r1 = MEMORY.ref(2, CPU.r12().value + 0x104).getUnsigned();
+    MEMORY.ref(2, r12 + 0x104).setu(MEMORY.ref(2, r12 + 0x100).getUnsigned());
+    MEMORY.ref(2, r12 + 0x106).setu(MEMORY.ref(2, r12 + 0x102).getUnsigned());
+    final int r1 = MEMORY.ref(2, r12 + 0x104).getUnsigned();
     int r3_0 = 0x0;
-    if((r1 & 0xffff_ffffL) < 200) {
-      final int r2_0 = MEMORY.ref(2, CPU.r12().value + 0x106).getUnsigned();
+    if(r1 < 200) {
+      final int r2_0 = MEMORY.ref(2, r12 + 0x106).getUnsigned();
       r3_0 = (-r2_0 | r2_0) >>> 31;
       r3_0 = r3_0 << 1;
-      if((r1 & 0xffff_ffffL) <= (r2_0 & 0xffff_ffffL)) {
+      if(r1 <= r2_0) {
         r3_0 = 0x0;
         if(r1 == 0x0) {
           r3_0 = 0x2;
@@ -904,7 +879,7 @@ public final class GoldenSun_801 {
 
     //LAB_80110a4
     GPU.DISPCNT.setu(r5 | r3_0);
-    MEMORY.ref(2, CPU.r12().value + 0x108).setu(0);
+    MEMORY.ref(2, r12 + 0x108).setu(0);
   }
 
   @Method(0x80110e0)
@@ -1001,7 +976,7 @@ public final class GoldenSun_801 {
     int r8;
 
     final Camera4c sp14 = boardWramMallocHead_3001e50.offset(12 * 0x4).deref(4).cast(Camera4c::new);
-    final int sp10 = boardWramMallocHead_3001e50.offset(7 * 0x4).get();
+    final WorldMapPerspective3484 sp10 = boardWramMallocHead_3001e50.offset(7 * 0x4).deref(4).cast(WorldMapPerspective3484::new);
     final int r6 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
     final int sp0c = MEMORY.ref(4, r6).get();
     final int sp04 = MEMORY.ref(4, r6 + 0x348).get();
@@ -1076,8 +1051,8 @@ public final class GoldenSun_801 {
     }
 
     //LAB_8011388
-    r4 = MEMORY.ref(4, 0x3001f08).get();
-    MEMORY.call(r4, sp14._00, sp14._0c, sp10, sp10 + 0xc80 + (_3001e40.get() & 0x1) * 0x1400);
+    r4 = boardWramMallocHead_3001e50.offset(46 * 0x4).get();
+    MEMORY.call(r4, sp14._00, sp14._0c, sp10._000, sp10._c80.get(_3001e40.get() & 0x1));
   }
 
   /** Leaving Vale for the first time to the world map */
@@ -1227,7 +1202,7 @@ public final class GoldenSun_801 {
   /** Pausing on world map */
   @Method(0x8011590)
   public static void FUN_8011590() {
-    final int r5 = boardWramMallocHead_3001e50.offset(7 * 0x4).get();
+    final WorldMapPerspective3484 r5 = boardWramMallocHead_3001e50.offset(7 * 0x4).deref(4).cast(WorldMapPerspective3484::new);
     final Map194 r7 = boardWramMallocHead_3001e50.offset(8 * 0x4).deref(4).cast(Map194::new);
     r7._fc.set(0x1);
     disableTickCallback(getRunnable(GoldenSun_801.class, "FUN_801179c"));
@@ -1236,7 +1211,7 @@ public final class GoldenSun_801 {
     DMA.channels[3].CNT.setu(0x84000800);
 
     sleep(1);
-    FUN_8012388(r5 + (_3001e40.get() & 0x1) * 0x1400 + 0xc80, tileAttribs_2010000);
+    FUN_8012388(r5._c80.get(_3001e40.get() & 0x1), tileAttribs_2010000);
     r7._100.get(0).set(0xc8);
     r7._100.get(1).set(0);
     r7._100.get(2).set(0xff);
@@ -1898,13 +1873,13 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x8012388)
-  public static void FUN_8012388(final int r0, final UnboundedArrayRef<TileAttributes04> r1) {
+  public static void FUN_8012388(final ArrayRef<WorldMapPerspective3484.Sub20> r0, final UnboundedArrayRef<TileAttributes04> r1) {
     final int size = 0x27c;
     final int addr = mallocSlotChip(49, size);
     DMA.channels[3].SAD.setu(0x8009e7c);
     DMA.channels[3].DAD.setu(addr);
     DMA.channels[3].CNT.setu(0x84000000 | size / 0x4);
-    MEMORY.setFunction(addr, GoldenSun.class, "FUN_8009e7c", int.class, int.class, int.class, int.class);
+    MEMORY.setFunction(addr, GoldenSun.class, "FUN_8009e7c", ArrayRef.classFor(WorldMapPerspective3484.Sub20.class), int.class, int.class, int.class);
 
     final int r4 = boardWramMallocHead_3001e50.offset(49 * 0x4).get();
     MEMORY.call(r4, r0, r1.getAddress(), 0x203c000, 0x201d000);
@@ -1912,9 +1887,8 @@ public final class GoldenSun_801 {
   }
 
   @Method(0x80123f4)
-  public static void FUN_80123f4(int r0, final Vec3 r1, final int r2) {
+  public static void FUN_80123f4(int r0, final Vec3 r1, final WorldMapPerspective3484 r2) {
     int r5;
-    int r7;
     int r8;
     final int r9;
     int r11;
@@ -1927,11 +1901,11 @@ public final class GoldenSun_801 {
     final int sp08 = sp0x10.getY() - mul16(sp0x10.getZ(), sp0c);
     r9 = 0x3001ce0;
     final int sp04 = -MEMORY.ref(4, r9).get();
-    r11 = 0;
 
     //LAB_801244c
-    r7 = r2;
-    do {
+    for(r11 = 0; r11 < 0xa0; r11++) {
+      final WorldMapPerspective3484.Sub14 r7 = r2._000.get(r11);
+
       r0 = div16(sp04, MEMORY.ref(4, r9 + 0x10).get() - r11 << 16);
       r8 = r0;
       r0 = r0 - sp0c;
@@ -1942,31 +1916,28 @@ public final class GoldenSun_801 {
       //LAB_801246c
       r5 = div16(r0, sp08);
       if(r5 < 0x0) {
-        MEMORY.ref(4, r7).setu(div16(MEMORY.ref(4, r9).get(), mul16(-r5, 0x8000)));
-        r0 = mul16(r5, r8);
+        r7._00.set(div16(MEMORY.ref(4, r9).get(), mul16(-r5, 0x8000)));
+
         final int r1_0 = sp0x10.getZ() - r5 >> 4;
-        r5 = r0 - sp0x10.getY() >> 4;
-        r0 = sqrt(mul16(r1_0, r1_0) + mul16(r5, r5)) << 12;
-        if(r5 < 0x0) {
+        final int r5_0 = mul16(r5, r8) - sp0x10.getY() >> 4;
+        r0 = sqrt(mul16(r1_0, r1_0) + mul16(r5_0, r5_0)) << 12;
+        if(r5_0 < 0x0) {
           r0 = -r0;
         }
 
         //LAB_80124ca
         r0 = mul16(r0, 0x8000);
-        MEMORY.ref(4, r7 + 0x4).setu(r0);
+        r7._04.set(r0);
       } else {
         //LAB_80124d8
-        MEMORY.ref(4, r7).setu(0);
-        MEMORY.ref(4, r7 + 0x4).setu(0);
+        r7._00.set(0);
+        r7._04.set(0);
       }
 
       //LAB_80124de
-      r11++;
-      MEMORY.ref(4, r7 + 0x8).setu(0);
-      MEMORY.ref(4, r7 + 0xc).setu(0);
-      r7 = r7 + 0x14;
-      //LAB_8012448
-    } while(r11 < 0xa0);
+      r7.x_08.set(0);
+      r7.y_0c.set(0);
+    }
   }
 
   /** {@link GoldenSun_801#FUN_8015f30} */
