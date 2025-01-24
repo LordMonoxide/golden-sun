@@ -273,6 +273,121 @@ public final class GoldenSun_809 {
     }
   }
 
+  /** Starting battle on world map */
+  @Method(0x8090488)
+  public static void FUN_8090488() {
+    int r0;
+    int r1;
+    int r2;
+    int r3;
+    final int r4;
+    int r5;
+    final int r6;
+    final int r7;
+
+    r3 = 0x3001ecc;
+    r1 = 0x53c;
+    r6 = MEMORY.ref(4, r3).get();
+    r4 = r6 + r1;
+    r2 = 0x0;
+    r2 = MEMORY.ref(1, r4 + r2).get();
+    r3 = r3 - 0x5c;
+    r7 = MEMORY.ref(4, r3).get();
+    if(r2 != 0x0) {
+      r3 = 0x53d;
+      r1 = r6 + r3;
+      r3 = 0x0;
+      r3 = MEMORY.ref(1, r1 + r3).get();
+      r0 = MEMORY.ref(1, r1).getUnsigned();
+      if(r3 >= r2) {
+        r3 = 0x0;
+        MEMORY.ref(1, r4).setu(r3);
+        clearTickCallback(getRunnable(GoldenSun_809.class, "FUN_8090488"));
+        setInterruptHandler(1, 0, null);
+        return;
+      }
+
+      //LAB_80904c2
+      r2 = 0x53b;
+      r3 = r6 + r2;
+      r2 = 0x0;
+      r2 = MEMORY.ref(1, r3 + r2).get();
+      r3 = 0x53a;
+      r5 = r6 + r3;
+      r3 = 0x0;
+      r3 = MEMORY.ref(1, r5 + r3).get();
+      r2 = r2 - r3;
+      r3 = r0 + 0x1;
+      MEMORY.ref(1, r1).setu(r3);
+      r3 = r3 << 24;
+      r3 = r3 >> 24;
+      r0 = r3;
+      r0 = r0 * r2;
+      r1 = 0x0;
+      r1 = MEMORY.ref(1, r4 + r1).get();
+      r0 = divideS(r0, r1);
+      r3 = 0x0;
+      r3 = MEMORY.ref(1, r5 + r3).get();
+      r1 = 0x52a;
+      r3 = r3 + r0;
+      r2 = r6 + r1;
+      MEMORY.ref(2, r2).setu(r3);
+    }
+
+    //LAB_80904f6
+    r2 = 0x52a;
+    r3 = r6 + r2;
+    r5 = MEMORY.ref(2, r3).getUnsigned();
+    if((r5 & 0xffff_ffffL) > (0x4f & 0xffff_ffffL)) {
+      r1 = 0x80;
+      r1 = r1 << 1;
+      r3 = r7 + r1;
+      r2 = 0xc8;
+      MEMORY.ref(2, r3).setu(r2);
+      r3 = 0x81;
+      r3 = r3 << 1;
+      r2 = r7 + r3;
+      r3 = 0xfa;
+    } else {
+      //LAB_8090514
+      if(r5 != 0x0) {
+        r3 = 0x3001e40;
+        r3 = MEMORY.ref(4, r3).get();
+        r2 = 0x1;
+        r3 = r3 & r2;
+        if(r3 != 0x0) {
+          r1 = 0x80;
+          r1 = r1 << 1;
+          r2 = r5;
+          r3 = r7 + r1;
+          r2 = r2 + 0x50;
+          MEMORY.ref(2, r3).setu(r2);
+          r3 = 0x50;
+          r2 = 0x81;
+          r2 = r2 << 1;
+          r3 = r3 - r5;
+          r1 = r7 + r2;
+          MEMORY.ref(2, r1).setu(r3);
+          return;
+        }
+      }
+
+      //LAB_8090568
+      r1 = 0x80;
+      r1 = r1 << 1;
+      r3 = r7 + r1;
+      r2 = 0x0;
+      MEMORY.ref(2, r3).setu(r2);
+      r3 = 0x81;
+      r3 = r3 << 1;
+      r2 = r7 + r3;
+      r3 = 0x9f;
+    }
+
+    //LAB_809057a
+    MEMORY.ref(2, r2).setu(r3);
+  }
+
   @Method(0x8090584)
   public static void FUN_8090584() {
     final int r12 = boardWramMallocHead_3001e50.offset(8 * 0x4).get();
