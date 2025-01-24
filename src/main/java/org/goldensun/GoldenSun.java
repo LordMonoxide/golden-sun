@@ -6011,7 +6011,7 @@ public final class GoldenSun {
                 //LAB_800d018
                 r6._60.set(0);
               } else {
-                r6._60.incr();
+                r6._60.incrOverflow();
                 break jmp_800d0fe;
               }
             }
