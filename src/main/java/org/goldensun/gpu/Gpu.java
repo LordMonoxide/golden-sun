@@ -1082,7 +1082,9 @@ public class Gpu {
   }
 
   private void startHblank() {
-    this.dma.triggerHblank();
+    if(this.vcount < V_DRAW_LINES) {
+      this.dma.triggerHblank();
+    }
 
     if(this.dispStat.hblankIrqEnable) {
       this.interrupts.set(InterruptType.LCD_HBLANK);
