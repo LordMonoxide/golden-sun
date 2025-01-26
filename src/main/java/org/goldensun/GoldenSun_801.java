@@ -2339,6 +2339,12 @@ public final class GoldenSun_801 {
     return (int)MEMORY.call(0x8028e54, x, y, defaultOption);
   }
 
+  /** {@link GoldenSun_802#FUN_8022768} */
+  @Method(0x80153c8)
+  public static void FUN_80153c8(final int x, final int y, final int r2, final int r3, final int a4) {
+    MEMORY.call(0x8022768, x, y, r2, r3, a4);
+  }
+
   /** {@link GoldenSun_801#FUN_801a3d0} */
   @Method(0x80153d0)
   public static void FUN_80153d0(final int itemId, final int r1, final int r2, final int r3, final int a4) {

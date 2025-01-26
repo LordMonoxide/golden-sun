@@ -60,12 +60,9 @@ public class Menua70 implements MemoryRef {
   public final ArrayRef<ShortRef> _234;
   public final ArrayRef<ShortRef> _23c;
   public final ArrayRef<IntRef> _244;
-  public final UnsignedByteRef _254;
-  public final UnsignedByteRef _255;
-  public final UnsignedByteRef _256;
-  public final UnsignedByteRef _257;
-  public final UnsignedByteRef _258;
-
+  public final ArrayRef<UnsignedByteRef> _254;
+  public final ArrayRef<UnsignedByteRef> _256;
+  public final ArrayRef<UnsignedByteRef> _258;
   public final ShortRef _25a;
   public final ByteRef _25c;
   public final ByteRef _25d;
@@ -142,12 +139,9 @@ public class Menua70 implements MemoryRef {
     this._234 = ref.offset(2, 0x234).cast(ArrayRef.of(ShortRef.class, 4, 0x2, ShortRef::new));
     this._23c = ref.offset(2, 0x23c).cast(ArrayRef.of(ShortRef.class, 4, 0x2, ShortRef::new));
     this._244 = ref.offset(4, 0x244).cast(ArrayRef.of(IntRef.class, 4, 0x4, IntRef::new));
-    this._254 = ref.offset(1, 0x254).cast(UnsignedByteRef::new);
-    this._255 = ref.offset(1, 0x255).cast(UnsignedByteRef::new);
-    this._256 = ref.offset(1, 0x256).cast(UnsignedByteRef::new);
-    this._257 = ref.offset(1, 0x257).cast(UnsignedByteRef::new);
-    this._258 = ref.offset(1, 0x258).cast(UnsignedByteRef::new);
-
+    this._254 = ref.offset(1, 0x254).cast(ArrayRef.of(UnsignedByteRef.class, 2, 0x1, UnsignedByteRef::new));
+    this._256 = ref.offset(1, 0x256).cast(ArrayRef.of(UnsignedByteRef.class, 2, 0x1, UnsignedByteRef::new));
+    this._258 = ref.offset(1, 0x258).cast(ArrayRef.of(UnsignedByteRef.class, 2, 0x1, UnsignedByteRef::new));
     this._25a = ref.offset(2, 0x25a).cast(ShortRef::new);
     this._25c = ref.offset(1, 0x25c).cast(ByteRef::new);
     this._25d = ref.offset(1, 0x25d).cast(ByteRef::new);
