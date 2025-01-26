@@ -115,7 +115,7 @@ import static org.goldensun.GoldenSun_808.FUN_808a5f0;
 import static org.goldensun.GoldenSun_808.getInteractedTileType_;
 import static org.goldensun.GoldenSun_808.getRoomNameStringId_;
 import static org.goldensun.GoldenSun_80a.FUN_80a1038;
-import static org.goldensun.GoldenSun_80a.FUN_80a1040;
+import static org.goldensun.GoldenSun_80a.handleDjinnMenu_;
 import static org.goldensun.GoldenSun_80a.handleItemMenu_;
 import static org.goldensun.GoldenSun_80a.handlePsynergyMenu_;
 import static org.goldensun.GoldenSun_80a.handleStatusMenu_;
@@ -2337,6 +2337,18 @@ public final class GoldenSun_801 {
   @Method(0x80153b0)
   public static int FUN_80153b0(final int x, final int y, final int defaultOption) {
     return (int)MEMORY.call(0x8028e54, x, y, defaultOption);
+  }
+
+  /** {@link GoldenSun_801#FUN_801a3d0} */
+  @Method(0x80153d0)
+  public static void FUN_80153d0(final int itemId, final int r1, final int r2, final int r3, final int a4) {
+    MEMORY.call(0x801a3d0, itemId, r1, r2, r3, a4);
+  }
+
+  /** {@link GoldenSun_802#FUN_8021a18} */
+  @Method(0x80153d8)
+  public static void FUN_80153d8(final int r0) {
+    MEMORY.call(0x8021a18, r0);
   }
 
   /** {@link GoldenSun_801#FUN_801e3c8} */
@@ -7128,7 +7140,7 @@ public final class GoldenSun_801 {
           break;
 
         case 2:
-          if(FUN_80a1040() == 0) {
+          if(handleDjinnMenu_() == 0) {
             return;
           }
           break;

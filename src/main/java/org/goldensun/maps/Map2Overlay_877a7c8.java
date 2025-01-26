@@ -2524,7 +2524,7 @@ public final class Map2Overlay_877a7c8 {
     clearFlag(r0);
     r0 = 0x171;
     clearFlag(r0);
-    r0 = FUN_200c49c();
+    r0 = handleDjinnMenu();
     r2 = 0x1e;
     r1 = 0x4;
     r0 = 0x8;
@@ -2538,7 +2538,7 @@ public final class Map2Overlay_877a7c8 {
     clearFlag(r0);
     r0 = 0x171;
     setFlag(r0);
-    r0 = FUN_200c49c();
+    r0 = handleDjinnMenu();
     r0 = 0x1e;
     FUN_200c2d4(r0);
     r0 = 0xc;
@@ -3000,7 +3000,7 @@ public final class Map2Overlay_877a7c8 {
       setFlag(r0);
       r0 = 0x171;
       clearFlag(r0);
-      r0 = FUN_200c49c();
+      r0 = handleDjinnMenu();
       r0 = 0xc6a;
       FUN_200c3a4(r0);
       r3 = r7;
@@ -3088,7 +3088,7 @@ public final class Map2Overlay_877a7c8 {
       setFlag(r0);
       r0 = 0x171;
       setFlag(r0);
-      r0 = FUN_200c49c();
+      r0 = handleDjinnMenu();
       r2 = 0x14;
       r0 = 0x8;
       r1 = 0x2;
@@ -6346,9 +6346,9 @@ public final class Map2Overlay_877a7c8 {
     MEMORY.call(0x808a5c8);
   }
 
-  /** {@link GoldenSun_80a#FUN_80a1040} */
+  /** {@link GoldenSun_80a#handleDjinnMenu_} */
   @Method(0x200c49c)
-  public static int FUN_200c49c() {
+  public static int handleDjinnMenu() {
     return (int)MEMORY.call(0x80a1040);
   }
 

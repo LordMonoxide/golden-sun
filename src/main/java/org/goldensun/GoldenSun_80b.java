@@ -2240,7 +2240,7 @@ public final class GoldenSun_80b {
 
       //LAB_80b5d7c
       for(int i = 0; i < charCount; i++) {
-        MEMORY.ref(1, r10 + r8).addu(getUnit_(charIds[i])._118.get(r8).get());
+        MEMORY.ref(1, r10 + r8).addu(getUnit_(charIds[i]).djinn_f8.djinnCounts_20.get(r8).get());
       }
 
       //LAB_80b5d9e

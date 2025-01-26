@@ -54,9 +54,6 @@ public class Unit14c implements MemoryRef {
    */
   public final ArrayRef<UnsignedShortRef> items_d8;
   public final Djinn28 djinn_f8;
-
-  public final ArrayRef<UnsignedByteRef> _118;
-
   public final IntRef _120;
   public final IntRef exp_124;
   public final UnsignedByteRef id_128;
@@ -127,9 +124,6 @@ public class Unit14c implements MemoryRef {
     this.psynergy_58 = ref.offset(2, 0x58).cast(ArrayRef.of(IntRef.class, 32, 0x4, IntRef::new));
     this.items_d8 = ref.offset(2, 0xd8).cast(ArrayRef.of(UnsignedShortRef.class, 15, 0x2, UnsignedShortRef::new));
     this.djinn_f8 = ref.offset(4, 0xf8).cast(Djinn28::new);
-
-    this._118 = ref.offset(1, 0x118).cast(ArrayRef.of(UnsignedByteRef.class, 4, 0x1, UnsignedByteRef::new));
-
     this._120 = ref.offset(4, 0x120).cast(IntRef::new);
     this.exp_124 = ref.offset(4, 0x124).cast(IntRef::new);
     this.id_128 = ref.offset(1, 0x128).cast(UnsignedByteRef::new);
