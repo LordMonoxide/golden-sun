@@ -3020,7 +3020,16 @@ public final class GoldenSun_807 {
 
   @Method(0x807a0cc)
   public static int getDjinn(final int r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+    final int r3;
+
+    if(r0 >= 0 && r0 < 4 && r1 >= 0 && r1 < 20) {
+      r3 = r0 * 20 + r1;
+    } else {
+      r3 = 0;
+    }
+
+    //LAB_807a0e0
+    return 0x808926c + r3 * 0xc;
   }
 
   @Method(0x807a1b4)
@@ -3060,7 +3069,7 @@ public final class GoldenSun_807 {
 
     //LAB_807a26e
     int r4;
-    for(r4 = 0; r4 < recoveryQueue.count_108.get() && element != recoveryQueue.djinn_08.get(r4).element_00.get() || djinn != recoveryQueue.djinn_08.get(r4).djinn_01.get(); r4++) {
+    for(r4 = 0; r4 < recoveryQueue.count_108.get() && (element != recoveryQueue.djinn_08.get(r4).element_00.get() || djinn != recoveryQueue.djinn_08.get(r4).djinn_01.get()); r4++) {
       // no-op
     }
 
@@ -3127,7 +3136,7 @@ public final class GoldenSun_807 {
 
     //LAB_807a3fe
     int r4;
-    for(r4 = 0; r4 < r3.count_108.get() && element != r3.djinn_08.get(r4).element_00.get() || djinn != r3.djinn_08.get(r4).djinn_01.get(); r4++) {
+    for(r4 = 0; r4 < r3.count_108.get() && (element != r3.djinn_08.get(r4).element_00.get() || djinn != r3.djinn_08.get(r4).djinn_01.get()); r4++) {
       // no-op
     }
 

@@ -5836,8 +5836,8 @@ public final class GoldenSun_80a {
           r1 = r7._256.get(0).get();
           r0 = r7._21a.get(0).get();
           FUN_80771c8(r0, r1, r2);
-          if(true)throw new RuntimeException("Something wrong here, r4 set to r0 but previous call doesn't return a value");
-          r4 = r0;
+          //BUGFIX: r4 set to r0 but previous method doesn't return a value - r0 is just a random pointer
+          r4 = 1;
           recalcStats_(r7._21a.get(0).get());
           r7._14.get(0).deref()._05.set(13);
           FUN_8015278(r7.panel_30.deref());
