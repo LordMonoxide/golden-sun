@@ -193,10 +193,10 @@ public class Unit14c implements MemoryRef {
     public Djinn28(final Value ref) {
       this.ref = ref;
 
-      this.standby_00 = ref.offset(2, 0xf8).cast(ArrayRef.of(IntRef.class, 4, 0x4, IntRef::new));
-      this.set_10 = ref.offset(4, 0x108).cast(ArrayRef.of(IntRef.class, 4, 0x4, IntRef::new));
-      this.standbyCounts_20 = ref.offset(1, 0x118).cast(ArrayRef.of(UnsignedByteRef.class, 4, 0x1, UnsignedByteRef::new));
-      this.setCounts_24 = ref.offset(1, 0x11c).cast(ArrayRef.of(UnsignedByteRef.class, 4, 0x1, UnsignedByteRef::new));
+      this.standby_00 = ref.offset(2, 0x00).cast(ArrayRef.of(IntRef.class, 4, 0x4, IntRef::new));
+      this.set_10 = ref.offset(4, 0x10).cast(ArrayRef.of(IntRef.class, 4, 0x4, IntRef::new));
+      this.standbyCounts_20 = ref.offset(1, 0x20).cast(ArrayRef.of(UnsignedByteRef.class, 4, 0x1, UnsignedByteRef::new));
+      this.setCounts_24 = ref.offset(1, 0x24).cast(ArrayRef.of(UnsignedByteRef.class, 4, 0x1, UnsignedByteRef::new));
     }
 
     @Override

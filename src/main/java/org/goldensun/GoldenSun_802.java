@@ -5332,19 +5332,19 @@ public final class GoldenSun_802 {
 
   @Method(0x8028920)
   public static int handleAMenu(final int r0) {
-    int hasDjinn = 0;
+    int noDjinn = 0;
 
     if(getDjinnCount_(-1) == 0) {
-      hasDjinn = 1;
+      noDjinn = 1;
     }
 
     //LAB_8028934
-    int r5 = Math.max(0, MEMORY.ref(1, 0x8037403 + r0 + hasDjinn * 0x6).get() - 1);
+    int r5 = Math.max(0, MEMORY.ref(1, 0x8037403 + r0 + noDjinn * 0x6).get() - 1);
 
     allocateChoiceMenu();
     addChoiceMenuOption(0x1);
 
-    if(hasDjinn == 0) {
+    if(noDjinn == 0) {
       addChoiceMenuOption(0xf);
     }
 
@@ -5356,7 +5356,7 @@ public final class GoldenSun_802 {
     deallocateChoiceMenu();
 
     if(r5 >= 0) {
-      r5 = MEMORY.ref(1, 0x80373f7 + r5 + hasDjinn * 0x6 + 0x1).get();
+      r5 = MEMORY.ref(1, 0x80373f7 + r5 + noDjinn * 0x6 + 0x1).get();
     }
 
     //LAB_802898a
