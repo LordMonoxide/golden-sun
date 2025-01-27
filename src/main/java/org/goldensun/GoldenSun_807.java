@@ -325,8 +325,8 @@ public final class GoldenSun_807 {
 
   /** {@link GoldenSun_807#isDjinnSet} */
   @Method(0x8077208)
-  public static int FUN_8077208(final int r0, final int r1, final int r2) {
-    return (int)MEMORY.call(0x807a2bc, r0, r1, r2);
+  public static int isDjinnSet_(final int unitId, final int element, final int djinn) {
+    return (int)MEMORY.call(0x807a2bc, unitId, element, djinn);
   }
 
   /** {@link GoldenSun_807#FUN_807a1f8} */
@@ -633,7 +633,7 @@ public final class GoldenSun_807 {
       //LAB_8077728
       //LAB_8077732
       for(r4 = 0; r4 < 4; r4++) {
-        CPU.r10().value = r7.djinn_f8.djinn_10.get(r4).get();
+        CPU.r10().value = r7.djinn_f8.set_10.get(r4).get();
 
         //LAB_807773a
         for(r5 = 0; r5 < 20; r5++) {
@@ -2594,7 +2594,7 @@ public final class GoldenSun_807 {
       //LAB_8079838
       //LAB_807983e
       for(int element = 0; element < 4; element++) {
-        out[element] = djinn.djinnCounts_24.get(element).get() * 10;
+        out[element] = djinn.setCounts_24.get(element).get() * 10;
       }
 
       //LAB_8079856
@@ -3026,32 +3026,32 @@ public final class GoldenSun_807 {
   @Method(0x807a1b4)
   public static int FUN_807a1b4(final int unitId, final int r1, final int r2) {
     final Unit14c r0 = getUnit(unitId);
-    final int r4 = r0.djinn_f8.djinnCounts_20.get(r1).get();
-    if(r4 > 9 || (r0.djinn_f8.djinn_00.get(r1).get() & 0x1 << r2) != 0) {
+    final int r4 = r0.djinn_f8.standbyCounts_20.get(r1).get();
+    if(r4 > 9 || (r0.djinn_f8.standby_00.get(r1).get() & 0x1 << r2) != 0) {
       //LAB_807a1de
       return -1;
     }
 
     //LAB_807a1e4
-    r0.djinn_f8.djinnCounts_20.get(r1).set(r4 + 1);
-    r0.djinn_f8.djinn_00.get(r1).or(0x1 << r2);
+    r0.djinn_f8.standbyCounts_20.get(r1).set(r4 + 1);
+    r0.djinn_f8.standby_00.get(r1).or(0x1 << r2);
     return 0;
   }
 
   @Method(0x807a1f8)
   public static int FUN_807a1f8(final int charId, final int element, final int djinn) {
     final Unit14c unit = getUnit(charId);
-    if(unit.djinn_f8.djinnCounts_20.get(element).get() == 0) {
+    if(unit.djinn_f8.standbyCounts_20.get(element).get() == 0) {
       return 0;
     }
 
-    if(unit.djinn_f8.djinnCounts_24.get(element).get() > 9) {
-      unit.djinn_f8.djinnCounts_24.get(element).set(10);
+    if(unit.djinn_f8.setCounts_24.get(element).get() > 9) {
+      unit.djinn_f8.setCounts_24.get(element).set(10);
       return 0;
     }
 
     //LAB_807a222
-    if((unit.djinn_f8.djinn_00.get(element).get() & 0x1 << djinn) == 0 || (unit.djinn_f8.djinn_10.get(element).get() & 0x1 << djinn) != 0) {
+    if((unit.djinn_f8.standby_00.get(element).get() & 0x1 << djinn) == 0 || (unit.djinn_f8.set_10.get(element).get() & 0x1 << djinn) != 0) {
       return 0;
     }
 
@@ -3085,20 +3085,20 @@ public final class GoldenSun_807 {
 
   @Method(0x807a2bc)
   public static int isDjinnSet(final int unitId, final int element, final int djinn) {
-    throw new RuntimeException("Not implemented");
+    return (getUnit(unitId).djinn_f8.set_10.get(element).get() & 0x1 << djinn) != 0 ? 1 : 0;
   }
 
   @Method(0x807a2e4)
   public static int setDjinn(final int charId, final int element, final int djinn) {
     final Unit14c unit = getUnit(charId);
     final int r10 = FUN_807a1f8(charId, element, djinn);
-    if(r10 == 0 || (unit.djinn_f8.djinn_00.get(element).get() & 0x1 << djinn) == 0) {
+    if(r10 == 0 || (unit.djinn_f8.standby_00.get(element).get() & 0x1 << djinn) == 0) {
       //LAB_807a340
       return 0;
     }
 
-    unit.djinn_f8.djinn_10.get(element).or(0x1 << djinn);
-    unit.djinn_f8.djinnCounts_24.get(element).incr();
+    unit.djinn_f8.set_10.get(element).or(0x1 << djinn);
+    unit.djinn_f8.setCounts_24.get(element).incr();
     FUN_8079ae8(charId);
     return r10;
   }
@@ -3108,8 +3108,8 @@ public final class GoldenSun_807 {
     final Unit14c r5 = getUnit(unitId);
     final int r8 = isDjinnSet(unitId, element, djinn);
     if(r8 != 0) {
-      r5.djinn_f8.djinnCounts_20.get(element).decr();
-      r5.djinn_f8.djinn_10.get(element).and(~(0x1 << djinn));
+      r5.djinn_f8.setCounts_24.get(element).decr();
+      r5.djinn_f8.set_10.get(element).and(~(0x1 << djinn));
       FUN_8079ae8(unitId);
     }
 
@@ -3165,7 +3165,7 @@ public final class GoldenSun_807 {
   public static int FUN_807a498(final int unitId, final int element, final int djinn, final int charId) {
     final Unit14c unit = getUnit(unitId);
 
-    if((unit.djinn_f8.djinn_00.get(element).get() & 0x1 << djinn) == 0) {
+    if((unit.djinn_f8.standby_00.get(element).get() & 0x1 << djinn) == 0) {
       return -1;
     }
 
@@ -3176,8 +3176,8 @@ public final class GoldenSun_807 {
     }
 
     FUN_807a350(unitId, element, djinn);
-    unit.djinn_f8.djinn_00.get(element).and(~(0x1 << djinn));
-    unit.djinn_f8.djinnCounts_20.get(element).decr();
+    unit.djinn_f8.standby_00.get(element).and(~(0x1 << djinn));
+    unit.djinn_f8.standbyCounts_20.get(element).decr();
     if(sp00 != 0) {
       setDjinn(charId, element, djinn);
     } else {
@@ -3211,10 +3211,10 @@ public final class GoldenSun_807 {
     for(int i = 0; i < count; i++) {
       final Unit14c r2 = getUnit(MEMORY.ref(2, r6 + i * 0x2).getUnsigned());
       if(type == -1) {
-        djinnCount += r2.djinn_f8.djinnCounts_20.get(0).get() + r2.djinn_f8.djinnCounts_20.get(1).get() + r2.djinn_f8.djinnCounts_20.get(2).get() + r2.djinn_f8.djinnCounts_20.get(3).get();
+        djinnCount += r2.djinn_f8.standbyCounts_20.get(0).get() + r2.djinn_f8.standbyCounts_20.get(1).get() + r2.djinn_f8.standbyCounts_20.get(2).get() + r2.djinn_f8.standbyCounts_20.get(3).get();
       } else {
         //LAB_807a60c
-        djinnCount += r2.djinn_f8.djinnCounts_20.get(type).get();
+        djinnCount += r2.djinn_f8.standbyCounts_20.get(type).get();
       }
 
       //LAB_807a614

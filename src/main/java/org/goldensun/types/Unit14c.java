@@ -185,22 +185,18 @@ public class Unit14c implements MemoryRef {
   public static class Djinn28 implements MemoryRef {
     private final Value ref;
 
-    /** One of these is ready, one is not ready */
-    public final ArrayRef<IntRef> djinn_00;
-    /** One of these is ready, one is not ready */
-    public final ArrayRef<IntRef> djinn_10;
-    /** One of these is ready, one is not ready */
-    public final ArrayRef<UnsignedByteRef> djinnCounts_20;
-    /** One of these is ready, one is not ready */
-    public final ArrayRef<UnsignedByteRef> djinnCounts_24;
+    public final ArrayRef<IntRef> standby_00;
+    public final ArrayRef<IntRef> set_10;
+    public final ArrayRef<UnsignedByteRef> standbyCounts_20;
+    public final ArrayRef<UnsignedByteRef> setCounts_24;
 
     public Djinn28(final Value ref) {
       this.ref = ref;
 
-      this.djinn_00 = ref.offset(2, 0xf8).cast(ArrayRef.of(IntRef.class, 4, 0x4, IntRef::new));
-      this.djinn_10 = ref.offset(4, 0x108).cast(ArrayRef.of(IntRef.class, 4, 0x4, IntRef::new));
-      this.djinnCounts_20 = ref.offset(1, 0x118).cast(ArrayRef.of(UnsignedByteRef.class, 4, 0x1, UnsignedByteRef::new));
-      this.djinnCounts_24 = ref.offset(1, 0x11c).cast(ArrayRef.of(UnsignedByteRef.class, 4, 0x1, UnsignedByteRef::new));
+      this.standby_00 = ref.offset(2, 0xf8).cast(ArrayRef.of(IntRef.class, 4, 0x4, IntRef::new));
+      this.set_10 = ref.offset(4, 0x108).cast(ArrayRef.of(IntRef.class, 4, 0x4, IntRef::new));
+      this.standbyCounts_20 = ref.offset(1, 0x118).cast(ArrayRef.of(UnsignedByteRef.class, 4, 0x1, UnsignedByteRef::new));
+      this.setCounts_24 = ref.offset(1, 0x11c).cast(ArrayRef.of(UnsignedByteRef.class, 4, 0x1, UnsignedByteRef::new));
     }
 
     @Override

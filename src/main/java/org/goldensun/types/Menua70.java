@@ -25,9 +25,9 @@ public class Menua70 implements MemoryRef {
   public final Pointer<Panel24> panel_2c;
   public final Pointer<Panel24> panel_30;
   public final Pointer<Panel24> panel_34;
-
+  public final Pointer<Panel24> panel_38;
   public final Pointer<Panel24> panel_3c;
-
+  public final Pointer<Panel24> panel_40;
   public final GraphicsStruct1c _44;
   public final ArrayRef<Pointer<GraphicsStruct1c>> _48;
 
@@ -105,9 +105,9 @@ public class Menua70 implements MemoryRef {
     this.panel_2c = ref.offset(4, 0x2c).cast(Pointer.deferred(4, Panel24::new));
     this.panel_30 = ref.offset(4, 0x30).cast(Pointer.deferred(4, Panel24::new));
     this.panel_34 = ref.offset(4, 0x34).cast(Pointer.deferred(4, Panel24::new));
-
+    this.panel_38 = ref.offset(4, 0x38).cast(Pointer.deferred(4, Panel24::new));
     this.panel_3c = ref.offset(4, 0x3c).cast(Pointer.deferred(4, Panel24::new));
-
+    this.panel_40 = ref.offset(4, 0x40).cast(Pointer.deferred(4, Panel24::new));
     this._44 = ref.offset(4, 0x44).cast(GraphicsStruct1c::new);
     this._48 = ref.offset(4, 0x48).cast(ArrayRef.of(Pointer.classFor(GraphicsStruct1c.class), 32, 0x4, Pointer.deferred(4, GraphicsStruct1c::new)));
 

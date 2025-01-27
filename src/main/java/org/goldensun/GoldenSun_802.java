@@ -116,7 +116,7 @@ import static org.goldensun.GoldenSun_801.drawNumber;
 import static org.goldensun.GoldenSun_801.drawPanelBackground;
 import static org.goldensun.GoldenSun_801.loadCharacterSprites;
 import static org.goldensun.GoldenSun_801.loadDjinnSprites;
-import static org.goldensun.GoldenSun_807.FUN_8077208;
+import static org.goldensun.GoldenSun_807.isDjinnSet_;
 import static org.goldensun.GoldenSun_807.calculateBuildDate_;
 import static org.goldensun.GoldenSun_807.doesAbilityRevive_;
 import static org.goldensun.GoldenSun_807.getAbility_;
@@ -4531,7 +4531,7 @@ public final class GoldenSun_802 {
                 r7 = r2 >> 8;
                 r4 = r2 & 0xff;
                 r7 = r7 & 0xf;
-                if(FUN_8077208(MEMORY.ref(4, CPU.sp().value + 0x40).get(), r7, r4) == 0) {
+                if(isDjinnSet_(MEMORY.ref(4, CPU.sp().value + 0x40).get(), r7, r4) == 0) {
                   //LAB_8027cd4
                   r11 = addPanel(11, 17, 10, 3, 6);
                   r1 = MEMORY.ref(4, sp24).get();

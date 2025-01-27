@@ -144,7 +144,7 @@ import static org.goldensun.GoldenSun_807.getEnemyStats_;
 import static org.goldensun.GoldenSun_807.FUN_80771b8;
 import static org.goldensun.GoldenSun_807.FUN_80771c8;
 import static org.goldensun.GoldenSun_807.getDjinnAbility_;
-import static org.goldensun.GoldenSun_807.FUN_8077208;
+import static org.goldensun.GoldenSun_807.isDjinnSet_;
 import static org.goldensun.GoldenSun_807.FUN_8077210;
 import static org.goldensun.GoldenSun_807.getEquippedItemSlotOfType_;
 import static org.goldensun.GoldenSun_807.addCoins_;
@@ -2240,7 +2240,7 @@ public final class GoldenSun_80b {
 
       //LAB_80b5d7c
       for(int i = 0; i < charCount; i++) {
-        MEMORY.ref(1, r10 + r8).addu(getUnit_(charIds[i]).djinn_f8.djinnCounts_20.get(r8).get());
+        MEMORY.ref(1, r10 + r8).addu(getUnit_(charIds[i]).djinn_f8.standbyCounts_20.get(r8).get());
       }
 
       //LAB_80b5d9e
@@ -10878,7 +10878,7 @@ public final class GoldenSun_80b {
         r2 = r5;
         r1 = r1 & r6;
         r2 = r2 & r3;
-        r0 = FUN_8077208(r0, r1, r2);
+        r0 = isDjinnSet_(r0, r1, r2);
         if(r0 != 0) {
           //LAB_80bec90
           CPU.r9().value = CPU.sp().value + 0x30;
