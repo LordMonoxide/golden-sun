@@ -29,10 +29,6 @@ import static org.goldensun.CopiedSegment8000770.mulTransforms;
 import static org.goldensun.CopiedSegment8000770.sqrt;
 import static org.goldensun.CopiedSegment8000770.transformVector;
 import static org.goldensun.GoldenSun.FUN_80037d4;
-import static org.goldensun.GoldenSun.FUN_8009248;
-import static org.goldensun.GoldenSun.FUN_8009280;
-import static org.goldensun.GoldenSun.queueVblankOr16;
-import static org.goldensun.GoldenSun.queueVblankNand16_80000;
 import static org.goldensun.GoldenSun.FUN_80040d0;
 import static org.goldensun.GoldenSun.FUN_80051d8;
 import static org.goldensun.GoldenSun.FUN_80051e8;
@@ -43,9 +39,10 @@ import static org.goldensun.GoldenSun.FUN_8009070;
 import static org.goldensun.GoldenSun.FUN_8009088;
 import static org.goldensun.GoldenSun.FUN_80090f8;
 import static org.goldensun.GoldenSun.FUN_8009140;
-import static org.goldensun.GoldenSun.moveActorTo_;
+import static org.goldensun.GoldenSun.FUN_8009248;
 import static org.goldensun.GoldenSun.FUN_8009260;
 import static org.goldensun.GoldenSun.FUN_8009270;
+import static org.goldensun.GoldenSun.FUN_8009280;
 import static org.goldensun.GoldenSun.addLayerToSprite_;
 import static org.goldensun.GoldenSun.allocateFirstFreeSpriteSlot;
 import static org.goldensun.GoldenSun.allocateSpriteSlot;
@@ -71,6 +68,9 @@ import static org.goldensun.GoldenSun.mallocChip;
 import static org.goldensun.GoldenSun.mallocSlotBoard;
 import static org.goldensun.GoldenSun.mallocSlotChip;
 import static org.goldensun.GoldenSun.modS;
+import static org.goldensun.GoldenSun.moveActorTo_;
+import static org.goldensun.GoldenSun.queueVblankNand16_80000;
+import static org.goldensun.GoldenSun.queueVblankOr16;
 import static org.goldensun.GoldenSun.rand;
 import static org.goldensun.GoldenSun.rotVec3;
 import static org.goldensun.GoldenSun.rotateMatrixX;
@@ -89,17 +89,17 @@ import static org.goldensun.GoldenSunVars._3001a10;
 import static org.goldensun.GoldenSunVars._3001e40;
 import static org.goldensun.GoldenSunVars._3001f64;
 import static org.goldensun.GoldenSunVars._80c2a7c;
-import static org.goldensun.GoldenSunVars.evenMoveSelection_80c2b80;
-import static org.goldensun.GoldenSunVars.pressedButtons_3001b04;
-import static org.goldensun.GoldenSunVars.pressedButtons_3001c94;
-import static org.goldensun.GoldenSunVars.rareMoveSelection_80c2b88;
-import static org.goldensun.GoldenSunVars.veryRareMoveSelection_80c2b90;
 import static org.goldensun.GoldenSunVars.accumulatedButtons_3001af8;
 import static org.goldensun.GoldenSunVars.boardWramMallocHead_3001e50;
 import static org.goldensun.GoldenSunVars.charIds_2000438;
 import static org.goldensun.GoldenSunVars.debug_3001f54;
+import static org.goldensun.GoldenSunVars.evenMoveSelection_80c2b80;
 import static org.goldensun.GoldenSunVars.heldButtonsLastFrame_3001ae8;
+import static org.goldensun.GoldenSunVars.pressedButtons_3001b04;
+import static org.goldensun.GoldenSunVars.pressedButtons_3001c94;
+import static org.goldensun.GoldenSunVars.rareMoveSelection_80c2b88;
 import static org.goldensun.GoldenSunVars.ticks_3001800;
+import static org.goldensun.GoldenSunVars.veryRareMoveSelection_80c2b90;
 import static org.goldensun.GoldenSunVars.vramSlots_3001b10;
 import static org.goldensun.GoldenSun_801.FUN_8015008;
 import static org.goldensun.GoldenSun_801.FUN_8015018;
@@ -124,45 +124,46 @@ import static org.goldensun.GoldenSun_801.FUN_80152b8;
 import static org.goldensun.GoldenSun_801.FUN_80152d0;
 import static org.goldensun.GoldenSun_801.FUN_8015388;
 import static org.goldensun.GoldenSun_801.FUN_80153b0;
+import static org.goldensun.GoldenSun_801.FUN_80153f0;
 import static org.goldensun.GoldenSun_801.addPanel_;
 import static org.goldensun.GoldenSun_801.drawIcon_;
 import static org.goldensun.GoldenSun_801.drawPanelBackground_;
-import static org.goldensun.GoldenSun_807.FUN_8077220;
-import static org.goldensun.GoldenSun_807.FUN_80772a8;
-import static org.goldensun.GoldenSun_807.getUnitEquippedItemIdOfType_;
-import static org.goldensun.GoldenSun_807.readFlagsByte_;
-import static org.goldensun.GoldenSun_807.calcHpPpFractions_;
-import static org.goldensun.GoldenSun_807.getUnitItemCount_;
-import static org.goldensun.GoldenSun_807.loadEnemyUnit_;
 import static org.goldensun.GoldenSun_807.FUN_8077160;
-import static org.goldensun.GoldenSun_807.getUnitElement_;
 import static org.goldensun.GoldenSun_807.FUN_8077178;
 import static org.goldensun.GoldenSun_807.FUN_8077180;
 import static org.goldensun.GoldenSun_807.FUN_8077188;
 import static org.goldensun.GoldenSun_807.FUN_8077190;
-import static org.goldensun.GoldenSun_807.getEnemyStats_;
 import static org.goldensun.GoldenSun_807.FUN_80771b8;
 import static org.goldensun.GoldenSun_807.FUN_80771c8;
-import static org.goldensun.GoldenSun_807.getDjinnAbility_;
-import static org.goldensun.GoldenSun_807.isDjinnSet_;
 import static org.goldensun.GoldenSun_807.FUN_8077210;
-import static org.goldensun.GoldenSun_807.getEquippedItemSlotOfType_;
-import static org.goldensun.GoldenSun_807.addCoins_;
-import static org.goldensun.GoldenSun_807.doesAbilityRevive_;
+import static org.goldensun.GoldenSun_807.FUN_8077220;
+import static org.goldensun.GoldenSun_807.FUN_80772a8;
 import static org.goldensun.GoldenSun_807.FUN_80772f8;
-import static org.goldensun.GoldenSun_807.calcHpPpFractions;
+import static org.goldensun.GoldenSun_807.addCoins_;
 import static org.goldensun.GoldenSun_807.addHp_;
 import static org.goldensun.GoldenSun_807.addPp_;
+import static org.goldensun.GoldenSun_807.calcHpPpFractions;
+import static org.goldensun.GoldenSun_807.calcHpPpFractions_;
 import static org.goldensun.GoldenSun_807.clearFlag_;
+import static org.goldensun.GoldenSun_807.doesAbilityRevive_;
 import static org.goldensun.GoldenSun_807.getAbility_;
 import static org.goldensun.GoldenSun_807.getCharCount_;
-import static org.goldensun.GoldenSun_807.getUnit_;
+import static org.goldensun.GoldenSun_807.getDjinnAbility_;
 import static org.goldensun.GoldenSun_807.getDjinnRecoveryQueue_;
+import static org.goldensun.GoldenSun_807.getEnemyStats_;
+import static org.goldensun.GoldenSun_807.getEquippedItemSlotOfType_;
 import static org.goldensun.GoldenSun_807.getItem_;
 import static org.goldensun.GoldenSun_807.getPartyMemberIds_;
 import static org.goldensun.GoldenSun_807.getSummon_;
+import static org.goldensun.GoldenSun_807.getUnitElement_;
+import static org.goldensun.GoldenSun_807.getUnitEquippedItemIdOfType_;
+import static org.goldensun.GoldenSun_807.getUnitItemCount_;
+import static org.goldensun.GoldenSun_807.getUnit_;
+import static org.goldensun.GoldenSun_807.isDjinnSet_;
 import static org.goldensun.GoldenSun_807.lcgRand_;
+import static org.goldensun.GoldenSun_807.loadEnemyUnit_;
 import static org.goldensun.GoldenSun_807.readFlag_;
+import static org.goldensun.GoldenSun_807.readFlagsByte_;
 import static org.goldensun.GoldenSun_807.recalcStats_;
 import static org.goldensun.GoldenSun_807.recoverDjinn_;
 import static org.goldensun.GoldenSun_807.setDjinn_;
@@ -6391,10 +6392,44 @@ public final class GoldenSun_80b {
     return r0;
   }
 
-
   @Method(0x80bb7c0)
-  public static void FUN_80bb7c0(final int r0, final int r1) {
-    throw new RuntimeException("Not implemented");
+  public static int FUN_80bb7c0(final int r0, final int r1) {
+    CPU.sp().value -= 0x14;
+    final int r11 = FUN_80153f0(0);
+
+    //LAB_80bb7e8
+    while(FUN_8015048() == 0) {
+      //LAB_80bb7e2
+      sleep(1);
+    }
+
+    final int r5 = CPU.sp().value + 0x8;
+    final int r6 = allocateFirstFreeSpriteSlot(0x80);
+
+    //LAB_80bb80a
+    do {
+      queueVblankNand16_80000(GPU.WINOUT.getAddress(), 4);
+      queueVblankOr16(GPU.WINOUT.getAddress(), 16);
+      GPU.BLDALPHA.setu(16);
+      MEMORY.ref(4, r5 + 0x4).setu(0x40000000);
+      MEMORY.ref(4, r5 + 0x8).setu(0);
+      MEMORY.ref(2, r5 + 0x8).and(~0x3ff).or(FUN_80040d0(r6, r11) & 0x3ff);
+      MEMORY.ref(2, r5 + 0x6).and(~0x1ff).or(((_3001e40.get() & 0x4) >>> 1) + r0 - 4 & 0x1ff);
+      MEMORY.ref(1, r5 + 0x4).setu(r1 - ((_3001e40.get() & 0x4) >>> 2) - 8);
+      insertIntoRenderQueue(MEMORY.ref(4, r5, RenderPacket0c::new), 240);
+
+      if((pressedButtons_3001c94.get() & 0x303) != 0) {
+        break;
+      }
+
+      sleep(1);
+    } while(true);
+
+    //LAB_80bb8b0
+    clearVramSlot(r6);
+    sleep(1);
+    CPU.sp().value += 0x14;
+    return 1;
   }
 
   @Method(0x80bb8d8)
